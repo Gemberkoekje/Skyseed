@@ -1,0 +1,78 @@
+name: Build
+
+# Builds every Stonecutter version node and publishes the resulting mod jars.
+#
+# Zero per-version maintenance: the version list lives only in settings.gradle. The `chiseledBuild`
+# task (stonecutter.gradle.kts) fans `build` out across EVERY version node, and each node compiles
+# with its own Java toolchain (1.21.1 -> 21, 26.1.2 -> 25, ...) which the foojay resolver configured
+# in settings.gradle auto-provisions. So adding a new MC version needs NO change to this file.
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write # needed to attach jars to a GitHub Release on tag pushes
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Bootstrap JDK that runs Gradle itself. The per-version compile toolchains are auto-provisioned
+      # (foojay), so this stays fixed even as the mod targets new Java versions.
+      - name: Set up bootstrap JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      # The committed gradle.properties pins org.gradle.java.home to a local Windows path (handy for the
+      # author's machine, fatal on a Linux runner). A gradle.properties under GRADLE_USER_HOME outranks
+      # the project file, so point the daemon at the runner's JDK without touching the committed file.
+      - name: Point Gradle daemon at the runner JDK
+        run: |
+          mkdir -p "$HOME/.gradle"
+          echo "org.gradle.java.home=$JAVA_HOME" >> "$HOME/.gradle/gradle.properties"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build all version nodes
+        run: |
+          chmod +x ./gradlew
+          ./gradlew chiseledBuild --stacktrace --no-daemon
+
+      # Flatten the per-node jars (versions/<v>/build/libs/*.jar) into one folder. The glob is
+      # version-agnostic, so new version nodes are picked up automatically.
+      - name: Collect jars
+        run: |
+          mkdir -p dist
+          find versions -path '*/build/libs/*.jar' -exec cp -v {} dist/ \;
+          echo "---- collected jars ----"
+          ls -l dist
+
+      - name: Upload jars as build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: skyseed-jars
+          path: dist/*.jar
+          if-no-files-found: error
+
+      # On a version tag (e.g. v0.164.0) also publish a GitHub Release with the jars attached.
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.jar
+          fail_on_unmatched_files: true
