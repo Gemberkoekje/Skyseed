@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       # Bootstrap JDK that runs Gradle itself. The per-version compile toolchains are auto-provisioned
       # (foojay), so this stays fixed even as the mod targets new Java versions.
@@ -46,7 +46,7 @@ jobs:
           echo "org.gradle.java.home=$JAVA_HOME" >> "$HOME/.gradle/gradle.properties"
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v5
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Build all version nodes
         run: |
@@ -63,7 +63,7 @@ jobs:
           ls -l dist
 
       - name: Upload jars as build artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: skyseed-jars
           path: dist/*.jar
