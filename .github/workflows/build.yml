@@ -63,7 +63,7 @@ jobs:
           ls -l dist
 
       - name: Upload jars as build artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: skyseed-jars
           path: dist/*.jar
