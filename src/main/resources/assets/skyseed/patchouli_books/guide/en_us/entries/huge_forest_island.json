@@ -7,7 +7,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "The $(item)Huge Forest Skyseed$() — a sprawling oak-and-birch landmass, far bigger than a Large island, with a central lake and a deep, ore-rich body.$(br2)$(bold)The cost$()$(br)Huge islands are end-game: you must have worked both the Nether and the End. The recipe rings a $(item)Large Forest Skyseed$() between an $(item)Ender Pearl$() and $(item)Blaze Powder$(), packed in dirt — you want it, you farm for it."
+      "text": "The $(item)Huge Forest Skyseed$() — a sprawling oak-and-birch landmass, far bigger than a Large island, with a central lake and a deep, ore-rich body.$(br2)$(bold)The cost$()$(br)End-game, like all huge seeds: a $(item)Large Forest Skyseed$() ringed between an $(item)Ender Pearl$() and $(item)Blaze Powder$(), packed in dirt — both come from the $(item)Nether$(), so you want it, you farm for it."
     },
     {
       "type": "patchouli:crafting",
