@@ -5,6 +5,19 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.165.0] - 2026-06-29
+
+### Added
+- **`skyseed:void` chunk generator** — a noise generator (terrain stays pure void via the noise settings) that
+  **skips biome-feature decoration** in the overworld/Nether and **suppresses natural structures in every dimension**.
+  Fixes TerraBlender biome mods (BYG/BWG/Terralith…) leaking their features at the void floor (~y=-64): those mods
+  inject biomes into the vanilla `multi_noise` source Skyseed reads for island theming, and the biomes' features were
+  decorating over the void. Also makes the world-creation "Generate Structures" toggle moot — structures are grown from
+  Skyseed seeds, never generated. All three dims use it (overworld/Nether `skip_decoration: true`; the End keeps
+  decoration so its central island still forms). Affects only newly-created worlds. *(26.1.2: the generator ships but is
+  inert — its `ChunkGenerator` API differs, so the overrides are scoped out via `//?` and it falls back to plain noise;
+  no 26.1.2 behaviour change. See `plannednotes.md` / REFACTORPLAN Stage 2.)*
+
 ## [0.164.0] - 2026-06-28
 
 ### Changed

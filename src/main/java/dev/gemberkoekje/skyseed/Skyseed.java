@@ -2,6 +2,7 @@ package dev.gemberkoekje.skyseed;
 
 import com.mojang.logging.LogUtils;
 import dev.gemberkoekje.skyseed.network.SkyseedNetwork;
+import dev.gemberkoekje.skyseed.registry.ModChunkGenerators;
 import dev.gemberkoekje.skyseed.registry.ModCreativeTabs;
 import dev.gemberkoekje.skyseed.registry.ModEntities;
 import dev.gemberkoekje.skyseed.registry.ModFeatures;
@@ -32,6 +33,7 @@ public class Skyseed {
         ModLoot.register(modEventBus);
         ModEntities.register(modEventBus);
         ModFeatures.register(modEventBus);
+        ModChunkGenerators.register(modEventBus);
         ModRecipes.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
         modEventBus.addListener(SkyseedRegistries::onNewDataPackRegistry);
