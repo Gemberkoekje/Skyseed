@@ -9,6 +9,15 @@ the version-number sequence, so a version can appear in one changelog and not th
 > Stage 3 (generalize/document) in `REFACTORPLAN.md`. The per-feature build plans (the gametest harness, the recipe
 > generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.165.0] - 2026-06-29
+
+### Added
+- **`skyseed:void` chunk generator** (shared with the 1.21.1 build — see [CHANGELOG_1.21.1.md](CHANGELOG_1.21.1.md)
+  for the full description). Suppresses biome-feature decoration in the void overworld/Nether and natural structures
+  in every dimension, so biome mods (BYG/BWG/Terralith…) can't leak features at the void floor (~y=-64) and the
+  "Generate Structures" toggle is moot. Only node difference: 26.1.2's `createStructures` takes a 6th
+  `ResourceKey<Level>` param, handled with a `//?` guard (`applyBiomeDecoration` is identical across nodes).
+
 ## [0.164.0] - 2026-06-28
 
 ### Changed

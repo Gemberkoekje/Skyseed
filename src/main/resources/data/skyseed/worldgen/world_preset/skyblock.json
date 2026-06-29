@@ -3,33 +3,36 @@
     "minecraft:overworld": {
       "type": "minecraft:overworld",
       "generator": {
-        "type": "minecraft:noise",
+        "type": "skyseed:void",
         "biome_source": {
           "type": "minecraft:multi_noise",
           "preset": "minecraft:overworld"
         },
-        "settings": "skyseed:void"
+        "settings": "skyseed:void",
+        "skip_decoration": true
       }
     },
     "minecraft:the_nether": {
       "type": "minecraft:the_nether",
       "generator": {
-        "type": "minecraft:noise",
+        "type": "skyseed:void",
         "biome_source": {
           "type": "minecraft:multi_noise",
           "preset": "minecraft:nether"
         },
-        "settings": "skyseed:void_nether"
+        "settings": "skyseed:void_nether",
+        "skip_decoration": true
       }
     },
     "minecraft:the_end": {
       "type": "minecraft:the_end",
       "generator": {
-        "type": "minecraft:noise",
+        "type": "skyseed:void",
         "biome_source": {
           "type": "minecraft:the_end"
         },
-        "settings": "skyseed:void_end"
+        "settings": "skyseed:void_end",
+        "skip_decoration": false
       }
     }
   }
