@@ -1,0 +1,29 @@
+[display]
+	#Silent Gear Jade Tiers reads live Silent Gear material data.
+	#For correct display, every progression material used by the pack should define a harvest_tier with:
+	#- name
+	#- level_hint
+	#- incorrect_blocks_for_tool
+	#Non-progression materials with valid harvest tiers may also be detected if they can really mine a block.
+	#Show the Silent Gear required mining tier line in Jade.
+	show_required_tier = true
+	#Show a small crossed pickaxe icon before the required tier line.
+	show_crossed_pickaxe_icon = true
+	#Show the Silent Gear harvest tier level_hint value.
+	show_numeric_level = true
+	#Show the Silent Gear material/tier name.
+	show_tier_name = true
+
+[held_tool_filter]
+	#Show the required tier line when the player is holding no tool.
+	show_if_holding_no_tool = true
+	#Show the required tier line when the held item cannot harvest the block.
+	show_if_holding_wrong_tool = true
+	#Show the required tier line when the held item can harvest the block.
+	show_if_holding_correct_tool = true
+
+[debug]
+	#Enable verbose debug logging for Silent Gear Jade Tiers.
+	#This logs the runtime Silent Gear tier list and per-block mining checks to latest.log.
+	#Useful for modpack development. Keep disabled for normal gameplay and public releases.
+	debug_logging = false

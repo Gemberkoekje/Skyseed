@@ -5,7 +5,7 @@ requiredDestroySpeed = 1.0
 requireCorrectTool = false
 #The maximum number of blocks to vein mine without the enchantment.
 #Range: 0 ~ 1000
-maxBlocksBase = 100
+maxBlocksBase = 0
 #The maximum number of blocks to vein mine per level of the enchantment.
 #Range: 1 ~ 1000
 maxBlocksPerLevel = 50

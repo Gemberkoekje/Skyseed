@@ -51,3 +51,9 @@ versions/
 !**/overrides/shaderpacks/.gitkeep
 **/overrides/resourcepacks/*
 !**/overrides/resourcepacks/.gitkeep
+
+### Machine-specific / per-instance marker & cache configs — so the whole overrides/config/ folder can be copied in as-is without hand-removing these. ###
+**/overrides/config/embeddium-fingerprint.json
+**/overrides/config/xaeropatreon.txt
+**/overrides/config/euphoria_patcher/.data.json
+**/overrides/config/etf_warnings.json
