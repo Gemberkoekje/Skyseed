@@ -5,6 +5,17 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.166.0] - 2026-06-29
+
+### Added
+- **Theme overrides — a datapack merge layer so the modpack or other mods can extend Skyseed islands without editing
+  the base themes.** New `skyseed:theme_override` datapack registry: drop a `data/<ns>/skyseed/theme_override/*.json`
+  naming a `target` theme plus any theme fields, and they're merged in at resolution time — **list** fields (ores,
+  mobs, variants, biome_overrides, animals, rare_structures, dimensions) **append**; **optional scalars** (shape,
+  palette, pond, jigsaw, lava, twin, ladder_shaft, fizzle, caves) **replace**. E.g. a Create-compat patch adds
+  `create:zinc_ore` to the rocky island. With no patch targeting a theme the base is returned unchanged, so generation
+  (and the golden master) stays byte-identical. New gametest covers the append + the no-op.
+
 ## [0.165.0] - 2026-06-29
 
 ### Added

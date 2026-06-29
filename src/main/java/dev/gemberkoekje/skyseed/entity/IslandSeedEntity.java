@@ -17,6 +17,7 @@ import dev.gemberkoekje.skyseed.worldgen.IslandPlan;
 import dev.gemberkoekje.skyseed.worldgen.TwinPlacer;
 import dev.gemberkoekje.skyseed.worldgen.theme.FizzleRule;
 import dev.gemberkoekje.skyseed.worldgen.theme.IslandTheme;
+import dev.gemberkoekje.skyseed.worldgen.theme.Themes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -285,8 +286,7 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
         // seed) or a rolled rare structure (a portal that surfaced on a big island). Spawned directly here, not via
         // another thrown seed, so it never spawns a twin of its own.
         if (plan.twinTheme().isPresent()) {
-            final IslandTheme twinTheme = Lookup.byId(
-                    Lookup.registry(level.registryAccess(), SkyseedRegistries.THEME), plan.twinTheme().get());
+            final IslandTheme twinTheme = Themes.resolve(level.registryAccess(), plan.twinTheme().get());
             if (twinTheme != null) {
                 TwinPlacer.spawnTwin(level, this.blockPosition(), twinTheme);
             }
@@ -386,15 +386,17 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
      * @return the resolved theme, or {@code null} only if no themes are loaded at all.
      */
     private IslandTheme resolveTheme(ServerLevel level) {
-        Registry<IslandTheme> themes = Lookup.registry(level.registryAccess(), SkyseedRegistries.THEME);
+        final var access = level.registryAccess();
         Id id = getTheme();
-        IslandTheme theme = (id != null) ? Lookup.byId(themes, id) : null;
+        IslandTheme theme = (id != null) ? Themes.resolve(access, id) : null;
         if (theme == null) {
             Id forest = Id.of("skyseed:forest");
-            theme = Lookup.byId(themes, forest);
+            theme = Themes.resolve(access, forest);
             if (theme != null && id != null) {
                 Skyseed.LOGGER.warn("[skyseed] unknown theme '{}' — falling back to {}", id, forest);
-            } else if (theme == null && Lookup.elements(themes).findAny().isPresent()) {
+            } else if (theme == null) {
+                // Degenerate fallback (no forest theme loaded): hand back any theme, un-patched.
+                Registry<IslandTheme> themes = Lookup.registry(access, SkyseedRegistries.THEME);
                 theme = Lookup.elements(themes).findFirst().map(h -> h.value()).orElse(null);
             }
         }
