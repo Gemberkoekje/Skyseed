@@ -1,0 +1,265 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "skyseed"
+	group: ""
+	id: "5C0000000000A002"
+	order_index: 1
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: ["5C0000000000B001"]
+			id: "5C0000000000B101"
+			rewards: [{
+				id: "5C0000000000D101"
+				item: { count: 16, id: "minecraft:bone_meal" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C101"
+				item: { count: 1, id: "skyseed:forest_skyseed" }
+				type: "item"
+			}]
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B101"]
+			id: "5C0000000000B102"
+			rewards: [{
+				id: "5C0000000000D102"
+				table_id: "5C00000000005001"
+				type: "random"
+			}]
+			tasks: [{
+				id: "5C0000000000C102"
+				type: "checkmark"
+			}]
+			x: 1.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B102"]
+			id: "5C0000000000B103"
+			rewards: [{
+				id: "5C0000000000D103"
+				item: { count: 6, id: "minecraft:iron_ingot" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C103"
+				type: "checkmark"
+			}]
+			x: 1.5d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B102"]
+			id: "5C0000000000B104"
+			rewards: [{
+				id: "5C0000000000D104"
+				table_id: "5C00000000005002"
+				type: "random"
+			}]
+			tasks: [{
+				id: "5C0000000000C104"
+				item: { count: 1, id: "skyseed:rocky_skyseed" }
+				type: "item"
+			}]
+			x: 3.0d
+			y: 0.75d
+		}
+		{
+			dependencies: ["5C0000000000B104"]
+			id: "5C0000000000B105"
+			rewards: [{
+				id: "5C0000000000D105"
+				item: { count: 2, id: "minecraft:diamond" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C105"
+				item: { count: 1, id: "skyseed:ancient_skyseed" }
+				type: "item"
+			}]
+			x: 4.5d
+			y: -0.75d
+		}
+		{
+			dependencies: ["5C0000000000B104"]
+			id: "5C0000000000B106"
+			rewards: [{
+				id: "5C0000000000D106"
+				table_id: "5C00000000005001"
+				type: "random"
+			}]
+			tasks: [{
+				id: "5C0000000000C106"
+				item: { count: 1, id: "skyseed:forest_large_skyseed" }
+				type: "item"
+			}]
+			x: 3.0d
+			y: -0.75d
+		}
+		{
+			dependencies: ["5C0000000000B103"]
+			id: "5C0000000000B107"
+			rewards: [{
+				id: "5C0000000000D107"
+				item: { count: 4, id: "minecraft:emerald" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C107"
+				item: { count: 1, id: "skyseed:village_center_skyseed" }
+				type: "item"
+			}]
+			x: 3.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["5C0000000000B104"]
+			id: "5C0000000000B108"
+			rewards: [{
+				id: "5C0000000000D108"
+				table_id: "5C00000000005001"
+				type: "random"
+			}]
+			tasks: [{
+				id: "5C0000000000C108"
+				item: { count: 1, id: "skyseed:dungeon_skyseed" }
+				type: "item"
+			}]
+			x: 4.5d
+			y: 2.0d
+		}
+		{
+			dependencies: ["5C0000000000B104"]
+			id: "5C0000000000B109"
+			rewards: [{
+				id: "5C0000000000D109"
+				item: { count: 6, id: "minecraft:obsidian" }
+				type: "item"
+			}]
+			tasks: [{
+				advancement: "minecraft:story/enter_the_nether"
+				criterion: "entered_nether"
+				id: "5C0000000000C109"
+				type: "advancement"
+			}]
+			x: 4.5d
+			y: 0.75d
+		}
+		{
+			dependencies: ["5C0000000000B109"]
+			id: "5C0000000000B110"
+			rewards: [{
+				id: "5C0000000000D110"
+				item: { count: 6, id: "minecraft:gold_ingot" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C110"
+				item: { count: 1, id: "skyseed:nether_rocky_skyseed" }
+				type: "item"
+			}]
+			x: 6.0d
+			y: 0.75d
+		}
+		{
+			dependencies: ["5C0000000000B110"]
+			id: "5C0000000000B111"
+			rewards: [{
+				id: "5C0000000000D111"
+				item: { count: 4, id: "minecraft:blaze_rod" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C111"
+				item: { count: 1, id: "skyseed:nether_fortress_skyseed" }
+				type: "item"
+			}]
+			x: 7.5d
+			y: 0.75d
+		}
+		{
+			dependencies: ["5C0000000000B111"]
+			id: "5C0000000000B112"
+			rewards: [{
+				id: "5C0000000000D112"
+				item: { count: 8, id: "minecraft:ender_pearl" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C112"
+				item: { count: 1, id: "skyseed:end_portal_skyseed" }
+				type: "item"
+			}]
+			x: 9.0d
+			y: 0.75d
+		}
+		{
+			dependencies: ["5C0000000000B112"]
+			id: "5C0000000000B113"
+			rewards: [{
+				id: "5C0000000000D113"
+				item: { count: 16, id: "minecraft:chorus_fruit" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C113"
+				item: { count: 1, id: "skyseed:end_city_skyseed" }
+				type: "item"
+			}]
+			x: 10.5d
+			y: 0.75d
+		}
+		{
+			dependencies: ["5C0000000000B113"]
+			id: "5C0000000000B114"
+			rewards: [{
+				id: "5C0000000000D114"
+				table_id: "5C00000000005002"
+				type: "random"
+			}]
+			tasks: [{
+				id: "5C0000000000C114"
+				item: { count: 1, id: "skyseed:dragon_trophy_skyseed" }
+				type: "item"
+			}]
+			x: 12.0d
+			y: 0.75d
+		}
+		{
+			dependencies: ["5C0000000000B108"]
+			id: "5C0000000000B115"
+			rewards: [{
+				id: "5C0000000000D115"
+				table_id: "5C00000000005001"
+				type: "random"
+			}]
+			tasks: [{
+				id: "5C0000000000C115"
+				type: "checkmark"
+			}]
+			x: 6.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["5C0000000000B106", "5C0000000000B111"]
+			id: "5C0000000000B116"
+			rewards: [{
+				id: "5C0000000000D116"
+				table_id: "5C00000000005002"
+				type: "random"
+			}]
+			tasks: [{
+				id: "5C0000000000C116"
+				item: { count: 1, id: "skyseed:huge_forest_skyseed" }
+				type: "item"
+			}]
+			x: 9.0d
+			y: -0.75d
+		}
+	]
+}

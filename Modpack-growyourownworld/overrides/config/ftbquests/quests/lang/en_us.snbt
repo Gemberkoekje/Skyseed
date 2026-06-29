@@ -1,0 +1,302 @@
+{
+	chapter.5C0000000000A001.title: "Introduction"
+	chapter.5C0000000000A002.title: "Skyseed"
+	chapter.5C0000000000A003.title: "Create"
+	chapter.5C0000000000A004.title: "Tools"
+	chapter.5C0000000000A005.title: "Storage"
+	chapter.5C0000000000A006.title: "Other"
+	quest.5C0000000000B001.quest_desc: [
+		"Welcome, skyfarer."
+		""
+		"There's nothing out here but you, a few seeds, and the sky. Throw a seed and an island grows beneath it — that's how you build a whole world, one island at a time."
+		""
+		"This book guides you mod by mod: what each one does and the one thing you need to get started. Take it slow — there's no rush in the void."
+	]
+	quest.5C0000000000B001.quest_subtitle: "Grow your own world"
+	quest.5C0000000000B001.title: "Welcome to the Void"
+	quest.5C0000000000B002.quest_desc: [
+		"Skyseed has its own guide — the Skyfarer's Almanac. It lists every seed: what it grows and what you need to craft the next one."
+		""
+		"This quest book points you between mods; the Almanac goes deep on seeds. Keep both open."
+	]
+	quest.5C0000000000B002.title: "Your Almanac"
+	quest.5C0000000000B003.quest_desc: [
+		"A few helpers run quietly in the background:"
+		""
+		"§e- JEI§r (right of any inventory): hover an item, press §aR§r for its recipe, §aU§r for what it makes."
+		"§e- Jade§r: look at a block or mob to see what it is."
+		"§e- Minimap§r (top-right): press §aM§r for the full map — set waypoints once you have a few islands."
+		"§e- Vein Mining§r: hold a tool and mine; connected ores break together."
+	]
+	quest.5C0000000000B003.title: "Tools of the Trade"
+	quest.5C0000000000B101.quest_desc: ["Everything starts with an §eIsland Seed§r. Craft one (check JEI or the Almanac), then throw it into the void — an island grows where it lands."]
+	quest.5C0000000000B101.title: "Your First Seed"
+	quest.5C0000000000B102.quest_desc: [
+		"Right-click to throw your seed over open void. Watch the island knit itself together, then land on it."
+		""
+		"This is your first piece of the world. Build out from here."
+	]
+	quest.5C0000000000B102.title: "Grow Your World"
+	quest.5C0000000000B103.quest_desc: [
+		"Different seeds grow different islands — forest, desert, meadow and more. Each gives new blocks, plants and mobs."
+		""
+		"Gather what each island offers; it's how you craft rarer seeds. The Almanac lists them all."
+	]
+	quest.5C0000000000B103.title: "A Bigger World"
+	quest.5C0000000000B104.quest_desc: [
+		"The §eRocky Island§r is your quarry: stone, §eandesite§r, coal, iron, copper — and §ezinc§r, the metal Create runs on."
+		""
+		"Craft a Rocky Seed and grow one. Mine andesite + iron to start Create; come back for zinc when you need brass."
+		""
+		"§7Tip: grow a Rocky island §olow§r§7 (below y8) and its core turns to deepslate — that's where deepslate zinc and diamond live.§r"
+	]
+	quest.5C0000000000B104.quest_subtitle: "Your mine — and the gateway to Create"
+	quest.5C0000000000B104.title: "Grow a Rocky Island"
+	quest.5C0000000000B105.quest_desc: [
+		"Throw a §eRocky§r island §olow§r, near the world's floor, and its body turns to §edeepslate§r — with §ediamonds§r in the dark."
+		""
+		"Mine deep, then craft an §eAncient Skyseed§r: a deepslate island, and your reliable source of diamond, tuff and the makings of a Trial Chamber."
+	]
+	quest.5C0000000000B105.quest_subtitle: "The Ancient seed"
+	quest.5C0000000000B105.title: "Into the Deep"
+	quest.5C0000000000B106.quest_desc: [
+		"Every biome seed has a §eLarge§r version — radius 13–17, a deeper ore-rich core, the same biome cues. The Large Forest comes from a stack of logs; other Large seeds from their matching blocks."
+		""
+		"Bigger island, bigger build, more ore. Step up whenever you've outgrown a small one."
+	]
+	quest.5C0000000000B106.quest_subtitle: "The next size up"
+	quest.5C0000000000B106.title: "Large Islands"
+	quest.5C0000000000B107.quest_desc: [
+		"With a few §eemeralds§r and some §eanimals§r, the §eSettlement§r seeds open up — villages, farms, trading posts and pastures that grow with villagers and livestock already in place."
+		""
+		"A working village means trades, crops and a renewable economy on your doorstep."
+	]
+	quest.5C0000000000B107.quest_subtitle: "Villages & Farms"
+	quest.5C0000000000B107.title: "Good Neighbours"
+	quest.5C0000000000B108.quest_desc: [
+		"Skyseed grows §estructures§r too — dungeons, temples, outposts and more, each with vanilla loot and the §eStructure Relics§r and §ePortal Frame Shards§r you'll need for the End later."
+		""
+		"Start with a §eDungeon§r island. Re-grow any structure to re-roll its loot."
+	]
+	quest.5C0000000000B108.quest_subtitle: "Loot & relics"
+	quest.5C0000000000B108.title: "Ruins & Landmarks"
+	quest.5C0000000000B109.quest_desc: [
+		"Find any §elava§r — a pool deep in a Rocky isle, or cast your own — and flood it with water to make §eobsidian§r. Build a portal frame, light it, and step through into §ethe Nether§r and its own long climb."
+		""
+		"§7Optional: a §eRuined Portal Skyseed§r (two obsidian over two gold) grows a ready-made frame with a loot chest and §ecrying obsidian§r — handy, but any lava source will do.§r"
+	]
+	quest.5C0000000000B109.quest_subtitle: "The Nether opens"
+	quest.5C0000000000B109.title: "Through the Portal"
+	quest.5C0000000000B110.quest_desc: [
+		"Down here, new seeds grow §enether§r islands — basalt, soul sand, crimson and warped forests, lava and netherrack. Quartz, glowstone, gold and nether wood are yours."
+		""
+		"Build a foothold; it's a long way to the Fortress."
+	]
+	quest.5C0000000000B110.quest_subtitle: "Nether resources"
+	quest.5C0000000000B110.title: "Nether Bound"
+	quest.5C0000000000B111.quest_desc: [
+		"Grow a §eNether Fortress§r island for §eBlaze Rods§r — the key to Eyes of Ender — and a §eBastion§r for piglin gold and netherite scrap."
+		""
+		"These are the relics and resources that unlock the End."
+	]
+	quest.5C0000000000B111.quest_subtitle: "Blaze & plunder"
+	quest.5C0000000000B111.title: "Fortress & Bastion"
+	quest.5C0000000000B112.quest_desc: [
+		"The §eEnd Portal Skyseed§r is the long way round: four §eportal edges§r, each forged from a §ePortal Frame Shard§r and two §estructure relics§r gathered from across the mod."
+		""
+		"It grows a stronghold chamber with an empty 12-frame portal. Fill the frames with §eEyes of Ender§r (Blaze Rods + Ender Pearls) and step into §ethe End§r."
+		""
+		"§7Pack spare seeds — the End grows empty — and stage from home: there's no respawn out there.§r"
+	]
+	quest.5C0000000000B112.quest_subtitle: "The End opens"
+	quest.5C0000000000B112.title: "Eye of the End"
+	quest.5C0000000000B113.quest_desc: [
+		"Up here a §eForest§r or §eLush§r seed grows §echorus§r instead of trees — the start of the chorus → purpur path."
+		""
+		"Follow it to grow an §eEnd City§r island: shulkers, an elytra, and the purpur and end-stone to build among the stars."
+	]
+	quest.5C0000000000B113.quest_subtitle: "Chorus → End City"
+	quest.5C0000000000B113.title: "The Chorus Path"
+	quest.5C0000000000B114.quest_desc: [
+		"You beat the dragon. Bottle its §edragon's breath§r, ring it in §eobsidian§r and §eend stone§r, and forge the §eDragon Trophy Skyseed§r."
+		""
+		"It grows a grand monument — a stepped dais and four dragon-headed obelisks. Set your one §edragon egg§r on the pedestal yourself. A fitting end to the climb."
+	]
+	quest.5C0000000000B114.quest_subtitle: "The capstone"
+	quest.5C0000000000B114.title: "The Dragon's Trophy"
+	quest.5C0000000000B115.quest_desc: [
+		"A few islands hide behind something rare — a lucky drop or a far-off biome:"
+		""
+		"§e- Woodland Mansion§r: a Totem from an evoker (Forest seed in a dark forest, ~1 in 20)."
+		"§e- Ocean Monument§r: wet sponge from a Large Aquatic isle over deep ocean."
+		"§e- Trial Chamber§r: throw a Rocky or Ancient isle deep for diamond and tuff."
+		""
+		"See the Almanac's §eRare Catch§r page for the full list."
+	]
+	quest.5C0000000000B115.quest_subtitle: "Hidden islands"
+	quest.5C0000000000B115.title: "The Rare Catch"
+	quest.5C0000000000B116.quest_desc: [
+		"The §eHuge§r tier rings a §eLarge§r seed between an §eEnder Pearl§r and §eBlaze Powder§r, packed in dirt — so it's gated behind the §eNether§r: blaze powder from a Fortress, ender pearls from piglin bartering or endermen down there. No trip to the End required."
+		""
+		"What you get: a sprawling landmass with a central lake and a deep, ore-veined body. The biggest island Skyseed grows."
+	]
+	quest.5C0000000000B116.quest_subtitle: "The biggest tier"
+	quest.5C0000000000B116.title: "Huge Horizons"
+	task.5C0000000000C115.title: "Track down a rare island"
+	quest.5C0000000000B201.quest_desc: [
+		"Create begins with §eAndesite Alloy§r — andesite + iron (or zinc) nuggets. Andesite comes from your §eRocky island§r, so grow one first (Skyseed chapter)."
+		""
+		"§7New to Create? Hold any Create item and press §aW§r to open §ePonder§r — short animated tutorials. They're the best way to learn each block.§r"
+	]
+	quest.5C0000000000B201.quest_subtitle: "The start of all things Create"
+	quest.5C0000000000B201.title: "Andesite Alloy"
+	quest.5C0000000000B202.quest_desc: ["Wrap a stripped log in Andesite Alloy for §eAndesite Casing§r — the frame for most early machines: drills, saws, belts."]
+	quest.5C0000000000B202.title: "Andesite Casing"
+	quest.5C0000000000B203.quest_desc: [
+		"Machines need §erotation§r. A §eWater Wheel§r over flowing water (or a windmill) is your first free power; shafts and cogwheels carry it around."
+		""
+		"§7Every machine draws §eStress§r — add wheels for more. Goggles show the numbers.§r"
+	]
+	quest.5C0000000000B203.title: "Get It Spinning"
+	quest.5C0000000000B204.quest_desc: [
+		"A pair of §eCrushing Wheels§r (or a Millstone) grinds ore into §etwice§r the nuggets — doubling everything you mine. On a skyblock, that's gold."
+		""
+		"Feed ore in on a belt, collect the output. This is what makes your islands' ores go far."
+	]
+	quest.5C0000000000B204.quest_subtitle: "The skyblock superpower"
+	quest.5C0000000000B204.title: "Double Your Ore"
+	quest.5C0000000000B205.quest_desc: [
+		"Mid-game Create runs on §eBrass§r — copper + §ezinc§r, combined in a heated §eMechanical Mixer§r."
+		""
+		"This is the zinc gate. Head back to a §eRocky island§r and mine its zinc. Brass unlocks the good stuff: deployers, mechanical arms, mechanical crafters."
+	]
+	quest.5C0000000000B205.quest_subtitle: "Now you need that zinc"
+	quest.5C0000000000B205.title: "Brass"
+	quest.5C0000000000B206.quest_desc: [
+		"§eCreate: Crafts & Additions§r bridges rotation and §eForge Energy (FE)§r: an §eAlternator§r turns spinning into FE, an §eElectric Motor§r turns FE back into spinning."
+		""
+		"That FE grid will power the bigger tech mods later. Pair it with §eFlux Networks§r to beam power between islands — no cables across the void."
+	]
+	quest.5C0000000000B206.title: "Power Up"
+	quest.5C0000000000B301.quest_desc: [
+		"§eSilent Gear§r builds tools and armor from parts. Craft a §eBlueprint§r for the tool you want, then combine a §emain part§r (the head) with a §erod§r in the grid."
+		""
+		"The materials you use set the stats — start with stone or iron and upgrade as you find better."
+	]
+	quest.5C0000000000B301.quest_subtitle: "Silent Gear"
+	quest.5C0000000000B301.title: "Forge a Tool"
+	quest.5C0000000000B302.quest_desc: [
+		"Silent Gear tools grow with you:"
+		""
+		"§e- Traits§r come from materials — extra durability, speed, luck and more."
+		"§e- Repair Kits§r fix tools on the go, no anvil needed."
+		"§e- Tips & grips§r add bonuses; re-coat with better materials as you progress."
+		""
+		"Browse the parts in JEI to plan your perfect tool."
+	]
+	quest.5C0000000000B302.title: "Make It Yours"
+	quest.5C0000000000B401.quest_desc: [
+		"Inventory full already? §eSophisticated Backpacks§r gives you a portable, upgradable pack."
+		""
+		"Craft one, then right-click to open it anywhere. It grows with §eupgrade slots§r — more on those next."
+	]
+	quest.5C0000000000B401.quest_subtitle: "Sophisticated Backpacks"
+	quest.5C0000000000B401.title: "Pack It Up"
+	quest.5C0000000000B402.quest_desc: [
+		"Drop §eupgrades§r into your pack's slots to make it work for you:"
+		""
+		"§e- Pickup§r: auto-collects items you walk over."
+		"§e- Magnet§r: pulls in drops and XP from range."
+		"§e- Stack§r: each slot holds far more."
+		"§e- Compacting§r: auto-crafts nuggets → ingots → blocks to save space."
+		""
+		"Craft them in JEI and slot them in — no more inventory juggling."
+	]
+	quest.5C0000000000B402.title: "Upgrade Your Pack"
+	quest.5C0000000000B403.quest_desc: [
+		"For your base, §eSophisticated Storage§r turns barrels and chests into power-houses — the same §eupgrade slots§r (stack, compacting, hopper, smelting) plus tools to sort and search."
+		""
+		"§7Tip: it ties into Create — funnels and pipes can feed these directly.§r"
+	]
+	quest.5C0000000000B403.quest_subtitle: "Sophisticated Storage"
+	quest.5C0000000000B403.title: "Barrels & Boxes"
+	quest.5C0000000000B501.quest_desc: [
+		"With islands scattered across the void, walking gets old fast. §eWaystones§r fix that."
+		""
+		"Craft and place a §eWaystone§r, then right-click to name it. Activate a few and you can teleport between any of them — instant travel across your world."
+		""
+		"§7A §eWarp Stone§r lets you jump from anywhere back to a waystone, no stone underfoot needed.§r"
+	]
+	quest.5C0000000000B501.quest_subtitle: "Waystones"
+	quest.5C0000000000B501.title: "Set Your Home"
+	quest.5C0000000000B502.quest_desc: [
+		"Your activated waystones show up right on the §eXaero minimap§r and world map — click one to start travelling, or just use them to keep your bearings."
+		""
+		"Set a waypoint at each new island and you'll never lose your way in the void."
+	]
+	quest.5C0000000000B502.title: "On the Map"
+	reward_table.5C00000000005001.title: "Skyfarer's Cache"
+	reward_table.5C00000000005002.title: "Engineer's Cache"
+	task.5C0000000000C001.title: "Begin"
+	task.5C0000000000C002.title: "Open your guide"
+	task.5C0000000000C003.title: "Got it"
+	task.5C0000000000C102.title: "Throw a seed and grow an island"
+	task.5C0000000000C103.title: "Grow a biome island"
+	task.5C0000000000C302.title: "Learn the upgrade system"
+	task.5C0000000000C402.title: "Add an upgrade to your backpack"
+	task.5C0000000000C502.title: "Spot a waystone on your map"
+	quest.5C0000000000B207.quest_desc: [
+		"A §eMechanical Press§r hammers metal into §esheets§r — the ingredient for casings, brass machines and tools."
+		""
+		"Set a §eBasin§r under a §eMechanical Mixer§r too, and you can combine and wash materials. The press and mixer are your crafting backbone."
+	]
+	quest.5C0000000000B207.quest_subtitle: "Sheets, mixing & assembly"
+	quest.5C0000000000B207.title: "Press It"
+	quest.5C0000000000B209.quest_desc: [
+		"Brass unlocks Create's §eautomators§r:"
+		""
+		"§e- Deployer§r: uses tools and places blocks for you."
+		"§e- Mechanical Arm§r: shuttles items between machines."
+		"§e- Mechanical Crafter§r: assembles crafting recipes on its own."
+		""
+		"Chain them and your islands start running themselves. Ponder each one (§aW§r) to see how."
+	]
+	quest.5C0000000000B209.quest_subtitle: "Automation"
+	quest.5C0000000000B209.title: "Hands-Free"
+	quest.5C0000000000B214.quest_desc: [
+		"§eCreate: Enchantment Industry§r automates the tedious parts of enchanting — bottling §eXP§r into a fluid, auto-printing books and disenchanting in bulk."
+		""
+		"Build it once and never grind levels by hand again."
+	]
+	quest.5C0000000000B214.quest_subtitle: "Create: Enchantment Industry"
+	quest.5C0000000000B214.title: "Enchanted Industry"
+	quest.5C0000000000B211.quest_desc: ["§eBetter Motors§r adds stronger, tunable electric motors. One good motor can drive a big contraption straight off your FE grid — no wall of stock motors."]
+	quest.5C0000000000B211.quest_subtitle: "Create: Better Motors"
+	quest.5C0000000000B211.title: "Bigger Motors"
+	quest.5C0000000000B212.quest_desc: ["§eFlux Networks§r ties your power into one wireless FE grid. A §eFlux Plug§r where you generate, a §eFlux Point§r where you need it — energy across the void with no cables."]
+	quest.5C0000000000B212.quest_subtitle: "Flux Networks"
+	quest.5C0000000000B212.title: "Wireless Watts"
+	quest.5C0000000000B213.quest_desc: ["§eSteam'n'Rails§r lets you lay §etrack§r and build real §etrains§r. A station, a powered loco, and your islands are connected — the comfiest way to get around."]
+	quest.5C0000000000B213.quest_subtitle: "Steam'n'Rails"
+	quest.5C0000000000B213.title: "All Aboard"
+	quest.5C0000000000B215.quest_desc: ["Craft §eEngineer's Goggles§r to read stress and fluid levels at a glance — wear them whenever you build. Small Create add-ons fill the gaps in your toolkit."]
+	quest.5C0000000000B215.quest_subtitle: "Quality-of-life"
+	quest.5C0000000000B215.title: "Goggles & Gadgets"
+	quest.5C0000000000B216.quest_desc: ["Build a §eCreate Jetpack§r, fuel it, and fly. Powered from your FE grid, it turns island-hopping into a hop — no scaffolding required."]
+	quest.5C0000000000B216.quest_subtitle: "Create: Jetpack"
+	quest.5C0000000000B216.title: "Take Flight"
+	quest.5C0000000000B217.quest_desc: ["A couple of add-ons widen Create for fun: §eAquatic Ambitions§r (sea machines) and §eDragons Plus§r (new blocks and gadgets). Pure bonus — poke around when you're curious."]
+	quest.5C0000000000B217.quest_subtitle: "Content add-ons"
+	quest.5C0000000000B217.title: "New Horizons"
+	quest.5C0000000000B218.quest_desc: ["Createdeco, Rechiseled, Bells & Whistles, Interiors and Design'n'Decor add hundreds of §edecoration§r blocks — palettes, trims, lamps and furniture to turn a factory into a home."]
+	quest.5C0000000000B218.quest_subtitle: "Decoration"
+	quest.5C0000000000B218.title: "Make It Beautiful"
+	task.5C0000000000C211.title: "Run a Better Motors motor"
+	task.5C0000000000C212.title: "Set up a Flux Network"
+	task.5C0000000000C213.title: "Lay track and run a train"
+	task.5C0000000000C214.title: "Automate an enchanting setup"
+	task.5C0000000000C215.title: "Craft Engineer's Goggles"
+	task.5C0000000000C216.title: "Build and fly a jetpack"
+	task.5C0000000000C217.title: "Try a content add-on"
+	task.5C0000000000C218.title: "Decorate your base"
+}

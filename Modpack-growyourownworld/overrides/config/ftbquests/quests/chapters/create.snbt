@@ -1,0 +1,259 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "create"
+	group: ""
+	id: "5C0000000000A003"
+	order_index: 2
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: ["5C0000000000B104"]
+			id: "5C0000000000B201"
+			rewards: [{
+				id: "5C0000000000D201"
+				item: { count: 4, id: "create:andesite_alloy" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C201"
+				item: { count: 1, id: "create:andesite_alloy" }
+				type: "item"
+			}]
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B201"]
+			id: "5C0000000000B202"
+			rewards: [{
+				id: "5C0000000000D202"
+				item: { count: 2, id: "create:andesite_casing" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C202"
+				item: { count: 1, id: "create:andesite_casing" }
+				type: "item"
+			}]
+			x: 1.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B202"]
+			id: "5C0000000000B203"
+			rewards: [{
+				id: "5C0000000000D203"
+				item: { count: 6, id: "create:cogwheel" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C203"
+				item: { count: 1, id: "create:water_wheel" }
+				type: "item"
+			}]
+			x: 3.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B203"]
+			id: "5C0000000000B204"
+			rewards: [{
+				id: "5C0000000000D204"
+				item: { count: 8, id: "minecraft:iron_ingot" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C204"
+				item: { count: 1, id: "create:crushing_wheel" }
+				type: "item"
+			}]
+			x: 4.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B204"]
+			id: "5C0000000000B205"
+			rewards: [{
+				id: "5C0000000000D205"
+				item: { count: 6, id: "create:brass_ingot" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C205"
+				item: { count: 1, id: "create:brass_ingot" }
+				type: "item"
+			}]
+			x: 6.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B205"]
+			id: "5C0000000000B209"
+			rewards: [{
+				id: "5C0000000000D209"
+				table_id: "5C00000000005002"
+				type: "random"
+			}]
+			tasks: [{
+				id: "5C0000000000C209"
+				item: { count: 1, id: "create:deployer" }
+				type: "item"
+			}]
+			x: 7.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B209"]
+			id: "5C0000000000B214"
+			rewards: [{
+				id: "5C0000000000D214"
+				item: { count: 16, id: "minecraft:experience_bottle" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C214"
+				type: "checkmark"
+			}]
+			x: 9.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B203"]
+			id: "5C0000000000B207"
+			rewards: [{
+				id: "5C0000000000D207"
+				item: { count: 8, id: "create:iron_sheet" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C207"
+				item: { count: 1, id: "create:mechanical_press" }
+				type: "item"
+			}]
+			x: 4.5d
+			y: -1.5d
+		}
+		{
+			dependencies: ["5C0000000000B205"]
+			id: "5C0000000000B206"
+			rewards: [{
+				id: "5C0000000000D206"
+				item: { count: 12, id: "minecraft:copper_ingot" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C206"
+				item: { count: 1, id: "createaddition:electric_motor" }
+				type: "item"
+			}]
+			x: 6.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B206"]
+			id: "5C0000000000B211"
+			rewards: [{
+				id: "5C0000000000D211"
+				item: { count: 8, id: "minecraft:gold_ingot" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C211"
+				type: "checkmark"
+			}]
+			x: 7.5d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B206"]
+			id: "5C0000000000B212"
+			rewards: [{
+				id: "5C0000000000D212"
+				item: { count: 2, id: "minecraft:diamond" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C212"
+				type: "checkmark"
+			}]
+			x: 6.0d
+			y: 2.5d
+		}
+		{
+			dependencies: ["5C0000000000B202"]
+			id: "5C0000000000B213"
+			rewards: [{
+				id: "5C0000000000D213"
+				item: { count: 12, id: "minecraft:iron_ingot" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C213"
+				type: "checkmark"
+			}]
+			x: 3.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["5C0000000000B203"]
+			id: "5C0000000000B215"
+			rewards: [{
+				id: "5C0000000000D215"
+				item: { count: 4, id: "create:brass_ingot" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C215"
+				type: "checkmark"
+			}]
+			x: 3.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B206"]
+			id: "5C0000000000B216"
+			rewards: [{
+				id: "5C0000000000D216"
+				item: { count: 8, id: "create:andesite_alloy" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C216"
+				type: "checkmark"
+			}]
+			x: 4.5d
+			y: 2.5d
+		}
+		{
+			dependencies: ["5C0000000000B202"]
+			id: "5C0000000000B217"
+			rewards: [{
+				id: "5C0000000000D217"
+				item: { count: 4, id: "minecraft:experience_bottle" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C217"
+				type: "checkmark"
+			}]
+			x: 1.5d
+			y: -1.5d
+		}
+		{
+			dependencies: ["5C0000000000B202"]
+			id: "5C0000000000B218"
+			rewards: [{
+				id: "5C0000000000D218"
+				item: { count: 4, id: "minecraft:experience_bottle" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C218"
+				type: "checkmark"
+			}]
+			x: 1.5d
+			y: 1.5d
+		}
+	]
+}

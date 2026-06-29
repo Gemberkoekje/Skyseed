@@ -1,0 +1,55 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "introduction"
+	group: ""
+	id: "5C0000000000A001"
+	order_index: 0
+	quest_links: [ ]
+	quests: [
+		{
+			id: "5C0000000000B001"
+			rewards: [{
+				id: "5C0000000000D001"
+				table_id: "5C00000000005001"
+				type: "random"
+			}]
+			tasks: [{
+				id: "5C0000000000C001"
+				type: "checkmark"
+			}]
+			x: -1.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B001"]
+			id: "5C0000000000B002"
+			rewards: [{
+				id: "5C0000000000D002"
+				item: { count: 8, id: "minecraft:bread" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C002"
+				type: "checkmark"
+			}]
+			x: 0.0d
+			y: -0.75d
+		}
+		{
+			dependencies: ["5C0000000000B001"]
+			id: "5C0000000000B003"
+			rewards: [{
+				id: "5C0000000000D003"
+				item: { count: 32, id: "minecraft:torch" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C003"
+				type: "checkmark"
+			}]
+			x: 0.0d
+			y: 0.75d
+		}
+	]
+}
