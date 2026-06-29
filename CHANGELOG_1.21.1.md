@@ -5,7 +5,14 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
-## [0.166.0] - 2026-06-29
+## [0.167.0] - 2026-06-29
+
+### Fixed
+- **Guide: Huge island gating description.** The Huge Forest guide entry claimed Huge islands require *"both the Nether
+  and the End"* — inaccurate: the recipe needs only a Large seed ringed with an Ender Pearl and Blaze Powder, all
+  obtainable with **Nether** access (no End trip). Reworded to match the other `huge_*` entries and note the ingredients
+  come from the Nether. The `reveal_huge_*` unlock check was already correct (it only requires the matching Large seed),
+  so no logic changed. (Patchouli guide, which is the 1.21.1 backend; Modonomicon content is not yet authored.)
 
 ### Added
 - **Theme overrides — a datapack merge layer so the modpack or other mods can extend Skyseed islands without editing
