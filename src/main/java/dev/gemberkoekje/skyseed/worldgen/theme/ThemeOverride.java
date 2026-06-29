@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.gemberkoekje.skyseed.compat.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -73,7 +74,7 @@ public record ThemeOverride(Id target, Patch patch) {
                     palette.orElse(base.palette()),
                     concat(base.ores(), ores),
                     concat(base.variants(), variants),
-                    concat(base.biomeOverrides(), biomeOverrides),
+                    mergeBands(base.biomeOverrides(), biomeOverrides),
                     pond.isPresent() ? pond : base.pond(),
                     concat(base.mobs(), mobs),
                     jigsaw.isPresent() ? jigsaw : base.jigsaw(),
@@ -89,6 +90,31 @@ public record ThemeOverride(Id target, Patch patch) {
 
         private static <T> List<T> concat(List<T> a, List<T> b) {
             return b.isEmpty() ? a : Stream.concat(a.stream(), b.stream()).toList();
+        }
+
+        /**
+         * Merge each patch band into the base band with the same selector (so e.g. a {@code max_y: 8} patch injects into
+         * the existing deep band instead of appending a band that would lose the first-match). A patch band whose
+         * selector matches no base band is appended as a new band (the way a mod adds a whole new dimension/biome band).
+         */
+        private static List<BiomeOverride> mergeBands(List<BiomeOverride> base, List<BiomeOverride> patches) {
+            if (patches.isEmpty()) {
+                return base;
+            }
+            final List<BiomeOverride> result = new ArrayList<>(base);
+            for (BiomeOverride patch : patches) {
+                boolean merged = false;
+                for (int i = 0; i < result.size(); i++) {
+                    if (result.get(i).sameSelectorAs(patch)) {
+                        result.set(i, result.get(i).mergedWith(patch));
+                        merged = true;
+                    }
+                }
+                if (!merged) {
+                    result.add(patch);
+                }
+            }
+            return result;
         }
     }
 }

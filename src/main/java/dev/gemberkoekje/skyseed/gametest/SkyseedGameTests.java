@@ -147,6 +147,21 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    /** Band-merge: the deep-band patch selector-matches rocky's max_y:8 band, so resolved rocky's deep band gains deepslate zinc. */
+    @GameTest(template = REGION)
+    public static void createZincReachesRockyDeepBand(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:rocky"));
+        helper.assertTrue(resolved != null, "rocky must resolve");
+        final var deepBand = resolved.biomeOverrides().stream()
+                .filter(b -> b.maxY().equals(java.util.Optional.of(8)) && b.biomes().isEmpty() && b.minY().isEmpty())
+                .findFirst();
+        helper.assertTrue(deepBand.isPresent(), "rocky should keep its single max_y=8 deep band (merged, not duplicated)");
+        helper.assertTrue(deepBand.get().ores().isPresent() && deepBand.get().ores().get().stream()
+                        .anyMatch(o -> o.block().value().equals("create:deepslate_zinc_ore")),
+                "the deep band should include create:deepslate_zinc_ore after the selector band-merge");
+        helper.succeed();
+    }
+
     @GameTest(template = REGION)
     public static void rockyAdaptsInTheNether(GameTestHelper helper) {
         // Thrown in the Nether, the Rocky seed adapts (SKYNETHERPLAN): a netherrack body over a blackstone core

@@ -1,7 +1,12 @@
 {
-  "_comment": "First-party Create compat: zinc on the huge rocky island, mirroring its copper. Inert without Create.",
+  "_comment": "First-party Create compat: zinc on the huge rocky island (top band) + deepslate zinc merged into its max_y:8 deep band. Inert without Create.",
   "target": "skyseed:huge_rocky",
   "ores": [
     { "block": "create:zinc_ore", "chance": 0.90, "count": { "min": 8, "max": 12 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" }
+  ],
+  "biome_overrides": [
+    { "max_y": 8, "ores": [
+      { "block": "create:deepslate_zinc_ore", "chance": 0.80, "count": { "min": 4, "max": 8 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" }
+    ] }
   ]
 }
