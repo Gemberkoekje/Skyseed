@@ -1,0 +1,7 @@
+{
+  "_comment": "First-party Create compat: zinc on the rocky mining island, mirroring its copper. Inert without Create (the unknown ore is skipped before any RNG, so generation is byte-identical).",
+  "target": "skyseed:rocky",
+  "ores": [
+    { "block": "create:zinc_ore", "chance": 0.90, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" }
+  ]
+}

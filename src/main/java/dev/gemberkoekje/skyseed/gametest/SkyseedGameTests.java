@@ -23,6 +23,7 @@ import dev.gemberkoekje.skyseed.worldgen.structure.PathSurfacer;
 import dev.gemberkoekje.skyseed.worldgen.theme.BiomeOverride;
 import dev.gemberkoekje.skyseed.worldgen.theme.IslandTheme;
 import dev.gemberkoekje.skyseed.worldgen.theme.ThemeOverride;
+import dev.gemberkoekje.skyseed.worldgen.theme.Themes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -129,6 +130,20 @@ public final class SkyseedGameTests {
                 .parse(JsonOps.INSTANCE, JsonParser.parseString("{\"target\":\"skyseed:rocky\"}")).getOrThrow();
         helper.assertTrue(empty.applyTo(base).equals(base), "an empty override must leave the theme unchanged");
 
+        helper.succeed();
+    }
+
+    /** The shipped first-party Create compat datapack: rocky's resolved ores gain create:zinc_ore (inert without Create). */
+    @GameTest(template = REGION)
+    public static void createZincCompatTargetsRocky(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme baseRocky = theme(level, "rocky");
+        final IslandTheme resolved = Themes.resolve(level.registryAccess(), Id.of("skyseed:rocky"));
+        helper.assertTrue(resolved != null, "rocky must resolve");
+        helper.assertTrue(resolved.ores().size() > baseRocky.ores().size(),
+                "the shipped create_rocky theme_override should add an ore to rocky");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("create:zinc_ore")),
+                "rocky's resolved ores should include create:zinc_ore");
         helper.succeed();
     }
 

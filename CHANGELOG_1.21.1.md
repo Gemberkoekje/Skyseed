@@ -15,6 +15,12 @@ change when only the 26.1 build does. Format loosely based on [Keep a Changelog]
   palette, pond, jigsaw, lava, twin, ladder_shaft, fizzle, caves) **replace**. E.g. a Create-compat patch adds
   `create:zinc_ore` to the rocky island. With no patch targeting a theme the base is returned unchanged, so generation
   (and the golden master) stays byte-identical. New gametest covers the append + the no-op.
+- **First-party Create compat (ships with Skyseed, inert without Create):** zinc on the mining islands — `create:zinc_ore`
+  on the **rocky** family (rocky / rocky_large / huge_rocky, mirroring their copper) and `create:deepslate_zinc_ore` on
+  the deepslate-bodied **ancient** family (ancient / ancient_large / huge_ancient). Unknown ores are skipped before any
+  RNG ([OrePlanner](src/main/java/dev/gemberkoekje/skyseed/worldgen/OrePlanner.java)), so a no-Create world generates
+  byte-identically; with Create installed, zinc appears alongside copper. Surface biomes and the trial-chamber (its
+  copper is structural) are intentionally left out.
 
 ## [0.165.0] - 2026-06-29
 

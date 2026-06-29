@@ -1,0 +1,7 @@
+{
+  "_comment": "First-party Create compat: deepslate zinc on the large ancient island, mirroring its deepslate copper. Inert without Create.",
+  "target": "skyseed:ancient_large",
+  "ores": [
+    { "block": "create:deepslate_zinc_ore", "chance": 0.85, "count": { "min": 3, "max": 6 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" }
+  ]
+}
