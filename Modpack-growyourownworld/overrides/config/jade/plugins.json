@@ -52,6 +52,9 @@
     "painting": true,
     "chiseled_bookshelf": true
   },
+  "silentgear_jade_tiers": {
+    "required_tier": true
+  },
   "jade_access": {
     "held_item": true,
     "sign": true,
@@ -69,5 +72,11 @@
     "registry_name": "OFF",
     "block_properties": false,
     "mod_name": true
+  },
+  "waystones": {
+    "waystone": true
+  },
+  "balm": {
+    "jade": true
   }
 }
