@@ -42,3 +42,12 @@ repo/
 ### Stonecutter (multi-version build) — generated per-version subprojects + preprocessor cache ###
 versions/
 .stonecutter/
+
+### Modpack mod jars — downloaded deps + built skyseed jar (tracked via each pack's mods.txt manifest) ###
+**/overrides/mods/*.jar
+
+### Downloaded + runtime-generated shader/resource packs — not committed (listed in mods.txt). Keep the empty folders via .gitkeep. ###
+**/overrides/shaderpacks/*
+!**/overrides/shaderpacks/.gitkeep
+**/overrides/resourcepacks/*
+!**/overrides/resourcepacks/.gitkeep
