@@ -4,7 +4,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
+import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
@@ -51,33 +54,34 @@ public final class SkyseedVoidChunkGenerator extends NoiseBasedChunkGenerator {
         return CODEC;
     }
 
-    // The structure- and decoration-suppression overrides below use the 1.21.1 ChunkGenerator signatures. On 26.1.2
-    // those signatures changed (GenerationStep.Carving removed; createStructures/applyBiomeDecoration params differ),
-    // so they're scoped to <26.1.2 for now — see the TODO. Fully-qualified types keep imports clean on both nodes.
-    //? if >=26.1.2 {
-    /*// TODO(26.1.2, REFACTORPLAN Stage 2): re-add createStructures + applyBiomeDecoration with the 26.1.2 signatures
-    // so the void is enforced there too. Until then skyseed:void behaves like a plain noise generator on 26.1.2
-    // (same as the pre-existing minecraft:noise behaviour — no regression).*/
-    //?} else {
-    /** No structure starts ⇒ nothing places, any dimension, any mod — players grow structures from Skyseed seeds. */
+    /** Skip biome-feature decoration in the void dims that don't use it (overworld/Nether); the End keeps it. */
     @Override
-    public void createStructures(net.minecraft.core.RegistryAccess registryAccess,
-                                 net.minecraft.world.level.chunk.ChunkGeneratorStructureState structureState,
-                                 net.minecraft.world.level.StructureManager structureManager,
-                                 net.minecraft.world.level.chunk.ChunkAccess chunk,
-                                 net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager templateManager) {
-        // intentionally empty — see class doc
-    }
-
-    /** Skip biome-feature decoration in the void dims that don't use it (overworld/nether); the End keeps it. */
-    @Override
-    public void applyBiomeDecoration(net.minecraft.world.level.WorldGenLevel level,
-                                     net.minecraft.world.level.chunk.ChunkAccess chunk,
-                                     net.minecraft.world.level.StructureManager structureManager) {
+    public void applyBiomeDecoration(WorldGenLevel level, ChunkAccess chunk, StructureManager structureManager) {
         if (skipDecoration) {
             return;
         }
         super.applyBiomeDecoration(level, chunk, structureManager);
+    }
+
+    // No structure starts ⇒ nothing places, any dimension, any mod — players grow structures from Skyseed seeds.
+    // createStructures gained a 6th param (ResourceKey<Level> level) on 26.1.2, so it's the one signature that needs a
+    // per-node form. Fully-qualified types keep the guarded branches self-contained (no version-divergent imports).
+    //? if >=26.1.2 {
+    /*@Override
+    public void createStructures(net.minecraft.core.RegistryAccess registryAccess,
+                                 net.minecraft.world.level.chunk.ChunkGeneratorStructureState state,
+                                 net.minecraft.world.level.StructureManager structureManager,
+                                 net.minecraft.world.level.chunk.ChunkAccess centerChunk,
+                                 net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager structureTemplateManager,
+                                 net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level> level) {
+    }*/
+    //?} else {
+    @Override
+    public void createStructures(net.minecraft.core.RegistryAccess registryAccess,
+                                 net.minecraft.world.level.chunk.ChunkGeneratorStructureState state,
+                                 net.minecraft.world.level.StructureManager structureManager,
+                                 net.minecraft.world.level.chunk.ChunkAccess centerChunk,
+                                 net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager structureTemplateManager) {
     }
     //?}
 }

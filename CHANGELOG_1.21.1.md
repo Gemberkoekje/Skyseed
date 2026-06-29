@@ -14,9 +14,9 @@ change when only the 26.1 build does. Format loosely based on [Keep a Changelog]
   inject biomes into the vanilla `multi_noise` source Skyseed reads for island theming, and the biomes' features were
   decorating over the void. Also makes the world-creation "Generate Structures" toggle moot — structures are grown from
   Skyseed seeds, never generated. All three dims use it (overworld/Nether `skip_decoration: true`; the End keeps
-  decoration so its central island still forms). Affects only newly-created worlds. *(26.1.2: the generator ships but is
-  inert — its `ChunkGenerator` API differs, so the overrides are scoped out via `//?` and it falls back to plain noise;
-  no 26.1.2 behaviour change. See `plannednotes.md` / REFACTORPLAN Stage 2.)*
+  decoration so its central island still forms). Affects only newly-created worlds. *(Works on both build nodes; the
+  only node difference is 26.1.2's `createStructures` 6th param (`ResourceKey<Level>`), handled via a `//?` guard —
+  `applyBiomeDecoration` is identical across nodes.)*
 
 ## [0.164.0] - 2026-06-28
 
