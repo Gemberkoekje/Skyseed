@@ -1,4 +1,5 @@
 {
+  "balm:jade": null,
   "jade:block_face": null,
   "jade:block_properties": null,
   "jade:block_states": null,
@@ -58,5 +59,7 @@
   "minecraft:total_enchantment_power": null,
   "minecraft:villager_profession": null,
   "minecraft:waxed": null,
-  "minecraft:zombie_villager": null
+  "minecraft:zombie_villager": null,
+  "silentgear_jade_tiers:required_tier": null,
+  "waystones:waystone": null
 }
