@@ -1,7 +1,7 @@
 #If maxBlocksBase from veinmining-server.toml is 0, determines how to activate vein mining.
 #IMPORTANT: When using the "HOLD_KEY_DOWN" setting, remember to set a keybinding by going to Options > Controls > Key Binds.
 #Allowed Values: STANDING, CROUCHING, HOLD_KEY_DOWN
-activationState = "HOLD_KEY_DOWN"
+activationState = "STANDING"
 #If maxBlocksBase from veinmining-server.toml is greater than 0, determines how to activate vein mining.
 #IMPORTANT: When using the "HOLD_KEY_DOWN" setting, remember to set a keybinding by going to Options > Controls > Key Binds.
 #Allowed Values: STANDING, CROUCHING, HOLD_KEY_DOWN
