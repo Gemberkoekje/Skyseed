@@ -1,0 +1,58 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "storage"
+	group: ""
+	id: "5C0000000000A005"
+	order_index: 4
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: ["5C0000000000B001"]
+			id: "5C0000000000B401"
+			rewards: [{
+				id: "5C0000000000D401"
+				item: { count: 6, id: "minecraft:iron_ingot" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C401"
+				item: { count: 1, id: "sophisticatedbackpacks:backpack" }
+				type: "item"
+			}]
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B401"]
+			id: "5C0000000000B402"
+			rewards: [{
+				id: "5C0000000000D402"
+				item: { count: 16, id: "minecraft:redstone" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C402"
+				type: "checkmark"
+			}]
+			x: 1.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B401"]
+			id: "5C0000000000B403"
+			rewards: [{
+				id: "5C0000000000D403"
+				item: { count: 4, id: "minecraft:gold_ingot" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C403"
+				item: { count: 1, id: "sophisticatedstorage:barrel" }
+				type: "item"
+			}]
+			x: 1.5d
+			y: 1.5d
+		}
+	]
+}

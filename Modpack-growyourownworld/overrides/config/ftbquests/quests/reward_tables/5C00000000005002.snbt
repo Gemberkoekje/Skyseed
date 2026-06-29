@@ -1,0 +1,13 @@
+{
+	id: "5C00000000005002"
+	loot_size: 1
+	order_index: 1
+	rewards: [
+		{ id: "5C000000000050B1", item: { count: 8, id: "create:andesite_alloy" } }
+		{ id: "5C000000000050B2", item: { count: 4, id: "create:brass_ingot" } }
+		{ id: "5C000000000050B3", item: { count: 4, id: "create:zinc_ingot" } }
+		{ id: "5C000000000050B4", item: { count: 8, id: "minecraft:iron_ingot" } }
+		{ id: "5C000000000050B5", item: { count: 8, id: "minecraft:copper_ingot" } }
+		{ id: "5C000000000050B6", item: { count: 6, id: "minecraft:experience_bottle" } }
+	]
+}
