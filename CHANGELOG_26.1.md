@@ -9,6 +9,14 @@ the version-number sequence, so a version can appear in one changelog and not th
 > Stage 3 (generalize/document) in `REFACTORPLAN.md`. The per-feature build plans (the gametest harness, the recipe
 > generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.166.0] - 2026-06-29
+
+### Added
+- **Theme overrides** — the `skyseed:theme_override` datapack merge layer (shared with the 1.21.1 build; see
+  [CHANGELOG_1.21.1.md](CHANGELOG_1.21.1.md) for the full description). Lets the modpack / other mods extend Skyseed
+  islands by dropping a datapack patch (e.g. add `create:zinc_ore` to the rocky island). Pure codec/Java — no per-node
+  `//?` needed; both nodes' gametests green.
+
 ## [0.165.0] - 2026-06-29
 
 ### Added

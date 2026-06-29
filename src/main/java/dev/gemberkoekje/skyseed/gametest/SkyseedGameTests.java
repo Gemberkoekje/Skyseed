@@ -1,5 +1,7 @@
 package dev.gemberkoekje.skyseed.gametest;
 
+import com.google.gson.JsonParser;
+import com.mojang.serialization.JsonOps;
 import dev.gemberkoekje.skyseed.Skyseed;
 import dev.gemberkoekje.skyseed.compat.Id;
 import dev.gemberkoekje.skyseed.compat.Ids;
@@ -20,6 +22,8 @@ import dev.gemberkoekje.skyseed.worldgen.TwinPlacer;
 import dev.gemberkoekje.skyseed.worldgen.structure.PathSurfacer;
 import dev.gemberkoekje.skyseed.worldgen.theme.BiomeOverride;
 import dev.gemberkoekje.skyseed.worldgen.theme.IslandTheme;
+import dev.gemberkoekje.skyseed.worldgen.theme.ThemeOverride;
+import dev.gemberkoekje.skyseed.worldgen.theme.Themes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -101,6 +105,60 @@ public final class SkyseedGameTests {
         final IslandPlan p = plan(helper, "rocky", 1L);
         helper.assertTrue(!p.blocks().isEmpty(), "planIsland produced no blocks for 'rocky'");
         helper.assertTrue(p.blocks().size() > 100, "a rocky island should be more than 100 blocks");
+        helper.succeed();
+    }
+
+    /** Theme-override merge: a patch appends to list fields and an empty patch is a strict no-op (golden-master safety). */
+    @GameTest(template = REGION)
+    public static void themeOverrideMergesOntoBase(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme base = theme(level, "rocky");
+        final int baseOres = base.ores().size();
+
+        // Decoded from JSON (also exercises the flattened ThemeOverride codec): appends one ore, touching nothing else.
+        final String json = "{\"target\":\"skyseed:rocky\",\"ores\":[{\"block\":\"minecraft:diamond_ore\","
+                + "\"chance\":0.5,\"count\":{\"min\":1,\"max\":2},\"vein_size\":{\"min\":1,\"max\":2},\"depth\":\"core\"}]}";
+        final ThemeOverride ov = ThemeOverride.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseString(json)).getOrThrow();
+        helper.assertTrue(ov.target().equals(Id.of("skyseed:rocky")), "override target mis-parsed");
+
+        final IslandTheme merged = ov.applyTo(base);
+        helper.assertTrue(merged.ores().size() == baseOres + 1, "override should append exactly one ore");
+        helper.assertTrue(merged.mobs() == base.mobs(), "untouched lists should stay the same reference");
+
+        // An empty patch (only a target) must be a strict no-op — this is what keeps the golden master byte-identical.
+        final ThemeOverride empty = ThemeOverride.CODEC
+                .parse(JsonOps.INSTANCE, JsonParser.parseString("{\"target\":\"skyseed:rocky\"}")).getOrThrow();
+        helper.assertTrue(empty.applyTo(base).equals(base), "an empty override must leave the theme unchanged");
+
+        helper.succeed();
+    }
+
+    /** The shipped first-party Create compat datapack: rocky's resolved ores gain create:zinc_ore (inert without Create). */
+    @GameTest(template = REGION)
+    public static void createZincCompatTargetsRocky(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme baseRocky = theme(level, "rocky");
+        final IslandTheme resolved = Themes.resolve(level.registryAccess(), Id.of("skyseed:rocky"));
+        helper.assertTrue(resolved != null, "rocky must resolve");
+        helper.assertTrue(resolved.ores().size() > baseRocky.ores().size(),
+                "the shipped create_rocky theme_override should add an ore to rocky");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("create:zinc_ore")),
+                "rocky's resolved ores should include create:zinc_ore");
+        helper.succeed();
+    }
+
+    /** Band-merge: the deep-band patch selector-matches rocky's max_y:8 band, so resolved rocky's deep band gains deepslate zinc. */
+    @GameTest(template = REGION)
+    public static void createZincReachesRockyDeepBand(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:rocky"));
+        helper.assertTrue(resolved != null, "rocky must resolve");
+        final var deepBand = resolved.biomeOverrides().stream()
+                .filter(b -> b.maxY().equals(java.util.Optional.of(8)) && b.biomes().isEmpty() && b.minY().isEmpty())
+                .findFirst();
+        helper.assertTrue(deepBand.isPresent(), "rocky should keep its single max_y=8 deep band (merged, not duplicated)");
+        helper.assertTrue(deepBand.get().ores().isPresent() && deepBand.get().ores().get().stream()
+                        .anyMatch(o -> o.block().value().equals("create:deepslate_zinc_ore")),
+                "the deep band should include create:deepslate_zinc_ore after the selector band-merge");
         helper.succeed();
     }
 

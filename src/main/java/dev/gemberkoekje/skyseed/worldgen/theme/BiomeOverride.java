@@ -10,6 +10,7 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * A conditional tweak applied on top of a theme's base config when a seed germinates somewhere that
@@ -94,5 +95,50 @@ public record BiomeOverride(
             }
         }
         return false;
+    }
+
+    /**
+     * True if {@code o} selects the same islands as this band — same {@code biomes} / {@code minY} / {@code maxY} /
+     * {@code dimension}. {@code Themes#resolve} uses this to MERGE a {@link ThemeOverride} band into the matching base
+     * band, instead of appending a band that would lose the first-match and silently do nothing.
+     */
+    public boolean sameSelectorAs(BiomeOverride o) {
+        return biomes.equals(o.biomes) && minY.equals(o.minY) && maxY.equals(o.maxY) && dimension.equals(o.dimension);
+    }
+
+    /**
+     * Merge {@code patch}'s content onto this band, keeping this band's selector: list fields (ores / variants / mobs /
+     * surface_scatter / fill_bands) <b>append</b>, present scalar fields <b>replace</b>. Lets a theme-override inject
+     * e.g. deepslate zinc into an existing deep ({@code max_y: 8}) band.
+     */
+    public BiomeOverride mergedWith(BiomeOverride patch) {
+        return new BiomeOverride(
+                biomes, minY, maxY,
+                patch.snow.isPresent() ? patch.snow : snow,
+                patch.surface.isPresent() ? patch.surface : surface,
+                patch.fill.isPresent() ? patch.fill : fill,
+                patch.core.isPresent() ? patch.core : core,
+                patch.fillDepth.isPresent() ? patch.fillDepth : fillDepth,
+                concat(surfaceScatter, patch.surfaceScatter),
+                patch.shape.isPresent() ? patch.shape : shape,
+                concat(ores, patch.ores),
+                concat(variants, patch.variants),
+                patch.pond.isPresent() ? patch.pond : pond,
+                patch.waterfalls.isPresent() ? patch.waterfalls : waterfalls,
+                concat(mobs, patch.mobs),
+                dimension,
+                concat(fillBands, patch.fillBands),
+                patch.jigsaw.isPresent() ? patch.jigsaw : jigsaw);
+    }
+
+    /** Append optional list {@code b} onto {@code a}; returns the populated side untouched when the other is empty. */
+    private static <T> Optional<List<T>> concat(Optional<List<T>> a, Optional<List<T>> b) {
+        if (b.isEmpty() || b.get().isEmpty()) {
+            return a;
+        }
+        if (a.isEmpty() || a.get().isEmpty()) {
+            return b;
+        }
+        return Optional.of(Stream.concat(a.get().stream(), b.get().stream()).toList());
     }
 }

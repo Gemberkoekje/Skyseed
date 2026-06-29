@@ -1,0 +1,12 @@
+{
+  "_comment": "First-party Create compat: zinc on the rocky mining island. Inert without Create (the unknown ore is skipped before any RNG, so generation is byte-identical). The deep-band patch selector-matches rocky's max_y:8 deepslate band so growing low still yields zinc.",
+  "target": "skyseed:rocky",
+  "ores": [
+    { "block": "create:zinc_ore", "chance": 0.90, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" }
+  ],
+  "biome_overrides": [
+    { "max_y": 8, "ores": [
+      { "block": "create:deepslate_zinc_ore", "chance": 0.80, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" }
+    ] }
+  ]
+}

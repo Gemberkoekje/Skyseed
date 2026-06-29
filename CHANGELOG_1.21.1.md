@@ -5,6 +5,26 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.166.0] - 2026-06-29
+
+### Added
+- **Theme overrides — a datapack merge layer so the modpack or other mods can extend Skyseed islands without editing
+  the base themes.** New `skyseed:theme_override` datapack registry: drop a `data/<ns>/skyseed/theme_override/*.json`
+  naming a `target` theme plus any theme fields, and they're merged in at resolution time — **list** fields (ores,
+  mobs, variants, animals, rare_structures, dimensions) **append**, and **biome_overrides merge by selector** (a patch
+  band keyed to an existing band's biomes / Y-range / dimension injects its ores into that band; otherwise it's added as
+  a new band); **optional scalars** (shape, palette, pond, jigsaw, lava, twin, ladder_shaft, fizzle, caves) **replace**.
+  E.g. a Create-compat patch adds `create:zinc_ore` to the rocky island, including its deep band. With no patch
+  targeting a theme the base is returned unchanged, so generation (and the golden master) stays byte-identical. New
+  gametests cover the append, the no-op, and the band-merge.
+- **First-party Create compat (ships with Skyseed, inert without Create):** zinc on the mining islands — `create:zinc_ore`
+  on the **rocky** family (rocky / rocky_large / huge_rocky, mirroring their copper — *plus* `create:deepslate_zinc_ore`
+  band-merged into each one's deep `max_y:8` table so growing low still yields zinc) and `create:deepslate_zinc_ore` on
+  the deepslate-bodied **ancient** family (ancient / ancient_large / huge_ancient). Unknown ores are skipped before any
+  RNG ([OrePlanner](src/main/java/dev/gemberkoekje/skyseed/worldgen/OrePlanner.java)), so a no-Create world generates
+  byte-identically; with Create installed, zinc appears alongside copper at every depth. Surface biomes and the
+  trial-chamber (its copper is structural) are intentionally left out.
+
 ## [0.165.0] - 2026-06-29
 
 ### Added

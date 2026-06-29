@@ -1,0 +1,12 @@
+{
+  "_comment": "First-party Create compat: zinc on the large rocky island (top band) + deepslate zinc merged into its max_y:8 deep band. Inert without Create.",
+  "target": "skyseed:rocky_large",
+  "ores": [
+    { "block": "create:zinc_ore", "chance": 0.90, "count": { "min": 9, "max": 13 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" }
+  ],
+  "biome_overrides": [
+    { "max_y": 8, "ores": [
+      { "block": "create:deepslate_zinc_ore", "chance": 0.80, "count": { "min": 3, "max": 5 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" }
+    ] }
+  ]
+}
