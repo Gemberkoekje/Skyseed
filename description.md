@@ -161,4 +161,4 @@ The three chapters, overworld, Nether and End, are all built out, so what's left
 
 ---
 
-*Bug reports and feedback welcome. For add-on makers: every seed is a normal item in the `#skyseed:skyseeds` tag and the islands are plain datapack JSON, so adding new seeds is straightforward.*
+*Bug reports and feedback welcome, these can be reported on the issues page of the github (https://github.com/Gemberkoekje/Skyseed/issues). For add-on makers: every seed is a normal item in the `#skyseed:skyseeds` tag and the islands are plain datapack JSON, so adding new seeds is straightforward.*
