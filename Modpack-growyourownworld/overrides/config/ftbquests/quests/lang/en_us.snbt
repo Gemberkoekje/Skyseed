@@ -299,4 +299,69 @@
 	task.5C0000000000C216.title: "Build and fly a jetpack"
 	task.5C0000000000C217.title: "Try a content add-on"
 	task.5C0000000000C218.title: "Decorate your base"
+	chapter.5C0000000000A007.title: "Mystical Agriculture"
+	quest.5C0000000000B601.quest_desc: [
+		"No farmland out here? No problem. §eBotany Pots§r grow crops, saplings and more with §eno tilled soil needed§r — just the pot and a soil block dropped inside."
+		""
+		"Craft a §eTerracotta Botany Pot§r and add a soil. Pots are the backbone of farming in the void — and of Mystical Agriculture."
+	]
+	quest.5C0000000000B601.quest_subtitle: "Botany Pots"
+	quest.5C0000000000B601.title: "Pot It Up"
+	quest.5C0000000000B602.quest_desc: [
+		"§eMystical Agriculture§r lets you §egrow§r resources as crops. It starts with two ores — and in this world they come from one place."
+		""
+		"Grow an §eAncient§r island (throw a Rocky seed low) and mine its §eProsperity§r and §eInferium§r ore. §eProsperity Shards§r are the gate: nothing else drops them."
+	]
+	quest.5C0000000000B602.quest_subtitle: "Mystical Agriculture's ore"
+	quest.5C0000000000B602.title: "Prosperity Found"
+	quest.5C0000000000B603.quest_desc: [
+		"Crush or smelt §eProsperity Ore§r for §eProsperity Shards§r, and gather §eInferium Essence§r — from Inferium Ore, or from §eany mob§r (they all drop a little)."
+		""
+		"Combine Inferium Essence on §eDirt§r to make §eInferium Farmland§r (your pot soil), and craft a §eProsperity Seed Base§r — the heart of every Mystical seed."
+	]
+	quest.5C0000000000B603.quest_subtitle: "Inferium → seed base"
+	quest.5C0000000000B603.title: "First Essence"
+	quest.5C0000000000B604.quest_desc: [
+		"Craft an §eInferium Seed§r (Prosperity Seed Base + Inferium Essence) and plant it in a §eBotany Pot§r on §eInferium Farmland§r."
+		""
+		"Harvest it for more §eInferium Essence§r — a renewable, land-free essence farm. Resource seeds (iron, gold, diamond…) work the same way once you have the materials."
+	]
+	quest.5C0000000000B604.quest_subtitle: "Grow your first crop"
+	quest.5C0000000000B604.title: "Sow a Seed"
+	quest.5C0000000000B605.quest_desc: [
+		"Essence climbs §eInferium → Prudentium → Tertium → Imperium → Supremium§r — combine four of one tier to make the next."
+		""
+		"Build an §eInfusion Altar§r and an §eInfusion Crystal§r to craft the bigger seeds, and raise your farmland tier to match higher crops. §7A Growth Accelerator under a pot speeds things up.§r"
+	]
+	quest.5C0000000000B605.quest_subtitle: "Infusion Altar"
+	quest.5C0000000000B605.title: "Climb the Tiers"
+	quest.5C0000000000B606.quest_desc: [
+		"§eCreate: Mechanical Botany§r adds a §eMechanical Insolator§r — a Create-powered Botany Pot that grows and harvests on its own, driven by §erotation§r (it draws Stress like any Create machine)."
+		""
+		"Line up insolators on a belt and your essence farms run themselves. Pairs perfectly with the Create power you already have."
+	]
+	quest.5C0000000000B606.quest_subtitle: "Create: Mechanical Botany"
+	quest.5C0000000000B606.title: "Hands-Free Harvest"
+	quest.5C0000000000B607.quest_desc: [
+		"§eBotany Trees§r lets Botany Pots grow full §etrees§r from saplings — a compact, renewable §ewood§r farm with no land and no axe-swinging."
+		""
+		"Drop a sapling in a pot with the right soil and let it grow; automate it with the Mechanical Insolator for endless logs."
+	]
+	quest.5C0000000000B607.quest_subtitle: "Botany Trees"
+	quest.5C0000000000B607.title: "Tree Farm"
+	quest.5C0000000000B608.quest_desc: [
+		"Mine §eSoulium Ore§r off a §eNether Soul§r island, craft a §eSoulium Dagger§r, and use it to harvest §emob souls§r."
+		""
+		"Those souls craft §eMob Seeds§r — grow zombies, skeletons, creepers and more as crops, for fully renewable mob drops without a spawner."
+	]
+	quest.5C0000000000B608.quest_subtitle: "Soulium Dagger & mob seeds"
+	quest.5C0000000000B608.title: "Soul Harvest"
+	quest.5C0000000000B609.quest_desc: [
+		"§eMystical Agradditions§r adds the §eInsanium§r tier above Supremium — plus §eTier-6 crops§r for the truly rare (Nether Star, Dragon Egg and more), grown on dedicated Crux blocks."
+		""
+		"This is the deep end of Mystical farming. Build it once and grow almost anything."
+	]
+	quest.5C0000000000B609.quest_subtitle: "Mystical Agradditions"
+	quest.5C0000000000B609.title: "The Insane Tier"
+	task.5C0000000000C607.title: "Grow a tree in a Botany Pot"
 }
