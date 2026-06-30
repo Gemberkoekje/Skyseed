@@ -1,0 +1,21 @@
+{
+  "_comment": "First-party Oh The Biomes We've Gone compat (wood islands): wood-bearing BWG biomes adapt the Forest island to BWG trees. These bands are PREPENDED by ThemeOverride.Patch.mergeBands so they win the first-match over the base #is_forest/#is_taiga/#is_jungle/#is_savanna catch-alls (BWG biomes are transitively in those vanilla tags via #biomeswevegone:forest etc.). Inert without BWG: every biomeswevegone: id is unknown so the bands never match (Lookup.biomeMatches returns false) and generation stays byte-identical. BWG *_trees features are random_selectors (one placement = one random wood variant), used like minecraft:oak.",
+  "target": "skyseed:forest",
+  "biome_overrides": [
+    { "biomes": ["biomeswevegone:aspen_boreal"], "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.20 } ], "variants": [ { "weight": 1, "name": "aspen", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:aspen_trees", "tries": 6, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+    { "biomes": ["biomeswevegone:baobab_savanna"], "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.15 } ], "variants": [ { "weight": 1, "name": "baobab", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:baobab_trees", "tries": 3, "spacing": 3 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 }, { "block": "minecraft:dead_bush", "chance": 0.04 } ] } } ] },
+    { "biomes": ["biomeswevegone:cika_woods"], "variants": [ { "weight": 1, "name": "cika", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:cika_trees", "tries": 6, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.35 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+    { "biomes": ["biomeswevegone:jacaranda_jungle"], "variants": [ { "weight": 1, "name": "jacaranda", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:jacaranda_trees", "tries": 5, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+    { "biomes": ["biomeswevegone:maple_taiga"], "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.25 } ], "variants": [ { "weight": 1, "name": "maple", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:maple_trees", "tries": 5, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.20 } ] } } ] }
+  ]
+}

@@ -188,6 +188,27 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    /** The shipped first-party BWG compat datapack: forest's resolved biome_overrides gain BWG wood bands, PREPENDED
+     *  ahead of the base #is_forest catch-all so they win the first-match (BWG biomes are transitively in #is_forest via
+     *  #biomeswevegone:forest, so an APPENDED band would be silently shadowed). Inert without BWG. */
+    @GameTest(template = REGION)
+    public static void biomeswevegoneCompatPrependsForestBands(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:forest"));
+        helper.assertTrue(resolved != null, "forest must resolve");
+        final var bands = resolved.biomeOverrides();
+        int bwgIdx = -1, catchAllIdx = -1;
+        for (int i = 0; i < bands.size(); i++) {
+            final var b = bands.get(i);
+            if (bwgIdx < 0 && b.biomes().contains("biomeswevegone:aspen_boreal")) bwgIdx = i;
+            if (catchAllIdx < 0 && b.biomes().contains("#minecraft:is_forest")) catchAllIdx = i;
+        }
+        helper.assertTrue(bwgIdx >= 0, "the shipped biomeswevegone_forest theme_override should add a biomeswevegone:aspen_boreal band");
+        helper.assertTrue(catchAllIdx >= 0, "forest must keep its base #minecraft:is_forest catch-all band");
+        helper.assertTrue(bwgIdx < catchAllIdx,
+                "the BWG band (idx " + bwgIdx + ") must be PREPENDED ahead of the #is_forest catch-all (idx " + catchAllIdx + ") to win the first-match");
+        helper.succeed();
+    }
+
     @GameTest(template = REGION)
     public static void rockyAdaptsInTheNether(GameTestHelper helper) {
         // Thrown in the Nether, the Rocky seed adapts (SKYNETHERPLAN): a netherrack body over a blackstone core

@@ -5,6 +5,22 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.170.0] - 2026-06-30
+
+### Added
+- **First-party Oh The Biomes We've Gone compat (ships with Skyseed, inert without BWG).** A `theme_override` adapts the
+  **Forest** island (+ large/huge) to BWG's wood biomes: throw a Forest seed over `aspen_boreal`, `baobab_savanna`,
+  `cika_woods`, `jacaranda_jungle` or `maple_taiga` (which sit in the void's biome layout via the multi-noise overworld
+  preset) and the island grows that biome's BWG trees instead of vanilla oak. Like the Create/MA compat, every
+  `biomeswevegone:` id is unknown without BWG, so the bands never match and generation stays byte-identical.
+
+### Changed
+- **`theme_override` biome bands now take precedence over the base theme's bands (prepend, not append).** A patch band
+  whose selector matches no base band is prepended ahead of the base bands so it wins the first-match. A modded biome is
+  typically transitively under one of a base theme's vanilla `#is_*` catch-alls (BWG's biomes are in `#is_forest` via
+  `#biomeswevegone:forest`), so the previous append left such a band silently shadowed — prepending is what lets a
+  third-party / modpack `theme_override` actually adapt an island to its own biome without editing Skyseed's base themes.
+
 ## [0.169.0] - 2026-06-30
 
 ### Added
