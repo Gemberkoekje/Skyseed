@@ -26,6 +26,8 @@ the version-number sequence, so a version can appear in one changelog and not th
 - **Denser forests on the large/huge tiers** — forest-character biomes (vanilla `#is_forest`/dark/birch/taiga/jungle +
   the BWG wood biomes) get much higher tree `tries` on the large/huge Forest islands; open biomes (plains/savanna/beach/
   desert) keep their scattered counts, and the BWG bands now scale per tier.
+- **Rounded banks on the deep lakes** — the deep (depth ≥ 4) water pools (Huge Forest lake, Large Aquatic ponds, Large
+  Lush pond) get `pond.slope: true` instead of a sheer drop; shallow base ponds and lava lagoons keep their steep edge.
 
 ## [0.166.0] - 2026-06-29
 

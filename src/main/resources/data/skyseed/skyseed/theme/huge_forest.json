@@ -67,6 +67,7 @@
     "block": "minecraft:water",
     "radius": 9,
     "depth": 4,
+    "slope": true,
     "plants": [
       {
         "block": "minecraft:lily_pad",

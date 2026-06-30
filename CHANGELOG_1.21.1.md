@@ -30,6 +30,9 @@ change when only the 26.1 build does. Format loosely based on [Keep a Changelog]
   the BWG wood biomes — get much higher tree `tries` on the large and huge Forest islands so they read as real forests
   rather than grassland-with-trees; genuinely open biomes (plains, savanna, beach, desert) keep their scattered counts,
   and the BWG bands (previously flat across tiers) now scale per tier.
+- **Rounded banks on the deep lakes.** The deep (depth ≥ 4) water pools — the Huge Forest central lake, the Large
+  Aquatic ponds, and the Large Lush pond — get `pond.slope: true` (a basin that shallows to the shore) instead of a
+  sheer drop. Shallow base ponds (depth ≤ 3) and the contained lava lagoons keep their steep edge.
 
 ## [0.169.0] - 2026-06-30
 
