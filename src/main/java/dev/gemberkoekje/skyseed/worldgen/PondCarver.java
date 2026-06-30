@@ -122,7 +122,8 @@ final class PondCarver {
      * before plants and banks so decorations sit on the finished, contained edge.
      */
     static void containPond(Map<BlockPos, BlockState> blockMap, List<BlockPos> surfaceList, BlockPos center,
-                            int waterY, int bottomY, BlockState surface, BlockState fill, Set<Long> carved, RandomSource random) {
+                            int waterY, int bottomY, BlockState surface, BlockState fill, Set<Long> carved, RandomSource random,
+                            boolean river) {
         // 1) Pond bed: the block the water rests on, seen through the surface (per-column floor for a sloped basin).
         for (long k : carved) {
             final int bx = center.getX() + (int) (k >> 32), bz = center.getZ() + (int) k;
@@ -135,6 +136,10 @@ final class PondCarver {
             }
         }
         // 2) Containing ring + shore: every land column touching the water.
+        // A river runs to the rim and would otherwise sheet off all along its banks; wall it into a contained channel,
+        // keeping only a few coarse stretches open as deliberate falls. Rolled only for a river, so a plain pond's later
+        // RNG (and generation) is unchanged.
+        final long riverSalt = river ? random.nextLong() : 0L;
         final Set<Long> handled = new HashSet<>();
         final List<BlockPos> newRim = new ArrayList<>();
         for (long k : carved) {
@@ -149,9 +154,10 @@ final class PondCarver {
                 }
                 final int nx = center.getX() + ndx;
                 final int nz = center.getZ() + ndz;
-                // The ring needs island body beneath the floor to rest on; with none, leave it open (a small
-                // waterfall is acceptable variety) rather than hang a wall in the void.
-                if (!blockMap.containsKey(new BlockPos(nx, bottomY - 1, nz))) {
+                // The ring needs island body beneath the floor to rest on. With none: a POND leaves it open (a rare,
+                // acceptable small waterfall); a RIVER would otherwise spill all along the rim, so it gets walled (a
+                // thin lip hung over the void) except at a few coarse stretches kept open as deliberate falls.
+                if (!blockMap.containsKey(new BlockPos(nx, bottomY - 1, nz)) && (!river || waterfallHere(ndx, ndz, riverSalt))) {
                     continue;
                 }
                 final BlockPos top = new BlockPos(nx, waterY, nz);
@@ -184,15 +190,15 @@ final class PondCarver {
      * so it can't spill the pool — and the flush inner ring it creates is exactly where sugar cane can then grow.
      */
     static void terraceBanks(Map<BlockPos, BlockState> blockMap, List<BlockPos> surfaceList, BlockPos center,
-                             int waterY, Set<Long> carved, BlockState surface, RandomSource random) {
+                             int waterY, Set<Long> carved, BlockState surface, RandomSource random, boolean river) {
         if (carved.isEmpty()) {
             return;
         }
         final float style = random.nextFloat();
-        if (style < 0.34f) {
-            return; // STEEP island — leave the carve sheer
+        if (!river && style < 0.34f) {
+            return; // STEEP island — leave the carve sheer (ponds only; a river always softens so it never reads as a trench)
         }
-        final boolean mixed = style >= 0.67f; // else SLOPED (every stretch); MIXED slopes only some stretches
+        final boolean mixed = !river && style >= 0.67f; // a river fully slopes; a pond may be STEEP / SLOPED / MIXED
         final int steps = 2 + random.nextInt(2); // slope length: 2-3 rings out from the water
         final long salt = random.nextLong(); // a per-island pattern for the mixed style
 
@@ -249,6 +255,13 @@ final class PondCarver {
         long h = (((long) (wx >> 3)) * 0x9E3779B97F4A7C15L) ^ (((long) (wz >> 3)) * 0xC2B2AE3D27D4EB4FL) ^ salt;
         h ^= h >>> 31;
         return (h & 1L) == 0L;
+    }
+
+    /** Coarse ~8-block-region gate for the few rim stretches where a contained river is still left open as a waterfall. */
+    private static boolean waterfallHere(int wx, int wz, long salt) {
+        long h = (((long) (wx >> 3)) * 0x85EBCA77C2B2AE63L) ^ (((long) (wz >> 3)) * 0x9E3779B97F4A7C15L) ^ salt;
+        h ^= h >>> 29;
+        return Math.floorMod(h, 4L) == 0L; // ~1 in 4 rim regions spills; the rest is walled into the channel
     }
 
     /** Pond-bed material: mostly sand, some gravel and clay. @return the bed block, or {@code null} to keep the island's own block. */

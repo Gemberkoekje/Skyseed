@@ -7,7 +7,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "The $(item)Huge Forest Skyseed$() — a sprawling oak-and-birch landmass, far bigger than a Large island, with a central lake and a deep, ore-rich body.$(br2)$(bold)The cost$()$(br)End-game, like all huge seeds: a $(item)Large Forest Skyseed$() ringed between an $(item)Ender Pearl$() and $(item)Blaze Powder$(), packed in dirt — both come from the $(item)Nether$(), so you want it, you farm for it."
+      "text": "The $(item)Huge Forest Skyseed$() — a sprawling oak-and-birch landmass, far bigger than a Large island, with a deep, ore-rich body. It may come with a central lake, a river winding across it, or neither — an unbroken sea of trees.$(br2)$(bold)The cost$()$(br)End-game, like all huge seeds: a $(item)Large Forest Skyseed$() ringed between an $(item)Ender Pearl$() and $(item)Blaze Powder$(), packed in dirt — both come from the $(item)Nether$(), so you want it, you farm for it."
     },
     {
       "type": "patchouli:crafting",
@@ -17,7 +17,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(bold)What you get$()$(br)A vast forest to build on — dozens of trees, a lake, and a thick stone body veined with coal, iron and copper. $(br2)Cave systems and the rare buried structure are coming in a later update.",
+      "text": "$(bold)What you get$()$(br)A vast forest to build on — dozens of trees, a thick stone body veined with coal, iron and copper, and (some of the time) a central lake or a winding river. $(br2)Cave systems and the rare buried structure are coming in a later update.",
       "advancement": "skyseed:craft_huge_forest"
     }
   ]

@@ -18,11 +18,12 @@ import java.util.stream.Stream;
  * {@link IslandTheme}, so a patch reads like a theme with only the bits you want to add. Multiple patches may target
  * one theme (applied in id order — see {@link Themes#resolve}).
  *
- * <p>Merge rules ({@link Patch#applyTo}): the <b>list</b> fields (ores / variants / biome_overrides / mobs / animals /
- * rare_structures / dimensions) are <b>appended</b> to the base; the <b>optional scalar</b> fields (shape / palette /
- * pond / jigsaw / lava / twin / ladder_shaft / fizzle / caves) <b>replace</b> the base's value only when the patch
- * specifies them. With no patch targeting a theme the resolver returns the base unchanged, so generation (and the
- * golden master) is byte-identical to a build with no overrides.
+ * <p>Merge rules ({@link Patch#applyTo}): the <b>list</b> fields (ores / variants / mobs / animals / rare_structures /
+ * dimensions) are <b>appended</b> to the base; <b>biome_overrides</b> merge by selector and otherwise <b>prepend</b>
+ * so a patch band wins the first-match (see {@link Patch#mergeBands}); the <b>optional scalar</b> fields (shape /
+ * palette / pond / jigsaw / lava / twin / ladder_shaft / fizzle / caves) <b>replace</b> the base's value only when the
+ * patch specifies them. With no patch targeting a theme the resolver returns the base unchanged, so generation (and
+ * the golden master) is byte-identical to a build with no overrides.
  */
 public record ThemeOverride(Id target, Patch patch) {
 
@@ -94,14 +95,19 @@ public record ThemeOverride(Id target, Patch patch) {
 
         /**
          * Merge each patch band into the base band with the same selector (so e.g. a {@code max_y: 8} patch injects into
-         * the existing deep band instead of appending a band that would lose the first-match). A patch band whose
-         * selector matches no base band is appended as a new band (the way a mod adds a whole new dimension/biome band).
+         * the existing deep band instead of replacing it). A patch band whose selector matches no base band is
+         * <b>prepended</b> ahead of the base bands so it wins the first-match (see {@link BiomeOverride#matches}): a
+         * modded biome is typically transitively under one of the base theme's vanilla {@code #is_*} catch-alls (e.g.
+         * BWG's biomes sit in {@code #is_forest} via {@code #biomeswevegone:forest}), so an APPENDED band would be
+         * silently shadowed by that catch-all. Prepending lets a third-party / modpack {@code theme_override} adapt an
+         * island to its own biome without editing Skyseed's base themes.
          */
         private static List<BiomeOverride> mergeBands(List<BiomeOverride> base, List<BiomeOverride> patches) {
             if (patches.isEmpty()) {
                 return base;
             }
             final List<BiomeOverride> result = new ArrayList<>(base);
+            final List<BiomeOverride> prepend = new ArrayList<>();
             for (BiomeOverride patch : patches) {
                 boolean merged = false;
                 for (int i = 0; i < result.size(); i++) {
@@ -111,10 +117,11 @@ public record ThemeOverride(Id target, Patch patch) {
                     }
                 }
                 if (!merged) {
-                    result.add(patch);
+                    prepend.add(patch);
                 }
             }
-            return result;
+            prepend.addAll(result);
+            return prepend;
         }
     }
 }

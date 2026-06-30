@@ -188,6 +188,31 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    /** The shipped first-party BWG compat datapack: forest's resolved biome_overrides gain BWG wood bands, PREPENDED
+     *  ahead of the base #is_forest catch-all so they win the first-match (BWG biomes are transitively in #is_forest via
+     *  #biomeswevegone:forest, so an APPENDED band would be silently shadowed). Inert without BWG. */
+    @GameTest(template = REGION)
+    public static void biomeswevegoneCompatPrependsForestBands(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:forest"));
+        helper.assertTrue(resolved != null, "forest must resolve");
+        final var bands = resolved.biomeOverrides();
+        int bwgIdx = -1, catchAllIdx = -1;
+        for (int i = 0; i < bands.size(); i++) {
+            final var b = bands.get(i);
+            if (bwgIdx < 0 && b.biomes().contains("biomeswevegone:aspen_boreal")) bwgIdx = i;
+            if (catchAllIdx < 0 && b.biomes().contains("#minecraft:is_forest")) catchAllIdx = i;
+        }
+        helper.assertTrue(bwgIdx >= 0, "the shipped biomeswevegone_forest theme_override should add a biomeswevegone:aspen_boreal band");
+        helper.assertTrue(catchAllIdx >= 0, "forest must keep its base #minecraft:is_forest catch-all band");
+        helper.assertTrue(bwgIdx < catchAllIdx,
+                "the BWG band (idx " + bwgIdx + ") must be PREPENDED ahead of the #is_forest catch-all (idx " + catchAllIdx + ") to win the first-match");
+        // Guard against a stale staged datapack copy: the last wood band added must be present too (else only an old
+        // subset was loaded). ironwood_gour is the final band in the shipped biomeswevegone_forest override.
+        helper.assertTrue(bands.stream().anyMatch(b -> b.biomes().contains("biomeswevegone:ironwood_gour")),
+                "the biomeswevegone_forest override should include all wood bands through ironwood_gour");
+        helper.succeed();
+    }
+
     @GameTest(template = REGION)
     public static void rockyAdaptsInTheNether(GameTestHelper helper) {
         // Thrown in the Nether, the Rocky seed adapts (SKYNETHERPLAN): a netherrack body over a blackstone core
@@ -1774,6 +1799,28 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    /** huge_forest's pond rolls 25% lake / 25% river / 50% dry (Pond.chance + .river). Over many seeds both a dry and a
+     *  watered island must appear — confirms the chance roll fires (and that a plain pond, chance 1, is unaffected). */
+    @GameTest(template = REGION)
+    public static void hugeForestWaterFeatureRolls(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme t = theme(level, "huge_forest");
+        final var plains = level.registryAccess().registryOrThrow(Registries.BIOME)
+                .getHolderOrThrow(ResourceKey.create(Registries.BIOME, ResourceLocation.parse("minecraft:plains")));
+        boolean sawDry = false, sawWater = false;
+        for (long seed = 0; seed < 120 && !(sawDry && sawWater); seed++) {
+            final IslandPlan p = IslandGenerator.planIsland(level, new BlockPos(40, 80, 40), t, plains, RandomSource.create(seed));
+            boolean water = false;
+            for (final IslandPlan.BlockPlacement bp : p.blocks()) {
+                if (bp.state().is(Blocks.WATER)) { water = true; break; }
+            }
+            if (water) sawWater = true; else sawDry = true;
+        }
+        helper.assertTrue(sawWater, "some huge_forest seeds should roll a water feature (lake or river)");
+        helper.assertTrue(sawDry, "some huge_forest seeds should roll dry (no water feature)");
+        helper.succeed();
+    }
+
     @GameTest(template = REGION)
     public static void shapeBuilderCapsSurfaceAndBuriesCore(GameTestHelper helper) {
         // Backs ShapeBuilder.build's terrain + column-list outputs (the buffers a parameter-object refactor bundles and
@@ -2605,6 +2652,13 @@ public final class SkyseedGameTests {
         }
         helper.assertTrue(biomeForced > 10, "auto scan should make many biome-override debug seeds (got " + biomeForced + ")");
         helper.assertTrue(rareForced > 0, "auto scan should make rare-structure debug seeds (got " + rareForced + ")");
+        // The scan also covers theme_override-added biome bands (attributed to the override's target theme): the BWG
+        // wood biomes live in theme_override, not the base forest theme, so a biomeswevegone:-forced seed must exist.
+        final boolean fromOverride = ModItems.DEBUG_SEEDS.values().stream().anyMatch(h -> {
+            final var fb = h.get().forcedBiome();
+            return fb != null && "biomeswevegone".equals(fb.namespace());
+        });
+        helper.assertTrue(fromOverride, "ThemeScanner should derive debug seeds from theme_override biome bands too (e.g. BWG wood biomes)");
         helper.succeed();
     }
 
@@ -3174,7 +3228,7 @@ public final class SkyseedGameTests {
     /** Recorded fingerprints "blocks/checksum/trees/mobs/animals/jigsaws/hives" — the generation golden master. */
     private static final java.util.Map<String, String> GOLDEN = java.util.Map.of(
             "gametest/island#1", "213/-3285534759166012883/1/2/0/0/23",
-            "gametest/water#4", "1243/-1761234246293413032/0/1/0/0/0",
+            "gametest/water#4", "1253/2695890774865438490/0/1/0/0/0",
             "gametest/features#4", "1356/2766402466658160625/0/0/0/0/0",
             "gametest/structure#11", "566/-538726431172054277/0/0/2/1/0",
             "gametest/bad#4", "197/5964512207029114459/0/0/0/1/0"

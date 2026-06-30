@@ -3,6 +3,9 @@
 Beautification pass for the modpack (NeoForge **1.21.1**, Embeddium-based).
 Locked decisions: **Complementary Reimagined** default shader · **16× / native-res** art baseline (Vanilla Tweaks) · all four extras.
 
+> **Status (PR #14):** **Better Clouds** (volumetric clouds) added. Beautify wins from the BWG work also landed — denser
+> forests on large/huge islands, rounded deep lakes, and contained (walled, bank-softened) rivers.
+
 ---
 
 ## 1. Shaders — Complementary Reimagined + Euphoria Patches

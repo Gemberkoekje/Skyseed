@@ -304,7 +304,7 @@ public final class IslandGenerator {
                         final int lakeBottom = lakeY - Math.max(0, pool.depth() - 1);
                         final BlockState lavaState = resolveBlock(pool.block(), Blocks.LAVA).defaultBlockState();
                         final Set<Long> carved = PondCarver.carvePond(blockMap, surfaceList, center, topDome, lakeY, baseRadius, pool, lavaState, random);
-                        PondCarver.containPond(blockMap, surfaceList, center, lakeY, lakeBottom, cfg.surface(), cfg.fill(), carved, random);
+                        PondCarver.containPond(blockMap, surfaceList, center, lakeY, lakeBottom, cfg.surface(), cfg.fill(), carved, random, false);
                         lavaLake = true;
                     }
                     break; // only the first matching height band rolls
@@ -312,8 +312,8 @@ public final class IslandGenerator {
             }
         }
 
-        final Optional<Pond> pondCfg = (cfg.ov() != null && cfg.ov().pond().isPresent()) ? cfg.ov().pond()
-                : (cfg.useBase() ? theme.pond() : Optional.<Pond>empty());
+        final Optional<Pond> pondCfg = rollWaterFeature((cfg.ov() != null && cfg.ov().pond().isPresent()) ? cfg.ov().pond()
+                : (cfg.useBase() ? theme.pond() : Optional.<Pond>empty()), random);
         final Set<Long> pondColumns = new HashSet<>();
         int pondSurfaceY = center.getY();
         if (!lavaLake && pondCfg.isPresent() && (rare == null || !rare.suppressPond())) {
@@ -326,14 +326,38 @@ public final class IslandGenerator {
             final Set<Long> carved = PondCarver.carvePond(blockMap, surfaceList, center, topDome, waterY, baseRadius, pond, pondWater, random);
             // Wall up any open edge to the water surface (a containing ring) and dress the bed/shore with
             // sand/clay/gravel — before decorations, so cane and lily pads sit on contained ground.
-            PondCarver.containPond(blockMap, surfaceList, center, waterY, bottomY, cfg.surface(), cfg.fill(), carved, random);
+            PondCarver.containPond(blockMap, surfaceList, center, waterY, bottomY, cfg.surface(), cfg.fill(), carved, random, pond.isRiver());
             // Soften the banks (steep / sloped / mixed per island) so a sheer channel can become a gentle shore.
-            PondCarver.terraceBanks(blockMap, surfaceList, center, waterY, carved, cfg.surface(), random);
+            PondCarver.terraceBanks(blockMap, surfaceList, center, waterY, carved, cfg.surface(), random, pond.isRiver());
             PondCarver.placePondPlants(blockMap, center, waterY, pond, carved, random);
             PondCarver.placePondBanks(blockMap, surfaceList, center, pond, carved, random);
             pondColumns.addAll(carved);
         }
         return new Water(pondCfg, pondColumns, pondSurfaceY);
+    }
+
+    /**
+     * Roll a theme/override pond's optional water feature. A pond with {@code chance < 1} is carved only that often (a
+     * miss returns empty — the island comes up dry, and more wooded since it over-plants trees); when it also carries a
+     * {@code river} alternative, a hit is a 50/50 pick between the two ({@code chance 0.5} + a river = 25% pond / 25%
+     * river / 50% dry). A plain pond (chance 1, no river) returns unchanged WITHOUT consuming {@code random}, so every
+     * existing theme stays byte-identical.
+     */
+    private static Optional<Pond> rollWaterFeature(Optional<Pond> pondCfg, RandomSource random) {
+        if (pondCfg.isEmpty()) {
+            return pondCfg;
+        }
+        final Pond p = pondCfg.get();
+        if (p.chance() >= 1.0f && p.river().isEmpty()) {
+            return pondCfg;
+        }
+        if (random.nextFloat() >= p.chance()) {
+            return Optional.empty();
+        }
+        if (p.river().isPresent() && random.nextBoolean()) {
+            return p.river();
+        }
+        return pondCfg;
     }
 
     /** The curated structure pass's output: the jigsaw site(s) to assemble and any guaranteed animal spawns. */

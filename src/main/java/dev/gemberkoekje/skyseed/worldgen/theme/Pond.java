@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.gemberkoekje.skyseed.compat.Id;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A small contained pool carved into the island's top centre (a lake/pond). {@code block} is the
@@ -21,10 +22,17 @@ import java.util.List;
  * island-filling lake/ocean with only a thin land rim, for huge water islands. {@code slope}, when set,
  * shapes the floor as a basin — full {@code depth} in a flat centre, shallowing to the shore — so the edge
  * water is shallow (rests on the rim's body instead of spilling off a sheer deep edge) and the shore eases in.
+ *
+ * <p>{@code chance} (default 1.0) is how often this water feature is carved at all — a lower value leaves the island dry
+ * that often (and, since islands over-plant trees, more wooded). When it IS carved and {@code river} is set, the feature
+ * is a 50/50 pick between this pool and the {@code river} alternative; so {@code chance: 0.5} with a {@code river} gives
+ * 25% this pond / 25% river / 50% dry. A plain pond (chance 1, no river) is always carved and consumes no extra RNG, so
+ * existing themes are byte-identical. The roll is {@link dev.gemberkoekje.skyseed.worldgen.IslandGenerator}'s.
  */
 public record Pond(Id block, int radius, int depth, List<GroundEntry> plants,
-                   List<GroundEntry> bank, List<MobEntry> waterMobs, String style, float extent, boolean slope) {
-    public static final Codec<Pond> CODEC = RecordCodecBuilder.create(i -> i.group(
+                   List<GroundEntry> bank, List<MobEntry> waterMobs, String style, float extent, boolean slope,
+                   float chance, Optional<Pond> river) {
+    public static final Codec<Pond> CODEC = Codec.recursive("Pond", self -> RecordCodecBuilder.create(i -> i.group(
             Id.CODEC.optionalFieldOf("block", Id.of("minecraft:water")).forGetter(Pond::block),
             Codec.INT.optionalFieldOf("radius", 3).forGetter(Pond::radius),
             Codec.INT.optionalFieldOf("depth", 2).forGetter(Pond::depth),
@@ -33,8 +41,10 @@ public record Pond(Id block, int radius, int depth, List<GroundEntry> plants,
             MobEntry.CODEC.listOf().optionalFieldOf("water_mobs", List.of()).forGetter(Pond::waterMobs),
             Codec.STRING.optionalFieldOf("style", "pond").forGetter(Pond::style),
             Codec.FLOAT.optionalFieldOf("extent", 0.5f).forGetter(Pond::extent),
-            Codec.BOOL.optionalFieldOf("slope", false).forGetter(Pond::slope)
-    ).apply(i, Pond::new));
+            Codec.BOOL.optionalFieldOf("slope", false).forGetter(Pond::slope),
+            Codec.FLOAT.optionalFieldOf("chance", 1.0f).forGetter(Pond::chance),
+            self.optionalFieldOf("river").forGetter(Pond::river)
+    ).apply(i, Pond::new)));
 
     public boolean isRiver() {
         return "river".equalsIgnoreCase(style);

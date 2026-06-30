@@ -9,6 +9,32 @@ the version-number sequence, so a version can appear in one changelog and not th
 > Stage 3 (generalize/document) in `REFACTORPLAN.md`. The per-feature build plans (the gametest harness, the recipe
 > generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.170.0] - 2026-06-30
+
+### Added
+- **First-party Oh The Biomes We've Gone compat (ships with Skyseed, inert without BWG).** A `theme_override` adapts the
+  **Forest** island (+ large/huge) to **11 BWG wood biomes** (aspen, baobab, cika, jacaranda, maple, ebony, redwood,
+  zelkova, witch-hazel, sakura, ironwood) so a Forest seed thrown over one grows that biome's BWG trees. Inert without
+  BWG (unknown ids never match) — byte-identical generation.
+- **Optional / random water features (`pond.chance` + `pond.river`)** — a pond can be carved only `chance` of the time
+  and, when it is, be a 50/50 pick between the pool and a `river`. The Huge Forest uses it for 25% lake / 25% river /
+  50% dry. Plain ponds (chance 1, no river) are unchanged and consume no extra RNG.
+- **Rivers are walled in and never sheer** — the planned river-to-rim follow-up: a river's banks always soften, and where
+  it meets the island edge it is walled into a contained channel with only ~1-in-4 coarse rim stretches left open as
+  deliberate waterfalls. Every river (forest / aquatic / huge forest); pond carving unchanged.
+
+### Changed
+- **`theme_override` biome bands now take precedence over the base theme's bands (prepend, not append).** Shared with the
+  1.21.1 build: a patch band whose selector matches no base band is prepended so it wins the first-match over a base
+  theme's vanilla `#is_*` catch-alls (BWG's biomes are transitively under `#is_forest` via `#biomeswevegone:forest`).
+- **Auto debug seeds now cover `theme_override` biome bands** (`ThemeScanner` scans `theme_override/` too) — so the BWG
+  wood biomes get debug seeds attributed to their `target` theme.
+- **Denser forests on the large/huge tiers** — forest-character biomes (vanilla `#is_forest`/dark/birch/taiga/jungle +
+  the BWG wood biomes) get much higher tree `tries` on the large/huge Forest islands; open biomes (plains/savanna/beach/
+  desert) keep their scattered counts, and the BWG bands now scale per tier.
+- **Rounded banks on the deep lakes** — the deep (depth ≥ 4) water pools (Huge Forest lake, Large Aquatic ponds, Large
+  Lush pond) get `pond.slope: true` instead of a sheer drop; shallow base ponds and lava lagoons keep their steep edge.
+
 ## [0.166.0] - 2026-06-29
 
 ### Added

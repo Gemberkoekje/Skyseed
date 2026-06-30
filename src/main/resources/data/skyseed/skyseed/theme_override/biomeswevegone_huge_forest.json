@@ -1,0 +1,39 @@
+{
+  "_comment": "First-party BWG compat (wood islands) for the HUGE Forest island. Same prepended BWG biome bands as biomeswevegone_forest, with tree tries scaled UP for the huge island: forest woods dense (~120), savannas (baobab/ironwood) kept sparse, redwood/sakura moderate (big/ornamental). Inert without BWG.",
+  "target": "skyseed:huge_forest",
+  "biome_overrides": [
+    { "biomes": ["biomeswevegone:aspen_boreal"], "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.20 } ], "variants": [ { "weight": 1, "name": "aspen", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:aspen_trees", "tries": 120, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+    { "biomes": ["biomeswevegone:baobab_savanna"], "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.15 } ], "variants": [ { "weight": 1, "name": "baobab", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:baobab_trees", "tries": 28, "spacing": 3 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 }, { "block": "minecraft:dead_bush", "chance": 0.04 } ] } } ] },
+    { "biomes": ["biomeswevegone:cika_woods"], "variants": [ { "weight": 1, "name": "cika", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:cika_trees", "tries": 120, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.35 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+    { "biomes": ["biomeswevegone:jacaranda_jungle"], "variants": [ { "weight": 1, "name": "jacaranda", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:jacaranda_trees", "tries": 120, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+    { "biomes": ["biomeswevegone:maple_taiga"], "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.25 } ], "variants": [ { "weight": 1, "name": "maple", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:maple_trees", "tries": 120, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.20 } ] } } ] },
+    { "biomes": ["biomeswevegone:ebony_woods"], "variants": [ { "weight": 1, "name": "ebony", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:ebony_trees", "tries": 120, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+    { "biomes": ["biomeswevegone:redwood_thicket"], "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.20 } ], "variants": [ { "weight": 1, "name": "redwood", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:redwood_trees", "tries": 70, "spacing": 3 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.15 } ] } } ] },
+    { "biomes": ["biomeswevegone:zelkova_forest"], "variants": [ { "weight": 1, "name": "zelkova", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:zelkova_trees", "tries": 120, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 } ] } } ] },
+    { "biomes": ["biomeswevegone:weeping_witch_forest"], "variants": [ { "weight": 1, "name": "witch_hazel", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:witch_hazel_trees", "tries": 120, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:brown_mushroom", "chance": 0.04 } ] } } ] },
+    { "biomes": ["biomeswevegone:sakura_grove"], "variants": [ { "weight": 1, "name": "sakura", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:white_sakura_trees", "tries": 70, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 } ] } } ] },
+    { "biomes": ["biomeswevegone:ironwood_gour"], "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.15 } ], "variants": [ { "weight": 1, "name": "ironwood", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:ironwood_trees", "tries": 28, "spacing": 3 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 } ] } } ] }
+  ]
+}
