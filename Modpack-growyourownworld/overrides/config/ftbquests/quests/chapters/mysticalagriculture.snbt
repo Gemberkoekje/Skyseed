@@ -3,7 +3,9 @@
 	default_quest_shape: ""
 	filename: "mysticalagriculture"
 	group: ""
-	icon: "mysticalagriculture:inferium_essence"
+	icon: {
+		id: "mysticalagriculture:inferium_farmland"
+	}
 	id: "5C0000000000A007"
 	order_index: 3
 	quest_links: [ ]
@@ -12,8 +14,12 @@
 			dependencies: ["5C0000000000B001"]
 			id: "5C0000000000B601"
 			rewards: [{
+				count: 3
 				id: "5C0000000000D601"
-				item: { count: 3, id: "botanypots:terracotta_botany_pot" }
+				item: {
+					count: 1
+					id: "botanypots:terracotta_botany_pot"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -25,11 +31,18 @@
 			y: 0.0d
 		}
 		{
-			dependencies: ["5C0000000000B601", "5C0000000000B105"]
+			dependencies: [
+				"5C0000000000B601"
+				"5C0000000000B105"
+			]
 			id: "5C0000000000B602"
 			rewards: [{
+				count: 16
 				id: "5C0000000000D602"
-				item: { count: 16, id: "mysticalagriculture:inferium_essence" }
+				item: {
+					count: 1
+					id: "mysticalagriculture:inferium_essence"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -44,8 +57,12 @@
 			dependencies: ["5C0000000000B602"]
 			id: "5C0000000000B603"
 			rewards: [{
+				count: 4
 				id: "5C0000000000D603"
-				item: { count: 4, id: "mysticalagriculture:inferium_farmland" }
+				item: {
+					count: 1
+					id: "mysticalagriculture:inferium_farmland"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -60,8 +77,12 @@
 			dependencies: ["5C0000000000B603"]
 			id: "5C0000000000B604"
 			rewards: [{
+				count: 4
 				id: "5C0000000000D604"
-				item: { count: 4, id: "mysticalagriculture:prosperity_seed_base" }
+				item: {
+					count: 1
+					id: "mysticalagriculture:prosperity_seed_base"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -76,8 +97,12 @@
 			dependencies: ["5C0000000000B604"]
 			id: "5C0000000000B605"
 			rewards: [{
+				count: 8
 				id: "5C0000000000D605"
-				item: { count: 8, id: "mysticalagriculture:prosperity_shard" }
+				item: {
+					count: 1
+					id: "mysticalagriculture:prosperity_shard"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -107,10 +132,17 @@
 		}
 		{
 			dependencies: ["5C0000000000B601"]
+			icon: {
+				id: "botanypotstiers:elite_terracotta_botany_pot"
+			}
 			id: "5C0000000000B607"
 			rewards: [{
+				count: 16
 				id: "5C0000000000D607"
-				item: { count: 16, id: "minecraft:bone_meal" }
+				item: {
+					count: 1
+					id: "minecraft:bone_meal"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -124,8 +156,12 @@
 			dependencies: ["5C0000000000B602"]
 			id: "5C0000000000B608"
 			rewards: [{
+				count: 8
 				id: "5C0000000000D608"
-				item: { count: 8, id: "mysticalagriculture:inferium_essence" }
+				item: {
+					count: 1
+					id: "mysticalagriculture:inferium_essence"
+				}
 				type: "item"
 			}]
 			tasks: [{

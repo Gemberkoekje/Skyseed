@@ -3,7 +3,9 @@
 	default_quest_shape: ""
 	filename: "tools"
 	group: ""
-	icon: "silentgear:pickaxe"
+	icon: {
+		id: "waystones:waystone"
+	}
 	id: "5C0000000000A004"
 	order_index: 4
 	quest_links: [ ]

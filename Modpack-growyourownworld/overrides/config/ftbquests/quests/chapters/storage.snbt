@@ -3,7 +3,13 @@
 	default_quest_shape: ""
 	filename: "storage"
 	group: ""
-	icon: "sophisticatedbackpacks:backpack"
+	icon: {
+		components: {
+			"sophisticatedcore:number_of_inventory_slots": 27
+			"sophisticatedcore:number_of_upgrade_slots": 1
+		}
+		id: "sophisticatedbackpacks:backpack"
+	}
 	id: "5C0000000000A005"
 	order_index: 5
 	quest_links: [ ]

@@ -3,7 +3,9 @@
 	default_quest_shape: ""
 	filename: "create"
 	group: ""
-	icon: "create:cogwheel"
+	icon: {
+		id: "create:mechanical_arm"
+	}
 	id: "5C0000000000A003"
 	order_index: 2
 	quest_links: [ ]

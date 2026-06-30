@@ -2,8 +2,9 @@
 	chapter.5C0000000000A001.title: "Introduction"
 	chapter.5C0000000000A002.title: "Skyseed"
 	chapter.5C0000000000A003.title: "Create"
-	chapter.5C0000000000A004.title: "Tools \& Travel"
+	chapter.5C0000000000A004.title: "Tools \\& Travel"
 	chapter.5C0000000000A005.title: "Storage"
+	chapter.5C0000000000A007.title: "Mystical Agriculture"
 	quest.5C0000000000B001.quest_desc: [
 		"Welcome, skyfarer."
 		""
@@ -70,15 +71,15 @@
 		""
 		"A working village means trades, crops and a renewable economy on your doorstep."
 	]
-	quest.5C0000000000B107.quest_subtitle: "Villages \& Farms"
+	quest.5C0000000000B107.quest_subtitle: "Villages \\& Farms"
 	quest.5C0000000000B107.title: "Good Neighbours"
 	quest.5C0000000000B108.quest_desc: [
 		"Skyseed grows §estructures§r too — dungeons, temples, outposts and more, each with vanilla loot and the §eStructure Relics§r and §ePortal Frame Shards§r you'll need for the End later."
 		""
 		"Start with a §eDungeon§r island. Re-grow any structure to re-roll its loot."
 	]
-	quest.5C0000000000B108.quest_subtitle: "Loot \& relics"
-	quest.5C0000000000B108.title: "Ruins \& Landmarks"
+	quest.5C0000000000B108.quest_subtitle: "Loot \\& relics"
+	quest.5C0000000000B108.title: "Ruins \\& Landmarks"
 	quest.5C0000000000B109.quest_desc: [
 		"Find any §elava§r — a pool deep in a Rocky isle, or cast your own — and flood it with water to make §eobsidian§r. Build a portal frame, light it, and step through into §ethe Nether§r and its own long climb."
 		""
@@ -98,8 +99,8 @@
 		""
 		"These are the relics and resources that unlock the End."
 	]
-	quest.5C0000000000B111.quest_subtitle: "Blaze \& plunder"
-	quest.5C0000000000B111.title: "Fortress \& Bastion"
+	quest.5C0000000000B111.quest_subtitle: "Blaze \\& plunder"
+	quest.5C0000000000B111.title: "Fortress \\& Bastion"
 	quest.5C0000000000B112.quest_desc: [
 		"The §eEnd Portal Skyseed§r is the long way round: four §eportal edges§r, each forged from a §ePortal Frame Shard§r and two §estructure relics§r gathered from across the mod."
 		""
@@ -141,7 +142,6 @@
 	]
 	quest.5C0000000000B116.quest_subtitle: "The biggest tier"
 	quest.5C0000000000B116.title: "Huge Horizons"
-	task.5C0000000000C115.title: "Track down a rare island"
 	quest.5C0000000000B201.quest_desc: [
 		"Create begins with §eAndesite Alloy§r — andesite + iron (or zinc) nuggets. Andesite comes from your §eRocky island§r, so grow one first (Skyseed chapter)."
 		""
@@ -172,11 +172,57 @@
 	quest.5C0000000000B205.quest_subtitle: "Now you need that zinc"
 	quest.5C0000000000B205.title: "Brass"
 	quest.5C0000000000B206.quest_desc: [
-		"§eCreate: Crafts \& Additions§r bridges rotation and §eForge Energy (FE)§r: an §eAlternator§r turns spinning into FE, an §eElectric Motor§r turns FE back into spinning."
+		"§eCreate: Crafts  Additions§r bridges rotation and §eForge Energy (FE)§r: an §eAlternator§r turns spinning into FE, an §eElectric Motor§r turns FE back into spinning."
 		""
 		"That FE grid will power the bigger tech mods later. Pair it with §eFlux Networks§r to beam power between islands — no cables across the void."
 	]
 	quest.5C0000000000B206.title: "Power Up"
+	quest.5C0000000000B207.quest_desc: [
+		"A §eMechanical Press§r hammers metal into §esheets§r — the ingredient for casings, brass machines and tools."
+		""
+		"Set a §eBasin§r under a §eMechanical Mixer§r too, and you can combine and wash materials. The press and mixer are your crafting backbone."
+	]
+	quest.5C0000000000B207.quest_subtitle: "Sheets, mixing  assembly"
+	quest.5C0000000000B207.title: "Press It"
+	quest.5C0000000000B209.quest_desc: [
+		"Brass unlocks Create's §eautomators§r:"
+		""
+		"§e- Deployer§r: uses tools and places blocks for you."
+		"§e- Mechanical Arm§r: shuttles items between machines."
+		"§e- Mechanical Crafter§r: assembles crafting recipes on its own."
+		""
+		"Chain them and your islands start running themselves. Ponder each one (§aW§r) to see how."
+	]
+	quest.5C0000000000B209.quest_subtitle: "Automation"
+	quest.5C0000000000B209.title: "Hands-Free"
+	quest.5C0000000000B211.quest_desc: ["§eBetter Motors§r adds stronger, tunable electric motors. One good motor can drive a big contraption straight off your FE grid — no wall of stock motors."]
+	quest.5C0000000000B211.quest_subtitle: "Create: Better Motors"
+	quest.5C0000000000B211.title: "Bigger Motors"
+	quest.5C0000000000B212.quest_desc: ["§eFlux Networks§r ties your power into one wireless FE grid. A §eFlux Plug§r where you generate, a §eFlux Point§r where you need it — energy across the void with no cables."]
+	quest.5C0000000000B212.quest_subtitle: "Flux Networks"
+	quest.5C0000000000B212.title: "Wireless Watts"
+	quest.5C0000000000B213.quest_desc: ["§eSteam'n'Rails§r lets you lay §etrack§r and build real §etrains§r. A station, a powered loco, and your islands are connected — the comfiest way to get around."]
+	quest.5C0000000000B213.quest_subtitle: "Steam'n'Rails"
+	quest.5C0000000000B213.title: "All Aboard"
+	quest.5C0000000000B214.quest_desc: [
+		"§eCreate: Enchantment Industry§r automates the tedious parts of enchanting — bottling §eXP§r into a fluid, auto-printing books and disenchanting in bulk."
+		""
+		"Build it once and never grind levels by hand again."
+	]
+	quest.5C0000000000B214.quest_subtitle: "Create: Enchantment Industry"
+	quest.5C0000000000B214.title: "Enchanted Industry"
+	quest.5C0000000000B215.quest_desc: ["Craft §eEngineer's Goggles§r to read stress and fluid levels at a glance — wear them whenever you build. Small Create add-ons fill the gaps in your toolkit."]
+	quest.5C0000000000B215.quest_subtitle: "Quality-of-life"
+	quest.5C0000000000B215.title: "Goggles  Gadgets"
+	quest.5C0000000000B216.quest_desc: ["Build a §eCreate Jetpack§r, fuel it, and fly. Powered from your FE grid, it turns island-hopping into a hop — no scaffolding required."]
+	quest.5C0000000000B216.quest_subtitle: "Create: Jetpack"
+	quest.5C0000000000B216.title: "Take Flight"
+	quest.5C0000000000B217.quest_desc: ["A couple of add-ons widen Create for fun: §eAquatic Ambitions§r (sea machines) and §eDragons Plus§r (new blocks and gadgets). Pure bonus — poke around when you're curious."]
+	quest.5C0000000000B217.quest_subtitle: "Content add-ons"
+	quest.5C0000000000B217.title: "New Horizons"
+	quest.5C0000000000B218.quest_desc: ["Createdeco, Rechiseled, Bells  Whistles, Interiors and Design'n'Decor add hundreds of §edecoration§r blocks — palettes, trims, lamps and furniture to turn a factory into a home."]
+	quest.5C0000000000B218.quest_subtitle: "Decoration"
+	quest.5C0000000000B218.title: "Make It Beautiful"
 	quest.5C0000000000B301.quest_desc: [
 		"§eSilent Gear§r builds tools and armor from parts. Craft a §eBlueprint§r for the tool you want, then combine a §emain part§r (the head) with a §erod§r in the grid."
 		""
@@ -189,7 +235,7 @@
 		""
 		"§e- Traits§r come from materials — extra durability, speed, luck and more."
 		"§e- Repair Kits§r fix tools on the go, no anvil needed."
-		"§e- Tips \& grips§r add bonuses; re-coat with better materials as you progress."
+		"§e- Tips  grips§r add bonuses; re-coat with better materials as you progress."
 		""
 		"Browse the parts in JEI to plan your perfect tool."
 	]
@@ -218,7 +264,7 @@
 		"§7Tip: it ties into Create — funnels and pipes can feed these directly.§r"
 	]
 	quest.5C0000000000B403.quest_subtitle: "Sophisticated Storage"
-	quest.5C0000000000B403.title: "Barrels \& Boxes"
+	quest.5C0000000000B403.title: "Barrels \\& Boxes"
 	quest.5C0000000000B501.quest_desc: [
 		"With islands scattered across the void, walking gets old fast. §eWaystones§r fix that."
 		""
@@ -234,71 +280,6 @@
 		"Set a waypoint at each new island and you'll never lose your way in the void."
 	]
 	quest.5C0000000000B502.title: "On the Map"
-	reward_table.5C00000000005001.title: "Skyfarer's Cache"
-	reward_table.5C00000000005002.title: "Engineer's Cache"
-	task.5C0000000000C001.title: "Begin"
-	task.5C0000000000C002.title: "Open your guide"
-	task.5C0000000000C003.title: "Got it"
-	task.5C0000000000C102.title: "Throw a seed and grow an island"
-	task.5C0000000000C103.title: "Grow a biome island"
-	task.5C0000000000C302.title: "Learn the upgrade system"
-	task.5C0000000000C402.title: "Add an upgrade to your backpack"
-	task.5C0000000000C502.title: "Spot a waystone on your map"
-	quest.5C0000000000B207.quest_desc: [
-		"A §eMechanical Press§r hammers metal into §esheets§r — the ingredient for casings, brass machines and tools."
-		""
-		"Set a §eBasin§r under a §eMechanical Mixer§r too, and you can combine and wash materials. The press and mixer are your crafting backbone."
-	]
-	quest.5C0000000000B207.quest_subtitle: "Sheets, mixing \& assembly"
-	quest.5C0000000000B207.title: "Press It"
-	quest.5C0000000000B209.quest_desc: [
-		"Brass unlocks Create's §eautomators§r:"
-		""
-		"§e- Deployer§r: uses tools and places blocks for you."
-		"§e- Mechanical Arm§r: shuttles items between machines."
-		"§e- Mechanical Crafter§r: assembles crafting recipes on its own."
-		""
-		"Chain them and your islands start running themselves. Ponder each one (§aW§r) to see how."
-	]
-	quest.5C0000000000B209.quest_subtitle: "Automation"
-	quest.5C0000000000B209.title: "Hands-Free"
-	quest.5C0000000000B214.quest_desc: [
-		"§eCreate: Enchantment Industry§r automates the tedious parts of enchanting — bottling §eXP§r into a fluid, auto-printing books and disenchanting in bulk."
-		""
-		"Build it once and never grind levels by hand again."
-	]
-	quest.5C0000000000B214.quest_subtitle: "Create: Enchantment Industry"
-	quest.5C0000000000B214.title: "Enchanted Industry"
-	quest.5C0000000000B211.quest_desc: ["§eBetter Motors§r adds stronger, tunable electric motors. One good motor can drive a big contraption straight off your FE grid — no wall of stock motors."]
-	quest.5C0000000000B211.quest_subtitle: "Create: Better Motors"
-	quest.5C0000000000B211.title: "Bigger Motors"
-	quest.5C0000000000B212.quest_desc: ["§eFlux Networks§r ties your power into one wireless FE grid. A §eFlux Plug§r where you generate, a §eFlux Point§r where you need it — energy across the void with no cables."]
-	quest.5C0000000000B212.quest_subtitle: "Flux Networks"
-	quest.5C0000000000B212.title: "Wireless Watts"
-	quest.5C0000000000B213.quest_desc: ["§eSteam'n'Rails§r lets you lay §etrack§r and build real §etrains§r. A station, a powered loco, and your islands are connected — the comfiest way to get around."]
-	quest.5C0000000000B213.quest_subtitle: "Steam'n'Rails"
-	quest.5C0000000000B213.title: "All Aboard"
-	quest.5C0000000000B215.quest_desc: ["Craft §eEngineer's Goggles§r to read stress and fluid levels at a glance — wear them whenever you build. Small Create add-ons fill the gaps in your toolkit."]
-	quest.5C0000000000B215.quest_subtitle: "Quality-of-life"
-	quest.5C0000000000B215.title: "Goggles \& Gadgets"
-	quest.5C0000000000B216.quest_desc: ["Build a §eCreate Jetpack§r, fuel it, and fly. Powered from your FE grid, it turns island-hopping into a hop — no scaffolding required."]
-	quest.5C0000000000B216.quest_subtitle: "Create: Jetpack"
-	quest.5C0000000000B216.title: "Take Flight"
-	quest.5C0000000000B217.quest_desc: ["A couple of add-ons widen Create for fun: §eAquatic Ambitions§r (sea machines) and §eDragons Plus§r (new blocks and gadgets). Pure bonus — poke around when you're curious."]
-	quest.5C0000000000B217.quest_subtitle: "Content add-ons"
-	quest.5C0000000000B217.title: "New Horizons"
-	quest.5C0000000000B218.quest_desc: ["Createdeco, Rechiseled, Bells \& Whistles, Interiors and Design'n'Decor add hundreds of §edecoration§r blocks — palettes, trims, lamps and furniture to turn a factory into a home."]
-	quest.5C0000000000B218.quest_subtitle: "Decoration"
-	quest.5C0000000000B218.title: "Make It Beautiful"
-	task.5C0000000000C211.title: "Run a Better Motors motor"
-	task.5C0000000000C212.title: "Set up a Flux Network"
-	task.5C0000000000C213.title: "Lay track and run a train"
-	task.5C0000000000C214.title: "Automate an enchanting setup"
-	task.5C0000000000C215.title: "Craft Engineer's Goggles"
-	task.5C0000000000C216.title: "Build and fly a jetpack"
-	task.5C0000000000C217.title: "Try a content add-on"
-	task.5C0000000000C218.title: "Decorate your base"
-	chapter.5C0000000000A007.title: "Mystical Agriculture"
 	quest.5C0000000000B601.quest_desc: [
 		"No farmland out here? No problem. §eBotany Pots§r grow crops, saplings and more with §eno tilled soil needed§r — just the pot and a soil block dropped inside."
 		""
@@ -353,7 +334,7 @@
 		""
 		"Those souls craft §eMob Seeds§r — grow zombies, skeletons, creepers and more as crops, for fully renewable mob drops without a spawner."
 	]
-	quest.5C0000000000B608.quest_subtitle: "Soulium Dagger \& mob seeds"
+	quest.5C0000000000B608.quest_subtitle: "Soulium Dagger \\& mob seeds"
 	quest.5C0000000000B608.title: "Soul Harvest"
 	quest.5C0000000000B609.quest_desc: [
 		"§eMystical Agradditions§r adds the §eInsanium§r tier above Supremium — plus §eTier-6 crops§r for the truly rare (Nether Star, Dragon Egg and more), grown on dedicated Crux blocks."
@@ -362,5 +343,24 @@
 	]
 	quest.5C0000000000B609.quest_subtitle: "Mystical Agradditions"
 	quest.5C0000000000B609.title: "The Insane Tier"
+	reward_table.5C00000000005001.title: "Skyfarer's Cache"
+	reward_table.5C00000000005002.title: "Engineer's Cache"
+	task.5C0000000000C001.title: "Begin"
+	task.5C0000000000C002.title: "Open your guide"
+	task.5C0000000000C003.title: "Got it"
+	task.5C0000000000C102.title: "Throw a seed and grow an island"
+	task.5C0000000000C103.title: "Grow a biome island"
+	task.5C0000000000C115.title: "Track down a rare island"
+	task.5C0000000000C211.title: "Run a Better Motors motor"
+	task.5C0000000000C212.title: "Set up a Flux Network"
+	task.5C0000000000C213.title: "Lay track and run a train"
+	task.5C0000000000C214.title: "Automate an enchanting setup"
+	task.5C0000000000C215.title: "Craft Engineer's Goggles"
+	task.5C0000000000C216.title: "Build and fly a jetpack"
+	task.5C0000000000C217.title: "Try a content add-on"
+	task.5C0000000000C218.title: "Decorate your base"
+	task.5C0000000000C302.title: "Learn the upgrade system"
+	task.5C0000000000C402.title: "Add an upgrade to your backpack"
+	task.5C0000000000C502.title: "Spot a waystone on your map"
 	task.5C0000000000C607.title: "Grow a tree in a Botany Pot"
 }
