@@ -5,6 +5,15 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.168.0] - 2026-06-30
+
+### Fixed
+- **Guide: Large Forest craft-advancement name.** The overworld Large Forest's craft advancement was misnamed
+  `craft_large_forest` (reversed) while every other reference uses the `<biome>_large` convention, so the guide's
+  `skyseed:craft_forest_large` page reference dangled and never resolved. Renamed the file to `craft_forest_large.json`
+  to match the convention, the recipe (`forest_large_skyseed`), and the `reveal_forest_large` / `gathered_forest_large`
+  siblings. No logic change — the advancement still triggers on crafting the seed.
+
 ## [0.167.0] - 2026-06-29
 
 ### Fixed
