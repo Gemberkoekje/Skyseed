@@ -53,6 +53,12 @@ jobs:
           chmod +x ./gradlew
           ./gradlew chiseledBuild --stacktrace --no-daemon
 
+      # Run the gametest suite (the project's only tests — NeoForge GameTests on a headless server) on EVERY node.
+      # chiseledRunGameTestServer (stonecutter.gradle.kts) fans runGameTestServer across nodes, so this stays
+      # version-agnostic. Placed before jar collection so a test failure blocks publishing untested jars.
+      - name: Run gametests on every node
+        run: ./gradlew chiseledRunGameTestServer --stacktrace --no-daemon
+
       # Flatten the per-node jars (versions/<v>/build/libs/*.jar) into one folder. The glob is
       # version-agnostic, so new version nodes are picked up automatically.
       - name: Collect jars
