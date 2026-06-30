@@ -4,7 +4,7 @@
 	filename: "tools"
 	group: ""
 	id: "5C0000000000A004"
-	order_index: 3
+	order_index: 4
 	quest_links: [ ]
 	quests: [
 		{
@@ -45,6 +45,45 @@
 			}]
 			x: 1.5d
 			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B001"]
+			id: "5C0000000000B501"
+			rewards: [{
+				count: 4
+				id: "5C0000000000D501"
+				item: {
+					count: 1
+					id: "minecraft:ender_pearl"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C501"
+				item: { count: 1, id: "waystones:waystone" }
+				type: "item"
+			}]
+			x: 0.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B501"]
+			id: "5C0000000000B502"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D502"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C502"
+				type: "checkmark"
+			}]
+			x: 1.5d
+			y: 1.5d
 		}
 	]
 }
