@@ -1,0 +1,8 @@
+{
+  "_comment": "First-party Mystical Agriculture compat: deepslate inferium + prosperity on the (deepslate-bodied) ancient mining island — the mid-game source for MA's bootstrap (prosperity ore has no mob-drop, so it must be mineable somewhere). Inert without Mystical Agriculture (the unknown ores are skipped before any RNG, so generation stays byte-identical).",
+  "target": "skyseed:ancient",
+  "ores": [
+    { "block": "mysticalagriculture:deepslate_inferium_ore", "chance": 0.60, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "mysticalagriculture:deepslate_prosperity_ore", "chance": 0.45, "count": { "min": 1, "max": 3 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" }
+  ]
+}

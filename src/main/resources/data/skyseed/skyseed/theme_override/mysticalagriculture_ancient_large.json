@@ -1,0 +1,8 @@
+{
+  "_comment": "First-party Mystical Agriculture compat: deepslate inferium + prosperity on the large ancient island. Inert without Mystical Agriculture.",
+  "target": "skyseed:ancient_large",
+  "ores": [
+    { "block": "mysticalagriculture:deepslate_inferium_ore", "chance": 0.65, "count": { "min": 3, "max": 6 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "mysticalagriculture:deepslate_prosperity_ore", "chance": 0.50, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" }
+  ]
+}
