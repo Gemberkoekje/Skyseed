@@ -3,6 +3,10 @@
 Grounded in the actual jars (MA `8.0.27`, Agradditions `8.0.13`, Botany Pots `21.1.44`, Botany Pots Mystical `21.1.12`).
 Skyseed is now `0.167.0`.
 
+> **Status: DONE — shipped.** The first-party MA `theme_override` compat (deepslate inferium + prosperity on the Ancient
+> island, soulium on Nether Soul) and the Mystical Agriculture quest chapter both merged earlier. Kept for reference;
+> no open work remaining.
+
 ## Mods added (roles + deps)
 **Mystical Agriculture family (BlakeBr0):**
 - `Cucumber` — required library.

@@ -4,6 +4,10 @@ A **cosy, handholdy** quest line that explains every mod and how to use it. Auth
 chapter per mod as it lands), not last — so no end-of-project overflow. Engine: **FTB Quests** (installed:
 `ftb-quests` / `ftb-library` / `ftb-teams` / `architectury`).
 
+> **Status (PR #14):** the six base chapters — Introduction · Skyseed · Create · Mystical Agriculture · Tools & Travel ·
+> Storage — have shipped. The **BWG quest chapter** (Into the Wilds / Mill the Blooms / Grow Something Grand) is
+> BWGPLAN Step 5, still **pending**.
+
 ## Approach
 
 - **Tone — explain, don't gate.** Every quest carries a short plain-language description: what the mod/mechanic is, why

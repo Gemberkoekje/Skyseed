@@ -1,5 +1,21 @@
 # Oh The Biomes We've Gone + OTYG + Create-OTBWG — Integration Plan
 
+## Status — PR #14 (`feature/bwg-wood-islands`)
+
+**Done & shipped in this changeset:**
+- **Step 1 (the core) — DONE for the forest family.** First-party `theme_override` compat ships **11 forest-family woods** on `forest` / `forest_large` / `huge_forest`: aspen, baobab, cika, jacaranda, maple, ebony, redwood, zelkova, witch-hazel, sakura, ironwood. Inert-without-BWG, gametest-guarded.
+- **Engine fix that made it work:** `theme_override` biome bands now **prepend** (win the first-match over the base `#is_*` catch-alls) — BWG biomes are transitively under `#is_forest` via `#biomeswevegone:forest`, so an appended band was silently shadowed.
+- **Auto debug seeds now cover `theme_override` bands** (runtime `ThemeScanner` + the build-time model generator), so the BWG biomes show in the Skyseed Debug tab.
+- **Forest density** raised on large/huge for the canonical forests (40 / 120 tries); open biomes kept scattered.
+- **Water features:** deep lakes rounded (`pond.slope`); the Huge Forest rolls **25% lake / 25% river / 50% dry** (`pond.chance` + `pond.river`); **rivers walled + bank-softened** (the long-planned river-to-rim follow-up).
+- **CI now runs the gametests** on every node. **Q1 RESOLVED** (tight first pass → scaled to the forest family). **Q3 RESOLVED** (rewritten below). Modpack: BWG/OTYG/create-otbwg + Better Clouds jars in, `mods.txt` refreshed.
+
+**Left for a future return (NOT in this changeset):**
+- **Q2 — concentrate vs distribute (UNDECIDED).** This gates the rest of the 25 planks: the **wet woods** (cypress/willow/white-mangrove/palm → aquatic family) and **fantasy woods** (enchanted/skyris/spirit) are **not yet added**.
+- **Density follow-up:** lift the *held* wet/semi forest biomes (mangrove/swamp/riverside, cherry/grove/mushroom/bamboo/flower) to the agreed level — held pending the in-game density read, now confirmed good.
+- **Step 2 (OTYG verification), Step 3 (create-otbwg verification), Step 4 (Patchouli "Exotic Biomes" entry), Step 5 (the light quest branch)** — all still to do.
+- **STRUCTUREPLAN** (BWG village/manor/trial resurrection) — its own later child changeset.
+
 ## The three mods
 
 | Mod | What it is | Skyblock reality |
@@ -21,7 +37,7 @@ Nothing generates in the void, so BWG's value — exotic woods, millable flowers
 
 **Net design: throw a Forest seed over a BWG biome → grow a BWG-wood island.** This extends the existing rare-seed mechanic (forest-over-badlands) to 55 new biomes and turns BWG's biome map into a treasure map.
 
-## Step 1 — First-party BWG theme_override compat (Skyseed mod) ← the core
+## Step 1 — First-party BWG theme_override compat (Skyseed mod) ← the core  ✅ DONE (forest family; wet/fantasy woods pending Q2)
 
 Create `data/skyseed/skyseed/theme_override/biomeswevegone_forest.json` (+ `_forest_large`, `_huge_forest`; later `_lush`/`_meadow` for floral biomes), each appending BWG `biome_overrides` to the matching base theme. Per-entry shape:
 
@@ -94,10 +110,10 @@ Author the BWG `biome_overrides` content once, then emit one override file per t
 
 ## Open design questions
 
-### Q1 — Step 1 scope (the immediate fork)
+### Q1 — Step 1 scope (the immediate fork)  ✅ RESOLVED — tight first pass, then scaled to the whole forest family (11 woods)
 All signature **wood** biomes (~15, every plank reachable) or a **tight first pass** (5–6 marquee woods: aspen, baobab, cika, jacaranda, maple) to validate the loop before scaling? (× the 3 forest tiers either way.)
 
-### Q2 — should other typed seeds respond to BWG biomes, not just forest?
+### Q2 — should other typed seeds respond to BWG biomes, not just forest?  ⬜ OPEN — gates the wet/fantasy woods (the next thing to decide on return)
 The forest seed is the generalist (it already adapts to desert / savanna / taiga / ocean / …). But BWG biomes span every climate, and it is more coherent to let each typed seed recognise the BWG biomes in its own family — e.g. throw a **Desert** seed over BWG's `mojave_desert` / `atacama_outback` and get the right arid island instead of leaning on the forest seed for everything. Rough mapping (confirm ids against the full 55-biome roster — only ~40 were enumerated):
 
 | Seed family | BWG biomes (examples — confirm ids) | Signature content |
@@ -111,7 +127,7 @@ The forest seed is the generalist (it already adapts to desert / savanna / taiga
 
 **Concentrate** all bands on the forest generalist (one place, simplest, thematically loose) vs **distribute** by climate across the typed seeds (more files — and remember ×3 tiers each — but every seed grows the "right" island, the millable flowers naturally land on the lush/meadow seed, and the player picks the seed that matches the biome they found)? Distributing is the nicer loop; concentrating is the faster ship.
 
-### Q3 — which BWG biomes deserve their OWN seed?
+### Q3 — which BWG biomes deserve their OWN seed?  ✅ RESOLVED — almost none (see the rewritten answer)
 **Almost none — the bar is non-growable, farm-worthy content.** A Forest seed thrown over a BWG biome already grows that biome's island at every tier (base/large/huge) with its trees, ground flora, and the biome itself — and once you've chopped one tree you have its sapling and can regrow that wood anywhere (island or Botany Pot). So a dedicated seed adds **nothing** for anything growable: wood, saplings, flowers and replantable plants are all covered by the adaptation + replanting.
 
 The only thing that earns a dedicated seed (item + recipe + advancement + quest) is content that **cannot be grown but is worth farming** — e.g. a biome-exclusive **mob** you'd build a spawner-island around, or a resource that only regenerates in that biome's context and can't be replanted. Wood and plants never qualify; "the wood looks iconic" is not a reason — that's a *bespoke-island design* call (a unique shape/centerpiece), which is orthogonal to this content test.

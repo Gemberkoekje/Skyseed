@@ -1,5 +1,10 @@
 # Mod Structures in the Void — Audit + Resurrection Plan
 
+> **Status (PR #14): NOT STARTED — deferred to a later changeset.** This is a *child of BWGPLAN* (same biome-adaptation
+> vehicle) and nothing here is urgent: the void generator already no-ops every mod structure, so BWG's structures
+> **don't leak** — they're just unreachable content. Pick this up when there's appetite to resurrect villages / manors /
+> the bog trial as growable islands. The audit + triage below are done and current.
+
 ## Audit result: only BWG adds structures
 
 A scan of every jar for `worldgen/structure_set` + `worldgen/structure`:

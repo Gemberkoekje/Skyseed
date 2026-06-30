@@ -2,6 +2,10 @@
 
 Content-mod integration plan (NeoForge **1.21.1**). Companion to BEAUTIFYPLAN.md.
 
+> **Status (PR #14):** **Mystical Agriculture** is integrated (shipped) and **Oh The Biomes We've Gone** is integrated for
+> the forest-family woods (a Forest seed over a BWG biome grows that wood island — see BWGPLAN; the wet/fantasy woods are
+> still pending). Other content mods remain to be slotted in via the levers below.
+
 **The lens:** Skyseed is a *void* skyblock — nothing generates naturally; all content arrives via
 seed-grown islands. So every mod's resources/structures need an on-island acquisition path. Effort is
 *not* the gate (we'll happily build islands); the only real questions are **thematic fit** and **hard
