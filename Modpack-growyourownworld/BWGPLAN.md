@@ -112,11 +112,8 @@ The forest seed is the generalist (it already adapts to desert / savanna / taiga
 **Concentrate** all bands on the forest generalist (one place, simplest, thematically loose) vs **distribute** by climate across the typed seeds (more files — and remember ×3 tiers each — but every seed grows the "right" island, the millable flowers naturally land on the lush/meadow seed, and the player picks the seed that matches the biome they found)? Distributing is the nicer loop; concentrating is the faster ship.
 
 ### Q3 — which BWG biomes deserve their OWN seed?
-Most BWG biomes are best as adaptations (a band on an existing seed). A few may be iconic enough for a **dedicated seed** — a new seed item + theme (×3 tiers) + advancement + recipe + quest, i.e. effectively a new mini-tier (cf. the "each content mod can become an island tier" roadmap). Reserve this for biomes that are (a) visually unforgettable, (b) carry unique signature blocks, and (c) feel rewarding as a *goal* rather than a random find. Candidates:
+**Almost none — the bar is non-growable, farm-worthy content.** A Forest seed thrown over a BWG biome already grows that biome's island at every tier (base/large/huge) with its trees, ground flora, and the biome itself — and once you've chopped one tree you have its sapling and can regrow that wood anywhere (island or Botany Pot). So a dedicated seed adds **nothing** for anything growable: wood, saplings, flowers and replantable plants are all covered by the adaptation + replanting.
 
-- **Enchanted** — `enchanted_tangle` / `forgotten_forest`, blue/green enchanted (glowing) wood. The marquee pick.
-- **Spirit** — the ethereal `base_spirit_tree` woods (confirm the biome id in the tail).
-- **Rainbow Eucalyptus / Sakura** — striking single-tree showpieces; could share one "ornamental" seed.
-- **Baobab Savanna / Jacaranda Jungle** — bold silhouettes, but probably fine as plain adaptations.
+The only thing that earns a dedicated seed (item + recipe + advancement + quest) is content that **cannot be grown but is worth farming** — e.g. a biome-exclusive **mob** you'd build a spawner-island around, or a resource that only regenerates in that biome's context and can't be replanted. Wood and plants never qualify; "the wood looks iconic" is not a reason — that's a *bespoke-island design* call (a unique shape/centerpiece), which is orthogonal to this content test.
 
-Recommendation: ship **everything as adaptations first** (Steps 1–4), then promote **1–2** marquee biomes (Enchanted, maybe Spirit) to dedicated seeds as a follow-up tier — so the special biomes feel earned and Step 1 doesn't balloon into a dozen new seed items.
+So: ship **everything as adaptations** (Steps 1–4). Add a dedicated seed only after a biome passes that one test — non-growable **and** farm-worthy — checked per biome. On the current set (aspen … ironwood, plus enchanted/spirit/skyris) nothing does: it's all wood and plants.
