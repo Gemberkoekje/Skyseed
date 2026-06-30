@@ -23,7 +23,7 @@
   ],
   "variants": [
     { "weight": 1, "name": "oak", "decoration": {
-      "trees": [ { "feature": "minecraft:oak", "tries": 9, "spacing": 3 } ],
+      "trees": [ { "feature": "minecraft:oak", "tries": 40, "spacing": 3 } ],
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:poppy", "chance": 0.03 }, { "block": "minecraft:dandelion", "chance": 0.03 }, { "block": "minecraft:azalea", "chance": 0.03 } ] } }
   ],
   "biome_overrides": [
@@ -54,7 +54,7 @@
         "underside": [ { "block": "minecraft:weeping_vines", "chance": 0.25 } ] } } ] },
 
     { "biomes": [ "minecraft:dark_forest" ], "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.25 } ], "variants": [ { "weight": 1, "decoration": {
-      "trees": [ { "feature": "minecraft:dark_oak", "tries": 11, "spacing": 2 } ],
+      "trees": [ { "feature": "minecraft:dark_oak", "tries": 40, "spacing": 2 } ],
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:brown_mushroom", "chance": 0.04 }, { "block": "minecraft:red_mushroom", "chance": 0.02 } ] } } ] },
 
     { "biomes": [ "minecraft:flower_forest" ], "variants": [ { "weight": 1, "decoration": {
@@ -62,7 +62,7 @@
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 }, { "block": "minecraft:poppy", "chance": 0.06 }, { "block": "minecraft:dandelion", "chance": 0.06 }, { "block": "minecraft:allium", "chance": 0.05 }, { "block": "minecraft:cornflower", "chance": 0.05 }, { "block": "minecraft:oxeye_daisy", "chance": 0.05 }, { "block": "minecraft:azure_bluet", "chance": 0.05 } ] } } ] },
 
     { "biomes": [ "minecraft:birch_forest", "minecraft:old_growth_birch_forest" ], "variants": [ { "weight": 1, "decoration": {
-      "trees": [ { "feature": "minecraft:birch", "tries": 13, "spacing": 2 } ],
+      "trees": [ { "feature": "minecraft:birch", "tries": 40, "spacing": 2 } ],
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 } ] } } ] },
 
     { "biomes": [ "minecraft:cherry_grove" ], "variants": [ { "weight": 1, "decoration": {
@@ -108,7 +108,7 @@
       "trees": [ { "feature": "minecraft:spruce", "tries": 7, "spacing": 2 } ] } } ] },
 
     { "biomes": [ "#minecraft:is_taiga" ], "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.30 } ], "variants": [ { "weight": 1, "decoration": {
-      "trees": [ { "feature": "minecraft:spruce", "tries": 11, "spacing": 2 } ],
+      "trees": [ { "feature": "minecraft:spruce", "tries": 40, "spacing": 2 } ],
       "ground": [ { "block": "minecraft:fern", "chance": 0.25 }, { "block": "minecraft:short_grass", "chance": 0.20 }, { "block": "minecraft:sweet_berry_bush", "chance": 0.06 }, { "block": "minecraft:brown_mushroom", "chance": 0.04 }, { "block": "minecraft:red_mushroom", "chance": 0.02 } ] } } ] },
 
     { "biomes": [ "minecraft:bamboo_jungle" ], "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.22 } ], "variants": [ { "weight": 1, "name": "bamboo", "decoration": {
@@ -116,7 +116,7 @@
       "ground": [ { "block": "minecraft:bamboo", "chance": 0.42 }, { "block": "minecraft:short_grass", "chance": 0.15 }, { "block": "minecraft:fern", "chance": 0.08 } ] } } ] },
 
     { "biomes": [ "#minecraft:is_jungle" ], "variants": [ { "weight": 1, "decoration": {
-      "trees": [ { "feature": "minecraft:jungle_tree", "tries": 11, "spacing": 2 }, { "feature": "minecraft:jungle_bush", "tries": 6, "spacing": 1 } ],
+      "trees": [ { "feature": "minecraft:jungle_tree", "tries": 40, "spacing": 2 }, { "feature": "minecraft:jungle_bush", "tries": 18, "spacing": 1 } ],
       "ground": [ { "block": "minecraft:bamboo", "chance": 0.07 }, { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
 
     { "biomes": [ "#minecraft:is_savanna" ], "variants": [ { "weight": 1, "decoration": {
@@ -147,10 +147,10 @@
 
     { "biomes": [ "#minecraft:is_forest" ], "variants": [
       { "weight": 3, "name": "oak", "decoration": {
-        "trees": [ { "feature": "minecraft:oak", "tries": 15, "spacing": 2 } ],
+        "trees": [ { "feature": "minecraft:oak", "tries": 40, "spacing": 2 } ],
         "ground": [ { "block": "minecraft:short_grass", "chance": 0.35 }, { "block": "minecraft:poppy", "chance": 0.04 }, { "block": "minecraft:dandelion", "chance": 0.04 }, { "block": "minecraft:azalea", "chance": 0.03 } ] } },
       { "weight": 2, "name": "birch", "decoration": {
-        "trees": [ { "feature": "minecraft:birch", "tries": 15, "spacing": 2 } ],
+        "trees": [ { "feature": "minecraft:birch", "tries": 40, "spacing": 2 } ],
         "ground": [ { "block": "minecraft:short_grass", "chance": 0.35 }, { "block": "minecraft:azalea", "chance": 0.03 } ] } }
     ] }
   ]

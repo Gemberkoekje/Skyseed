@@ -23,6 +23,9 @@ the version-number sequence, so a version can appear in one changelog and not th
   theme's vanilla `#is_*` catch-alls (BWG's biomes are transitively under `#is_forest` via `#biomeswevegone:forest`).
 - **Auto debug seeds now cover `theme_override` biome bands** (`ThemeScanner` scans `theme_override/` too) — so the BWG
   wood biomes get debug seeds attributed to their `target` theme.
+- **Denser forests on the large/huge tiers** — forest-character biomes (vanilla `#is_forest`/dark/birch/taiga/jungle +
+  the BWG wood biomes) get much higher tree `tries` on the large/huge Forest islands; open biomes (plains/savanna/beach/
+  desert) keep their scattered counts, and the BWG bands now scale per tier.
 
 ## [0.166.0] - 2026-06-29
 

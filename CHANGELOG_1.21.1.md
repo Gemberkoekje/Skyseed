@@ -26,6 +26,10 @@ change when only the 26.1 build does. Format loosely based on [Keep a Changelog]
   each added band's debug seed to the override's `target` theme — so the BWG wood biomes get their debug seeds (force a
   Forest island to that biome) without the bands living in the base theme. (Previously only base-theme bands produced
   debug seeds, so the BWG ones were missing.)
+- **Denser forests on the large/huge tiers.** Forest-character biomes — vanilla `#is_forest`/dark/birch/taiga/jungle and
+  the BWG wood biomes — get much higher tree `tries` on the large and huge Forest islands so they read as real forests
+  rather than grassland-with-trees; genuinely open biomes (plains, savanna, beach, desert) keep their scattered counts,
+  and the BWG bands (previously flat across tiers) now scale per tier.
 
 ## [0.169.0] - 2026-06-30
 

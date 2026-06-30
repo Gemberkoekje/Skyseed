@@ -144,7 +144,7 @@
         "trees": [
           {
             "feature": "minecraft:oak",
-            "tries": 38,
+            "tries": 120,
             "spacing": 3
           }
         ],
@@ -219,7 +219,7 @@
             "trees": [
               {
                 "feature": "minecraft:dark_oak",
-                "tries": 40,
+                "tries": 120,
                 "spacing": 2
               }
             ],
@@ -302,7 +302,7 @@
             "trees": [
               {
                 "feature": "minecraft:birch",
-                "tries": 48,
+                "tries": 120,
                 "spacing": 2
               }
             ],
@@ -429,7 +429,7 @@
             "trees": [
               {
                 "feature": "minecraft:oak",
-                "tries": 48,
+                "tries": 120,
                 "spacing": 2
               }
             ],
@@ -460,7 +460,7 @@
             "trees": [
               {
                 "feature": "minecraft:birch",
-                "tries": 48,
+                "tries": 120,
                 "spacing": 2
               }
             ],
@@ -669,7 +669,7 @@
             "trees": [
               {
                 "feature": "minecraft:spruce",
-                "tries": 40,
+                "tries": 120,
                 "spacing": 2
               }
             ],
@@ -778,12 +778,12 @@
             "trees": [
               {
                 "feature": "minecraft:jungle_tree",
-                "tries": 40,
+                "tries": 120,
                 "spacing": 2
               },
               {
                 "feature": "minecraft:jungle_bush",
-                "tries": 24,
+                "tries": 50,
                 "spacing": 1
               }
             ],
@@ -1067,7 +1067,7 @@
             "trees": [
               {
                 "feature": "minecraft:oak",
-                "tries": 48,
+                "tries": 120,
                 "spacing": 2
               }
             ],
@@ -1098,7 +1098,7 @@
             "trees": [
               {
                 "feature": "minecraft:birch",
-                "tries": 48,
+                "tries": 120,
                 "spacing": 2
               }
             ],
