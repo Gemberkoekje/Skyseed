@@ -3,6 +3,7 @@
 	default_quest_shape: ""
 	filename: "skyseed"
 	group: ""
+	icon: "skyseed:forest_skyseed"
 	id: "5C0000000000A002"
 	order_index: 1
 	quest_links: [ ]

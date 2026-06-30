@@ -3,6 +3,7 @@
 	default_quest_shape: ""
 	filename: "tools"
 	group: ""
+	icon: "silentgear:pickaxe"
 	id: "5C0000000000A004"
 	order_index: 4
 	quest_links: [ ]
@@ -41,7 +42,8 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C302"
-				type: "checkmark"
+				item: { count: 1, id: "silentgear:crude_repair_kit" }
+				type: "item"
 			}]
 			x: 1.5d
 			y: 0.0d

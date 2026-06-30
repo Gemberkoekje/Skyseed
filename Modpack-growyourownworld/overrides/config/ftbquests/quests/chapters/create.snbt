@@ -3,6 +3,7 @@
 	default_quest_shape: ""
 	filename: "create"
 	group: ""
+	icon: "create:cogwheel"
 	id: "5C0000000000A003"
 	order_index: 2
 	quest_links: [ ]
@@ -138,7 +139,8 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C214"
-				type: "checkmark"
+				item: { count: 1, id: "create_enchantment_industry:blaze_enchanter" }
+				type: "item"
 			}]
 			x: 9.0d
 			y: 0.0d
@@ -197,7 +199,8 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C211"
-				type: "checkmark"
+				item: { count: 1, id: "create_better_motors:basic_motor" }
+				type: "item"
 			}]
 			x: 7.5d
 			y: 1.5d
@@ -216,7 +219,8 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C212"
-				type: "checkmark"
+				item: { count: 1, id: "fluxnetworks:flux_plug" }
+				type: "item"
 			}]
 			x: 6.0d
 			y: 2.5d
@@ -235,7 +239,8 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C213"
-				type: "checkmark"
+				item: { count: 1, id: "railways:conductor_whistle" }
+				type: "item"
 			}]
 			x: 3.0d
 			y: -1.5d
@@ -254,7 +259,8 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C215"
-				type: "checkmark"
+				item: { count: 1, id: "create:goggles" }
+				type: "item"
 			}]
 			x: 3.0d
 			y: 1.5d
@@ -273,7 +279,8 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C216"
-				type: "checkmark"
+				item: { count: 1, id: "create_jetpack:jetpack" }
+				type: "item"
 			}]
 			x: 4.5d
 			y: 2.5d
@@ -292,7 +299,8 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C217"
-				type: "checkmark"
+				item: { count: 1, id: "create_aquatic_ambitions:prismarine_alloy" }
+				type: "item"
 			}]
 			x: 1.5d
 			y: -1.5d
@@ -311,7 +319,8 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C218"
-				type: "checkmark"
+				item: { count: 1, id: "createdeco:andesite_bars" }
+				type: "item"
 			}]
 			x: 1.5d
 			y: 1.5d

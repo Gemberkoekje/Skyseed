@@ -3,6 +3,7 @@
 	default_quest_shape: ""
 	filename: "storage"
 	group: ""
+	icon: "sophisticatedbackpacks:backpack"
 	id: "5C0000000000A005"
 	order_index: 5
 	quest_links: [ ]
@@ -41,7 +42,8 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C402"
-				type: "checkmark"
+				item: { count: 1, id: "sophisticatedbackpacks:pickup_upgrade" }
+				type: "item"
 			}]
 			x: 1.5d
 			y: 0.0d

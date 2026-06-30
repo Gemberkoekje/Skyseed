@@ -3,6 +3,7 @@
 	default_quest_shape: ""
 	filename: "introduction"
 	group: ""
+	icon: "minecraft:grass_block"
 	id: "5C0000000000A001"
 	order_index: 0
 	quest_links: [ ]
