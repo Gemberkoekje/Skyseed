@@ -312,8 +312,8 @@ public final class IslandGenerator {
             }
         }
 
-        final Optional<Pond> pondCfg = (cfg.ov() != null && cfg.ov().pond().isPresent()) ? cfg.ov().pond()
-                : (cfg.useBase() ? theme.pond() : Optional.<Pond>empty());
+        final Optional<Pond> pondCfg = rollWaterFeature((cfg.ov() != null && cfg.ov().pond().isPresent()) ? cfg.ov().pond()
+                : (cfg.useBase() ? theme.pond() : Optional.<Pond>empty()), random);
         final Set<Long> pondColumns = new HashSet<>();
         int pondSurfaceY = center.getY();
         if (!lavaLake && pondCfg.isPresent() && (rare == null || !rare.suppressPond())) {
@@ -334,6 +334,30 @@ public final class IslandGenerator {
             pondColumns.addAll(carved);
         }
         return new Water(pondCfg, pondColumns, pondSurfaceY);
+    }
+
+    /**
+     * Roll a theme/override pond's optional water feature. A pond with {@code chance < 1} is carved only that often (a
+     * miss returns empty — the island comes up dry, and more wooded since it over-plants trees); when it also carries a
+     * {@code river} alternative, a hit is a 50/50 pick between the two ({@code chance 0.5} + a river = 25% pond / 25%
+     * river / 50% dry). A plain pond (chance 1, no river) returns unchanged WITHOUT consuming {@code random}, so every
+     * existing theme stays byte-identical.
+     */
+    private static Optional<Pond> rollWaterFeature(Optional<Pond> pondCfg, RandomSource random) {
+        if (pondCfg.isEmpty()) {
+            return pondCfg;
+        }
+        final Pond p = pondCfg.get();
+        if (p.chance() >= 1.0f && p.river().isEmpty()) {
+            return pondCfg;
+        }
+        if (random.nextFloat() >= p.chance()) {
+            return Optional.empty();
+        }
+        if (p.river().isPresent() && random.nextBoolean()) {
+            return p.river();
+        }
+        return pondCfg;
     }
 
     /** The curated structure pass's output: the jigsaw site(s) to assemble and any guaranteed animal spawns. */

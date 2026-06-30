@@ -1799,6 +1799,28 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    /** huge_forest's pond rolls 25% lake / 25% river / 50% dry (Pond.chance + .river). Over many seeds both a dry and a
+     *  watered island must appear — confirms the chance roll fires (and that a plain pond, chance 1, is unaffected). */
+    @GameTest(template = REGION)
+    public static void hugeForestWaterFeatureRolls(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme t = theme(level, "huge_forest");
+        final var plains = level.registryAccess().registryOrThrow(Registries.BIOME)
+                .getHolderOrThrow(ResourceKey.create(Registries.BIOME, ResourceLocation.parse("minecraft:plains")));
+        boolean sawDry = false, sawWater = false;
+        for (long seed = 0; seed < 120 && !(sawDry && sawWater); seed++) {
+            final IslandPlan p = IslandGenerator.planIsland(level, new BlockPos(40, 80, 40), t, plains, RandomSource.create(seed));
+            boolean water = false;
+            for (final IslandPlan.BlockPlacement bp : p.blocks()) {
+                if (bp.state().is(Blocks.WATER)) { water = true; break; }
+            }
+            if (water) sawWater = true; else sawDry = true;
+        }
+        helper.assertTrue(sawWater, "some huge_forest seeds should roll a water feature (lake or river)");
+        helper.assertTrue(sawDry, "some huge_forest seeds should roll dry (no water feature)");
+        helper.succeed();
+    }
+
     @GameTest(template = REGION)
     public static void shapeBuilderCapsSurfaceAndBuriesCore(GameTestHelper helper) {
         // Backs ShapeBuilder.build's terrain + column-list outputs (the buffers a parameter-object refactor bundles and

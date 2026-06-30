@@ -15,6 +15,10 @@ change when only the 26.1 build does. Format loosely based on [Keep a Changelog]
   compat, every `biomeswevegone:` id is unknown without BWG, so the bands never match and generation stays byte-identical.
   Wet woods (cypress/willow/mangrove/palm) and the fantasy woods (enchanted/skyris/spirit) are held for the
   concentrate-vs-distribute and dedicated-seed decisions in `BWGPLAN.md`.
+- **Optional / random water features (`pond.chance` + `pond.river`).** A pond can now be carved only part of the time
+  (`chance`) and, when it is, be a 50/50 pick between the pool and a `river` alternative. The **Huge Forest** uses it for
+  a **25% lake / 25% river / 50% dry** roll (a dry island just fills with more trees). A plain pond (chance 1, no river)
+  is unchanged and consumes no extra RNG, so every other theme stays byte-identical.
 
 ### Changed
 - **`theme_override` biome bands now take precedence over the base theme's bands (prepend, not append).** A patch band

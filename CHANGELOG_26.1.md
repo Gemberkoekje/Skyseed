@@ -16,6 +16,9 @@ the version-number sequence, so a version can appear in one changelog and not th
   **Forest** island (+ large/huge) to **11 BWG wood biomes** (aspen, baobab, cika, jacaranda, maple, ebony, redwood,
   zelkova, witch-hazel, sakura, ironwood) so a Forest seed thrown over one grows that biome's BWG trees. Inert without
   BWG (unknown ids never match) — byte-identical generation.
+- **Optional / random water features (`pond.chance` + `pond.river`)** — a pond can be carved only `chance` of the time
+  and, when it is, be a 50/50 pick between the pool and a `river`. The Huge Forest uses it for 25% lake / 25% river /
+  50% dry. Plain ponds (chance 1, no river) are unchanged and consume no extra RNG.
 
 ### Changed
 - **`theme_override` biome bands now take precedence over the base theme's bands (prepend, not append).** Shared with the
