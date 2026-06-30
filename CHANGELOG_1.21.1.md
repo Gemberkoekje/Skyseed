@@ -19,6 +19,10 @@ change when only the 26.1 build does. Format loosely based on [Keep a Changelog]
   (`chance`) and, when it is, be a 50/50 pick between the pool and a `river` alternative. The **Huge Forest** uses it for
   a **25% lake / 25% river / 50% dry** roll (a dry island just fills with more trees). A plain pond (chance 1, no river)
   is unchanged and consumes no extra RNG, so every other theme stays byte-identical.
+- **Rivers are walled in and never sheer.** Implements the long-planned river-to-rim follow-up: a river's banks always
+  soften (a river never rolls the steep variant a pond can), and where it runs to the island edge it is walled into a
+  contained channel — leaving only ~1-in-4 coarse rim stretches open as deliberate waterfalls, rather than sheeting off
+  all along its banks. Applies to every river (forest / aquatic / huge forest); pond carving is unchanged and RNG-identical.
 
 ### Changed
 - **`theme_override` biome bands now take precedence over the base theme's bands (prepend, not append).** A patch band

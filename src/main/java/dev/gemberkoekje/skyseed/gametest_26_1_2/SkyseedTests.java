@@ -3668,7 +3668,7 @@ public final class SkyseedTests {
      * version-specific water/decoration delta; the river/sugar-cane water tests still pass). */
     private static final java.util.Map<String, String> GOLDEN = java.util.Map.of(
             "gametest/island#1", "213/-3285534759166012883/1/2/0/0/23",
-            "gametest/water#4", "1233/6306511568484474490/0/1/0/0/0",
+            "gametest/water#4", "1233/-93296134425698814/0/1/0/0/0",
             "gametest/features#4", "1356/2766402466658160625/0/0/0/0/0",
             "gametest/structure#11", "566/-538726431172054277/0/0/2/1/0",
             "gametest/bad#4", "197/5964512207029114459/0/0/0/1/0"

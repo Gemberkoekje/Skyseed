@@ -96,7 +96,7 @@
       }
     ],
     "river": {
-      "block": "minecraft:water", "radius": 4, "depth": 3, "style": "river", "slope": true,
+      "block": "minecraft:water", "radius": 4, "depth": 3, "style": "river",
       "plants": [ { "block": "minecraft:seagrass", "chance": 0.14 }, { "block": "minecraft:kelp", "chance": 0.06 } ],
       "bank": [ { "block": "minecraft:sugar_cane", "chance": 0.50 } ],
       "water_mobs": [ { "entity": "minecraft:salmon", "chance": 0.50, "count": { "min": 2, "max": 4 } } ]

@@ -19,6 +19,9 @@ the version-number sequence, so a version can appear in one changelog and not th
 - **Optional / random water features (`pond.chance` + `pond.river`)** — a pond can be carved only `chance` of the time
   and, when it is, be a 50/50 pick between the pool and a `river`. The Huge Forest uses it for 25% lake / 25% river /
   50% dry. Plain ponds (chance 1, no river) are unchanged and consume no extra RNG.
+- **Rivers are walled in and never sheer** — the planned river-to-rim follow-up: a river's banks always soften, and where
+  it meets the island edge it is walled into a contained channel with only ~1-in-4 coarse rim stretches left open as
+  deliberate waterfalls. Every river (forest / aquatic / huge forest); pond carving unchanged.
 
 ### Changed
 - **`theme_override` biome bands now take precedence over the base theme's bands (prepend, not append).** Shared with the

@@ -304,7 +304,7 @@ public final class IslandGenerator {
                         final int lakeBottom = lakeY - Math.max(0, pool.depth() - 1);
                         final BlockState lavaState = resolveBlock(pool.block(), Blocks.LAVA).defaultBlockState();
                         final Set<Long> carved = PondCarver.carvePond(blockMap, surfaceList, center, topDome, lakeY, baseRadius, pool, lavaState, random);
-                        PondCarver.containPond(blockMap, surfaceList, center, lakeY, lakeBottom, cfg.surface(), cfg.fill(), carved, random);
+                        PondCarver.containPond(blockMap, surfaceList, center, lakeY, lakeBottom, cfg.surface(), cfg.fill(), carved, random, false);
                         lavaLake = true;
                     }
                     break; // only the first matching height band rolls
@@ -326,9 +326,9 @@ public final class IslandGenerator {
             final Set<Long> carved = PondCarver.carvePond(blockMap, surfaceList, center, topDome, waterY, baseRadius, pond, pondWater, random);
             // Wall up any open edge to the water surface (a containing ring) and dress the bed/shore with
             // sand/clay/gravel — before decorations, so cane and lily pads sit on contained ground.
-            PondCarver.containPond(blockMap, surfaceList, center, waterY, bottomY, cfg.surface(), cfg.fill(), carved, random);
+            PondCarver.containPond(blockMap, surfaceList, center, waterY, bottomY, cfg.surface(), cfg.fill(), carved, random, pond.isRiver());
             // Soften the banks (steep / sloped / mixed per island) so a sheer channel can become a gentle shore.
-            PondCarver.terraceBanks(blockMap, surfaceList, center, waterY, carved, cfg.surface(), random);
+            PondCarver.terraceBanks(blockMap, surfaceList, center, waterY, carved, cfg.surface(), random, pond.isRiver());
             PondCarver.placePondPlants(blockMap, center, waterY, pond, carved, random);
             PondCarver.placePondBanks(blockMap, surfaceList, center, pond, carved, random);
             pondColumns.addAll(carved);
