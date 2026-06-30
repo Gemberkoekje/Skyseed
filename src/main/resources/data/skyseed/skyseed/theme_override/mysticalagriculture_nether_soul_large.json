@@ -1,0 +1,7 @@
+{
+  "_comment": "First-party Mystical Agriculture compat: soulium ore on the large nether soul island. Inert without Mystical Agriculture.",
+  "target": "skyseed:nether_soul_large",
+  "ores": [
+    { "block": "mysticalagriculture:soulium_ore", "chance": 0.50, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" }
+  ]
+}
