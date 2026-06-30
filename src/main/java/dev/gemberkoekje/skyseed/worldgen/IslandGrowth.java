@@ -17,6 +17,9 @@ import java.util.List;
 @EventBusSubscriber(modid = Skyseed.MODID)
 public final class IslandGrowth {
     private static final List<GenerationJob> JOBS = new ArrayList<>();
+    /** Safety cap on the per-job shutdown drain so a never-completing job can't hang the stop (far above any real
+     *  island: ~hundreds of ticks even for a huge structure island). */
+    private static final int MAX_DRAIN_TICKS = 100_000;
 
     private IslandGrowth() {}
 
@@ -39,6 +42,16 @@ public final class IslandGrowth {
 
     @SubscribeEvent
     static void onServerStopping(ServerStoppingEvent event) {
-        JOBS.clear(); // don't carry jobs into a later server (e.g. another singleplayer world)
+        // Finish any island still growing before the world's final save, so a save/quit (or server stop) mid-grow
+        // doesn't leave a permanently half-built, unfinishable island — the seed was already consumed when the job was
+        // enqueued, so there is no way to regrow it. Jobs carry no cross-server state, so draining each to completion
+        // here (bounded by MAX_DRAIN_TICKS) is simpler and safer than persisting + resuming them across loads.
+        for (GenerationJob job : new ArrayList<>(JOBS)) {
+            int guard = 0;
+            while (!job.tick() && ++guard < MAX_DRAIN_TICKS) {
+                // drain the job's remaining budgeted steps to completion
+            }
+        }
+        JOBS.clear(); // and don't carry jobs into a later server (e.g. another singleplayer world)
     }
 }

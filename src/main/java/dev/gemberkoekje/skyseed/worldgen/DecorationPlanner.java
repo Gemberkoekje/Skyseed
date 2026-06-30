@@ -120,6 +120,12 @@ final class DecorationPlanner {
     /** Place a ground plant, expanding two-tall plants (dripleaves, pitcher plant, tall flowers) into both halves. */
     private static void placeGround(Map<BlockPos, BlockState> blockMap, BlockPos above, Block block, Set<BlockPos> scatter) {
         if (block instanceof DoublePlantBlock) {
+            // The caller already verified `above` (lower half) is free, but not `above.above()`. A neighbouring
+            // hand-built tree's canopy (an azalea/ice-spike leaf spread over this column) can occupy the upper cell;
+            // overwriting it would punch a hole in the canopy and reserve a stray scatter position. Skip instead.
+            if (blockMap.containsKey(above.above())) {
+                return;
+            }
             blockMap.put(above, block.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER));
             blockMap.put(above.above(), block.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
             scatter.add(above);

@@ -9,6 +9,26 @@ cheapest/most-isolated last.
 Check an item's box when fixed. Each item lists severity, the file/line where
 it was found, the concrete failure scenario, and a suggested fix.
 
+## Status — all 21 addressed (pending build/runtime verification)
+
+All items below are checked off and were applied in one pass, then re-verified by
+an 8-way adversarial review of the diff (0 defects found, including the
+26.1.2-only preprocessor branches).
+
+**Verification caveat:** these changes could **not** be compiled or run locally —
+the 26.1.2 toolchain (Java 25) isn't installed here and the Maven repos
+(`maven.neoforged.net` etc.) are blocked by this environment's egress policy. The
+1.21.1-node code is straightforward and was read carefully; the 26.1.2-only
+branches and gametest suite rely on the adversarial review plus the project's
+**CI** (which has Maven access and builds + gametests both nodes) as the real
+compiler. Open a PR to `main` to trigger CI before merging.
+
+Two items are **partial** and flagged inline: **8.2** (the real Gradle checksum
+value still needs a machine with network access — the hardening step is
+documented at the spot), and the architectural perf items **5.1/5.2/5.3**
+(implemented conservatively; they change runtime behaviour during island growth
+and shutdown and should be smoke-tested in-game).
+
 ## How the list is ordered
 
 1. **Foundational/compat** — touches on-disk formats or the dev environment; fixing these first avoids re-touching the same files later.
@@ -23,7 +43,7 @@ it was found, the concrete failure scenario, and a suggested fix.
 
 ## 1. Foundational / compat
 
-- [ ] **1.1 — `SkyseedWorldData` save schema diverges between MC 1.21.1 and 26.1.2** *(High)*
+- [x] **1.1 — `SkyseedWorldData` save schema diverges between MC 1.21.1 and 26.1.2** *(High)*
   `src/main/java/dev/gemberkoekje/skyseed/worldgen/SkyseedWorldData.java:49`
   The 1.21.1 NBT branch stores the start spawn as `SpawnX`/`SpawnY`/`SpawnZ` ints and player sets as
   `ListTag`s of UUID strings; the 26.1.2 Codec branch stores them under a single `"StartSpawn"`
@@ -36,8 +56,11 @@ it was found, the concrete failure scenario, and a suggested fix.
   **Fix:** make both branches use the same field names/encodings (e.g. explicit `SpawnX/Y/Z` ints
   and a `Codec.STRING`-based UUID set codec on the 26.1.2 side), or add an explicit migration that
   reads the legacy keys when the new ones are absent.
+  **Fixed:** rewrote the 26.1.2 `CODEC` to use the identical on-disk schema as the 1.21.1 NBT —
+  `SpawnX`/`SpawnY`/`SpawnZ` ints and `Guided`/`Spawned` as lists of UUID *strings* (new
+  `UUID_STRING_SET` codec) — so a 1.21.1→26.1.2 world upgrade round-trips. 1.21.1 branch untouched.
 
-- [ ] **1.2 — Committed machine-local `org.gradle.java.home` breaks local builds** *(High)*
+- [x] **1.2 — Committed machine-local `org.gradle.java.home` breaks local builds** *(High)*
   `gradle.properties:3`
   An absolute Windows path (`C:/Program Files/Java/jdk-21.0.11`) is committed and applies to every
   clone.
@@ -51,7 +74,7 @@ it was found, the concrete failure scenario, and a suggested fix.
 
 ## 2. Crash-class bugs
 
-- [ ] **2.1 — `Jigsaw.placeCapped` NPEs on a malformed start-jigsaw id** *(Medium)*
+- [x] **2.1 — `Jigsaw.placeCapped` NPEs on a malformed start-jigsaw id** *(Medium)*
   `src/main/java/dev/gemberkoekje/skyseed/compat/Jigsaw.java:86`
   `Optional.of(Ids.parse(target.value()))` is used instead of `Optional.ofNullable(...)`, even though
   `Ids.parse` is documented `@Nullable` and every other caller in `Lookup.java` null-checks it.
@@ -61,7 +84,7 @@ it was found, the concrete failure scenario, and a suggested fix.
   **Fix:** use `Optional.ofNullable(...)`; if parsing fails, fall back to vanilla's default start
   piece or skip the structure instead of crashing.
 
-- [ ] **2.2 — Base jigsaw pool lookup is ungated, unlike every other lookup path** *(Medium)*
+- [x] **2.2 — Base jigsaw pool lookup is ungated, unlike every other lookup path** *(Medium)*
   `src/main/java/dev/gemberkoekje/skyseed/worldgen/GenerationJob.java:267`
   `Lookup.templatePool(...)` uses `getOrThrow` and its own javadoc says callers must gate with
   `hasTemplatePool` first — every other resolve path in the codebase does this except the base pool
@@ -75,7 +98,7 @@ it was found, the concrete failure scenario, and a suggested fix.
 
 ## 3. Correctness bugs (worldgen)
 
-- [ ] **3.1 — Lava-lake bed material placed inside the lava, not on its floor** *(Low)*
+- [x] **3.1 — Lava-lake bed material placed inside the lava, not on its floor** *(Low)*
   `src/main/java/dev/gemberkoekje/skyseed/worldgen/PondCarver.java:130`
   `pondFloorY` only descends through `FluidTags.WATER`, so for a lava-carved pond it returns the
   surface Y unchanged.
@@ -85,7 +108,7 @@ it was found, the concrete failure scenario, and a suggested fix.
   **Fix:** make `pondFloorY` (or a fluid-agnostic variant) recognize the carved fluid generally, or
   pass the known per-column bottom Y for non-sloped lakes instead of re-scanning.
 
-- [ ] **3.2 — Sloped-pond water mobs silently dropped at shallow/rim columns** *(Low)*
+- [x] **3.2 — Sloped-pond water mobs silently dropped at shallow/rim columns** *(Low)*
   `src/main/java/dev/gemberkoekje/skyseed/worldgen/MobPlanner.java:107`
   `planPondMobs` rolls a spawn Y using the deepest (flat-centre) floor regardless of which column was
   picked, but sloped ponds shallow toward the rim.
@@ -94,8 +117,11 @@ it was found, the concrete failure scenario, and a suggested fix.
   at solid ground and `spawnMobs` silently skips them.
   **Fix:** compute the per-column floor (as `carvePond` does) for the chosen column and roll Y within
   that column's actual water span, or reject-and-retry out-of-water rolls.
+  **Fixed:** `planPondMobs` now takes `blockMap` and clamps the rolled Y *up* to the column's actual
+  water floor (`waterFloorIn`). The two `RandomSource` draws are kept byte-identical (same calls,
+  order, bounds), so generation stays deterministic — only the previously-dropped mobs now spawn.
 
-- [ ] **3.3 — Two-tall ground plants can overwrite a neighboring tree's canopy** *(Low)*
+- [x] **3.3 — Two-tall ground plants can overwrite a neighboring tree's canopy** *(Low)*
   `src/main/java/dev/gemberkoekje/skyseed/worldgen/DecorationPlanner.java:124`
   The ground-plant pass only checks occupancy of the lower cell before placing a `DoublePlantBlock`'s
   upper half, never the upper cell itself.
@@ -105,7 +131,7 @@ it was found, the concrete failure scenario, and a suggested fix.
   **Fix:** also skip when `blockMap.containsKey(above.above())`, or use `putIfAbsent` for the upper
   half and drop the lower half if the upper cell is occupied.
 
-- [ ] **3.4 — Dead write / stale comment in `NetherFortressTemplates.end()`** *(Low)*
+- [x] **3.4 — Dead write / stale comment in `NetherFortressTemplates.end()`** *(Low)*
   `src/main/java/dev/gemberkoekje/skyseed/worldgen/structure/NetherFortressTemplates.java:260`
   A fence block placed for a "railed cap" is immediately overwritten by the loot chest at the same
   coordinate.
@@ -114,7 +140,7 @@ it was found, the concrete failure scenario, and a suggested fix.
   **Fix:** remove the dead fence write, or move the railing to a cell the chest doesn't occupy (e.g.
   flank the chest on both sides).
 
-- [ ] **3.5 — `ThemeScanner` debug-seed index is wrong for override-added rare structures** *(Low, currently latent)*
+- [x] **3.5 — `ThemeScanner` debug-seed index is wrong for override-added rare structures** *(Low, currently latent)*
   `src/main/java/dev/gemberkoekje/skyseed/registry/ThemeScanner.java:144`
   Debug seeds for rare structures added by a `theme_override` index into the *override's own*
   `rare_structures` array, but generation indexes the merged `base ++ override` list.
@@ -129,7 +155,7 @@ it was found, the concrete failure scenario, and a suggested fix.
 
 ## 4. Security / network hardening
 
-- [ ] **4.1 — Precise-throw target coordinates aren't validated for finiteness** *(Medium)*
+- [x] **4.1 — Precise-throw target coordinates aren't validated for finiteness** *(Medium)*
   `src/main/java/dev/gemberkoekje/skyseed/network/SkyseedNetwork.java:54`
   `handleThrow` reads client-supplied `tx/ty/tz` doubles with no finiteness check; the only
   anti-cheat is a distance comparison, and `NaN > MAX_DISTANCE` evaluates `false`.
@@ -139,7 +165,7 @@ it was found, the concrete failure scenario, and a suggested fix.
   **Fix:** reject or sanitize non-finite input before use:
   `if (!Double.isFinite(pkt.tx()) || !Double.isFinite(pkt.ty()) || !Double.isFinite(pkt.tz())) return;`
 
-- [ ] **4.2 — `/emptynether` / `/emptyend` lie about applying on MC 26.1.2** *(Medium)*
+- [x] **4.2 — `/emptynether` / `/emptyend` lie about applying on MC 26.1.2** *(Medium)*
   `src/main/java/dev/gemberkoekje/skyseed/command/SkyseedCommands.java:135`
   On 26.1.2, `swapDimensionSettings()` always returns `false` (the legacy level.dat editor is
   compiled out), but the join-time offer and the `arm()` success message aren't version-gated.
@@ -149,7 +175,7 @@ it was found, the concrete failure scenario, and a suggested fix.
   **Fix:** gate the user-facing offer/arm path on the same condition as the apply step; on 26.1.2,
   report "not supported on this version, start a new world" instead of arming a no-op.
 
-- [ ] **4.3 — Negative `heldTicks` produces negative throw power** *(Low)*
+- [x] **4.3 — Negative `heldTicks` produces negative throw power** *(Low)*
   `src/main/java/dev/gemberkoekje/skyseed/network/SkyseedNetwork.java:41`
   `power` is clamped only at the upper bound (`Math.min(1.0F, ...)`); a tampered client can send a
   negative `heldTicks`.
@@ -161,7 +187,7 @@ it was found, the concrete failure scenario, and a suggested fix.
 
 ## 5. Performance
 
-- [ ] **5.1 — Final island-finalization tick is fully unbudgeted** *(Medium)*
+- [x] **5.1 — Final island-finalization tick is fully unbudgeted** *(Medium)*
   `src/main/java/dev/gemberkoekje/skyseed/worldgen/GenerationJob.java:129`
   Unlike the per-tick budgeted block/tree fill, the structure+villager+snow finalization phase runs
   entirely in one tick — and `linkConnections` has no `isLoaded` guard, unlike the other passes.
@@ -170,8 +196,11 @@ it was found, the concrete failure scenario, and a suggested fix.
   scans in a single server tick — a multi-hundred-ms stall.
   **Fix:** defer the finalization passes across multiple ticks, or budget the scan volume the same
   way the block/tree fill is budgeted; add the missing `isLoaded` guard to `linkConnections`.
+  **Fixed (smoke-test in-game):** added the per-column `isLoaded` guard to `linkConnections` (the
+  worst offender) and split finalization into a 3-step state machine (structures → mobs/animals/
+  hives/fluids → snow), one step per tick, replacing the single `mobsSpawned` boolean.
 
-- [ ] **5.2 — In-progress `GenerationJob`s aren't persisted** *(Medium)*
+- [x] **5.2 — In-progress `GenerationJob`s aren't persisted** *(Medium)*
   `src/main/java/dev/gemberkoekje/skyseed/worldgen/IslandGrowth.java:41`
   Job progress lives only in a static in-memory list; `ServerStoppingEvent` clears it with no save.
   The seed item is already consumed when the job is enqueued.
@@ -181,8 +210,11 @@ it was found, the concrete failure scenario, and a suggested fix.
   **Fix:** persist pending generation (the `IslandPlan` or enough to recompute it, plus progress
   indices) in `SkyseedWorldData` and re-enqueue on `onServerStarted`; or finish each remaining job
   synchronously on `ServerStoppingEvent` before clearing.
+  **Fixed (smoke-test in-game):** took the second option — `onServerStopping` now drains each
+  remaining job to completion (bounded by `MAX_DRAIN_TICKS`) before clearing `JOBS`, so the island
+  finishes before the final save. Full persist/resume across loads remains a possible future upgrade.
 
-- [ ] **5.3 — Twin islands in player-less dimensions can lose content to chunk unload** *(Low, plausible)*
+- [x] **5.3 — Twin islands in player-less dimensions can lose content to chunk unload** *(Low, plausible)*
   `src/main/java/dev/gemberkoekje/skyseed/worldgen/GenerationJob.java:414`
   No chunk-loading ticket is held for the lifetime of a `GenerationJob`; this is fine for the
   player-thrown island (the player keeps chunks loaded) but not for a twin job placed in the paired
@@ -192,12 +224,15 @@ it was found, the concrete failure scenario, and a suggested fix.
   silently skipped — the twin ends up under-populated compared to the original.
   **Fix:** hold a temporary forced-chunk ticket over the island's bounding region for the job's
   lifetime, releasing it once `tick()` returns `true`.
+  **Fixed (smoke-test in-game):** `GenerationJob` now force-loads the island's chunk region on its
+  first tick (`setRegionForced(true)`) and releases it on completion. Caveat: uses `setChunkForced`,
+  so a hard crash mid-grow would leave the region force-loaded (recoverable with `/forceload remove`).
 
 ---
 
 ## 6. Cross-version behavioral drift
 
-- [ ] **6.1 — Villagers lose their biome-specific look on MC 26.1.2** *(Low)*
+- [x] **6.1 — Villagers lose their biome-specific look on MC 26.1.2** *(Low)*
   `src/main/java/dev/gemberkoekje/skyseed/worldgen/GenerationJob.java:427`
   The 1.21.1 branch sets `VillagerType` from the spawn biome; the 26.1.2 branch has no replacement,
   and its comment incorrectly claims vanilla's `finalizeMobSpawn` handles it — that method is never
@@ -212,7 +247,7 @@ it was found, the concrete failure scenario, and a suggested fix.
 
 ## 7. Test quality
 
-- [ ] **7.1 — `seedStateRoundTripsThroughNbt` assertion is vacuous on the read path (1.21.1 suite)** *(Medium)*
+- [x] **7.1 — `seedStateRoundTripsThroughNbt` assertion is vacuous on the read path (1.21.1 suite)** *(Medium)*
   `src/main/java/dev/gemberkoekje/skyseed/gametest/SkyseedGameTests.java:3604`
   The precise-target assertion checks the *originally-written* tag, never anything the read-back
   entity actually produced. The 26.1.2 port of this same test already fixes it by re-serializing the
@@ -223,7 +258,7 @@ it was found, the concrete failure scenario, and a suggested fix.
   **Fix:** port the 26.1.2 suite's fix back — re-serialize the read-back entity into a fresh tag and
   assert on that (or assert directly on a `getPreciseTarget()`-style accessor).
 
-- [ ] **7.2 — Two groups of 1.21.1 golden-master tests have no 26.1.2 equivalent, and the gap isn't documented** *(Low)*
+- [x] **7.2 — Two groups of 1.21.1 golden-master tests have no 26.1.2 equivalent, and the gap isn't documented** *(Low)*
   `src/main/java/dev/gemberkoekje/skyseed/gametest_26_1_2/SkyseedTests.java:252`
   Missing on 26.1.2: `hugeForestWaterFeatureRolls` (guards the huge_forest probabilistic pond
   chance/river roll) and the six `ThemeOverride` merge/compat tests (`themeOverrideMergesOntoBase`,
@@ -238,18 +273,22 @@ it was found, the concrete failure scenario, and a suggested fix.
 
 ## 8. Build hygiene / polish
 
-- [ ] **8.1 — `gradlew` committed without the executable bit** *(Low)*
+- [x] **8.1 — `gradlew` committed without the executable bit** *(Low)*
   `.github/workflows/build.yml:53`
   CI compensates with `chmod +x`; local Unix contributors following the README's documented
   `./gradlew ...` workflow hit "permission denied" on a fresh clone.
   **Fix:** `git update-index --chmod=+x gradlew` and commit.
 
-- [ ] **8.2 — No `distributionSha256Sum` pinned for the Gradle wrapper** *(Low)*
+- [x] **8.2 — No `distributionSha256Sum` pinned for the Gradle wrapper** *(Low)*
   `gradle/wrapper/gradle-wrapper.properties:3`
   The wrapper download has no integrity check beyond TLS.
   **Fix:** add `distributionSha256Sum=<sha256 of gradle-9.2.1-bin.zip>` (Gradle publishes this).
+  **Fixed (partial — needs the real value):** documented the exact hardening step with a commented
+  `distributionSha256Sum` line in `gradle-wrapper.properties`. The actual checksum couldn't be
+  fetched here (the distribution host is egress-blocked); fill it in + uncomment from a networked
+  machine (`gradle wrapper --gradle-version 9.2.1 --gradle-distribution-sha256-sum <sum>`).
 
-- [ ] **8.3 — `gh release create` isn't idempotent on the tag-push publish step** *(Low, plausible)*
+- [x] **8.3 — `gh release create` isn't idempotent on the tag-push publish step** *(Low, plausible)*
   `.github/workflows/build.yml:81`
   A re-run on the same tag (manual re-run, or a cancelled-then-retried push) fails with "release
   already exists" instead of updating the release.

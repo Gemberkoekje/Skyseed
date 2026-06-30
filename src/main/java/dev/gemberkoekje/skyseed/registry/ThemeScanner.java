@@ -41,13 +41,16 @@ public final class ThemeScanner {
         final List<DebugSeedSpec> out = new ArrayList<>();
         final Set<String> ids = new HashSet<>();
         try {
-            // Base themes: a debug seed's baseTheme is the file's own theme id.
-            gather("theme").forEach((theme, json) -> scanTheme(theme, json, out, ids));
+            // Base themes: a debug seed's baseTheme is the file's own theme id (no rare-index offset — base
+            // rare_structures sit at indices 0..n-1 in the resolved theme).
+            final java.util.Map<String, String> baseThemes = gather("theme");
+            baseThemes.forEach((theme, json) -> scanTheme(theme, json, out, ids, 0));
             // First-party theme_overrides (Create / MA / BWG ...): the biome_overrides (and rare_structures) a patch
             // ADDS get debug seeds too, attributed to the override's `target` theme — so e.g. the BWG wood bands, which
-            // live in theme_override and not the base forest theme, still appear as debug seeds. Scanned after the base
-            // themes so a base id wins a collision (the override's then gets a numeric suffix).
-            gather("theme_override").forEach((file, json) -> scanOverride(json, out, ids));
+            // live in theme_override and not the base forest theme, still appear as debug seeds. The base themes are
+            // passed in so an override's rare_structures can be indexed past the base's (see scanOverride). Scanned after
+            // the base themes so a base id wins a collision (the override's then gets a numeric suffix).
+            gather("theme_override").forEach((file, json) -> scanOverride(json, baseThemes, out, ids));
         } catch (Exception e) {
             Skyseed.LOGGER.warn("[skyseed] debug-seed scan skipped: {}", e.toString());
         }
@@ -100,7 +103,8 @@ public final class ThemeScanner {
 
     /** A {@code theme_override} patch: scan the content it ADDS (biome_overrides / rare_structures) as debug seeds
      *  attributed to its {@code target} theme (so a patch's biome bands get debug seeds without editing a base theme). */
-    private static void scanOverride(String json, List<DebugSeedSpec> out, Set<String> ids) {
+    private static void scanOverride(String json, java.util.Map<String, String> baseThemes,
+                                     List<DebugSeedSpec> out, Set<String> ids) {
         try {
             final JsonObject root = JsonParser.parseString(json).getAsJsonObject();
             if (!root.has("target")) {
@@ -108,13 +112,30 @@ public final class ThemeScanner {
             }
             final String target = root.get("target").getAsString();
             final int colon = target.indexOf(':');
-            scanTheme(colon < 0 ? target : target.substring(colon + 1), json, out, ids);
+            final String theme = colon < 0 ? target : target.substring(colon + 1);
+            // Themes.resolve concatenates base ++ override rare_structures (ThemeOverride.applyTo), so an override's
+            // rare structure at override-index j lives at resolved index baseRareCount + j. Offset the forced index by
+            // the base theme's rare count so the debug seed germinates the override's added structure, not the base's.
+            scanTheme(theme, json, out, ids, rareCount(baseThemes.get(theme)));
         } catch (Exception e) {
             Skyseed.LOGGER.warn("[skyseed] debug-seed override scan failed: {}", e.toString());
         }
     }
 
-    private static void scanTheme(String theme, String json, List<DebugSeedSpec> out, Set<String> ids) {
+    /** The number of {@code rare_structures} a base theme JSON declares (0 if absent / unparseable / not found). */
+    private static int rareCount(String json) {
+        if (json == null) {
+            return 0;
+        }
+        try {
+            final JsonObject root = JsonParser.parseString(json).getAsJsonObject();
+            return root.has("rare_structures") ? root.getAsJsonArray("rare_structures").size() : 0;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    private static void scanTheme(String theme, String json, List<DebugSeedSpec> out, Set<String> ids, int rareOffset) {
         // Skip the gametest/* scaffolding themes: they're test-only (used directly by the gametests), have no
         // island_seed_<theme> icon texture, and shouldn't appear as creative-tab debug seeds — generating one only
         // yields a model the client can't resolve. Keeps the auto debug seeds to real content.
@@ -142,7 +163,9 @@ public final class ThemeScanner {
                 for (int i = 0; i < arr.size(); i++) {
                     final String tag = rareTag(arr.get(i).getAsJsonObject(), i);
                     final String id = unique("debug_" + theme + "_" + tag, ids);
-                    out.add(new DebugSeedSpec(id, theme, theme + " (" + tag + ")", null, i, false));
+                    // forcedRare indexes the RESOLVED theme's rare_structures list; for an override patch that is the
+                    // base list with this patch's entries appended, hence the rareOffset (0 for a base theme).
+                    out.add(new DebugSeedSpec(id, theme, theme + " (" + tag + ")", null, rareOffset + i, false));
                 }
             }
             // A ladder shaft with a non-zero waterfall_chance is a rare roll of the ladder island — cover its variant.

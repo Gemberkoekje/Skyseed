@@ -257,7 +257,10 @@ public final class NetherFortressTemplates {
             m.put(new BlockPos(x, DECK + 1, 1), fence);
             m.put(new BlockPos(x, DECK + 1, 5), fence);
         }
-        m.put(new BlockPos(2, DECK + 1, 3), fence);           // railed cap across the far end
+        // Railed cap across the far end (x = 2), flanking the loot chest at z = 3 — the cells at z = 1 / z = 5 already
+        // got their fence above. (Placing the rail at z = 3 here was a dead write: the chest below overwrites that cell.)
+        m.put(new BlockPos(2, DECK + 1, 2), fence);
+        m.put(new BlockPos(2, DECK + 1, 4), fence);
         // A nether-wart garden and a loot chest under a small stair canopy.
         for (int z = 2; z <= 4; z += 2) {
             m.put(new BlockPos(1, DECK + 1, z), Blocks.SOUL_SAND.defaultBlockState());

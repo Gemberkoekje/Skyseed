@@ -53,11 +53,13 @@ final class PondCarver {
         return (((long) dx) << 32) | (dz & 0xffffffffL);
     }
 
-    /** The lowest carved-water Y in a column (its floor), scanned down from the surface — so the bed and plants follow
-     *  a sloped basin's per-column depth, not a single uniform bottom. {@code deepest} bounds the scan. */
+    /** The lowest carved-fluid Y in a column (its floor), scanned down from the surface — so the bed and plants follow
+     *  a sloped basin's per-column depth, not a single uniform bottom. {@code deepest} bounds the scan. Tests any fluid,
+     *  not just water, so a LAVA lake's bed is lined on its real floor too (a water-only check returned {@code waterY}
+     *  immediately for lava, stamping the bed one block under the lava surface instead of on the floor). */
     private static int pondFloorY(Map<BlockPos, BlockState> blockMap, int wx, int wz, int waterY, int deepest) {
         int f = waterY;
-        while (f - 1 >= deepest && isWater(blockMap, new BlockPos(wx, f - 1, wz))) {
+        while (f - 1 >= deepest && isFluid(blockMap, new BlockPos(wx, f - 1, wz))) {
             f--;
         }
         return f;
@@ -447,5 +449,11 @@ final class PondCarver {
     private static boolean isWater(Map<BlockPos, BlockState> blockMap, BlockPos p) {
         final BlockState s = blockMap.get(p);
         return s != null && s.getFluidState().is(FluidTags.WATER);
+    }
+
+    /** Any carved fluid (water or lava). Used by {@link #pondFloorY} so a lava lake's floor is found like a pond's. */
+    private static boolean isFluid(Map<BlockPos, BlockState> blockMap, BlockPos p) {
+        final BlockState s = blockMap.get(p);
+        return s != null && !s.getFluidState().isEmpty();
     }
 }

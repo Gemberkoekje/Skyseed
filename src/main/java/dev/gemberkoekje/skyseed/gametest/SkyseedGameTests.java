@@ -3600,8 +3600,13 @@ public final class SkyseedGameTests {
 
         final IslandSeedEntity b = new IslandSeedEntity(ModEntities.ISLAND_SEED.get(), level);
         b.readAdditionalSaveData(tag);
+        // Re-serialise b and assert on THAT, not the source `tag`: asserting the precise target on `tag` (written by a)
+        // would pass even if readAdditionalSaveData silently dropped it. b only re-emits Precise/TY if its read restored
+        // them (it writes TY only when precise is true), so this actually exercises the READ side. (Mirrors the 26.1.2 suite.)
+        final CompoundTag tag2 = new CompoundTag();
+        b.addAdditionalSaveData(tag2);
         helper.assertTrue(theme.equals(b.getTheme()), "theme did not round-trip through NBT");
-        helper.assertTrue(tag.getBoolean("Precise") && tag.getDouble("TY") == 2.5, "precise target did not round-trip");
+        helper.assertTrue(tag2.getBoolean("Precise") && tag2.getDouble("TY") == 2.5, "precise target did not round-trip through read");
         helper.succeed();
     }
 

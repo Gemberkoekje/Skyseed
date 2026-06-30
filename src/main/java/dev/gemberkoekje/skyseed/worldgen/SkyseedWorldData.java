@@ -3,10 +3,11 @@ package dev.gemberkoekje.skyseed.worldgen;
 import dev.gemberkoekje.skyseed.Skyseed;
 //? if >=26.1.2 {
 /*import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.gemberkoekje.skyseed.compat.Ids;
-import net.minecraft.core.UUIDUtil;
-import net.minecraft.world.level.saveddata.SavedDataType;*/
+import net.minecraft.world.level.saveddata.SavedDataType;
+import java.util.ArrayList;*/
 //?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -44,21 +45,39 @@ public final class SkyseedWorldData extends SavedData {
 
     // 26.1.2 replaced SavedData's save(CompoundTag)/load model with a Codec registered through a SavedDataType.
     //? if >=26.1.2 {
-    /*public static final Codec<SkyseedWorldData> CODEC = RecordCodecBuilder.create(i -> i.group(
+    /*// IMPORTANT: this Codec's on-disk schema must stay IDENTICAL to the 1.21.1 NBT load()/save() below — same keys,
+    // same encodings — so a world upgraded 1.21.1 -> 26.1.2 keeps its start spawn and per-player join flags. Minecraft
+    // applies no DataFixer to a mod's SavedData, so a divergent schema would silently drop them (lost respawn anchor,
+    // re-issued guide books). Hence SpawnX/Y/Z as separate ints (not a packed BlockPos.CODEC) and Guided/Spawned as
+    // lists of UUID *strings* (not UUIDUtil.CODEC_SET, which encodes int-array UUIDs).
+    private static final Codec<Set<UUID>> UUID_STRING_SET = Codec.STRING.comapFlatMap(s -> {
+        try {
+            return DataResult.success(UUID.fromString(s));
+        } catch (IllegalArgumentException e) {
+            return DataResult.error(() -> "Not a UUID: " + s);
+        }
+    }, UUID::toString).listOf().xmap(HashSet::new, ArrayList::new);
+
+    public static final Codec<SkyseedWorldData> CODEC = RecordCodecBuilder.create(i -> i.group(
             Codec.BOOL.optionalFieldOf("StartPlaced", false).forGetter(d -> d.startPlaced),
-            BlockPos.CODEC.optionalFieldOf("StartSpawn").forGetter(d -> Optional.ofNullable(d.startSpawn)),
+            Codec.INT.optionalFieldOf("SpawnX").forGetter(d -> d.startSpawn == null ? Optional.<Integer>empty() : Optional.of(d.startSpawn.getX())),
+            Codec.INT.optionalFieldOf("SpawnY").forGetter(d -> d.startSpawn == null ? Optional.<Integer>empty() : Optional.of(d.startSpawn.getY())),
+            Codec.INT.optionalFieldOf("SpawnZ").forGetter(d -> d.startSpawn == null ? Optional.<Integer>empty() : Optional.of(d.startSpawn.getZ())),
             Codec.STRING.optionalFieldOf("CreatedVersion").forGetter(d -> Optional.ofNullable(d.createdVersion)),
-            UUIDUtil.CODEC_SET.optionalFieldOf("Guided", new HashSet<>()).forGetter(d -> d.guided),
-            UUIDUtil.CODEC_SET.optionalFieldOf("Spawned", new HashSet<>()).forGetter(d -> d.spawned)
+            UUID_STRING_SET.optionalFieldOf("Guided", new HashSet<>()).forGetter(d -> d.guided),
+            UUID_STRING_SET.optionalFieldOf("Spawned", new HashSet<>()).forGetter(d -> d.spawned)
     ).apply(i, SkyseedWorldData::new));
 
     public static final SavedDataType<SkyseedWorldData> TYPE =
             new SavedDataType<>(Ids.mod("world"), SkyseedWorldData::new, CODEC);
 
-    private SkyseedWorldData(boolean startPlaced, Optional<BlockPos> startSpawn, Optional<String> createdVersion,
+    private SkyseedWorldData(boolean startPlaced, Optional<Integer> spawnX, Optional<Integer> spawnY,
+                             Optional<Integer> spawnZ, Optional<String> createdVersion,
                              Set<UUID> guided, Set<UUID> spawned) {
         this.startPlaced = startPlaced;
-        this.startSpawn = startSpawn.orElse(null);
+        if (spawnX.isPresent() && spawnY.isPresent() && spawnZ.isPresent()) {
+            this.startSpawn = new BlockPos(spawnX.get(), spawnY.get(), spawnZ.get());
+        }
         this.createdVersion = createdVersion.orElse(null);
         this.guided.addAll(guided);
         this.spawned.addAll(spawned);
