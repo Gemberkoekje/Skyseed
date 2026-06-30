@@ -228,10 +228,12 @@ tasks.withType(ProcessResources).configureEach { dependsOn(generateGuide) }
 // which fires earlier; these generated models satisfy the load so the warning never appears.) The everyAutoDebugSeed-
 // HasAModel gametest fails if the two ever diverge. gametest/* themes are skipped in both. ---
 def themeSrcDir = rootProject.file('src/main/resources/data/skyseed/skyseed/theme')
+def themeOverrideSrcDir = rootProject.file('src/main/resources/data/skyseed/skyseed/theme_override')
 def seedModelDir = rootProject.file('src/main/resources/assets/skyseed/models/item')
 def generatedDebugModelsDir = layout.buildDirectory.dir('generated/debug_seed_models')
 def generateDebugSeedModels = tasks.register('generateDebugSeedModels') {
     inputs.dir(themeSrcDir).optional()
+    inputs.dir(themeOverrideSrcDir).optional()
     inputs.dir(seedModelDir).optional()
     outputs.dir(generatedDebugModelsDir)
     doLast {
@@ -271,11 +273,25 @@ def generateDebugSeedModels = tasks.register('generateDebugSeedModels') {
             if (!new File(seedModelDir, "${theme}_skyseed.json").exists()) return
             new File(outDir, "${id}_skyseed.json").text = groovy.json.JsonOutput.toJson([parent: "skyseed:item/${theme}_skyseed"])
         }
-        themes.each { theme, root ->
+        def scanForModels = { theme, root ->
             if (theme.startsWith('gametest/')) return
             root.biome_overrides?.each { ov -> if (ov.biomes) { def bp = firstConcreteBiome(ov.biomes); if (bp != null) emit(unique("debug_${theme}_${bp}"), theme) } }
             root.rare_structures?.eachWithIndex { rare, i -> emit(unique("debug_${theme}_${rareTag(rare, i)}"), theme) }
             if (root.ladder_shaft && (root.ladder_shaft.waterfall_chance == null || root.ladder_shaft.waterfall_chance > 0)) emit(unique("debug_${theme}_waterfall"), theme)
+        }
+        themes.each { theme, root -> scanForModels(theme, root) }
+        // theme_overrides (Create / MA / BWG ...): mirror ThemeScanner.scanOverride — a patch's added biome bands get
+        // debug-seed models too, attributed to the override's `target` theme (scanned after the base themes, same order
+        // and shared `unique`/`ids`, so the derived ids match ThemeScanner exactly). KEEP IN SYNC with ThemeScanner.
+        if (themeOverrideSrcDir.exists()) {
+            def overrides = new TreeMap()
+            themeOverrideSrcDir.eachFileRecurse { f ->
+                if (f.name.endsWith('.json')) {
+                    def rel = themeOverrideSrcDir.toPath().relativize(f.toPath()).toString().replace('\\', '/')
+                    overrides[rel.substring(0, rel.length() - '.json'.length())] = slurper.parse(f)
+                }
+            }
+            overrides.each { name, root -> if (root.target) { def t = root.target as String; def cc = t.indexOf(':'); scanForModels(cc < 0 ? t : t.substring(cc + 1), root) } }
         }
         println "generated debug-seed models: ${outDir.listFiles()?.length ?: 0}"
     }
