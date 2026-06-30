@@ -10,8 +10,9 @@
 		{
 			id: "5C0000000000B001"
 			rewards: [{
-				id: "5C0000000000D001"
-				table_id: "5C00000000005001"
+				exclude_from_claim_all: true
+				id: "251605C7132D7BCB"
+				table_id: 6629298651489390593L
 				type: "random"
 			}]
 			tasks: [{
@@ -25,8 +26,12 @@
 			dependencies: ["5C0000000000B001"]
 			id: "5C0000000000B002"
 			rewards: [{
+				count: 8
 				id: "5C0000000000D002"
-				item: { count: 8, id: "minecraft:bread" }
+				item: {
+					count: 1
+					id: "minecraft:bread"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -40,8 +45,12 @@
 			dependencies: ["5C0000000000B001"]
 			id: "5C0000000000B003"
 			rewards: [{
+				count: 32
 				id: "5C0000000000D003"
-				item: { count: 32, id: "minecraft:torch" }
+				item: {
+					count: 1
+					id: "minecraft:torch"
+				}
 				type: "item"
 			}]
 			tasks: [{
