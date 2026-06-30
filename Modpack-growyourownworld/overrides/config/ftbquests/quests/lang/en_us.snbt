@@ -2,7 +2,7 @@
 	chapter.5C0000000000A001.title: "Introduction"
 	chapter.5C0000000000A002.title: "Skyseed"
 	chapter.5C0000000000A003.title: "Create"
-	chapter.5C0000000000A004.title: "Tools & Travel"
+	chapter.5C0000000000A004.title: "Tools \& Travel"
 	chapter.5C0000000000A005.title: "Storage"
 	quest.5C0000000000B001.quest_desc: [
 		"Welcome, skyfarer."
@@ -70,15 +70,15 @@
 		""
 		"A working village means trades, crops and a renewable economy on your doorstep."
 	]
-	quest.5C0000000000B107.quest_subtitle: "Villages & Farms"
+	quest.5C0000000000B107.quest_subtitle: "Villages \& Farms"
 	quest.5C0000000000B107.title: "Good Neighbours"
 	quest.5C0000000000B108.quest_desc: [
 		"Skyseed grows §estructures§r too — dungeons, temples, outposts and more, each with vanilla loot and the §eStructure Relics§r and §ePortal Frame Shards§r you'll need for the End later."
 		""
 		"Start with a §eDungeon§r island. Re-grow any structure to re-roll its loot."
 	]
-	quest.5C0000000000B108.quest_subtitle: "Loot & relics"
-	quest.5C0000000000B108.title: "Ruins & Landmarks"
+	quest.5C0000000000B108.quest_subtitle: "Loot \& relics"
+	quest.5C0000000000B108.title: "Ruins \& Landmarks"
 	quest.5C0000000000B109.quest_desc: [
 		"Find any §elava§r — a pool deep in a Rocky isle, or cast your own — and flood it with water to make §eobsidian§r. Build a portal frame, light it, and step through into §ethe Nether§r and its own long climb."
 		""
@@ -98,8 +98,8 @@
 		""
 		"These are the relics and resources that unlock the End."
 	]
-	quest.5C0000000000B111.quest_subtitle: "Blaze & plunder"
-	quest.5C0000000000B111.title: "Fortress & Bastion"
+	quest.5C0000000000B111.quest_subtitle: "Blaze \& plunder"
+	quest.5C0000000000B111.title: "Fortress \& Bastion"
 	quest.5C0000000000B112.quest_desc: [
 		"The §eEnd Portal Skyseed§r is the long way round: four §eportal edges§r, each forged from a §ePortal Frame Shard§r and two §estructure relics§r gathered from across the mod."
 		""
@@ -172,7 +172,7 @@
 	quest.5C0000000000B205.quest_subtitle: "Now you need that zinc"
 	quest.5C0000000000B205.title: "Brass"
 	quest.5C0000000000B206.quest_desc: [
-		"§eCreate: Crafts & Additions§r bridges rotation and §eForge Energy (FE)§r: an §eAlternator§r turns spinning into FE, an §eElectric Motor§r turns FE back into spinning."
+		"§eCreate: Crafts \& Additions§r bridges rotation and §eForge Energy (FE)§r: an §eAlternator§r turns spinning into FE, an §eElectric Motor§r turns FE back into spinning."
 		""
 		"That FE grid will power the bigger tech mods later. Pair it with §eFlux Networks§r to beam power between islands — no cables across the void."
 	]
@@ -189,7 +189,7 @@
 		""
 		"§e- Traits§r come from materials — extra durability, speed, luck and more."
 		"§e- Repair Kits§r fix tools on the go, no anvil needed."
-		"§e- Tips & grips§r add bonuses; re-coat with better materials as you progress."
+		"§e- Tips \& grips§r add bonuses; re-coat with better materials as you progress."
 		""
 		"Browse the parts in JEI to plan your perfect tool."
 	]
@@ -218,7 +218,7 @@
 		"§7Tip: it ties into Create — funnels and pipes can feed these directly.§r"
 	]
 	quest.5C0000000000B403.quest_subtitle: "Sophisticated Storage"
-	quest.5C0000000000B403.title: "Barrels & Boxes"
+	quest.5C0000000000B403.title: "Barrels \& Boxes"
 	quest.5C0000000000B501.quest_desc: [
 		"With islands scattered across the void, walking gets old fast. §eWaystones§r fix that."
 		""
@@ -249,7 +249,7 @@
 		""
 		"Set a §eBasin§r under a §eMechanical Mixer§r too, and you can combine and wash materials. The press and mixer are your crafting backbone."
 	]
-	quest.5C0000000000B207.quest_subtitle: "Sheets, mixing & assembly"
+	quest.5C0000000000B207.quest_subtitle: "Sheets, mixing \& assembly"
 	quest.5C0000000000B207.title: "Press It"
 	quest.5C0000000000B209.quest_desc: [
 		"Brass unlocks Create's §eautomators§r:"
@@ -280,14 +280,14 @@
 	quest.5C0000000000B213.title: "All Aboard"
 	quest.5C0000000000B215.quest_desc: ["Craft §eEngineer's Goggles§r to read stress and fluid levels at a glance — wear them whenever you build. Small Create add-ons fill the gaps in your toolkit."]
 	quest.5C0000000000B215.quest_subtitle: "Quality-of-life"
-	quest.5C0000000000B215.title: "Goggles & Gadgets"
+	quest.5C0000000000B215.title: "Goggles \& Gadgets"
 	quest.5C0000000000B216.quest_desc: ["Build a §eCreate Jetpack§r, fuel it, and fly. Powered from your FE grid, it turns island-hopping into a hop — no scaffolding required."]
 	quest.5C0000000000B216.quest_subtitle: "Create: Jetpack"
 	quest.5C0000000000B216.title: "Take Flight"
 	quest.5C0000000000B217.quest_desc: ["A couple of add-ons widen Create for fun: §eAquatic Ambitions§r (sea machines) and §eDragons Plus§r (new blocks and gadgets). Pure bonus — poke around when you're curious."]
 	quest.5C0000000000B217.quest_subtitle: "Content add-ons"
 	quest.5C0000000000B217.title: "New Horizons"
-	quest.5C0000000000B218.quest_desc: ["Createdeco, Rechiseled, Bells & Whistles, Interiors and Design'n'Decor add hundreds of §edecoration§r blocks — palettes, trims, lamps and furniture to turn a factory into a home."]
+	quest.5C0000000000B218.quest_desc: ["Createdeco, Rechiseled, Bells \& Whistles, Interiors and Design'n'Decor add hundreds of §edecoration§r blocks — palettes, trims, lamps and furniture to turn a factory into a home."]
 	quest.5C0000000000B218.quest_subtitle: "Decoration"
 	quest.5C0000000000B218.title: "Make It Beautiful"
 	task.5C0000000000C211.title: "Run a Better Motors motor"
@@ -353,7 +353,7 @@
 		""
 		"Those souls craft §eMob Seeds§r — grow zombies, skeletons, creepers and more as crops, for fully renewable mob drops without a spawner."
 	]
-	quest.5C0000000000B608.quest_subtitle: "Soulium Dagger & mob seeds"
+	quest.5C0000000000B608.quest_subtitle: "Soulium Dagger \& mob seeds"
 	quest.5C0000000000B608.title: "Soul Harvest"
 	quest.5C0000000000B609.quest_desc: [
 		"§eMystical Agradditions§r adds the §eInsanium§r tier above Supremium — plus §eTier-6 crops§r for the truly rare (Nether Star, Dragon Egg and more), grown on dedicated Crux blocks."
