@@ -5,6 +5,16 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.169.0] - 2026-06-30
+
+### Added
+- **First-party Mystical Agriculture compat (ships with Skyseed, inert without MA).** Theme-overrides put MA's ores on
+  the islands that otherwise can't generate them in the void: **deepslate inferium + prosperity** on the **Ancient**
+  island (+ large/huge) — the mid-game bootstrap, since prosperity ore has no mob-drop and must be mineable somewhere —
+  and **soulium** on the **Nether Soul** island (+ large) for the Soulium-Dagger mob-essence path. Like the Create-zinc
+  compat, the unknown ores are skipped before any RNG, so generation stays byte-identical without MA installed. New
+  gametests assert the ores land on the resolved `ancient` and `nether_soul` themes.
+
 ## [0.168.0] - 2026-06-30
 
 ### Fixed

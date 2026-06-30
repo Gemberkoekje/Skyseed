@@ -162,6 +162,32 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    /** The shipped first-party Mystical Agriculture compat datapack: ancient's resolved ores gain MA deepslate inferium/prosperity (inert without MA). */
+    @GameTest(template = REGION)
+    public static void mysticalAgricultureCompatTargetsAncient(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme baseAncient = theme(level, "ancient");
+        final IslandTheme resolved = Themes.resolve(level.registryAccess(), Id.of("skyseed:ancient"));
+        helper.assertTrue(resolved != null, "ancient must resolve");
+        helper.assertTrue(resolved.ores().size() > baseAncient.ores().size(),
+                "the shipped mysticalagriculture_ancient theme_override should add ores to ancient");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("mysticalagriculture:deepslate_prosperity_ore")),
+                "ancient's resolved ores should include mysticalagriculture:deepslate_prosperity_ore");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("mysticalagriculture:deepslate_inferium_ore")),
+                "ancient's resolved ores should include mysticalagriculture:deepslate_inferium_ore");
+        helper.succeed();
+    }
+
+    /** The shipped first-party Mystical Agriculture compat datapack: nether_soul's resolved ores gain MA soulium (inert without MA). */
+    @GameTest(template = REGION)
+    public static void mysticalAgricultureCompatTargetsNetherSoul(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:nether_soul"));
+        helper.assertTrue(resolved != null, "nether_soul must resolve");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("mysticalagriculture:soulium_ore")),
+                "nether_soul's resolved ores should include mysticalagriculture:soulium_ore");
+        helper.succeed();
+    }
+
     @GameTest(template = REGION)
     public static void rockyAdaptsInTheNether(GameTestHelper helper) {
         // Thrown in the Nether, the Rocky seed adapts (SKYNETHERPLAN): a netherrack body over a blackstone core
