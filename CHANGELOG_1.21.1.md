@@ -9,10 +9,12 @@ change when only the 26.1 build does. Format loosely based on [Keep a Changelog]
 
 ### Added
 - **First-party Oh The Biomes We've Gone compat (ships with Skyseed, inert without BWG).** A `theme_override` adapts the
-  **Forest** island (+ large/huge) to BWG's wood biomes: throw a Forest seed over `aspen_boreal`, `baobab_savanna`,
-  `cika_woods`, `jacaranda_jungle` or `maple_taiga` (which sit in the void's biome layout via the multi-noise overworld
-  preset) and the island grows that biome's BWG trees instead of vanilla oak. Like the Create/MA compat, every
-  `biomeswevegone:` id is unknown without BWG, so the bands never match and generation stays byte-identical.
+  **Forest** island (+ large/huge) to **11 BWG wood biomes** — aspen, baobab, cika, jacaranda, maple, ebony, redwood,
+  zelkova, witch-hazel, sakura and ironwood: throw a Forest seed over one (they sit in the void's biome layout via the
+  multi-noise overworld preset) and the island grows that biome's BWG trees instead of vanilla oak. Like the Create/MA
+  compat, every `biomeswevegone:` id is unknown without BWG, so the bands never match and generation stays byte-identical.
+  Wet woods (cypress/willow/mangrove/palm) and the fantasy woods (enchanted/skyris/spirit) are held for the
+  concentrate-vs-distribute and dedicated-seed decisions in `BWGPLAN.md`.
 
 ### Changed
 - **`theme_override` biome bands now take precedence over the base theme's bands (prepend, not append).** A patch band
@@ -20,6 +22,10 @@ change when only the 26.1 build does. Format loosely based on [Keep a Changelog]
   typically transitively under one of a base theme's vanilla `#is_*` catch-alls (BWG's biomes are in `#is_forest` via
   `#biomeswevegone:forest`), so the previous append left such a band silently shadowed — prepending is what lets a
   third-party / modpack `theme_override` actually adapt an island to its own biome without editing Skyseed's base themes.
+- **Auto debug seeds now cover `theme_override` biome bands.** `ThemeScanner` scans `theme_override/` too, attributing
+  each added band's debug seed to the override's `target` theme — so the BWG wood biomes get their debug seeds (force a
+  Forest island to that biome) without the bands living in the base theme. (Previously only base-theme bands produced
+  debug seeds, so the BWG ones were missing.)
 
 ## [0.169.0] - 2026-06-30
 

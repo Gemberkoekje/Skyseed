@@ -13,14 +13,16 @@ the version-number sequence, so a version can appear in one changelog and not th
 
 ### Added
 - **First-party Oh The Biomes We've Gone compat (ships with Skyseed, inert without BWG).** A `theme_override` adapts the
-  **Forest** island (+ large/huge) to BWG's wood biomes (`aspen_boreal`, `baobab_savanna`, `cika_woods`,
-  `jacaranda_jungle`, `maple_taiga`) so a Forest seed thrown over one grows that biome's BWG trees. Inert without BWG
-  (unknown ids never match) — byte-identical generation.
+  **Forest** island (+ large/huge) to **11 BWG wood biomes** (aspen, baobab, cika, jacaranda, maple, ebony, redwood,
+  zelkova, witch-hazel, sakura, ironwood) so a Forest seed thrown over one grows that biome's BWG trees. Inert without
+  BWG (unknown ids never match) — byte-identical generation.
 
 ### Changed
 - **`theme_override` biome bands now take precedence over the base theme's bands (prepend, not append).** Shared with the
   1.21.1 build: a patch band whose selector matches no base band is prepended so it wins the first-match over a base
   theme's vanilla `#is_*` catch-alls (BWG's biomes are transitively under `#is_forest` via `#biomeswevegone:forest`).
+- **Auto debug seeds now cover `theme_override` biome bands** (`ThemeScanner` scans `theme_override/` too) — so the BWG
+  wood biomes get debug seeds attributed to their `target` theme.
 
 ## [0.166.0] - 2026-06-29
 

@@ -40,54 +40,78 @@ public final class ThemeScanner {
     public static List<DebugSeedSpec> scan() {
         final List<DebugSeedSpec> out = new ArrayList<>();
         final Set<String> ids = new HashSet<>();
-        // theme id -> raw JSON, gathered from the mod's own file; a TreeMap so the derived debug-seed ids are stable
-        // (sorted) across runs regardless of the underlying walk order.
-        final java.util.Map<String, String> themes = new java.util.TreeMap<>();
-        final String prefix = "data/skyseed/skyseed/theme/";
         try {
-            //? if >=26.1.2 {
-            /*// IModFile.findResource was removed in 26.1; walk the mod file's JarContents instead — works for both a
-            // packaged jar and the exploded dev classpath.
-            ModList.get().getModFileById(Skyseed.MODID).getFile().getContents().visitContent(
-                    prefix.substring(0, prefix.length() - 1), (path, resource) -> {
-                        String name = path.replace('\\', '/');
-                        if (!name.endsWith(".json")) {
-                            return;
-                        }
-                        final int at = name.indexOf(prefix);
-                        if (at >= 0) {
-                            name = name.substring(at + prefix.length());
-                        } else if (name.startsWith("/")) {
-                            name = name.substring(1);
-                        }
-                        try {
-                            themes.put(name.substring(0, name.length() - ".json".length()),
-                                    new String(resource.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8));
-                        } catch (Exception e) {
-                            Skyseed.LOGGER.warn("[skyseed] debug-seed scan could not read {}: {}", path, e.toString());
-                        }
-                    });*/
-            //?} else {
-            final Path dir = ModList.get().getModFileById(Skyseed.MODID).getFile()
-                    .findResource("data", "skyseed", "skyseed", "theme");
-            if (dir != null && Files.isDirectory(dir)) {
-                try (Stream<Path> files = Files.walk(dir)) {
-                    files.filter(p -> p.getFileName().toString().endsWith(".json")).forEach(p -> {
-                        try {
-                            themes.put(relName(dir, p), Files.readString(p));
-                        } catch (Exception e) {
-                            Skyseed.LOGGER.warn("[skyseed] debug-seed scan could not read {}: {}", p, e.toString());
-                        }
-                    });
-                }
-            }
-            //?}
-            themes.forEach((theme, json) -> scanTheme(theme, json, out, ids));
+            // Base themes: a debug seed's baseTheme is the file's own theme id.
+            gather("theme").forEach((theme, json) -> scanTheme(theme, json, out, ids));
+            // First-party theme_overrides (Create / MA / BWG ...): the biome_overrides (and rare_structures) a patch
+            // ADDS get debug seeds too, attributed to the override's `target` theme — so e.g. the BWG wood bands, which
+            // live in theme_override and not the base forest theme, still appear as debug seeds. Scanned after the base
+            // themes so a base id wins a collision (the override's then gets a numeric suffix).
+            gather("theme_override").forEach((file, json) -> scanOverride(json, out, ids));
         } catch (Exception e) {
-            Skyseed.LOGGER.warn("[skyseed] debug-seed theme scan skipped: {}", e.toString());
+            Skyseed.LOGGER.warn("[skyseed] debug-seed scan skipped: {}", e.toString());
         }
         Skyseed.LOGGER.info("[skyseed] auto debug seeds: {}", out.size());
         return out;
+    }
+
+    /** Every {@code .json} under {@code data/skyseed/skyseed/<subdir>/} from the mod's own file, as a sorted
+     *  (relative-name -&gt; raw JSON) map so the derived debug-seed ids stay stable across runs. */
+    private static java.util.Map<String, String> gather(String subdir) throws java.io.IOException {
+        final java.util.Map<String, String> files = new java.util.TreeMap<>();
+        final String prefix = "data/skyseed/skyseed/" + subdir + "/";
+        //? if >=26.1.2 {
+        /*ModList.get().getModFileById(Skyseed.MODID).getFile().getContents().visitContent(
+                prefix.substring(0, prefix.length() - 1), (path, resource) -> {
+                    String name = path.replace('\\', '/');
+                    if (!name.endsWith(".json")) {
+                        return;
+                    }
+                    final int at = name.indexOf(prefix);
+                    if (at >= 0) {
+                        name = name.substring(at + prefix.length());
+                    } else if (name.startsWith("/")) {
+                        name = name.substring(1);
+                    }
+                    try {
+                        files.put(name.substring(0, name.length() - ".json".length()),
+                                new String(resource.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8));
+                    } catch (Exception e) {
+                        Skyseed.LOGGER.warn("[skyseed] debug-seed scan could not read {}: {}", path, e.toString());
+                    }
+                });*/
+        //?} else {
+        final Path dir = ModList.get().getModFileById(Skyseed.MODID).getFile()
+                .findResource("data", "skyseed", "skyseed", subdir);
+        if (dir != null && Files.isDirectory(dir)) {
+            try (Stream<Path> walk = Files.walk(dir)) {
+                walk.filter(p -> p.getFileName().toString().endsWith(".json")).forEach(p -> {
+                    try {
+                        files.put(relName(dir, p), Files.readString(p));
+                    } catch (Exception e) {
+                        Skyseed.LOGGER.warn("[skyseed] debug-seed scan could not read {}: {}", p, e.toString());
+                    }
+                });
+            }
+        }
+        //?}
+        return files;
+    }
+
+    /** A {@code theme_override} patch: scan the content it ADDS (biome_overrides / rare_structures) as debug seeds
+     *  attributed to its {@code target} theme (so a patch's biome bands get debug seeds without editing a base theme). */
+    private static void scanOverride(String json, List<DebugSeedSpec> out, Set<String> ids) {
+        try {
+            final JsonObject root = JsonParser.parseString(json).getAsJsonObject();
+            if (!root.has("target")) {
+                return;
+            }
+            final String target = root.get("target").getAsString();
+            final int colon = target.indexOf(':');
+            scanTheme(colon < 0 ? target : target.substring(colon + 1), json, out, ids);
+        } catch (Exception e) {
+            Skyseed.LOGGER.warn("[skyseed] debug-seed override scan failed: {}", e.toString());
+        }
     }
 
     private static void scanTheme(String theme, String json, List<DebugSeedSpec> out, Set<String> ids) {

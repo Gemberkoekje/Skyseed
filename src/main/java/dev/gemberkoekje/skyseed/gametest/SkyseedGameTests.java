@@ -206,6 +206,10 @@ public final class SkyseedGameTests {
         helper.assertTrue(catchAllIdx >= 0, "forest must keep its base #minecraft:is_forest catch-all band");
         helper.assertTrue(bwgIdx < catchAllIdx,
                 "the BWG band (idx " + bwgIdx + ") must be PREPENDED ahead of the #is_forest catch-all (idx " + catchAllIdx + ") to win the first-match");
+        // Guard against a stale staged datapack copy: the last wood band added must be present too (else only an old
+        // subset was loaded). ironwood_gour is the final band in the shipped biomeswevegone_forest override.
+        helper.assertTrue(bands.stream().anyMatch(b -> b.biomes().contains("biomeswevegone:ironwood_gour")),
+                "the biomeswevegone_forest override should include all wood bands through ironwood_gour");
         helper.succeed();
     }
 
@@ -2626,6 +2630,13 @@ public final class SkyseedGameTests {
         }
         helper.assertTrue(biomeForced > 10, "auto scan should make many biome-override debug seeds (got " + biomeForced + ")");
         helper.assertTrue(rareForced > 0, "auto scan should make rare-structure debug seeds (got " + rareForced + ")");
+        // The scan also covers theme_override-added biome bands (attributed to the override's target theme): the BWG
+        // wood biomes live in theme_override, not the base forest theme, so a biomeswevegone:-forced seed must exist.
+        final boolean fromOverride = ModItems.DEBUG_SEEDS.values().stream().anyMatch(h -> {
+            final var fb = h.get().forcedBiome();
+            return fb != null && "biomeswevegone".equals(fb.namespace());
+        });
+        helper.assertTrue(fromOverride, "ThemeScanner should derive debug seeds from theme_override biome bands too (e.g. BWG wood biomes)");
         helper.succeed();
     }
 

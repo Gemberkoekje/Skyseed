@@ -16,6 +16,24 @@
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
     { "biomes": ["biomeswevegone:maple_taiga"], "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.25 } ], "variants": [ { "weight": 1, "name": "maple", "decoration": {
       "trees": [ { "feature": "biomeswevegone:maple_trees", "tries": 5, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.20 } ] } } ] }
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.20 } ] } } ] },
+    { "biomes": ["biomeswevegone:ebony_woods"], "variants": [ { "weight": 1, "name": "ebony", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:ebony_trees", "tries": 6, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+    { "biomes": ["biomeswevegone:redwood_thicket"], "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.20 } ], "variants": [ { "weight": 1, "name": "redwood", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:redwood_trees", "tries": 4, "spacing": 3 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.15 } ] } } ] },
+    { "biomes": ["biomeswevegone:zelkova_forest"], "variants": [ { "weight": 1, "name": "zelkova", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:zelkova_trees", "tries": 6, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 } ] } } ] },
+    { "biomes": ["biomeswevegone:weeping_witch_forest"], "variants": [ { "weight": 1, "name": "witch_hazel", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:witch_hazel_trees", "tries": 5, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:brown_mushroom", "chance": 0.04 } ] } } ] },
+    { "biomes": ["biomeswevegone:sakura_grove"], "variants": [ { "weight": 1, "name": "sakura", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:white_sakura_trees", "tries": 5, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 } ] } } ] },
+    { "biomes": ["biomeswevegone:ironwood_gour"], "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.15 } ], "variants": [ { "weight": 1, "name": "ironwood", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:ironwood_trees", "tries": 4, "spacing": 3 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 } ] } } ] }
   ]
 }
