@@ -11,8 +11,12 @@
 			dependencies: ["5C0000000000B001"]
 			id: "5C0000000000B301"
 			rewards: [{
+				count: 6
 				id: "5C0000000000D301"
-				item: { count: 6, id: "minecraft:iron_ingot" }
+				item: {
+					count: 1
+					id: "minecraft:iron_ingot"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -27,8 +31,12 @@
 			dependencies: ["5C0000000000B301"]
 			id: "5C0000000000B302"
 			rewards: [{
+				count: 2
 				id: "5C0000000000D302"
-				item: { count: 2, id: "minecraft:diamond" }
+				item: {
+					count: 1
+					id: "minecraft:diamond"
+				}
 				type: "item"
 			}]
 			tasks: [{

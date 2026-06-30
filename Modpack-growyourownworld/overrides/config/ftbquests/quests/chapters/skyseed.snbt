@@ -11,8 +11,12 @@
 			dependencies: ["5C0000000000B001"]
 			id: "5C0000000000B101"
 			rewards: [{
+				count: 16
 				id: "5C0000000000D101"
-				item: { count: 16, id: "minecraft:bone_meal" }
+				item: {
+					count: 1
+					id: "minecraft:bone_meal"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -27,8 +31,9 @@
 			dependencies: ["5C0000000000B101"]
 			id: "5C0000000000B102"
 			rewards: [{
-				id: "5C0000000000D102"
-				table_id: "5C00000000005001"
+				exclude_from_claim_all: true
+				id: "5815CA9160FE2478"
+				table_id: 6629298651489390593L
 				type: "random"
 			}]
 			tasks: [{
@@ -42,8 +47,12 @@
 			dependencies: ["5C0000000000B102"]
 			id: "5C0000000000B103"
 			rewards: [{
+				count: 6
 				id: "5C0000000000D103"
-				item: { count: 6, id: "minecraft:iron_ingot" }
+				item: {
+					count: 1
+					id: "minecraft:iron_ingot"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -57,8 +66,9 @@
 			dependencies: ["5C0000000000B102"]
 			id: "5C0000000000B104"
 			rewards: [{
-				id: "5C0000000000D104"
-				table_id: "5C00000000005002"
+				exclude_from_claim_all: true
+				id: "255AD0F55985B7DD"
+				table_id: 6629298651489390594L
 				type: "random"
 			}]
 			tasks: [{
@@ -73,8 +83,12 @@
 			dependencies: ["5C0000000000B104"]
 			id: "5C0000000000B105"
 			rewards: [{
+				count: 2
 				id: "5C0000000000D105"
-				item: { count: 2, id: "minecraft:diamond" }
+				item: {
+					count: 1
+					id: "minecraft:diamond"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -89,8 +103,9 @@
 			dependencies: ["5C0000000000B104"]
 			id: "5C0000000000B106"
 			rewards: [{
+				exclude_from_claim_all: true
 				id: "5C0000000000D106"
-				table_id: "5C00000000005001"
+				table_id: 6629298651489390593L
 				type: "random"
 			}]
 			tasks: [{
@@ -105,8 +120,12 @@
 			dependencies: ["5C0000000000B103"]
 			id: "5C0000000000B107"
 			rewards: [{
+				count: 4
 				id: "5C0000000000D107"
-				item: { count: 4, id: "minecraft:emerald" }
+				item: {
+					count: 1
+					id: "minecraft:emerald"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -121,8 +140,9 @@
 			dependencies: ["5C0000000000B104"]
 			id: "5C0000000000B108"
 			rewards: [{
+				exclude_from_claim_all: true
 				id: "5C0000000000D108"
-				table_id: "5C00000000005001"
+				table_id: 6629298651489390593L
 				type: "random"
 			}]
 			tasks: [{
@@ -137,8 +157,12 @@
 			dependencies: ["5C0000000000B104"]
 			id: "5C0000000000B109"
 			rewards: [{
+				count: 6
 				id: "5C0000000000D109"
-				item: { count: 6, id: "minecraft:obsidian" }
+				item: {
+					count: 1
+					id: "minecraft:obsidian"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -154,8 +178,12 @@
 			dependencies: ["5C0000000000B109"]
 			id: "5C0000000000B110"
 			rewards: [{
+				count: 6
 				id: "5C0000000000D110"
-				item: { count: 6, id: "minecraft:gold_ingot" }
+				item: {
+					count: 1
+					id: "minecraft:gold_ingot"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -170,8 +198,12 @@
 			dependencies: ["5C0000000000B110"]
 			id: "5C0000000000B111"
 			rewards: [{
+				count: 4
 				id: "5C0000000000D111"
-				item: { count: 4, id: "minecraft:blaze_rod" }
+				item: {
+					count: 1
+					id: "minecraft:blaze_rod"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -186,8 +218,12 @@
 			dependencies: ["5C0000000000B111"]
 			id: "5C0000000000B112"
 			rewards: [{
+				count: 8
 				id: "5C0000000000D112"
-				item: { count: 8, id: "minecraft:ender_pearl" }
+				item: {
+					count: 1
+					id: "minecraft:ender_pearl"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -202,8 +238,12 @@
 			dependencies: ["5C0000000000B112"]
 			id: "5C0000000000B113"
 			rewards: [{
+				count: 16
 				id: "5C0000000000D113"
-				item: { count: 16, id: "minecraft:chorus_fruit" }
+				item: {
+					count: 1
+					id: "minecraft:chorus_fruit"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -218,8 +258,9 @@
 			dependencies: ["5C0000000000B113"]
 			id: "5C0000000000B114"
 			rewards: [{
+				exclude_from_claim_all: true
 				id: "5C0000000000D114"
-				table_id: "5C00000000005002"
+				table_id: 6629298651489390594L
 				type: "random"
 			}]
 			tasks: [{
@@ -234,8 +275,9 @@
 			dependencies: ["5C0000000000B108"]
 			id: "5C0000000000B115"
 			rewards: [{
+				exclude_from_claim_all: true
 				id: "5C0000000000D115"
-				table_id: "5C00000000005001"
+				table_id: 6629298651489390593L
 				type: "random"
 			}]
 			tasks: [{
@@ -246,11 +288,15 @@
 			y: 2.0d
 		}
 		{
-			dependencies: ["5C0000000000B106", "5C0000000000B111"]
+			dependencies: [
+				"5C0000000000B106"
+				"5C0000000000B111"
+			]
 			id: "5C0000000000B116"
 			rewards: [{
+				exclude_from_claim_all: true
 				id: "5C0000000000D116"
-				table_id: "5C00000000005002"
+				table_id: 6629298651489390594L
 				type: "random"
 			}]
 			tasks: [{
