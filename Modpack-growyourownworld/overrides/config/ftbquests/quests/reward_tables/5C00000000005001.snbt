@@ -3,11 +3,53 @@
 	loot_size: 1
 	order_index: 0
 	rewards: [
-		{ id: "5C000000000050A1", item: { count: 4, id: "minecraft:iron_ingot" } }
-		{ id: "5C000000000050A2", item: { count: 6, id: "minecraft:copper_ingot" } }
-		{ id: "5C000000000050A3", item: { count: 6, id: "minecraft:bread" } }
-		{ id: "5C000000000050A4", item: { count: 16, id: "minecraft:torch" } }
-		{ id: "5C000000000050A5", item: { count: 8, id: "minecraft:bone_meal" } }
-		{ id: "5C000000000050A6", item: { count: 3, id: "minecraft:experience_bottle" } }
+		{
+			count: 4
+			id: "5C000000000050A1"
+			item: {
+				count: 1
+				id: "minecraft:iron_ingot"
+			}
+		}
+		{
+			count: 6
+			id: "5C000000000050A2"
+			item: {
+				count: 1
+				id: "minecraft:copper_ingot"
+			}
+		}
+		{
+			count: 6
+			id: "5C000000000050A3"
+			item: {
+				count: 1
+				id: "minecraft:bread"
+			}
+		}
+		{
+			count: 16
+			id: "5C000000000050A4"
+			item: {
+				count: 1
+				id: "minecraft:torch"
+			}
+		}
+		{
+			count: 8
+			id: "5C000000000050A5"
+			item: {
+				count: 1
+				id: "minecraft:bone_meal"
+			}
+		}
+		{
+			count: 3
+			id: "5C000000000050A6"
+			item: {
+				count: 1
+				id: "minecraft:experience_bottle"
+			}
+		}
 	]
 }
