@@ -3,11 +3,17 @@
 	default_quest_shape: ""
 	filename: "introduction"
 	group: ""
+	icon: {
+		id: "skyseed:forest_skyseed"
+	}
 	id: "5C0000000000A001"
 	order_index: 0
 	quest_links: [ ]
 	quests: [
 		{
+			icon: {
+				id: "skyseed:forest_skyseed"
+			}
 			id: "5C0000000000B001"
 			rewards: [{
 				exclude_from_claim_all: true
@@ -24,6 +30,12 @@
 		}
 		{
 			dependencies: ["5C0000000000B001"]
+			icon: {
+				components: {
+					"patchouli:book": "skyseed:guide"
+				}
+				id: "patchouli:guide_book"
+			}
 			id: "5C0000000000B002"
 			rewards: [{
 				count: 8
@@ -43,6 +55,9 @@
 		}
 		{
 			dependencies: ["5C0000000000B001"]
+			icon: {
+				id: "silentgear:jeweler_tools"
+			}
 			id: "5C0000000000B003"
 			rewards: [{
 				count: 32

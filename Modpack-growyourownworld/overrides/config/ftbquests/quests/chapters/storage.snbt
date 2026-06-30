@@ -3,8 +3,15 @@
 	default_quest_shape: ""
 	filename: "storage"
 	group: ""
+	icon: {
+		components: {
+			"sophisticatedcore:number_of_inventory_slots": 27
+			"sophisticatedcore:number_of_upgrade_slots": 1
+		}
+		id: "sophisticatedbackpacks:backpack"
+	}
 	id: "5C0000000000A005"
-	order_index: 4
+	order_index: 5
 	quest_links: [ ]
 	quests: [
 		{
@@ -41,7 +48,8 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C402"
-				type: "checkmark"
+				item: { count: 1, id: "sophisticatedbackpacks:pickup_upgrade" }
+				type: "item"
 			}]
 			x: 1.5d
 			y: 0.0d

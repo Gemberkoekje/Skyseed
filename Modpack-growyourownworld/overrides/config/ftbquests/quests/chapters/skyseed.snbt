@@ -3,6 +3,9 @@
 	default_quest_shape: ""
 	filename: "skyseed"
 	group: ""
+	icon: {
+		id: "skyseed:forest_large_skyseed"
+	}
 	id: "5C0000000000A002"
 	order_index: 1
 	quest_links: [ ]
@@ -29,6 +32,9 @@
 		}
 		{
 			dependencies: ["5C0000000000B101"]
+			icon: {
+				id: "skyseed:forest_skyseed"
+			}
 			id: "5C0000000000B102"
 			rewards: [{
 				exclude_from_claim_all: true
@@ -45,6 +51,9 @@
 		}
 		{
 			dependencies: ["5C0000000000B102"]
+			icon: {
+				id: "skyseed:forest_large_skyseed"
+			}
 			id: "5C0000000000B103"
 			rewards: [{
 				count: 6
@@ -273,6 +282,9 @@
 		}
 		{
 			dependencies: ["5C0000000000B108"]
+			icon: {
+				id: "minecraft:totem_of_undying"
+			}
 			id: "5C0000000000B115"
 			rewards: [{
 				exclude_from_claim_all: true
