@@ -20,6 +20,14 @@ the detail.
 - The best value-per-effort sits entirely in the **top ~13 items** — cheap decisions and shipped-feature
   sign-offs that unblock everything downstream.
 
+### Decisions log
+
+- **2026-07-01 — Q2 (item #1) RESOLVED: distribute.** BWG wood/flora bands are distributed across the
+  typed seed families, **priority-ordered per seed** (aquatic = water-first + biome trees second, forest =
+  trees-first, lush = maximal/"extreme" nature, meadow = millable flowers, etc.). The *same* BWG biome may
+  be adapted by more than one family, each with a different emphasis. File convention + mapping recorded in
+  [BWGPLAN.md § Q2](Modpack-growyourownworld/BWGPLAN.md). **This unblocks items #7, #8, and #9.**
+
 ## How to read this
 
 - **Priority** = high / medium / low (unblock-value and player-facing ROI, not raw importance).
@@ -50,7 +58,7 @@ the detail.
 Cheap decisions and validations that either unblock whole chains or confirm a flagship feature works
 before more is piled on top.
 
-1. **Resolve Q2** — concentrate BWG wood bands on the Forest seed vs. distribute across typed seeds. *(BWGPLAN · small)* — near-free decision that gates items 7, 8, 9 and the "Finish BYG" rollup. **Single highest-leverage thing in the backlog.**
+1. ✅ **Resolve Q2** — ~~concentrate BWG wood bands on the Forest seed vs. distribute across typed seeds~~ **DECIDED 2026-07-01: distribute, priority-ordered per seed** (see [Decisions log](#decisions-log)). Items 7, 8, 9 are now unblocked.
 2. **Verify OTYG sapling→tree growth** for vanilla + BWG saplings. *(BWGPLAN · medium)* — correctness gate: if saplings don't grow OOTB the entire exotic-wood loop is silently broken.
 3. **Build the BWG quest chapter** (Into the Wilds / Mill the Blooms / Grow Something Grand). *(QUESTPLAN / BWGPLAN Step 5 · small)* — the one explicitly-pending quest deliverable; its integration already shipped. Clean quick win.
 4. **Fix CI-file doc drift** — the docs point contributors at a `ci-skyseed.yml` that never existed (real file is `build.yml`). *(REFACTORPLAN · small)*
@@ -126,7 +134,7 @@ release. Then the BWG band chain (7, 8, 9) plus its quest + guide (3, 10).
 
 | # | Item | Plan | Priority | Effort | Status | Why (ranking rationale) |
 |---|---|---|---|---|---|---|
-| 1 | Resolve Q2: concentrate BWG bands on forest seed vs distribute across typed seeds | BWGPLAN.md | high | small | genuinely-open | Top rank because it is a near-free decision that unblocks the two medium wood-band items (wet + fantasy), the millable-flower placement Step 3… |
+| 1 | ✅ **RESOLVED** — Q2: **distribute** BWG bands across typed seeds, priority-ordered per seed (aquatic=water-first, forest=trees-first, lush=extreme nature); same biome may appear in multiple families. See BWGPLAN §Q2. | BWGPLAN.md | high | small | ✅ done (2026-07-01) | Was the top blocker; now decided — the wet/fantasy wood-band authoring (#7/#8) and millable-flower placement (#9) are unblocked. |
 | 2 | Step 2 — Verify OTYG sapling→tree growth for vanilla + BWG saplings | BWGPLAN.md | high | medium | genuinely-open | OTYG's entire value is sapling growth; if BWG (or vanilla) saplings don't grow, the exotic-wood replanting loop that all the band work relies on is… |
 | 3 | Build the BWG (Biomes We've Grown) quest chapter / light quest branch (BWGPLAN Step 5) | QUESTPLAN.md / BWGPLAN.md | high | small | genuinely-open | The single explicitly-pending quest deliverable whose dependency (BWG island/resource integration) is already shipped, so it is immediately… |
 | 4 | Reconcile plan/changelog CI-file references with the actual workflow (documentation drift) | REFACTORPLAN.md | medium | small | genuinely-open | Actively misdirects the documented 'add a version node' workflow — the recipe tells contributors to edit a file that never existed and add an… |

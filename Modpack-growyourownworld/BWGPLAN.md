@@ -11,7 +11,7 @@
 - **CI now runs the gametests** on every node. **Q1 RESOLVED** (tight first pass → scaled to the forest family). **Q3 RESOLVED** (rewritten below). Modpack: BWG/OTYG/create-otbwg + Better Clouds jars in, `mods.txt` refreshed.
 
 **Left for a future return (NOT in this changeset):**
-- **Q2 — concentrate vs distribute (UNDECIDED).** This gates the rest of the 25 planks: the **wet woods** (cypress/willow/white-mangrove/palm → aquatic family) and **fantasy woods** (enchanted/skyris/spirit) are **not yet added**.
+- **Q2 — concentrate vs distribute → ✅ RESOLVED: DISTRIBUTE (per typed seed, priority-ordered — see Q2 below).** The **wet woods** (cypress/willow/white-mangrove/palm → aquatic + forest families) and **fantasy woods** (enchanted/skyris/spirit → forest family) are now decided-but-**not yet authored** — that's the next build step, per the file convention in Q2.
 - **Density follow-up:** lift the *held* wet/semi forest biomes (mangrove/swamp/riverside, cherry/grove/mushroom/bamboo/flower) to the agreed level — held pending the in-game density read, now confirmed good.
 - **Step 2 (OTYG verification), Step 3 (create-otbwg verification), Step 4 (Patchouli "Exotic Biomes" entry), Step 5 (the light quest branch)** — all still to do.
 - **STRUCTUREPLAN** (BWG village/manor/trial resurrection) — its own later child changeset.
@@ -37,7 +37,7 @@ Nothing generates in the void, so BWG's value — exotic woods, millable flowers
 
 **Net design: throw a Forest seed over a BWG biome → grow a BWG-wood island.** This extends the existing rare-seed mechanic (forest-over-badlands) to 55 new biomes and turns BWG's biome map into a treasure map.
 
-## Step 1 — First-party BWG theme_override compat (Skyseed mod) ← the core  ✅ DONE (forest family; wet/fantasy woods pending Q2)
+## Step 1 — First-party BWG theme_override compat (Skyseed mod) ← the core  ✅ DONE (forest family; wet/fantasy woods decided per Q2 = distribute, authoring pending)
 
 Create `data/skyseed/skyseed/theme_override/biomeswevegone_forest.json` (+ `_forest_large`, `_huge_forest`; later `_lush`/`_meadow` for floral biomes), each appending BWG `biome_overrides` to the matching base theme. Per-entry shape:
 
@@ -113,7 +113,7 @@ Author the BWG `biome_overrides` content once, then emit one override file per t
 ### Q1 — Step 1 scope (the immediate fork)  ✅ RESOLVED — tight first pass, then scaled to the whole forest family (11 woods)
 All signature **wood** biomes (~15, every plank reachable) or a **tight first pass** (5–6 marquee woods: aspen, baobab, cika, jacaranda, maple) to validate the loop before scaling? (× the 3 forest tiers either way.)
 
-### Q2 — should other typed seeds respond to BWG biomes, not just forest?  ⬜ OPEN — gates the wet/fantasy woods (the next thing to decide on return)
+### Q2 — should other typed seeds respond to BWG biomes, not just forest?  ✅ RESOLVED — DISTRIBUTE (per typed seed, priority-ordered; 2026-07-01)
 The forest seed is the generalist (it already adapts to desert / savanna / taiga / ocean / …). But BWG biomes span every climate, and it is more coherent to let each typed seed recognise the BWG biomes in its own family — e.g. throw a **Desert** seed over BWG's `mojave_desert` / `atacama_outback` and get the right arid island instead of leaning on the forest seed for everything. Rough mapping (confirm ids against the full 55-biome roster — only ~40 were enumerated):
 
 | Seed family | BWG biomes (examples — confirm ids) | Signature content |
@@ -126,6 +126,23 @@ The forest seed is the generalist (it already adapts to desert / savanna / taiga
 | Lush / meadow | allium_shrubland, amaranth_grassland, firecracker_chaparral, crag_gardens, prairie, orchard, coconino_meadow | the millable flowers (feeds the Create compat) |
 
 **Concentrate** all bands on the forest generalist (one place, simplest, thematically loose) vs **distribute** by climate across the typed seeds (more files — and remember ×3 tiers each — but every seed grows the "right" island, the millable flowers naturally land on the lush/meadow seed, and the player picks the seed that matches the biome they found)? Distributing is the nicer loop; concentrating is the faster ship.
+
+**✅ Decision (2026-07-01) — DISTRIBUTE, per typed seed, priority-ordered.** Each typed seed family gets its own BWG `theme_override` set adapting the BWG biomes in its climate — not everything piled on the forest generalist. Two refinements beyond the plain fork:
+
+- **The same BWG biome may be adapted by more than one seed family, each with a different emphasis/priority.** The seed you throw decides the island's *character*, not just whether it grows. Example: a wet, tree-bearing biome (`cypress_swamplands`, `bayou`) grown from an **Aquatic** seed is **water-first** (ponds/rivers dominate, its BWG trees are the secondary layer); the *same* biome grown from a **Forest** seed is **trees-first** (dense cypress/willow, water minimal). A **Lush** seed leans **maximal / "extreme" nature** (dense flora, plants, undergrowth); **Meadow** foregrounds the millable flowers; **Desert/Badlands** the arid palette; **Frozen** the cold palette; **Rocky** the stone/volcanic palette.
+- **Per-seed "priority" = the ordering of what dominates the island** — surface/water vs trees vs ground flora vs plants — expressed through each override's `variants` decoration weights and `pond`/`surface_*` idioms. Author a biome's *content* once, then tune the per-family emphasis when it appears in more than one family's file.
+
+**File convention (so downstream band work has a home).** One override set per participating seed family, ×3 tiers, mirroring the shipped forest set and the MA/Create precedent:
+
+```
+biomeswevegone_<family>.json          (base tier   → theme <family>.json)
+biomeswevegone_<family>_large.json    (large tier  → theme <family>_large.json)
+biomeswevegone_huge_<family>.json     (huge tier   → theme huge_<family>.json)
+```
+
+`<family>` ∈ { `forest` (✅ done), `aquatic`, `lush`, `meadow`, `desert`, `badlands`, `frozen`, `rocky`, `mushroom` } — add each set as that family earns bands. (Base names + tiers confirmed against `data/skyseed/skyseed/theme/`: base `<family>.json`, large `<family>_large.json`, huge `huge_<family>.json`.) A biome adapted by two families simply appears — with different `variants`/emphasis — in both families' files.
+
+**What this unblocks now (the remaining 14 of 25 planks):** the **wet woods** (cypress/willow/white-mangrove/palm) land on the **aquatic** family (water-first) and, where the wood is the draw, may also ride the **forest** family (trees-first); the **fantasy woods** (enchanted/skyris/spirit) land on the **forest** family (forest-climate). Millable-flower biomes go on **lush/meadow** (feeds the create-otbwg compat, Step 3). Per the Step 1 rules: confirm every `*_trees` feature id + flower/plant block id against the BWG 2.6.0 jar first, budget the ×3 tier multiplier, and ship an inert golden-master gametest per set with a `mod_version` + CHANGELOG bump.
 
 ### Q3 — which BWG biomes deserve their OWN seed?  ✅ RESOLVED — almost none (see the rewritten answer)
 **Almost none — the bar is non-growable, farm-worthy content.** A Forest seed thrown over a BWG biome already grows that biome's island at every tier (base/large/huge) with its trees, ground flora, and the biome itself — and once you've chopped one tree you have its sapling and can regrow that wood anywhere (island or Botany Pot). So a dedicated seed adds **nothing** for anything growable: wood, saplings, flowers and replantable plants are all covered by the adaptation + replanting.
