@@ -1,0 +1,44 @@
+# Dependabot keeps Skyseed's dependencies patched by opening PRs when new versions land.
+# Two ecosystems live in this repo:
+#   1. github-actions — the actions pinned in .github/workflows/*.yml (checkout, setup-java, …)
+#   2. gradle         — the plugins in build.gradle / settings.gradle and the declared mod deps
+#
+# Heads-up on Gradle coverage: the per-node dependency versions live in gradle.properties keyed by
+# MC version (neo_1.21.1, modonomicon_26.1.2, …) and are read *dynamically* in build.gradle via
+# property("neo_${mcv}"). Dependabot can't resolve that indirection, so it will reliably bump the
+# statically declared plugin versions (net.neoforged.moddev, stonecutter, foojay-resolver) but may
+# not see those version-keyed coordinates. Those still need the occasional manual bump.
+#
+# Docs: https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+version: 2
+updates:
+  # --- GitHub Actions used by the CI workflows -------------------------------------------------
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "ci"
+    # One PR per week rolling up every action bump, instead of a PR per action.
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # --- Gradle build (plugins + mod dependencies) -----------------------------------------------
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "build"
+    # Roll minor + patch bumps into one PR to cut noise; majors (e.g. a NeoForge/moddev major that
+    # may break the build) come as their own PRs so they get individual review.
+    groups:
+      gradle-minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
