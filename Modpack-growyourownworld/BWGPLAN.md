@@ -126,6 +126,32 @@ Ship steps per the standing rules: inert golden-master gametest per set, `mod_ve
 Cross-refs: the in-game checklist line "every BWG plank is now obtainable" and backlog item **#63** in
 [PLANOFPLANS.md](../PLANOFPLANS.md).
 
+## In-game test findings (2026-07-01, v0.171.0) ← TODO: items #64–#66
+
+A user-run throw-a-seed pass over the shipped wet/fantasy wood bands. **Working:** enchanted ✅, skyris ✅,
+white-mangrove ✅, palm ✅ (mangrove & palm grew plenty of trees); bands are **inert with BWG absent** (no
+errors). Three groups of issues to address (do **not** fix inline — tracked as backlog items):
+
+1. **Water feature too small / wrong shape (→ #64).** Every Aquatic wet-wood island (cypress, bayou/willow,
+   white-mangrove, palm) and the Aquatic-cypress island read as "not enough water" — the Huge tier especially.
+   A deep round `pond` is the wrong idiom for swamp/marsh woods; implement a **broad, shallow swamp/marsh**
+   water feature instead. (User's own suggestion.)
+2. **Sparse / zero trees (→ #65).** Small tiers grow **0 trees** (Aquatic cypress Small = 0; Forest cypress
+   Small = 0) and **Huge Bayou grew 0 willow trees at all**. Guarantee ≥1 tree on the Small tier (raise `tries`
+   and/or the minimum island radius) and fix the Huge Bayou zero-tree case. Observed cypress counts —
+   Aquatic: Small 0 / Large 1 / Huge 5; Forest: Small 0 / Large ~5 / Huge ~8 (the trees-first vs water-first
+   priority *does* read — the Forest form is denser — it's the low/zero floor that's the problem).
+3. **Spirit band not resolving (→ #66).** A seed over `pale_bog` produced only **oak & birch, no spirit trees**.
+   The `pale_bog`→`spirit_trees` band **is present in the shared source** (`biomeswevegone_forest.json`, all three
+   tiers) and the forest gametest asserts it, so this is **not** 26.1.2-only and not a missing file — suspect a
+   runtime biome-match issue (prepend order / `#is_forest` tag membership), a node divergence, or the stale-
+   `processResources` staging trap. Needs a clean single-biome repro + root-cause. *(Label caveat: the same pass
+   also reported "pale_bog → white mangrove trees" — likely a mislabel of `white_mangrove_marshes`; re-test each
+   biome on its own to disambiguate.)*
+
+Also reconfirmed in this pass: **create-otbwg millable flowers (#9) are still not placed on any island** — the
+compat has no inputs until the lush/meadow flower bands are authored.
+
 ## Build order
 
 1. **Step 1 (mod)** — BWG theme_override compat + gametest + version bump → its own branch/PR.
