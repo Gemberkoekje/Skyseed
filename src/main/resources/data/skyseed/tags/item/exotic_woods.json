@@ -1,0 +1,23 @@
+{
+  "values": [
+    { "id": "#biomeswevegone:planks", "required": false },
+    { "id": "biomeswevegone:aspen_planks", "required": false },
+    { "id": "biomeswevegone:baobab_planks", "required": false },
+    { "id": "biomeswevegone:cika_planks", "required": false },
+    { "id": "biomeswevegone:jacaranda_planks", "required": false },
+    { "id": "biomeswevegone:maple_planks", "required": false },
+    { "id": "biomeswevegone:ebony_planks", "required": false },
+    { "id": "biomeswevegone:redwood_planks", "required": false },
+    { "id": "biomeswevegone:zelkova_planks", "required": false },
+    { "id": "biomeswevegone:witch_hazel_planks", "required": false },
+    { "id": "biomeswevegone:white_sakura_planks", "required": false },
+    { "id": "biomeswevegone:ironwood_planks", "required": false },
+    { "id": "biomeswevegone:cypress_planks", "required": false },
+    { "id": "biomeswevegone:willow_planks", "required": false },
+    { "id": "biomeswevegone:white_mangrove_planks", "required": false },
+    { "id": "biomeswevegone:palm_planks", "required": false },
+    { "id": "biomeswevegone:enchanted_planks", "required": false },
+    { "id": "biomeswevegone:skyris_planks", "required": false },
+    { "id": "biomeswevegone:spirit_planks", "required": false }
+  ]
+}

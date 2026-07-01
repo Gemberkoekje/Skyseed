@@ -153,7 +153,7 @@ are inert on 1.21.1, so its build is functionally unchanged).
   debug seeds regenerate); the bonus chest reads `server.getWorldGenSettings().options()`; `FMLEnvironment.isProduction()`;
   the auto-debug-seed icon hook uses `ModelEvent.ModifyBakingResult.getBakingResult().itemStackModels()`.
 - **CI / multi-version build (Stage 3 start):** `chiseledBuild` + `chiseledRunGameTestServer` fan a task across all
-  version nodes; a `ci-skyseed.yml` GitHub Actions matrix builds + gametests each node on its JDK (1.21.1→21, 26.1.2→25).
+  version nodes; the `build.yml` GitHub Actions job runs those chiseled tasks to build + gametest each node on its JDK (1.21.1→21, 26.1.2→25).
 
 ### Added — worldgen content (the 1.21.4 / 1.21.5 delta; inert on 1.21.1)
 - **Pale Garden** — a `pale_garden` biome override on the Forest line (pale oak, pale moss, eyeblossom, hanging moss),

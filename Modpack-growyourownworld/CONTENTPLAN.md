@@ -6,6 +6,12 @@ Content-mod integration plan (NeoForge **1.21.1**). Companion to BEAUTIFYPLAN.md
 > the forest-family woods (a Forest seed over a BWG biome grows that wood island — see BWGPLAN; the wet/fantasy woods are
 > still pending). Other content mods remain to be slotted in via the levers below.
 
+> **Plan audit (2026-07-01):** this plan predates a lot of shipped work — **11 items are marked ✅ below**: the void
+> ChunkGenerator (Order 0), the full Create + Crafts & Additions + Flux Networks power backbone, Silent Gear, all seven
+> curated Create addons (§3), the Mystical Agriculture starter, and the `gen-mods-txt.ps1` manifest refresh. The remaining
+> tech integrations (Mekanism / AE2 / …), Quark, Farmer's Delight, and the §7 decisions are still open — see
+> [`../PLANOFPLANS.md`](../PLANOFPLANS.md) for their priority.
+
 **The lens:** Skyseed is a *void* skyblock — nothing generates naturally; all content arrives via
 seed-grown islands. So every mod's resources/structures need an on-island acquisition path. Effort is
 *not* the gate (we'll happily build islands); the only real questions are **thematic fit** and **hard
@@ -108,17 +114,17 @@ the heavy FE generators → **AE2** consumes FE for storage/automation.
 
 ## 3. Create addon pack (1.21.1-confirmed)
 
-Curated for a tech-skyblock; all verified present for NeoForge 1.21.1 / Create 6.x:
+Curated for a tech-skyblock; all verified present for NeoForge 1.21.1 / Create 6.x — ✅ **all shipped in `mods.txt`**:
 
 | Addon | Why |
 |---|---|
-| **Create: Crafts & Additions** | **Required** — the FE ↔ rotation power bridge (see §1) |
-| **Create: Steam 'n' Rails** | Trains/rail depth — thematically perfect for linking floating islands |
-| **Create: Enchantment Industry** | Automate XP/enchanting — strong mid/late progression |
-| **Create: Bells & Whistles** | Decoration/adornments for nicer builds |
-| **Create: Connected** | QoL blocks that "should exist" in Create |
-| **Rechiseled: Create** | Decorative block variants (build variety) |
-| **Create: Better Motors** *(optional)* | Enhances Crafts & Additions motors |
+| ✅ **Create: Crafts & Additions** | **Required** — the FE ↔ rotation power bridge (see §1) |
+| ✅ **Create: Steam 'n' Rails** | Trains/rail depth — thematically perfect for linking floating islands |
+| ✅ **Create: Enchantment Industry** | Automate XP/enchanting — strong mid/late progression |
+| ✅ **Create: Bells & Whistles** | Decoration/adornments for nicer builds |
+| ✅ **Create: Connected** | QoL blocks that "should exist" in Create |
+| ✅ **Rechiseled: Create** | Decorative block variants (build variety) |
+| ✅ **Create: Better Motors** *(optional)* | Enhances Crafts & Additions motors |
 
 *Verify before adding (1.21.1 status less certain):* Create: Deco, The Factory Must Grow, Extended Cogwheels.
 Avoid piling on overlapping addons — keep it focused.
@@ -147,11 +153,11 @@ Avoid piling on overlapping addons — keep it focused.
 
 | Order | Mod | Value | Effort | Note |
 |---|---|---|---|---|
-| 0 | *Void ChunkGenerator* | — | Med | Prerequisite: unblocks BYG + all biome mods; structures-off. |
-| 1 | Silent Gear | High | ~Zero | Vanilla-mat playable; fills the Tinkers gap. |
-| 2 | Create (+ Crafts & Additions + Flux) | Very High | Low | The automation spine; only zinc needs a seed. |
-| 3 | Mystical Agriculture | Very High | Med | Force-multiplier — renewable ores feed the tech tiers. |
-| 4 | BYG | High | Low* | Palette for every future island. *after the void fix. |
+| 0 | ✅ *Void ChunkGenerator* | — | Med | **DONE** (0.165.0). Prerequisite: unblocks BYG + all biome mods; structures-off. |
+| 1 | ✅ Silent Gear | High | ~Zero | **DONE.** Vanilla-mat playable; fills the Tinkers gap. |
+| 2 | ✅ Create (+ Crafts & Additions + Flux) | Very High | Low | **DONE.** The automation spine; only zinc needs a seed. |
+| 3 | ✅ Mystical Agriculture | Very High | Med | **DONE.** Force-multiplier — renewable ores feed the tech tiers. |
+| 4 | BYG | High | Low* | Partial — forest woods shipped; wet/fantasy pending (BWGPLAN). *after the void fix. |
 | 5 | Quark | Med-High | Low | Building/QoL breadth via config curation. |
 | 6 | Farmer's Delight | High | Med | Cozy, on-theme; crop injection onto biome islands. |
 | 7 | Applied Energistics 2 | High | Med | Storage endgame; self-multiplies after a certus bootstrap. |
@@ -169,15 +175,15 @@ Avoid piling on overlapping addons — keep it focused.
 
 ### Integration workflow (phases)
 
-1. **Worldgen compat — resolved Skyseed-side (one fix for all biome/structure mods).** Tested with BWG:
+1. ✅ **Worldgen compat — resolved Skyseed-side (one fix for all biome/structure mods).** **DONE** — the void ChunkGenerator shipped (0.165.0). Tested with BWG:
    TerraBlender biome mods (BWG/BYG/Terralith/Incendium) inject biomes into Skyseed's overworld `multi_noise`
    source; their *features* decorate at the void floor (~y=-64). Base terrain + Nether/End stay void. The fix is a
    **custom void ChunkGenerator** in the mod that no-ops biome decoration + structures in the void dims (tracked in
    the mod's `plannednotes.md`). **Once shipped, any TerraBlender/structure mod is safe to add** — biomes flow into
    island theming, nothing decorates, and no structures generate regardless of the world-creation toggle. This
    supersedes the old per-mod "is its worldgen disablable?" check.
-2. **Add mods + deps**, then `./gen-mods-txt.ps1` to refresh the manifest.
-3. **Power backbone** — Create + Crafts & Additions + Flux Networks. Prove FE flows Create→Mek/IE/AE2 across islands.
+2. ✅ **Add mods + deps**, then `./gen-mods-txt.ps1` to refresh the manifest. **DONE** — `mods.txt` current at 92 mods.
+3. ✅ **Power backbone** — Create + Crafts & Additions + Flux Networks **shipped**. *(Still open: prove FE flows Create→Mek/IE/AE2 across islands — moot until a consumer mod lands.)*
 4. **Tech bootstraps** — Mekanism osmium island, IE bauxite island, AE2 certus/sky-stone bootstrap.
 5. **Renewable engines** — Mystical Agriculture + Productive Bees starters.
 6. **Content & palette** — Silent Gear (works now), Farmer's Delight crops on biome islands, Critters spawns,

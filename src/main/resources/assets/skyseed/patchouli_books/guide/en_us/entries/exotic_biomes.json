@@ -1,0 +1,22 @@
+{
+  "name": "Exotic Woods",
+  "category": "skyseed:basics",
+  "icon": "minecraft:oak_sapling",
+  "sortnum": 3,
+  "flag": "mod:biomeswevegone",
+  "advancement": "skyseed:reveal_exotic_woods",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Your $(item)Forest$() seed has learned a new trick. Thrown over one of $(o)Oh The Biomes We've Gone$()'s exotic wood biomes, the island grows in $(bold)that$() biome's trees instead of plain oak."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Grow one$()$(br)Stand over a biome like $(o)aspen boreal$(), $(o)maple taiga$(), $(o)cika woods$() or $(o)sakura grove$() and throw a $(item)Forest$() seed — up comes an aspen, maple, cika, or cherry-blossom island. Eleven wood families answer the Forest seed today: aspen, baobab, cika, jacaranda, maple, ebony, redwood, zelkova, witch-hazel, sakura, and ironwood."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Keep it forever$()$(br)Chop one tree for its $(item)sapling$(), then replant it anywhere — on any island or in a $(item)Botany Pot$(). One trip to a biome is all it takes to farm its wood for good; the map becomes your lumberyard."
+    }
+  ]
+}

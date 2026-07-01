@@ -7,6 +7,10 @@ Skyseed is now `0.167.0`.
 > island, soulium on Nether Soul) and the Mystical Agriculture quest chapter both merged earlier. Kept for reference;
 > no open work remaining.
 
+> **Plan audit (2026-07-01):** the pending in-game quest-book test-load (Build order §3) is marked ✅ complete. A couple
+> of soft follow-ups (a fresh in-game bootstrap-loop sanity check, balance-tuning watch, the optional dedicated Prosperity
+> island) are tracked in [`../PLANOFPLANS.md`](../PLANOFPLANS.md).
+
 ## Mods added (roles + deps)
 **Mystical Agriculture family (BlakeBr0):**
 - `Cucumber` — required library.
@@ -66,5 +70,5 @@ A "Mystical Agriculture" chapter, gated off the Lush/Prosperity island:
 ## Build order
 1. **Skyseed first-party MA theme-override** (ore → Lush + nether) + gametest + version bump. *(small, data-only)*
 2. Verify in-game: ore appears on the island, and the MA bootstrap (essence → farmland → seed → pot crop) works.
-3. **MA quest chapter** (after the pending in-game quest-book test-load).
+3. ✅ **MA quest chapter** — shipped; the previously-pending in-game quest-book test-load is **complete**.
 4. *(Later, roadmap)* optional dedicated **Prosperity island** as its own Skyseed seed/tier.

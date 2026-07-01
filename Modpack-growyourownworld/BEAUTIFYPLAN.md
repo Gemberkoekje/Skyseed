@@ -6,6 +6,9 @@ Locked decisions: **Complementary Reimagined** default shader · **16× / native
 > **Status (PR #14):** **Better Clouds** (volumetric clouds) added. Beautify wins from the BWG work also landed — denser
 > forests on large/huge islands, rounded deep lakes, and contained (walled, bank-softened) rivers.
 
+> **Plan audit (2026-07-01):** 9 items below marked ✅ already-shipped after a plan-vs-repo check (all present in `mods.txt`).
+> See [`../PLANOFPLANS.md`](../PLANOFPLANS.md) for the full prioritized backlog of remaining work.
+
 ---
 
 ## 1. Shaders — Complementary Reimagined + Euphoria Patches
@@ -50,7 +53,7 @@ project then. (The removed folder was never committed, so it's gone — but it's
 | **Falling Leaves** | `overrides/mods/` | pairs with existing FastLeafDecay · https://modrinth.com/mod/fallingleaves |
 | **Fusion (Connected Textures)** | `overrides/mods/` | paired with **Midnighttigger's Default CT** pack (glass/panes/sandstone/bookshelves) · https://modrinth.com/resourcepack/mt-ct-d |
 
-Optional / later (caveats): **Distant Horizons** (LOD; shader compat on 1.21.1 still finicky — add after shaders are stable), **Sound Physics Remastered** (reverb; heavier).
+Optional / later (caveats): **Distant Horizons** (LOD; shader compat on 1.21.1 still finicky — add after shaders are stable), ✅ ~~**Sound Physics Remastered** (reverb; heavier)~~ — **shipped** (`sound-physics-remastered-neoforge-1.21.1-1.5.1.jar` + config dir present).
 
 ## 5. Wiring — done
 
@@ -72,12 +75,12 @@ Optional / later (caveats): **Distant Horizons** (LOD; shader compat on 1.21.1 s
 
 ## Download checklist (I can't pull these through CurseForge/Cloudflare — grab the latest NeoForge 1.21.1 build of each)
 
-- [ ] Iris (NeoForge 1.21.1)
-- [ ] Monocle 0.2.3+
-- [ ] Euphoria Patches (NeoForge 1.21.1)
-- [ ] Complementary Reimagined (shaderpack zip)
-- [ ] Vanilla Tweaks (generate 16× pack at vanillatweaks.net — not a CF/Modrinth download)
-- [ ] Fresh Animations (resourcepack zip) + EMF + ETF
-- [ ] AmbientSounds 6 + CreativeCore
-- [ ] Falling Leaves
-- [ ] Fusion (Connected Textures)
+- [x] Iris (NeoForge 1.21.1) ✅ shipped (`iris-neoforge-1.8.12+mc1.21.1.jar`)
+- [x] Monocle 0.2.3+ ✅ shipped (`monocle-0.2.3.ms.jar`)
+- [x] Euphoria Patches (NeoForge 1.21.1) ✅ shipped (`EuphoriaPatcher-1.9.3-r5.8.1-neoforge.jar`)
+- [x] Complementary Reimagined (shaderpack zip) ✅ shipped (`ComplementaryReimagined_r5.8.1.zip`)
+- [ ] Vanilla Tweaks (generate 16× pack at vanillatweaks.net — not a CF/Modrinth download) — *deliberately dropped, not shipped (see §2/§5)*
+- [x] Fresh Animations (resourcepack zip) + EMF + ETF ✅ shipped (`FreshAnimations_v1.10.4.zip` + `entity_model_features` + `entitytexturefeatures`)
+- [x] AmbientSounds 6 + CreativeCore ✅ shipped (`AmbientSounds_NEOFORGE_v6.3.8` + `CreativeCore_NEOFORGE_v2.13.41`)
+- [x] Falling Leaves ✅ shipped (`fallingleaves-1.21.1-2.5.1.jar`)
+- [x] Fusion (Connected Textures) ✅ shipped (`fusion-1.3.4-neoforge-mc1.21.1.jar` + Midnighttigger CT pack)

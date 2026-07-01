@@ -7,6 +7,10 @@ version-volatile API calls behind a thin **facade** so the algorithm stays versi
 **Out of scope.** Fabric / cross-loader. If that ever happens it gets its own plan (that's what Architectury is for);
 Architectury solves the *loader* split and does nothing for the version axis, so it's deliberately not used here.
 
+> **Plan audit (2026-07-01):** the pragmatic 26.1.2 stubs (§2.7) are marked ✅ re-wired to real APIs. Remaining open
+> items (gametest→compat routing, doc-drift fix, a third version node, contingencies) are tracked in
+> [`PLANOFPLANS.md`](PLANOFPLANS.md), the repo-wide prioritized backlog.
+
 ---
 
 ## How Stonecutter works (so the plan is self-contained)
@@ -65,10 +69,11 @@ changes between versions the Stonecutter directives live in a handful of named f
    Stonecutter node; resolve the per-version compile diffs with directives — almost all landing in `compat`. Get
    **both** versions building and each one's gametests passing. **Detailed, data-driven plan: see
    [Stage 2 in detail](#stage-2-in-detail--target-mc-2612--neoforge-261276) below.**
-3. **Generalize + document — IN PROGRESS.** ✅ The **CI matrix is wired**: `stonecutter.gradle.kts` registers
+3. **Generalize + document — IN PROGRESS.** ✅ The **CI fan-out is wired**: `stonecutter.gradle.kts` registers
    `chiseledBuild` + `chiseledRunGameTestServer` (fan a task across every node via `stonecutter.tasks.named(<task>)`, so
-   a new node needs no edit there), and `.github/workflows/ci-skyseed.yml` builds + gametests each node as a matrix
-   (1.21.1→JDK 21, 26.1.2→JDK 25). Remaining: the "how to add a version" recipe (a node + the expected directive
+   a new node needs no edit there), and `.github/workflows/build.yml` runs those two chiseled tasks in a single job — so
+   it builds + gametests **every** node with **no per-version workflow edit** (the version list lives only in
+   `settings.gradle`, and each node's JDK — 1.21.1→21, 26.1.2→25 — is auto-provisioned by the foojay resolver). Remaining: the "how to add a version" recipe (a node + the expected directive
    sites — now written, see **"How to add a version node"** below), and adding further versions as wanted. The one
    long-known flaky gametest (`dungeonComplexGoesVertical`) is **fixed** in both suites: it sampled the best cobble
    Y-span and asserted `> 9`, which sat at the low end of the descended range (~9+) and flaked when the best landed at
@@ -274,8 +279,8 @@ LootModifier priority ctor). The scattered renames resolved as: GameRules→regi
 +`LevelData.RespawnData`, player→`ServerPlayer.RespawnConfig`/`getRespawnConfig`; `Commands.hasPermission(LEVEL_GAMEMASTERS)`;
 client action bar `mc.gui.setOverlayMessage` (cross-version); `releaseUsing`→boolean+`ClientPacketDistributor`;
 `KeyMapping.Category` record; `registerItem` Supplier; `ChunkPos(x>>4,z>>4)`+`JigsawStructure.MaxDistance`;
-`dataVersion().version()`; `Entity.getServer()`→`level().getServer()`. **Pragmatic 26.1.2 stubs (TODO-commented,
-re-wire later):** `worldGenOptions()` gone→bonusChest=false; `ModelResourceLocation` removed + `ModifyBakingResult`
+`dataVersion().version()`; `Entity.getServer()`→`level().getServer()`. **Pragmatic 26.1.2 stubs — ✅ RE-WIRED to real
+26.1.2 APIs (TODO cleared; `ThemeScanner`/`DevStructureGenerator` et al. now use real hooks):** `worldGenOptions()` gone→bonusChest=false; `ModelResourceLocation` removed + `ModifyBakingResult`
 reworked→auto-debug-seed icon hook no-op; `IModFile.findResource` moved→`ThemeScanner` yields none;
 `FMLEnvironment.production` moved→`DevStructureGenerator` dev-gen disabled. **NEXT: port the gametest sourceset** (the
 `@GameTest`/`@GameTestHolder` annotations were removed in 26.1.2 → the new `GameTestInstance`/datapack-registered
@@ -406,8 +411,9 @@ most of it, and the data is already tolerant. Keep the existing nodes green at e
    filter for the book entry. The residual hard cases (a renamed vanilla id, a shifted worldgen codec) take a guarded
    data variant or a `//?`.
 6. **Verify.** `:<v>:build` + `:<v>:runGameTestServer` green, **every other node still green**, then `./gradlew
-   chiseledBuild` / `chiseledRunGameTestServer` for all nodes. Add the version to the CI matrix in
-   `.github/workflows/ci-skyseed.yml` (a `{mcver, java}` row). Capture a **per-node golden master** (the gametest logs
+   chiseledBuild` / `chiseledRunGameTestServer` for all nodes. **No CI edit is needed** — `.github/workflows/build.yml`
+   runs the chiseled tasks over every node in `settings.gradle`, and the node's JDK is auto-provisioned (foojay), so the
+   new node is picked up automatically. Capture a **per-node golden master** (the gametest logs
    `[golden] CAPTURE` when an entry is missing — lock the printed fingerprints).
 
 ---

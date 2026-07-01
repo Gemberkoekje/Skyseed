@@ -5,6 +5,10 @@
 > **don't leak** — they're just unreachable content. Pick this up when there's appetite to resurrect villages / manors /
 > the bog trial as growable islands. The audit + triage below are done and current.
 
+> **Plan audit (2026-07-01):** the prerequisite (BWGPLAN Step 1 — wood biome adaptation) is marked ✅ shipped for the
+> forest family, so this plan is now unblocked whenever it's picked up. The scope decision, village↔biome mapping, and
+> the resurrection steps remain open — see [`../PLANOFPLANS.md`](../PLANOFPLANS.md) for their priority.
+
 ## Audit result: only BWG adds structures
 
 A scan of every jar for `worldgen/structure_set` + `worldgen/structure`:
@@ -53,7 +57,7 @@ Skyseed island themes assemble a referenced jigsaw `pool` (the `rare_structures`
 
 Shares the biome-adaptation vehicle; land *after* BWGPLAN Step 1 (wood islands) proves the loop and confirms the BWG biome ids:
 
-1. **BWGPLAN Step 1** — wood biome adaptation (establishes the pattern).
+1. ✅ **BWGPLAN Step 1** — wood biome adaptation (establishes the pattern). **DONE** (shipped for the forest family: `theme_override/biomeswevegone_forest{,_large,_huge}.json`).
 2. **Villages** — the highest-value resurrection; adapt `village_center` / `hamlet` to the 6 BWG village biomes.
 3. **Manor + bog trial** — adapt `woodland_mansion` / `trial_chamber`; carries the bounding-box risk, so gametest each.
 4. **Prairie houses / rugged fossil** — optional polish (hamlet variety / a minor fossil island).
