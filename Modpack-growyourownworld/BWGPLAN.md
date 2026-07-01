@@ -16,7 +16,7 @@
   - **Fantasy woods → Forest family (trees-first):** appended to `biomeswevegone_forest.json` (+ `_large`, `huge_`). The same files also gained a **trees-first `cypress` overlap** as the deliberate multi-seed demo (cypress is water-first on Aquatic, trees-first on Forest).
   - **✅ SHIPPED (2026-07-01, v0.171.0).** All ids **verified against the BWG 2.6.0 jar** and corrected: willow → `bayou` biome / `bayou_trees` feature (no `willow_trees` exists), white_mangrove → `white_mangrove_marshes` (not `pale_bog`), **spirit IS growable** via `pale_bog` (there is no `spirit_woods` biome), palm kept on the sandy `rainbow_beach` by design (BWG injects `palm_trees` into vanilla beach). `feature` resolves against the **configured**-feature registry. Added `biomeswevegone_compat_prepends_aquatic_bands` + extended the forest gametest (both nodes); `mod_version`/CHANGELOG bumped. Tree tries / pond sizes remain tunable in-game.
 - **Density follow-up:** lift the *held* wet/semi forest biomes (mangrove/swamp/riverside, cherry/grove/mushroom/bamboo/flower) to the agreed level — held pending the in-game density read, now confirmed good.
-- **Step 2 (OTYG verification) ✅ DONE (2026-07-01)** and **Step 4 (Patchouli "Exotic Woods" entry) ✅ DONE.** **Step 3 (create-otbwg verification), Step 5 (the light quest branch — now under Tools & Travel), and the rest of Step 4 (config curation + `mods.txt` regen)** — still to do.
+- **Step 2 (OTYG verification) ✅ DONE (2026-07-01)**, **Step 4 (Patchouli "Exotic Woods" entry) ✅ DONE**, and **Step 5 (the light quest branch under Tools & Travel) ✅ DONE (2026-07-01)**. **Step 3 (create-otbwg live-mill spot-check)** and **the rest of Step 4 (config curation + `mods.txt` regen)** — still to do.
 - **STRUCTUREPLAN** (BWG village/manor/trial resurrection) — its own later child changeset.
 
 ## The three mods
@@ -108,12 +108,14 @@ Scope discipline: do **not** map all 55. Cover the signature **wood** biomes (so
   - **Only shows when BWG is installed** (the requested trick): the entry carries a Patchouli `flag: "mod:biomeswevegone"` **and** an entry-level `advancement: "skyseed:reveal_exotic_woods"`. That hidden advancement fires on obtaining any item in the new **inert** `#skyseed:exotic_woods` item tag (all `{id, required:false}` — empty without BWG, so it can never fire → entry hidden on both backends; with BWG, growing an exotic wood reveals it). `generateGuide` turns the entry `advancement` into a `modonomicon:advancement` condition, so the gate holds on the primary (Modonomicon) backend too.
   - ⚠ The tag's `biomeswevegone:*_planks` ids are best-guesses (same wood names as the band drafts) — **verify against the BWG 2.6.0 jar** (and confirm whether BWG ships a `#biomeswevegone:planks` tag, which would replace the explicit list). *(Remaining Step 4 work: the config-curation pass + `mods.txt` regen.)*
 
-## Step 5 — Quests (optional, light)
+## Step 5 — Quests (optional, light) — ✅ SHIPPED (2026-07-01)
 
-A small branch under the **Tools & Travel** chapter (an explore-the-wilds line — see QUESTPLAN) — not a new megachapter (keep it un-overwhelming):
-- *Into the Wilds* — obtain any BWG plank (proof you grew an exotic island).
-- *Mill the Blooms* — a create-otbwg milled output (ties BWG → Create).
-- *Grow Something Grand* — an OTYG-grown tree.
+A small branch under the **Tools & Travel** chapter (an explore-the-wilds line — see QUESTPLAN) — not a new megachapter (kept it un-overwhelming). Authored as quests **B701–B703** in `overrides/config/ftbquests/quests/chapters/tools.snbt`, text in `lang/en_us.snbt`:
+- *Into the Wilds* (B701) — obtain any BWG plank (proof you grew an exotic island). **Advancement task** hooking the already-shipped hidden `skyseed:reveal_exotic_woods` advancement (criterion `has_exotic_wood`, `inventory_changed` on `#skyseed:exotic_woods`) — so it auto-completes on picking up any exotic plank and stays inert without BWG (empty tag). Depends on Skyseed **B103** (grow a biome island). Reward: bone meal ×16.
+- *Mill the Blooms* (B702) — mill a BWG bloom into dye/petals (ties BWG → Create). Checkmark; depends on **B701 + Create B204** (Millstone/Crushing Wheels). Reward: XP bottles ×6.
+- *Grow Something Grand* (B703) — grow a tree from a sapling (OTYG). Checkmark; depends on **B701**. Reward: Skyfarer's Cache roll.
+
+**★ Why an advancement, not a filter task.** First attempt used an `ftbfiltersystem:smart_filter` item task with `item_tag(skyseed:exotic_woods)` — **it does NOT work**: in-game FTB Quests treats the Smart Filter as a *literal item to obtain* (the "Valid items" screen shows only the filter), not as a tag expansion. Reusing the hidden reveal advancement (built for the Patchouli guide gate) is the robust fix — one hidden advancement now drives both the quest and the guide entry. `ftb-filter-system` is therefore **no longer required** by this branch (harmless to keep as a general QoL mod). The other two quests are checkmarks because a milled output / a grown tree aren't clean single item-ids. **Remaining:** in-game quest-book test-load (tasks/rewards resolve) — see PLANOFPLANS checklist #3.
 
 ## Plank coverage audit — 24 / 25 obtainable (2026-07-01) ✅ CLOSED (v0.173.0; fir is the documented exception)
 

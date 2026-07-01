@@ -343,6 +343,29 @@
 	]
 	quest.5C0000000000B609.quest_subtitle: "Mystical Agradditions"
 	quest.5C0000000000B609.title: "The Insane Tier"
+	quest.5C0000000000B701.quest_desc: [
+		"The void's biome map is a treasure map. §eOh The Biomes We've Gone§r scatters dozens of wild biomes out there — aspen boreals, jacaranda jungles, cypress swamplands and more — each with its own §eexotic wood§r."
+		""
+		"Throw a §eForest§r seed over one of those biomes and it grows an island of that wood. Chop it for §eplanks§r no vanilla tree can give you. Twenty-four woods are out there to find."
+		""
+		"§7Tip: check F3 or the minimap for the biome name before you throw — the biome decides the wood.§r"
+	]
+	quest.5C0000000000B701.quest_subtitle: "Grow an exotic-wood island"
+	quest.5C0000000000B701.title: "Into the Wilds"
+	quest.5C0000000000B702.quest_desc: [
+		"Some wild biomes bloom instead of grow tall. A §eMeadow§r seed over a BWG grassland (allium shrubland, rose fields, amaranth grassland…) or a §eLush§r seed over a jungle carpets the island in §eexotic flowers§r."
+		""
+		"Feed those blooms to a §eMillstone§r or §eCrushing Wheels§r and Create turns them into §edyes, petals and powders§r — a whole palette you can only get from the wilds."
+	]
+	quest.5C0000000000B702.quest_subtitle: "BWG blooms, meet Create"
+	quest.5C0000000000B702.title: "Mill the Blooms"
+	quest.5C0000000000B703.quest_desc: [
+		"§eOh The Trees You'll Grow§r makes saplings grow into big, varied trees — sprawling canopies and shapes far beyond a plain vanilla trunk."
+		""
+		"Plant any sapling on an island, or drop one in a §eBotany Pot§r, give it room, and watch something grand rise. It works the same on every wood you bring home from the wilds."
+	]
+	quest.5C0000000000B703.quest_subtitle: "Watch a sapling rise"
+	quest.5C0000000000B703.title: "Grow Something Grand"
 	reward_table.5C00000000005001.title: "Skyfarer's Cache"
 	reward_table.5C00000000005002.title: "Engineer's Cache"
 	task.5C0000000000C001.title: "Begin"
@@ -363,4 +386,7 @@
 	task.5C0000000000C402.title: "Add an upgrade to your backpack"
 	task.5C0000000000C502.title: "Spot a waystone on your map"
 	task.5C0000000000C607.title: "Grow a tree in a Botany Pot"
+	task.5C0000000000C701.title: "Obtain any exotic-wood plank"
+	task.5C0000000000C702.title: "Mill a BWG bloom in a Millstone"
+	task.5C0000000000C703.title: "Grow a tree from a sapling"
 }

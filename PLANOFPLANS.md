@@ -13,7 +13,7 @@ the detail.
 ## Headline
 
 - **~62 genuinely-open points** remain, consolidated into the ranked items below (plus the
-  CODE_REVIEW follow-ups). *(2026-07-01: items #1, #4, #7, #8, #9, #10, #62, #63 resolved/shipped and #66 diagnosed — see the [Decisions log](#decisions-log).)*
+  CODE_REVIEW follow-ups). *(2026-07-01: items #1, #3, #4, #7, #8, #9, #10, #62, #63 resolved/shipped and #66 diagnosed — see the [Decisions log](#decisions-log).)*
 - **31+ items were already shipped** and have been checked off in their plans — the docs read as far
   less finished than the repo actually is (CONTENTPLAN especially predates the void ChunkGenerator, the
   Create power backbone, Mystical Agriculture, and the six-chapter quest spine, all since shipped).
@@ -104,6 +104,17 @@ the detail.
   island flower feeds a real recipe. Ground flora is per-column (no `tries`), so the 3 tier files per family are identical
   bands. New `biomeswevegone_compat_places_{meadow,lush}_flowers` gametests (both nodes) pass — 137/137 + 146/146.
   Only the in-game live-mill spot-check remains. Detail in [BWGPLAN § Step 3](Modpack-growyourownworld/BWGPLAN.md).
+- **2026-07-01 — item #3 DONE: the BWG quest branch shipped.** Three quests (**B701 Into the Wilds / B702 Mill the
+  Blooms / B703 Grow Something Grand**) authored under the **Tools & Travel** chapter (`chapters/tools.snbt` + `lang/en_us.snbt`).
+  **Into the Wilds auto-completes on obtaining any of the 24 exotic planks** via an FTB Quests **advancement task** on the
+  hidden `skyseed:reveal_exotic_woods` advancement (criterion `has_exotic_wood`, `inventory_changed` on `#skyseed:exotic_woods` —
+  originally built for the Patchouli guide-reveal gate, now reused so one hidden advancement drives both). **First attempt
+  used an `ftbfiltersystem:smart_filter` item task** (`item_tag(skyseed:exotic_woods)`, reverse-engineered from the jars) —
+  **it did NOT work: in-game FTB Quests treats the Smart Filter as a literal item to obtain**, not a tag expansion (user
+  screenshot). So `ftb-filter-system` is not needed by this branch. Mill the Blooms + Grow Something Grand are checkmarks
+  (a milled output / a grown tree aren't clean single item-ids). Root gated on Skyseed **B103** (grow a biome island); B702
+  also on Create **B204** (Millstone). SNBT brace-balanced, ids collision-free. **Remaining:** the in-game quest-book
+  test-load (checklist #3). See [BWGPLAN § Step 5](Modpack-growyourownworld/BWGPLAN.md).
 - **2026-07-01 — tech backbone DECIDED: Immersive Engineering, not Mekanism (aesthetic).** User's call — Mekanism
   reads as too blocky/boring; IE's multiblock/diesel aesthetic is the headline. Consequences: **#11 resolved**;
   **#17 (Mekanism integration) dropped**; **#34 (IE) promoted to the primary tech backbone** (tech bootstrap = the
@@ -124,10 +135,10 @@ the detail.
 
 | Plan | What it covers | Open | ✅ Checked off |
 |---|---|---:|---:|
-| [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | Oh The Biomes We've Gone integration | 8 | 6 |
+| [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | Oh The Biomes We've Gone integration | 7 | 7 |
 | [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration levers | 15 | 12 |
 | [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | BWG structures → growable islands | 10 | 1 |
-| [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | 9 | 5 |
+| [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | 8 | 6 |
 | [plannednotes.md](plannednotes.md) | Void ChunkGenerator, Trial Chamber, misc | 6 | 0 |
 | [REFACTORPLAN.md](REFACTORPLAN.md) | Multi-version (NeoForge + Stonecutter) refactor | 5 | 1 |
 | [BEAUTIFYPLAN.md](Modpack-growyourownworld/BEAUTIFYPLAN.md) | Modpack visual/aesthetic pass | 4 | 9 |
@@ -145,7 +156,7 @@ before more is piled on top.
 
 1. ✅ **Resolve Q2** — ~~concentrate BWG wood bands on the Forest seed vs. distribute across typed seeds~~ **DECIDED 2026-07-01: distribute, priority-ordered per seed** (see [Decisions log](#decisions-log)). Items 7, 8, 9 are now unblocked.
 2. ✅ **Verify OTYG sapling→tree growth** — DONE (2026-07-01): oak + Zelkova saplings grow to trees on islands and in Botany Pots, BWG saplings work OOTB (no Potion Studios pack needed). *(BWGPLAN · medium)*
-3. **Build the BWG quest branch** (Into the Wilds / Mill the Blooms / Grow Something Grand) **under the Tools & Travel chapter**. *(QUESTPLAN / BWGPLAN Step 5 · small)* — the one explicitly-pending quest deliverable; its integration already shipped. Clean quick win.
+3. ✅ **Build the BWG quest branch** (Into the Wilds / Mill the Blooms / Grow Something Grand) **under the Tools & Travel chapter** — DONE (2026-07-01): quests B701–B703 in `chapters/tools.snbt` + `lang/en_us.snbt`; Into the Wilds auto-completes via an **advancement task** on the hidden `skyseed:reveal_exotic_woods` (a smart-filter item task was tried first but FTB Quests treats the filter as a literal item), the other two are checkmarks; cross-gated on B103 + B204. Only in-game test-load remains. *(QUESTPLAN / BWGPLAN Step 5 · small)*
 4. ✅ **Fix CI-file doc drift** — DONE (2026-07-01): corrected `ci-skyseed.yml`→`build.yml` and the "matrix"→chiseled-fan-out description across README/REFACTORPLAN/CHANGELOG; the "add a version" recipe now correctly says no CI edit is needed. *(REFACTORPLAN · small)*
 5. ✅ **Verify Mystical Agriculture in-game** — DONE (2026-07-01): ore spawn + bootstrap loop confirmed (deepslate ores on Ancient; essence→farmland→pot works). Surfaced follow-up #62 (stone ores on Lush). *(MYSTICALPLAN · small)*
 6. ✅ **Smoke-test the void ChunkGenerator with BWG installed** — DONE (2026-07-01): no features at y≈-64, End central island intact. *(plannednotes · small)*
@@ -264,7 +275,7 @@ sign-offs are worth doing before the next content lands on top.
 |---|---|---|---|---|---|---|
 | 1 | ✅ **RESOLVED** — Q2: **distribute** BWG bands across typed seeds, priority-ordered per seed (aquatic=water-first, forest=trees-first, lush=extreme nature); same biome may appear in multiple families. See BWGPLAN §Q2. | BWGPLAN.md | high | small | ✅ done (2026-07-01) | Was the top blocker; now decided — the wet/fantasy wood-band authoring (#7/#8) and millable-flower placement (#9) are unblocked. |
 | 2 | Step 2 — Verify OTYG sapling→tree growth for vanilla + BWG saplings | BWGPLAN.md | high | medium | ✅ done (2026-07-01) | VERIFIED in-game: oak + Zelkova (BWG) saplings grow to trees on islands and in Elite Botany Pots (3 oak / 2 zelkova logs); BWG saplings grow OOTB — the Potion Studios tree pack was not needed. |
-| 3 | Build the BWG quest branch (Into the Wilds / Mill the Blooms / Grow Something Grand) **under the Tools & Travel chapter** (BWGPLAN Step 5) | QUESTPLAN.md / BWGPLAN.md | high | small | genuinely-open | The single explicitly-pending quest deliverable whose dependency (BWG island/resource integration) is already shipped, so it is immediately actionable. Lives under Tools & Travel (an explore-the-wilds line), not the Skyseed spine. |
+| 3 | Build the BWG quest branch (Into the Wilds / Mill the Blooms / Grow Something Grand) **under the Tools & Travel chapter** (BWGPLAN Step 5) | QUESTPLAN.md / BWGPLAN.md | high | small | ✅ done (2026-07-01) | SHIPPED: quests **B701–B703** in `chapters/tools.snbt` + text in `lang/en_us.snbt`. **Into the Wilds** (B701) auto-completes via an **advancement task** on the hidden `skyseed:reveal_exotic_woods` (criterion `has_exotic_wood`, on `#skyseed:exotic_woods`) — a `ftbfiltersystem:smart_filter` item task was tried first but FTB Quests treats the filter as a literal item to obtain (confirmed in-game). **Mill the Blooms** (B702, dep B701+B204 Millstone) + **Grow Something Grand** (B703, dep B701) are checkmarks. Root gated on Skyseed **B103**. SNBT balance-checked; ids collision-free. In-game test-load = checklist #3. |
 | 4 | Reconcile plan/changelog CI-file references with the actual workflow (documentation drift) | REFACTORPLAN.md | medium | small | ✅ done (2026-07-01) | DONE — fixed `ci-skyseed.yml`→`build.yml` + "matrix"→chiseled-fan-out in README/REFACTORPLAN/CHANGELOG; "add a version" recipe now says no CI edit needed. |
 | 5 | Verify the MA integration in-game (ore spawn + bootstrap loop) | MYSTICALPLAN.md | medium | small | ✅ done (2026-07-01) | VERIFIED: deepslate Inferium + Prosperity ore on Ancient; Inferium Seed + Inferium Farmland in an Elite Botany Pot grows as intended. Surfaced follow-up #62 (stone ores on Lush). |
 | 6 | Runtime smoke test of void ChunkGenerator with BWG installed | plannednotes.md | medium | small | ✅ done (2026-07-01) | VERIFIED: with BWG installed, no decoration leak at the void floor (y≈-64) and the End central island still generates. |
