@@ -8,6 +8,11 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 > Storage — have shipped. The **BWG quest chapter** (Into the Wilds / Mill the Blooms / Grow Something Grand) is
 > BWGPLAN Step 5, still **pending**.
 
+> **Plan audit (2026-07-01):** 5 items below marked ✅ done — the **Tools**, **Create Extras**, and **Other** chapters all
+> shipped (Extras folded into the Create chapter; Other + Tools merged into **"Tools & Travel"**), the Silent Gear
+> placement question is **resolved**, and the **Mystical Agriculture** chapter shipped. The BWG chapter and the future
+> per-mod chapters remain open — see [`../PLANOFPLANS.md`](../PLANOFPLANS.md).
+
 ## Approach
 
 - **Tone — explain, don't gate.** Every quest carries a short plain-language description: what the mod/mechanic is, why
@@ -36,15 +41,15 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 |---|---|---|---|
 | 1 | **Introduction** | the void-skyblock idea; JEI, Jade, Xaero map, AppleSkin, Vein Mining, the Skyseed guide | onboard + QoL tour |
 | 2 | **Skyseed** | `skyseed` (seed→island progression, relics/edges, overworld→nether→end) | the spine; gates the rest |
-| 3 | **Tools** *(new)* | Silent Gear (+ Jade tiers, JEI plugin) | early tools/armor |
+| 3 | ✅ **Tools** *(shipped — as the "Tools & Travel" chapter)* | Silent Gear (+ Jade tiers, JEI plugin) | early tools/armor |
 | 4 | **Create** | `create`, Crafts & Additions (`createaddition`), Flux Networks | the main tech chain |
-| 5 | **Create Extras** | Steam'n'Rails, Enchantment Industry, Goggles, Jetpack, deco (Deco/Connected/Rechiseled/Bells&Whistles/Interiors/Design'n'Decor) | optional/advanced |
+| 5 | ✅ **Create Extras** *(shipped — folded into the Create chapter)* | Steam'n'Rails, Enchantment Industry, Goggles, Jetpack, deco (Deco/Connected/Rechiseled/Bells&Whistles/Interiors/Design'n'Decor) | optional/advanced |
 | 6 | **Storage** | Sophisticated Backpacks + Storage (+ their Create integrations) | storage QoL (**not** AE2) |
-| 7 | **Other** | Waystones (+ Xaero waystones compat); odds & ends | utility |
+| 7 | ✅ **Other** *(shipped — merged into "Tools & Travel")* | Waystones (+ Xaero waystones compat); odds & ends | utility |
 
 > **Silent Gear** wasn't in your list. It's a meaty tools/armor mod (your Tinkers replacement), so I'd give it a small
 > **Tools** chapter rather than bury it in "Other." Alternative: fold its first quest into the Introduction's early game.
-> Your call — flagged, not decided.
+> ✅ **Decided (shipped):** it got its own dedicated Tools section — the "Tools" half of the "Tools & Travel" chapter.
 
 ## Per-chapter quest breakdown
 
@@ -64,7 +69,7 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 - **Eye of the End** (end-portal seed → reach the End) → **The Dragon's Trophy** (capstone).
 - *Tasks key off Skyseed's existing `reveal_*` / `craft_*` / `gathered_*` advancements; structure follows the guide-book chapters so the two stay in lockstep.*
 
-### 3. Tools — Silent Gear
+### 3. Tools — Silent Gear ✅ *(shipped as the "Tools & Travel" chapter)*
 - **Forge a Tool** (rod + head → your first Silent Gear tool) → **Make It Yours** (material traits, blueprints) →
   **Keep It Sharp** (repair kits, tips/grips) → **Tiered Up** (better materials — e.g. nether Crimson Iron later).
 
@@ -76,7 +81,7 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 - **Automate It** (Deployer, Mechanical Arm, Mechanical Crafter) → **Power Up** (Crafts & Additions: Electric Motor /
   Alternator — rotation ↔ FE) → **Wireless Watts** (Flux Networks: one FE grid across your islands, no cables over the void).
 
-### 5. Create Extras — optional/advanced
+### 5. Create Extras — optional/advanced ✅ *(shipped — folded into the Create chapter)*
 - **All Aboard** (Steam'n'Rails: track + station + a train to link islands) · **Enchanted Industry** (automate XP/enchanting) ·
   **Goggles On** (Create Goggles) · **Take Flight** (Create Jetpack) · **Dress It Up** (the decoration addons).
 
@@ -84,7 +89,7 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 - **Pack It Up** (Sophisticated Backpacks + upgrades: pickup, magnet, stack) → **Barrels & Boxes** (Sophisticated Storage:
   barrels/chests, upgrade slots, the controller) → **Hooked to Create** (the Storage↔Create integration).
 
-### 7. Other — utility
+### 7. Other — utility ✅ *(shipped — merged into "Tools & Travel")*
 - **Set Your Home** (Waystones: place + attune + teleport between islands — big QoL for a multi-island world) ·
   **On the Map** (Xaero waystones compat) · *odds & ends as they arrive.*
 
@@ -98,7 +103,7 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 ## Scope & future chapters
 - **Covered now:** Skyseed, Create (+ extras), Sophisticated storage, Silent Gear, Waystones, the QoL/nav mods.
 - **Future chapters (mods to integrate later, each gets its own):** **Applied Energistics 2** (its own chapter, as you
-  noted), **Mekanism**, **Immersive Engineering**, **Mystical Agriculture**, **Productive Bees**, **Farmer's Delight**,
+  noted), **Mekanism**, **Immersive Engineering**, ✅ ~~**Mystical Agriculture**~~ *(shipped)*, **Productive Bees**, **Farmer's Delight**,
   **Iron's Spells**, **Quark**, and **BYG** content. Each lands with its island/resource integration (+ a theme-override
   patch where it needs ores), then its quest chapter — same weave as Create.
 
@@ -111,5 +116,5 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
   entityculling, fpsreducer, ambientsounds, fallingleaves, fastleafdecay, sound-physics, fusion, EMF/ETF, balm, kotlinforforge,
   geckolib, corgilib, better_lib, framework, configured, catalogue, searchables, creativecore, supermartijn642 ×2,
   TerraBlender, Clumps, Controlling, MouseTweaks, AdvancedLootInfo, JustEnoughResources, silentgear jade/jei plugins.
-- **Not installed (so no chapter yet):** Applied Energistics 2, Mekanism, Immersive Engineering, Mystical Agriculture,
+- **Not installed (so no chapter yet):** Applied Energistics 2, Mekanism, Immersive Engineering, ~~Mystical Agriculture~~ *(✅ now installed + chaptered)*,
   Productive Bees, Farmer's Delight, Iron's Spells, Quark.

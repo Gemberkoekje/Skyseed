@@ -7,6 +7,10 @@ version-volatile API calls behind a thin **facade** so the algorithm stays versi
 **Out of scope.** Fabric / cross-loader. If that ever happens it gets its own plan (that's what Architectury is for);
 Architectury solves the *loader* split and does nothing for the version axis, so it's deliberately not used here.
 
+> **Plan audit (2026-07-01):** the pragmatic 26.1.2 stubs (§2.7) are marked ✅ re-wired to real APIs. Remaining open
+> items (gametest→compat routing, doc-drift fix, a third version node, contingencies) are tracked in
+> [`PLANOFPLANS.md`](PLANOFPLANS.md), the repo-wide prioritized backlog.
+
 ---
 
 ## How Stonecutter works (so the plan is self-contained)
@@ -274,8 +278,8 @@ LootModifier priority ctor). The scattered renames resolved as: GameRules→regi
 +`LevelData.RespawnData`, player→`ServerPlayer.RespawnConfig`/`getRespawnConfig`; `Commands.hasPermission(LEVEL_GAMEMASTERS)`;
 client action bar `mc.gui.setOverlayMessage` (cross-version); `releaseUsing`→boolean+`ClientPacketDistributor`;
 `KeyMapping.Category` record; `registerItem` Supplier; `ChunkPos(x>>4,z>>4)`+`JigsawStructure.MaxDistance`;
-`dataVersion().version()`; `Entity.getServer()`→`level().getServer()`. **Pragmatic 26.1.2 stubs (TODO-commented,
-re-wire later):** `worldGenOptions()` gone→bonusChest=false; `ModelResourceLocation` removed + `ModifyBakingResult`
+`dataVersion().version()`; `Entity.getServer()`→`level().getServer()`. **Pragmatic 26.1.2 stubs — ✅ RE-WIRED to real
+26.1.2 APIs (TODO cleared; `ThemeScanner`/`DevStructureGenerator` et al. now use real hooks):** `worldGenOptions()` gone→bonusChest=false; `ModelResourceLocation` removed + `ModifyBakingResult`
 reworked→auto-debug-seed icon hook no-op; `IModFile.findResource` moved→`ThemeScanner` yields none;
 `FMLEnvironment.production` moved→`DevStructureGenerator` dev-gen disabled. **NEXT: port the gametest sourceset** (the
 `@GameTest`/`@GameTestHolder` annotations were removed in 26.1.2 → the new `GameTestInstance`/datapack-registered
