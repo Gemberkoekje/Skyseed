@@ -17,7 +17,7 @@ Clumps-neoforge-1.21.1-19.0.0.1.jar
 configured-neoforge-1.21.1-2.6.3.jar
 Controlling-neoforge-1.21.1-19.0.5.jar
 Corgilib-NeoForge-1.21.1-5.0.0.9.jar
-Create Encased-1.21.1-1.8.1-ht2.jar
+Create Encased-1.21.1-1.9.0.jar
 create_aquatic_ambitions-1.21.1-2.0.2.jar
 create_better_motors-4.0.0.jar
 create_connected-1.3.2-mc1.21.1.jar
@@ -48,7 +48,7 @@ ftb-library-neoforge-2101.1.32.jar
 ftb-quests-neoforge-2101.1.27.jar
 ftb-teams-neoforge-2101.1.10.jar
 fusion-1.3.4-neoforge-mc1.21.1.jar
-geckolib-neoforge-1.21.1-4.9.1.jar
+geckolib-neoforge-1.21.1-4.9.2.jar
 interiors-1.21.1-neoforge-0.6.1.jar
 iris-neoforge-1.8.12+mc1.21.1.jar
 Jade-1.21.1-NeoForge-15.10.5.jar
@@ -74,12 +74,12 @@ silentgear_jade_tiers-1.11.1-1.21.1.jar
 silent-gear-1.21.1-neoforge-4.2.1.1.jar
 silentgearjei-1.2.0.jar
 silent-lib-1.21.1-neoforge-10.6.0.jar
-skyseed-1.21.1_0.170.0.jar
+skyseed-1.21.1_0.174.0.jar
 sophisticated_jei_index-1.0.3+1.21.1.jar
 sophisticatedbackpacks-1.21.1-3.25.65.1955.jar
 sophisticatedbackpackscreateintegration-1.21.1-0.1.7.119.jar
 sophisticatedcore-1.21.1-1.4.62.2079.jar
-sophisticatedstorage-1.21.1-1.5.65.1903.jar
+sophisticatedstorage-1.21.1-1.5.65.1907.jar
 sophisticatedstoragecreateintegration-1.21.1-0.1.17.132.jar
 sound-physics-remastered-neoforge-1.21.1-1.5.1.jar
 supermartijn642configlib-1.1.8-neoforge-mc1.21.jar

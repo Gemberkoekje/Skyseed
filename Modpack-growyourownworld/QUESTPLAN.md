@@ -4,10 +4,14 @@ A **cosy, handholdy** quest line that explains every mod and how to use it. Auth
 chapter per mod as it lands), not last — so no end-of-project overflow. Engine: **FTB Quests** (installed:
 `ftb-quests` / `ftb-library` / `ftb-teams` / `architectury`).
 
-> **Status (PR #14):** the six base chapters — Introduction · Skyseed · Create · Mystical Agriculture · Tools & Travel ·
-> Storage — have shipped. The **BWG quest branch** (Into the Wilds / Mill the Blooms / Grow Something Grand, BWGPLAN
-> Step 5) is still **pending — authored under the Tools & Travel chapter** (it's an explore-the-wilds line, so it rides
-> Tools & Travel rather than the Skyseed spine).
+> **Status (2026-07-01):** the six base chapters — Introduction · Skyseed · Create · Mystical Agriculture · Tools & Travel ·
+> Storage — have shipped, and the **BWG quest branch** (Into the Wilds / Mill the Blooms / Grow Something Grand, BWGPLAN
+> Step 5) is now ✅ **SHIPPED, authored under the Tools & Travel chapter** (it's an explore-the-wilds line, so it rides
+> Tools & Travel rather than the Skyseed spine). Quests B701–B703 in `chapters/tools.snbt` + text in `lang/en_us.snbt`;
+> **Into the Wilds** auto-completes via an **advancement task** on the hidden `skyseed:reveal_exotic_woods` advancement
+> (fires on any exotic plank — a smart-filter item task was tried first but FTB Quests treats the filter as a literal
+> item); Mill the Blooms + Grow Something Grand are checkmarks. Cross-gated on **B103** (grow a biome island) and
+> **B204** (Create Millstone). Only the in-game test-load remains.
 
 > **Plan audit (2026-07-01):** 5 items below marked ✅ done — the **Tools**, **Create Extras**, and **Other** chapters all
 > shipped (Extras folded into the Create chapter; Other + Tools merged into **"Tools & Travel"**), the Silent Gear
@@ -42,7 +46,7 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 |---|---|---|---|
 | 1 | **Introduction** | the void-skyblock idea; JEI, Jade, Xaero map, AppleSkin, Vein Mining, the Skyseed guide | onboard + QoL tour |
 | 2 | **Skyseed** | `skyseed` (seed→island progression, relics/edges, overworld→nether→end) | the spine; gates the rest |
-| 3 | ✅ **Tools & Travel** *(shipped; also hosts the pending BWG branch)* | Silent Gear (+ Jade tiers, JEI plugin); Waystones / Xaero travel; **BWG branch — pending** | early tools/armor · travel · exotic wilds |
+| 3 | ✅ **Tools & Travel** *(shipped; also hosts the ✅ shipped BWG branch)* | Silent Gear (+ Jade tiers, JEI plugin); Waystones / Xaero travel; **BWG branch — ✅ shipped** | early tools/armor · travel · exotic wilds |
 | 4 | **Create** | `create`, Crafts & Additions (`createaddition`), Flux Networks | the main tech chain |
 | 5 | ✅ **Create Extras** *(shipped — folded into the Create chapter)* | Steam'n'Rails, Enchantment Industry, Goggles, Jetpack, deco (Deco/Connected/Rechiseled/Bells&Whistles/Interiors/Design'n'Decor) | optional/advanced |
 | 6 | **Storage** | Sophisticated Backpacks + Storage (+ their Create integrations) | storage QoL (**not** AE2) |
@@ -74,12 +78,13 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 - **Forge a Tool** (rod + head → your first Silent Gear tool) → **Make It Yours** (material traits, blueprints) →
   **Keep It Sharp** (repair kits, tips/grips) → **Tiered Up** (better materials — e.g. nether Crimson Iron later).
 
-**BWG branch — *pending* (BWGPLAN Step 5), authored under this Tools & Travel chapter:** a small "explore the wilds, grow
-exotic woods" line — thematically travel/exploration, so it lives here rather than on the Skyseed spine. Keep it light
+**BWG branch — ✅ SHIPPED (BWGPLAN Step 5), authored under this Tools & Travel chapter:** a small "explore the wilds, grow
+exotic woods" line — thematically travel/exploration, so it lives here rather than on the Skyseed spine. Kept light
 (3 quests, not a megachapter); its integration (BWG woods + create-otbwg milling + OTYG growth) already ships:
-- **Into the Wilds** — obtain any BWG plank (proof you grew an exotic-wood island).
-- **Mill the Blooms** — a create-otbwg milled output (ties BWG flowers → Create).
-- **Grow Something Grand** — an OTYG-grown tree.
+- **Into the Wilds** (B701) — obtain any BWG plank (proof you grew an exotic-wood island). **Advancement task** on the
+  hidden `skyseed:reveal_exotic_woods` (criterion `has_exotic_wood`, on `#skyseed:exotic_woods` — all 24 growable exotic planks); dep **B103**.
+- **Mill the Blooms** (B702) — mill a BWG bloom into dye/petals (ties BWG flowers → Create). Checkmark; deps **B701 + B204** (Millstone).
+- **Grow Something Grand** (B703) — grow a tree from a sapling (OTYG). Checkmark; dep **B701**. Reward: Skyfarer's Cache.
 
 ### 4. Create — the main tech chain (point each quest to its Ponder)
 - **First Rotation** (Andesite Alloy + a water wheel/windmill) → **Cased In** (Andesite Casing).
