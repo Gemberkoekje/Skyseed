@@ -39,6 +39,12 @@ import java.util.Map;
 public final class TradePostTemplates {
     private TradePostTemplates() {}
 
+    /** A FLOOR-standing grindstone (the weaponsmith's job site). The default grindstone state is WALL-attached, which
+     *  pops free when placed free-standing with no wall behind it. */
+    private static final BlockState FLOOR_GRINDSTONE = Blocks.GRINDSTONE.defaultBlockState()
+            .setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.ATTACH_FACE,
+                    net.minecraft.world.level.block.state.properties.AttachFace.FLOOR);
+
     /** The pool namespace prefix + the material set a trade-post piece set is built from. */
     public record Palette(String pool, Block wall, Block post, Block stairs, Block slab, Block door,
                           Block foundation, Block glass, Block fence, Block fieldBorder, Block accent) {}
@@ -84,6 +90,16 @@ public final class TradePostTemplates {
                 shop(p, new ShopDesign(Blocks.STONECUTTER.defaultBlockState(), Roof.STEPPED, Feature.NONE)));
         writeIfAbsent(dir.resolve("shop_cartographer.nbt"),
                 shop(p, new ShopDesign(Blocks.CARTOGRAPHY_TABLE.defaultBlockState(), Roof.GABLE, Feature.BOOKS)));
+        // The four professions the roster was missing — with these + the forge (toolsmith), every vanilla villager
+        // profession is available in principle. leatherworker=cauldron, freed by the animal pen's water-basin trough.
+        writeIfAbsent(dir.resolve("shop_armorer.nbt"),
+                shop(p, new ShopDesign(Blocks.BLAST_FURNACE.defaultBlockState(), Roof.STEPPED, Feature.FORGE)));
+        writeIfAbsent(dir.resolve("shop_cleric.nbt"),
+                shop(p, new ShopDesign(Blocks.BREWING_STAND.defaultBlockState(), Roof.STEPPED, Feature.BOOKS)));
+        writeIfAbsent(dir.resolve("shop_weaponsmith.nbt"),
+                shop(p, new ShopDesign(FLOOR_GRINDSTONE, Roof.FLAT, Feature.NONE)));
+        writeIfAbsent(dir.resolve("shop_leatherworker.nbt"),
+                shop(p, new ShopDesign(Blocks.CAULDRON.defaultBlockState(), Roof.GABLE, Feature.NONE)));
         // The blacksmith is named "forge" (not "shop_") so the shop cap leaves it alone — it's a feature building
         // that a large section hosts, not one of the capped 2–4 small shops.
         writeIfAbsent(dir.resolve("forge.nbt"), blacksmith(p));
@@ -462,7 +478,7 @@ public final class TradePostTemplates {
                 .setValue(BedBlock.PART, BedPart.FOOT).setValue(BedBlock.FACING, Direction.SOUTH));
         m.put(new BlockPos(1, 1, 5), Blocks.RED_BED.defaultBlockState()
                 .setValue(BedBlock.PART, BedPart.HEAD).setValue(BedBlock.FACING, Direction.SOUTH));
-        m.put(new BlockPos(1, 1, 2), Blocks.SMITHING_TABLE.defaultBlockState());
+        m.put(new BlockPos(2, 1, 2), Blocks.SMITHING_TABLE.defaultBlockState()); // x=2 column, clear of the x=1 bed
         // The patio: an anvil and a fence railing along its open (right + back) edges.
         m.put(new BlockPos(3, 1, 4), Blocks.ANVIL.defaultBlockState());
         m.put(new BlockPos(4, 1, 4), Blocks.OAK_FENCE.defaultBlockState());
@@ -581,7 +597,8 @@ public final class TradePostTemplates {
         }
         m.put(new BlockPos(1, 1, max - 1), Blocks.HAY_BLOCK.defaultBlockState());           // feed
         m.put(new BlockPos(2, 1, max - 1), Blocks.HAY_BLOCK.defaultBlockState());
-        m.put(new BlockPos(max - 1, 1, max - 1), Blocks.CAULDRON.defaultBlockState());      // a water trough
+        m.put(new BlockPos(max - 1, 0, max - 1), Blocks.WATER.defaultBlockState());         // a flush water trough (not
+        // a cauldron — the cauldron is now the leatherworker shop's job site, so a trough here would be misread)
         m.put(new BlockPos(max - 1, 1, 1), fence);                                          // a lamp post
         m.put(new BlockPos(max - 1, 2, 1), Blocks.LANTERN.defaultBlockState());
         m.put(new BlockPos(mid, 1, mid), Blocks.SHORT_GRASS.defaultBlockState());

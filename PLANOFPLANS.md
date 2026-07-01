@@ -13,7 +13,7 @@ the detail.
 ## Headline
 
 - **~62 genuinely-open points** remain, consolidated into the ranked items below (plus the
-  CODE_REVIEW follow-ups). *(2026-07-01: items #1, #3, #4, #7, #8, #9, #10, #12, #62, #63 resolved/shipped and #66 diagnosed — #9 now confirmed in-game and #12 decided full-scope — see the [Decisions log](#decisions-log).)*
+  CODE_REVIEW follow-ups). *(2026-07-01: items #1, #3, #4, #7, #8, #9, #10, #12, #13, #62, #63 resolved/shipped, #66 diagnosed, and **#14 started (Skyris pilot shipped, v0.176.0)** — #9 confirmed in-game, #12 decided full-scope, and the BWG villages now have their own [BWGVILLAGEPLAN.md](Modpack-growyourownworld/BWGVILLAGEPLAN.md) — see the [Decisions log](#decisions-log).)*
 - **31+ items were already shipped** and have been checked off in their plans — the docs read as far
   less finished than the repo actually is (CONTENTPLAN especially predates the void ChunkGenerator, the
   Create power backbone, Mystical Agriculture, and the six-chapter quest spine, all since shipped).
@@ -22,6 +22,17 @@ the detail.
 
 ### Decisions log
 
+- **2026-07-01 — items #13 RESOLVED + #14 STARTED: BWG villages underway, new plan doc.** Started the BWG village
+  resurrection (Tier 2). Wrote a dedicated child plan — **[BWGVILLAGEPLAN.md](Modpack-growyourownworld/BWGVILLAGEPLAN.md)**
+  (villages only; the manor #26 + bog trial #27 stay separate). **#13 (style↔biome mapping) is RESOLVED** — read straight
+  from the BWG jar's `has_structure/village_*` tags (salem→`weeping_witch_forest`, forgotten→`forgotten_forest`, the two
+  flagged unknowns; full table in the plan). **#14 is now `partially-done`:** Phase 1 shipped (v0.176.0) — the **Skyris**
+  pilot end-to-end at the trade-post tier, plus a reusable engine for authoring BWG-block `.nbt` **with no BWG on the
+  classpath** (`StructureWriter` `modNames` overload + a vanilla-analog rename; `BwgVillageTemplates`). Both nodes green;
+  gametests `bwg_skyris_village_band_on_trade_post` + `bwg_skyris_village_assembles`. **Open:** the other 5 styles
+  (forgotten/pumpkin_patch/red_rock/salem/swamp) + the Hamlet & Village-Center tiers + a variety pass, and an in-game
+  biome-reachability check for the four new-to-us biomes (`pumpkin_valley`/`red_rock_valley`/`weeping_witch_forest`/
+  `cypress_wetlands`). Detail in the plan doc.
 - **2026-07-01 — item #12 RESOLVED: FULL structure scope.** User's call: resurrect **everything** — all 6 BWG
   village styles (across all their biomes) **and** the special structures (aspen manor + bog trial), not a
   villages-only first pass. This puts items **#14** (villages), **#26/#27** (manor/bog trial), **#28** (vertical-jigsaw
@@ -149,8 +160,9 @@ the detail.
 | Plan | What it covers | Open | ✅ Checked off |
 |---|---|---:|---:|
 | [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | Oh The Biomes We've Gone integration | 7 | 7 |
+| [BWGVILLAGEPLAN.md](Modpack-growyourownworld/BWGVILLAGEPLAN.md) | BWG's 6 village styles → growable islands (child of STRUCTUREPLAN; #13/#14) | 4 | 1 |
 | [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration levers | 15 | 12 |
-| [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | BWG structures → growable islands | 9 | 2 |
+| [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | BWG structures → growable islands (villages spun out to BWGVILLAGEPLAN) | 7 | 4 |
 | [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | 8 | 6 |
 | [plannednotes.md](plannednotes.md) | Void ChunkGenerator, Trial Chamber, misc | 6 | 0 |
 | [REFACTORPLAN.md](REFACTORPLAN.md) | Multi-version (NeoForge + Stonecutter) refactor | 5 | 1 |
@@ -184,8 +196,8 @@ Highest player-facing value once Q2 (1) and the village↔biome mapping (13) are
 7. ✅ **Wet-woods BWG bands** (cypress, willow, white-mangrove, palm) — DONE (2026-07-01, v0.171.0): ids verified vs BWG 2.6.0, willow/white-mangrove ids corrected. *(BWGPLAN · medium)*
 8. ✅ **Fantasy-woods BWG bands** (enchanted, skyris, spirit) — DONE (2026-07-01, v0.171.0): spirit found growable via `pale_bog`. *(BWGPLAN · medium)*
 9. ✅ **Verify create-otbwg milling recipes + place millable flowers on islands** — DONE (2026-07-01): flowers grow on islands (Meadow/Lush + the v0.175.0 Forest sprinkle) **and** the milling recipes are confirmed present/working in-game. Closed end-to-end. *(BWGPLAN · small)*
-13. **Confirm BWG village style ↔ biome mapping** (esp. `salem`, `forgotten`) — *(STRUCTUREPLAN · small)*
-14. **Resurrect BWG villages** (6 styles) via biome adaptation — highest-value structure work. *(STRUCTUREPLAN · medium, needs 13; scope ✅ full per 12)*
+13. ✅ **Confirm BWG village style ↔ biome mapping** — DONE (2026-07-01): read from the jar's `has_structure/village_*` tags (salem→`weeping_witch_forest`, forgotten→`forgotten_forest`; full table in [BWGVILLAGEPLAN](Modpack-growyourownworld/BWGVILLAGEPLAN.md)). *(BWGVILLAGEPLAN · small)*
+14. **Resurrect BWG villages** (6 styles) — `partially-done`: **Phases 1–4 shipped (v0.176–0.179): ALL 6 styles across ALL 3 tiers** (Hamlet/Trade Post/Village Center) + a variety pass + a hermetic BWG-block `.nbt` engine; only the in-game sign-off (Phase 5) remains. Own plan: [BWGVILLAGEPLAN](Modpack-growyourownworld/BWGVILLAGEPLAN.md). *(BWGVILLAGEPLAN · medium; scope ✅ full per 12)*
 26–30. **Manor + bog-trial resurrection** with vertical-jigsaw gametests, on-pad assembly checks, and per-step golden-master discipline — **now in scope** (12 decided full); carries the bounding-box risk that broke the End City rebuild, so each gets its own placement gametest.
 
 ### Tier 3 — Content-mod wave & code follow-ups
@@ -224,12 +236,13 @@ mod's integration — rare version-divergence safeguards (57/58), a discretionar
    (17) dropped.)* Each integration is *followed by* its quest chapter (part of 19) and its gated gateway-island
    tier (20). FE cross-mod proof (39) is moot until a consumer mod lands.
 
-3. **Structure resurrection chain (deferred child changeset, all NOT STARTED):** scope decision (12) ✅
-   **DECIDED full-scope** — all villages + manor + bog trial. Villages (14) are the low-risk first step and
-   need the style↔biome mapping (13). Manor (26) + bog trial (27) then pull in the vertical-jigsaw mitigation
-   (28) + on-pad assembly verification (29) + per-step release hygiene (30). Prairie houses / rugged fossil
-   (49) remain optional polish. A future long-tail adds *net-new* bespoke structures (Create sheds, abandoned
-   Inferium farmlands, …) beyond BWG's own.
+3. **Structure resurrection chain (scope ✅ full per 12):** the **villages (14) are now UNDERWAY** — spun out to
+   [BWGVILLAGEPLAN.md](Modpack-growyourownworld/BWGVILLAGEPLAN.md); the style↔biome mapping (13) is ✅ done, and
+   Phase 1 (Skyris pilot + the hermetic BWG-block engine) shipped (v0.176.0). Remaining village work = the other 5
+   styles + Hamlet/Village-Center tiers + a variety pass (all in BWGVILLAGEPLAN's phases). Manor (26) + bog trial (27)
+   are the higher-risk next structures — they pull in the vertical-jigsaw mitigation (28) + on-pad assembly
+   verification (29) + per-step release hygiene (30). Prairie houses / rugged fossil (49) remain optional polish.
+   A future long-tail adds *net-new* bespoke structures (Create sheds, abandoned Inferium farmlands, …) beyond BWG's own.
 
 4. **Trial-chamber polish:** palette+lighting (24) is the highest-value pass; atmosphere greebling (25)
    shares the same generator + rebuild workflow (batch them); more layout variants (33) is large and
@@ -300,8 +313,8 @@ sign-offs are worth doing before the next content lands on top.
 | 10 | Step 4 — Patchouli guide: add 'Exotic Biomes' entry | BWGPLAN.md | medium | small | ✅ done (2026-07-01) | DONE — `entries/exotic_biomes.json` (basics category), **BWG-gated** via a `mod:biomeswevegone` flag + hidden `reveal_exotic_woods` advancement on the inert `#skyseed:exotic_woods` tag (hidden without BWG, revealed on growing a wood). Modonomicon mirror auto-generates. Tag plank ids VERIFIED vs BWG 2.6.0 (2026-07-01, v0.171.0): dropped non-existent `#biomeswevegone:planks`, fixed `sakura_planks` + split `enchanted` into blue/green. |
 | 11 | Decide: one tech backbone or two (Mekanism vs. IE) | CONTENTPLAN.md | medium | small | ✅ done (2026-07-01) | RESOLVED — **Immersive Engineering**, single backbone; **Mekanism dropped** (aesthetic call). Cascades: #17 dropped, #34 promoted, #35 (Excavator) now must be handled. |
 | 12 | Resolve open decision: villages-only vs. villages + manor + bog trial (STRUCTUREPLAN) | STRUCTUREPLAN.md | medium | small | ✅ done (2026-07-01) | **DECIDED: FULL SCOPE** — all 6 village styles + aspen manor + bog trial (not villages-only). Puts #14/#26/#27/#28/#29/#30 in scope; #49 stays optional. Future long-tail want recorded (more structures than BWG shipped: Create sheds, abandoned Inferium farmlands, …). See STRUCTUREPLAN § Scope decision. |
-| 13 | Confirm BWG village style ↔ biome mapping (esp. salem and forgotten) | STRUCTUREPLAN.md | medium | small | genuinely-open | Direct prerequisite to the villages resurrection — a wrong mapping targets the wrong biome and villages won't grow where intended. Small mechanical… |
-| 14 | Resurrect BWG villages (6 styles) via biome adaptation | STRUCTUREPLAN.md | medium | medium | genuinely-open | Highest-value structure resurrection per the plan — 6 village styles via an existing low-risk mechanism, no bounding-box concern for street-network… |
+| 13 | ✅ Confirm BWG village style ↔ biome mapping (salem, forgotten) | BWGVILLAGEPLAN.md | medium | small | ✅ done (2026-07-01) | Read from the BWG jar's `has_structure/village_*` tags: forgotten→forgotten_forest, pumpkin_patch→cika_woods/pumpkin_valley, red_rock→red_rock_valley, salem→weeping_witch_forest, skyris→skyris_vale, swamp→cypress_swamplands/cypress_wetlands. Full table in BWGVILLAGEPLAN. |
+| 14 | Resurrect BWG villages (6 styles) — our jigsaw set in BWG's palettes | BWGVILLAGEPLAN.md | medium | medium | partially-done | **Phases 1–4 shipped (v0.176–0.179): ALL 6 styles across ALL 3 tiers** (Hamlet/Trade Post/Village Center) + a variety pass (HIP roof, porch/longhouse, animal-pen/market-stall/grove) + a hermetic BWG-block `.nbt` engine (`StructureWriter` modNames + vanilla-analog rename, no BWG on classpath); both nodes green. Open: only the in-game sign-off (Phase 5 — biome reachability for the 4 new biomes + look check). Own plan: BWGVILLAGEPLAN.md. |
 | 15 | Curate Quark modules and add Zeta dependency | CONTENTPLAN.md | medium | small | genuinely-open | Low-effort additive building/QoL breadth; mostly config curation once jars are added, giving broad player-facing value cheaply. A good early content… |
 | 16 | Integrate Farmer's Delight — wild crops on biome islands | CONTENTPLAN.md | medium | medium | genuinely-open | On-theme cozy content with a clear acquisition path; the void ChunkGenerator prerequisite is done. Higher marginal value than the overlapping… |
 | 17 | ~~Integrate Mekanism — Industrial ore island(s)~~ | CONTENTPLAN.md | — | large | ❌ dropped (2026-07-01) | **DROPPED** — backbone decision (#11) chose Immersive Engineering instead (Mekanism too blocky/boring). Not pursued unless the aesthetic call is reversed. |

@@ -52,14 +52,18 @@ Skyseed island themes assemble a referenced jigsaw `pool` (the `rare_structures`
 
 - **Vertical-jigsaw bounding boxes.** Foreign multi-piece jigsaws (manors especially) can hit the bounding-box collision rule that bit the End City rebuild. Each resurrected pool needs correct `target` / `pad` / `sink`, headroom, and a placement gametest.
 - **Foreign pool internals.** BWG pools may use processor lists / jigsaw-block targets that assume vanilla terrain or a road/street context (villages); verify each assembles cleanly on a flat island pad.
-- **Village style ↔ biome mapping.** Confirm which BWG biome each of the 6 village styles belongs to (red_rock / swamp / skyris / pumpkin_patch are guessable; **salem** and **forgotten** need checking) so the `biome_overrides` target the right biome.
+- **Village style ↔ biome mapping.** ✅ RESOLVED (2026-07-01, from the jar's `has_structure/village_*` tags): forgotten→`forgotten_forest`, pumpkin_patch→`cika_woods`/`pumpkin_valley`, red_rock→`red_rock_valley`, salem→`weeping_witch_forest`, skyris→`skyris_vale`, swamp→`cypress_swamplands`/`cypress_wetlands`. Full table in [BWGVILLAGEPLAN.md](BWGVILLAGEPLAN.md).
 
 ## Sequencing — this is a child of BWGPLAN
 
 Shares the biome-adaptation vehicle; land *after* BWGPLAN Step 1 (wood islands) proves the loop and confirms the BWG biome ids:
 
 1. ✅ **BWGPLAN Step 1** — wood biome adaptation (establishes the pattern). **DONE** (shipped for the forest family: `theme_override/biomeswevegone_forest{,_large,_huge}.json`).
-2. **Villages** — the highest-value resurrection; adapt `village_center` / `hamlet` to the 6 BWG village biomes.
+2. **Villages** — the highest-value resurrection. **SPUN OUT to its own child plan: [BWGVILLAGEPLAN.md](BWGVILLAGEPLAN.md)**
+   (PLANOFPLANS #13/#14). **UNDERWAY (2026-07-01):** the style↔biome mapping is resolved and **Phase 1 (the Skyris pilot +
+   a hermetic BWG-block `.nbt` engine) shipped (v0.176.0)**. Note the vehicle diverged from "point a Skyseed jigsaw at
+   BWG's own `start_pool`" (route 1 below) to **authoring our OWN jigsaw set in BWG's block palettes** (the user's call —
+   more control + variety), reusing the existing biome-styled `TradePostTemplates` mechanics.
 3. **Manor + bog trial** — adapt `woodland_mansion` / `trial_chamber`; carries the bounding-box risk, so gametest each.
 4. **Prairie houses / rugged fossil** — optional polish (hamlet variety / a minor fossil island).
 

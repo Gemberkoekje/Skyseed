@@ -151,6 +151,13 @@ public final class SkyseedTests {
         reg(event, "trade_post_biome_pieces_use_their_wood", BIG_REGION, SkyseedTests::tradePostBiomePiecesUseTheirWood);
         reg(event, "trade_post_village_places_shops", BIG_REGION, SkyseedTests::tradePostVillagePlacesShops);
         reg(event, "trade_post_desert_village_is_sandstone", BIG_REGION, SkyseedTests::tradePostDesertVillageIsSandstone);
+        reg(event, "bwg_all_village_bands_wired_on_trade_post", REGION, SkyseedTests::bwgAllVillageBandsWiredOnTradePost);
+        reg(event, "bwg_village_styles_assemble", BIG_REGION, SkyseedTests::bwgVillageStylesAssemble);
+        reg(event, "bwg_hamlet_and_center_bands_wired", REGION, SkyseedTests::bwgHamletAndCenterBandsWired);
+        reg(event, "bwg_hamlet_and_center_assemble", BIG_REGION, SkyseedTests::bwgHamletAndCenterAssemble);
+        reg(event, "bwg_village_decor_variety", REGION, SkyseedTests::bwgVillageDecorVariety);
+        reg(event, "village_offers_every_profession", REGION, SkyseedTests::villageOffersEveryProfession);
+        reg(event, "bwg_skyris_village_assembles", BIG_REGION, SkyseedTests::bwgSkyrisVillageAssembles);
         reg(event, "nether_fortress_is_nether_native_with_fortress_jigsaw", REGION, SkyseedTests::netherFortressIsNetherNativeWithFortressJigsaw);
         reg(event, "nether_fortress_assembles_a_bounded_bridge", BIG_REGION, SkyseedTests::netherFortressAssemblesABoundedBridge);
         reg(event, "bastion_is_nether_native_with_bastion_jigsaw", REGION, SkyseedTests::bastionIsNetherNativeWithBastionJigsaw);
@@ -1460,7 +1467,9 @@ public final class SkyseedTests {
                             // sells produce, not a barrel/composter), or they'd be miscounted as shops.
                             if (s.is(Blocks.COMPOSTER) || s.is(Blocks.LECTERN) || s.is(Blocks.BARREL)
                                     || s.is(Blocks.FLETCHING_TABLE) || s.is(Blocks.SMOKER) || s.is(Blocks.LOOM)
-                                    || s.is(Blocks.STONECUTTER) || s.is(Blocks.CARTOGRAPHY_TABLE)) {
+                                    || s.is(Blocks.STONECUTTER) || s.is(Blocks.CARTOGRAPHY_TABLE)
+                                    || s.is(Blocks.BLAST_FURNACE) || s.is(Blocks.BREWING_STAND)
+                                    || s.is(Blocks.GRINDSTONE) || s.is(Blocks.CAULDRON)) {
                                 villageShops++;
                             } else if (s.is(Blocks.WHEAT) || s.is(Blocks.POTATOES) || s.is(Blocks.CARROTS)) {
                                 crops++; // a wheat / potato / carrot field tile
@@ -1519,6 +1528,205 @@ public final class SkyseedTests {
         helper.assertTrue(beds > 0, "desert village placed no shops across 4 seeds (red_bed=" + beds + ")");
         helper.assertTrue(sandstone > 0, "desert village has no sandstone walls (smooth_sandstone=" + sandstone + ")");
         helper.assertTrue(oakWall == 0, "desert village still has oak plank walls (oak_planks=" + oakWall + ")");
+        helper.succeed();
+    }
+
+    static void bwgAllVillageBandsWiredOnTradePost(GameTestHelper helper) {
+        // First-party BWG village compat (BWGVILLAGEPLAN): the trade_post theme gains a band for each of BWG's 6 village
+        // styles, each wired to its own village_<style> pool, PREPENDED ahead of the base vanilla catch-alls. Inert
+        // without BWG. Regression guard for the style↔biome map + a stale staged datapack copy.
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:trade_post"));
+        helper.assertTrue(resolved != null, "trade_post must resolve");
+        final String[][] map = {
+            {"biomeswevegone:skyris_vale", "village_skyris/start"},
+            {"biomeswevegone:forgotten_forest", "village_forgotten/start"},
+            {"biomeswevegone:cika_woods", "village_pumpkin_patch/start"},
+            {"biomeswevegone:pumpkin_valley", "village_pumpkin_patch/start"},
+            {"biomeswevegone:red_rock_valley", "village_red_rock/start"},
+            {"biomeswevegone:weeping_witch_forest", "village_salem/start"},
+            {"biomeswevegone:cypress_swamplands", "village_swamp/start"},
+            {"biomeswevegone:cypress_wetlands", "village_swamp/start"},
+        };
+        for (final String[] pair : map) {
+            final BiomeOverride b = bandFor(resolved, pair[0]);
+            helper.assertTrue(b != null, "trade_post should gain a " + pair[0] + " village band");
+            helper.assertTrue(b.jigsaw().isPresent() && b.jigsaw().get().pool().path().equals(pair[1]),
+                    pair[0] + " band must assemble skyseed:" + pair[1]);
+        }
+        final var bands = resolved.biomeOverrides();
+        int bwgIdx = -1, baseIdx = -1;
+        for (int i = 0; i < bands.size(); i++) {
+            if (bwgIdx < 0 && bands.get(i).biomes().contains("biomeswevegone:skyris_vale")) bwgIdx = i;
+            if (baseIdx < 0 && bands.get(i).biomes().contains("minecraft:desert")) baseIdx = i;
+        }
+        helper.assertTrue(bwgIdx >= 0 && baseIdx >= 0 && bwgIdx < baseIdx,
+                "the BWG bands (skyris idx " + bwgIdx + ") must be prepended ahead of the base desert band (idx " + baseIdx + ")");
+        helper.succeed();
+    }
+
+    static void bwgVillageStylesAssemble(GameTestHelper helper) {
+        // Every BWG village style's jigsaw pool assembles cleanly on a flat pad (validates the per-style pool refs +
+        // that the mod-id .nbt load): each places buildings (beds). BWG blocks resolve to AIR without BWG.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 3, 24));
+        for (final String style : new String[]{"village_forgotten", "village_pumpkin_patch", "village_red_rock",
+                "village_salem", "village_swamp"}) {
+            final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod(style + "/start"));
+            final var fillers = Lookup.templatePool(level.registryAccess(), Ids.mod(style + "/fillers"));
+            int beds = 0;
+            for (long seed = 1; seed <= 8 && beds == 0; seed++) {
+                for (int x = 4; x <= 44; x++) {
+                    for (int z = 4; z <= 44; z++) {
+                        for (int y = 1; y <= 14; y++) {
+                            helper.setBlock(new BlockPos(x, y, z), y <= 2 ? Blocks.DIRT : Blocks.AIR);
+                        }
+                    }
+                }
+                Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 5, origin, false, "shop_", 3, fillers, seed);
+                for (int x = 4; x <= 44; x++) {
+                    for (int z = 4; z <= 44; z++) {
+                        for (int y = 1; y <= 14; y++) {
+                            if (helper.getBlockState(new BlockPos(x, y, z)).is(Blocks.RED_BED)) beds++;
+                        }
+                    }
+                }
+            }
+            helper.assertTrue(beds > 0, style + " placed no buildings (beds=0) across 8 seeds — pool ref or .nbt broken");
+        }
+        helper.succeed();
+    }
+
+    static void bwgHamletAndCenterBandsWired(GameTestHelper helper) {
+        // BWGVILLAGEPLAN Phase 3: the Hamlet + Village-Center tiers gain the same 6 BWG style bands as the trade post,
+        // each wired to that style's hamlet_start (hamlet) / start_dense (village_center) pool. Inert without BWG.
+        final var reg = helper.getLevel().registryAccess();
+        final IslandTheme hamlet = Themes.resolve(reg, Id.of("skyseed:hamlet"));
+        final IslandTheme center = Themes.resolve(reg, Id.of("skyseed:village_center"));
+        helper.assertTrue(hamlet != null && center != null, "hamlet + village_center must resolve");
+        final String[][] styleBiome = {
+            {"village_skyris", "biomeswevegone:skyris_vale"},
+            {"village_forgotten", "biomeswevegone:forgotten_forest"},
+            {"village_pumpkin_patch", "biomeswevegone:cika_woods"},
+            {"village_red_rock", "biomeswevegone:red_rock_valley"},
+            {"village_salem", "biomeswevegone:weeping_witch_forest"},
+            {"village_swamp", "biomeswevegone:cypress_swamplands"},
+        };
+        for (final String[] sb : styleBiome) {
+            final BiomeOverride hb = bandFor(hamlet, sb[1]);
+            helper.assertTrue(hb != null && hb.jigsaw().isPresent()
+                            && hb.jigsaw().get().pool().path().equals(sb[0] + "/hamlet_start"),
+                    "hamlet " + sb[1] + " must wire skyseed:" + sb[0] + "/hamlet_start");
+            final BiomeOverride cb = bandFor(center, sb[1]);
+            helper.assertTrue(cb != null && cb.jigsaw().isPresent()
+                            && cb.jigsaw().get().pool().path().equals(sb[0] + "/start_dense"),
+                    "village_center " + sb[1] + " must wire skyseed:" + sb[0] + "/start_dense");
+        }
+        helper.succeed();
+    }
+
+    static void bwgHamletAndCenterAssemble(GameTestHelper helper) {
+        // The hamlet_start (a green + capped shops) and start_dense (the dense street network) pools assemble on a flat
+        // pad. Covers skyris (vanilla foundation) + pumpkin_patch (a BWG dacite foundation — the jigsaw-mod-name strip).
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 3, 24));
+        for (final String style : new String[]{"village_skyris", "village_pumpkin_patch"}) {
+            for (final String[] pc : new String[][]{{"hamlet_start", "2"}, {"start_dense", "6"}}) {
+                final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod(style + "/" + pc[0]));
+                final var fillers = Lookup.templatePool(level.registryAccess(), Ids.mod(style + "/fillers"));
+                final int cap = Integer.parseInt(pc[1]);
+                int beds = 0;
+                for (long seed = 1; seed <= 8 && beds == 0; seed++) {
+                    for (int x = 4; x <= 44; x++) {
+                        for (int z = 4; z <= 44; z++) {
+                            for (int y = 1; y <= 14; y++) {
+                                helper.setBlock(new BlockPos(x, y, z), y <= 2 ? Blocks.DIRT : Blocks.AIR);
+                            }
+                        }
+                    }
+                    Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 6, origin, false, "shop_", cap, fillers, seed);
+                    for (int x = 4; x <= 44; x++) {
+                        for (int z = 4; z <= 44; z++) {
+                            for (int y = 1; y <= 14; y++) {
+                                if (helper.getBlockState(new BlockPos(x, y, z)).is(Blocks.RED_BED)) beds++;
+                            }
+                        }
+                    }
+                }
+                helper.assertTrue(beds > 0, style + "/" + pc[0] + " placed no buildings (beds=0) — pool ref or anchor broken");
+            }
+        }
+        helper.succeed();
+    }
+
+    static void bwgVillageDecorVariety(GameTestHelper helper) {
+        // BWGVILLAGEPLAN Phase 4: the enriched fillers pool registers the new Phase-4 decorations. Checked on the pool
+        // CONTENTS (deterministic) — asserting a specific decoration lands in an assembled village is too noisy (origin
+        // varies per run). getShuffledTemplates expands each element by its weight.
+        final var reg = helper.getLevel().registryAccess();
+        final RandomSource rng = RandomSource.create(0L);
+        final var fillers = Lookup.templatePool(reg, Ids.mod("village_skyris/fillers")).value().getShuffledTemplates(rng);
+        for (final String piece : new String[]{"house_porch", "house_long", "grove", "animal_pen", "market_stall"}) {
+            helper.assertTrue(fillers.stream().anyMatch(e -> e.toString().contains("village_skyris/" + piece)),
+                    "the skyris fillers pool must include the new Phase-4 decoration " + piece);
+        }
+        helper.succeed();
+    }
+
+    static void villageOffersEveryProfession(GameTestHelper helper) {
+        // Every vanilla villager job profession is obtainable in principle: 12 small shops in the `lots` pool + the
+        // forge (toolsmith) in large_lots. Deterministic pool-content check, for vanilla + a BWG village.
+        final var reg = helper.getLevel().registryAccess();
+        final RandomSource rng = RandomSource.create(0L);
+        final String[] shops = {"shop_farmer", "shop_librarian", "shop_fisherman", "shop_fletcher", "shop_mason",
+            "shop_cartographer", "shop_shepherd", "shop_butcher", "shop_armorer", "shop_cleric",
+            "shop_weaponsmith", "shop_leatherworker"};
+        for (final String pool : new String[]{"trade_post", "village_skyris"}) {
+            final var lots = Lookup.templatePool(reg, Ids.mod(pool + "/lots")).value().getShuffledTemplates(rng);
+            for (final String shop : shops) {
+                helper.assertTrue(lots.stream().anyMatch(e -> e.toString().contains(pool + "/" + shop)),
+                        pool + " lots must include " + shop + " — every profession must be obtainable in principle");
+            }
+            final var large = Lookup.templatePool(reg, Ids.mod(pool + "/large_lots")).value().getShuffledTemplates(rng);
+            helper.assertTrue(large.stream().anyMatch(e -> e.toString().contains(pool + "/forge")),
+                    pool + " large_lots must include the forge (the toolsmith)");
+        }
+        helper.succeed();
+    }
+
+    static void bwgSkyrisVillageAssembles(GameTestHelper helper) {
+        // The skyris village jigsaw assembles on a flat pad: the cap places buildings (beds → villagers) on the
+        // skyris-styled square (polished andesite) with light-blue glass windows. BWG blocks resolve to AIR without BWG,
+        // so we assert only the vanilla-surviving markers + the village MECHANICS, and that it is NOT the plains set.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 3, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("village_skyris/start"));
+        final var fillers = Lookup.templatePool(level.registryAccess(), Ids.mod("village_skyris/fillers"));
+        int beds = 0, andesite = 0, blueGlass = 0, oak = 0;
+        for (long seed = 1; seed <= 4; seed++) {
+            for (int x = 4; x <= 44; x++) {
+                for (int z = 4; z <= 44; z++) {
+                    for (int y = 1; y <= 14; y++) {
+                        helper.setBlock(new BlockPos(x, y, z), y <= 2 ? Blocks.DIRT : Blocks.AIR);
+                    }
+                }
+            }
+            Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 5, origin, false, "shop_", 3, fillers, seed);
+            for (int x = 4; x <= 44; x++) {
+                for (int z = 4; z <= 44; z++) {
+                    for (int y = 1; y <= 14; y++) {
+                        final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                        if (s.is(Blocks.RED_BED)) beds++;
+                        else if (s.is(Blocks.POLISHED_ANDESITE)) andesite++;
+                        else if (s.is(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE)) blueGlass++;
+                        else if (s.is(Blocks.OAK_PLANKS)) oak++;
+                    }
+                }
+            }
+        }
+        helper.assertTrue(beds > 0, "skyris village placed no beds across 4 seeds (buildings/villagers missing)");
+        helper.assertTrue(andesite > 0, "skyris village square/foundation (polished_andesite) missing");
+        helper.assertTrue(blueGlass > 0, "skyris village windows (light_blue_stained_glass_pane) missing — wrong style assembled");
+        helper.assertTrue(oak == 0, "skyris village must not use the plains oak set (oak_planks=" + oak + ")");
         helper.succeed();
     }
 

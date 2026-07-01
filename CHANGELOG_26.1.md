@@ -9,6 +9,62 @@ the version-number sequence, so a version can appear in one changelog and not th
 > Stage 3 (generalize/document) in `REFACTORPLAN.md`. The per-feature build plans (the gametest harness, the recipe
 > generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.181.0] - 2026-07-01
+
+### Added
+- **Every villager profession is now obtainable in village islands (vanilla + all six BWG styles).** Added the four
+  missing shops — armorer/cleric/weaponsmith/leatherworker — so with the forge (toolsmith) all 13 professions can
+  appear. Animal-pen trough → water basin (frees the cauldron for the leatherworker). Gametest
+  `village_offers_every_profession`.
+
+### Fixed
+- **Tower-house loft ladder no longer breaks on glass** (back-wall column made solid + a mid-floor shaft hole); the
+  same fix applied to the vanilla Hamlet cottage. **Smithy less cramped** — the smithing table moved out of the bed's
+  column (BWG forge + vanilla blacksmith). Weaponsmith grindstone placed floor-attached.
+
+## [0.180.0] - 2026-07-01
+
+### Fixed
+- **BWG village shrine hall (the "temple") no longer has a freestanding door in its open colonnade aisle.** Shared with
+  the 1.21.1 build; the six `shrine_hall.nbt` were regenerated.
+
+## [0.179.0] - 2026-07-01
+
+### Added
+- **BWG villages — a variety pass across all six styles (BWGVILLAGEPLAN Phase 4).** Shared with the 1.21.1 build: two
+  new house shapes (porch cottage + longhouse), a HIP roof option on some shops, and three new decoration plots
+  (animal pen, market stall, and a signature-flora grove), all palette-driven into the `fillers` pool. Gametest
+  `bwg_village_decor_variety` on this node too.
+
+## [0.178.0] - 2026-07-01
+
+### Added
+- **BWG villages — the Hamlet and Village-Center tiers, all six styles (BWGVILLAGEPLAN Phase 3).** Shared with the
+  1.21.1 build: Hamlet + Village-Center seeds over a BWG village biome grow that style's hub / dense cluster village in
+  its BWG blocks, reusing the per-style piece sets (no new templates). Wired via `biomeswevegone_hamlet.json` +
+  `biomeswevegone_village_center.json` + per-style `hamlet_start` pools. Gametests `bwg_hamlet_and_center_bands_wired`
+  + `bwg_hamlet_and_center_assemble` on this node too. Inert without BWG.
+
+## [0.177.0] - 2026-07-01
+
+### Added
+- **BWG villages — all six styles at the Trade Post tier (BWGVILLAGEPLAN Phase 2).** Shared with the 1.21.1 build:
+  Forgotten / Pumpkin Patch / Red Rock / Salem / Swamp join the Skyris pilot, each a full per-style piece set in that
+  biome's real BWG 2.6.0 blocks (the hermetic mod-id engine mixes vanilla + BWG per cell), wired via
+  `biomeswevegone_trade_post.json` bands. `Style` gained `bookshelf` + `flora` slots. Gametests
+  `bwg_all_village_bands_wired_on_trade_post` + `bwg_village_styles_assemble` run on this node too. Inert without BWG.
+
+## [0.176.0] - 2026-07-01
+
+### Added
+- **BWG villages, pilot: the Skyris style (BWGVILLAGEPLAN).** Shared with the 1.21.1 build: a Trade Post grown over
+  `biomeswevegone:skyris_vale` assembles a Skyris-styled village (Skyseed's own jigsaw village mechanics in BWG's
+  Skyris block palette). New `BwgVillageTemplates` authors the piece set; `StructureWriter` gained a `modNames`
+  overload that writes `biomeswevegone:` block ids via a vanilla-analog state so the `.nbt` are authored with no BWG
+  on the classpath. Inert without BWG. Gametests `bwg_skyris_village_band_on_trade_post` +
+  `bwg_skyris_village_assembles` run on this node too. The remaining five styles + the Hamlet/Village-Center tiers
+  follow.
+
 ## [0.175.0] - 2026-07-01
 
 ### Added

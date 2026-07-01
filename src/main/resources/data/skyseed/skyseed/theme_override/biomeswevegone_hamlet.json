@@ -1,0 +1,42 @@
+{
+  "_comment": "First-party BWG village compat (BWGVILLAGEPLAN Phase 3) — the HAMLET tier: a Hamlet seed grown over a BWG village biome starts from that style's hamlet_hub green (1-2 of the style's shops, capped) instead of the vanilla one. Reuses the per-style village_<style> piece set (same buildings/fillers as the trade post), just a smaller start + cap. Bands PREPENDED; inert without BWG. Mirrors the base hamlet.json biome overrides (depth 2, pad 5, reach 12, cap shop_ 1-2).",
+  "target": "skyseed:hamlet",
+  "biome_overrides": [
+    { "biomes": ["biomeswevegone:skyris_vale"],
+      "surface": "minecraft:grass_block", "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.20 } ],
+      "jigsaw": { "pool": "skyseed:village_skyris/hamlet_start", "target": "minecraft:bottom", "depth": 2, "pad": 5, "reach": 12, "cap_prefix": "shop_", "cap_min": 1, "cap_count": 2, "cap_filler": "skyseed:village_skyris/fillers" },
+      "variants": [ { "weight": 1, "name": "skyris", "decoration": {
+        "trees": [ { "feature": "biomeswevegone:skyris_trees", "tries": 2, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:cornflower", "chance": 0.04 }, { "block": "minecraft:lily_of_the_valley", "chance": 0.03 } ] } } ] },
+    { "biomes": ["biomeswevegone:forgotten_forest"],
+      "surface": "minecraft:grass_block", "surface_scatter": [ { "block": "minecraft:moss_block", "chance": 0.15 } ],
+      "jigsaw": { "pool": "skyseed:village_forgotten/hamlet_start", "target": "minecraft:bottom", "depth": 2, "pad": 5, "reach": 12, "cap_prefix": "shop_", "cap_min": 1, "cap_count": 2, "cap_filler": "skyseed:village_forgotten/fillers" },
+      "variants": [ { "weight": 1, "name": "forgotten", "decoration": {
+        "trees": [ { "feature": "biomeswevegone:florus_trees", "tries": 2, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:fern", "chance": 0.12 }, { "block": "minecraft:tall_grass", "chance": 0.05 } ] } } ] },
+    { "biomes": ["biomeswevegone:cika_woods", "biomeswevegone:pumpkin_valley"],
+      "surface": "minecraft:grass_block",
+      "jigsaw": { "pool": "skyseed:village_pumpkin_patch/hamlet_start", "target": "minecraft:bottom", "depth": 2, "pad": 5, "reach": 12, "cap_prefix": "shop_", "cap_min": 1, "cap_count": 2, "cap_filler": "skyseed:village_pumpkin_patch/fillers" },
+      "variants": [ { "weight": 1, "name": "pumpkin_patch", "decoration": {
+        "trees": [ { "feature": "minecraft:dark_oak", "tries": 2, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.22 }, { "block": "minecraft:pumpkin", "chance": 0.05 } ] } } ] },
+    { "biomes": ["biomeswevegone:red_rock_valley"],
+      "surface": "minecraft:grass_block", "surface_scatter": [ { "block": "minecraft:red_sand", "chance": 0.20 } ],
+      "jigsaw": { "pool": "skyseed:village_red_rock/hamlet_start", "target": "minecraft:bottom", "depth": 2, "pad": 5, "reach": 12, "cap_prefix": "shop_", "cap_min": 1, "cap_count": 2, "cap_filler": "skyseed:village_red_rock/fillers" },
+      "variants": [ { "weight": 1, "name": "red_rock", "decoration": {
+        "trees": [ { "feature": "biomeswevegone:baobab_trees", "tries": 2, "spacing": 4 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.12 }, { "block": "minecraft:dead_bush", "chance": 0.05 }, { "block": "biomeswevegone:blooming_aloe_vera", "chance": 0.03 } ] } } ] },
+    { "biomes": ["biomeswevegone:weeping_witch_forest"],
+      "surface": "minecraft:grass_block", "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.12 } ],
+      "jigsaw": { "pool": "skyseed:village_salem/hamlet_start", "target": "minecraft:bottom", "depth": 2, "pad": 5, "reach": 12, "cap_prefix": "shop_", "cap_min": 1, "cap_count": 2, "cap_filler": "skyseed:village_salem/fillers" },
+      "variants": [ { "weight": 1, "name": "salem", "decoration": {
+        "trees": [ { "feature": "biomeswevegone:witch_hazel_trees", "tries": 2, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "biomeswevegone:pink_anemone", "chance": 0.04 }, { "block": "biomeswevegone:white_anemone", "chance": 0.04 } ] } } ] },
+    { "biomes": ["biomeswevegone:cypress_swamplands", "biomeswevegone:cypress_wetlands"],
+      "surface": "minecraft:grass_block", "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.18 } ],
+      "jigsaw": { "pool": "skyseed:village_swamp/hamlet_start", "target": "minecraft:bottom", "depth": 2, "pad": 5, "reach": 12, "cap_prefix": "shop_", "cap_min": 1, "cap_count": 2, "cap_filler": "skyseed:village_swamp/fillers" },
+      "variants": [ { "weight": 1, "name": "swamp", "decoration": {
+        "trees": [ { "feature": "biomeswevegone:cypress_trees", "tries": 2, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.28 }, { "block": "minecraft:fern", "chance": 0.10 }, { "block": "minecraft:brown_mushroom", "chance": 0.04 }, { "block": "minecraft:red_mushroom", "chance": 0.03 } ] } } ] }
+  ]
+}

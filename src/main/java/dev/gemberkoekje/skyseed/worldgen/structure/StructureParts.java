@@ -107,7 +107,7 @@ public final class StructureParts {
     /** Write {@code b} to {@code file} as a structure {@code .nbt}, unless the file already exists (dev-time gen). */
     public static void writeIfAbsent(Path file, Built b) throws IOException {
         if (!Files.exists(file)) {
-            StructureWriter.write(b.blocks(), b.blockEntities(), b.entities(), file);
+            StructureWriter.write(b.blocks(), b.modNames(), b.blockEntities(), b.entities(), file);
             Skyseed.LOGGER.info("[skyseed] generated structure template {}", file.getFileName());
         }
     }

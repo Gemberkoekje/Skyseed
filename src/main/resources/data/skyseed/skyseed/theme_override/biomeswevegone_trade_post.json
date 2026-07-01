@@ -1,0 +1,89 @@
+{
+  "_comment": "First-party Oh The Biomes We've Gone village compat (BWGVILLAGEPLAN): a Trade Post grown over a BWG village biome assembles that biome's BWG-styled village instead of the vanilla plains one. Each band swaps the jigsaw to a per-style pool set (skyseed:village_<style>, authored by BwgVillageTemplates in BWG's own block palette) and dresses the island surround with that biome's BWG trees + flora. Bands are PREPENDED by ThemeOverride.Patch.mergeBands so they win the first-match over the base overrides. Inert without BWG: the biomeswevegone: biome ids never match (band skipped) and the village .nbt (which carry biomeswevegone: block names) are only ever loaded when a village actually assembles over the biome. All 6 BWG village styles; style↔biome map from the jar's has_structure/village_* tags.",
+  "target": "skyseed:trade_post",
+  "biome_overrides": [
+    { "_comment": "Skyris — an elegant elevated masonry town over the skyris vale.",
+      "biomes": ["biomeswevegone:skyris_vale"],
+      "surface": "minecraft:grass_block",
+      "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.20 } ],
+      "jigsaw": { "pool": "skyseed:village_skyris/start", "target": "minecraft:bottom", "depth": 4, "pad": 5, "reach": 48, "cap_prefix": "shop_", "cap_min": 2, "cap_count": 4, "cap_filler": "skyseed:village_skyris/fillers" },
+      "variants": [
+        { "weight": 1, "name": "skyris", "decoration": {
+          "trees": [ { "feature": "biomeswevegone:skyris_trees", "tries": 3, "spacing": 3 } ],
+          "ground": [
+            { "block": "minecraft:short_grass", "chance": 0.25 },
+            { "block": "minecraft:cornflower", "chance": 0.04 },
+            { "block": "minecraft:lily_of_the_valley", "chance": 0.03 }
+          ] } }
+      ] },
+    { "_comment": "Forgotten — an overgrown mossy-stone-brick ruin over the forgotten forest; florus (yellow-bloom) wood accents.",
+      "biomes": ["biomeswevegone:forgotten_forest"],
+      "surface": "minecraft:grass_block",
+      "surface_scatter": [ { "block": "minecraft:moss_block", "chance": 0.15 } ],
+      "jigsaw": { "pool": "skyseed:village_forgotten/start", "target": "minecraft:bottom", "depth": 4, "pad": 5, "reach": 48, "cap_prefix": "shop_", "cap_min": 2, "cap_count": 4, "cap_filler": "skyseed:village_forgotten/fillers" },
+      "variants": [
+        { "weight": 1, "name": "forgotten", "decoration": {
+          "trees": [ { "feature": "biomeswevegone:florus_trees", "tries": 3, "spacing": 3 } ],
+          "ground": [
+            { "block": "minecraft:short_grass", "chance": 0.30 },
+            { "block": "minecraft:fern", "chance": 0.12 },
+            { "block": "minecraft:tall_grass", "chance": 0.05 }
+          ] } }
+      ] },
+    { "_comment": "Pumpkin Patch — a dark-oak & dacite village over cika woods / pumpkin valley; pumpkins on the ground.",
+      "biomes": ["biomeswevegone:cika_woods", "biomeswevegone:pumpkin_valley"],
+      "surface": "minecraft:grass_block",
+      "jigsaw": { "pool": "skyseed:village_pumpkin_patch/start", "target": "minecraft:bottom", "depth": 4, "pad": 5, "reach": 48, "cap_prefix": "shop_", "cap_min": 2, "cap_count": 4, "cap_filler": "skyseed:village_pumpkin_patch/fillers" },
+      "variants": [
+        { "weight": 1, "name": "pumpkin_patch", "decoration": {
+          "trees": [ { "feature": "minecraft:dark_oak", "tries": 3, "spacing": 3 } ],
+          "ground": [
+            { "block": "minecraft:short_grass", "chance": 0.22 },
+            { "block": "minecraft:pumpkin", "chance": 0.05 }
+          ] } }
+      ] },
+    { "_comment": "Red Rock — a southwestern adobe pueblo over the red rock valley; sparse baobab, aloe.",
+      "biomes": ["biomeswevegone:red_rock_valley"],
+      "surface": "minecraft:grass_block",
+      "surface_scatter": [ { "block": "minecraft:red_sand", "chance": 0.20 } ],
+      "jigsaw": { "pool": "skyseed:village_red_rock/start", "target": "minecraft:bottom", "depth": 4, "pad": 5, "reach": 48, "cap_prefix": "shop_", "cap_min": 2, "cap_count": 4, "cap_filler": "skyseed:village_red_rock/fillers" },
+      "variants": [
+        { "weight": 1, "name": "red_rock", "decoration": {
+          "trees": [ { "feature": "biomeswevegone:baobab_trees", "tries": 2, "spacing": 4 } ],
+          "ground": [
+            { "block": "minecraft:short_grass", "chance": 0.12 },
+            { "block": "minecraft:dead_bush", "chance": 0.05 },
+            { "block": "biomeswevegone:blooming_aloe_vera", "chance": 0.03 }
+          ] } }
+      ] },
+    { "_comment": "Salem — a colonial witch-hazel town over the weeping witch forest; anemones.",
+      "biomes": ["biomeswevegone:weeping_witch_forest"],
+      "surface": "minecraft:grass_block",
+      "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.12 } ],
+      "jigsaw": { "pool": "skyseed:village_salem/start", "target": "minecraft:bottom", "depth": 4, "pad": 5, "reach": 48, "cap_prefix": "shop_", "cap_min": 2, "cap_count": 4, "cap_filler": "skyseed:village_salem/fillers" },
+      "variants": [
+        { "weight": 1, "name": "salem", "decoration": {
+          "trees": [ { "feature": "biomeswevegone:witch_hazel_trees", "tries": 3, "spacing": 3 } ],
+          "ground": [
+            { "block": "minecraft:short_grass", "chance": 0.25 },
+            { "block": "biomeswevegone:pink_anemone", "chance": 0.04 },
+            { "block": "biomeswevegone:white_anemone", "chance": 0.04 }
+          ] } }
+      ] },
+    { "_comment": "Swamp — a stilted bayou village over cypress swamplands / wetlands; willow & cypress, mushrooms.",
+      "biomes": ["biomeswevegone:cypress_swamplands", "biomeswevegone:cypress_wetlands"],
+      "surface": "minecraft:grass_block",
+      "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.18 } ],
+      "jigsaw": { "pool": "skyseed:village_swamp/start", "target": "minecraft:bottom", "depth": 4, "pad": 5, "reach": 48, "cap_prefix": "shop_", "cap_min": 2, "cap_count": 4, "cap_filler": "skyseed:village_swamp/fillers" },
+      "variants": [
+        { "weight": 1, "name": "swamp", "decoration": {
+          "trees": [ { "feature": "biomeswevegone:cypress_trees", "tries": 3, "spacing": 3 } ],
+          "ground": [
+            { "block": "minecraft:short_grass", "chance": 0.28 },
+            { "block": "minecraft:fern", "chance": 0.10 },
+            { "block": "minecraft:brown_mushroom", "chance": 0.04 },
+            { "block": "minecraft:red_mushroom", "chance": 0.03 }
+          ] } }
+      ] }
+  ]
+}
