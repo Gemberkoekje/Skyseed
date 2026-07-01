@@ -65,6 +65,13 @@ the detail.
   leak into the Lush End/Nether forms (off the overworld home dimension → neutral empty-ore default), so the End "clean
   platform" island stays empty. Added the `mystical_agriculture_compat_targets_lush` gametest to both suites (asserts the
   stone ores are added and the deepslate ones are not). All gametests pass; both nodes compile.
+- **2026-07-01 — plank-coverage audit surfaced new backlog item #63.** Enumerating the plank roster straight
+  from `Oh-The-Biomes-Weve-Gone-NeoForge-2.6.0.jar` found **BWG ships 25 plank types but only 19 are obtainable**
+  via the shipped Forest + Aquatic bands (and `#skyseed:exotic_woods`). Six are uncovered: **florus, holly, pine,
+  mahogany, rainbow_eucalyptus** (all addable — each has a real configured tree feature + host biome) and **fir**
+  (no configured tree feature exists in 2.6.0 → appears non-growable). So the in-game checklist line "every BWG
+  plank is now obtainable" (#7/#8 sign-off) is currently **false**. Added as item **#63**; per-wood target
+  features + host biomes recorded in [BWGPLAN.md § Plank coverage audit](Modpack-growyourownworld/BWGPLAN.md).
 
 ## How to read this
 
@@ -77,7 +84,7 @@ the detail.
 
 | Plan | What it covers | Open | ✅ Checked off |
 |---|---|---:|---:|
-| [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | Oh The Biomes We've Gone integration | 7 | 3 |
+| [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | Oh The Biomes We've Gone integration | 8 | 3 |
 | [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration levers | 17 | 11 |
 | [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | BWG structures → growable islands | 10 | 1 |
 | [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | 9 | 5 |
@@ -144,7 +151,7 @@ mod's integration — rare version-divergence safeguards (57/58), a discretionar
 ## Dependency chains & sequencing
 
 1. **BWG content chain (most actionable value; prerequisites all shipped):**
-   Q2 (1) → wet-woods (7) + fantasy-woods (8) → create-otbwg flower placement (9).
+   Q2 (1) → wet-woods (7) + fantasy-woods (8) → remaining 6 planks (63) + create-otbwg flower placement (9).
    OTYG sapling-growth verification (2) is an independent correctness gate — run it first/alongside Q2.
    The BWG quest chapter (3) and Patchouli entry (10) are already unblocked and can ship immediately.
 
@@ -192,7 +199,7 @@ sign-offs are worth doing before the next content lands on top.
 
 - [ ] Throw an **Aquatic** seed over `cypress_swamplands` → confirm a **water-first** island (pond dominant, cypress trees secondary).
 - [ ] Throw a **Forest** seed over the *same* `cypress_swamplands` → confirm a **trees-first** island (dense cypress, minimal water). *(This is the multi-seed / per-seed-priority model working.)*
-- [ ] Grow the **wet woods** (cypress/willow/white-mangrove/palm) and **fantasy woods** (enchanted/skyris/spirit) → confirm each island generates with the right trees and **every BWG plank is now obtainable**.
+- [ ] Grow the **wet woods** (cypress/willow/white-mangrove/palm) and **fantasy woods** (enchanted/skyris/spirit) → confirm each island generates with the right trees. ⚠ **"every BWG plank obtainable" is only 19 / 25** — a jar audit (2026-07-01) found 6 planks (florus, holly, pine, mahogany, rainbow_eucalyptus, fir) with no band; 5 are addable, fir has no worldgen source. Tracked as backlog **#63** (BWGPLAN § Plank coverage audit).
 - [ ] Confirm the drafts are **inert with BWG NOT installed** (no errors; generation unchanged).
 
 **Quests — after authoring:**
@@ -277,6 +284,7 @@ sign-offs are worth doing before the next content lands on top.
 | 60 | (Deferred alternative) Dedicated structure seeds instead of biome adaptation | STRUCTUREPLAN.md | low | medium | genuinely-open | Both plans judge it likely unnecessary (adaptation + existing vanilla-analogue seeds cover it); lowest-priority fallback, not planned to be used. |
 | 61 | Trial Chamber: clean rebuild and visual comparison against a vanilla trial chamber | plannednotes.md | low | small | genuinely-open | A gated human sign-off that cannot start until the upstream polish tasks (24, 25, 33) are attempted; verification, not dev work. Placed after them. |
 | 62 | Add **stone** inferium/prosperity MA ores to the **Lush** island (new `mysticalagriculture_lush.json` + `_large`/`_huge`) | MYSTICALPLAN.md | medium | small | ✅ done (2026-07-01, v0.172.0) | SHIPPED: `mysticalagriculture_lush{,_large,_huge}.json` add the stone `inferium_ore`/`prosperity_ore` at `core` (Lush's core is stone); Ancient keeps the deepslate variants. Off-dimension safe (overworld-only theme → neutral empty ores in End/Nether). `mystical_agriculture_compat_targets_lush` gametest on both nodes; all gametests pass, both nodes compile. |
+| 63 | Close the BWG plank gap — add bands for the **6 uncovered planks**: florus / holly / pine / mahogany / rainbow_eucalyptus (5 addable, ×3 tiers each; target the *specific* configured feature for a clean single-wood island) + resolve **fir** (no worldgen tree feature in 2.6.0 → likely non-growable). Extend `#skyseed:exotic_woods` + the gametests. | BWGPLAN.md | medium | medium | genuinely-open | A jar audit (2026-07-01) found only **19 / 25** planks obtainable, so the #7/#8 "every BWG plank obtainable" sign-off is currently false. Mappings: florus→`forgotten_forest`/`florus_trees`, holly→`dacite_ridges`/`holly_trees`, pine→`black_forest`/`pine_tree1+2`, mahogany→`tropical_rainforest`/`mahogany_trees`, rainbow_eucalyptus→`fragment_jungle`/`rainbow_eucalyptus_trees`; fir ships planks+sapling but no tree feature. See [BWGPLAN § Plank coverage audit](Modpack-growyourownworld/BWGPLAN.md). |
 
 ---
 
