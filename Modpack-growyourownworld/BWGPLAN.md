@@ -89,7 +89,9 @@ Scope discipline: do **not** map all 55. Cover the signature **wood** biomes (so
 
 - Curate `config/` for BWG, OTYG, create-otbwg-compat (like the MA pass). **Leave BWG biome injection ON** — it is the adaptation key.
 - Regenerate `mods.txt`.
-- ✅ **DONE (2026-07-01)** — Patchouli guide: a short **"Exotic Woods"** entry (`entries/exotic_biomes.json`, `skyseed:basics` category, vanilla icon so it's safe without BWG) describing the Forest-seed-over-BWG-biome loop, mirroring the rare-seeds page. The Modonomicon edition auto-generates at build via `generateGuide`. *(Remaining Step 4 work: the config-curation pass + `mods.txt` regen.)*
+- ✅ **DONE (2026-07-01)** — Patchouli guide: a short **"Exotic Woods"** entry (`entries/exotic_biomes.json`, `skyseed:basics` category, vanilla icon) describing the Forest-seed-over-BWG-biome loop, mirroring the rare-seeds page. The Modonomicon edition auto-generates at build via `generateGuide`.
+  - **Only shows when BWG is installed** (the requested trick): the entry carries a Patchouli `flag: "mod:biomeswevegone"` **and** an entry-level `advancement: "skyseed:reveal_exotic_woods"`. That hidden advancement fires on obtaining any item in the new **inert** `#skyseed:exotic_woods` item tag (all `{id, required:false}` — empty without BWG, so it can never fire → entry hidden on both backends; with BWG, growing an exotic wood reveals it). `generateGuide` turns the entry `advancement` into a `modonomicon:advancement` condition, so the gate holds on the primary (Modonomicon) backend too.
+  - ⚠ The tag's `biomeswevegone:*_planks` ids are best-guesses (same wood names as the band drafts) — **verify against the BWG 2.6.0 jar** (and confirm whether BWG ships a `#biomeswevegone:planks` tag, which would replace the explicit list). *(Remaining Step 4 work: the config-curation pass + `mods.txt` regen.)*
 
 ## Step 5 — Quests (optional, light)
 

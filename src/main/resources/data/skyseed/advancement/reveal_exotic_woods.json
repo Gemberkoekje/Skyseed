@@ -1,0 +1,12 @@
+{
+  "criteria": {
+    "has_exotic_wood": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": "#skyseed:exotic_woods" }
+        ]
+      }
+    }
+  }
+}

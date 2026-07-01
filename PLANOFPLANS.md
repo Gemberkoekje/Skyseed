@@ -36,6 +36,12 @@ the detail.
   doc drift + the "matrix"→chiseled-fan-out description and the "add a version" recipe across README / REFACTORPLAN /
   CHANGELOG_26.1. #10: authored the Patchouli **"Exotic Woods"** guide entry (`entries/exotic_biomes.json`, basics
   category) for the shipped Forest-over-BWG loop — the Modonomicon edition auto-generates at build via `generateGuide`.
+- **2026-07-01 — item #10 made BWG-conditional (the "only show when BWG is installed" trick).** The entry is gated by a
+  Patchouli `mod:biomeswevegone` flag **and** a hidden `skyseed:reveal_exotic_woods` advancement that fires on obtaining
+  any item in the new **inert** `#skyseed:exotic_woods` tag (all `{id, required:false}` → empty without BWG, so the
+  advancement can never fire and the entry stays hidden on both the Patchouli and Modonomicon backends; `generateGuide`
+  maps the entry `advancement` → a `modonomicon:advancement` condition). With BWG, growing an exotic wood reveals it.
+  ⚠ The tag's `biomeswevegone:*_planks` ids are best-guesses (like the band ids) — verify against the jar on desktop.
 
 ## How to read this
 
@@ -169,7 +175,7 @@ sign-offs are worth doing before the next content lands on top.
 **Quests — after authoring:**
 
 - [ ] **(#3) BWG quest branch** (under Tools & Travel) loads in-game — quest-book test-load; tasks/rewards resolve.
-- [ ] **(#10) "Exotic Woods" guide page** renders correctly in both the Patchouli book and the Modonomicon Almanac (a build regenerates the Modonomicon mirror — just confirm it shows in the Getting Started category).
+- [ ] **(#10) "Exotic Woods" guide page** — confirm it is **hidden** on a world with **BWG absent**, and **appears** (in Getting Started) once BWG is installed and you've obtained a BWG plank (the hidden `skyseed:reveal_exotic_woods` advancement fires). Check both the Patchouli book and the Modonomicon Almanac. *(Depends on the `#skyseed:exotic_woods` tag plank ids being verified — see below.)*
 
 **Balance & polish — observe during a normal playthrough:**
 
@@ -195,7 +201,7 @@ sign-offs are worth doing before the next content lands on top.
 | 7 | Add wet-woods BWG theme_override bands (cypress, willow, white-mangrove, palm) | BWGPLAN.md | medium | medium | 🟡 drafted — pending id verification | DRAFTED on the Aquatic family (water-first) in `biomeswevegone_aquatic{,_large,huge_}.json`. Remaining: verify BWG ids + gametest + version bump. |
 | 8 | Add fantasy-woods BWG theme_override bands (enchanted, skyris, spirit) | BWGPLAN.md | medium | medium | 🟡 drafted — pending id verification | DRAFTED on the Forest family (trees-first), appended to `biomeswevegone_forest{,_large,huge_}.json` (+ a cypress multi-seed-demo overlap). Remaining: verify BWG ids (esp. whether a `spirit` biome exists) + gametest + version bump. |
 | 9 | Step 3 — Verify create-otbwg milling recipes and place BWG millable flowers on islands | BWGPLAN.md | medium | small | genuinely-open | The 94-recipe compat does nothing without inputs on islands. Recipe check is small, but real value is coupled to the lush/meadow band work that… |
-| 10 | Step 4 — Patchouli guide: add 'Exotic Biomes' entry | BWGPLAN.md | medium | small | ✅ done (2026-07-01) | DONE — authored `entries/exotic_biomes.json` (basics category, vanilla icon, references the 11 shipped forest woods); Modonomicon mirror auto-generates at build. |
+| 10 | Step 4 — Patchouli guide: add 'Exotic Biomes' entry | BWGPLAN.md | medium | small | ✅ done (2026-07-01) | DONE — `entries/exotic_biomes.json` (basics category), **BWG-gated** via a `mod:biomeswevegone` flag + hidden `reveal_exotic_woods` advancement on the inert `#skyseed:exotic_woods` tag (hidden without BWG, revealed on growing a wood). Modonomicon mirror auto-generates. Tag plank ids need jar verification. |
 | 11 | Decide: one tech backbone or two (Mekanism vs. IE) | CONTENTPLAN.md | medium | small | partially-done | Near-free decision with a documented default that prevents duplicated large tech-tier effort and cascades to resolve the IE, Excavator, and… |
 | 12 | Resolve open decision: villages-only vs. villages + manor + bog trial (STRUCTUREPLAN) | STRUCTUREPLAN.md | medium | small | genuinely-open | Gating decision for the entire (not-started) structure plan; cheap and high-leverage, sequences and bounds every downstream structure resurrection… |
 | 13 | Confirm BWG village style ↔ biome mapping (esp. salem and forgotten) | STRUCTUREPLAN.md | medium | small | genuinely-open | Direct prerequisite to the villages resurrection — a wrong mapping targets the wrong biome and villages won't grow where intended. Small mechanical… |
