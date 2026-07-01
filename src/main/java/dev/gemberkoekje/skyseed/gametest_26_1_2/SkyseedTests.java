@@ -3081,6 +3081,16 @@ public final class SkyseedTests {
             }
         }
         helper.assertTrue(!anyFir, "no BWG band should reference a fir tree feature (fir is non-growable in BWG 2.6.0)");
+        // Flower sprinkle (v0.175.0): the exotic-wood bands carry a light biome-authentic BWG flower as ground cover
+        // for colour. Spot-check a representative sample — incl. the two bands that SWAPPED a vanilla placeholder for a
+        // BWG bloom (enchanted_tangle allium→fairy_slipper+cyan_rose; forgotten_forest poppy→pink_daffodil+angelica) —
+        // so a regressed swap or a stale staged datapack copy is caught. baobab/redwood/cypress intentionally have none.
+        for (String biome : new String[]{"biomeswevegone:aspen_boreal", "biomeswevegone:enchanted_tangle",
+                "biomeswevegone:forgotten_forest", "biomeswevegone:black_forest", "biomeswevegone:fragment_jungle"}) {
+            final BiomeOverride flowered = bandFor(resolved, biome);
+            helper.assertTrue(flowered != null && groundHasNamespace(flowered, "biomeswevegone"),
+                    "the " + biome + " forest band should sprinkle a biomeswevegone flower as ground cover");
+        }
         helper.succeed();
     }
 

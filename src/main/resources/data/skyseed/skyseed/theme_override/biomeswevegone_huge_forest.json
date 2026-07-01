@@ -1,89 +1,89 @@
 {
-  "_comment": "First-party BWG compat (wood islands) for the HUGE Forest island. Same prepended BWG biome bands as biomeswevegone_forest, with tree tries scaled UP for the huge island: forest woods dense (~120), savannas (baobab/ironwood) kept sparse, redwood/sakura moderate (big/ornamental). Inert without BWG.",
+  "_comment": "First-party BWG compat (wood islands) for the HUGE Forest island. Same prepended BWG biome bands as biomeswevegone_forest, with tree tries scaled UP for the huge island: forest woods dense (~120), savannas (baobab/ironwood) kept sparse, redwood/sakura moderate (big/ornamental). Ground flora (incl. the v0.175.0 biome-flower sprinkle) is per-column, so it matches biomeswevegone_forest byte-for-byte — a bigger island just grows proportionally more. Inert without BWG.",
   "target": "skyseed:huge_forest",
   "biome_overrides": [
     { "biomes": ["biomeswevegone:aspen_boreal"], "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.20 } ], "variants": [ { "weight": 1, "name": "aspen", "decoration": {
       "trees": [ { "feature": "biomeswevegone:aspen_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:fern", "chance": 0.10 }, { "block": "biomeswevegone:orange_daisy", "chance": 0.04 } ] } } ] },
     { "biomes": ["biomeswevegone:baobab_savanna"], "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.15 } ], "variants": [ { "weight": 1, "name": "baobab", "decoration": {
       "trees": [ { "feature": "biomeswevegone:baobab_trees", "tries": 28, "spacing": 3 } ],
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 }, { "block": "minecraft:dead_bush", "chance": 0.04 } ] } } ] },
     { "biomes": ["biomeswevegone:cika_woods"], "variants": [ { "weight": 1, "name": "cika", "decoration": {
       "trees": [ { "feature": "biomeswevegone:cika_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.35 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.35 }, { "block": "minecraft:fern", "chance": 0.10 }, { "block": "biomeswevegone:iris", "chance": 0.04 } ] } } ] },
     { "biomes": ["biomeswevegone:jacaranda_jungle"], "variants": [ { "weight": 1, "name": "jacaranda", "decoration": {
       "trees": [ { "feature": "biomeswevegone:jacaranda_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 }, { "block": "biomeswevegone:guzmania", "chance": 0.04 } ] } } ] },
     { "biomes": ["biomeswevegone:maple_taiga"], "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.25 } ], "variants": [ { "weight": 1, "name": "maple", "decoration": {
       "trees": [ { "feature": "biomeswevegone:maple_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.20 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.20 }, { "block": "biomeswevegone:rose", "chance": 0.04 } ] } } ] },
     { "biomes": ["biomeswevegone:ebony_woods"], "variants": [ { "weight": 1, "name": "ebony", "decoration": {
       "trees": [ { "feature": "biomeswevegone:ebony_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:fern", "chance": 0.10 }, { "block": "biomeswevegone:pink_anemone", "chance": 0.03 }, { "block": "biomeswevegone:white_anemone", "chance": 0.03 } ] } } ] },
     { "biomes": ["biomeswevegone:redwood_thicket"], "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.20 } ], "variants": [ { "weight": 1, "name": "redwood", "decoration": {
       "trees": [ { "feature": "biomeswevegone:redwood_trees", "tries": 70, "spacing": 3 } ],
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.15 } ] } } ] },
     { "biomes": ["biomeswevegone:zelkova_forest"], "variants": [ { "weight": 1, "name": "zelkova", "decoration": {
       "trees": [ { "feature": "biomeswevegone:zelkova_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "biomeswevegone:kovan_flower", "chance": 0.04 } ] } } ] },
     { "biomes": ["biomeswevegone:weeping_witch_forest"], "variants": [ { "weight": 1, "name": "witch_hazel", "decoration": {
       "trees": [ { "feature": "biomeswevegone:witch_hazel_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:brown_mushroom", "chance": 0.04 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:brown_mushroom", "chance": 0.04 }, { "block": "biomeswevegone:white_anemone", "chance": 0.03 } ] } } ] },
     { "biomes": ["biomeswevegone:sakura_grove"], "variants": [ { "weight": 1, "name": "sakura", "decoration": {
       "trees": [ { "feature": "biomeswevegone:white_sakura_trees", "tries": 70, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "biomeswevegone:japanese_orchid", "chance": 0.04 } ] } } ] },
     { "biomes": ["biomeswevegone:ironwood_gour"], "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.15 } ], "variants": [ { "weight": 1, "name": "ironwood", "decoration": {
       "trees": [ { "feature": "biomeswevegone:ironwood_trees", "tries": 28, "spacing": 3 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 } ] } } ] },
-    { "_comment": "FANTASY woods + trees-first cypress overlap on the Forest HUGE tier (trees-first). See biomeswevegone_forest.json for rationale + id verification (BWG 2.6.0, 2026-07-01): enchanted_tangle / skyris_vale / pale_bog(spirit) / cypress_swamplands.",
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 }, { "block": "biomeswevegone:california_poppy", "chance": 0.04 } ] } } ] },
+    { "_comment": "FANTASY woods + trees-first cypress overlap on the Forest HUGE tier (trees-first). See biomeswevegone_forest.json for rationale + id verification (BWG 2.6.0, 2026-07-01): enchanted_tangle / skyris_vale / pale_bog(spirit) / cypress_swamplands. Ground flower sprinkle mirrors the base tier.",
       "biomes": ["biomeswevegone:enchanted_tangle"],
       "_verify": "verified: biome enchanted_tangle + configured feature enchanted_trees",
       "variants": [ { "weight": 1, "name": "enchanted", "decoration": {
       "trees": [ { "feature": "biomeswevegone:enchanted_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:allium", "chance": 0.05 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "biomeswevegone:fairy_slipper", "chance": 0.03 }, { "block": "biomeswevegone:cyan_rose", "chance": 0.03 } ] } } ] },
     { "biomes": ["biomeswevegone:skyris_vale"],
       "_verify": "verified: biome skyris_vale + configured feature skyris_trees",
       "variants": [ { "weight": 1, "name": "skyris", "decoration": {
       "trees": [ { "feature": "biomeswevegone:skyris_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "biomeswevegone:fairy_slipper", "chance": 0.03 }, { "block": "biomeswevegone:foxglove", "chance": 0.03 } ] } } ] },
     { "biomes": ["biomeswevegone:pale_bog"],
       "_verify": "verified: spirit wood grows in biome pale_bog (NOT spirit_woods) + configured feature spirit_trees",
       "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.15 } ],
       "variants": [ { "weight": 1, "name": "spirit", "decoration": {
       "trees": [ { "feature": "biomeswevegone:spirit_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "biomeswevegone:white_sage", "chance": 0.03 } ] } } ] },
     { "biomes": ["biomeswevegone:cypress_swamplands"],
       "_verify": "verified: multi-seed demo — biome cypress_swamplands + configured feature cypress_trees (trees-first here; water-first on the Aquatic family)",
       "variants": [ { "weight": 1, "name": "cypress", "decoration": {
       "trees": [ { "feature": "biomeswevegone:cypress_trees", "tries": 120, "spacing": 2 } ],
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 }, { "block": "minecraft:fern", "chance": 0.08 } ] } } ] },
-    { "_comment": "PLANK-COVERAGE woods (backlog #63) — HUGE tier, tries scaled up. See biomeswevegone_forest.json for the full rationale + id verification (BWG 2.6.0, 2026-07-01). florus/holly/pine/mahogany/rainbow_eucalyptus target dedicated features; fir intentionally absent (no configured fir tree feature exists).",
+    { "_comment": "PLANK-COVERAGE woods (backlog #63) — HUGE tier, tries scaled up. See biomeswevegone_forest.json for the full rationale + id verification (BWG 2.6.0, 2026-07-01). florus/holly/pine/mahogany/rainbow_eucalyptus target dedicated features; fir intentionally absent (no configured fir tree feature exists). Ground flower sprinkle mirrors the base tier.",
       "biomes": ["biomeswevegone:forgotten_forest"],
       "_verify": "verified: biome forgotten_forest + dedicated configured feature florus_trees",
       "variants": [ { "weight": 1, "name": "florus", "decoration": {
       "trees": [ { "feature": "biomeswevegone:florus_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.35 }, { "block": "minecraft:poppy", "chance": 0.05 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.35 }, { "block": "biomeswevegone:pink_daffodil", "chance": 0.03 }, { "block": "biomeswevegone:angelica", "chance": 0.03 } ] } } ] },
     { "biomes": ["biomeswevegone:dacite_ridges"],
       "_verify": "verified: biome dacite_ridges + dedicated configured feature holly_trees",
       "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.10 } ],
       "variants": [ { "weight": 1, "name": "holly", "decoration": {
       "trees": [ { "feature": "biomeswevegone:holly_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.10 }, { "block": "biomeswevegone:iris", "chance": 0.03 } ] } } ] },
     { "biomes": ["biomeswevegone:black_forest"],
       "_verify": "verified: biome black_forest + features pine_tree1 + pine_tree2 (no pine_trees aggregate exists in 2.6.0)",
       "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.20 } ],
       "variants": [ { "weight": 1, "name": "pine", "decoration": {
       "trees": [ { "feature": "biomeswevegone:pine_tree1", "tries": 60, "spacing": 2 }, { "feature": "biomeswevegone:pine_tree2", "tries": 60, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.15 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.15 }, { "block": "biomeswevegone:black_rose", "chance": 0.04 } ] } } ] },
     { "biomes": ["biomeswevegone:tropical_rainforest"],
       "_verify": "verified: biome tropical_rainforest + dedicated configured feature mahogany_trees",
       "variants": [ { "weight": 1, "name": "mahogany", "decoration": {
       "trees": [ { "feature": "biomeswevegone:mahogany_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 }, { "block": "biomeswevegone:delphinium", "chance": 0.04 } ] } } ] },
     { "biomes": ["biomeswevegone:fragment_jungle"],
       "_verify": "verified: biome fragment_jungle + dedicated configured feature rainbow_eucalyptus_trees (large trees — spacing 3)",
       "variants": [ { "weight": 1, "name": "rainbow_eucalyptus", "decoration": {
       "trees": [ { "feature": "biomeswevegone:rainbow_eucalyptus_trees", "tries": 70, "spacing": 3 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] }
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 }, { "block": "biomeswevegone:protea_flower", "chance": 0.03 }, { "block": "biomeswevegone:delphinium", "chance": 0.03 } ] } } ] }
   ]
 }

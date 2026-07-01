@@ -95,10 +95,13 @@ Scope discipline: do **not** map all 55. Cover the signature **wood** biomes (so
     real milling recipe. Ground flora is per-column (no `tries`), so the 3 tier files per family are identical bands.
     New `biomeswevegone_compat_places_{meadow,lush}_flowers` gametests (both nodes) assert each band places a
     `biomeswevegone:` flower.
-- **Remaining (in-game):** spot-check 2–3 milling recipes actually resolve/run in a Create Millstone against a harvested
-  BWG flower (the datapack side is verified; this is the live-recipe confirmation). The petal-blocks / glowcane / sand /
-  cactus milling inputs are intentionally **not** placed as meadow/lush ground (glowcane/cacti belong to aquatic/desert
-  families; petal-blocks are crafted, not grown).
+- **✅ In-game confirmed (2026-07-01):** the BWG flowers grow on islands **and** the create-otbwg milling recipes are
+  present/working (harvested flower → mills to its dye/petal output). Step 3 is closed end-to-end. The petal-blocks /
+  glowcane / sand / cactus milling inputs are intentionally **not** placed as meadow/lush ground (glowcane/cacti belong
+  to aquatic/desert families; petal-blocks are crafted, not grown).
+- **Also shipped (v0.175.0):** a light biome-authentic BWG **flower sprinkle** on the Forest-family exotic-wood bands
+  (`biomeswevegone_forest{,_large,huge_}.json`) — colour/flavour ground cover (a few % per column), each biome's own
+  flora, inert without BWG. Not a milling-input requirement — purely aesthetic.
 
 ## Step 4 — Modpack wiring
 
