@@ -44,6 +44,25 @@ public final class StructureWriter {
      */
     public static void write(Map<BlockPos, BlockState> blocks, Map<BlockPos, CompoundTag> blockEntities,
                              Map<BlockPos, CompoundTag> entities, Path file) throws IOException {
+        write(blocks, Map.of(), blockEntities, entities, file);
+    }
+
+    /** A palette entry: a vanilla-analog {@link BlockState} whose serialised {@code Name} is overridden by
+     *  {@code modName} when non-null. Two mod blocks sharing an analog (or a mod block vs. the same literal vanilla
+     *  state) key distinctly, so they never collapse into one palette slot. */
+    private record PaletteKey(BlockState state, String modName) {}
+
+    /**
+     * As above, but {@code modNames} maps positions to a mod block id (e.g. {@code biomeswevegone:skyris_planks}) that
+     * <b>replaces</b> the serialised palette {@code Name} for that block, while the {@code blocks} value is a vanilla
+     * <b>analog</b> of the same block class used for the shape math and property serialisation (BWG blocks subclass
+     * the vanilla {@code StairBlock}/{@code SlabBlock}/{@code FenceBlock}/… so the property schema matches). This is
+     * how Skyseed authors BWG-styled village templates in code without BWG on the classpath — the emitted {@code .nbt}
+     * carries {@code biomeswevegone:} names and is only ever loaded when a village assembles over a BWG biome.
+     */
+    public static void write(Map<BlockPos, BlockState> blocks, Map<BlockPos, String> modNames,
+                             Map<BlockPos, CompoundTag> blockEntities, Map<BlockPos, CompoundTag> entities,
+                             Path file) throws IOException {
         int sx = 0, sy = 0, sz = 0;
         for (BlockPos p : blocks.keySet()) {
             sx = Math.max(sx, p.getX());
@@ -64,12 +83,13 @@ public final class StructureWriter {
         size.add(IntTag.valueOf(sz + 1));
         root.put("size", size);
 
-        final List<BlockState> palette = new ArrayList<>();
-        final Map<BlockState, Integer> indexOf = new HashMap<>();
+        final List<PaletteKey> palette = new ArrayList<>();
+        final Map<PaletteKey, Integer> indexOf = new HashMap<>();
         final ListTag blocksTag = new ListTag();
         for (Map.Entry<BlockPos, BlockState> e : blocks.entrySet()) {
-            final int idx = indexOf.computeIfAbsent(e.getValue(), st -> {
-                palette.add(st);
+            final PaletteKey key = new PaletteKey(e.getValue(), modNames.get(e.getKey()));
+            final int idx = indexOf.computeIfAbsent(key, k -> {
+                palette.add(k);
                 return palette.size() - 1;
             });
             final CompoundTag b = new CompoundTag();
@@ -87,8 +107,12 @@ public final class StructureWriter {
         }
 
         final ListTag paletteTag = new ListTag();
-        for (BlockState st : palette) {
-            paletteTag.add(NbtUtils.writeBlockState(st));
+        for (PaletteKey key : palette) {
+            final CompoundTag entry = NbtUtils.writeBlockState(key.state());
+            if (key.modName() != null) {
+                entry.putString("Name", key.modName()); // keep the analog's Properties, swap in the BWG block id
+            }
+            paletteTag.add(entry);
         }
         root.put("palette", paletteTag);
         root.put("blocks", blocksTag);

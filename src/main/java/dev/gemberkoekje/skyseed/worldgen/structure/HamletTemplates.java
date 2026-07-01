@@ -80,12 +80,14 @@ public final class HamletTemplates {
             }
         }
 
-        // Windows on the two side walls and the back wall.
+        // Windows on the two side walls and the back wall. The back window is offset one column off centre (mid+1)
+        // because the loft ladder mounts against the back-wall CENTRE column (mid) — a ladder on a glass pane can't
+        // attach and renders broken.
         final int frontZ = doorOnNorth ? lo : hi;
         final int backZ = doorOnNorth ? hi : lo;
         m.put(new BlockPos(lo, 2, mid), glass);
         m.put(new BlockPos(hi, 2, mid), glass);
-        m.put(new BlockPos(mid, 2, backZ), glass);
+        m.put(new BlockPos(mid + 1, 2, backZ), glass);
 
         // Door in the front gable wall.
         final Direction face = doorOnNorth ? Direction.SOUTH : Direction.NORTH;

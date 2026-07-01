@@ -1,0 +1,17 @@
+{
+  "fallback": "minecraft:empty",
+  "elements": [
+    { "weight": 2, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_red_rock/house_cottage", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 2, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_red_rock/house_tower", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 2, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_red_rock/house_porch", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 2, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_red_rock/house_long", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_red_rock/wheat_field", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_red_rock/carrot_field", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_red_rock/garden", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_red_rock/grove", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_red_rock/well", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_red_rock/animal_pen", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_red_rock/market_stall", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_red_rock/terminator", "processors": "minecraft:empty", "projection": "rigid" } }
+  ]
+}

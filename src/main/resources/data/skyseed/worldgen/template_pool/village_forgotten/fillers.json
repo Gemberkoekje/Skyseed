@@ -1,0 +1,17 @@
+{
+  "fallback": "minecraft:empty",
+  "elements": [
+    { "weight": 2, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_forgotten/house_cottage", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 2, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_forgotten/house_tower", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 2, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_forgotten/house_porch", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 2, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_forgotten/house_long", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_forgotten/wheat_field", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_forgotten/carrot_field", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_forgotten/garden", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_forgotten/grove", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_forgotten/well", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_forgotten/animal_pen", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_forgotten/market_stall", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:village_forgotten/terminator", "processors": "minecraft:empty", "projection": "rigid" } }
+  ]
+}

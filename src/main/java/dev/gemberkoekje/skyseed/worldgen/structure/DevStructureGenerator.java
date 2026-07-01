@@ -47,6 +47,13 @@ public final class DevStructureGenerator {
             TradePostTemplates.generateInto(base.resolve("trade_post_desert"), TradePostTemplates.DESERT);
             TradePostTemplates.generateInto(base.resolve("trade_post_savanna"), TradePostTemplates.SAVANNA);
             TradePostTemplates.generateInto(base.resolve("trade_post_spruce"), TradePostTemplates.SPRUCE);
+            // BWG-styled villages (BWGVILLAGEPLAN) — our jigsaw set in BWG's block palettes; inert without BWG.
+            BwgVillageTemplates.generateInto(base.resolve("village_skyris"), BwgVillageTemplates.SKYRIS);
+            BwgVillageTemplates.generateInto(base.resolve("village_forgotten"), BwgVillageTemplates.FORGOTTEN);
+            BwgVillageTemplates.generateInto(base.resolve("village_pumpkin_patch"), BwgVillageTemplates.PUMPKIN_PATCH);
+            BwgVillageTemplates.generateInto(base.resolve("village_red_rock"), BwgVillageTemplates.RED_ROCK);
+            BwgVillageTemplates.generateInto(base.resolve("village_salem"), BwgVillageTemplates.SALEM);
+            BwgVillageTemplates.generateInto(base.resolve("village_swamp"), BwgVillageTemplates.SWAMP);
             VillageCenterTemplates.generateInto(base.resolve("village_center"));
             AnimalTemplates.generateInto(base.resolve("animal"));
             DungeonTemplates.generateInto(base.resolve("dungeon"));
