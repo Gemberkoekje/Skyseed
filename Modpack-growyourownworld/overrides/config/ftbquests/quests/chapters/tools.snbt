@@ -89,5 +89,76 @@
 			x: 1.5d
 			y: 1.5d
 		}
+		{
+			dependencies: ["5C0000000000B103"]
+			icon: {
+				id: "biomeswevegone:aspen_planks"
+			}
+			id: "5C0000000000B701"
+			rewards: [{
+				count: 16
+				id: "5C0000000000D701"
+				item: {
+					count: 1
+					id: "minecraft:bone_meal"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				advancement: "skyseed:reveal_exotic_woods"
+				criterion: "has_exotic_wood"
+				icon: {
+					id: "biomeswevegone:aspen_planks"
+				}
+				id: "5C0000000000C701"
+				type: "advancement"
+			}]
+			x: 0.0d
+			y: 3.0d
+		}
+		{
+			dependencies: [
+				"5C0000000000B701"
+				"5C0000000000B204"
+			]
+			icon: {
+				id: "create:millstone"
+			}
+			id: "5C0000000000B702"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D702"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C702"
+				type: "checkmark"
+			}]
+			x: 1.5d
+			y: 3.0d
+		}
+		{
+			dependencies: ["5C0000000000B701"]
+			icon: {
+				id: "biomeswevegone:aspen_sapling"
+			}
+			id: "5C0000000000B703"
+			rewards: [{
+				exclude_from_claim_all: true
+				id: "5C0000000000D703"
+				table_id: 6629298651489390593L
+				type: "random"
+			}]
+			tasks: [{
+				id: "5C0000000000C703"
+				type: "checkmark"
+			}]
+			x: 0.0d
+			y: 4.5d
+		}
 	]
 }
