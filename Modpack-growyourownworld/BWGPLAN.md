@@ -11,7 +11,10 @@
 - **CI now runs the gametests** on every node. **Q1 RESOLVED** (tight first pass → scaled to the forest family). **Q3 RESOLVED** (rewritten below). Modpack: BWG/OTYG/create-otbwg + Better Clouds jars in, `mods.txt` refreshed.
 
 **Left for a future return (NOT in this changeset):**
-- **Q2 — concentrate vs distribute → ✅ RESOLVED: DISTRIBUTE (per typed seed, priority-ordered — see Q2 below).** The **wet woods** (cypress/willow/white-mangrove/palm → aquatic + forest families) and **fantasy woods** (enchanted/skyris/spirit → forest family) are now decided-but-**not yet authored** — that's the next build step, per the file convention in Q2.
+- **Q2 — concentrate vs distribute → ✅ RESOLVED: DISTRIBUTE (per typed seed, priority-ordered — see Q2 below).** The **wet woods** (cypress/willow/white-mangrove/palm) and **fantasy woods** (enchanted/skyris/spirit) are now **DRAFTED (2026-07-01), pending id verification**:
+  - **Wet woods → Aquatic family (water-first):** new `biomeswevegone_aquatic.json` (+ `_large`, `huge_`) — pond-dominant bands with the BWG wet-wood trees as the secondary layer.
+  - **Fantasy woods → Forest family (trees-first):** appended to `biomeswevegone_forest.json` (+ `_large`, `huge_`). The same files also gained a **trees-first `cypress` overlap** as the deliberate multi-seed demo (cypress is water-first on Aquatic, trees-first on Forest).
+  - **⚠ Remaining ship steps before merge:** (1) **verify every `biomeswevegone:` biome id + `*_trees` feature id against the BWG 2.6.0 jar** — all are best-guesses flagged in each file's `_verify` (esp. `willow`/`white_mangrove`/`palm` biomes and whether a `spirit` biome is even injected); (2) add an inert golden-master **gametest** per set; (3) bump `mod_version` + CHANGELOG. Tree tries / pond sizes are provisional and tunable in-game.
 - **Density follow-up:** lift the *held* wet/semi forest biomes (mangrove/swamp/riverside, cherry/grove/mushroom/bamboo/flower) to the agreed level — held pending the in-game density read, now confirmed good.
 - **Step 2 (OTYG verification), Step 3 (create-otbwg verification), Step 4 (Patchouli "Exotic Biomes" entry), Step 5 (the light quest branch)** — all still to do.
 - **STRUCTUREPLAN** (BWG village/manor/trial resurrection) — its own later child changeset.

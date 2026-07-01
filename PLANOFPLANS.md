@@ -27,6 +27,11 @@ the detail.
   trees-first, lush = maximal/"extreme" nature, meadow = millable flowers, etc.). The *same* BWG biome may
   be adapted by more than one family, each with a different emphasis. File convention + mapping recorded in
   [BWGPLAN.md § Q2](Modpack-growyourownworld/BWGPLAN.md). **This unblocks items #7, #8, and #9.**
+- **2026-07-01 — items #7 & #8 DRAFTED (pending id verification).** Wet-wood bands authored on the Aquatic
+  family (water-first): new `biomeswevegone_aquatic{,_large,huge_}.json`. Fantasy-wood bands + a trees-first
+  `cypress` multi-seed-demo overlap appended to the Forest family: `biomeswevegone_forest{,_large,huge_}.json`.
+  All `biomeswevegone:` biome/feature ids are best-guesses flagged in each file's `_verify` — **must be
+  confirmed against the BWG 2.6.0 jar, then add a gametest + version bump** before merge. Inert without BWG.
 
 ## How to read this
 
@@ -140,8 +145,8 @@ release. Then the BWG band chain (7, 8, 9) plus its quest + guide (3, 10).
 | 4 | Reconcile plan/changelog CI-file references with the actual workflow (documentation drift) | REFACTORPLAN.md | medium | small | genuinely-open | Actively misdirects the documented 'add a version node' workflow — the recipe tells contributors to edit a file that never existed and add an… |
 | 5 | Verify the MA integration in-game (ore spawn + bootstrap loop) | MYSTICALPLAN.md | medium | small | partially-done | MA is fully shipped and is the pack's renewable pillar; a single quick playtest de-risks the release's core loop before shipping. Low cost,… |
 | 6 | Runtime smoke test of void ChunkGenerator with BWG installed | plannednotes.md | medium | small | genuinely-open | Only remaining sign-off for the confirmed TerraBlender/BWG decoration-leak fix — the mod's central worldgen-correctness feature. Low effort, closes… |
-| 7 | Add wet-woods BWG theme_override bands (cypress, willow, white-mangrove, palm) | BWGPLAN.md | medium | medium | genuinely-open | These planks are currently unreachable in-game; adding them advances the 'every BWG plank growable' goal and lands the wet-biome millable plants… |
-| 8 | Add fantasy-woods BWG theme_override bands (enchanted, skyris, spirit) | BWGPLAN.md | medium | medium | genuinely-open | Completes reachable plank types (only 11 of ~25 woods ship today). Same shape/cost as wet-woods; sequenced just after it to batch the id-verification… |
+| 7 | Add wet-woods BWG theme_override bands (cypress, willow, white-mangrove, palm) | BWGPLAN.md | medium | medium | 🟡 drafted — pending id verification | DRAFTED on the Aquatic family (water-first) in `biomeswevegone_aquatic{,_large,huge_}.json`. Remaining: verify BWG ids + gametest + version bump. |
+| 8 | Add fantasy-woods BWG theme_override bands (enchanted, skyris, spirit) | BWGPLAN.md | medium | medium | 🟡 drafted — pending id verification | DRAFTED on the Forest family (trees-first), appended to `biomeswevegone_forest{,_large,huge_}.json` (+ a cypress multi-seed-demo overlap). Remaining: verify BWG ids (esp. whether a `spirit` biome exists) + gametest + version bump. |
 | 9 | Step 3 — Verify create-otbwg milling recipes and place BWG millable flowers on islands | BWGPLAN.md | medium | small | genuinely-open | The 94-recipe compat does nothing without inputs on islands. Recipe check is small, but real value is coupled to the lush/meadow band work that… |
 | 10 | Step 4 — Patchouli guide: add 'Exotic Biomes' entry | BWGPLAN.md | medium | small | genuinely-open | The BWG mechanic is invisible without docs; small self-contained content that ships independently and improves discovery of already-shipped bands.… |
 | 11 | Decide: one tech backbone or two (Mekanism vs. IE) | CONTENTPLAN.md | medium | small | partially-done | Near-free decision with a documented default that prevents duplicated large tech-tier effort and cascades to resolve the IE, Excavator, and… |
