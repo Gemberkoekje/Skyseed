@@ -9,6 +9,17 @@ the version-number sequence, so a version can appear in one changelog and not th
 > Stage 3 (generalize/document) in `REFACTORPLAN.md`. The per-feature build plans (the gametest harness, the recipe
 > generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.175.0] - 2026-07-01
+
+### Added
+- **A light BWG-flower sprinkle on the exotic-wood Forest islands.** Shared datapack with the 1.21.1 build: the
+  Forest-family BWG bands (`biomeswevegone_forest.json` + `_large`/`huge_`) gain a few-% ground-cover sprinkle of
+  each biome's own signature BWG flower (orange daisy / iris / guzmania / rose / anemones / kovan flower / japanese
+  orchid / california poppy / fairy slipper / foxglove / white sage / black rose / delphinium / protea, etc.) for
+  colour — trees stay the focus. The two vanilla placeholders became authentic BWG blooms (enchanted → fairy
+  slipper + cyan rose; florus → pink daffodil + angelica). Every flower verified as a real BWG 2.6.0 block; inert
+  without BWG (`Lookup.hasBlock`). Ground flora is per-column, so the 3 tier files share identical bands.
+
 ## [0.174.0] - 2026-07-01
 
 ### Added

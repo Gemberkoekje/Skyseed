@@ -13,7 +13,7 @@ the detail.
 ## Headline
 
 - **~62 genuinely-open points** remain, consolidated into the ranked items below (plus the
-  CODE_REVIEW follow-ups). *(2026-07-01: items #1, #3, #4, #7, #8, #9, #10, #62, #63 resolved/shipped and #66 diagnosed — see the [Decisions log](#decisions-log).)*
+  CODE_REVIEW follow-ups). *(2026-07-01: items #1, #3, #4, #7, #8, #9, #10, #12, #62, #63 resolved/shipped and #66 diagnosed — #9 now confirmed in-game and #12 decided full-scope — see the [Decisions log](#decisions-log).)*
 - **31+ items were already shipped** and have been checked off in their plans — the docs read as far
   less finished than the repo actually is (CONTENTPLAN especially predates the void ChunkGenerator, the
   Create power backbone, Mystical Agriculture, and the six-chapter quest spine, all since shipped).
@@ -22,6 +22,19 @@ the detail.
 
 ### Decisions log
 
+- **2026-07-01 — item #12 RESOLVED: FULL structure scope.** User's call: resurrect **everything** — all 6 BWG
+  village styles (across all their biomes) **and** the special structures (aspen manor + bog trial), not a
+  villages-only first pass. This puts items **#14** (villages), **#26/#27** (manor/bog trial), **#28** (vertical-jigsaw
+  mitigation), **#29** (on-pad assembly verification) and **#30** (per-step release hygiene) all in scope; prairie
+  houses / rugged fossil (#49) stay optional polish. Sequencing (villages → manor+trial → polish) is unchanged.
+  Recorded a **future want** (long-tail, not scheduled): *more* structures than BWG shipped — little Create sheds with
+  small apparatus, abandoned Inferium farmlands, and similar bespoke flavour builds. Detail in
+  [STRUCTUREPLAN § Scope decision](Modpack-growyourownworld/STRUCTUREPLAN.md).
+- **2026-07-01 — item #9 fully DONE: create-otbwg milling confirmed in-game.** The flower placement shipped in v0.174.0
+  (Meadow + Lush families) and v0.175.0 added a Forest-family flower sprinkle; user has now **verified in-game** that
+  the BWG flowers grow on islands **and** that the create-otbwg milling recipes are present/working. The last remaining
+  live-mill spot-check is done → #9 is closed end-to-end (datapack + in-game). Detail in
+  [BWGPLAN § Step 3](Modpack-growyourownworld/BWGPLAN.md).
 - **2026-07-01 — Q2 (item #1) RESOLVED: distribute.** BWG wood/flora bands are distributed across the
   typed seed families, **priority-ordered per seed** (aquatic = water-first + biome trees second, forest =
   trees-first, lush = maximal/"extreme" nature, meadow = millable flowers, etc.). The *same* BWG biome may
@@ -137,7 +150,7 @@ the detail.
 |---|---|---:|---:|
 | [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | Oh The Biomes We've Gone integration | 7 | 7 |
 | [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration levers | 15 | 12 |
-| [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | BWG structures → growable islands | 10 | 1 |
+| [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | BWG structures → growable islands | 9 | 2 |
 | [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | 8 | 6 |
 | [plannednotes.md](plannednotes.md) | Void ChunkGenerator, Trial Chamber, misc | 6 | 0 |
 | [REFACTORPLAN.md](REFACTORPLAN.md) | Multi-version (NeoForge + Stonecutter) refactor | 5 | 1 |
@@ -162,7 +175,7 @@ before more is piled on top.
 6. ✅ **Smoke-test the void ChunkGenerator with BWG installed** — DONE (2026-07-01): no features at y≈-64, End central island intact. *(plannednotes · small)*
 10. ✅ **Patchouli "Exotic Woods" entry** — DONE (2026-07-01): authored `entries/exotic_biomes.json` (basics category) describing the already-shipped Forest-over-BWG loop; the Modonomicon mirror auto-generates at build. *(BWGPLAN · small)*
 11. ✅ **Decide: one tech backbone or two** (Mekanism vs. IE) — **DECIDED 2026-07-01: Immersive Engineering; Mekanism dropped** (aesthetic). Cascades: #17 dropped, #34 promoted, #35 (Excavator fix) now in scope. *(CONTENTPLAN · small)*
-12. **Decide structure scope** — villages-only vs. villages + manor + bog trial. *(STRUCTUREPLAN · small)*
+12. ✅ **Decide structure scope** — **DECIDED 2026-07-01: FULL SCOPE** (all villages + aspen manor + bog trial; not villages-only). Puts #14/#26/#27/#28/#29/#30 in scope. Future long-tail want recorded: *more* structures than BWG shipped (Create sheds, abandoned Inferium farmlands, …). *(STRUCTUREPLAN · small)*
 
 ### Tier 2 — BWG content payoff & structures
 
@@ -170,10 +183,10 @@ Highest player-facing value once Q2 (1) and the village↔biome mapping (13) are
 
 7. ✅ **Wet-woods BWG bands** (cypress, willow, white-mangrove, palm) — DONE (2026-07-01, v0.171.0): ids verified vs BWG 2.6.0, willow/white-mangrove ids corrected. *(BWGPLAN · medium)*
 8. ✅ **Fantasy-woods BWG bands** (enchanted, skyris, spirit) — DONE (2026-07-01, v0.171.0): spirit found growable via `pale_bog`. *(BWGPLAN · medium)*
-9. **Verify create-otbwg milling recipes + place millable flowers on islands** — *(BWGPLAN · small, needs 1)*
+9. ✅ **Verify create-otbwg milling recipes + place millable flowers on islands** — DONE (2026-07-01): flowers grow on islands (Meadow/Lush + the v0.175.0 Forest sprinkle) **and** the milling recipes are confirmed present/working in-game. Closed end-to-end. *(BWGPLAN · small)*
 13. **Confirm BWG village style ↔ biome mapping** (esp. `salem`, `forgotten`) — *(STRUCTUREPLAN · small)*
-14. **Resurrect BWG villages** (6 styles) via biome adaptation — highest-value structure work. *(STRUCTUREPLAN · medium, needs 13 + 12)*
-26–30. **Manor + bog-trial resurrection** with vertical-jigsaw gametests, on-pad assembly checks, and per-step golden-master discipline — only if scope (12) includes them; carries the bounding-box risk that broke the End City rebuild.
+14. **Resurrect BWG villages** (6 styles) via biome adaptation — highest-value structure work. *(STRUCTUREPLAN · medium, needs 13; scope ✅ full per 12)*
+26–30. **Manor + bog-trial resurrection** with vertical-jigsaw gametests, on-pad assembly checks, and per-step golden-master discipline — **now in scope** (12 decided full); carries the bounding-box risk that broke the End City rebuild, so each gets its own placement gametest.
 
 ### Tier 3 — Content-mod wave & code follow-ups
 
@@ -195,7 +208,7 @@ Lower-value flavor mods (Critters & Companions 31, Productive Bees 32), optional
 Horizons 21, resource packs 53/54, more Trial Chamber variants 33), already-settled decisions awaiting
 formal confirmation (35/38/52), the **7 future quest chapters (40–47)** — each auto-gated behind its
 mod's integration — rare version-divergence safeguards (57/58), a discretionary third version node
-(59), and the manual smoke-tests for the merged crash fixes. See the full table for all of them.
+(59), the **future net-new bespoke structures (68)** — Create sheds, abandoned Inferium farmlands, … beyond BWG's own — and the manual smoke-tests for the merged crash fixes. See the full table for all of them.
 
 ---
 
@@ -211,10 +224,12 @@ mod's integration — rare version-divergence safeguards (57/58), a discretionar
    (17) dropped.)* Each integration is *followed by* its quest chapter (part of 19) and its gated gateway-island
    tier (20). FE cross-mod proof (39) is moot until a consumer mod lands.
 
-3. **Structure resurrection chain (deferred child changeset, all NOT STARTED):** scope decision (12)
-   gates everything; villages-only is the low-risk clear win. Villages (14) need the style↔biome
-   mapping (13). Adding manor (26) + bog trial (27) pulls in the vertical-jigsaw mitigation (28) +
-   on-pad assembly verification (29) + per-step release hygiene (30).
+3. **Structure resurrection chain (deferred child changeset, all NOT STARTED):** scope decision (12) ✅
+   **DECIDED full-scope** — all villages + manor + bog trial. Villages (14) are the low-risk first step and
+   need the style↔biome mapping (13). Manor (26) + bog trial (27) then pull in the vertical-jigsaw mitigation
+   (28) + on-pad assembly verification (29) + per-step release hygiene (30). Prairie houses / rugged fossil
+   (49) remain optional polish. A future long-tail adds *net-new* bespoke structures (Create sheds, abandoned
+   Inferium farmlands, …) beyond BWG's own.
 
 4. **Trial-chamber polish:** palette+lighting (24) is the highest-value pass; atmosphere greebling (25)
    shares the same generator + rebuild workflow (batch them); more layout variants (33) is large and
@@ -237,7 +252,7 @@ sign-offs are worth doing before the next content lands on top.
 - [x] **(#6) Void ChunkGenerator + BWG** — ✅ VERIFIED (2026-07-01, BWG installed): **no decoration leak** at the void floor and the **End central island still generates**.
 - [x] **(#2) OTYG sapling→tree growth** — ✅ VERIFIED (2026-07-01): oak *and* **Zelkova (BWG)** saplings both grow to trees on an island **and** in an **Elite Botany Pot** (dirt) — got 3 oak / 2 zelkova logs. BWG saplings grow **out of the box**; the Potion Studios tree pack was **not** needed.
 - [x] **(#5) Mystical Agriculture loop** — ✅ VERIFIED (2026-07-01): Inferium + Prosperity ore found (deepslate, on the **Ancient** island); **Inferium Seed + Inferium Farmland in an Elite Botany Pot grows as intended**. ✅ **Follow-up #62 SHIPPED (v0.172.0):** the **stone** `inferium_ore`/`prosperity_ore` now generate on the **Lush** island (`mysticalagriculture_lush{,_large,_huge}.json`), pairing with the deepslate variants on Ancient. *(In-game throw-a-Lush-seed spot-check still welcome, but the override + gametest are in.)*
-- [ ] **(#9) create-otbwg milling** — ✅ **flower placement SHIPPED (2026-07-01, v0.174.0):** the Meadow (8 grassland biomes) + Lush (3 jungle biomes) families now place BWG millable flowers as island ground cover; every flower verified as a real BWG 2.6.0 block **and** a create-otbwg milling input, gametest-guarded on both nodes. **Remaining in-game check:** throw a **Meadow** seed over `allium_shrubland`/`rose_fields`/`amaranth_grassland` (and a **Lush** seed over `crag_gardens`/`fragment_jungle`), harvest a flower, and confirm it **mills in a Millstone** to its dye/petal output.
+- [x] **(#9) create-otbwg milling** — ✅ **DONE end-to-end (2026-07-01).** Flower placement shipped v0.174.0 (Meadow: 8 grassland biomes + Lush: 3 jungle biomes) and v0.175.0 added a Forest-family flower sprinkle; every flower verified as a real BWG 2.6.0 block **and** a create-otbwg milling input, gametest-guarded on both nodes. **User has now confirmed in-game** that the flowers grow on islands **and** that the create-otbwg milling recipes are present/working (harvested flower → mills to its dye/petal output). Closed.
 
 **Crash-fix smoke tests (CODE_REVIEW 5.1–5.3 — base fixes merged; confirm live behaviour):**
 
@@ -281,10 +296,10 @@ sign-offs are worth doing before the next content lands on top.
 | 6 | Runtime smoke test of void ChunkGenerator with BWG installed | plannednotes.md | medium | small | ✅ done (2026-07-01) | VERIFIED: with BWG installed, no decoration leak at the void floor (y≈-64) and the End central island still generates. |
 | 7 | Add wet-woods BWG theme_override bands (cypress, willow, white-mangrove, palm) | BWGPLAN.md | medium | medium | ✅ done (2026-07-01, v0.171.0) | Ids VERIFIED vs BWG 2.6.0: willow → `bayou`/`bayou_trees`, white-mangrove → `white_mangrove_marshes`, palm kept on `rainbow_beach` by design. Aquatic gametest added; both nodes green. |
 | 8 | Add fantasy-woods BWG theme_override bands (enchanted, skyris, spirit) | BWGPLAN.md | medium | medium | ✅ done (2026-07-01, v0.171.0) | Ids VERIFIED: enchanted_tangle/skyris_vale confirmed; **spirit IS growable via `pale_bog`** (no `spirit_woods` biome). Forest gametest extended to lock the ids. |
-| 9 | Step 3 — Verify create-otbwg milling recipes and place BWG millable flowers on islands | BWGPLAN.md | medium | small | ✅ done (2026-07-01, v0.174.0) | SHIPPED the datapack half: new **Meadow** (`biomeswevegone_meadow{,_large,_huge}`, 8 floral grasslands) + **Lush** (`biomeswevegone_lush{,_large,_huge}`, 3 jungle biomes) families place BWG flowers as island ground cover. Every flower verified as a real BWG 2.6.0 block AND a create-otbwg-compat-1.0 milling input. Gametests (both nodes, 137/137 + 146/146) assert each band places a `biomeswevegone:` flower. **Remaining: in-game live-recipe spot-check** (harvest a grown flower → mill it in a Millstone). |
+| 9 | Step 3 — Verify create-otbwg milling recipes and place BWG millable flowers on islands | BWGPLAN.md | medium | small | ✅ done (2026-07-01, v0.174.0) | SHIPPED the datapack half: new **Meadow** (`biomeswevegone_meadow{,_large,_huge}`, 8 floral grasslands) + **Lush** (`biomeswevegone_lush{,_large,_huge}`, 3 jungle biomes) families place BWG flowers as island ground cover. Every flower verified as a real BWG 2.6.0 block AND a create-otbwg-compat-1.0 milling input. Gametests (both nodes, 137/137 + 146/146) assert each band places a `biomeswevegone:` flower. v0.175.0 also added a Forest-family flower sprinkle. **✅ in-game confirmed (2026-07-01):** flowers grow on islands and the create-otbwg milling recipes are present/working. Closed end-to-end. |
 | 10 | Step 4 — Patchouli guide: add 'Exotic Biomes' entry | BWGPLAN.md | medium | small | ✅ done (2026-07-01) | DONE — `entries/exotic_biomes.json` (basics category), **BWG-gated** via a `mod:biomeswevegone` flag + hidden `reveal_exotic_woods` advancement on the inert `#skyseed:exotic_woods` tag (hidden without BWG, revealed on growing a wood). Modonomicon mirror auto-generates. Tag plank ids VERIFIED vs BWG 2.6.0 (2026-07-01, v0.171.0): dropped non-existent `#biomeswevegone:planks`, fixed `sakura_planks` + split `enchanted` into blue/green. |
 | 11 | Decide: one tech backbone or two (Mekanism vs. IE) | CONTENTPLAN.md | medium | small | ✅ done (2026-07-01) | RESOLVED — **Immersive Engineering**, single backbone; **Mekanism dropped** (aesthetic call). Cascades: #17 dropped, #34 promoted, #35 (Excavator) now must be handled. |
-| 12 | Resolve open decision: villages-only vs. villages + manor + bog trial (STRUCTUREPLAN) | STRUCTUREPLAN.md | medium | small | genuinely-open | Gating decision for the entire (not-started) structure plan; cheap and high-leverage, sequences and bounds every downstream structure resurrection… |
+| 12 | Resolve open decision: villages-only vs. villages + manor + bog trial (STRUCTUREPLAN) | STRUCTUREPLAN.md | medium | small | ✅ done (2026-07-01) | **DECIDED: FULL SCOPE** — all 6 village styles + aspen manor + bog trial (not villages-only). Puts #14/#26/#27/#28/#29/#30 in scope; #49 stays optional. Future long-tail want recorded (more structures than BWG shipped: Create sheds, abandoned Inferium farmlands, …). See STRUCTUREPLAN § Scope decision. |
 | 13 | Confirm BWG village style ↔ biome mapping (esp. salem and forgotten) | STRUCTUREPLAN.md | medium | small | genuinely-open | Direct prerequisite to the villages resurrection — a wrong mapping targets the wrong biome and villages won't grow where intended. Small mechanical… |
 | 14 | Resurrect BWG villages (6 styles) via biome adaptation | STRUCTUREPLAN.md | medium | medium | genuinely-open | Highest-value structure resurrection per the plan — 6 village styles via an existing low-risk mechanism, no bounding-box concern for street-network… |
 | 15 | Curate Quark modules and add Zeta dependency | CONTENTPLAN.md | medium | small | genuinely-open | Low-effort additive building/QoL breadth; mostly config curation once jars are added, giving broad player-facing value cheaply. A good early content… |
@@ -340,6 +355,7 @@ sign-offs are worth doing before the next content lands on top.
 | 65 | Fix **wet-wood tree density / zero-tree cases** — guarantee **≥1 tree on the Small tier** (Aquatic cypress Small = 0, Forest cypress Small = 0) and fix **Huge Bayou growing 0 willow trees**; raise `tries` and/or the minimum island radius so small islands aren't barren. | BWGPLAN.md | medium | small | genuinely-open | In-game (2026-07-01): Small tiers produced 0 cypress; Huge Bayou produced 0 willow at all. A grown wood island with no trees defeats the purpose. |
 | 66 | Investigate the **spirit band failing in-game** — a seed over `pale_bog` produced only oak & birch, no spirit. | BWGPLAN.md | medium | medium | ✅ diagnosed (2026-07-01) — re-test, no code change | ROOT-CAUSED as a **test mislabel, not a defect**: a *matched* biome override **replaces** variants (verified in `IslandGenerator.eff`), so a matched `pale_bog` band emits **only** `spirit_trees` and **can never** yield oak/birch. Biome `pale_bog` + feature `spirit_trees` both exist in the jar; the band is prepended + gametest-asserted; spirit shares the **same** `ohthetreesyoullgrow:tree_from_nbt_v1` type as the working enchanted/skyris. ∴ the oak/birch result means the seed **wasn't over `pale_bog`** (the report self-contradicts with "pale_bog → white mangrove"). **Action:** re-throw over a confirmed `pale_bog` + verify it's reachable in the void multi-noise. No band/code edit. |
 | 67 | Add **crash-fix observability** for 5.2 / 5.3 — log a warning when a drain hits `MAX_DRAIN_TICKS` before completion, and log force-load ticket acquire/release (or document `/forceload query`), so the drain-adequacy and ticket-release sign-offs are actually checkable. | CODE_REVIEW.md | low | small | genuinely-open | In-game (2026-07-01): 5.2/5.3 *behaviour* passed but the user could not verify `MAX_DRAIN_TICKS` adequacy or ticket release — there's no surfaced signal. Small dev-experience/diagnostic add. |
+| 68 | **Future — net-new bespoke structures** beyond BWG's own 17: little **Create sheds** with small working apparatus, **abandoned Inferium farmlands** (derelict MA plots), and similar flavour builds. Same jigsaw-pool + biome-adaptation (or bespoke-seed) vehicle; per-step gametest + version bump. | STRUCTUREPLAN.md | low | large | genuinely-open | User want (2026-07-01) recorded alongside the #12 full-scope decision — the *long-term* structure ambition is more content than BWG shipped, not just resurrecting it. Not scheduled; sits behind the full-scope resurrection (12/14/26–30). |
 
 ---
 

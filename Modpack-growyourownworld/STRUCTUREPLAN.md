@@ -6,8 +6,9 @@
 > the bog trial as growable islands. The audit + triage below are done and current.
 
 > **Plan audit (2026-07-01):** the prerequisite (BWGPLAN Step 1 — wood biome adaptation) is marked ✅ shipped for the
-> forest family, so this plan is now unblocked whenever it's picked up. The scope decision, village↔biome mapping, and
-> the resurrection steps remain open — see [`../PLANOFPLANS.md`](../PLANOFPLANS.md) for their priority.
+> forest family, so this plan is now unblocked whenever it's picked up. **The scope decision is now made — FULL SCOPE**
+> (all villages + manor + bog trial; see [Scope decision](#scope-decision--resolved-2026-07-01-full-scope)). The
+> village↔biome mapping and the resurrection steps remain open — see [`../PLANOFPLANS.md`](../PLANOFPLANS.md) for priority.
 
 ## Audit result: only BWG adds structures
 
@@ -64,6 +65,27 @@ Shares the biome-adaptation vehicle; land *after* BWGPLAN Step 1 (wood islands) 
 
 Each mod step bumps `mod_version` + CHANGELOG, with an inert golden-master gametest (byte-identical without BWG), per the standing rules.
 
-## Open decision
+## Scope decision — ✅ RESOLVED (2026-07-01): FULL SCOPE
 
-First pass — resurrect **just BWG villages** (the clear win: 6 styles, one mechanism, low risk), or **villages + aspen manor + bog trial** together (more content, but the manor/trial carry the vertical-jigsaw risk and want individual gametests)?
+~~First pass — resurrect **just BWG villages**, or **villages + aspen manor + bog trial** together?~~
+
+**Decision (user, 2026-07-01): resurrect everything — all 6 village styles, across all their biomes, AND the special
+structures (aspen manor + bog trial).** No villages-only first pass; the manor and bog trial are in scope now (they
+carry the vertical-jigsaw risk, so each gets its own placement gametest per the Risks section). This resolves
+PLANOFPLANS item #12 and puts items #14 (villages), #26/#27 (manor/trial), #28 (vertical-jigsaw mitigation),
+#29 (on-pad assembly verification) and #30 (per-step release hygiene) all in scope. Prairie houses / rugged fossil
+(#49) remain optional polish. Sequencing (villages → manor+trial → optional polish) is unchanged — full scope means
+we work the whole list, not that order stops mattering.
+
+### Future want (record, don't schedule yet) — MORE structures than BWG originally shipped
+
+Beyond resurrecting BWG's own 17, the eventual goal is **net-new bespoke structures that fit the modpack**, e.g.:
+
+- **Little Create sheds** housing small working apparatus (a token contraption / kinetic gadget on a growable pad).
+- **Abandoned Inferium farmlands** (derelict Mystical Agriculture plots — ruined farmland + a few essence crops to
+  reclaim), tying structures to the MA loop.
+- …and similar flavour builds (the list is open-ended).
+
+These are **future / long-tail**, not part of the current full-scope pass — captured here so the ambition isn't lost.
+Each would follow the same jigsaw-pool + biome-adaptation (or bespoke-seed) vehicle and the standing per-step
+gametest + version-bump discipline. Tracked in PLANOFPLANS' long tail.

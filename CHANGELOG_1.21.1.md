@@ -5,6 +5,27 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.175.0] - 2026-07-01
+
+### Added
+- **A "sprinkle" of BWG flowers on the exotic-wood Forest islands — colour/flavour, not a flower field.** The
+  Forest-family BWG bands (`biomeswevegone_forest.json` + `_large` + `huge_`) previously came up all grass and
+  fern; each now carries a light ground-cover sprinkle (a few % per column, so trees stay the focus) of that
+  biome's *own* signature BWG flora, picked from each biome's real BWG feature list:
+  - aspen_boreal → orange daisy; cika_woods → iris; jacaranda_jungle → guzmania; maple_taiga → rose;
+    ebony_woods → pink/white anemone; zelkova_forest → kovan flower; weeping_witch_forest → white anemone;
+    sakura_grove → japanese orchid; ironwood_gour → california poppy; skyris_vale → fairy slipper + foxglove;
+    pale_bog (spirit) → white sage; dacite_ridges (holly) → iris; black_forest (pine) → black rose;
+    tropical_rainforest (mahogany) → delphinium; fragment_jungle (rainbow eucalyptus) → protea + delphinium.
+  - The two vanilla placeholder flowers became the biome's authentic BWG blooms: enchanted_tangle
+    `minecraft:allium` → fairy slipper + cyan rose; forgotten_forest (florus) `minecraft:poppy` → pink daffodil +
+    angelica.
+  - `baobab_savanna` / `redwood_thicket` keep a bare floor (BWG grows no ground flower there) and
+    `cypress_swamplands` is left as-is (its BWG leather-flowers are climbing, not ground, plants).
+  - Every flower verified as a real BWG 2.6.0 block; unknown ids resolve to nothing (`Lookup.hasBlock`), so this
+    stays inert (byte-identical generation) without BWG installed. Ground flora is per-column, so the 3 tier files
+    share identical bands.
+
 ## [0.174.0] - 2026-07-01
 
 ### Added
