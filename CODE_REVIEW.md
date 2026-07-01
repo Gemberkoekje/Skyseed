@@ -23,11 +23,10 @@ branches and gametest suite rely on the adversarial review plus the project's
 **CI** (which has Maven access and builds + gametests both nodes) as the real
 compiler. Open a PR to `main` to trigger CI before merging.
 
-Two items are **partial** and flagged inline: **8.2** (the real Gradle checksum
-value still needs a machine with network access — the hardening step is
-documented at the spot), and the architectural perf items **5.1/5.2/5.3**
-(implemented conservatively; they change runtime behaviour during island growth
-and shutdown and should be smoke-tested in-game).
+The architectural perf items **5.1/5.2/5.3** are flagged inline: they were
+implemented conservatively and change runtime behaviour during island growth and
+shutdown, so they're worth a quick in-game smoke test even though CI (compile +
+gametests, both nodes) passes.
 
 ## How the list is ordered
 
@@ -283,10 +282,9 @@ and shutdown and should be smoke-tested in-game).
   `gradle/wrapper/gradle-wrapper.properties:3`
   The wrapper download has no integrity check beyond TLS.
   **Fix:** add `distributionSha256Sum=<sha256 of gradle-9.2.1-bin.zip>` (Gradle publishes this).
-  **Fixed (partial — needs the real value):** documented the exact hardening step with a commented
-  `distributionSha256Sum` line in `gradle-wrapper.properties`. The actual checksum couldn't be
-  fetched here (the distribution host is egress-blocked); fill it in + uncomment from a networked
-  machine (`gradle wrapper --gradle-version 9.2.1 --gradle-distribution-sha256-sum <sum>`).
+  **Fixed:** pinned the official Gradle 9.2.1 checksum
+  (`distributionSha256Sum=72f44c9f…6c5bc3f`) in `gradle-wrapper.properties`, so the wrapper now
+  verifies the distribution it downloads. Update it in lockstep whenever `distributionUrl` changes.
 
 - [x] **8.3 — `gh release create` isn't idempotent on the tag-push publish step** *(Low, plausible)*
   `.github/workflows/build.yml:81`
