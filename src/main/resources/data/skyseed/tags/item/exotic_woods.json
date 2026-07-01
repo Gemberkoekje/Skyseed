@@ -1,6 +1,6 @@
 {
+  "_comment": "Inert reveal-trigger tag for the BWG-gated 'Exotic Woods' guide entry (see reveal_exotic_woods.json). Every id is required:false so the tag is EMPTY without BWG (the reveal advancement can then never fire and the entry stays hidden). Plank ids VERIFIED against Oh-The-Biomes-Weve-Gone-NeoForge-2.6.0.jar (2026-07-01). NOTE: there is no #biomeswevegone:planks tag (BWG feeds the vanilla #minecraft:planks tag); we must NOT reference #minecraft:planks here or vanilla planks would fire the reveal, so every exotic wood is listed explicitly.",
   "values": [
-    { "id": "#biomeswevegone:planks", "required": false },
     { "id": "biomeswevegone:aspen_planks", "required": false },
     { "id": "biomeswevegone:baobab_planks", "required": false },
     { "id": "biomeswevegone:cika_planks", "required": false },
@@ -10,13 +10,14 @@
     { "id": "biomeswevegone:redwood_planks", "required": false },
     { "id": "biomeswevegone:zelkova_planks", "required": false },
     { "id": "biomeswevegone:witch_hazel_planks", "required": false },
-    { "id": "biomeswevegone:white_sakura_planks", "required": false },
+    { "id": "biomeswevegone:sakura_planks", "required": false },
     { "id": "biomeswevegone:ironwood_planks", "required": false },
     { "id": "biomeswevegone:cypress_planks", "required": false },
     { "id": "biomeswevegone:willow_planks", "required": false },
     { "id": "biomeswevegone:white_mangrove_planks", "required": false },
     { "id": "biomeswevegone:palm_planks", "required": false },
-    { "id": "biomeswevegone:enchanted_planks", "required": false },
+    { "id": "biomeswevegone:blue_enchanted_planks", "required": false },
+    { "id": "biomeswevegone:green_enchanted_planks", "required": false },
     { "id": "biomeswevegone:skyris_planks", "required": false },
     { "id": "biomeswevegone:spirit_planks", "required": false }
   ]

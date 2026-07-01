@@ -9,6 +9,34 @@ the version-number sequence, so a version can appear in one changelog and not th
 > Stage 3 (generalize/document) in `REFACTORPLAN.md`. The per-feature build plans (the gametest harness, the recipe
 > generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.172.0] - 2026-07-01
+
+### Added
+- **Mystical Agriculture ore on the Lush island.** Shared datapack with the 1.21.1 build: new `mysticalagriculture_lush.json`
+  (+ `_large`/`_huge`, inert without MA) adds the **stone** `inferium_ore`/`prosperity_ore` to the Lush stone core — the
+  accessible bootstrap source MYSTICALPLAN intended, pairing with the **deepslate** variants that already ship on Ancient.
+  Off-dimension forms stay clean (overworld-only theme → neutral empty ores in End/Nether). Mirrored
+  `mystical_agriculture_compat_targets_lush` gametest added to the 26.1.2 native suite.
+
+## [0.171.0] - 2026-07-01
+
+### Added
+- **BWG wet-woods + fantasy-woods islands finalized (ids verified against BWG 2.6.0).** Shared datapack with the 1.21.1
+  build: the wet-woods bands on the **Aquatic** family (water-first: cypress, willow, white-mangrove, palm) and the
+  fantasy-woods bands on the **Forest** family (trees-first: enchanted, skyris, spirit + a cypress multi-seed demo) ship
+  for real, every `biomeswevegone:` id confirmed against `Oh-The-Biomes-Weve-Gone-NeoForge-2.6.0.jar`. Inert without BWG.
+
+### Fixed
+- **Corrected guessed BWG ids** (drafted before a jar was available): willow → `bayou` biome / `bayou_trees` feature
+  (no `willow_trees` exists); white-mangrove → `white_mangrove_marshes` (not `pale_bog`); spirit is growable via
+  `pale_bog` (no `spirit_woods` biome). And the `#skyseed:exotic_woods` reveal tag: dropped the non-existent
+  `#biomeswevegone:planks`, `white_sakura_planks` → `sakura_planks`, `enchanted_planks` → `blue_enchanted_planks` +
+  `green_enchanted_planks`.
+
+### Tests
+- Mirrored into the 26.1.2 native suite: new `biomeswevegone_compat_prepends_aquatic_bands` plus the extended
+  forest-bands test that locks in the corrected ids.
+
 ## [0.170.0] - 2026-06-30
 
 ### Added

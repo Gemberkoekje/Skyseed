@@ -35,24 +35,25 @@
     { "biomes": ["biomeswevegone:ironwood_gour"], "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.15 } ], "variants": [ { "weight": 1, "name": "ironwood", "decoration": {
       "trees": [ { "feature": "biomeswevegone:ironwood_trees", "tries": 4, "spacing": 3 } ],
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 } ] } } ] },
-    { "_comment": "DRAFT (2026-07-01, Q2=distribute): FANTASY woods (enchanted/skyris/spirit) + a trees-first WET-wood overlap (cypress) appended to the Forest family (trees-first priority). The cypress band is the DELIBERATE multi-seed demonstration — the SAME cypress_swamplands biome is water-first on the Aquatic family (biomeswevegone_aquatic.json) and trees-first here. ⚠ IDS UNVERIFIED vs BWG 2.6.0 (see each _verify); remaining ship steps: verify ids, inert gametest, mod_version + CHANGELOG.",
+    { "_comment": "FANTASY woods (enchanted/skyris/spirit) + a trees-first WET-wood overlap (cypress) appended to the Forest family (trees-first priority). The cypress band is the DELIBERATE multi-seed demonstration — the SAME cypress_swamplands biome is water-first on the Aquatic family (biomeswevegone_aquatic.json) and trees-first here. IDS VERIFIED vs BWG 2.6.0 (2026-07-01): biomes enchanted_tangle / skyris_vale / pale_bog / cypress_swamplands + configured features enchanted_trees / skyris_trees / spirit_trees / cypress_trees all exist.",
       "biomes": ["biomeswevegone:enchanted_tangle"],
-      "_verify": "enchanted wood → biome enchanted_tangle (confirm) + feature enchanted_trees",
+      "_verify": "verified: biome enchanted_tangle + configured feature enchanted_trees (a blue_enchanted + green_enchanted random_selector, so both enchanted plank colours drop)",
       "variants": [ { "weight": 1, "name": "enchanted", "decoration": {
       "trees": [ { "feature": "biomeswevegone:enchanted_trees", "tries": 6, "spacing": 2 } ],
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:allium", "chance": 0.05 } ] } } ] },
     { "biomes": ["biomeswevegone:skyris_vale"],
-      "_verify": "skyris wood → biome skyris_vale (confirm) + feature skyris_trees",
+      "_verify": "verified: biome skyris_vale + configured feature skyris_trees",
       "variants": [ { "weight": 1, "name": "skyris", "decoration": {
       "trees": [ { "feature": "biomeswevegone:skyris_trees", "tries": 6, "spacing": 2 } ],
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 } ] } } ] },
-    { "biomes": ["biomeswevegone:spirit_woods"],
-      "_verify": "spirit wood → biome id GUESSED as spirit_woods; the run-2 audit suggests 'spirit' may NOT be an injected BWG biome — CONFIRM, and if it is not injected this band cannot grow via a seed (spirit wood would need a different acquisition path). Feature spirit_trees.",
+    { "biomes": ["biomeswevegone:pale_bog"],
+      "_verify": "verified: spirit wood grows in biome pale_bog (there is NO spirit_woods biome — the earlier guess was wrong; pale_bog places spirit_trees) + configured feature spirit_trees. So spirit wood IS seed-growable after all.",
+      "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.15 } ],
       "variants": [ { "weight": 1, "name": "spirit", "decoration": {
       "trees": [ { "feature": "biomeswevegone:spirit_trees", "tries": 6, "spacing": 2 } ],
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 } ] } } ] },
     { "biomes": ["biomeswevegone:cypress_swamplands"],
-      "_verify": "multi-seed demo — biome cypress_swamplands + feature cypress_trees (trees-first here; water-first on the Aquatic family)",
+      "_verify": "verified: multi-seed demo — biome cypress_swamplands + configured feature cypress_trees (trees-first here; water-first on the Aquatic family)",
       "variants": [ { "weight": 1, "name": "cypress", "decoration": {
       "trees": [ { "feature": "biomeswevegone:cypress_trees", "tries": 6, "spacing": 2 } ],
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 }, { "block": "minecraft:fern", "chance": 0.08 } ] } } ] }

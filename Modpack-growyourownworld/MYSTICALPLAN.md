@@ -3,13 +3,16 @@
 Grounded in the actual jars (MA `8.0.27`, Agradditions `8.0.13`, Botany Pots `21.1.44`, Botany Pots Mystical `21.1.12`).
 Skyseed is now `0.167.0`.
 
-> **Status: DONE — shipped.** The first-party MA `theme_override` compat (deepslate inferium + prosperity on the Ancient
-> island, soulium on Nether Soul) and the Mystical Agriculture quest chapter both merged earlier. Kept for reference;
-> no open work remaining.
+> **Status: DONE — shipped.** The first-party MA `theme_override` compat and the Mystical Agriculture quest chapter both
+> merged. The ore split is now complete: **stone** inferium/prosperity on the **Lush** island (`mysticalagriculture_lush{,_large,_huge}.json`,
+> v0.172.0 — the original §Fix intent) **and** the **deepslate** variants on **Ancient**, plus soulium on Nether Soul.
+> Item #62 (the Lush stone ores) closed 2026-07-01. Only soft follow-ups remain (balance watch, optional Prosperity island).
 
-> **Plan audit (2026-07-01):** the pending in-game quest-book test-load (Build order §3) is marked ✅ complete. A couple
-> of soft follow-ups (a fresh in-game bootstrap-loop sanity check, balance-tuning watch, the optional dedicated Prosperity
-> island) are tracked in [`../PLANOFPLANS.md`](../PLANOFPLANS.md).
+> **Plan audit (2026-07-01):** the pending in-game quest-book test-load (Build order §3) is ✅ complete, and the
+> **in-game bootstrap-loop sanity check (Build order §2) is now ✅ done** — deepslate Inferium/Prosperity ore confirmed on
+> Ancient and the Inferium Seed + Inferium Farmland in an Elite Botany Pot grows as intended. That test surfaced **#62**
+> (stone MA ores on Lush — both stone ores exist in MA 8.0.27). Remaining soft follow-ups (balance-tuning watch, the
+> optional dedicated Prosperity island) are tracked in [`../PLANOFPLANS.md`](../PLANOFPLANS.md).
 
 ## Mods added (roles + deps)
 **Mystical Agriculture family (BlakeBr0):**
@@ -38,10 +41,10 @@ So without Prosperity Ore the whole mod is hard-blocked — and MA ores don't ge
 
 ### Fix — first-party theme-override (mirrors the Create-zinc compat)
 Ship a Skyseed theme-override (data-only, inert without MA, like `data/skyseed/skyseed/theme_override/create_rocky.json`):
-- `mysticalagriculture:prosperity_ore` + `inferium_ore` on a fertile island — **Lush** is the natural home (green + ore-cave vibe), gated mid-game.
-- Their **deepslate** variants (`deepslate_prosperity_ore`/`deepslate_inferium_ore`) in a deep (≤y8) band → "throw it low for the richer ore," consistent with the zinc deep-band. *(Confirm at build time whether Lush has a deep band; if not, put the deepslate variants on the Ancient island instead.)*
-- `mysticalagriculture:soulium_ore` on a **Nether** island (`nether_soul` — soulstone is nether).
-- Files: `mysticalagriculture_lush.json` (+ `_large`/`_huge`), `mysticalagriculture_nether_soul.json`. Add a gametest like `createZincReachesRockyDeepBand`, bump version + CHANGELOG.
+- `mysticalagriculture:prosperity_ore` + `inferium_ore` (the **stone** variants) on a fertile island — **Lush** is the natural home (green + ore-cave vibe), gated mid-game. **✅ SHIPPED (v0.172.0)** — `mysticalagriculture_lush.json` (+ `_large`/`_huge`), stone ores at `core`, inert without MA, `mystical_agriculture_compat_targets_lush` gametest on both nodes.
+- Their **deepslate** variants (`deepslate_prosperity_ore`/`deepslate_inferium_ore`) in a deep (≤y8) band → "throw it low for the richer ore," consistent with the zinc deep-band. **✅ SHIPPED** — placed on the **Ancient** island (`mysticalagriculture_ancient.json` + `_large`/`_huge`; Lush had no deep band, so the fallback was taken).
+- `mysticalagriculture:soulium_ore` on a **Nether** island (`nether_soul` — soulstone is nether). **✅ SHIPPED.**
+- Files: **✅ shipped** `mysticalagriculture_ancient.json` (+ `_large`/`_huge`) + `mysticalagriculture_nether_soul.json` (+ `_large`), with the `mysticalAgricultureCompatTargetsAncient`/`…NetherSoul` gametests. **⏳ #62:** add `mysticalagriculture_lush.json` (+ `_large`/`_huge`) with the **stone** ores on a surface/shallow band + a gametest + version bump. *(In-game test 2026-07-01 confirmed the deepslate ores + the bootstrap loop work; #62 adds the more-accessible stone source the plan first intended.)*
 - *(Alternative: a modpack-side datapack via a global-pack loader — but first-party matches the Create precedent and needs no extra mod.)*
 
 ## The skyblock farming loop (why Botany Pots is the perfect pairing)
@@ -68,7 +71,7 @@ A "Mystical Agriculture" chapter, gated off the Lush/Prosperity island:
 7. **Branches** — Botany Trees (wood), Soulium Dagger (mob seeds), Insanium / Tier-6 (endgame).
 
 ## Build order
-1. **Skyseed first-party MA theme-override** (ore → Lush + nether) + gametest + version bump. *(small, data-only)*
-2. Verify in-game: ore appears on the island, and the MA bootstrap (essence → farmland → seed → pot crop) works.
+1. **Skyseed first-party MA theme-override** — ✅ DONE: deepslate ore → Ancient, **stone ore → Lush (#62, v0.172.0)**, soulium → nether; all with gametests + version bumps.
+2. ✅ **Verify in-game (2026-07-01):** deepslate Inferium/Prosperity ore appears on Ancient, and the MA bootstrap (essence → Inferium Farmland → seed → Elite Botany Pot crop) works. *(Surfaced #62: add the stone ores to Lush.)*
 3. ✅ **MA quest chapter** — shipped; the previously-pending in-game quest-book test-load is **complete**.
 4. *(Later, roadmap)* optional dedicated **Prosperity island** as its own Skyseed seed/tier.

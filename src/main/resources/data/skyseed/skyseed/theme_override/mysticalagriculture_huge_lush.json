@@ -1,0 +1,8 @@
+{
+  "_comment": "First-party Mystical Agriculture compat: STONE inferium + prosperity on the huge Lush island (accessible tier; Ancient carries the deepslate variants). Inert without Mystical Agriculture.",
+  "target": "skyseed:huge_lush",
+  "ores": [
+    { "block": "mysticalagriculture:inferium_ore", "chance": 0.60, "count": { "min": 8, "max": 18 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "mysticalagriculture:prosperity_ore", "chance": 0.50, "count": { "min": 5, "max": 12 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" }
+  ]
+}

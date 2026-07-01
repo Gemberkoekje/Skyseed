@@ -12,9 +12,9 @@ the detail.
 
 ## Headline
 
-- **~65 genuinely-open points** remain, consolidated into **61 ranked items** below (plus the
-  CODE_REVIEW follow-ups).
-- **28 items were already shipped** and have been checked off in their plans — the docs read as far
+- **~62 genuinely-open points** remain, consolidated into the ranked items below (plus the
+  CODE_REVIEW follow-ups). *(2026-07-01: items #1, #4, #7, #8, #10 resolved/shipped — see the [Decisions log](#decisions-log).)*
+- **31+ items were already shipped** and have been checked off in their plans — the docs read as far
   less finished than the repo actually is (CONTENTPLAN especially predates the void ChunkGenerator, the
   Create power backbone, Mystical Agriculture, and the six-chapter quest spine, all since shipped).
 - The best value-per-effort sits entirely in the **top ~13 items** — cheap decisions and shipped-feature
@@ -42,6 +42,29 @@ the detail.
   advancement can never fire and the entry stays hidden on both the Patchouli and Modonomicon backends; `generateGuide`
   maps the entry `advancement` → a `modonomicon:advancement` condition). With BWG, growing an exotic wood reveals it.
   ⚠ The tag's `biomeswevegone:*_planks` ids are best-guesses (like the band ids) — verify against the jar on desktop.
+- **2026-07-01 — items #7, #8 & #10 DONE (ids VERIFIED vs the BWG 2.6.0 jar; v0.171.0).** The jar is in the repo
+  (`Modpack-growyourownworld/overrides/mods/Oh-The-Biomes-Weve-Gone-NeoForge-2.6.0.jar`), so every guessed id was
+  confirmed against it and the drafts finalized. Corrections: willow → `bayou` biome / **`bayou_trees`** feature (no
+  `willow_trees` exists); white-mangrove → **`white_mangrove_marshes`** (not `pale_bog`); **spirit IS growable** via
+  **`pale_bog`** (there is no `spirit_woods` biome); palm keeps `rainbow_beach` (BWG injects `palm_trees` into vanilla
+  beach, so a sandy BWG biome hosts it by design). `TreeEntry` resolves the `feature` against the **configured**-feature
+  registry (confirmed in `Lookup.configuredFeature`). Tag (`exotic_woods.json`): dropped the non-existent
+  `#biomeswevegone:planks`, `white_sakura_planks` → `sakura_planks`, `enchanted_planks` → `blue_enchanted_planks` +
+  `green_enchanted_planks`. Added a `biomeswevegone_compat_prepends_aquatic_bands` gametest + extended the forest one
+  (both nodes); **all 134 1.21.1 gametests pass, both nodes compile.** Remaining for these is only the in-game
+  throw-a-seed sign-off (see checklist).
+- **2026-07-01 — in-game sign-offs #6, #2, #5 all PASS** (user-tested, BWG installed). #6: no void-floor decoration
+  leak, End central island generates. #2: oak + Zelkova (BWG) saplings grow to trees on islands **and** in Elite Botany
+  Pots — BWG saplings work OOTB (no Potion Studios tree pack needed). #5: deepslate Inferium/Prosperity ore on Ancient +
+  the essence→farmland→pot loop works. **New follow-up #62:** #5 surfaced that only the *deepslate* MA ores on Ancient
+  shipped — MYSTICALPLAN §Fix also wanted the **stone** `inferium_ore`/`prosperity_ore` on a **Lush** island (both stone
+  ores exist in MA 8.0.27); added as backlog item #62.
+- **2026-07-01 — item #62 DONE (v0.172.0).** Shipped `mysticalagriculture_lush{,_large,_huge}.json` — the **stone**
+  `inferium_ore`/`prosperity_ore` on the Lush island's stone `core` (Ancient keeps the deepslate variants: Lush =
+  accessible tier, Ancient = deep richer tier). Confirmed via `IslandGenerator.eff` that top-level override ores do **not**
+  leak into the Lush End/Nether forms (off the overworld home dimension → neutral empty-ore default), so the End "clean
+  platform" island stays empty. Added the `mystical_agriculture_compat_targets_lush` gametest to both suites (asserts the
+  stone ores are added and the deepslate ones are not). All gametests pass; both nodes compile.
 
 ## How to read this
 
@@ -54,14 +77,14 @@ the detail.
 
 | Plan | What it covers | Open | ✅ Checked off |
 |---|---|---:|---:|
-| [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | Oh The Biomes We've Gone integration | 10 | 0 |
+| [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | Oh The Biomes We've Gone integration | 7 | 3 |
 | [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration levers | 17 | 11 |
 | [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | BWG structures → growable islands | 10 | 1 |
 | [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | 9 | 5 |
 | [plannednotes.md](plannednotes.md) | Void ChunkGenerator, Trial Chamber, misc | 6 | 0 |
 | [REFACTORPLAN.md](REFACTORPLAN.md) | Multi-version (NeoForge + Stonecutter) refactor | 5 | 1 |
 | [BEAUTIFYPLAN.md](Modpack-growyourownworld/BEAUTIFYPLAN.md) | Modpack visual/aesthetic pass | 4 | 9 |
-| [MYSTICALPLAN.md](Modpack-growyourownworld/MYSTICALPLAN.md) | Mystical Agriculture + Botany Pots | 3 | 1 |
+| [MYSTICALPLAN.md](Modpack-growyourownworld/MYSTICALPLAN.md) | Mystical Agriculture + Botany Pots | 2 | 3 |
 | [CODE_REVIEW.md](CODE_REVIEW.md) | 21 review findings (all fixed + merged via PR #15) | ~5 | — |
 
 ---
@@ -74,11 +97,11 @@ Cheap decisions and validations that either unblock whole chains or confirm a fl
 before more is piled on top.
 
 1. ✅ **Resolve Q2** — ~~concentrate BWG wood bands on the Forest seed vs. distribute across typed seeds~~ **DECIDED 2026-07-01: distribute, priority-ordered per seed** (see [Decisions log](#decisions-log)). Items 7, 8, 9 are now unblocked.
-2. **Verify OTYG sapling→tree growth** for vanilla + BWG saplings. *(BWGPLAN · medium)* — correctness gate: if saplings don't grow OOTB the entire exotic-wood loop is silently broken.
+2. ✅ **Verify OTYG sapling→tree growth** — DONE (2026-07-01): oak + Zelkova saplings grow to trees on islands and in Botany Pots, BWG saplings work OOTB (no Potion Studios pack needed). *(BWGPLAN · medium)*
 3. **Build the BWG quest branch** (Into the Wilds / Mill the Blooms / Grow Something Grand) **under the Tools & Travel chapter**. *(QUESTPLAN / BWGPLAN Step 5 · small)* — the one explicitly-pending quest deliverable; its integration already shipped. Clean quick win.
 4. ✅ **Fix CI-file doc drift** — DONE (2026-07-01): corrected `ci-skyseed.yml`→`build.yml` and the "matrix"→chiseled-fan-out description across README/REFACTORPLAN/CHANGELOG; the "add a version" recipe now correctly says no CI edit is needed. *(REFACTORPLAN · small)*
-5. **Verify Mystical Agriculture in-game** — ore spawn + the prosperity-ore bootstrap loop. *(MYSTICALPLAN · small)*
-6. **Smoke-test the void ChunkGenerator with BWG installed** — confirm no features at y≈-64, End island intact. *(plannednotes · small)*
+5. ✅ **Verify Mystical Agriculture in-game** — DONE (2026-07-01): ore spawn + bootstrap loop confirmed (deepslate ores on Ancient; essence→farmland→pot works). Surfaced follow-up #62 (stone ores on Lush). *(MYSTICALPLAN · small)*
+6. ✅ **Smoke-test the void ChunkGenerator with BWG installed** — DONE (2026-07-01): no features at y≈-64, End central island intact. *(plannednotes · small)*
 10. ✅ **Patchouli "Exotic Woods" entry** — DONE (2026-07-01): authored `entries/exotic_biomes.json` (basics category) describing the already-shipped Forest-over-BWG loop; the Modonomicon mirror auto-generates at build. *(BWGPLAN · small)*
 11. **Decide: one tech backbone or two** (Mekanism vs. IE) — formalize the documented Mekanism-only lean; cascades to items 34/35/38. *(CONTENTPLAN · small)*
 12. **Decide structure scope** — villages-only vs. villages + manor + bog trial. *(STRUCTUREPLAN · small)*
@@ -87,8 +110,8 @@ before more is piled on top.
 
 Highest player-facing value once Q2 (1) and the village↔biome mapping (13) are settled.
 
-7. **Wet-woods BWG bands** (cypress, willow, white-mangrove, palm) — *(BWGPLAN · medium, needs 1)*
-8. **Fantasy-woods BWG bands** (enchanted, skyris, spirit) — *(BWGPLAN · medium, needs 1)*
+7. ✅ **Wet-woods BWG bands** (cypress, willow, white-mangrove, palm) — DONE (2026-07-01, v0.171.0): ids verified vs BWG 2.6.0, willow/white-mangrove ids corrected. *(BWGPLAN · medium)*
+8. ✅ **Fantasy-woods BWG bands** (enchanted, skyris, spirit) — DONE (2026-07-01, v0.171.0): spirit found growable via `pale_bog`. *(BWGPLAN · medium)*
 9. **Verify create-otbwg milling recipes + place millable flowers on islands** — *(BWGPLAN · small, needs 1)*
 13. **Confirm BWG village style ↔ biome mapping** (esp. `salem`, `forgotten`) — *(STRUCTUREPLAN · small)*
 14. **Resurrect BWG villages** (6 styles) via biome adaptation — highest-value structure work. *(STRUCTUREPLAN · medium, needs 13 + 12)*
@@ -153,9 +176,9 @@ sign-offs are worth doing before the next content lands on top.
 
 **Shipped features — sign-off (do soon):**
 
-- [ ] **(#6) Void ChunkGenerator + BWG** — create a world with BWG installed, fly to y≈-64: confirm **no decoration leak** (no stray features/islands at the void floor), and confirm the **End central island** still generates.
-- [ ] **(#2) OTYG sapling→tree growth** — confirm **vanilla and BWG saplings grow to trees**, both on an island and in a **Botany Pot**. If BWG saplings don't grow out of the box, enable the Potion Studios tree pack and re-test.
-- [ ] **(#5) Mystical Agriculture loop** — run the full chain: essence → **Inferium Farmland** → **Prosperity Seed Base** → a resource seed → grow it in a Botany Pot. Confirm the **prosperity-ore bootstrap** works (prosperity ore has no mob drop, so the Ancient/Lush ore island must supply it).
+- [x] **(#6) Void ChunkGenerator + BWG** — ✅ VERIFIED (2026-07-01, BWG installed): **no decoration leak** at the void floor and the **End central island still generates**.
+- [x] **(#2) OTYG sapling→tree growth** — ✅ VERIFIED (2026-07-01): oak *and* **Zelkova (BWG)** saplings both grow to trees on an island **and** in an **Elite Botany Pot** (dirt) — got 3 oak / 2 zelkova logs. BWG saplings grow **out of the box**; the Potion Studios tree pack was **not** needed.
+- [x] **(#5) Mystical Agriculture loop** — ✅ VERIFIED (2026-07-01): Inferium + Prosperity ore found (deepslate, on the **Ancient** island); **Inferium Seed + Inferium Farmland in an Elite Botany Pot grows as intended**. ✅ **Follow-up #62 SHIPPED (v0.172.0):** the **stone** `inferium_ore`/`prosperity_ore` now generate on the **Lush** island (`mysticalagriculture_lush{,_large,_huge}.json`), pairing with the deepslate variants on Ancient. *(In-game throw-a-Lush-seed spot-check still welcome, but the override + gametest are in.)*
 - [ ] **(#9) create-otbwg milling** — spot-check 2–3 milling recipes resolve against BWG ids, and confirm **BWG millable flowers actually spawn on islands** so the compat has inputs.
 
 **Crash-fix smoke tests (CODE_REVIEW 5.1–5.3 — base fixes merged; confirm live behaviour):**
@@ -165,7 +188,7 @@ sign-offs are worth doing before the next content lands on top.
 - [ ] **(5.3)** Force-load twin islands — throw a twin seed; verify the **player-less Nether-side island fully populates** and the force-load ticket **releases** on completion.
 - [ ] Confirm the merged **CI run (PR #15, both nodes) went green**.
 
-**New BWG draft content — after the ids in `biomeswevegone_aquatic.json` / `_forest*` are verified (#7/#8):**
+**New BWG wet/fantasy wood content — ids now VERIFIED vs BWG 2.6.0 (2026-07-01, v0.171.0); these throw-a-seed sign-offs remain (#7/#8):**
 
 - [ ] Throw an **Aquatic** seed over `cypress_swamplands` → confirm a **water-first** island (pond dominant, cypress trees secondary).
 - [ ] Throw a **Forest** seed over the *same* `cypress_swamplands` → confirm a **trees-first** island (dense cypress, minimal water). *(This is the multi-seed / per-seed-priority model working.)*
@@ -175,7 +198,7 @@ sign-offs are worth doing before the next content lands on top.
 **Quests — after authoring:**
 
 - [ ] **(#3) BWG quest branch** (under Tools & Travel) loads in-game — quest-book test-load; tasks/rewards resolve.
-- [ ] **(#10) "Exotic Woods" guide page** — confirm it is **hidden** on a world with **BWG absent**, and **appears** (in Getting Started) once BWG is installed and you've obtained a BWG plank (the hidden `skyseed:reveal_exotic_woods` advancement fires). Check both the Patchouli book and the Modonomicon Almanac. *(Depends on the `#skyseed:exotic_woods` tag plank ids being verified — see below.)*
+- [ ] **(#10) "Exotic Woods" guide page** — confirm it is **hidden** on a world with **BWG absent**, and **appears** (in Getting Started) once BWG is installed and you've obtained a BWG plank (the hidden `skyseed:reveal_exotic_woods` advancement fires). Check both the Patchouli book and the Modonomicon Almanac. *(The `#skyseed:exotic_woods` tag plank ids are now verified vs BWG 2.6.0 — v0.171.0.)*
 
 **Balance & polish — observe during a normal playthrough:**
 
@@ -193,15 +216,15 @@ sign-offs are worth doing before the next content lands on top.
 | # | Item | Plan | Priority | Effort | Status | Why (ranking rationale) |
 |---|---|---|---|---|---|---|
 | 1 | ✅ **RESOLVED** — Q2: **distribute** BWG bands across typed seeds, priority-ordered per seed (aquatic=water-first, forest=trees-first, lush=extreme nature); same biome may appear in multiple families. See BWGPLAN §Q2. | BWGPLAN.md | high | small | ✅ done (2026-07-01) | Was the top blocker; now decided — the wet/fantasy wood-band authoring (#7/#8) and millable-flower placement (#9) are unblocked. |
-| 2 | Step 2 — Verify OTYG sapling→tree growth for vanilla + BWG saplings | BWGPLAN.md | high | medium | genuinely-open | OTYG's entire value is sapling growth; if BWG (or vanilla) saplings don't grow, the exotic-wood replanting loop that all the band work relies on is… |
+| 2 | Step 2 — Verify OTYG sapling→tree growth for vanilla + BWG saplings | BWGPLAN.md | high | medium | ✅ done (2026-07-01) | VERIFIED in-game: oak + Zelkova (BWG) saplings grow to trees on islands and in Elite Botany Pots (3 oak / 2 zelkova logs); BWG saplings grow OOTB — the Potion Studios tree pack was not needed. |
 | 3 | Build the BWG quest branch (Into the Wilds / Mill the Blooms / Grow Something Grand) **under the Tools & Travel chapter** (BWGPLAN Step 5) | QUESTPLAN.md / BWGPLAN.md | high | small | genuinely-open | The single explicitly-pending quest deliverable whose dependency (BWG island/resource integration) is already shipped, so it is immediately actionable. Lives under Tools & Travel (an explore-the-wilds line), not the Skyseed spine. |
 | 4 | Reconcile plan/changelog CI-file references with the actual workflow (documentation drift) | REFACTORPLAN.md | medium | small | ✅ done (2026-07-01) | DONE — fixed `ci-skyseed.yml`→`build.yml` + "matrix"→chiseled-fan-out in README/REFACTORPLAN/CHANGELOG; "add a version" recipe now says no CI edit needed. |
-| 5 | Verify the MA integration in-game (ore spawn + bootstrap loop) | MYSTICALPLAN.md | medium | small | partially-done | MA is fully shipped and is the pack's renewable pillar; a single quick playtest de-risks the release's core loop before shipping. Low cost,… |
-| 6 | Runtime smoke test of void ChunkGenerator with BWG installed | plannednotes.md | medium | small | genuinely-open | Only remaining sign-off for the confirmed TerraBlender/BWG decoration-leak fix — the mod's central worldgen-correctness feature. Low effort, closes… |
-| 7 | Add wet-woods BWG theme_override bands (cypress, willow, white-mangrove, palm) | BWGPLAN.md | medium | medium | 🟡 drafted — pending id verification | DRAFTED on the Aquatic family (water-first) in `biomeswevegone_aquatic{,_large,huge_}.json`. Remaining: verify BWG ids + gametest + version bump. |
-| 8 | Add fantasy-woods BWG theme_override bands (enchanted, skyris, spirit) | BWGPLAN.md | medium | medium | 🟡 drafted — pending id verification | DRAFTED on the Forest family (trees-first), appended to `biomeswevegone_forest{,_large,huge_}.json` (+ a cypress multi-seed-demo overlap). Remaining: verify BWG ids (esp. whether a `spirit` biome exists) + gametest + version bump. |
+| 5 | Verify the MA integration in-game (ore spawn + bootstrap loop) | MYSTICALPLAN.md | medium | small | ✅ done (2026-07-01) | VERIFIED: deepslate Inferium + Prosperity ore on Ancient; Inferium Seed + Inferium Farmland in an Elite Botany Pot grows as intended. Surfaced follow-up #62 (stone ores on Lush). |
+| 6 | Runtime smoke test of void ChunkGenerator with BWG installed | plannednotes.md | medium | small | ✅ done (2026-07-01) | VERIFIED: with BWG installed, no decoration leak at the void floor (y≈-64) and the End central island still generates. |
+| 7 | Add wet-woods BWG theme_override bands (cypress, willow, white-mangrove, palm) | BWGPLAN.md | medium | medium | ✅ done (2026-07-01, v0.171.0) | Ids VERIFIED vs BWG 2.6.0: willow → `bayou`/`bayou_trees`, white-mangrove → `white_mangrove_marshes`, palm kept on `rainbow_beach` by design. Aquatic gametest added; both nodes green. |
+| 8 | Add fantasy-woods BWG theme_override bands (enchanted, skyris, spirit) | BWGPLAN.md | medium | medium | ✅ done (2026-07-01, v0.171.0) | Ids VERIFIED: enchanted_tangle/skyris_vale confirmed; **spirit IS growable via `pale_bog`** (no `spirit_woods` biome). Forest gametest extended to lock the ids. |
 | 9 | Step 3 — Verify create-otbwg milling recipes and place BWG millable flowers on islands | BWGPLAN.md | medium | small | genuinely-open | The 94-recipe compat does nothing without inputs on islands. Recipe check is small, but real value is coupled to the lush/meadow band work that… |
-| 10 | Step 4 — Patchouli guide: add 'Exotic Biomes' entry | BWGPLAN.md | medium | small | ✅ done (2026-07-01) | DONE — `entries/exotic_biomes.json` (basics category), **BWG-gated** via a `mod:biomeswevegone` flag + hidden `reveal_exotic_woods` advancement on the inert `#skyseed:exotic_woods` tag (hidden without BWG, revealed on growing a wood). Modonomicon mirror auto-generates. Tag plank ids need jar verification. |
+| 10 | Step 4 — Patchouli guide: add 'Exotic Biomes' entry | BWGPLAN.md | medium | small | ✅ done (2026-07-01) | DONE — `entries/exotic_biomes.json` (basics category), **BWG-gated** via a `mod:biomeswevegone` flag + hidden `reveal_exotic_woods` advancement on the inert `#skyseed:exotic_woods` tag (hidden without BWG, revealed on growing a wood). Modonomicon mirror auto-generates. Tag plank ids VERIFIED vs BWG 2.6.0 (2026-07-01, v0.171.0): dropped non-existent `#biomeswevegone:planks`, fixed `sakura_planks` + split `enchanted` into blue/green. |
 | 11 | Decide: one tech backbone or two (Mekanism vs. IE) | CONTENTPLAN.md | medium | small | partially-done | Near-free decision with a documented default that prevents duplicated large tech-tier effort and cascades to resolve the IE, Excavator, and… |
 | 12 | Resolve open decision: villages-only vs. villages + manor + bog trial (STRUCTUREPLAN) | STRUCTUREPLAN.md | medium | small | genuinely-open | Gating decision for the entire (not-started) structure plan; cheap and high-leverage, sequences and bounds every downstream structure resurrection… |
 | 13 | Confirm BWG village style ↔ biome mapping (esp. salem and forgotten) | STRUCTUREPLAN.md | medium | small | genuinely-open | Direct prerequisite to the villages resurrection — a wrong mapping targets the wrong biome and villages won't grow where intended. Small mechanical… |
@@ -253,6 +276,7 @@ sign-offs are worth doing before the next content lands on top.
 | 59 | Add further Minecraft/NeoForge version nodes as wanted | REFACTORPLAN.md | low | large | genuinely-open | Delivers the refactor's core promise but no third target is currently chosen and each node is a multi-session grind; discretionary. |
 | 60 | (Deferred alternative) Dedicated structure seeds instead of biome adaptation | STRUCTUREPLAN.md | low | medium | genuinely-open | Both plans judge it likely unnecessary (adaptation + existing vanilla-analogue seeds cover it); lowest-priority fallback, not planned to be used. |
 | 61 | Trial Chamber: clean rebuild and visual comparison against a vanilla trial chamber | plannednotes.md | low | small | genuinely-open | A gated human sign-off that cannot start until the upstream polish tasks (24, 25, 33) are attempted; verification, not dev work. Placed after them. |
+| 62 | Add **stone** inferium/prosperity MA ores to the **Lush** island (new `mysticalagriculture_lush.json` + `_large`/`_huge`) | MYSTICALPLAN.md | medium | small | ✅ done (2026-07-01, v0.172.0) | SHIPPED: `mysticalagriculture_lush{,_large,_huge}.json` add the stone `inferium_ore`/`prosperity_ore` at `core` (Lush's core is stone); Ancient keeps the deepslate variants. Off-dimension safe (overworld-only theme → neutral empty ores in End/Nether). `mystical_agriculture_compat_targets_lush` gametest on both nodes; all gametests pass, both nodes compile. |
 
 ---
 

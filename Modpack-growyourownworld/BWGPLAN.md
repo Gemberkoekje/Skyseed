@@ -14,9 +14,9 @@
 - **Q2 — concentrate vs distribute → ✅ RESOLVED: DISTRIBUTE (per typed seed, priority-ordered — see Q2 below).** The **wet woods** (cypress/willow/white-mangrove/palm) and **fantasy woods** (enchanted/skyris/spirit) are now **DRAFTED (2026-07-01), pending id verification**:
   - **Wet woods → Aquatic family (water-first):** new `biomeswevegone_aquatic.json` (+ `_large`, `huge_`) — pond-dominant bands with the BWG wet-wood trees as the secondary layer.
   - **Fantasy woods → Forest family (trees-first):** appended to `biomeswevegone_forest.json` (+ `_large`, `huge_`). The same files also gained a **trees-first `cypress` overlap** as the deliberate multi-seed demo (cypress is water-first on Aquatic, trees-first on Forest).
-  - **⚠ Remaining ship steps before merge:** (1) **verify every `biomeswevegone:` biome id + `*_trees` feature id against the BWG 2.6.0 jar** — all are best-guesses flagged in each file's `_verify` (esp. `willow`/`white_mangrove`/`palm` biomes and whether a `spirit` biome is even injected); (2) add an inert golden-master **gametest** per set; (3) bump `mod_version` + CHANGELOG. Tree tries / pond sizes are provisional and tunable in-game.
+  - **✅ SHIPPED (2026-07-01, v0.171.0).** All ids **verified against the BWG 2.6.0 jar** and corrected: willow → `bayou` biome / `bayou_trees` feature (no `willow_trees` exists), white_mangrove → `white_mangrove_marshes` (not `pale_bog`), **spirit IS growable** via `pale_bog` (there is no `spirit_woods` biome), palm kept on the sandy `rainbow_beach` by design (BWG injects `palm_trees` into vanilla beach). `feature` resolves against the **configured**-feature registry. Added `biomeswevegone_compat_prepends_aquatic_bands` + extended the forest gametest (both nodes); `mod_version`/CHANGELOG bumped. Tree tries / pond sizes remain tunable in-game.
 - **Density follow-up:** lift the *held* wet/semi forest biomes (mangrove/swamp/riverside, cherry/grove/mushroom/bamboo/flower) to the agreed level — held pending the in-game density read, now confirmed good.
-- **Step 4 (Patchouli "Exotic Woods" entry) ✅ DONE.** **Step 2 (OTYG verification), Step 3 (create-otbwg verification), Step 5 (the light quest branch — now under Tools & Travel), and the rest of Step 4 (config curation + `mods.txt` regen)** — still to do.
+- **Step 2 (OTYG verification) ✅ DONE (2026-07-01)** and **Step 4 (Patchouli "Exotic Woods" entry) ✅ DONE.** **Step 3 (create-otbwg verification), Step 5 (the light quest branch — now under Tools & Travel), and the rest of Step 4 (config curation + `mods.txt` regen)** — still to do.
 - **STRUCTUREPLAN** (BWG village/manor/trial resurrection) — its own later child changeset.
 
 ## The three mods
@@ -74,11 +74,11 @@ Notes:
 
 Scope discipline: do **not** map all 55. Cover the signature **wood** biomes (so every BWG plank is reachable) + a couple of iconic floral biomes (to feed the milling compat). The rest land later.
 
-## Step 2 — OTYG (sapling growth)
+## Step 2 — OTYG (sapling growth) — ✅ VERIFIED (2026-07-01)
 
-- **Verify** OTYG ships sapling→tree mappings for vanilla + BWG saplings, or whether it needs a Potion Studios tree-pack datapack (the jar carried only `test` trees). If BWG saplings don't grow under OTYG out of the box, add/enable the tree pack.
-- Confirm OTYG's bigger-tree growth works **in Botany Pots** (the pack's tree-farming path) and on islands.
-- `skip_decoration: true` already neutralises OTYG worldgen — no leak. Review `config/ohthetreesyoullgrow*` for growth/worldgen toggles.
+- ✅ **Verified in-game:** vanilla **oak** and BWG **Zelkova** saplings both grow to trees. **BWG saplings grow out of the box** — the Potion Studios tree-pack datapack was **not** needed.
+- ✅ **Botany Pots path works:** Elite Botany Pot + dirt + Zelkova sapling → 2 zelkova logs; + oak sapling → 3 oak logs. Growth works both on islands and in pots.
+- `skip_decoration: true` already neutralises OTYG worldgen — no leak. *(Config review of `config/ohthetreesyoullgrow*` for growth/worldgen toggles rolls into the Step 4 config-curation pass; nothing needed for growth to work.)*
 
 ## Step 3 — create-otbwg-compat (verify only)
 
