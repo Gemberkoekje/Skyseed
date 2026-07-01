@@ -115,6 +115,22 @@ public final class SkyseedGameTests {
         return null;
     }
 
+    /** True if any variant of {@code band} places at least one ground block in the {@code namespace} (e.g. a BWG
+     *  millable flower). Uses {@code var} for the ground entry to avoid a GroundEntry import. */
+    private static boolean groundHasNamespace(BiomeOverride band, String namespace) {
+        if (band == null || band.variants().isEmpty()) {
+            return false;
+        }
+        for (Variant v : band.variants().get()) {
+            for (var g : v.decoration().ground()) {
+                if (namespace.equals(g.block().namespace())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /** Plan an island for {@code themeName} around the test region, with a fixed seed for reproducibility. */
     private static IslandPlan plan(GameTestHelper helper, String themeName, long seed) {
         final ServerLevel level = helper.getLevel();
@@ -267,6 +283,36 @@ public final class SkyseedGameTests {
         helper.assertTrue(spirit != null, "spirit wood must be keyed to biomeswevegone:pale_bog (its real host biome)");
         helper.assertTrue("biomeswevegone:spirit_trees".equals(firstTreeFeature(spirit)),
                 "the pale_bog band must grow biomeswevegone:spirit_trees");
+        // Plank-coverage woods (#63): the 5 previously-uncovered growable planks. Each keys its DEDICATED configured
+        // feature (BWG 2.6.0 verified) so a single clean plank drops — regression guard against a stale staged copy
+        // or a wrong feature id.
+        final BiomeOverride florus = bandFor(resolved, "biomeswevegone:forgotten_forest");
+        helper.assertTrue(florus != null && "biomeswevegone:florus_trees".equals(firstTreeFeature(florus)),
+                "forest should grow florus via forgotten_forest → florus_trees");
+        final BiomeOverride holly = bandFor(resolved, "biomeswevegone:dacite_ridges");
+        helper.assertTrue(holly != null && "biomeswevegone:holly_trees".equals(firstTreeFeature(holly)),
+                "forest should grow holly via dacite_ridges → holly_trees");
+        // pine has NO *_trees aggregate in 2.6.0 — the band targets pine_tree1 (+ pine_tree2) directly.
+        final BiomeOverride pine = bandFor(resolved, "biomeswevegone:black_forest");
+        helper.assertTrue(pine != null && "biomeswevegone:pine_tree1".equals(firstTreeFeature(pine)),
+                "forest should grow pine via black_forest → pine_tree1 (no pine_trees aggregate exists)");
+        final BiomeOverride mahogany = bandFor(resolved, "biomeswevegone:tropical_rainforest");
+        helper.assertTrue(mahogany != null && "biomeswevegone:mahogany_trees".equals(firstTreeFeature(mahogany)),
+                "forest should grow mahogany via tropical_rainforest → mahogany_trees");
+        final BiomeOverride eucalyptus = bandFor(resolved, "biomeswevegone:fragment_jungle");
+        helper.assertTrue(eucalyptus != null && "biomeswevegone:rainbow_eucalyptus_trees".equals(firstTreeFeature(eucalyptus)),
+                "forest should grow rainbow_eucalyptus via fragment_jungle → rainbow_eucalyptus_trees");
+        // fir is intentionally non-growable (BWG 2.6.0 ships fir_planks but NO configured fir tree feature): no band tries it.
+        boolean anyFir = false;
+        for (BiomeOverride b : resolved.biomeOverrides()) {
+            if (b.variants().isEmpty()) continue;
+            for (Variant v : b.variants().get()) {
+                for (TreeEntry t : v.decoration().trees()) {
+                    if (t.feature().path().startsWith("fir_")) anyFir = true;
+                }
+            }
+        }
+        helper.assertTrue(!anyFir, "no BWG band should reference a fir tree feature (fir is non-growable in BWG 2.6.0)");
         helper.succeed();
     }
 
@@ -299,6 +345,44 @@ public final class SkyseedGameTests {
                 "white_mangrove must be keyed to biomeswevegone:white_mangrove_marshes");
         helper.assertTrue(bands.stream().noneMatch(b -> b.biomes().contains("biomeswevegone:pale_bog")),
                 "aquatic must not key white_mangrove to pale_bog (that is the spirit biome)");
+        helper.succeed();
+    }
+
+    /** The shipped first-party BWG MILLABLE-FLOWERS compat (Meadow family, backlog #9): a Meadow seed over a BWG floral
+     *  grassland grows a flower-field island whose ground cover is that biome's create-otbwg-millable flowers. Guards
+     *  that the bands are present and actually place biomeswevegone: flora (so the create-otbwg compat has inputs).
+     *  Inert without BWG (unknown flower ids resolve to nothing → byte-identical generation). */
+    @GameTest(template = REGION)
+    public static void biomeswevegoneCompatPlacesMeadowFlowers(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:meadow"));
+        helper.assertTrue(resolved != null, "meadow must resolve");
+        // Each floral-grassland band must exist AND place at least one BWG flower as ground cover (the milling input).
+        for (String biome : new String[]{
+                "biomeswevegone:allium_shrubland", "biomeswevegone:amaranth_grassland", "biomeswevegone:rose_fields",
+                "biomeswevegone:coconino_meadow", "biomeswevegone:orchard", "biomeswevegone:prairie",
+                "biomeswevegone:temperate_grove", "biomeswevegone:firecracker_chaparral"}) {
+            final BiomeOverride band = bandFor(resolved, biome);
+            helper.assertTrue(band != null, "meadow should include the BWG floral band for " + biome);
+            helper.assertTrue(groundHasNamespace(band, "biomeswevegone"),
+                    "the " + biome + " band must place a biomeswevegone millable flower as ground cover");
+        }
+        helper.succeed();
+    }
+
+    /** The shipped first-party BWG MILLABLE-FLOWERS compat (Lush family, backlog #9): a Lush seed over a BWG jungle
+     *  biome grows a flora-first island dense with tropical millable blooms. tropical_rainforest / fragment_jungle also
+     *  ride the Forest family (trees-first) — the deliberate Q2 multi-seed overlap; here they are flora-first. */
+    @GameTest(template = REGION)
+    public static void biomeswevegoneCompatPlacesLushFlowers(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:lush"));
+        helper.assertTrue(resolved != null, "lush must resolve");
+        for (String biome : new String[]{
+                "biomeswevegone:crag_gardens", "biomeswevegone:tropical_rainforest", "biomeswevegone:fragment_jungle"}) {
+            final BiomeOverride band = bandFor(resolved, biome);
+            helper.assertTrue(band != null, "lush should include the BWG jungle-flora band for " + biome);
+            helper.assertTrue(groundHasNamespace(band, "biomeswevegone"),
+                    "the " + biome + " band must place a biomeswevegone millable flower as ground cover");
+        }
         helper.succeed();
     }
 

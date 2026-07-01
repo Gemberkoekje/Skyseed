@@ -56,6 +56,34 @@
       "_verify": "verified: multi-seed demo — biome cypress_swamplands + configured feature cypress_trees (trees-first here; water-first on the Aquatic family)",
       "variants": [ { "weight": 1, "name": "cypress", "decoration": {
       "trees": [ { "feature": "biomeswevegone:cypress_trees", "tries": 120, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 }, { "block": "minecraft:fern", "chance": 0.08 } ] } } ] }
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 }, { "block": "minecraft:fern", "chance": 0.08 } ] } } ] },
+    { "_comment": "PLANK-COVERAGE woods (backlog #63) — HUGE tier, tries scaled up. See biomeswevegone_forest.json for the full rationale + id verification (BWG 2.6.0, 2026-07-01). florus/holly/pine/mahogany/rainbow_eucalyptus target dedicated features; fir intentionally absent (no configured fir tree feature exists).",
+      "biomes": ["biomeswevegone:forgotten_forest"],
+      "_verify": "verified: biome forgotten_forest + dedicated configured feature florus_trees",
+      "variants": [ { "weight": 1, "name": "florus", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:florus_trees", "tries": 120, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.35 }, { "block": "minecraft:poppy", "chance": 0.05 } ] } } ] },
+    { "biomes": ["biomeswevegone:dacite_ridges"],
+      "_verify": "verified: biome dacite_ridges + dedicated configured feature holly_trees",
+      "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.10 } ],
+      "variants": [ { "weight": 1, "name": "holly", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:holly_trees", "tries": 120, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+    { "biomes": ["biomeswevegone:black_forest"],
+      "_verify": "verified: biome black_forest + features pine_tree1 + pine_tree2 (no pine_trees aggregate exists in 2.6.0)",
+      "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.20 } ],
+      "variants": [ { "weight": 1, "name": "pine", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:pine_tree1", "tries": 60, "spacing": 2 }, { "feature": "biomeswevegone:pine_tree2", "tries": 60, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.15 } ] } } ] },
+    { "biomes": ["biomeswevegone:tropical_rainforest"],
+      "_verify": "verified: biome tropical_rainforest + dedicated configured feature mahogany_trees",
+      "variants": [ { "weight": 1, "name": "mahogany", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:mahogany_trees", "tries": 120, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+    { "biomes": ["biomeswevegone:fragment_jungle"],
+      "_verify": "verified: biome fragment_jungle + dedicated configured feature rainbow_eucalyptus_trees (large trees — spacing 3)",
+      "variants": [ { "weight": 1, "name": "rainbow_eucalyptus", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:rainbow_eucalyptus_trees", "tries": 70, "spacing": 3 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] }
   ]
 }

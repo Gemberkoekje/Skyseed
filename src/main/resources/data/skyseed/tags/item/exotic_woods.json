@@ -19,6 +19,11 @@
     { "id": "biomeswevegone:blue_enchanted_planks", "required": false },
     { "id": "biomeswevegone:green_enchanted_planks", "required": false },
     { "id": "biomeswevegone:skyris_planks", "required": false },
-    { "id": "biomeswevegone:spirit_planks", "required": false }
+    { "id": "biomeswevegone:spirit_planks", "required": false },
+    { "id": "biomeswevegone:florus_planks", "required": false },
+    { "id": "biomeswevegone:holly_planks", "required": false },
+    { "id": "biomeswevegone:pine_planks", "required": false },
+    { "id": "biomeswevegone:mahogany_planks", "required": false },
+    { "id": "biomeswevegone:rainbow_eucalyptus_planks", "required": false }
   ]
 }

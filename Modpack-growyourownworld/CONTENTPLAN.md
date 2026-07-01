@@ -58,14 +58,15 @@ the heavy FE generators → **AE2** consumes FE for storage/automation.
 ## 2. Per-mod integration
 
 ### Tech (FE grid)
-- **Mekanism** — gateway **Osmium** (+ Tin, Lead; late: Uranium, Fluorite). Salt is renewable via Mekanism's
-  own brine evaporation (no worldgen). *Plan:* new **Industrial ore island** (Osmium/Tin/Lead); deeper
-  huge/late island for Uranium/Fluorite. Its 2x→5x ore-processing means one osmium island bootstraps
-  everything. Disable worldgen ore retrogen (inert anyway). Deps: optional MekanismGenerators/Tools/Additions.
-- **Immersive Engineering** — gateway **Bauxite/Aluminum** (+ uses Copper [vanilla], Lead, Silver, Nickel).
-  *Plan:* IE ore island (bauxite/silver/nickel). ⚠️ **Excavator** samples worldgen mineral veins that don't
-  exist in void — the one un-rehomable mechanic; either remove its recipe or accept it's dead and supply
-  aluminum via island. Everything else works.
+- **Mekanism** — ❌ **DROPPED (2026-07-01): the pack standardizes on Immersive Engineering instead** (Mekanism reads
+  as too blocky/boring — aesthetic call, see §7). Detail kept for reference only: gateway **Osmium** (+ Tin, Lead;
+  late: Uranium, Fluorite); *Plan (not pursued):* an Industrial ore island (Osmium/Tin/Lead) with a deeper huge/late
+  island for Uranium/Fluorite.
+- **Immersive Engineering** — ✅ **the chosen tech backbone (2026-07-01).** Gateway **Bauxite/Aluminum** (+ uses
+  Copper [vanilla], Lead, Silver, Nickel). *Plan:* IE ore island (bauxite/silver/nickel) + FE integration. ⚠️
+  **Excavator** samples worldgen mineral veins that don't exist in void — the one un-rehomable mechanic. **Two
+  approaches to try (§7):** (1) patch it to derive its ore mix from the **island it's built on**, or (2) disable it
+  entirely and supply aluminum via the ore island. Everything else works.
 - **Applied Energistics 2** — gateway **Certus Quartz + Sky Stone** (normally from meteorites). AE2
   self-multiplies via budding certus + crystal growth, so we only **bootstrap**: a small "meteorite island"
   seed (sky stone + certus + a budding certus block) or a recipe; AE2 sustains itself after. Disable meteorite
@@ -161,17 +162,18 @@ Avoid piling on overlapping addons — keep it focused.
 | 5 | Quark | Med-High | Low | Building/QoL breadth via config curation. |
 | 6 | Farmer's Delight | High | Med | Cozy, on-theme; crop injection onto biome islands. |
 | 7 | Applied Energistics 2 | High | Med | Storage endgame; self-multiplies after a certus bootstrap. |
-| 8 | Mekanism | High | High | The big tech tier — back-load it. |
+| 8 | ~~Mekanism~~ | — | — | ❌ **DROPPED (2026-07-01)** — IE is the tech backbone instead (aesthetic; see §7). |
 | 9 | Critters & Companions | Low-Med | Low | Flavor; likely spawns on biome islands. |
 | 10 | Productive Bees | Med | Med | Renewable, but overlaps Mystical Agriculture. |
-| 11 | Immersive Engineering | Med | High | ⚠️ Redundant w/ Mekanism + Excavator can't work in void. |
+| 11 | ✅ **Immersive Engineering** | **High** | High | **The chosen tech backbone (2026-07-01).** Excavator needs a fix — patch to island-based ore mix, or disable (§7). |
 | 12 | Iron's Spells | Med | High | ⚠️ Loot/mob-gated → heavy injection; partial without it. |
 
 - **Most value / least effort:** rows 1–6 — gets you a fun, automatable, good-looking pack fast.
-- **Least value / most effort:** Immersive Engineering & Iron's Spells — defer or scope down (taste re-ranks these
-  if IE's aesthetic or magic is a personal headline for you).
+- **Least value / most effort:** Iron's Spells — defer or scope down. *(Immersive Engineering was ranked here, but
+  taste re-ranked it: it's now the chosen tech backbone over Mekanism — see §7. The "IE's aesthetic is a personal
+  headline" case came true.)*
 - **FTB Quests:** author *last*, over the final set (its effort scales with the mod count).
-- Settles several §7 decisions: Myst Ag *first*, IE Excavator → drop, lean **Mekanism-only**.
+- Settles several §7 decisions: Myst Ag *first*; tech backbone = **Immersive Engineering** (Mekanism dropped — aesthetic); IE **Excavator** → patch-to-island-aware *or* disable (TODO, §7).
 
 ### Integration workflow (phases)
 
@@ -184,7 +186,7 @@ Avoid piling on overlapping addons — keep it focused.
    supersedes the old per-mod "is its worldgen disablable?" check.
 2. ✅ **Add mods + deps**, then `./gen-mods-txt.ps1` to refresh the manifest. **DONE** — `mods.txt` current at 92 mods.
 3. ✅ **Power backbone** — Create + Crafts & Additions + Flux Networks **shipped**. *(Still open: prove FE flows Create→Mek/IE/AE2 across islands — moot until a consumer mod lands.)*
-4. **Tech bootstraps** — Mekanism osmium island, IE bauxite island, AE2 certus/sky-stone bootstrap.
+4. **Tech bootstraps** — **IE bauxite/aluminum island** (the tech backbone), AE2 certus/sky-stone bootstrap. *(Mekanism osmium island dropped — see §7.)*
 5. **Renewable engines** — Mystical Agriculture + Productive Bees starters.
 6. **Content & palette** — Silent Gear (works now), Farmer's Delight crops on biome islands, Critters spawns,
    Iron's Spells loot injection, Quark module curation, BYG palette for new tiers.
@@ -215,9 +217,19 @@ Deps: **Architectury API + FTB Library + FTB Teams**.
 
 ## 7. Open design decisions
 
-- **One tech backbone or two?** Mekanism and IE overlap (power + ore-doubling). Both is fine/common, just
-  redundant — decide if you want the breadth or a leaner spine.
-- **IE Excavator** — drop the recipe, or leave it installed-but-dead?
+- **One tech backbone or two? ✅ DECIDED (2026-07-01) — Immersive Engineering, single backbone; Mekanism dropped.**
+  Mekanism and IE overlap (power + ore-doubling); rather than ship both, the pack standardizes on **IE**. The
+  reason is **aesthetic** — Mekanism's machines read as too blocky/boring, whereas IE's multiblock/diesel look is
+  the headline the player wants. (This is exactly the "taste re-ranks these" case flagged in §5.) Consequence: the
+  Mekanism osmium-island integration is **not** pursued; the tech-tier bootstrap is the **IE bauxite/aluminum island**.
+- **IE Excavator ✅ SCOPED (2026-07-01) — must be handled now that IE is the backbone.** The Excavator samples
+  **worldgen mineral veins that don't exist in the void**, so it's dead as shipped. Two approaches to try, in order
+  of preference (**TODO — not yet implemented**):
+  1. **Patch it to be island-aware** — make the Excavator's ore mix a function of the **island it's built on**
+     (its Skyseed theme/biome) instead of the vanilla mineral-vein sample. Preferred: keeps the signature IE
+     mechanic alive and on-theme. Would need a mixin/compat against IE's `ExcavatorHandler` / mineral-vein lookup.
+  2. **Disable the Excavator entirely** for this pack — remove its recipe (and hide it in JEI) so players never
+     expect it to work; supply aluminum/bauxite via the IE ore island instead. Simple fallback if (1) is too invasive.
 - **Iron's Spells scope** — how deep to wire the loot/mob injection (full discovery loop vs. crafted-only).
 - **Mystical Agriculture vs. bespoke ore islands** — renewable farming can *replace* most ore islands; decide
   whether ore islands are the *first* acquisition (then Myst Ag scales) or skip some islands entirely.
