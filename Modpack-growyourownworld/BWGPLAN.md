@@ -16,7 +16,7 @@
   - **Fantasy woods → Forest family (trees-first):** appended to `biomeswevegone_forest.json` (+ `_large`, `huge_`). The same files also gained a **trees-first `cypress` overlap** as the deliberate multi-seed demo (cypress is water-first on Aquatic, trees-first on Forest).
   - **⚠ Remaining ship steps before merge:** (1) **verify every `biomeswevegone:` biome id + `*_trees` feature id against the BWG 2.6.0 jar** — all are best-guesses flagged in each file's `_verify` (esp. `willow`/`white_mangrove`/`palm` biomes and whether a `spirit` biome is even injected); (2) add an inert golden-master **gametest** per set; (3) bump `mod_version` + CHANGELOG. Tree tries / pond sizes are provisional and tunable in-game.
 - **Density follow-up:** lift the *held* wet/semi forest biomes (mangrove/swamp/riverside, cherry/grove/mushroom/bamboo/flower) to the agreed level — held pending the in-game density read, now confirmed good.
-- **Step 2 (OTYG verification), Step 3 (create-otbwg verification), Step 4 (Patchouli "Exotic Biomes" entry), Step 5 (the light quest branch)** — all still to do.
+- **Step 4 (Patchouli "Exotic Woods" entry) ✅ DONE.** **Step 2 (OTYG verification), Step 3 (create-otbwg verification), Step 5 (the light quest branch — now under Tools & Travel), and the rest of Step 4 (config curation + `mods.txt` regen)** — still to do.
 - **STRUCTUREPLAN** (BWG village/manor/trial resurrection) — its own later child changeset.
 
 ## The three mods
@@ -89,7 +89,7 @@ Scope discipline: do **not** map all 55. Cover the signature **wood** biomes (so
 
 - Curate `config/` for BWG, OTYG, create-otbwg-compat (like the MA pass). **Leave BWG biome injection ON** — it is the adaptation key.
 - Regenerate `mods.txt`.
-- Patchouli guide: a short **"Exotic Biomes"** entry (Forest seed over a BWG biome → exotic wood), mirroring the rare-seeds page.
+- ✅ **DONE (2026-07-01)** — Patchouli guide: a short **"Exotic Woods"** entry (`entries/exotic_biomes.json`, `skyseed:basics` category, vanilla icon so it's safe without BWG) describing the Forest-seed-over-BWG-biome loop, mirroring the rare-seeds page. The Modonomicon edition auto-generates at build via `generateGuide`. *(Remaining Step 4 work: the config-curation pass + `mods.txt` regen.)*
 
 ## Step 5 — Quests (optional, light)
 

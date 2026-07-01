@@ -32,6 +32,10 @@ the detail.
   `cypress` multi-seed-demo overlap appended to the Forest family: `biomeswevegone_forest{,_large,huge_}.json`.
   All `biomeswevegone:` biome/feature ids are best-guesses flagged in each file's `_verify` — **must be
   confirmed against the BWG 2.6.0 jar, then add a gametest + version bump** before merge. Inert without BWG.
+- **2026-07-01 — items #4 & #10 DONE (no jar / no in-game needed).** #4: fixed the `ci-skyseed.yml`→`build.yml`
+  doc drift + the "matrix"→chiseled-fan-out description and the "add a version" recipe across README / REFACTORPLAN /
+  CHANGELOG_26.1. #10: authored the Patchouli **"Exotic Woods"** guide entry (`entries/exotic_biomes.json`, basics
+  category) for the shipped Forest-over-BWG loop — the Modonomicon edition auto-generates at build via `generateGuide`.
 
 ## How to read this
 
@@ -66,10 +70,10 @@ before more is piled on top.
 1. ✅ **Resolve Q2** — ~~concentrate BWG wood bands on the Forest seed vs. distribute across typed seeds~~ **DECIDED 2026-07-01: distribute, priority-ordered per seed** (see [Decisions log](#decisions-log)). Items 7, 8, 9 are now unblocked.
 2. **Verify OTYG sapling→tree growth** for vanilla + BWG saplings. *(BWGPLAN · medium)* — correctness gate: if saplings don't grow OOTB the entire exotic-wood loop is silently broken.
 3. **Build the BWG quest branch** (Into the Wilds / Mill the Blooms / Grow Something Grand) **under the Tools & Travel chapter**. *(QUESTPLAN / BWGPLAN Step 5 · small)* — the one explicitly-pending quest deliverable; its integration already shipped. Clean quick win.
-4. **Fix CI-file doc drift** — the docs point contributors at a `ci-skyseed.yml` that never existed (real file is `build.yml`). *(REFACTORPLAN · small)*
+4. ✅ **Fix CI-file doc drift** — DONE (2026-07-01): corrected `ci-skyseed.yml`→`build.yml` and the "matrix"→chiseled-fan-out description across README/REFACTORPLAN/CHANGELOG; the "add a version" recipe now correctly says no CI edit is needed. *(REFACTORPLAN · small)*
 5. **Verify Mystical Agriculture in-game** — ore spawn + the prosperity-ore bootstrap loop. *(MYSTICALPLAN · small)*
 6. **Smoke-test the void ChunkGenerator with BWG installed** — confirm no features at y≈-64, End island intact. *(plannednotes · small)*
-10. **Patchouli "Exotic Biomes" entry** — documents the already-shipped Forest-over-BWG loop. *(BWGPLAN · small)*
+10. ✅ **Patchouli "Exotic Woods" entry** — DONE (2026-07-01): authored `entries/exotic_biomes.json` (basics category) describing the already-shipped Forest-over-BWG loop; the Modonomicon mirror auto-generates at build. *(BWGPLAN · small)*
 11. **Decide: one tech backbone or two** (Mekanism vs. IE) — formalize the documented Mekanism-only lean; cascades to items 34/35/38. *(CONTENTPLAN · small)*
 12. **Decide structure scope** — villages-only vs. villages + manor + bog trial. *(STRUCTUREPLAN · small)*
 
@@ -165,6 +169,7 @@ sign-offs are worth doing before the next content lands on top.
 **Quests — after authoring:**
 
 - [ ] **(#3) BWG quest branch** (under Tools & Travel) loads in-game — quest-book test-load; tasks/rewards resolve.
+- [ ] **(#10) "Exotic Woods" guide page** renders correctly in both the Patchouli book and the Modonomicon Almanac (a build regenerates the Modonomicon mirror — just confirm it shows in the Getting Started category).
 
 **Balance & polish — observe during a normal playthrough:**
 
@@ -184,13 +189,13 @@ sign-offs are worth doing before the next content lands on top.
 | 1 | ✅ **RESOLVED** — Q2: **distribute** BWG bands across typed seeds, priority-ordered per seed (aquatic=water-first, forest=trees-first, lush=extreme nature); same biome may appear in multiple families. See BWGPLAN §Q2. | BWGPLAN.md | high | small | ✅ done (2026-07-01) | Was the top blocker; now decided — the wet/fantasy wood-band authoring (#7/#8) and millable-flower placement (#9) are unblocked. |
 | 2 | Step 2 — Verify OTYG sapling→tree growth for vanilla + BWG saplings | BWGPLAN.md | high | medium | genuinely-open | OTYG's entire value is sapling growth; if BWG (or vanilla) saplings don't grow, the exotic-wood replanting loop that all the band work relies on is… |
 | 3 | Build the BWG quest branch (Into the Wilds / Mill the Blooms / Grow Something Grand) **under the Tools & Travel chapter** (BWGPLAN Step 5) | QUESTPLAN.md / BWGPLAN.md | high | small | genuinely-open | The single explicitly-pending quest deliverable whose dependency (BWG island/resource integration) is already shipped, so it is immediately actionable. Lives under Tools & Travel (an explore-the-wilds line), not the Skyseed spine. |
-| 4 | Reconcile plan/changelog CI-file references with the actual workflow (documentation drift) | REFACTORPLAN.md | medium | small | genuinely-open | Actively misdirects the documented 'add a version node' workflow — the recipe tells contributors to edit a file that never existed and add an… |
+| 4 | Reconcile plan/changelog CI-file references with the actual workflow (documentation drift) | REFACTORPLAN.md | medium | small | ✅ done (2026-07-01) | DONE — fixed `ci-skyseed.yml`→`build.yml` + "matrix"→chiseled-fan-out in README/REFACTORPLAN/CHANGELOG; "add a version" recipe now says no CI edit needed. |
 | 5 | Verify the MA integration in-game (ore spawn + bootstrap loop) | MYSTICALPLAN.md | medium | small | partially-done | MA is fully shipped and is the pack's renewable pillar; a single quick playtest de-risks the release's core loop before shipping. Low cost,… |
 | 6 | Runtime smoke test of void ChunkGenerator with BWG installed | plannednotes.md | medium | small | genuinely-open | Only remaining sign-off for the confirmed TerraBlender/BWG decoration-leak fix — the mod's central worldgen-correctness feature. Low effort, closes… |
 | 7 | Add wet-woods BWG theme_override bands (cypress, willow, white-mangrove, palm) | BWGPLAN.md | medium | medium | 🟡 drafted — pending id verification | DRAFTED on the Aquatic family (water-first) in `biomeswevegone_aquatic{,_large,huge_}.json`. Remaining: verify BWG ids + gametest + version bump. |
 | 8 | Add fantasy-woods BWG theme_override bands (enchanted, skyris, spirit) | BWGPLAN.md | medium | medium | 🟡 drafted — pending id verification | DRAFTED on the Forest family (trees-first), appended to `biomeswevegone_forest{,_large,huge_}.json` (+ a cypress multi-seed-demo overlap). Remaining: verify BWG ids (esp. whether a `spirit` biome exists) + gametest + version bump. |
 | 9 | Step 3 — Verify create-otbwg milling recipes and place BWG millable flowers on islands | BWGPLAN.md | medium | small | genuinely-open | The 94-recipe compat does nothing without inputs on islands. Recipe check is small, but real value is coupled to the lush/meadow band work that… |
-| 10 | Step 4 — Patchouli guide: add 'Exotic Biomes' entry | BWGPLAN.md | medium | small | genuinely-open | The BWG mechanic is invisible without docs; small self-contained content that ships independently and improves discovery of already-shipped bands.… |
+| 10 | Step 4 — Patchouli guide: add 'Exotic Biomes' entry | BWGPLAN.md | medium | small | ✅ done (2026-07-01) | DONE — authored `entries/exotic_biomes.json` (basics category, vanilla icon, references the 11 shipped forest woods); Modonomicon mirror auto-generates at build. |
 | 11 | Decide: one tech backbone or two (Mekanism vs. IE) | CONTENTPLAN.md | medium | small | partially-done | Near-free decision with a documented default that prevents duplicated large tech-tier effort and cascades to resolve the IE, Excavator, and… |
 | 12 | Resolve open decision: villages-only vs. villages + manor + bog trial (STRUCTUREPLAN) | STRUCTUREPLAN.md | medium | small | genuinely-open | Gating decision for the entire (not-started) structure plan; cheap and high-leverage, sequences and bounds every downstream structure resurrection… |
 | 13 | Confirm BWG village style ↔ biome mapping (esp. salem and forgotten) | STRUCTUREPLAN.md | medium | small | genuinely-open | Direct prerequisite to the villages resurrection — a wrong mapping targets the wrong biome and villages won't grow where intended. Small mechanical… |

@@ -67,7 +67,7 @@ All three chapters and the Huge island tier are built; what's left is mostly opt
 
 - **A few more structures** that would sit well as island variants: a **Stronghold** (the lit End portal already exists as its own seed), and **Buried Treasure / Shipwreck** as Aquatic features. (The Mineshaft and Ancient City already shipped as Huge-tier rares.)
 - **Remaining vanilla blocks** — down to essentially the **copper bulb** (a small Trial Chamber template edit); the Nether- and End-gated block sets landed with their chapters.
-- **Multi-version support** (`REFACTORPLAN.md`) — building against multiple Minecraft / NeoForge versions from one codebase. The **Stonecutter skeleton + the `compat` facade** (Stages 0–1) and the **second version `26.1.2`** (Stage 2 — compiles, builds, native 134-test gametest suite, the full 1.21.4/1.21.5 worldgen content) are **done**; both nodes are green at every commit. Remaining: **Stage 3** (generalize + document) — `chiseledBuild`/`chiseledRunGameTestServer` fan a task across all nodes and a CI matrix builds each, both landed; adding further versions is the open generalization. NeoForge-only; no new runtime dependency; Fabric is a separate future concern.
+- **Multi-version support** (`REFACTORPLAN.md`) — building against multiple Minecraft / NeoForge versions from one codebase. The **Stonecutter skeleton + the `compat` facade** (Stages 0–1) and the **second version `26.1.2`** (Stage 2 — compiles, builds, native 134-test gametest suite, the full 1.21.4/1.21.5 worldgen content) are **done**; both nodes are green at every commit. Remaining: **Stage 3** (generalize + document) — `chiseledBuild`/`chiseledRunGameTestServer` fan a task across all nodes and CI (`build.yml`) runs those chiseled tasks over every node, both landed; adding further versions is the open generalization. NeoForge-only; no new runtime dependency; Fabric is a separate future concern.
 
 > **⚠ Before 1.0 (cleanup):** **remove the `/emptynether` and `/emptyend` rescue commands** (`SkyseedCommands.java`, offered by the legacy-world warning in `PlayerEvents`). They're a one-time stopgap for worlds created *before* the void dimensions landed (v0.35.x) — by 1.0 there should be no pre-void world left to rescue — and the in-place conversion leans on Minecraft's **experimental-features** path, which is acceptable as a rescue route now but should **not** ship in a 1.0 release.
 
@@ -239,7 +239,7 @@ One codebase, two version nodes via **Stonecutter** (`1.21.1` and `26.1.2`). Eac
 ./gradlew runClient                     # dev client for the active node
 ```
 
-CI (`.github/workflows/ci-skyseed.yml`) builds + gametests both nodes as a matrix. The first invocation downloads Gradle, NeoForge, and Minecraft (and the 26.1.2 node decompiles via NeoForm), so it takes a while.
+CI (`.github/workflows/build.yml`) builds + gametests every node by running `chiseledBuild` + `chiseledRunGameTestServer` — a chiseled fan-out over the `settings.gradle` version list (not a GitHub Actions matrix), so adding a version needs no workflow edit. The first invocation downloads Gradle, NeoForge, and Minecraft (and the 26.1.2 node decompiles via NeoForm), so it takes a while.
 
 ### Tests
 
