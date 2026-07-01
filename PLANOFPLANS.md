@@ -65,7 +65,7 @@ before more is piled on top.
 
 1. ✅ **Resolve Q2** — ~~concentrate BWG wood bands on the Forest seed vs. distribute across typed seeds~~ **DECIDED 2026-07-01: distribute, priority-ordered per seed** (see [Decisions log](#decisions-log)). Items 7, 8, 9 are now unblocked.
 2. **Verify OTYG sapling→tree growth** for vanilla + BWG saplings. *(BWGPLAN · medium)* — correctness gate: if saplings don't grow OOTB the entire exotic-wood loop is silently broken.
-3. **Build the BWG quest chapter** (Into the Wilds / Mill the Blooms / Grow Something Grand). *(QUESTPLAN / BWGPLAN Step 5 · small)* — the one explicitly-pending quest deliverable; its integration already shipped. Clean quick win.
+3. **Build the BWG quest branch** (Into the Wilds / Mill the Blooms / Grow Something Grand) **under the Tools & Travel chapter**. *(QUESTPLAN / BWGPLAN Step 5 · small)* — the one explicitly-pending quest deliverable; its integration already shipped. Clean quick win.
 4. **Fix CI-file doc drift** — the docs point contributors at a `ci-skyseed.yml` that never existed (real file is `build.yml`). *(REFACTORPLAN · small)*
 5. **Verify Mystical Agriculture in-game** — ore spawn + the prosperity-ore bootstrap loop. *(MYSTICALPLAN · small)*
 6. **Smoke-test the void ChunkGenerator with BWG installed** — confirm no features at y≈-64, End island intact. *(plannednotes · small)*
@@ -135,13 +135,55 @@ release. Then the BWG band chain (7, 8, 9) plus its quest + guide (3, 10).
 
 ---
 
+## 🎮 In-game verification checklist (for you to test)
+
+Items that need a running client/server — I can't do these from here. They're pulled out of the backlog
+so you have one list to work through. Tick them off as you go; several could surface a real bug, so the
+sign-offs are worth doing before the next content lands on top.
+
+**Shipped features — sign-off (do soon):**
+
+- [ ] **(#6) Void ChunkGenerator + BWG** — create a world with BWG installed, fly to y≈-64: confirm **no decoration leak** (no stray features/islands at the void floor), and confirm the **End central island** still generates.
+- [ ] **(#2) OTYG sapling→tree growth** — confirm **vanilla and BWG saplings grow to trees**, both on an island and in a **Botany Pot**. If BWG saplings don't grow out of the box, enable the Potion Studios tree pack and re-test.
+- [ ] **(#5) Mystical Agriculture loop** — run the full chain: essence → **Inferium Farmland** → **Prosperity Seed Base** → a resource seed → grow it in a Botany Pot. Confirm the **prosperity-ore bootstrap** works (prosperity ore has no mob drop, so the Ancient/Lush ore island must supply it).
+- [ ] **(#9) create-otbwg milling** — spot-check 2–3 milling recipes resolve against BWG ids, and confirm **BWG millable flowers actually spawn on islands** so the compat has inputs.
+
+**Crash-fix smoke tests (CODE_REVIEW 5.1–5.3 — base fixes merged; confirm live behaviour):**
+
+- [ ] **(5.1)** Deferred island-finalization state machine — grow an island; confirm the finalize pass (e.g. snow) is **not skipped or double-run**.
+- [ ] **(5.2)** Drain-on-stop — throw a large-island seed, **immediately stop the server**; confirm the island completes + persists and `MAX_DRAIN_TICKS` is adequate.
+- [ ] **(5.3)** Force-load twin islands — throw a twin seed; verify the **player-less Nether-side island fully populates** and the force-load ticket **releases** on completion.
+- [ ] Confirm the merged **CI run (PR #15, both nodes) went green**.
+
+**New BWG draft content — after the ids in `biomeswevegone_aquatic.json` / `_forest*` are verified (#7/#8):**
+
+- [ ] Throw an **Aquatic** seed over `cypress_swamplands` → confirm a **water-first** island (pond dominant, cypress trees secondary).
+- [ ] Throw a **Forest** seed over the *same* `cypress_swamplands` → confirm a **trees-first** island (dense cypress, minimal water). *(This is the multi-seed / per-seed-priority model working.)*
+- [ ] Grow the **wet woods** (cypress/willow/white-mangrove/palm) and **fantasy woods** (enchanted/skyris/spirit) → confirm each island generates with the right trees and **every BWG plank is now obtainable**.
+- [ ] Confirm the drafts are **inert with BWG NOT installed** (no errors; generation unchanged).
+
+**Quests — after authoring:**
+
+- [ ] **(#3) BWG quest branch** (under Tools & Travel) loads in-game — quest-book test-load; tasks/rewards resolve.
+
+**Balance & polish — observe during a normal playthrough:**
+
+- [ ] **(#51 / #45) MA balance** — watch **Growth Accelerator stacking** and **mob Inferium drop rates**; tune `mysticalagriculture-common.toml` if crops get too fast or drops too generous.
+- [ ] **(#61) Trial Chamber** — after the palette/atmosphere pass, do a **clean rebuild and visual comparison to a vanilla trial chamber** (mind the stale-NBT Stonecutter trap).
+
+**Future — blocked until the mod is installed:**
+
+- [ ] **(#39)** Prove **FE flows Create → Mekanism/IE/AE2** across islands (only testable once an FE-consumer mod lands).
+
+---
+
 ## Full ranked backlog
 
 | # | Item | Plan | Priority | Effort | Status | Why (ranking rationale) |
 |---|---|---|---|---|---|---|
 | 1 | ✅ **RESOLVED** — Q2: **distribute** BWG bands across typed seeds, priority-ordered per seed (aquatic=water-first, forest=trees-first, lush=extreme nature); same biome may appear in multiple families. See BWGPLAN §Q2. | BWGPLAN.md | high | small | ✅ done (2026-07-01) | Was the top blocker; now decided — the wet/fantasy wood-band authoring (#7/#8) and millable-flower placement (#9) are unblocked. |
 | 2 | Step 2 — Verify OTYG sapling→tree growth for vanilla + BWG saplings | BWGPLAN.md | high | medium | genuinely-open | OTYG's entire value is sapling growth; if BWG (or vanilla) saplings don't grow, the exotic-wood replanting loop that all the band work relies on is… |
-| 3 | Build the BWG (Biomes We've Grown) quest chapter / light quest branch (BWGPLAN Step 5) | QUESTPLAN.md / BWGPLAN.md | high | small | genuinely-open | The single explicitly-pending quest deliverable whose dependency (BWG island/resource integration) is already shipped, so it is immediately… |
+| 3 | Build the BWG quest branch (Into the Wilds / Mill the Blooms / Grow Something Grand) **under the Tools & Travel chapter** (BWGPLAN Step 5) | QUESTPLAN.md / BWGPLAN.md | high | small | genuinely-open | The single explicitly-pending quest deliverable whose dependency (BWG island/resource integration) is already shipped, so it is immediately actionable. Lives under Tools & Travel (an explore-the-wilds line), not the Skyseed spine. |
 | 4 | Reconcile plan/changelog CI-file references with the actual workflow (documentation drift) | REFACTORPLAN.md | medium | small | genuinely-open | Actively misdirects the documented 'add a version node' workflow — the recipe tells contributors to edit a file that never existed and add an… |
 | 5 | Verify the MA integration in-game (ore spawn + bootstrap loop) | MYSTICALPLAN.md | medium | small | partially-done | MA is fully shipped and is the pack's renewable pillar; a single quick playtest de-risks the release's core loop before shipping. Low cost,… |
 | 6 | Runtime smoke test of void ChunkGenerator with BWG installed | plannednotes.md | medium | small | genuinely-open | Only remaining sign-off for the confirmed TerraBlender/BWG decoration-leak fix — the mod's central worldgen-correctness feature. Low effort, closes… |

@@ -93,7 +93,7 @@ Scope discipline: do **not** map all 55. Cover the signature **wood** biomes (so
 
 ## Step 5 — Quests (optional, light)
 
-A small branch off the **Skyseed** chapter — not a new megachapter (keep it un-overwhelming):
+A small branch under the **Tools & Travel** chapter (an explore-the-wilds line — see QUESTPLAN) — not a new megachapter (keep it un-overwhelming):
 - *Into the Wilds* — obtain any BWG plank (proof you grew an exotic island).
 - *Mill the Blooms* — a create-otbwg milled output (ties BWG → Create).
 - *Grow Something Grand* — an OTYG-grown tree.
