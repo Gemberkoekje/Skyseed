@@ -5,6 +5,55 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.174.0] - 2026-07-01
+
+### Added
+- **Millable BWG flowers now grow on islands — the create-otbwg compat finally has inputs (backlog #9, BWGPLAN Step 3).**
+  The 94-recipe `create-otbwg-compat` milling datapack did nothing because no BWG flowers spawned anywhere. Two new
+  first-party `theme_override` families place them as island ground cover (inert without BWG):
+  - **Meadow family** (`biomeswevegone_meadow.json` + `_large` + `huge_`) — 8 BWG floral **grasslands** become
+    flower-field islands: `allium_shrubland` (alliums), `amaranth_grassland` (amaranths), `rose_fields` (roses),
+    `coconino_meadow` (bellflower/daffodil/anemones/tulips), `orchard` (lollipop/white-allium/yellow-daffodil),
+    `prairie` (california poppy), `temperate_grove` (anemones/sages), `firecracker_chaparral` (firecracker bush/poppy/sage).
+  - **Lush family** (`biomeswevegone_lush.json` + `_large` + `huge_`) — 3 BWG **jungle** biomes become flora-first
+    tropical-bloom islands: `crag_gardens`, `tropical_rainforest`, `fragment_jungle` (begonia/bistort/guzmania/incan
+    lily/lazarus bellflower/richea + delphinium/protea/silver-vase/orchid). This is the deliberate Q2 multi-seed
+    overlap — `tropical_rainforest`/`fragment_jungle` also grow **trees-first** (mahogany/rainbow_eucalyptus) on the
+    **Forest** family; on Lush they are flora-first.
+  Every flower is a real BWG 2.6.0 block **and** a `create-otbwg-compat-1.0` milling input — verified against both jars.
+  Ground flora is per-column (no tree `tries`), so the base/large/huge tier files share identical bands (a bigger island
+  just grows proportionally more flowers). New `biomeswevegone_compat_places_meadow_flowers` +
+  `biomeswevegone_compat_places_lush_flowers` gametests (both nodes) assert each band exists and actually places a
+  `biomeswevegone:` flower as ground cover.
+
+## [0.173.0] - 2026-07-01
+
+### Added
+- **Every BWG plank is now obtainable — the last 5 growable woods shipped (closes the plank-coverage gap, backlog #63).**
+  A jar audit found only 19 of BWG 2.6.0's 25 planks were reachable via the island loop. The 5 remaining **growable**
+  woods now get their own bands on the **Forest** family (`biomeswevegone_forest.json` + `_large` + `_huge`), each
+  keyed to the wood's **dedicated** configured feature (not a biome-mixed `*_trees` selector) so a single clean plank
+  drops: **florus** (`forgotten_forest` → `florus_trees`), **holly** (`dacite_ridges` → `holly_trees`), **pine**
+  (`black_forest` → `pine_tree1` + `pine_tree2` — there is **no** `pine_trees` aggregate in 2.6.0), **mahogany**
+  (`tropical_rainforest` → `mahogany_trees`), **rainbow_eucalyptus** (`fragment_jungle` → `rainbow_eucalyptus_trees`).
+  All ids verified against `Oh-The-Biomes-Weve-Gone-NeoForge-2.6.0.jar`. The `#skyseed:exotic_woods` reveal tag (for the
+  BWG-gated guide entry) gains the 5 new planks. Still inert without BWG (unknown ids never match → byte-identical
+  generation). Extended the `biomeswevegone_compat_prepends_forest_bands` gametest (both nodes) to lock the 5 new
+  biome→feature keys.
+
+### Notes
+- **fir is intentionally non-growable.** BWG 2.6.0 ships `fir_planks` + `fir_sapling` but **no configured fir tree
+  feature** and no biome tree-selector references fir, so there is nothing worldgen can grow — it is deliberately left
+  out of the bands and the reveal tag (a gametest guards that no band references a `fir_*` feature). 24 of 25 planks are
+  now island-obtainable; fir is the documented exception.
+- **Spirit-band in-game failure (#66) diagnosed — no code/data change needed.** The reported "`pale_bog` seed → oak &
+  birch, no spirit" is logically impossible from a *matched* `pale_bog` band: a matched biome override **replaces** the
+  island's variants (verified in `IslandGenerator.eff`), so the band emits **only** `spirit_trees` and can never yield
+  oak/birch. `biomeswevegone:pale_bog` (biome) and `spirit_trees` (feature) both exist in the jar, the band is
+  prepended + gametest-asserted, and spirit uses the **same** `ohthetreesyoullgrow:tree_from_nbt_v1` feature type as its
+  working siblings (enchanted/skyris). The oak/birch result therefore means the seed **wasn't over `pale_bog`** (the
+  test report self-contradicts with "pale_bog → white mangrove") — a re-test/biome-reachability item, not a defect.
+
 ## [0.172.0] - 2026-07-01
 
 ### Added

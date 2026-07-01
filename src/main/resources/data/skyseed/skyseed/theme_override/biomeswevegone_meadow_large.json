@@ -1,0 +1,64 @@
+{
+  "_comment": "First-party Oh The Biomes We've Gone MILLABLE-FLOWERS compat on the MEADOW family (feeds the create-otbwg-compat milling recipes — Step 3 of BWGPLAN, backlog #9). Throw a Meadow seed over a BWG floral grassland → a flower-field island whose ground cover is that biome's signature flowers, which are Create-millable into dyes/petals. Every flower block is a REAL BWG 2.6.0 block AND a create-otbwg-compat-1.0 milling INPUT (verified against both jars, 2026-07-01): the block resolves via Lookup.hasBlock, so an unknown id is silently skipped — inert without BWG (byte-identical generation) and safe if BWG's flora ids ever drift. Bands are PREPENDED (ThemeOverride.mergeBands) so they win the first-match over the base #is_meadow/#is_plains catch-alls (BWG floral biomes sit under those via #biomeswevegone tags). Ground flora is per-column (no tree tries), so the base/large/huge tier files share identical bands — a bigger island just grows proportionally more flowers.",
+  "target": "skyseed:meadow_large",
+  "biome_overrides": [
+    { "biomes": ["biomeswevegone:allium_shrubland"],
+      "_verify": "verified: biome allium_shrubland; flowers from allium_shrubland_flowers (allium_flower_bush / pink_allium / white_allium / *_flower_bush / tall_allium*) — all millable",
+      "variants": [ { "weight": 1, "name": "allium_field", "decoration": {
+        "ground": [
+          { "block": "biomeswevegone:allium_flower_bush", "chance": 0.06 },
+          { "block": "biomeswevegone:pink_allium", "chance": 0.05 }, { "block": "biomeswevegone:white_allium", "chance": 0.05 },
+          { "block": "biomeswevegone:pink_allium_flower_bush", "chance": 0.04 }, { "block": "biomeswevegone:white_allium_flower_bush", "chance": 0.04 },
+          { "block": "biomeswevegone:tall_allium", "chance": 0.03 }, { "block": "biomeswevegone:tall_pink_allium", "chance": 0.02 }, { "block": "biomeswevegone:tall_white_allium", "chance": 0.02 },
+          { "block": "minecraft:short_grass", "chance": 0.12 } ] } } ] },
+    { "biomes": ["biomeswevegone:amaranth_grassland"],
+      "_verify": "verified: biome amaranth_grassland; flowers from amaranth_grassland_flowers (amaranth + cyan/magenta/orange/purple) — all millable",
+      "variants": [ { "weight": 1, "name": "amaranth_field", "decoration": {
+        "ground": [
+          { "block": "biomeswevegone:amaranth", "chance": 0.06 },
+          { "block": "biomeswevegone:cyan_amaranth", "chance": 0.04 }, { "block": "biomeswevegone:magenta_amaranth", "chance": 0.04 },
+          { "block": "biomeswevegone:orange_amaranth", "chance": 0.04 }, { "block": "biomeswevegone:purple_amaranth", "chance": 0.04 },
+          { "block": "minecraft:short_grass", "chance": 0.12 } ] } } ] },
+    { "biomes": ["biomeswevegone:rose_fields"],
+      "_verify": "verified: biome rose_fields; flowers from rose_field_flowers (rose / osiria_rose / blue_rose_bush) — all millable (rose_bush is not a milling input, so it is left out)",
+      "variants": [ { "weight": 1, "name": "rose_field", "decoration": {
+        "ground": [
+          { "block": "biomeswevegone:rose", "chance": 0.06 }, { "block": "biomeswevegone:osiria_rose", "chance": 0.04 },
+          { "block": "biomeswevegone:blue_rose_bush", "chance": 0.04 }, { "block": "minecraft:short_grass", "chance": 0.12 } ] } } ] },
+    { "biomes": ["biomeswevegone:coconino_meadow"],
+      "_verify": "verified: biome coconino_meadow; alpine_bellflower + pink_daffodil + anemones (pink/white) + tulips — all millable",
+      "variants": [ { "weight": 1, "name": "alpine_meadow", "decoration": {
+        "ground": [
+          { "block": "biomeswevegone:alpine_bellflower", "chance": 0.06 }, { "block": "biomeswevegone:pink_daffodil", "chance": 0.05 },
+          { "block": "biomeswevegone:pink_anemone", "chance": 0.04 }, { "block": "biomeswevegone:white_anemone", "chance": 0.04 },
+          { "block": "biomeswevegone:cyan_tulip", "chance": 0.04 }, { "block": "biomeswevegone:yellow_tulip", "chance": 0.04 },
+          { "block": "minecraft:short_grass", "chance": 0.12 } ] } } ] },
+    { "biomes": ["biomeswevegone:orchard"],
+      "_verify": "verified: biome orchard; lollipop_flower + white_allium + yellow_daffodil — all millable",
+      "variants": [ { "weight": 1, "name": "orchard_bloom", "decoration": {
+        "ground": [
+          { "block": "biomeswevegone:lollipop_flower", "chance": 0.05 }, { "block": "biomeswevegone:white_allium", "chance": 0.05 },
+          { "block": "biomeswevegone:yellow_daffodil", "chance": 0.05 }, { "block": "minecraft:short_grass", "chance": 0.14 } ] } } ] },
+    { "biomes": ["biomeswevegone:prairie"],
+      "_verify": "verified: biome prairie; california_poppy is a dedicated placed feature here — millable",
+      "variants": [ { "weight": 1, "name": "prairie_bloom", "decoration": {
+        "ground": [
+          { "block": "biomeswevegone:california_poppy", "chance": 0.08 },
+          { "block": "minecraft:dandelion", "chance": 0.03 }, { "block": "minecraft:short_grass", "chance": 0.15 } ] } } ] },
+    { "biomes": ["biomeswevegone:temperate_grove"],
+      "_verify": "verified: biome temperate_grove; anemones (pink/white) + sages (blue/purple/white) — all millable",
+      "variants": [ { "weight": 1, "name": "grove_bloom", "decoration": {
+        "ground": [
+          { "block": "biomeswevegone:pink_anemone", "chance": 0.05 }, { "block": "biomeswevegone:white_anemone", "chance": 0.05 },
+          { "block": "biomeswevegone:blue_sage", "chance": 0.04 }, { "block": "biomeswevegone:purple_sage", "chance": 0.04 }, { "block": "biomeswevegone:white_sage", "chance": 0.04 },
+          { "block": "minecraft:short_grass", "chance": 0.12 } ] } } ] },
+    { "biomes": ["biomeswevegone:firecracker_chaparral"],
+      "_verify": "verified: biome firecracker_chaparral (dry); firecracker_flower_bush + california_poppy + a sage — all millable. Dry palette via a coarse_dirt scatter + dead bush.",
+      "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.10 } ],
+      "variants": [ { "weight": 1, "name": "chaparral_bloom", "decoration": {
+        "ground": [
+          { "block": "biomeswevegone:firecracker_flower_bush", "chance": 0.06 }, { "block": "biomeswevegone:california_poppy", "chance": 0.05 },
+          { "block": "biomeswevegone:blue_sage", "chance": 0.04 },
+          { "block": "minecraft:dead_bush", "chance": 0.03 }, { "block": "minecraft:short_grass", "chance": 0.12 } ] } } ] }
+  ]
+}

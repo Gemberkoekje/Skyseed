@@ -9,6 +9,37 @@ the version-number sequence, so a version can appear in one changelog and not th
 > Stage 3 (generalize/document) in `REFACTORPLAN.md`. The per-feature build plans (the gametest harness, the recipe
 > generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.174.0] - 2026-07-01
+
+### Added
+- **Millable BWG flowers now grow on islands (backlog #9).** Shared datapack with the 1.21.1 build: two new
+  `theme_override` families place create-otbwg-millable BWG flowers as island ground cover — **Meadow**
+  (`biomeswevegone_meadow.json` + `_large`/`huge_`, 8 floral-grassland biomes: alliums/amaranths/roses/tulips/
+  anemones/daffodils/sages/poppy) and **Lush** (`biomeswevegone_lush.json` + `_large`/`huge_`, 3 jungle biomes:
+  begonia/bistort/guzmania/incan-lily/lazarus-bellflower/richea/delphinium/protea). Deliberate Q2 multi-seed overlap:
+  `tropical_rainforest`/`fragment_jungle` are trees-first on Forest, flora-first here. Every flower verified as a real
+  BWG 2.6.0 block AND a `create-otbwg-compat-1.0` milling input; inert without BWG. Ground flora is per-column, so the
+  3 tier files per family share identical bands. Mirrored `biomeswevegone_compat_places_meadow_flowers` +
+  `_places_lush_flowers` gametests into the 26.1.2 native suite.
+
+## [0.173.0] - 2026-07-01
+
+### Added
+- **Every BWG plank obtainable — last 5 growable woods shipped (backlog #63).** Shared datapack with the 1.21.1 build:
+  new Forest-family bands (`biomeswevegone_forest.json` + `_large`/`_huge`, inert without BWG) for **florus**
+  (`forgotten_forest` → `florus_trees`), **holly** (`dacite_ridges` → `holly_trees`), **pine** (`black_forest` →
+  `pine_tree1` + `pine_tree2`, no aggregate exists), **mahogany** (`tropical_rainforest` → `mahogany_trees`) and
+  **rainbow_eucalyptus** (`fragment_jungle` → `rainbow_eucalyptus_trees`) — each on its dedicated feature. Ids verified
+  against BWG 2.6.0. `#skyseed:exotic_woods` reveal tag extended. Mirrored the extended
+  `biomeswevegone_compat_prepends_forest_bands` assertions into the 26.1.2 native suite.
+
+### Notes
+- **fir intentionally non-growable** (BWG 2.6.0 has `fir_planks` but no configured fir tree feature) — excluded from the
+  bands + tag; a gametest guards that no band references a `fir_*` feature. 24/25 planks are island-obtainable.
+- **Spirit-band failure (#66) diagnosed, no change needed** — a matched `pale_bog` band replaces variants (emits only
+  `spirit_trees`, never oak/birch), so the reported oak/birch result means the seed wasn't over `pale_bog` (a
+  re-test/reachability item). Biome + feature both exist; spirit uses the same NBT feature type as the working siblings.
+
 ## [0.172.0] - 2026-07-01
 
 ### Added

@@ -56,6 +56,34 @@
       "_verify": "verified: multi-seed demo — biome cypress_swamplands + configured feature cypress_trees (trees-first here; water-first on the Aquatic family)",
       "variants": [ { "weight": 1, "name": "cypress", "decoration": {
       "trees": [ { "feature": "biomeswevegone:cypress_trees", "tries": 6, "spacing": 2 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 }, { "block": "minecraft:fern", "chance": 0.08 } ] } } ] }
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 }, { "block": "minecraft:fern", "chance": 0.08 } ] } } ] },
+    { "_comment": "PLANK-COVERAGE woods (backlog #63): the 5 remaining GROWABLE BWG planks not covered by the wood/fantasy bands above — florus / holly / pine / mahogany / rainbow_eucalyptus. Each targets the wood's DEDICATED configured feature (not a biome-mixed *_trees selector that would also drop other woods) so a single clean plank falls, per the Q2 distribute rule. IDS VERIFIED vs Oh-The-Biomes-Weve-Gone-NeoForge-2.6.0.jar (2026-07-01). fir is INTENTIONALLY absent: BWG 2.6.0 ships fir_planks + fir_sapling but NO configured fir tree feature and no biome tree-selector references fir, so fir is non-growable via worldgen (obtain the sapling by other means; documented in BWGPLAN § Plank coverage audit).",
+      "biomes": ["biomeswevegone:forgotten_forest"],
+      "_verify": "verified: biome forgotten_forest + dedicated configured feature florus_trees",
+      "variants": [ { "weight": 1, "name": "florus", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:florus_trees", "tries": 6, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.35 }, { "block": "minecraft:poppy", "chance": 0.05 } ] } } ] },
+    { "biomes": ["biomeswevegone:dacite_ridges"],
+      "_verify": "verified: biome dacite_ridges + dedicated configured feature holly_trees",
+      "surface_scatter": [ { "block": "minecraft:coarse_dirt", "chance": 0.10 } ],
+      "variants": [ { "weight": 1, "name": "holly", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:holly_trees", "tries": 6, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+    { "biomes": ["biomeswevegone:black_forest"],
+      "_verify": "verified: biome black_forest + features pine_tree1 + pine_tree2 (there is NO pine_trees aggregate in 2.6.0 — both leaf features are targeted directly so pure pine drops)",
+      "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.20 } ],
+      "variants": [ { "weight": 1, "name": "pine", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:pine_tree1", "tries": 3, "spacing": 2 }, { "feature": "biomeswevegone:pine_tree2", "tries": 3, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:fern", "chance": 0.15 } ] } } ] },
+    { "biomes": ["biomeswevegone:tropical_rainforest"],
+      "_verify": "verified: biome tropical_rainforest + dedicated configured feature mahogany_trees (worldgen otherwise only mixes mahogany into rainforest_trees — this targets mahogany_trees for pure mahogany)",
+      "variants": [ { "weight": 1, "name": "mahogany", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:mahogany_trees", "tries": 6, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] },
+    { "biomes": ["biomeswevegone:fragment_jungle"],
+      "_verify": "verified: biome fragment_jungle + dedicated configured feature rainbow_eucalyptus_trees (large trees — kept sparser via spacing 3; worldgen otherwise only mixes it into fragment_jungle_trees)",
+      "variants": [ { "weight": 1, "name": "rainbow_eucalyptus", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:rainbow_eucalyptus_trees", "tries": 5, "spacing": 3 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 } ] } } ] }
   ]
 }

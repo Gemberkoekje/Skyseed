@@ -80,10 +80,25 @@ Scope discipline: do **not** map all 55. Cover the signature **wood** biomes (so
 - ✅ **Botany Pots path works:** Elite Botany Pot + dirt + Zelkova sapling → 2 zelkova logs; + oak sapling → 3 oak logs. Growth works both on islands and in pots.
 - `skip_decoration: true` already neutralises OTYG worldgen — no leak. *(Config review of `config/ohthetreesyoullgrow*` for growth/worldgen toggles rolls into the Step 4 config-curation pass; nothing needed for growth to work.)*
 
-## Step 3 — create-otbwg-compat (verify only)
+## Step 3 — create-otbwg-compat (millable flowers) — ✅ INPUTS PLACED (v0.174.0)
 
-- It only needs BWG flowers in hand. Spot-check 2–3 milling recipes resolve against BWG 2.6.0 ids.
-- Ensure the BWG island `ground` lists actually place the millable flowers (allium_flower_bush, blue_rose_bush, glowcane, …) so the compat has inputs.
+- **✅ DONE (v0.174.0, backlog #9):** the BWG island `ground` lists now place the millable flowers, so the compat has
+  inputs. Two new `theme_override` families (inert without BWG):
+  - **Meadow** (`biomeswevegone_meadow.json` + `_large` + `huge_`) — 8 floral **grasslands** → flower-field islands:
+    `allium_shrubland`, `amaranth_grassland`, `rose_fields`, `coconino_meadow`, `orchard`, `prairie`, `temperate_grove`,
+    `firecracker_chaparral`.
+  - **Lush** (`biomeswevegone_lush.json` + `_large` + `huge_`) — 3 **jungle** biomes → flora-first tropical-bloom
+    islands: `crag_gardens`, `tropical_rainforest`, `fragment_jungle` (the last two also grow trees-first on the Forest
+    family — the Q2 multi-seed overlap).
+  - **Verification method:** every placed flower was confirmed to be BOTH a real BWG 2.6.0 block (`assets/.../blockstates`)
+    AND a `create-otbwg-compat-1.0` milling **input** (`data/create/recipe/milling/*`) — so each island flower feeds a
+    real milling recipe. Ground flora is per-column (no `tries`), so the 3 tier files per family are identical bands.
+    New `biomeswevegone_compat_places_{meadow,lush}_flowers` gametests (both nodes) assert each band places a
+    `biomeswevegone:` flower.
+- **Remaining (in-game):** spot-check 2–3 milling recipes actually resolve/run in a Create Millstone against a harvested
+  BWG flower (the datapack side is verified; this is the live-recipe confirmation). The petal-blocks / glowcane / sand /
+  cactus milling inputs are intentionally **not** placed as meadow/lush ground (glowcane/cacti belong to aquatic/desert
+  families; petal-blocks are crafted, not grown).
 
 ## Step 4 — Modpack wiring
 
@@ -100,7 +115,17 @@ A small branch under the **Tools & Travel** chapter (an explore-the-wilds line �
 - *Mill the Blooms* — a create-otbwg milled output (ties BWG → Create).
 - *Grow Something Grand* — an OTYG-grown tree.
 
-## Plank coverage audit — 19 / 25 obtainable (2026-07-01) ← TODO: close the gap
+## Plank coverage audit — 24 / 25 obtainable (2026-07-01) ✅ CLOSED (v0.173.0; fir is the documented exception)
+
+**✅ DONE (v0.173.0).** The 5 addable woods shipped as dedicated-feature bands on the Forest family
+(`biomeswevegone_forest.json` + `_large` + `_huge`): florus → `forgotten_forest`/`florus_trees`, holly →
+`dacite_ridges`/`holly_trees`, pine → `black_forest`/`pine_tree1`+`pine_tree2` (no aggregate), mahogany →
+`tropical_rainforest`/`mahogany_trees`, rainbow_eucalyptus → `fragment_jungle`/`rainbow_eucalyptus_trees`. Every id
+re-verified against the 2.6.0 jar; `#skyseed:exotic_woods` extended; the forest gametest (both nodes) now asserts the
+5 new biome→feature keys and guards that **no** band references a `fir_*` feature. **fir stays non-growable** (below).
+So **24 of 25 planks are island-obtainable**; fir is the single documented exception. History below.
+
+### (historical) 19 / 25 — the gap this section closed
 
 Enumerated the plank roster straight from `overrides/mods/Oh-The-Biomes-Weve-Gone-NeoForge-2.6.0.jar`
 (`assets/biomeswevegone/blockstates/*_planks.json`): **BWG 2.6.0 ships 25 plank types.** The shipped
@@ -141,13 +166,33 @@ errors). Three groups of issues to address (do **not** fix inline — tracked as
    and/or the minimum island radius) and fix the Huge Bayou zero-tree case. Observed cypress counts —
    Aquatic: Small 0 / Large 1 / Huge 5; Forest: Small 0 / Large ~5 / Huge ~8 (the trees-first vs water-first
    priority *does* read — the Forest form is denser — it's the low/zero floor that's the problem).
-3. **Spirit band not resolving (→ #66).** A seed over `pale_bog` produced only **oak & birch, no spirit trees**.
-   The `pale_bog`→`spirit_trees` band **is present in the shared source** (`biomeswevegone_forest.json`, all three
-   tiers) and the forest gametest asserts it, so this is **not** 26.1.2-only and not a missing file — suspect a
-   runtime biome-match issue (prepend order / `#is_forest` tag membership), a node divergence, or the stale-
-   `processResources` staging trap. Needs a clean single-biome repro + root-cause. *(Label caveat: the same pass
-   also reported "pale_bog → white mangrove trees" — likely a mislabel of `white_mangrove_marshes`; re-test each
-   biome on its own to disambiguate.)*
+   - **Code-side root-cause analysis (2026-07-01, needs in-game confirm):** in `DecorationPlanner.planDecoration` a
+     `tries` loop picks a random surface column and defers each as a `TreeSite`; `GenerationJob` then calls
+     `feature.place(...)` per site, and a **BWG tree that can't fit returns false and silently plants nothing**. So on a
+     small island the zero-tree floor is likely **placement failure**, not too-few `tries` — the OTYG `tree_from_nbt_v1`
+     trees are multi-block NBT structures (esp. **willow**/`bayou_trees` and the tall cypress) that need clear vertical +
+     lateral room a tiny pad + a surface pond don't leave. Raising `tries` alone won't guarantee ≥1 if every site fails.
+     Better levers to try in-game: **(a)** raise the wet-family **minimum island radius** (a bigger dry pad) and/or shrink
+     the base-tier pond so trees have somewhere to stand; **(b)** as a floor, seed one **guaranteed** central tree
+     (place the feature at the island centre first, before the pond carve, and retry a few offsets on failure); **(c)**
+     for willow specifically, confirm `bayou_trees`/`willow_tree1..4` even *can* place on the Aquatic pad (it may need
+     water-adjacent mud) — if not, pick a smaller willow variant for the Small/Huge floor. All three want the client loop
+     to confirm the count actually moves off 0, so no speculative edit was shipped.
+3. **Spirit band not resolving (→ #66). ✅ DIAGNOSED (2026-07-01) — no code/data change; a re-test item.** A seed
+   over `pale_bog` reportedly produced only **oak & birch, no spirit trees**. Root-cause audit against the jar + engine:
+   - `biomeswevegone:pale_bog` (biome) and `biomeswevegone:spirit_trees` (configured feature) **both exist** in 2.6.0.
+   - The band is present, **prepended** ahead of the base catch-alls, and gametest-asserted (all three tiers).
+   - Spirit uses the **same** `ohthetreesyoullgrow:tree_from_nbt_v1` feature type as its siblings enchanted/skyris,
+     which **work** in-game — so it is not a feature-type/placement class problem.
+   - **Decisive:** a *matched* biome override **replaces** the island's variants (`IslandGenerator.eff` returns the
+     override's variants outright, not merged — confirmed in code), so a matched `pale_bog` band emits **only**
+     `spirit_trees` and **can never produce oak/birch**. Oak/birch therefore means the band **did not match** →
+     **the seed was not over `pale_bog`.** The same test pass self-contradicts ("pale_bog → white mangrove trees"),
+     confirming a **mislabelled biome**.
+   - **Action = re-test, not fix:** re-throw over a *confirmed* `pale_bog` (verify via F3/Debug tab that you're on
+     `biomeswevegone:pale_bog` first), and while there **confirm `pale_bog` is actually reachable** in the void
+     multi-noise overworld (if TerraBlender doesn't place it, spirit would be de-facto ungrowable and would need
+     re-keying to a reachable biome — the only remaining open sub-question). No band/code edit made.
 
 Also reconfirmed in this pass: **create-otbwg millable flowers (#9) are still not placed on any island** — the
 compat has no inputs until the lush/meadow flower bands are authored.

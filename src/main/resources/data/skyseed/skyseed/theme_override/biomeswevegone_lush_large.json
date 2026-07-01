@@ -1,0 +1,34 @@
+{
+  "_comment": "First-party Oh The Biomes We've Gone MILLABLE-FLOWERS compat on the LUSH family (feeds the create-otbwg-compat milling recipes — Step 3 of BWGPLAN, backlog #9) — the TROPICAL/jungle half: the extreme-nature Lush seed over a BWG jungle biome grows a flora-first island dense with that biome's exotic bromeliads/orchids/jungle blooms, all Create-millable. Deliberate Q2 multi-seed overlap: tropical_rainforest / fragment_jungle also appear on the Forest family (biomeswevegone_forest.json) as TREES-first mahogany/rainbow_eucalyptus islands; here they are FLORA-first flower islands. Every flower is a real BWG 2.6.0 block AND a create-otbwg-compat-1.0 milling input (verified vs both jars, 2026-07-01); unknown ids resolve to nothing (Lookup.hasBlock) so this is inert without BWG. Bands PREPENDED to win the first-match. Ground flora is per-column (no tree tries) → the base/large/huge tier files share identical bands. Surface/pond inherit the base Lush palette (moss over rooted dirt, a small pond) in the overworld home dimension.",
+  "target": "skyseed:lush_large",
+  "biome_overrides": [
+    { "biomes": ["biomeswevegone:crag_gardens"],
+      "_verify": "verified: biome crag_gardens; jungle_flowers (begonia/bistort/guzmania/incan_lily/lazarus_bellflower/richea) + the tropical bromeliads silver_vase_flower/protea_flower/japanese_orchid — all millable",
+      "variants": [ { "weight": 1, "name": "crag_bromeliads", "decoration": {
+        "ground": [
+          { "block": "biomeswevegone:begonia", "chance": 0.05 }, { "block": "biomeswevegone:bistort", "chance": 0.05 },
+          { "block": "biomeswevegone:guzmania", "chance": 0.05 }, { "block": "biomeswevegone:incan_lily", "chance": 0.04 },
+          { "block": "biomeswevegone:lazarus_bellflower", "chance": 0.04 }, { "block": "biomeswevegone:richea", "chance": 0.04 },
+          { "block": "biomeswevegone:silver_vase_flower", "chance": 0.03 }, { "block": "biomeswevegone:protea_flower", "chance": 0.03 },
+          { "block": "biomeswevegone:japanese_orchid", "chance": 0.03 },
+          { "block": "minecraft:moss_carpet", "chance": 0.15 } ] } } ] },
+    { "biomes": ["biomeswevegone:tropical_rainforest"],
+      "_verify": "verified: biome tropical_rainforest; jungle_flowers + delphinium — all millable (flora-first; the Forest family grows this biome trees-first as mahogany)",
+      "variants": [ { "weight": 1, "name": "rainforest_bloom", "decoration": {
+        "ground": [
+          { "block": "biomeswevegone:begonia", "chance": 0.05 }, { "block": "biomeswevegone:bistort", "chance": 0.05 },
+          { "block": "biomeswevegone:guzmania", "chance": 0.05 }, { "block": "biomeswevegone:incan_lily", "chance": 0.04 },
+          { "block": "biomeswevegone:lazarus_bellflower", "chance": 0.04 }, { "block": "biomeswevegone:richea", "chance": 0.04 },
+          { "block": "biomeswevegone:delphinium", "chance": 0.05 },
+          { "block": "minecraft:moss_carpet", "chance": 0.12 }, { "block": "minecraft:fern", "chance": 0.06 } ] } } ] },
+    { "biomes": ["biomeswevegone:fragment_jungle"],
+      "_verify": "verified: biome fragment_jungle; jungle_flowers + delphinium + protea_flower — all millable (flora-first; the Forest family grows this biome trees-first as rainbow_eucalyptus)",
+      "variants": [ { "weight": 1, "name": "fragment_bloom", "decoration": {
+        "ground": [
+          { "block": "biomeswevegone:begonia", "chance": 0.05 }, { "block": "biomeswevegone:bistort", "chance": 0.05 },
+          { "block": "biomeswevegone:guzmania", "chance": 0.05 }, { "block": "biomeswevegone:incan_lily", "chance": 0.04 },
+          { "block": "biomeswevegone:lazarus_bellflower", "chance": 0.04 }, { "block": "biomeswevegone:richea", "chance": 0.04 },
+          { "block": "biomeswevegone:delphinium", "chance": 0.04 }, { "block": "biomeswevegone:protea_flower", "chance": 0.04 },
+          { "block": "minecraft:moss_carpet", "chance": 0.12 }, { "block": "minecraft:fern", "chance": 0.06 } ] } } ] }
+  ]
+}
