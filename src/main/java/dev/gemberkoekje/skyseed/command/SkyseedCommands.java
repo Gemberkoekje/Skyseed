@@ -78,6 +78,15 @@ public final class SkyseedCommands {
     @Nullable
     private static volatile Path worldRootPath = null;
 
+    // The in-place conversion edits WorldGenSettings inside level.dat, which only exists pre-26.1 (it moved to
+    // data/<world>/world_gen_settings.dat in 26.1, making swapDimensionSettings a permanent no-op there). Gate the whole
+    // user-facing offer/arm path on this so the 26.1.2 build never tells a player a reset is armed that can't apply.
+    //? if >=26.1.2 {
+    /*private static final boolean RESET_SUPPORTED = false;*/
+    //?} else {
+    private static final boolean RESET_SUPPORTED = true;
+    //?}
+
     @SubscribeEvent
     static void onRegisterCommands(RegisterCommandsEvent event) {
         register(event.getDispatcher(), "emptynether", NETHER);
@@ -99,6 +108,10 @@ public final class SkyseedCommands {
 
     private static int warn(CommandSourceStack source, String name, Target target) {
         MinecraftServer server = source.getServer();
+        if (!RESET_SUPPORTED) {
+            source.sendSuccess(() -> notSupported(target), false);
+            return 0;
+        }
         if (alreadyVoid(server, target)) {
             source.sendSuccess(() -> Component.literal("[Skyseed] Your " + target.label
                     + " is already the empty Skyseed dimension — nothing to do.").withStyle(ChatFormatting.GREEN), false);
@@ -114,6 +127,10 @@ public final class SkyseedCommands {
 
     private static int arm(CommandSourceStack source, String name, Target target) {
         MinecraftServer server = source.getServer();
+        if (!RESET_SUPPORTED) {
+            source.sendSuccess(() -> notSupported(target), false);
+            return 0;
+        }
         if (alreadyVoid(server, target)) {
             source.sendSuccess(() -> Component.literal("[Skyseed] Your " + target.label
                     + " is already the empty Skyseed dimension — nothing to do.").withStyle(ChatFormatting.GREEN), false);
@@ -173,14 +190,23 @@ public final class SkyseedCommands {
         return end != null && end.getBlockState(new BlockPos(20, 63, 0)).is(Blocks.END_STONE);
     }
 
-    /** Join-warning check: the Nether is still the vanilla dimension and can be voided with {@code /emptynether}. */
-    public static boolean netherNeedsConvert(MinecraftServer server) {
-        return !alreadyVoid(server, NETHER);
+    /** The message shown when conversion is requested on a build where it can't apply (26.1.2+). */
+    private static Component notSupported(Target target) {
+        return Component.literal("[Skyseed] In-place " + target.label + " conversion isn't available on this Minecraft "
+                + "version — the world generator settings no longer live in level.dat. To get the empty Skyseed "
+                + target.label + ", create a new world.").withStyle(ChatFormatting.RED);
     }
 
-    /** Join-warning check: the End is still the vanilla dimension and can be voided with {@code /emptyend}. */
+    /** Join-warning check: the Nether is still the vanilla dimension and can be voided with {@code /emptynether}.
+     *  Always false where the reset can't apply (26.1.2+), so the join offer isn't shown for an unfulfillable command. */
+    public static boolean netherNeedsConvert(MinecraftServer server) {
+        return RESET_SUPPORTED && !alreadyVoid(server, NETHER);
+    }
+
+    /** Join-warning check: the End is still the vanilla dimension and can be voided with {@code /emptyend}.
+     *  Always false where the reset can't apply (26.1.2+), so the join offer isn't shown for an unfulfillable command. */
     public static boolean endNeedsConvert(MinecraftServer server) {
-        return !alreadyVoid(server, END);
+        return RESET_SUPPORTED && !alreadyVoid(server, END);
     }
 
     /**

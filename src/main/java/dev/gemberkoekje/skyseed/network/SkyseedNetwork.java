@@ -38,7 +38,10 @@ public final class SkyseedNetwork {
             if (!(stack.getItem() instanceof IslandSeedItem seedItem)) {
                 return; // the player isn't holding a seed in that hand any more — ignore
             }
-            final float power = Math.min(1.0F, pkt.heldTicks() / (float) IslandSeedItem.CHARGE_TICKS);
+            // heldTicks is client-controlled (VAR_INT, can be negative). Clamp to [0,1] at BOTH ends — a negative value
+            // would otherwise yield negative power, hence a negative classic-throw velocity (seed launched backwards)
+            // and a negative sound pitch.
+            final float power = Math.max(0.0F, Math.min(1.0F, pkt.heldTicks() / (float) IslandSeedItem.CHARGE_TICKS));
 
             final IslandSeedEntity seed = new IslandSeedEntity(level, player);
             seed.setItem(stack);
@@ -48,6 +51,12 @@ public final class SkyseedNetwork {
             seed.setForcedWaterfall(seedItem.forcedWaterfall());
 
             if (pkt.precise()) {
+                // Reject a non-finite (NaN/Infinity) target before it reaches the distance clamp below: NaN makes the
+                // `distanceTo > MAX` comparison false, so a tampered client could otherwise skip the clamp entirely and
+                // (via blockPosition() flooring NaN to 0) force the island to grow at world origin.
+                if (!Double.isFinite(pkt.tx()) || !Double.isFinite(pkt.ty()) || !Double.isFinite(pkt.tz())) {
+                    return;
+                }
                 final Vec3 eye = player.getEyePosition();
                 Vec3 target = new Vec3(pkt.tx(), pkt.ty(), pkt.tz());
                 // Anti-cheat: never trust a target further than the max range, clamp along its direction.

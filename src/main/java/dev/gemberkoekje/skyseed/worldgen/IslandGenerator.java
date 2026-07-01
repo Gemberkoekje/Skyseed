@@ -434,7 +434,7 @@ public final class IslandGenerator {
         }
         final List<IslandPlan.MobSpawn> mobs = new ArrayList<>(MobPlanner.planMobs(mobCfg, buffers.surfaceList(), random));
         if (water.pondCfg().isPresent() && !water.pondColumns().isEmpty()) {
-            mobs.addAll(MobPlanner.planPondMobs(center, water.pondSurfaceY(), water.pondCfg().get(),
+            mobs.addAll(MobPlanner.planPondMobs(buffers.blockMap(), center, water.pondSurfaceY(), water.pondCfg().get(),
                     water.pondColumns(), random));
         }
         return mobs;

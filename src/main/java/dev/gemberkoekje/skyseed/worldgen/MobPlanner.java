@@ -7,11 +7,14 @@ import dev.gemberkoekje.skyseed.worldgen.theme.AnimalPack;
 import dev.gemberkoekje.skyseed.worldgen.theme.MobEntry;
 import dev.gemberkoekje.skyseed.worldgen.theme.Pond;
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -82,7 +85,8 @@ final class MobPlanner {
     }
 
     /** Roll each pond water mob and pick random submerged positions inside the carved water columns. */
-    static List<IslandPlan.MobSpawn> planPondMobs(BlockPos center, int waterY, Pond pond, Set<Long> carved, RandomSource random) {
+    static List<IslandPlan.MobSpawn> planPondMobs(Map<BlockPos, BlockState> blockMap, BlockPos center, int waterY,
+                                                  Pond pond, Set<Long> carved, RandomSource random) {
         final List<IslandPlan.MobSpawn> out = new ArrayList<>();
         if (pond.waterMobs().isEmpty() || carved.isEmpty()) {
             return out;
@@ -103,12 +107,32 @@ final class MobPlanner {
             final int n = m.count().sample(random);
             for (int i = 0; i < n; i++) {
                 final int[] c = cols.get(random.nextInt(cols.size()));
-                // Spawn below the surface (water above them) so squid/glow squid stay submerged.
-                final int y = bottomY + random.nextInt(Math.max(1, waterY - bottomY));
-                out.add(new IslandPlan.MobSpawn(type, new BlockPos(center.getX() + c[0], y, center.getZ() + c[1]), true));
+                final int wx = center.getX() + c[0];
+                final int wz = center.getZ() + c[1];
+                // Spawn below the surface (water above them) so squid/glow squid stay submerged. Roll against the GLOBAL
+                // deepest floor (same RNG draw as before, so generation stays byte-identical), then clamp UP to this
+                // column's actual water floor: a sloped basin shallows toward the rim, so a rim column's water spans only
+                // its top blocks. An unclamped roll near bottomY would land in solid body below the water, and
+                // GenerationJob.spawnMobs would silently drop the mob — leaving the pond with fewer mobs than configured.
+                final int rolled = bottomY + random.nextInt(Math.max(1, waterY - bottomY));
+                final int y = Math.min(waterY, Math.max(rolled, waterFloorIn(blockMap, wx, wz, waterY, bottomY)));
+                out.add(new IslandPlan.MobSpawn(type, new BlockPos(wx, y, wz), true));
             }
         }
         return out;
+    }
+
+    /** The lowest carved-water Y in a column (its floor), scanned down from {@code waterY}, bounded by {@code deepest}. */
+    private static int waterFloorIn(Map<BlockPos, BlockState> blockMap, int wx, int wz, int waterY, int deepest) {
+        int f = waterY;
+        while (f - 1 >= deepest) {
+            final BlockState s = blockMap.get(new BlockPos(wx, f - 1, wz));
+            if (s == null || !s.getFluidState().is(FluidTags.WATER)) {
+                break;
+            }
+            f--;
+        }
+        return f;
     }
 
     /** @return the entity type for {@code id}, or {@code null} (logged) if it isn't a registered entity. */

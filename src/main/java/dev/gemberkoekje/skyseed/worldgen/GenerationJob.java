@@ -1,5 +1,6 @@
 package dev.gemberkoekje.skyseed.worldgen;
 
+import dev.gemberkoekje.skyseed.Skyseed;
 import dev.gemberkoekje.skyseed.compat.Entities;
 import dev.gemberkoekje.skyseed.compat.Jigsaw;
 import dev.gemberkoekje.skyseed.compat.Lookup;
@@ -64,7 +65,10 @@ public final class GenerationJob {
     private int treeIndex = 0;
     private int treesPlaced = 0;
     private int scatterIndex = 0;
-    private boolean mobsSpawned = false;
+    /** Finalization sub-step (0 = structures, 1 = mobs/animals/hives/fluids, 2 = snow + done), spread across ticks. */
+    private int finalizeStep = 0;
+    /** Whether this job has force-loaded its region (released again on completion). */
+    private boolean chunksForced = false;
 
     public GenerationJob(ServerLevel level, IslandPlan plan) {
         this.level = level;
@@ -73,6 +77,13 @@ public final class GenerationJob {
 
     /** Advance one tick. @return true once the whole island (blocks + trees + mobs) has been placed. */
     public boolean tick() {
+        if (!chunksForced) {
+            // Keep the island's chunks loaded for the whole (multi-tick) grow. Critical for a twin grown in a
+            // player-less dimension, where nothing else tickets the region: a chunk written on an early tick could
+            // otherwise unload before a later pass (structures/mobs/snow) reads it, silently dropping content there.
+            setRegionForced(true);
+            chunksForced = true;
+        }
         final int blockCount = plan.blocks().size();
         int budget = BLOCKS_PER_TICK;
         while (budget-- > 0 && blockIndex < blockCount) {
@@ -126,18 +137,62 @@ public final class GenerationJob {
             }
         }
 
-        if (!mobsSpawned) {
-            placeStructures();
-            spawnMobs();
-            spawnEnclosureAnimals();
-            populateHives();
-            kickFluids();
-            if (plan.snow() > 0.0f) {
-                snowIsland(); // final step: snow-cap the whole island — ground, roofs and tree tops
+        // Finalize over several ticks instead of one: a big structure island would otherwise run jigsaw assembly +
+        // connection-linking + villagers, then mobs/animals/hives/fluids, then a full-island snow scan all in the SAME
+        // server tick — a multi-hundred-ms spike. One step per tick keeps each finalize tick bounded.
+        switch (finalizeStep) {
+            case 0 -> {
+                placeStructures();
+                finalizeStep++;
+                return false;
             }
-            mobsSpawned = true;
+            case 1 -> {
+                spawnMobs();
+                spawnEnclosureAnimals();
+                populateHives();
+                kickFluids();
+                finalizeStep++;
+                return false;
+            }
+            default -> {
+                if (plan.snow() > 0.0f) {
+                    snowIsland(); // final step: snow-cap the whole island — ground, roofs and tree tops
+                }
+                setRegionForced(false); // island complete — release the chunk-load tickets taken on the first tick
+                return true;
+            }
         }
-        return true;
+    }
+
+    /**
+     * Force-load (or release) every chunk column spanning the island's blocks plus any structure reach, so the whole
+     * multi-tick job sees a stable, fully-loaded region (see {@link #tick()}'s first-tick call). Forced on the first
+     * tick, released on completion; a hard crash mid-grow would leave them forced (recoverable with {@code /forceload
+     * remove}). A no-op for a plan with no blocks.
+     */
+    private void setRegionForced(boolean add) {
+        if (plan.blocks().isEmpty()) {
+            return;
+        }
+        int minX = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE, maxZ = Integer.MIN_VALUE;
+        for (IslandPlan.BlockPlacement bp : plan.blocks()) {
+            final BlockPos p = bp.pos();
+            minX = Math.min(minX, p.getX());
+            maxX = Math.max(maxX, p.getX());
+            minZ = Math.min(minZ, p.getZ());
+            maxZ = Math.max(maxZ, p.getZ());
+        }
+        for (IslandPlan.JigsawSite js : plan.jigsaws()) {
+            minX = Math.min(minX, js.origin().getX() - js.reach());
+            maxX = Math.max(maxX, js.origin().getX() + js.reach());
+            minZ = Math.min(minZ, js.origin().getZ() - js.reach());
+            maxZ = Math.max(maxZ, js.origin().getZ() + js.reach());
+        }
+        for (int cx = minX >> 4; cx <= maxX >> 4; cx++) {
+            for (int cz = minZ >> 4; cz <= maxZ >> 4; cz++) {
+                level.setChunkForced(cx, cz, add);
+            }
+        }
     }
 
     /** Last resort so a tree-bearing island is never bare: clear a site to grass + air and place its feature there. */
@@ -264,8 +319,16 @@ public final class GenerationJob {
      */
     private void placeStructures() {
         for (IslandPlan.JigsawSite js : plan.jigsaws()) {
+            // Gate the data-driven pool id before Lookup.templatePool (which getOrThrows) so a theme referencing a pool
+            // from an uninstalled structure mod — or a typo'd id — skips this structure instead of crashing the whole
+            // grow job mid-island. Matches the hasTemplatePool gating every other resolve path already uses.
+            if (!Lookup.hasTemplatePool(level.registryAccess(), js.pool())) {
+                Skyseed.LOGGER.warn("[skyseed] jigsaw pool '{}' is not registered — skipping this structure", js.pool().value());
+                continue;
+            }
             final Holder<StructureTemplatePool> pool = Lookup.templatePool(level.registryAccess(), js.pool());
-            final Holder<StructureTemplatePool> fillerPool = js.capFiller().isEmpty() ? null
+            final Holder<StructureTemplatePool> fillerPool = (js.capFiller().isEmpty()
+                    || !Lookup.hasTemplatePool(level.registryAccess(), js.capFiller())) ? null
                     : Lookup.templatePool(level.registryAccess(), js.capFiller());
             Jigsaw.placeCapped(level, pool, js.target(), js.depth(), js.origin(), false,
                     js.capPrefix(), js.capCount(), fillerPool);
@@ -357,9 +420,18 @@ public final class GenerationJob {
     /** As {@link #linkConnections(ServerLevel, BlockPos)} but scanning {@code radius} out — sized to the structure. */
     public static void linkConnections(ServerLevel level, BlockPos origin, int radius) {
         final BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
-        for (int dy = -LINK_DOWN; dy <= LINK_UP; dy++) {
-            for (int dx = -radius; dx <= radius; dx++) {
-                for (int dz = -radius; dz <= radius; dz++) {
+        // Column-outer so an unloaded column is skipped with ONE isLoaded check instead of paying a getBlockState for
+        // every cell in it. A wide structure's reach box is mostly empty void; without this guard (the other passes all
+        // have it) the scan did ~(2·radius+1)^2·(LINK_DOWN+LINK_UP+1) unconditional reads — and getBlockState on a cold
+        // column can force-load it. Linking only reads neighbour block *types* (not their link flags), so the per-column
+        // order is equivalent to the old layer-by-layer order.
+        for (int dx = -radius; dx <= radius; dx++) {
+            for (int dz = -radius; dz <= radius; dz++) {
+                p.set(origin.getX() + dx, origin.getY(), origin.getZ() + dz);
+                if (!level.isLoaded(p)) {
+                    continue;
+                }
+                for (int dy = -LINK_DOWN; dy <= LINK_UP; dy++) {
                     p.set(origin.getX() + dx, origin.getY() + dy, origin.getZ() + dz);
                     final BlockState state = level.getBlockState(p);
                     if (state.getBlock() instanceof CrossCollisionBlock || state.getBlock() instanceof WallBlock) {
@@ -423,9 +495,13 @@ public final class GenerationJob {
                     final Villager villager = Entities.create(EntityType.VILLAGER, level);
                     if (villager != null) {
                         Entities.place(villager, p.getX() + 0.5, p.getY(), p.getZ() + 0.5, 0.0F, 0.0F);
-                        // VillagerType.byBiome was removed in 26.1.2 (VillagerType became a Holder/registry); there the
-                        // type is left to vanilla's finalizeMobSpawn, which sets it from the spawn biome.
-                        //? if <26.1.2 {
+                        // Assign the biome-appropriate villager type. 1.21.1: VillagerType.byBiome directly. 26.1.2:
+                        // VillagerType became a Holder/registry and byBiome was removed, so run vanilla's finalizeMobSpawn
+                        // (as the mob-spawn paths above/below do) which sets the type from the spawn biome — addFreshEntity
+                        // alone does NOT call it, so without this the villager would keep the default (plains) variant.
+                        //? if >=26.1.2 {
+                        /*EventHooks.finalizeMobSpawn(villager, level, level.getCurrentDifficultyAt(p), SPAWNER, null);*/
+                        //?} else {
                         villager.setVillagerData(villager.getVillagerData().setType(VillagerType.byBiome(level.getBiome(p))));
                         //?}
                         villager.setPersistenceRequired();

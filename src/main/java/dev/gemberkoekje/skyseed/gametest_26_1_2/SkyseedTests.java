@@ -22,6 +22,10 @@ import dev.gemberkoekje.skyseed.worldgen.TwinPlacer;
 import dev.gemberkoekje.skyseed.worldgen.structure.PathSurfacer;
 import dev.gemberkoekje.skyseed.worldgen.theme.BiomeOverride;
 import dev.gemberkoekje.skyseed.worldgen.theme.IslandTheme;
+import dev.gemberkoekje.skyseed.worldgen.theme.ThemeOverride;
+import dev.gemberkoekje.skyseed.worldgen.theme.Themes;
+import com.google.gson.JsonParser;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -249,6 +253,16 @@ public final class SkyseedTests {
         reg(event, "island_output_is_stable", REGION, SkyseedTests::islandOutputIsStable);
         reg(event, "every_seed_recipe_and_book_entry_matches_seed_kind", REGION, SkyseedTests::everySeedRecipeAndBookEntryMatchesSeedKind);
         reg(event, "end_portal_drops_seed_into_structure_loot", REGION, SkyseedTests::endPortalDropsSeedIntoStructureLoot);
+        // --- theme-override merge + shipped first-party compat datapacks, and the huge_forest probabilistic water roll
+        //     (ported from the 1.21.1 suite — these guard the ThemeOverride.applyTo append/band-merge ordering and the
+        //     Pond chance roll, version-independent shared code that was previously only exercised on the 1.21.1 node) ---
+        reg(event, "theme_override_merges_onto_base", REGION, SkyseedTests::themeOverrideMergesOntoBase);
+        reg(event, "create_zinc_compat_targets_rocky", REGION, SkyseedTests::createZincCompatTargetsRocky);
+        reg(event, "create_zinc_reaches_rocky_deep_band", REGION, SkyseedTests::createZincReachesRockyDeepBand);
+        reg(event, "mystical_agriculture_compat_targets_ancient", REGION, SkyseedTests::mysticalAgricultureCompatTargetsAncient);
+        reg(event, "mystical_agriculture_compat_targets_nether_soul", REGION, SkyseedTests::mysticalAgricultureCompatTargetsNetherSoul);
+        reg(event, "biomeswevegone_compat_prepends_forest_bands", REGION, SkyseedTests::biomeswevegoneCompatPrependsForestBands);
+        reg(event, "huge_forest_water_feature_rolls", REGION, SkyseedTests::hugeForestWaterFeatureRolls);
         // DEFERRED — not ported:
         //  - legacyDimensionResetRewritesGeneratorSettings: the level.dat /emptynether reset is a no-op on 26.1.2
         //    (WorldGenSettings moved out of level.dat) and is slated for pre-1.0 removal — so there is nothing to test.
@@ -2863,6 +2877,124 @@ public final class SkyseedTests {
         helper.assertTrue(theme.equals(b.getTheme()), "theme did not round-trip through NBT");
         helper.assertTrue(tag2.getBooleanOr("Precise", false) && tag2.getDoubleOr("TY", 0.0) == 2.5,
                 "precise target did not round-trip through read");
+        helper.succeed();
+    }
+
+    /** Theme-override merge: a patch appends to list fields and an empty patch is a strict no-op (golden-master safety). */
+    static void themeOverrideMergesOntoBase(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme base = theme(level, "rocky");
+        final int baseOres = base.ores().size();
+
+        // Decoded from JSON (also exercises the flattened ThemeOverride codec): appends one ore, touching nothing else.
+        final String json = "{\"target\":\"skyseed:rocky\",\"ores\":[{\"block\":\"minecraft:diamond_ore\","
+                + "\"chance\":0.5,\"count\":{\"min\":1,\"max\":2},\"vein_size\":{\"min\":1,\"max\":2},\"depth\":\"core\"}]}";
+        final ThemeOverride ov = ThemeOverride.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseString(json)).getOrThrow();
+        helper.assertTrue(ov.target().equals(Id.of("skyseed:rocky")), "override target mis-parsed");
+
+        final IslandTheme merged = ov.applyTo(base);
+        helper.assertTrue(merged.ores().size() == baseOres + 1, "override should append exactly one ore");
+        helper.assertTrue(merged.mobs() == base.mobs(), "untouched lists should stay the same reference");
+
+        // An empty patch (only a target) must be a strict no-op — this is what keeps the golden master byte-identical.
+        final ThemeOverride empty = ThemeOverride.CODEC
+                .parse(JsonOps.INSTANCE, JsonParser.parseString("{\"target\":\"skyseed:rocky\"}")).getOrThrow();
+        helper.assertTrue(empty.applyTo(base).equals(base), "an empty override must leave the theme unchanged");
+        helper.succeed();
+    }
+
+    /** The shipped first-party Create compat datapack: rocky's resolved ores gain create:zinc_ore (inert without Create). */
+    static void createZincCompatTargetsRocky(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme baseRocky = theme(level, "rocky");
+        final IslandTheme resolved = Themes.resolve(level.registryAccess(), Id.of("skyseed:rocky"));
+        helper.assertTrue(resolved != null, "rocky must resolve");
+        helper.assertTrue(resolved.ores().size() > baseRocky.ores().size(),
+                "the shipped create_rocky theme_override should add an ore to rocky");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("create:zinc_ore")),
+                "rocky's resolved ores should include create:zinc_ore");
+        helper.succeed();
+    }
+
+    /** Band-merge: the deep-band patch selector-matches rocky's max_y:8 band, so resolved rocky's deep band gains deepslate zinc. */
+    static void createZincReachesRockyDeepBand(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:rocky"));
+        helper.assertTrue(resolved != null, "rocky must resolve");
+        final var deepBand = resolved.biomeOverrides().stream()
+                .filter(b -> b.maxY().equals(java.util.Optional.of(8)) && b.biomes().isEmpty() && b.minY().isEmpty())
+                .findFirst();
+        helper.assertTrue(deepBand.isPresent(), "rocky should keep its single max_y=8 deep band (merged, not duplicated)");
+        helper.assertTrue(deepBand.get().ores().isPresent() && deepBand.get().ores().get().stream()
+                        .anyMatch(o -> o.block().value().equals("create:deepslate_zinc_ore")),
+                "the deep band should include create:deepslate_zinc_ore after the selector band-merge");
+        helper.succeed();
+    }
+
+    /** The shipped first-party Mystical Agriculture compat datapack: ancient's resolved ores gain MA deepslate inferium/prosperity (inert without MA). */
+    static void mysticalAgricultureCompatTargetsAncient(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme baseAncient = theme(level, "ancient");
+        final IslandTheme resolved = Themes.resolve(level.registryAccess(), Id.of("skyseed:ancient"));
+        helper.assertTrue(resolved != null, "ancient must resolve");
+        helper.assertTrue(resolved.ores().size() > baseAncient.ores().size(),
+                "the shipped mysticalagriculture_ancient theme_override should add ores to ancient");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("mysticalagriculture:deepslate_prosperity_ore")),
+                "ancient's resolved ores should include mysticalagriculture:deepslate_prosperity_ore");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("mysticalagriculture:deepslate_inferium_ore")),
+                "ancient's resolved ores should include mysticalagriculture:deepslate_inferium_ore");
+        helper.succeed();
+    }
+
+    /** The shipped first-party Mystical Agriculture compat datapack: nether_soul's resolved ores gain MA soulium (inert without MA). */
+    static void mysticalAgricultureCompatTargetsNetherSoul(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:nether_soul"));
+        helper.assertTrue(resolved != null, "nether_soul must resolve");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("mysticalagriculture:soulium_ore")),
+                "nether_soul's resolved ores should include mysticalagriculture:soulium_ore");
+        helper.succeed();
+    }
+
+    /** The shipped first-party BWG compat datapack: forest's resolved biome_overrides gain BWG wood bands, PREPENDED
+     *  ahead of the base #is_forest catch-all so they win the first-match (BWG biomes are transitively in #is_forest via
+     *  #biomeswevegone:forest, so an APPENDED band would be silently shadowed). Inert without BWG. */
+    static void biomeswevegoneCompatPrependsForestBands(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:forest"));
+        helper.assertTrue(resolved != null, "forest must resolve");
+        final var bands = resolved.biomeOverrides();
+        int bwgIdx = -1, catchAllIdx = -1;
+        for (int i = 0; i < bands.size(); i++) {
+            final var b = bands.get(i);
+            if (bwgIdx < 0 && b.biomes().contains("biomeswevegone:aspen_boreal")) bwgIdx = i;
+            if (catchAllIdx < 0 && b.biomes().contains("#minecraft:is_forest")) catchAllIdx = i;
+        }
+        helper.assertTrue(bwgIdx >= 0, "the shipped biomeswevegone_forest theme_override should add a biomeswevegone:aspen_boreal band");
+        helper.assertTrue(catchAllIdx >= 0, "forest must keep its base #minecraft:is_forest catch-all band");
+        helper.assertTrue(bwgIdx < catchAllIdx,
+                "the BWG band (idx " + bwgIdx + ") must be PREPENDED ahead of the #is_forest catch-all (idx " + catchAllIdx + ") to win the first-match");
+        // Guard against a stale staged datapack copy: the last wood band added must be present too (else only an old
+        // subset was loaded). ironwood_gour is the final band in the shipped biomeswevegone_forest override.
+        helper.assertTrue(bands.stream().anyMatch(b -> b.biomes().contains("biomeswevegone:ironwood_gour")),
+                "the biomeswevegone_forest override should include all wood bands through ironwood_gour");
+        helper.succeed();
+    }
+
+    /** huge_forest's pond rolls 25% lake / 25% river / 50% dry (Pond.chance + .river). Over many seeds both a dry and a
+     *  watered island must appear — confirms the chance roll fires (and that a plain pond, chance 1, is unaffected). */
+    static void hugeForestWaterFeatureRolls(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme t = theme(level, "huge_forest");
+        final Holder<Biome> plains = biome(level, "minecraft:plains");
+        boolean sawDry = false, sawWater = false;
+        for (long seed = 0; seed < 120 && !(sawDry && sawWater); seed++) {
+            final IslandPlan p = IslandGenerator.planIsland(level, new BlockPos(40, 80, 40), t, plains, RandomSource.create(seed));
+            boolean water = false;
+            for (final IslandPlan.BlockPlacement bp : p.blocks()) {
+                if (bp.state().is(Blocks.WATER)) { water = true; break; }
+            }
+            if (water) sawWater = true; else sawDry = true;
+        }
+        helper.assertTrue(sawWater, "some huge_forest seeds should roll a water feature (lake or river)");
+        helper.assertTrue(sawDry, "some huge_forest seeds should roll dry (no water feature)");
         helper.succeed();
     }
 

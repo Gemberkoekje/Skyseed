@@ -82,8 +82,11 @@ public final class Jigsaw {
         //?} else {
         final int maxDist = 128;
         //?}
+        // Ids.parse is @Nullable: an unparseable/malformed data-driven start-jigsaw id resolves to nothing rather than
+        // crashing. Optional.ofNullable(null) → empty start name, which vanilla treats as "use the pool's default start
+        // element" — graceful degradation matching the Id contract (Id.java), where Optional.of(null) would NPE.
         final Optional<Structure.GenerationStub> stub = JigsawPlacement.addPieces(
-                context, pool, Optional.of(Ids.parse(target.value())), depth, origin, false, Optional.empty(), maxDist,
+                context, pool, Optional.ofNullable(Ids.parse(target.value())), depth, origin, false, Optional.empty(), maxDist,
                 PoolAliasLookup.EMPTY, JigsawStructure.DEFAULT_DIMENSION_PADDING, JigsawStructure.DEFAULT_LIQUID_SETTINGS);
         if (stub.isEmpty()) {
             return;
