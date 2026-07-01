@@ -24,6 +24,8 @@ import dev.gemberkoekje.skyseed.worldgen.theme.BiomeOverride;
 import dev.gemberkoekje.skyseed.worldgen.theme.IslandTheme;
 import dev.gemberkoekje.skyseed.worldgen.theme.ThemeOverride;
 import dev.gemberkoekje.skyseed.worldgen.theme.Themes;
+import dev.gemberkoekje.skyseed.worldgen.theme.TreeEntry;
+import dev.gemberkoekje.skyseed.worldgen.theme.Variant;
 import com.google.gson.JsonParser;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.core.BlockPos;
@@ -260,8 +262,10 @@ public final class SkyseedTests {
         reg(event, "create_zinc_compat_targets_rocky", REGION, SkyseedTests::createZincCompatTargetsRocky);
         reg(event, "create_zinc_reaches_rocky_deep_band", REGION, SkyseedTests::createZincReachesRockyDeepBand);
         reg(event, "mystical_agriculture_compat_targets_ancient", REGION, SkyseedTests::mysticalAgricultureCompatTargetsAncient);
+        reg(event, "mystical_agriculture_compat_targets_lush", REGION, SkyseedTests::mysticalAgricultureCompatTargetsLush);
         reg(event, "mystical_agriculture_compat_targets_nether_soul", REGION, SkyseedTests::mysticalAgricultureCompatTargetsNetherSoul);
         reg(event, "biomeswevegone_compat_prepends_forest_bands", REGION, SkyseedTests::biomeswevegoneCompatPrependsForestBands);
+        reg(event, "biomeswevegone_compat_prepends_aquatic_bands", REGION, SkyseedTests::biomeswevegoneCompatPrependsAquaticBands);
         reg(event, "huge_forest_water_feature_rolls", REGION, SkyseedTests::hugeForestWaterFeatureRolls);
         // DEFERRED — not ported:
         //  - legacyDimensionResetRewritesGeneratorSettings: the level.dat /emptynether reset is a no-op on 26.1.2
@@ -2945,6 +2949,25 @@ public final class SkyseedTests {
         helper.succeed();
     }
 
+    /** The shipped first-party Mystical Agriculture compat datapack: lush's resolved ores gain the STONE MA inferium/prosperity
+     *  (the accessible bootstrap source; Ancient carries the deepslate variants). Inert without MA. */
+    static void mysticalAgricultureCompatTargetsLush(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme baseLush = theme(level, "lush");
+        final IslandTheme resolved = Themes.resolve(level.registryAccess(), Id.of("skyseed:lush"));
+        helper.assertTrue(resolved != null, "lush must resolve");
+        helper.assertTrue(resolved.ores().size() > baseLush.ores().size(),
+                "the shipped mysticalagriculture_lush theme_override should add ores to lush");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("mysticalagriculture:prosperity_ore")),
+                "lush's resolved ores should include the STONE mysticalagriculture:prosperity_ore");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("mysticalagriculture:inferium_ore")),
+                "lush's resolved ores should include the STONE mysticalagriculture:inferium_ore");
+        // Guard the deliberate stone/deepslate split: Lush must NOT get the deepslate variants (those live on Ancient).
+        helper.assertTrue(resolved.ores().stream().noneMatch(o -> o.block().value().equals("mysticalagriculture:deepslate_inferium_ore")),
+                "lush should carry the stone inferium ore, not the deepslate variant (that is Ancient's)");
+        helper.succeed();
+    }
+
     /** The shipped first-party Mystical Agriculture compat datapack: nether_soul's resolved ores gain MA soulium (inert without MA). */
     static void mysticalAgricultureCompatTargetsNetherSoul(GameTestHelper helper) {
         final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:nether_soul"));
@@ -2952,6 +2975,29 @@ public final class SkyseedTests {
         helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("mysticalagriculture:soulium_ore")),
                 "nether_soul's resolved ores should include mysticalagriculture:soulium_ore");
         helper.succeed();
+    }
+
+    /** The first resolved biome_override band whose {@code biomes} list contains {@code biomeId}, or null. */
+    private static BiomeOverride bandFor(IslandTheme theme, String biomeId) {
+        for (BiomeOverride b : theme.biomeOverrides()) {
+            if (b.biomes().contains(biomeId)) {
+                return b;
+            }
+        }
+        return null;
+    }
+
+    /** The id ("namespace:path") of the first tree feature on the first variant of {@code band}, or null if none. */
+    private static String firstTreeFeature(BiomeOverride band) {
+        if (band == null || band.variants().isEmpty()) {
+            return null;
+        }
+        for (Variant v : band.variants().get()) {
+            for (TreeEntry t : v.decoration().trees()) {
+                return t.feature().namespace() + ":" + t.feature().path();
+            }
+        }
+        return null;
     }
 
     /** The shipped first-party BWG compat datapack: forest's resolved biome_overrides gain BWG wood bands, PREPENDED
@@ -2975,6 +3021,49 @@ public final class SkyseedTests {
         // subset was loaded). ironwood_gour is the final band in the shipped biomeswevegone_forest override.
         helper.assertTrue(bands.stream().anyMatch(b -> b.biomes().contains("biomeswevegone:ironwood_gour")),
                 "the biomeswevegone_forest override should include all wood bands through ironwood_gour");
+        // Fantasy-wood bands (BWG 2.6.0 id verification, 2026-07): enchanted/skyris are their own biomes; spirit grows
+        // in pale_bog (there is NO biomeswevegone:spirit_woods biome — regression guard for the corrected id).
+        helper.assertTrue(bandFor(resolved, "biomeswevegone:enchanted_tangle") != null,
+                "forest should include the enchanted_tangle fantasy band");
+        helper.assertTrue(bandFor(resolved, "biomeswevegone:skyris_vale") != null,
+                "forest should include the skyris_vale fantasy band");
+        helper.assertTrue(bands.stream().noneMatch(b -> b.biomes().contains("biomeswevegone:spirit_woods")),
+                "spirit must NOT be keyed to the nonexistent biomeswevegone:spirit_woods biome");
+        final BiomeOverride spirit = bandFor(resolved, "biomeswevegone:pale_bog");
+        helper.assertTrue(spirit != null, "spirit wood must be keyed to biomeswevegone:pale_bog (its real host biome)");
+        helper.assertTrue("biomeswevegone:spirit_trees".equals(firstTreeFeature(spirit)),
+                "the pale_bog band must grow biomeswevegone:spirit_trees");
+        helper.succeed();
+    }
+
+    /** The shipped first-party BWG compat datapack (WET-WOODS): aquatic's resolved biome_overrides gain the BWG wet-wood
+     *  bands, PREPENDED ahead of the base #minecraft:is_ocean catch-all. Guards the id verification (BWG 2.6.0): willow
+     *  grows via the bayou biome's bayou_trees (there is no willow_trees feature) and white_mangrove via the dedicated
+     *  white_mangrove_marshes biome (not pale_bog). Inert without BWG. */
+    static void biomeswevegoneCompatPrependsAquaticBands(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:aquatic"));
+        helper.assertTrue(resolved != null, "aquatic must resolve");
+        final var bands = resolved.biomeOverrides();
+        int bwgIdx = -1, catchAllIdx = -1;
+        for (int i = 0; i < bands.size(); i++) {
+            final var b = bands.get(i);
+            if (bwgIdx < 0 && b.biomes().contains("biomeswevegone:cypress_swamplands")) bwgIdx = i;
+            if (catchAllIdx < 0 && b.biomes().contains("#minecraft:is_ocean")) catchAllIdx = i;
+        }
+        helper.assertTrue(bwgIdx >= 0, "the shipped biomeswevegone_aquatic theme_override should add a cypress_swamplands band");
+        helper.assertTrue(catchAllIdx >= 0, "aquatic must keep its base #minecraft:is_ocean catch-all band");
+        helper.assertTrue(bwgIdx < catchAllIdx,
+                "the BWG band (idx " + bwgIdx + ") must be PREPENDED ahead of the #is_ocean catch-all (idx " + catchAllIdx + ")");
+        // willow → bayou biome, feature bayou_trees (NOT the nonexistent willow_trees) — the subtlest verified fix.
+        final BiomeOverride willow = bandFor(resolved, "biomeswevegone:bayou");
+        helper.assertTrue(willow != null, "aquatic should include the bayou (willow) band");
+        helper.assertTrue("biomeswevegone:bayou_trees".equals(firstTreeFeature(willow)),
+                "the bayou band must grow biomeswevegone:bayou_trees (there is no biomeswevegone:willow_trees feature)");
+        // white_mangrove → the dedicated white_mangrove_marshes biome, not pale_bog (which is the spirit biome).
+        helper.assertTrue(bandFor(resolved, "biomeswevegone:white_mangrove_marshes") != null,
+                "white_mangrove must be keyed to biomeswevegone:white_mangrove_marshes");
+        helper.assertTrue(bands.stream().noneMatch(b -> b.biomes().contains("biomeswevegone:pale_bog")),
+                "aquatic must not key white_mangrove to pale_bog (that is the spirit biome)");
         helper.succeed();
     }
 

@@ -14,9 +14,9 @@
 - **Q2 — concentrate vs distribute → ✅ RESOLVED: DISTRIBUTE (per typed seed, priority-ordered — see Q2 below).** The **wet woods** (cypress/willow/white-mangrove/palm) and **fantasy woods** (enchanted/skyris/spirit) are now **DRAFTED (2026-07-01), pending id verification**:
   - **Wet woods → Aquatic family (water-first):** new `biomeswevegone_aquatic.json` (+ `_large`, `huge_`) — pond-dominant bands with the BWG wet-wood trees as the secondary layer.
   - **Fantasy woods → Forest family (trees-first):** appended to `biomeswevegone_forest.json` (+ `_large`, `huge_`). The same files also gained a **trees-first `cypress` overlap** as the deliberate multi-seed demo (cypress is water-first on Aquatic, trees-first on Forest).
-  - **⚠ Remaining ship steps before merge:** (1) **verify every `biomeswevegone:` biome id + `*_trees` feature id against the BWG 2.6.0 jar** — all are best-guesses flagged in each file's `_verify` (esp. `willow`/`white_mangrove`/`palm` biomes and whether a `spirit` biome is even injected); (2) add an inert golden-master **gametest** per set; (3) bump `mod_version` + CHANGELOG. Tree tries / pond sizes are provisional and tunable in-game.
+  - **✅ SHIPPED (2026-07-01, v0.171.0).** All ids **verified against the BWG 2.6.0 jar** and corrected: willow → `bayou` biome / `bayou_trees` feature (no `willow_trees` exists), white_mangrove → `white_mangrove_marshes` (not `pale_bog`), **spirit IS growable** via `pale_bog` (there is no `spirit_woods` biome), palm kept on the sandy `rainbow_beach` by design (BWG injects `palm_trees` into vanilla beach). `feature` resolves against the **configured**-feature registry. Added `biomeswevegone_compat_prepends_aquatic_bands` + extended the forest gametest (both nodes); `mod_version`/CHANGELOG bumped. Tree tries / pond sizes remain tunable in-game.
 - **Density follow-up:** lift the *held* wet/semi forest biomes (mangrove/swamp/riverside, cherry/grove/mushroom/bamboo/flower) to the agreed level — held pending the in-game density read, now confirmed good.
-- **Step 4 (Patchouli "Exotic Woods" entry) ✅ DONE.** **Step 2 (OTYG verification), Step 3 (create-otbwg verification), Step 5 (the light quest branch — now under Tools & Travel), and the rest of Step 4 (config curation + `mods.txt` regen)** — still to do.
+- **Step 2 (OTYG verification) ✅ DONE (2026-07-01)** and **Step 4 (Patchouli "Exotic Woods" entry) ✅ DONE.** **Step 3 (create-otbwg verification), Step 5 (the light quest branch — now under Tools & Travel), and the rest of Step 4 (config curation + `mods.txt` regen)** — still to do.
 - **STRUCTUREPLAN** (BWG village/manor/trial resurrection) — its own later child changeset.
 
 ## The three mods
@@ -74,11 +74,11 @@ Notes:
 
 Scope discipline: do **not** map all 55. Cover the signature **wood** biomes (so every BWG plank is reachable) + a couple of iconic floral biomes (to feed the milling compat). The rest land later.
 
-## Step 2 — OTYG (sapling growth)
+## Step 2 — OTYG (sapling growth) — ✅ VERIFIED (2026-07-01)
 
-- **Verify** OTYG ships sapling→tree mappings for vanilla + BWG saplings, or whether it needs a Potion Studios tree-pack datapack (the jar carried only `test` trees). If BWG saplings don't grow under OTYG out of the box, add/enable the tree pack.
-- Confirm OTYG's bigger-tree growth works **in Botany Pots** (the pack's tree-farming path) and on islands.
-- `skip_decoration: true` already neutralises OTYG worldgen — no leak. Review `config/ohthetreesyoullgrow*` for growth/worldgen toggles.
+- ✅ **Verified in-game:** vanilla **oak** and BWG **Zelkova** saplings both grow to trees. **BWG saplings grow out of the box** — the Potion Studios tree-pack datapack was **not** needed.
+- ✅ **Botany Pots path works:** Elite Botany Pot + dirt + Zelkova sapling → 2 zelkova logs; + oak sapling → 3 oak logs. Growth works both on islands and in pots.
+- `skip_decoration: true` already neutralises OTYG worldgen — no leak. *(Config review of `config/ohthetreesyoullgrow*` for growth/worldgen toggles rolls into the Step 4 config-curation pass; nothing needed for growth to work.)*
 
 ## Step 3 — create-otbwg-compat (verify only)
 
@@ -99,6 +99,58 @@ A small branch under the **Tools & Travel** chapter (an explore-the-wilds line �
 - *Into the Wilds* — obtain any BWG plank (proof you grew an exotic island).
 - *Mill the Blooms* — a create-otbwg milled output (ties BWG → Create).
 - *Grow Something Grand* — an OTYG-grown tree.
+
+## Plank coverage audit — 19 / 25 obtainable (2026-07-01) ← TODO: close the gap
+
+Enumerated the plank roster straight from `overrides/mods/Oh-The-Biomes-Weve-Gone-NeoForge-2.6.0.jar`
+(`assets/biomeswevegone/blockstates/*_planks.json`): **BWG 2.6.0 ships 25 plank types.** The shipped
+Forest + Aquatic bands (and the `#skyseed:exotic_woods` tag) cover exactly **19**. Six planks have **no
+island band and are absent from the tag**, so the "every BWG plank is now obtainable" goal is **not yet
+met**. Five are trivially addable (each has a real configured tree feature + host biome); the sixth (fir)
+appears to have no worldgen source at all.
+
+**TODO — add bands for the 5 addable woods (×3 tiers each), extend `#skyseed:exotic_woods` + the gametests,
+and settle fir.** Per the Q2 distribute rule, point each band at the *specific* configured feature (not the
+biome-mixed `*_trees` selector) so it yields a single clean plank:
+
+| Missing plank | Host biome(s) | Feature to target | Suggested family | Notes |
+|---|---|---|---|---|
+| florus | `forgotten_forest` | `florus_trees` (dedicated) | Forest | clean dedicated feature |
+| holly | `dacite_ridges`, `eroded_borealis` | `holly_trees` (dedicated) | Forest / Rocky | clean dedicated feature |
+| pine | `black_forest` (also `canadian_shield`, `red_rock_valley`/`red_rock_peaks`) | `pine_tree1` + `pine_tree2` | Forest (or Frozen) | **no** dedicated `pine_trees` aggregate — target `pine_tree1/2` directly (else it only appears mixed inside `black_forest_trees` / `canadian_shield_trees` / `red_rock_valley_trees`) |
+| mahogany | `tropical_rainforest`, `fragment_jungle`, `crag_gardens` | `mahogany_trees` | Forest (jungle band) | in worldgen only mixed into `rainforest_trees` / `guiana_shield_trees` — target `mahogany_trees` directly for pure mahogany |
+| rainbow_eucalyptus | `fragment_jungle`, `crag_gardens` | `rainbow_eucalyptus_trees` | Forest (jungle band) | only mixed into `fragment_jungle_trees` / `guiana_shield_trees` — target `rainbow_eucalyptus_trees` directly |
+| **fir** | — none found — | **no `fir_tree`/`fir_trees` feature exists** | — | ships `fir_planks` + `fir_sapling`, but there is **no configured fir tree feature** and fir was **not** found in any biome tree-selector audited → appears **non-growable** in 2.6.0. Confirm, then either expose via a recipe or document as intentionally out of scope. |
+
+Ship steps per the standing rules: inert golden-master gametest per set, `mod_version` + CHANGELOG bump.
+Cross-refs: the in-game checklist line "every BWG plank is now obtainable" and backlog item **#63** in
+[PLANOFPLANS.md](../PLANOFPLANS.md).
+
+## In-game test findings (2026-07-01, v0.171.0) ← TODO: items #64–#66
+
+A user-run throw-a-seed pass over the shipped wet/fantasy wood bands. **Working:** enchanted ✅, skyris ✅,
+white-mangrove ✅, palm ✅ (mangrove & palm grew plenty of trees); bands are **inert with BWG absent** (no
+errors). Three groups of issues to address (do **not** fix inline — tracked as backlog items):
+
+1. **Water feature too small / wrong shape (→ #64).** Every Aquatic wet-wood island (cypress, bayou/willow,
+   white-mangrove, palm) and the Aquatic-cypress island read as "not enough water" — the Huge tier especially.
+   A deep round `pond` is the wrong idiom for swamp/marsh woods; implement a **broad, shallow swamp/marsh**
+   water feature instead. (User's own suggestion.)
+2. **Sparse / zero trees (→ #65).** Small tiers grow **0 trees** (Aquatic cypress Small = 0; Forest cypress
+   Small = 0) and **Huge Bayou grew 0 willow trees at all**. Guarantee ≥1 tree on the Small tier (raise `tries`
+   and/or the minimum island radius) and fix the Huge Bayou zero-tree case. Observed cypress counts —
+   Aquatic: Small 0 / Large 1 / Huge 5; Forest: Small 0 / Large ~5 / Huge ~8 (the trees-first vs water-first
+   priority *does* read — the Forest form is denser — it's the low/zero floor that's the problem).
+3. **Spirit band not resolving (→ #66).** A seed over `pale_bog` produced only **oak & birch, no spirit trees**.
+   The `pale_bog`→`spirit_trees` band **is present in the shared source** (`biomeswevegone_forest.json`, all three
+   tiers) and the forest gametest asserts it, so this is **not** 26.1.2-only and not a missing file — suspect a
+   runtime biome-match issue (prepend order / `#is_forest` tag membership), a node divergence, or the stale-
+   `processResources` staging trap. Needs a clean single-biome repro + root-cause. *(Label caveat: the same pass
+   also reported "pale_bog → white mangrove trees" — likely a mislabel of `white_mangrove_marshes`; re-test each
+   biome on its own to disambiguate.)*
+
+Also reconfirmed in this pass: **create-otbwg millable flowers (#9) are still not placed on any island** — the
+compat has no inputs until the lush/meadow flower bands are authored.
 
 ## Build order
 

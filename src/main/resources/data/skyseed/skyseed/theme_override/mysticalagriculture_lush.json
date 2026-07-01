@@ -1,0 +1,8 @@
+{
+  "_comment": "First-party Mystical Agriculture compat: the STONE inferium + prosperity ores on the (stone-cored) Lush island — MYSTICALPLAN's original 'natural home' for MA's bootstrap ores (prosperity ore has no mob-drop, so it must be mineable somewhere). This is the accessible surface-tier source; the Ancient island carries the richer deepslate variants. Depth 'core' (Lush has no deep band, and its core block is stone). Inert without Mystical Agriculture (the unknown ores are skipped before any RNG, so generation stays byte-identical). Top-level ores never leak to the Lush End/Nether forms: they are off the theme's home dimension (overworld-only), so IslandGenerator.eff falls to the neutral empty-ore default there.",
+  "target": "skyseed:lush",
+  "ores": [
+    { "block": "mysticalagriculture:inferium_ore", "chance": 0.60, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "mysticalagriculture:prosperity_ore", "chance": 0.45, "count": { "min": 1, "max": 3 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" }
+  ]
+}

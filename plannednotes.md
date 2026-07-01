@@ -54,7 +54,7 @@ no structures generate in the void dims regardless of the toggle. Better than re
 - [x] verify TerraBlender only injects biomes (doesn't swap the generator) — confirmed: base terrain stays void, only decoration leaked.
 - [x] regression check: both nodes compile green; **all 126 gametests pass** (End/dragon included).
 - [x] **26.1.2:** done — `applyBiomeDecoration` is identical across nodes (unguarded); only `createStructures` (gained a 6th `ResourceKey<Level>` param) needs a `//?` guard. Both nodes green; gametests pass (1.21.1: 126, 26.1.2: 135).
-- [ ] **runtime smoke test** (user): new skyblock world + BWG → confirm no features at y≈-64 and the End central island still present. (A pipeline gametest is awkward in the framework — it tests in-structure, not chunk-gen.)
+- [x] **runtime smoke test** (user, 2026-07-01): new skyblock world + BWG → **confirmed no features at y≈-64 and the End central island still present**. (A pipeline gametest is awkward in the framework — it tests in-structure, not chunk-gen.)
 
 ## Trial Chamber rooms — aesthetic polish pass
 

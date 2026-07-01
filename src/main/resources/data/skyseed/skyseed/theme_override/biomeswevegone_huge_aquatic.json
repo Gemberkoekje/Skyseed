@@ -1,10 +1,10 @@
 {
-  "_comment": "DRAFT (2026-07-01, Q2=distribute). BWG WET-WOODS compat on the AQUATIC HUGE tier — WATER-FIRST (see biomeswevegone_aquatic.json for the family rationale). Same bands as the base tier, scaled to the huge island: large sloped pond and high tree tries (still a notch below the Forest family's densities — water stays the headline here).",
-  "_verify": "⚠ IDS UNVERIFIED — same caveat as biomeswevegone_aquatic.json; confirm every biomeswevegone: id vs the BWG 2.6.0 jar. Tree tries / pond sizes provisional. Remaining: verify ids, inert gametest, mod_version + CHANGELOG.",
+  "_comment": "First-party BWG WET-WOODS compat on the AQUATIC HUGE tier — WATER-FIRST (see biomeswevegone_aquatic.json for the family rationale + id verification). Same bands as the base tier, scaled to the huge island: large sloped pond and high tree tries (still a notch below the Forest family's densities — water stays the headline here).",
+  "_verify": "IDS VERIFIED vs BWG 2.6.0 (2026-07-01) — same set as biomeswevegone_aquatic.json (bayou_trees, white_mangrove_marshes, rainbow_beach/palm_trees). Tree tries / pond sizes scaled for the huge island.",
   "target": "skyseed:huge_aquatic",
   "biome_overrides": [
     { "biomes": ["biomeswevegone:cypress_swamplands"],
-      "_verify": "biome cypress_swamplands + feature cypress_trees",
+      "_verify": "verified: biome cypress_swamplands + configured feature cypress_trees",
       "surface": "minecraft:mud",
       "pond": { "block": "minecraft:water", "radius": 8, "depth": 6, "slope": true,
         "plants": [ { "block": "minecraft:lily_pad", "chance": 0.16 }, { "block": "minecraft:seagrass", "chance": 0.12 } ],
@@ -15,18 +15,18 @@
         "ground": [ { "block": "minecraft:short_grass", "chance": 0.10 } ] } } ] },
 
     { "biomes": ["biomeswevegone:bayou"],
-      "_verify": "willow wood → biome id GUESSED as bayou + feature willow_trees",
+      "_verify": "verified: willow wood grows in biome bayou; feature bayou_trees (willow_tree random_selector — no biomeswevegone:willow_trees exists)",
       "surface": "minecraft:grass_block", "surface_scatter": [ { "block": "minecraft:mud", "chance": 0.20 } ],
       "pond": { "block": "minecraft:water", "radius": 8, "depth": 6, "slope": true,
         "plants": [ { "block": "minecraft:lily_pad", "chance": 0.18 }, { "block": "minecraft:seagrass", "chance": 0.10 } ],
         "bank": [ { "block": "minecraft:sugar_cane", "chance": 0.65 } ] },
       "mobs": [ { "entity": "minecraft:frog", "chance": 0.20, "count": { "min": 2, "max": 3 } } ],
       "variants": [ { "weight": 1, "name": "willow", "decoration": {
-        "trees": [ { "feature": "biomeswevegone:willow_trees", "tries": 28, "spacing": 2 } ],
+        "trees": [ { "feature": "biomeswevegone:bayou_trees", "tries": 28, "spacing": 2 } ],
         "ground": [ { "block": "minecraft:blue_orchid", "chance": 0.04 }, { "block": "minecraft:short_grass", "chance": 0.12 } ] } } ] },
 
-    { "biomes": ["biomeswevegone:pale_bog"],
-      "_verify": "white_mangrove wood → biome id GUESSED as pale_bog + feature white_mangrove_trees",
+    { "biomes": ["biomeswevegone:white_mangrove_marshes"],
+      "_verify": "verified: biome white_mangrove_marshes (NOT pale_bog) + configured feature white_mangrove_trees",
       "surface": "minecraft:mud",
       "pond": { "block": "minecraft:water", "radius": 8, "depth": 6, "slope": true,
         "plants": [ { "block": "minecraft:seagrass", "chance": 0.14 }, { "block": "minecraft:lily_pad", "chance": 0.08 } ],
@@ -36,7 +36,7 @@
         "ground": [ { "block": "minecraft:short_grass", "chance": 0.08 } ] } } ] },
 
     { "biomes": ["biomeswevegone:rainbow_beach"],
-      "_verify": "palm wood → biome id GUESSED as rainbow_beach + feature palm_trees",
+      "_verify": "verified: configured feature palm_trees; biome rainbow_beach by design (palm is BWG-injected into vanilla beach, no BWG palm biome)",
       "surface": "minecraft:sand", "fill": "minecraft:sand",
       "pond": { "block": "minecraft:water", "radius": 8, "depth": 6, "slope": true,
         "plants": [ { "block": "minecraft:seagrass", "chance": 0.12 }, { "block": "minecraft:kelp", "chance": 0.08 } ],

@@ -5,6 +5,46 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.172.0] - 2026-07-01
+
+### Added
+- **Mystical Agriculture ore on the Lush island (the accessible bootstrap source).** New first-party `theme_override`
+  (`mysticalagriculture_lush.json` + `_large`/`_huge`, inert without MA) puts the **stone** `mysticalagriculture:inferium_ore`
+  + `prosperity_ore` on the Lush island's stone core — the "natural home" MYSTICALPLAN always intended. The **Ancient**
+  island keeps the richer **deepslate** variants, so the two form a deliberate pair: Lush = accessible mid-game stone tier,
+  Ancient = deep richer tier. Closes the plan-vs-repo gap where only the deepslate-on-Ancient half had shipped. (These
+  top-level ores stay off the Lush End/Nether forms — those are off the theme's overworld home dimension, so they fall to
+  the neutral empty-ore default and the End "clean platform" island stays empty.) New `mystical_agriculture_compat_targets_lush`
+  gametest (both nodes) asserts the stone ores are added and the deepslate variants are *not* (guarding the split).
+
+## [0.171.0] - 2026-07-01
+
+### Added
+- **BWG wet-woods + fantasy-woods islands finalized (ids verified against BWG 2.6.0).** The wet-woods bands on the
+  **Aquatic** family (water-first: cypress, willow, white-mangrove, palm — big pond, trees secondary) and the
+  fantasy-woods bands on the **Forest** family (trees-first: enchanted, skyris, spirit, plus a cypress multi-seed demo)
+  ship for real — every `biomeswevegone:` biome / configured-feature id was confirmed against
+  `Oh-The-Biomes-Weve-Gone-NeoForge-2.6.0.jar`. Throw an Aquatic seed over `cypress_swamplands` for a water-first cypress
+  pond; throw a Forest seed over the same biome for a dense cypress grove — the deliberate per-seed-priority demo. Still
+  inert without BWG (unknown ids never match → byte-identical generation).
+
+### Fixed
+- **Corrected several guessed BWG ids in the wet/fantasy wood bands** (they had been drafted before a jar was available):
+  willow now grows via the **`bayou`** biome's **`bayou_trees`** feature (there is no `biomeswevegone:willow_trees`);
+  white-mangrove is keyed to the dedicated **`white_mangrove_marshes`** biome (not `pale_bog`); and **spirit** wood
+  *is* seed-growable after all — it grows in **`pale_bog`** (there is no `spirit_woods` biome). Palm keeps the sandy
+  **`rainbow_beach`** biome (BWG injects `palm_trees` into vanilla beach via a biome-modifier, so a BWG biome hosts it here).
+- **`#skyseed:exotic_woods` reveal tag plank ids corrected.** Dropped the non-existent `#biomeswevegone:planks` reference
+  (BWG feeds the vanilla `#minecraft:planks` tag; referencing that would wrongly fire the guide reveal on vanilla planks),
+  fixed `white_sakura_planks` → `sakura_planks`, and split `enchanted_planks` into the real `blue_enchanted_planks` +
+  `green_enchanted_planks`. All 19 exotic-wood planks are now listed explicitly so the BWG-gated "Exotic Woods" guide
+  entry reveals correctly.
+
+### Tests
+- New gametest `biomeswevegone_compat_prepends_aquatic_bands` (mirrors the forest one for the wet-woods tier) and an
+  extended forest test that locks in the corrected ids (spirit → `pale_bog`/`spirit_trees`, willow → `bayou_trees`,
+  white-mangrove → `white_mangrove_marshes`) and guards against the old nonexistent-biome guesses regressing.
+
 ## [0.170.0] - 2026-06-30
 
 ### Added
