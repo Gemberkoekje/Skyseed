@@ -288,9 +288,9 @@
 	quest.5C0000000000B601.quest_subtitle: "Botany Pots"
 	quest.5C0000000000B601.title: "Pot It Up"
 	quest.5C0000000000B602.quest_desc: [
-		"§eMystical Agriculture§r lets you §egrow§r resources as crops. It starts with two ores — and in this world they come from one place."
+		"§eMystical Agriculture§r lets you §egrow§r resources as crops. It starts with two ores: §eProsperity§r and §eInferium§r."
 		""
-		"Grow an §eAncient§r island (throw a Rocky seed low) and mine its §eProsperity§r and §eInferium§r ore. §eProsperity Shards§r are the gate: nothing else drops them."
+		"The accessible source is a §eLush§r island — its stone carries both ores. Want them richer? An §eAncient§r island (throw a Rocky seed low) veins the deepslate variants. Either way, mine some ore: §eProsperity Shards§r are the gate — nothing else drops them."
 	]
 	quest.5C0000000000B602.quest_subtitle: "Mystical Agriculture's ore"
 	quest.5C0000000000B602.title: "Prosperity Found"

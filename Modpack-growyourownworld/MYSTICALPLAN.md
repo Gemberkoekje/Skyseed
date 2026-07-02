@@ -10,11 +10,12 @@ Grounded in the actual jars (MA `8.0.27`, Agradditions `8.0.13`, Botany Pots `21
 > seed → Elite Botany Pot grows as intended).
 >
 > **What's left** (tracked in [`../PLANOFPLANS.md`](../PLANOFPLANS.md)):
-> - **#69 — refresh quest B602 "Prosperity Found":** its text still says the MA ores "come from one place" and
->   directs the player to grow an **Ancient** island (gated on B105 "Into the Deep") — written before v0.172.0
->   added the more accessible **stone ores on Lush**. Update the description in
->   `overrides/config/ftbquests/quests/lang/en_us.snbt` (~line 291) to mention the Lush source (and optionally
->   revisit the gating).
+> - ~~**#69 — refresh quest B602 "Prosperity Found"**~~ ✅ **DONE (v0.186.0):** the description in
+>   `overrides/config/ftbquests/quests/lang/en_us.snbt` (B602 `quest_desc`) no longer says the MA ores "come from
+>   one place" / directs only to an **Ancient** island — it now **leads with the accessible Lush stone ores** (added
+>   v0.172.0) and frames Ancient as the *richer* deepslate option. **Gating left as-is** (B602 still depends on B601
+>   Botany Pots + B105 "Into the Deep"): the player reaches B602 having already done the deep dive, so presenting Lush
+>   as the easy alternative reads fine; loosening the B105 dependency is a bigger quest-graph call, deferred as optional.
 > - **#51 — balance watch** (ongoing playtesting): see [Role & gating](#role--gating-keep-it-a-layer-not-a-bypass).
 > - **#50 — optional dedicated Prosperity island** (pure polish): see below.
 

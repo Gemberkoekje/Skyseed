@@ -58,6 +58,10 @@ public final class GenerationJob {
     private static final int LINK_RADIUS = 16;
     private static final int LINK_DOWN = 2;
     private static final int LINK_UP = 28;
+    // forceOneTree's last-resort planting clearing (see #65): a small dirt pad under a tall air column, big enough for a
+    // multi-block NBT tree (BWG willow/cypress) that couldn't fit against the packed island. Radius 2 = a 5x5 pad.
+    private static final int FORCE_TREE_PAD_RADIUS = 2;
+    private static final int FORCE_TREE_CLEAR_HEIGHT = 24;
 
     private final ServerLevel level;
     private final IslandPlan plan;
@@ -195,16 +199,40 @@ public final class GenerationJob {
         }
     }
 
-    /** Last resort so a tree-bearing island is never bare: clear a site to grass + air and place its feature there. */
+    /**
+     * Last resort so a tree-bearing island is never bare: grade a real planting clearing at each candidate site and
+     * place its feature there, stopping at the first success. The old single-block clear (one grass + one air) was too
+     * cramped for the big multi-block NBT trees BWG uses — a wet-wood island (cypress / willow / white-mangrove) whose
+     * every normal site was blocked by the packed rim came up with zero trees (#65). Now each site gets a small dirt pad
+     * under a tall air column, which those features can actually grow into. Only ever runs when every normal placement
+     * already failed ({@code treesPlaced == 0}), so a healthy island is untouched.
+     */
     private void forceOneTree(ChunkGenerator generator) {
         for (IslandPlan.TreeSite ts : plan.trees()) {
-            level.setBlock(ts.pos().below(), Blocks.GRASS_BLOCK.defaultBlockState(), Block.UPDATE_CLIENTS);
-            level.setBlock(ts.pos(), Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
+            clearPlantingSpot(ts.pos());
             if (ts.feature().place(level, generator, plan.random(), ts.pos())) {
                 treesPlaced++;
                 return;
             }
         }
+    }
+
+    /**
+     * Grade a small dirt pad under a tall air column at {@code base} (the tree's root cell), so a large tree feature has
+     * the vertical + lateral room it needs. The pad is a {@link #FORCE_TREE_PAD_RADIUS}-radius dirt disc one block down
+     * with a grassy centre; air is only ever cleared <em>above</em> the pad ({@link #FORCE_TREE_CLEAR_HEIGHT} tall), so
+     * it can never punch a hole through the island body below.
+     */
+    private void clearPlantingSpot(BlockPos base) {
+        for (int dx = -FORCE_TREE_PAD_RADIUS; dx <= FORCE_TREE_PAD_RADIUS; dx++) {
+            for (int dz = -FORCE_TREE_PAD_RADIUS; dz <= FORCE_TREE_PAD_RADIUS; dz++) {
+                level.setBlock(base.offset(dx, -1, dz), Blocks.DIRT.defaultBlockState(), Block.UPDATE_CLIENTS);
+                for (int dy = 0; dy < FORCE_TREE_CLEAR_HEIGHT; dy++) {
+                    level.setBlock(base.offset(dx, dy, dz), Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
+                }
+            }
+        }
+        level.setBlock(base.below(), Blocks.GRASS_BLOCK.defaultBlockState(), Block.UPDATE_CLIENTS); // grassy root cell
     }
 
 

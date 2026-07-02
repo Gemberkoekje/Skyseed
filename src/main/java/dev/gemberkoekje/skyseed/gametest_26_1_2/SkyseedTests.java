@@ -277,6 +277,7 @@ public final class SkyseedTests {
         reg(event, "quark_myalite_reaches_end_form", REGION, SkyseedTests::quarkMyaliteReachesEndForm);
         reg(event, "biomeswevegone_compat_prepends_forest_bands", REGION, SkyseedTests::biomeswevegoneCompatPrependsForestBands);
         reg(event, "biomeswevegone_compat_prepends_aquatic_bands", REGION, SkyseedTests::biomeswevegoneCompatPrependsAquaticBands);
+        reg(event, "biomeswevegone_wet_wood_ponds_are_shallow_marshes", REGION, SkyseedTests::biomeswevegoneWetWoodPondsAreShallowMarshes);
         reg(event, "biomeswevegone_compat_places_meadow_flowers", REGION, SkyseedTests::biomeswevegoneCompatPlacesMeadowFlowers);
         reg(event, "biomeswevegone_compat_places_lush_flowers", REGION, SkyseedTests::biomeswevegoneCompatPlacesLushFlowers);
         reg(event, "huge_forest_water_feature_rolls", REGION, SkyseedTests::hugeForestWaterFeatureRolls);
@@ -3407,6 +3408,31 @@ public final class SkyseedTests {
                 "white_mangrove must be keyed to biomeswevegone:white_mangrove_marshes");
         helper.assertTrue(bands.stream().noneMatch(b -> b.biomes().contains("biomeswevegone:pale_bog")),
                 "aquatic must not key white_mangrove to pale_bog (that is the spirit biome)");
+        helper.succeed();
+    }
+
+    /** #64: every AQUATIC wet-wood band, on all three tiers, carves a BROAD SHALLOW swamp/marsh (depth <= 2, sloped to a
+     *  shallow shore, extent >= 0.6) instead of the old deep round pond. Reads the resolved theme config, so it holds
+     *  without BWG installed (the bands are prepended regardless). */
+    static void biomeswevegoneWetWoodPondsAreShallowMarshes(GameTestHelper helper) {
+        final var reg = helper.getLevel().registryAccess();
+        for (final String theme : new String[]{"skyseed:aquatic", "skyseed:aquatic_large", "skyseed:huge_aquatic"}) {
+            final IslandTheme resolved = Themes.resolve(reg, Id.of(theme));
+            helper.assertTrue(resolved != null, theme + " must resolve");
+            for (final String biome : new String[]{"biomeswevegone:cypress_swamplands", "biomeswevegone:bayou",
+                    "biomeswevegone:white_mangrove_marshes", "biomeswevegone:rainbow_beach"}) {
+                final BiomeOverride band = bandFor(resolved, biome);
+                helper.assertTrue(band != null, theme + " should include the wet-wood band for " + biome);
+                helper.assertTrue(band.pond().isPresent(), biome + " (" + theme + ") must carve a water feature");
+                final var pond = band.pond().get();
+                helper.assertTrue(pond.depth() <= 2,
+                        biome + " (" + theme + ") must be a SHALLOW marsh (depth <= 2), got depth " + pond.depth());
+                helper.assertTrue(pond.slope(),
+                        biome + " (" + theme + ") marsh must slope to a shallow shore (slope:true)");
+                helper.assertTrue(pond.extent() >= 0.6f,
+                        biome + " (" + theme + ") marsh must be broad (extent >= 0.6), got " + pond.extent());
+            }
+        }
         helper.succeed();
     }
 

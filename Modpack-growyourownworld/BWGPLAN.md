@@ -9,11 +9,11 @@ shipped separately via [BWGVILLAGEPLAN.md](BWGVILLAGEPLAN.md) (v0.176.0–v0.181
 
 **What's left in this plan** (backlog #s = [PLANOFPLANS.md](../PLANOFPLANS.md)):
 
-- **#64** — rework the wet-wood water feature (deep pond → broad shallow swamp/marsh) — see the **In-game test findings** section below.
-- **#65** — fix the wet-wood zero-tree floor (Small tiers, Huge Bayou) — same section.
+- ~~**#64**~~ — ✅ **DONE (v0.186.0, signed off 2026-07-02):** the wet-wood water feature is a broad shallow swamp/marsh (`depth: 2`, `slope: true`, `extent` 0.6/0.62/0.68 base/large/huge) across the ×3 Aquatic tiers, gametest-guarded (`biomeswevegoneWetWoodPondsAreShallowMarshes`); the in-game re-throw confirmed the water reads as a marsh.
+- ~~**#65**~~ — ✅ **DONE (v0.186.0, signed off 2026-07-02):** the engine's ≥1-tree guarantee (`GenerationJob.forceOneTree`) grades a real 5×5 planting clearing so the big NBT wet-wood trees can't silently fail to zero; base-tier `tries` lifted 4→6. In-game re-throw confirmed Small tiers grow ≥1 tree and **Huge Bayou grows willows** — the clearing was sufficient, so lever (c) was not needed.
 - ~~**#66**~~ — ✅ **DONE (2026-07-02):** a forest seed grew **spirit trees** — band confirmed working (the earlier "no spirit" read was the mislabelled-biome test); no code change.
-- **#22** — density follow-up: lift the held wet/semi forest biomes (mangrove/swamp/riverside, cherry/grove/mushroom/bamboo/flower) to the agreed level. The in-game density read this was waiting on is confirmed good; it's small numeric `tries` edits ×3 tier files (e.g. `theme/huge_forest.json` still has `minecraft:mangrove_swamp` at 40/16 vs the canonical forests' 120) + version/CHANGELOG bump.
-- **#23** — Step 4 remainder: config-curation pass + `mods.txt` regen — see the **Step 4** section below.
+- ~~**#22**~~ — ✅ **DONE (v0.186.0):** the held wet/semi forest biomes (flower/cherry/grove/mangrove/swamp/riverside/mushroom/bamboo) had their **primary** tree `tries` lifted to the canonical per-tier forest density — **7 / 40 / 120** (base/large/huge) — in `forest{,_large}.json` + `huge_forest.json`, matching the v0.170.0 pure-forest pass (e.g. huge `mangrove_swamp` 40 → 120). Secondary trees / giant mushrooms / spacing / ponds / ground flora unchanged, so each biome keeps its character; genuinely open biomes (plains/savanna/beach/desert) stay scattered. Both nodes green.
+- ~~**#23**~~ — ✅ **DONE (v0.186.0):** config coherence pass + `mods.txt` refresh — see the **Step 4** section below.
 - **In-game sign-offs ✅ DONE (2026-07-02):** **#3** quest-book test-load and **#10** guide-reveal (both Patchouli +
   Modonomicon) confirmed — the BWG branch works as intended. **#10 fully closed:** the stale "Eleven wood families"
   flavour text was corrected to the current **twenty** (v0.184.0).
@@ -39,7 +39,7 @@ Nothing generates in the void, so BWG's value — exotic woods, millable flowers
 
 **Net design: throw a Forest seed over a BWG biome → grow a BWG-wood island.** This extends the rare-seed mechanic (forest-over-badlands) to 55 new biomes and turns BWG's biome map into a treasure map.
 
-Band-authoring recipe (for #64/#65/#22 edits and any future family set) — per-entry shape:
+Band-authoring recipe (used for the #64/#65/#22 edits; reuse for any future family set) — per-entry shape:
 
 ```jsonc
 { "biomes": ["biomeswevegone:aspen_boreal"],
@@ -61,7 +61,7 @@ Forest-family exotic-wood bands (v0.175.0, aesthetic only). Gametests
 cactus milling inputs are intentionally **not** placed as meadow/lush ground (glowcane/cacti belong to
 aquatic/desert families; petal-blocks are crafted, not grown).
 
-## Step 4 — Modpack wiring — #23 remainder
+## Step 4 — Modpack wiring — #23 ✅ DONE (v0.186.0)
 
 Shipped: BWG/OTYG/create-otbwg/TerraBlender/Better Clouds jars in `mods.txt`; BWG config tracked with **biome
 injection ON** (the adaptation key); the **"Exotic Woods"** guide entry (`entries/exotic_biomes.json`,
@@ -70,10 +70,10 @@ entry-level `advancement: "skyseed:reveal_exotic_woods"` that fires on obtaining
 `#skyseed:exotic_woods` tag (empty without BWG → entry hidden on both backends; `generateGuide` maps the gate
 onto Modonomicon too). All tag ids verified against the BWG 2.6.0 jar (v0.171.0, re-extended v0.173.0).
 
-**Remaining (#23):**
+**#23 ✅ DONE (v0.186.0):**
 
-- A deliberate coherence pass over the tracked `overrides/config/biomeswevegone/{misc,mob_spawn,trades,world_generation}.json` (note: `eroded_borealis` is set `false` — one of holly's alternate host biomes; confirm intentional. Keep biome injection ON). OTYG needs no config (none is generated); create-otbwg is pure datapack.
-- Regenerate `mods.txt` when the bundled Skyseed jar is refreshed — it currently lists `skyseed-1.21.1_0.174.0.jar` vs `mod_version` 0.181.0.
+- **Coherence pass complete** over the tracked `overrides/config/biomeswevegone/{misc,mob_spawn,trades,world_generation}.json`. Biome injection is **ON**, and every one of the **35 BWG biomes a Skyseed band targets is enabled** (`true`). The only disabled biome — `eroded_borealis: false` — is **targeted by no Skyseed band**, and holly (its supposed alternate host) is reachable via the enabled `dacite_ridges` (holly is keyed to `dacite_ridges` + its dedicated `holly_trees` feature in the forest bands), so its `false` is **intentional/coherent** — no change needed. (The other 19 disabled-nowhere BWG biomes aren't disabled; they're simply not yet targeted — the future Desert/Rocky/Frozen families per § Q2. If a future Frozen family targets `eroded_borealis`, flip it to `true` then.) `misc`/`mob_spawn`/`trades` are sane defaults. OTYG needs no config; create-otbwg is pure datapack.
+- **`mods.txt` refreshed:** the bundled Skyseed jar bumped `skyseed-1.21.1_0.179.0.jar` → `skyseed-1.21.1_0.186.0.jar`.
 
 **#10 ✅ DONE (2026-07-02):** the guide entry hides with BWG absent and appears once BWG is installed (both the
 Patchouli book and the Modonomicon Almanac), AND the stale flavour text is fixed — `exotic_biomes.json` now reads
@@ -99,34 +99,42 @@ island-obtainable** via the Forest + Aquatic bands and `#skyseed:exotic_woods`. 
 exception** — BWG 2.6.0 ships `fir_planks`/`fir_sapling` but **no configured fir tree feature** exists, so fir
 is non-growable by design; a gametest guards that no band references a `fir_*` feature.
 
-## In-game test findings (2026-07-01, v0.171.0) ← TODO: items #64–#66
+## In-game test findings (2026-07-01, v0.171.0) — items #64–#66 (all ✅ RESOLVED: #64/#65 fixes SHIPPED v0.186.0 + re-throw signed off 2026-07-02; #66 resolved)
 
 A user-run throw-a-seed pass over the shipped wet/fantasy wood bands. **Working:** enchanted ✅, skyris ✅,
 white-mangrove ✅, palm ✅ (mangrove & palm grew plenty of trees); bands are **inert with BWG absent** (no
 errors). Three groups of issues to address (do **not** fix inline — tracked as backlog items):
 
-1. **Water feature too small / wrong shape (→ #64).** Every Aquatic wet-wood island (cypress, bayou/willow,
-   white-mangrove, palm) and the Aquatic-cypress island read as "not enough water" — the Huge tier especially.
-   A deep round `pond` is the wrong idiom for swamp/marsh woods; implement a **broad, shallow swamp/marsh**
-   water feature instead. (User's own suggestion.) Applies to `biomeswevegone_aquatic{,_large}.json` +
-   `biomeswevegone_huge_aquatic.json` — all three tiers.
-2. **Sparse / zero trees (→ #65).** Small tiers grow **0 trees** (Aquatic cypress Small = 0; Forest cypress
-   Small = 0) and **Huge Bayou grew 0 willow trees at all**. Guarantee ≥1 tree on the Small tier and fix the
-   Huge Bayou zero-tree case. Observed cypress counts — Aquatic: Small 0 / Large 1 / Huge 5; Forest: Small 0 /
-   Large ~5 / Huge ~8 (the trees-first vs water-first priority *does* read — the Forest form is denser — it's
-   the low/zero floor that's the problem).
-   - **Code-side root-cause analysis (2026-07-01, needs in-game confirm):** in `DecorationPlanner.planDecoration` a
-     `tries` loop picks a random surface column and defers each as a `TreeSite`; `GenerationJob` then calls
-     `feature.place(...)` per site, and a **BWG tree that can't fit returns false and silently plants nothing**. So on a
-     small island the zero-tree floor is likely **placement failure**, not too-few `tries` — the OTYG `tree_from_nbt_v1`
-     trees are multi-block NBT structures (esp. **willow**/`bayou_trees` and the tall cypress) that need clear vertical +
-     lateral room a tiny pad + a surface pond don't leave. Raising `tries` alone won't guarantee ≥1 if every site fails.
-     Better levers to try in-game: **(a)** raise the wet-family **minimum island radius** (a bigger dry pad) and/or shrink
-     the base-tier pond so trees have somewhere to stand; **(b)** as a floor, seed one **guaranteed** central tree
-     (place the feature at the island centre first, before the pond carve, and retry a few offsets on failure); **(c)**
-     for willow specifically, confirm `bayou_trees`/`willow_tree1..4` even *can* place on the Aquatic pad (it may need
-     water-adjacent mud) — if not, pick a smaller willow variant for the Small/Huge floor. All three want the client loop
-     to confirm the count actually moves off 0, so no speculative edit was shipped.
+1. **Water feature too small / wrong shape (→ #64). ✅ DONE (v0.186.0, re-throw signed off 2026-07-02).**
+   Every Aquatic wet-wood island (cypress, bayou/willow, white-mangrove, palm) and the Aquatic-cypress island read as
+   "not enough water" — the Huge tier especially. A deep round `pond` was the wrong idiom for swamp/marsh woods. **Fix:**
+   the four wet-wood bands on all three tiers (`biomeswevegone_aquatic{,_large}.json` + `biomeswevegone_huge_aquatic.json`)
+   now carve a **broad, shallow swamp/marsh** — `depth: 2` with `slope: true` (basin floor eases to `1` at the shore) and
+   a raised `extent` (0.6 / 0.62 / 0.68 for base / large / huge) so the water sheets across the island instead of sinking
+   a deep well. `extent` is kept **under 0.7** on every tier so a wooded dry rim survives for the trees (#65). Guarded by
+   the config gametest `biomeswevegoneWetWoodPondsAreShallowMarshes` (depth ≤ 2, `slope`, `extent` ≥ 0.6). **Re-throw
+   sign-off:** confirm the water reads as a marsh in-game.
+2. **Sparse / zero trees (→ #65). ✅ DONE (v0.186.0, re-throw signed off 2026-07-02 — Small grows ≥1 tree, Huge Bayou grows willows).**
+   Small tiers grew **0 trees** (Aquatic cypress Small = 0; Forest cypress Small = 0) and **Huge Bayou grew 0 willow
+   trees at all**. Observed cypress counts — Aquatic: Small 0 / Large 1 / Huge 5; Forest: Small 0 / Large ~5 / Huge ~8
+   (the trees-first vs water-first priority *does* read — the Forest form is denser — it was the low/zero floor that was
+   the problem).
+   - **Root cause (confirmed by code audit):** in `DecorationPlanner.planDecoration` a `tries` loop picks a random
+     surface column and defers each as a `TreeSite`; `GenerationJob` then calls `feature.place(...)` per site, and a
+     **BWG tree that can't fit returns false and silently plants nothing**. The OTYG `tree_from_nbt_v1` trees are
+     multi-block NBT structures (esp. **willow**/`bayou_trees` and the tall cypress) that need clear vertical + lateral
+     room a tiny pad + a surface pond don't leave — so the floor was **placement failure**, not too-few `tries`.
+   - **Fix shipped (lever b, generalised):** `GenerationJob` already had a `forceOneTree` last-resort guarantee, but it
+     cleared only a single grass+air block — far too cramped for a big NBT tree, so it too failed and the island came up
+     bare. `forceOneTree` now grades a real **5×5 dirt pad under a 24-tall air column** (`clearPlantingSpot`) at each
+     candidate site before placing, stopping at the first success. It runs **only** when every normal placement already
+     failed (`treesPlaced == 0`), so a healthy island is byte-identical. Base-tier wet-wood `tries` also lifted 4→6, and
+     the shallower/broader-but-rim-preserving marsh (#64) leaves more flush plantable shore. This is a general engine fix
+     (helps every theme, not just wet-woods).
+   - **Willow-specific case (lever c) — NOT needed.** The 2026-07-02 re-throw confirmed the Huge Bayou now grows willows
+     with the clearing in place, so `bayou_trees` *can* place on the Aquatic pad once given room — the fear that it needed
+     water-adjacent mud didn't materialise. Lever (c) (smaller/water-adjacent willow variant) is left documented only as a
+     fallback should a future change regress it.
 3. **Spirit band (→ #66). ✅ RESOLVED (2026-07-02) — re-test passed: a forest seed grew spirit trees, band confirmed working (the earlier "no spirit" was the mislabelled-biome test). No code/data change.** A seed
    over `pale_bog` reportedly produced only **oak & birch, no spirit trees**. Root-cause audit against the jar + engine:
    `biomeswevegone:pale_bog` and `biomeswevegone:spirit_trees` both exist in 2.6.0; the band is present, prepended, and
@@ -141,7 +149,7 @@ errors). Three groups of issues to address (do **not** fix inline — tracked as
 
 ## Tier coverage — base / large / huge (don't forget the tiers)
 
-Every seed family is **three** themes: `forest` / `forest_large` / `huge_forest`, `desert` / `desert_large` / `huge_desert`, and so on. A `theme_override` targets exactly one theme, so each BWG adaptation set must be replicated across all three tier targets — the MA compat already does this (`mysticalagriculture_ancient` + `_ancient_large` + `_huge_ancient`). Author the `biome_overrides` content once, then emit one override file per tier target. **Budget the ×3 tier multiplier** when sizing any edit — including the open #64/#65/#22 work.
+Every seed family is **three** themes: `forest` / `forest_large` / `huge_forest`, `desert` / `desert_large` / `huge_desert`, and so on. A `theme_override` targets exactly one theme, so each BWG adaptation set must be replicated across all three tier targets — the MA compat already does this (`mysticalagriculture_ancient` + `_ancient_large` + `_huge_ancient`). Author the `biome_overrides` content once, then emit one override file per tier target. **Budget the ×3 tier multiplier** when sizing any edit — as the shipped #64/#65/#22 work did.
 
 ## Design decisions (resolved — kept as the standing rules)
 

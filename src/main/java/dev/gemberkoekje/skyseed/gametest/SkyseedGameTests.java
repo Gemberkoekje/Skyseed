@@ -439,6 +439,32 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    /** #64: every AQUATIC wet-wood band, on all three tiers, carves a BROAD SHALLOW swamp/marsh (depth <= 2, sloped to a
+     *  shallow shore, extent >= 0.6) instead of the old deep round pond. Reads the resolved theme config, so it holds
+     *  without BWG installed (the bands are prepended regardless). */
+    @GameTest(template = REGION)
+    public static void biomeswevegoneWetWoodPondsAreShallowMarshes(GameTestHelper helper) {
+        final var reg = helper.getLevel().registryAccess();
+        for (final String theme : new String[]{"skyseed:aquatic", "skyseed:aquatic_large", "skyseed:huge_aquatic"}) {
+            final IslandTheme resolved = Themes.resolve(reg, Id.of(theme));
+            helper.assertTrue(resolved != null, theme + " must resolve");
+            for (final String biome : new String[]{"biomeswevegone:cypress_swamplands", "biomeswevegone:bayou",
+                    "biomeswevegone:white_mangrove_marshes", "biomeswevegone:rainbow_beach"}) {
+                final BiomeOverride band = bandFor(resolved, biome);
+                helper.assertTrue(band != null, theme + " should include the wet-wood band for " + biome);
+                helper.assertTrue(band.pond().isPresent(), biome + " (" + theme + ") must carve a water feature");
+                final var pond = band.pond().get();
+                helper.assertTrue(pond.depth() <= 2,
+                        biome + " (" + theme + ") must be a SHALLOW marsh (depth <= 2), got depth " + pond.depth());
+                helper.assertTrue(pond.slope(),
+                        biome + " (" + theme + ") marsh must slope to a shallow shore (slope:true)");
+                helper.assertTrue(pond.extent() >= 0.6f,
+                        biome + " (" + theme + ") marsh must be broad (extent >= 0.6), got " + pond.extent());
+            }
+        }
+        helper.succeed();
+    }
+
     /** The shipped first-party BWG MILLABLE-FLOWERS compat (Meadow family, backlog #9): a Meadow seed over a BWG floral
      *  grassland grows a flower-field island whose ground cover is that biome's create-otbwg-millable flowers. Guards
      *  that the bands are present and actually place biomeswevegone: flora (so the create-otbwg compat has inputs).

@@ -5,6 +5,43 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.186.0] - 2026-07-02
+
+### Changed
+- **Wet-wood islands: the water feature is now a broad shallow swamp/marsh, not a deep round pond (BWGPLAN #64).** The
+  four AQUATIC wet-wood bands (cypress, bayou/willow, white-mangrove, palm) on all three tiers
+  (`biomeswevegone_aquatic{,_large}.json` + `biomeswevegone_huge_aquatic.json`) now carve a shallow (`depth: 2`),
+  `slope`d marsh with a raised `extent` (0.6 / 0.62 / 0.68 base/large/huge) so the water sheets across the island —
+  answering the in-game read that the Huge tier especially "didn't have enough water" and that a deep round pond was the
+  wrong idiom for swamp/marsh woods. Extent stays under 0.7 so a wooded dry rim survives for the trees.
+- **Wet/semi forest biomes read as real forests now (BWGPLAN #22).** The density pass that lifted the pure-forest bands
+  to "real forest" tree counts (v0.170.0) had held the wet/semi biomes back pending an in-game read; that read confirmed
+  the level is good, so their primary tree `tries` are lifted to the canonical forest density per tier — **7 / 40 / 120**
+  (base / large / huge) — for `flower_forest`, `cherry_grove`, `grove`, `mangrove_swamp`, `swamp`, river banks
+  (`#is_river`), `mushroom_fields` and `bamboo_jungle` in `forest{,_large}.json` + `huge_forest.json`. Secondary trees,
+  giant mushrooms, spacing, ponds and ground flora are unchanged, so each biome keeps its character (the change is most
+  visible on the Huge tier, where e.g. mangrove went 40 → 120). Genuinely open biomes (plains/savanna/beach/desert) keep
+  their scattered counts.
+
+### Fixed
+- **Wet-wood zero-tree floor: an island that asked for trees can no longer come up bare (BWGPLAN #65).** The
+  `forceOneTree` last-resort guarantee now grades a real planting clearing (a 5×5 dirt pad under a tall air column)
+  before placing, instead of clearing a single block — enough room for the big multi-block NBT trees BWG uses (willow,
+  cypress), which silently failed to fit against the packed rim and left small/huge wet-wood islands with zero trees.
+  Runs only when every normal site already failed, so a healthy island is untouched. Base-tier tree `tries` on the
+  wet-wood bands also lifted 4 → 6. Gametest `biomeswevegoneWetWoodPondsAreShallowMarshes` (both nodes) guards the
+  shallow-marsh config; the tree-count floor still wants an in-game re-throw to confirm (esp. Huge Bayou willows).
+
+### Modpack (Grow-your-own-world)
+- **Quest B602 "Prosperity Found" refreshed for the Lush ore source (MYSTICALPLAN #69).** Its text no longer says the
+  Mystical Agriculture ores "come from one place" / directs only to an Ancient island — it now leads with the accessible
+  **Lush** stone ores (added v0.172.0) and frames Ancient as the richer deepslate option.
+- **BWG config coherence pass + bundled-jar refresh (BWGPLAN #23).** Audited the tracked
+  `config/biomeswevegone/{misc,mob_spawn,trades,world_generation}.json`: biome injection stays ON, and all 35 BWG biomes
+  that a Skyseed band targets are enabled — the only disabled biome, `eroded_borealis`, is targeted by no band and holly
+  (its supposed alternate host) is reachable via the enabled `dacite_ridges`, so its `false` is intentional/coherent.
+  `mods.txt` bumped from the stale `skyseed-1.21.1_0.179.0.jar` to `skyseed-1.21.1_0.186.0.jar`.
+
 ## [0.185.0] - 2026-07-02
 
 ### Added

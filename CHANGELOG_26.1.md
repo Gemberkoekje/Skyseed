@@ -9,6 +9,28 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.186.0] - 2026-07-02
+
+### Changed
+- **Wet-wood islands: broad shallow swamp/marsh instead of a deep round pond (BWGPLAN #64).** The four AQUATIC wet-wood
+  bands on all three tiers now carve a shallow (`depth: 2`), `slope`d marsh with a raised `extent` (0.6/0.62/0.68) so
+  water sheets across the island (the Huge tier read as "not enough water"). Extent kept under 0.7 to leave a wooded rim.
+- **Wet/semi forest biomes read as real forests (BWGPLAN #22).** Primary tree `tries` for the held wet/semi Forest bands
+  (`flower_forest`, `cherry_grove`, `grove`, `mangrove_swamp`, `swamp`, `#is_river`, `mushroom_fields`, `bamboo_jungle`)
+  lifted to the canonical per-tier forest density — **7 / 40 / 120** (base/large/huge) — matching the v0.170.0 pure-forest
+  pass. Secondary trees / mushrooms / spacing / ponds / ground flora unchanged; genuinely open biomes stay scattered.
+
+### Fixed
+- **Wet-wood zero-tree floor (BWGPLAN #65).** `forceOneTree` now grades a real planting clearing (a 5×5 dirt pad under a
+  tall air column) before its last-resort placement, giving the big NBT trees BWG uses (willow, cypress) room to grow —
+  they were silently failing to fit and leaving small/huge wet-wood islands bare. Runs only when every normal site
+  failed. Base-tier wet-wood tree `tries` lifted 4 → 6. Gametest `biomeswevegoneWetWoodPondsAreShallowMarshes` guards the
+  shallow-marsh config; the tree floor still wants an in-game re-throw to confirm.
+
+### Modpack (Grow-your-own-world)
+- **Quest B602 "Prosperity Found" refreshed for the Lush ore source (MYSTICALPLAN #69)** — leads with the accessible Lush
+  stone ores (v0.172.0), Ancient framed as the richer deepslate option.
+
 ## [0.185.0] - 2026-07-02
 
 ### Added
