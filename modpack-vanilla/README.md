@@ -35,7 +35,7 @@ The skeleton ships `"files": []`. For each mod add an entry:
 
 ## Skyseed integration
 
-- **No Skyseed code changes.** Patchouli is the only optional integration and it already degrades gracefully (written-book fallback). Nothing else is referenced by the mod.
+- **No Skyseed code changes.** The guide backends (Modonomicon preferred, Patchouli legacy) are the only optional integrations this pack could ship, and both degrade gracefully (written-book fallback). Skyseed's other first-party compat (BWG / Mystical Agriculture / Create) is inert without those mods, so it's invisible here.
 - Because Skyseed uses **only vanilla blocks**, JEI shows its recipes, Jade IDs every island block, Vein Mining mines island ores/logs, and Xaero's maps the islands — all with zero patching.
 
 ## Client vs. server (if you host)

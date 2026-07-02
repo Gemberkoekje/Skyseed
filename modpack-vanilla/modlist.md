@@ -11,7 +11,7 @@ Slugs are a guide for finding each on CurseForge; the CurseForge app resolves th
 | Mod | CurseForge slug | Side | Notes |
 |---|---|---|---|
 | Just Enough Items (JEI) | `jei` | client | Recipe viewer. Auto-lists every Skyseed recipe. |
-| Patchouli | `patchouli` | both | **The only mod Skyseed references** — and it's optional (falls back to a written book). |
+| Patchouli | `patchouli` | both | Optional guide backend (falls back to a written book without it). *(Modonomicon is Skyseed's preferred backend — either works; pick one.)* |
 | Configured | `configured` | client | In-game config menus. Needs **Framework** + pairs with **Catalogue**. |
 | Fast Leaf Decay | `fast-leaf-decay` | server | Snappy leaf clearing. |
 | Xaero's Minimap | `xaeros-minimap` | client | Separate download from the World Map. |

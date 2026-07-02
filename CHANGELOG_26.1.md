@@ -4,10 +4,10 @@ Notable changes to the **26.1.2** Skyseed build. Skyseed is one codebase built f
 `REFACTORPLAN.md`); the **1.21.1** build's history is in [CHANGELOG_1.21.1.md](CHANGELOG_1.21.1.md). Both builds share
 the version-number sequence, so a version can appear in one changelog and not the other.
 
-> **Status: Stage 2 COMPLETE — the 26.1.2 build compiles, builds, and passes its gametests.** Both version nodes are
-> green (`./gradlew chiseledBuild` / per-node `:1.21.1:` / `:26.1.2:` tasks; CI builds both). The remaining work is
-> Stage 3 (generalize/document) in `REFACTORPLAN.md`. The per-feature build plans (the gametest harness, the recipe
-> generator, and the Modonomicon guide) shipped and were retired into this changelog.
+> **Status: the multi-version refactor is COMPLETE — the 26.1.2 build compiles, builds, and passes its own gametest
+> suite.** Both version nodes are green (`./gradlew chiseledBuild` / per-node `:1.21.1:` / `:26.1.2:` tasks; CI builds
+> and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
+> gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
 ## [0.181.0] - 2026-07-01
 
