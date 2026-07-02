@@ -260,7 +260,7 @@
             "trees": [
               {
                 "feature": "minecraft:oak",
-                "tries": 16,
+                "tries": 120,
                 "spacing": 3
               }
             ],
@@ -335,7 +335,7 @@
             "trees": [
               {
                 "feature": "minecraft:cherry",
-                "tries": 32,
+                "tries": 120,
                 "spacing": 3
               }
             ],
@@ -369,7 +369,7 @@
             "trees": [
               {
                 "feature": "minecraft:spruce",
-                "tries": 32,
+                "tries": 120,
                 "spacing": 2
               }
             ]
@@ -399,7 +399,7 @@
             "trees": [
               {
                 "feature": "skyseed:mangrove",
-                "tries": 40,
+                "tries": 120,
                 "spacing": 2
               },
               {
@@ -510,7 +510,7 @@
             "trees": [
               {
                 "feature": "minecraft:oak",
-                "tries": 40,
+                "tries": 120,
                 "spacing": 2
               }
             ],
@@ -533,7 +533,7 @@
             "trees": [
               {
                 "feature": "minecraft:birch",
-                "tries": 40,
+                "tries": 120,
                 "spacing": 2
               }
             ],
@@ -563,7 +563,7 @@
             "trees": [
               {
                 "feature": "minecraft:swamp_oak",
-                "tries": 40,
+                "tries": 120,
                 "spacing": 2
               }
             ],
@@ -602,7 +602,7 @@
             "trees": [
               {
                 "feature": "minecraft:oak",
-                "tries": 40,
+                "tries": 120,
                 "spacing": 2
               },
               {
@@ -743,7 +743,7 @@
             "trees": [
               {
                 "feature": "minecraft:jungle_tree",
-                "tries": 24,
+                "tries": 120,
                 "spacing": 3
               }
             ],
