@@ -20,8 +20,9 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
   reachability for red_rock/cypress), leaving only two follow-ups they surfaced — **#72** (village doors) and **#73**
   (cypress overwater bayou) — plus two biome reachability spot-checks.
 - The two **wet-wood quality fixes** in-game testing flagged (**#64** broad shallow marsh, **#65** the ≥1-tree
-  guarantee) and the **#69** quest-text refresh all **shipped v0.186.0** (both nodes green); #64/#65 now just want an
-  in-game re-throw sign-off. Best value next: the remaining **Tier 1 sign-offs** (they de-risk everything shipped).
+  guarantee), the **#69** quest-text refresh, the **#22** density lift and the **#23** config/jar pass all **shipped
+  v0.186.0** (both nodes green), and **#64/#65 are signed off in-game (2026-07-02)** — the BWG plan is now closed
+  end-to-end bar the two village follow-ups (#72/#73). Best value next: the remaining **Tier 1 sign-offs**.
 
 ## Decisions log (standing decisions that govern the open work)
 
@@ -50,7 +51,7 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 
 | Plan | What it covers | Open items |
 |---|---|---|
-| [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | BWG woods/flowers integration | #64/#65 in-game sign-off (fixes shipped) |
+| [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | BWG woods/flowers integration | — (all shipped & signed off) |
 | [BWGVILLAGEPLAN.md](Modpack-growyourownworld/BWGVILLAGEPLAN.md) | BWG villages (shipped) | #14 Phase-5 spot-checks + #72 door fix |
 | [BWGSWAMPVILLAGEPLAN.md](Modpack-growyourownworld/BWGSWAMPVILLAGEPLAN.md) | Cypress swampland villages overwater rework (child of BWGVILLAGEPLAN) | #73 |
 | [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration | #34 #35 #18 #16 #31 #32 #36 #37 #38 #39 #52 + rolling #19 #20 |
@@ -71,8 +72,8 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 ### Tier 1 — sign-offs & small fixes on shipped content *(do these first)*
 
 - ✅ **#3 / #10 / #66 — DONE** (2026-07-02 in-game sign-off); **#14 Phase 5** largely signed off (assembly ✅ + reachability for red_rock/cypress), leaving two biome spot-checks + the follow-ups it surfaced: **#72** (village doors face inward) and **#73** (cypress → stilted overwater bayou). See the [checklist](#-in-game-verification-checklist-for-you-to-test).
-- ✅ **#64 — SHIPPED (v0.186.0):** the wet-wood water feature is now a broad shallow swamp/marsh (`depth: 2`, `slope`, raised `extent` 0.6/0.62/0.68) across all ×3 Aquatic tiers; gametest-guarded. **Needs an in-game re-throw sign-off** (water reads as marsh) — see the [checklist](#-in-game-verification-checklist-for-you-to-test). *(BWGPLAN)*
-- ✅ **#65 — SHIPPED (v0.186.0):** the `forceOneTree` guarantee now grades a real 5×5 planting clearing so big BWG NBT trees (willow/cypress) can't silently fail to zero on a cramped pad; base-tier `tries` 4→6. **Needs an in-game re-throw sign-off** (Small grows ≥1 tree, Huge Bayou grows willows). *(BWGPLAN)*
+- ✅ **#64 — DONE (v0.186.0, signed off 2026-07-02):** the wet-wood water feature is a broad shallow swamp/marsh (`depth: 2`, `slope`, raised `extent` 0.6/0.62/0.68) across all ×3 Aquatic tiers; gametest-guarded, and the in-game re-throw confirmed the water reads as a marsh. *(BWGPLAN)*
+- ✅ **#65 — DONE (v0.186.0, signed off 2026-07-02):** the `forceOneTree` guarantee grades a real 5×5 planting clearing so big BWG NBT trees can't silently fail to zero; base-tier `tries` 4→6. In-game re-throw confirmed Small grows ≥1 tree and **Huge Bayou grows willows** (the clearing fixed it — lever (c) not needed). *(BWGPLAN)*
 - ✅ **#69 — DONE (v0.186.0):** quest **B602 "Prosperity Found"** text refreshed — leads with the accessible Lush stone ores, Ancient framed as the richer deepslate option. *(MYSTICALPLAN)*
 - ✅ **#22 — DONE (v0.186.0):** the held wet/semi forest biomes (flower/cherry/grove/mangrove/swamp/river/mushroom/bamboo) lifted to the canonical per-tier forest density (7/40/120 base/large/huge); both nodes green. *(BWGPLAN)*
 - ✅ **#23 — DONE (v0.186.0):** BWG config coherence pass complete (biome injection ON; all 35 targeted biomes enabled; `eroded_borealis: false` confirmed harmless — holly reachable via `dacite_ridges`); `mods.txt` skyseed jar bumped 0.179.0 → 0.186.0. *(BWGPLAN)*
@@ -120,7 +121,7 @@ they're worth doing before the next content lands on top.
 - [x] **(#14 Phase 5b)** **Throw-a-seed per village style** — ✅ villages assemble with the right BWG blocks (property-serialisation proven). Two findings spun off: **#72** (doors face inward) and **#73** (cypress → stilted overwater bayou).
 - [x] **(#66)** **Spirit re-test** — ✅ a Forest seed grew spirit trees; band confirmed working (the earlier "no spirit" was the mislabelled-biome test).
 
-- [ ] **(#64/#65)** **Wet-wood re-throw sign-off** (fixes SHIPPED v0.186.0; needs BWG installed) — re-throw the wet-wood seeds (cypress/bayou/white-mangrove/palm) at all three tiers and confirm: the water now reads as a **broad shallow marsh** (not a deep round pond), **Small tiers grow ≥1 tree**, and **Huge Bayou grows willows**. If Huge Bayou willows are still 0 even with the clearing, the willow feature likely can't place on the Aquatic pad at all → fall back to BWGPLAN lever (c) (smaller willow variant / water-adjacent mud).
+- [x] **(#64/#65)** **Wet-wood re-throw sign-off** — ✅ **DONE (2026-07-02):** re-threw the wet-wood seeds (cypress/bayou/white-mangrove/palm) across all three tiers — the water reads as a **broad shallow marsh**, **Small tiers grow ≥1 tree**, and **Huge Bayou grows willows**. The `forceOneTree` clearing was sufficient; BWGPLAN lever (c) was not needed.
 
 **Balance & polish — observe during a normal playthrough:**
 
@@ -141,8 +142,6 @@ they're worth doing before the next content lands on top.
 | 14 | BWG villages Phase 5 — reachability ✅ (red_rock_valley + cypress confirmed; spot-check pumpkin_valley/weeping_witch_forest) + per-style assembly ✅; two follow-ups spun off (#72, #73), then retire the plan | BWGVILLAGEPLAN | high | small | mostly done |
 | 72 | Village doors face inward — flip z=0-wall front-door FACING (likely NORTH→SOUTH) so it's flush outside, then regen. Confirmed in BWG villages (`BwgVillageTemplates.door()`/porch); the SAME `FACING=NORTH` pattern is in TradePost/VillageCenter/Hamlet/RareStructure templates → verify + fix in one pass (not a blind global replace — some doors may be correctly oriented) | BWGVILLAGEPLAN | high | small | open |
 | 73 | Cypress swampland villages → single swamp-water island with stilts + wooden bridges (all 3 tiers; de-cluster village_center) | BWGSWAMPVILLAGEPLAN | medium | large | open (planned) |
-| 64 | Wet-wood water feature reworked to a broad shallow swamp/marsh (`depth:2`/`slope`/`extent` 0.6–0.68) ×3 Aquatic tiers — SHIPPED v0.186.0, gametest-guarded | BWGPLAN | medium | medium | shipped (sign-off) |
-| 65 | Wet-wood zero-tree floor: `forceOneTree` grades a real 5×5 clearing so big NBT trees can't fail to zero; base `tries` 4→6 — SHIPPED v0.186.0 (Huge-Bayou-willow floor still wants in-game confirm) | BWGPLAN | medium | small | shipped (sign-off) |
 | 15 | Quark + Zeta: 4 jars in + modules curated + void-death Totem shrine shipped (v0.182.0) | QUARKPLAN | medium | small | in progress (smoke-pass sign-off) |
 | 71 | Quark island integrations (extras only — NO new seeds/tiers): stones+corundum (Rocky/Ancient) + myalite (End) + blossoms (all 3 Forest tiers) + Ancient-Tome loot — ✅ ALL PHASES SHIPPED v0.184–0.185, both nodes green; only the in-game look/loot sign-off remains | QUARKISLANDPLAN | medium | medium | shipped (sign-off) |
 | 16 | Farmer's Delight — wild crops on biome islands | CONTENTPLAN | medium | medium | open |
