@@ -5,6 +5,55 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.185.0] - 2026-07-02
+
+### Added
+- **Quark island integration Phases 2 & 3 + the myalite End remnant (QUARKISLANDPLAN #71) — completes the Quark island work.**
+  - **Blossom trees on the Forest islands (Phase 2):** a Forest seed over a snowy / swamp / savanna / plains / badlands
+    biome now has a chance of a **blossom-grove** variant that mixes in Quark's blue / lavender / orange / yellow / red
+    blossom trees and drops their **saplings** — Quark's own biome map, across all three forest tiers
+    (`quark_forest{,_large,_huge}.json`). Bands selector-MERGE into the base bands (append a variant) so the normal tree
+    still appears.
+  - **Ancient Tomes in structure-island loot (Phase 3):** Quark's tome loot tables now include the **Trial Chamber**
+    reward chests (`trial_chambers/reward` + `_ominous`) and re-enable **Nether fortress** chests, so tomes drop in the
+    matching structure islands (`quark-common.toml`).
+  - **Myalite on the End form (Phase 1 remnant):** the End form of the rocky & ancient islands now veins **myalite**
+    (Quark's End-flavoured stone).
+  - All extras only (no seeds); inert without Quark. Gametests `quarkBlossomBandsMergeOntoForestTiers` /
+    `quarkMyaliteReachesEndForm` (both nodes).
+
+## [0.184.0] - 2026-07-02
+
+### Added
+- **Quark materials now enrich the Rocky & Ancient mining islands (QUARKISLANDPLAN #71, Phase 1).** New first-party
+  `theme_override`s add Quark stone types as mineable veins — **limestone + jasper** on Rocky, **jasper + shale** on the
+  deepslate-bodied Ancient (both across base/large/huge tiers) — plus a rare **blue-corundum geode** deep in the core.
+  Extras only (no dedicated seed); inert without Quark (unknown ores are skipped before any RNG, so generation is
+  byte-identical). Gametests `quarkStonesCompatTargetsRocky` / `quarkStonesCompatTargetsAncient` (both nodes).
+
+### Fixed
+- **Exotic Woods guide entry: the stale "Eleven wood families" line is corrected** — the Forest seed now grows **twenty**
+  wood families, and the entry's list is updated to match (`exotic_biomes.json`).
+
+## [0.183.0] - 2026-07-02
+
+### Fixed
+- **The void-death Totem shrine now only ADDS blocks — it never overwrites an island.** If you fell straight down
+  through an island, the shrine at the island band could replace that island's blocks. The shrine now fills only air
+  cells, and the totem rises to the first clear cell (its own space + the block above), so it's never relocated into
+  solid blocks. No effect on the common case (a totem spawned in open void).
+
+## [0.182.0] - 2026-07-02
+
+### Added
+- **Quark's Totem of Holding now works in the void (QUARKPLAN).** On a normal death the totem spawns where you die, but
+  a void plunge dropped it at the bottom of the world — floating in empty space, unreachable without flight. When a
+  freshly-spawned `quark:totem` lands below y50 (a void death), Skyseed keeps its x/z (so it stays where you fell and
+  Xaero's death waypoint still points at it), raises it to the island band, and builds a small **lit shrine** under it:
+  a 3×3 stone-brick platform with a glowing centre and four soul-lantern posts — a solid, spawn-proof pad you can bridge
+  across to, and a beacon visible against the void. Decoupled from Quark (matched by entity id, no-ops if Quark Oddities
+  is absent) and only fires on Skyseed worlds.
+
 ## [0.181.0] - 2026-07-01
 
 ### Added

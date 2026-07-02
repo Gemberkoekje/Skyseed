@@ -16,7 +16,9 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
   the other half is the **next content-mod wave** (IE / AE2 / Quark / Farmer's Delight / …) and the
   **structure long tail** (manor, bog trial, trial-chamber polish).
 - The BWG arc is **done end-to-end** (woods, flowers, planks 24/25, guide, quests, and all six village styles
-  × three tiers, v0.170.0–v0.181.0) — only its in-game sign-offs (#3, #10, #14 Phase 5, #66) remain.
+  × three tiers, v0.170.0–v0.181.0). Its in-game sign-offs are **done** (#3, #10, #66; #14 Phase 5 assembly +
+  reachability for red_rock/cypress), leaving only two follow-ups they surfaced — **#72** (village doors) and **#73**
+  (cypress overwater bayou) — plus two biome reachability spot-checks.
 - Best value first: the **Tier 1 sign-offs** (they de-risk everything shipped) and the two **wet-wood quality
   fixes** (#64/#65) that in-game testing already flagged.
 
@@ -26,10 +28,12 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
   in several families with different emphasis. File convention in [BWGPLAN § Q2](Modpack-growyourownworld/BWGPLAN.md).
 - **Tech backbone: Immersive Engineering; Mekanism DROPPED** (aesthetic call). Cascades: #34 promoted, the
   Excavator fix #35 required, Mekanism integration + quest chapter dead. [CONTENTPLAN §7](Modpack-growyourownworld/CONTENTPLAN.md).
-- **Quark: GO for NeoForge 1.21.1 (verified 2026-07-02)** — Quark 4.1-481 + Zeta 1.1-40 confirmed available
-  (official Violet Moon release, actively patched; availability was the open question). Plan: **4 jars** (Quark,
-  Zeta, Quark Oddities marker, QuarkPonders) + void-skyblock module curation. #15 stays open (the jars + curation
-  are the work); #43's minimal quest sketch included. Own plan: [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md).
+- **Quark: SHIPPED for NeoForge 1.21.1** — the **4 jars are in** (Quark 4.1-481, Zeta 1.1-40, Quark Oddities marker,
+  QuarkPonders 1.5.1) and the modules are **curated** (overlaps + void-dead worldgen off). The **Totem of Holding now
+  works in the void**: Skyseed relocates a void-death totem to a lit shrine at the island band (v0.182.0 — the totem is
+  otherwise unreachable). #15 is now in progress (only the in-game smoke-pass sign-off remains); #43's minimal quest
+  sketch is queued. **Island integration is committed as #71** ([QUARKISLANDPLAN](Modpack-growyourownworld/QUARKISLANDPLAN.md)).
+  Own plan: [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md).
 - **Structure scope: FULL** — all 6 villages (✅ since shipped) + aspen manor + bog trial; prairie/fossil stay
   optional. [STRUCTUREPLAN § Scope decision](Modpack-growyourownworld/STRUCTUREPLAN.md).
 - **Village vehicle: our OWN jigsaw set in BWG palettes** (hermetic string-id `.nbt` engine — no BWG on any
@@ -38,7 +42,6 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
   currently qualifies. [BWGPLAN § Q3](Modpack-growyourownworld/BWGPLAN.md).
 - **fir is the documented non-growable BWG plank** (no configured tree feature in 2.6.0) → 24/25 planks
   island-obtainable, gametest-guarded.
-- **#66 (spirit band "failure") is a diagnosed test mislabel**, not a defect — re-test only, no code change.
 - **FTB Quests tag-tasks trap:** smart-filter item tasks don't expand tags — use an advancement task
   ([QUESTPLAN § Approach](Modpack-growyourownworld/QUESTPLAN.md)).
 
@@ -46,12 +49,14 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 
 | Plan | What it covers | Open items |
 |---|---|---|
-| [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | BWG woods/flowers integration | #64 #65 #66 #22 #23 + sign-offs #3 #10 |
-| [BWGVILLAGEPLAN.md](Modpack-growyourownworld/BWGVILLAGEPLAN.md) | BWG villages (shipped) | #14 Phase 5 (in-game sign-off) only |
+| [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | BWG woods/flowers integration | #64 #65 #22 #23 |
+| [BWGVILLAGEPLAN.md](Modpack-growyourownworld/BWGVILLAGEPLAN.md) | BWG villages (shipped) | #14 Phase-5 spot-checks + #72 door fix |
+| [BWGSWAMPVILLAGEPLAN.md](Modpack-growyourownworld/BWGSWAMPVILLAGEPLAN.md) | Cypress swampland villages overwater rework (child of BWGVILLAGEPLAN) | #73 |
 | [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration | #34 #35 #18 #16 #31 #32 #36 #37 #38 #39 #52 + rolling #19 #20 |
-| [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) | Quark integration (child of CONTENTPLAN) | #15 (+ #43 quest sketch) |
+| [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) | Quark integration (child of CONTENTPLAN) | #15 (smoke-pass sign-off) (+ #43 quest sketch) |
+| [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md) | Quark × island integration (child of QUARKPLAN) | #71 |
 | [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | BWG structures long tail | #26 #27 #28 #29 #30 #49 #60 #68 |
-| [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | #3 + future chapters #41–#47 |
+| [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | future chapters #41–#47 |
 | [MYSTICALPLAN.md](Modpack-growyourownworld/MYSTICALPLAN.md) | Mystical Agriculture (shipped) | #50 #51 #69 |
 | [BEAUTIFYPLAN.md](Modpack-growyourownworld/BEAUTIFYPLAN.md) | Modpack visuals (shipped) | #21 #55 (+ optional revivals #53 #54) |
 | [REFACTORPLAN.md](REFACTORPLAN.md) | Multi-version build (shipped) | #56 #59 (+ contingencies #57 #58) |
@@ -64,7 +69,7 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 
 ### Tier 1 — sign-offs & small fixes on shipped content *(do these first)*
 
-- **#3 / #10 / #14-Phase-5 / #66** — the four in-game sign-offs (see the [checklist](#-in-game-verification-checklist-for-you-to-test) below). Cheap, and any of them could surface a real bug before more content lands on top.
+- ✅ **#3 / #10 / #66 — DONE** (2026-07-02 in-game sign-off); **#14 Phase 5** largely signed off (assembly ✅ + reachability for red_rock/cypress), leaving two biome spot-checks + the follow-ups it surfaced: **#72** (village doors face inward) and **#73** (cypress → stilted overwater bayou). See the [checklist](#-in-game-verification-checklist-for-you-to-test).
 - **#64** — rework the wet-wood water feature (deep pond → broad shallow swamp/marsh, ×3 Aquatic tier files). *(BWGPLAN · medium)*
 - **#65** — fix the wet-wood zero-tree floor (guarantee ≥1 tree on Small; fix Huge Bayou 0-willow; root cause = silent `feature.place` failure, levers documented in BWGPLAN). *(BWGPLAN · small-medium)*
 - **#69** — refresh quest **B602 "Prosperity Found"** text (still says MA ores "come from one place"/Ancient; v0.172.0 added the accessible Lush stone source). *(MYSTICALPLAN · tiny)*
@@ -106,18 +111,19 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 Items that need a running client/server — one list to work through. Several could surface a real bug, so
 they're worth doing before the next content lands on top.
 
-**Shipped-feature sign-offs (do soon; all need BWG installed):**
+**Shipped-feature sign-offs (all need BWG installed) — ✅ largely cleared 2026-07-02:**
 
-- [ ] **(#3)** The **BWG quest branch** (Tools & Travel) loads in the quest book; B701's advancement task auto-completes on obtaining an exotic plank; B703's Skyfarer's Cache reward rolls.
-- [ ] **(#10)** The **"Exotic Woods" guide entry** is hidden with BWG absent, and appears (Patchouli book AND Modonomicon Almanac) once BWG is installed and a BWG plank is obtained. *(While there: its flavour text still says "Eleven wood families" — now 20; fix during the check.)*
-- [ ] **(#14 Phase 5a)** **Village-biome reachability:** confirm `pumpkin_valley`, `red_rock_valley`, `weeping_witch_forest`, `cypress_wetlands` actually occur in the void overworld (F3/Debug tab). If one never places, re-key that style's bands (cf. #66 precedent).
-- [ ] **(#14 Phase 5b)** **Throw-a-seed per village style** (all 6): real BWG blocks render, roofs/fences/doors correct (this finally proves the BWG property-serialisation assumption); judge whether the **swamp** style needs its deferred water channels/stilts.
-- [ ] **(#66)** **Spirit re-test:** stand on a **confirmed** `biomeswevegone:pale_bog` (F3 first!) and throw a Forest seed — spirit trees must grow (a matched band can only emit `spirit_trees`). Also confirm `pale_bog` is reachable at all; if not, spirit needs re-keying.
+- [x] **(#3)** The **BWG quest branch** (Tools & Travel) — ✅ loads and works as intended (tasks/rewards resolve).
+- [x] **(#10)** The **"Exotic Woods" guide entry** — ✅ hidden without BWG, appears (Patchouli AND Modonomicon) once installed; and the stale "Eleven wood families" flavour text was corrected to **twenty** (v0.184.0).
+- [ ] **(#14 Phase 5a)** **Village-biome reachability** — PARTIAL: ✅ `red_rock_valley` (the default village seed grew a red-rock village) + `cypress_swamplands`/`cypress_wetlands` confirmed; still to spot-check **`pumpkin_valley`** and **`weeping_witch_forest`** (re-key to a reachable sibling if either never places, cf. #66).
+- [x] **(#14 Phase 5b)** **Throw-a-seed per village style** — ✅ villages assemble with the right BWG blocks (property-serialisation proven). Two findings spun off: **#72** (doors face inward) and **#73** (cypress → stilted overwater bayou).
+- [x] **(#66)** **Spirit re-test** — ✅ a Forest seed grew spirit trees; band confirmed working (the earlier "no spirit" was the mislabelled-biome test).
 
 **After the #64/#65 fixes ship:** re-throw the wet-wood seeds (cypress/bayou/white-mangrove/palm) — water reads as swamp/marsh, Small tiers grow ≥1 tree, Huge Bayou grows willows.
 
 **Balance & polish — observe during a normal playthrough:**
 
+- [ ] **(#71)** Quark island extras (needs Quark installed): a Forest seed over savanna/plains/swamp/snowy/badlands sometimes grows a **blossom grove** (saplings obtainable); Rocky/Ancient islands vein Quark stones + a deep corundum geode, End form veins myalite; **Ancient Tomes** appear in the dungeon/mansion/bastion/ancient-city/trial/fortress island chests. Tune weights after the read.
 - [ ] **(#51)** MA balance — watch Growth Accelerator stacking + mob Inferium drop rates; tune configs only if needed.
 - [ ] **(#61)** Trial Chamber — after the #24/#25/#33 polish lands: clean rebuild + visual comparison to a vanilla trial chamber (stale-NBT Stonecutter trap).
 
@@ -131,16 +137,16 @@ they're worth doing before the next content lands on top.
 
 | # | Item | Plan | Priority | Effort | Status |
 |---|---|---|---|---|---|
-| 3 | In-game quest-book test-load of the BWG branch (B701–B703) | BWGPLAN / QUESTPLAN | high | small | sign-off |
-| 10 | In-game "Exotic Woods" guide reveal check (+ fix the stale "Eleven wood families" entry text) | BWGPLAN | high | small | sign-off |
-| 14 | BWG villages Phase 5 — biome reachability (4 biomes) + per-style assembly sign-off + swamp-water read | BWGVILLAGEPLAN | high | small | sign-off |
-| 66 | Spirit band re-test over a confirmed `pale_bog` (+ reachability) — diagnosed mislabel, no code change expected | BWGPLAN | high | small | sign-off |
+| 14 | BWG villages Phase 5 — reachability ✅ (red_rock_valley + cypress confirmed; spot-check pumpkin_valley/weeping_witch_forest) + per-style assembly ✅; two follow-ups spun off (#72, #73), then retire the plan | BWGVILLAGEPLAN | high | small | mostly done |
+| 72 | Village doors face inward — flip z=0-wall front-door FACING (likely NORTH→SOUTH) so it's flush outside, then regen. Confirmed in BWG villages (`BwgVillageTemplates.door()`/porch); the SAME `FACING=NORTH` pattern is in TradePost/VillageCenter/Hamlet/RareStructure templates → verify + fix in one pass (not a blind global replace — some doors may be correctly oriented) | BWGVILLAGEPLAN | high | small | open |
+| 73 | Cypress swampland villages → single swamp-water island with stilts + wooden bridges (all 3 tiers; de-cluster village_center) | BWGSWAMPVILLAGEPLAN | medium | large | open (planned) |
 | 64 | Rework the wet-wood water feature: broad shallow swamp/marsh instead of the deep round pond (×3 Aquatic tiers) | BWGPLAN | medium | medium | open |
 | 65 | Wet-wood tree density: guarantee ≥1 tree on Small tier; fix Huge Bayou 0 willows (placement-failure root cause; levers a/b/c in BWGPLAN) | BWGPLAN | medium | small | open |
 | 69 | Refresh quest B602 "Prosperity Found" text/gating for the Lush stone-ore source (v0.172.0) | MYSTICALPLAN | medium | small | open |
 | 22 | Density follow-up: lift held wet/semi forest biomes to the agreed level (`tries` edits ×3 tiers) | BWGPLAN | low | small | open |
 | 23 | BWG config coherence pass + `mods.txt` regen (bundled skyseed jar stale at 0.174.0) | BWGPLAN | low | small | partial |
-| 15 | Curate Quark modules + add Zeta (4 jars + curation; versions verified 2026-07-02) | QUARKPLAN | medium | small | open (planned) |
+| 15 | Quark + Zeta: 4 jars in + modules curated + void-death Totem shrine shipped (v0.182.0) | QUARKPLAN | medium | small | in progress (smoke-pass sign-off) |
+| 71 | Quark island integrations (extras only — NO new seeds/tiers): stones+corundum (Rocky/Ancient) + myalite (End) + blossoms (all 3 Forest tiers) + Ancient-Tome loot — ✅ ALL PHASES SHIPPED v0.184–0.185, both nodes green; only the in-game look/loot sign-off remains | QUARKISLANDPLAN | medium | medium | shipped (sign-off) |
 | 16 | Farmer's Delight — wild crops on biome islands | CONTENTPLAN | medium | medium | open |
 | 34 | Immersive Engineering — bauxite/aluminum island + FE (the tech backbone) | CONTENTPLAN | medium | large | open (gated on 35) |
 | 35 | IE Excavator fix — island-aware ore mix (preferred) else disable + hide in JEI | CONTENTPLAN | medium | medium | open |

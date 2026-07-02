@@ -14,7 +14,8 @@ Content-mod integration plan (NeoForge **1.21.1**). Companion to BEAUTIFYPLAN.md
 
 - **#34** Immersive Engineering — bauxite/aluminum ore island + FE integration (§2), gated on **#35** the Excavator fix (§7).
 - **#18** Applied Energistics 2 — certus + sky-stone bootstrap (§2).
-- **#15** Quark — module curation + Zeta dep (§2). **Own plan: [QUARKPLAN.md](QUARKPLAN.md)** (availability verified 2026-07-02).
+- **#15** Quark — **SHIPPED** (4 jars in + curated + Totem void fix v0.182.0; smoke-pass sign-off open) (§2). **Own plan:
+  [QUARKPLAN.md](QUARKPLAN.md)**; island integration is **#71** → [QUARKISLANDPLAN.md](QUARKISLANDPLAN.md).
 - **#16** Farmer's Delight — wild crops on biome islands (§2).
 - **#32** Productive Bees — starter bees/hives (§2).
 - **#31** Critters and Companions — spawn verification on biome islands (§2).
@@ -98,11 +99,11 @@ consumes FE for storage/automation.
   spawn entries or grant spawn eggs via seeds. Pure flavor. Dep: **GeckoLib** (already in the pack).
 
 ### Building / palette
-- **Quark (#15)** — building blocks, decoration, QoL tweaks (modular). *Plan:* mostly additive; **curate
-  modules** (enable building/decoration/QoL, disable worldgen-dependent ones that won't fire in void).
-  Dep: **Zeta**. **Own plan (2026-07-02): [QUARKPLAN.md](QUARKPLAN.md)** — availability verified (Quark
-  4.1-481 + Zeta 1.1-40, NeoForge 1.21.1); the jar list (incl. Quark Oddities + QuarkPonders), module
-  curation, island integrations, and follow-ons live there.
+- **Quark (#15)** — building blocks, decoration, QoL tweaks (modular). **SHIPPED:** 4 jars in (Quark 4.1-481 +
+  Zeta 1.1-40 + Oddities marker + QuarkPonders 1.5.1), modules curated (overlaps + Glimmering Weald off; block-providing
+  World modules kept ON for island reuse), and the **Totem of Holding void fix** is live (v0.182.0). **Own plan:
+  [QUARKPLAN.md](QUARKPLAN.md)**; the four **island integrations** (corundum / Quark stones / Ancient-Tome loot /
+  blossom) are committed as **#71** → [QUARKISLANDPLAN.md](QUARKISLANDPLAN.md). Remaining on #15: the in-game smoke-pass.
 
 *(Shipped for reference: the biome-palette mod is **Oh The Biomes We've Gone** (BWG) 2.6.0 — overworld-focused,
 55 biomes / 25 woods, fully integrated per BWGPLAN.md + BWGVILLAGEPLAN.md. Its stray void-floor features are
@@ -140,7 +141,7 @@ Agriculture) and the BWG palette are ✅ shipped. Remaining, in ROI order:
 
 | Order | Mod | Value | Effort | Note |
 |---|---|---|---|---|
-| 1 | Quark (#15) | Med-High | Low | Building/QoL breadth via config curation. **Planned → [QUARKPLAN.md](QUARKPLAN.md)** (versions verified 2026-07-02). |
+| 1 | Quark (#15) | Med-High | Low | Building/QoL breadth via config curation. **SHIPPED + curated → [QUARKPLAN.md](QUARKPLAN.md)**; island tie-ins #71 → [QUARKISLANDPLAN.md](QUARKISLANDPLAN.md). |
 | 2 | Farmer's Delight (#16) | High | Med | Cozy, on-theme; crop injection onto biome islands. |
 | 3 | **Immersive Engineering (#34)** | **High** | High | **The chosen tech backbone.** Gated on the Excavator fix (#35, §7). |
 | 4 | Applied Energistics 2 (#18) | High | Med | Storage endgame; self-multiplies after a certus bootstrap. |

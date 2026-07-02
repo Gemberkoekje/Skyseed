@@ -1,0 +1,9 @@
+{
+  "_comment": "First-party Quark compat (QUARKISLANDPLAN #71, Phase 1) — jasper + shale + a deep corundum geode on the huge ancient island. Extras only, no seed. Inert without Quark.",
+  "target": "skyseed:huge_ancient",
+  "ores": [
+    { "block": "quark:jasper", "chance": 0.80, "count": { "min": 8, "max": 14 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
+    { "block": "quark:shale", "chance": 0.80, "count": { "min": 8, "max": 14 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
+    { "block": "quark:blue_corundum", "chance": 0.50, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 3, "max": 6 }, "depth": "deep_core" }
+  ]
+}

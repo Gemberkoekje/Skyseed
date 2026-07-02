@@ -11,10 +11,12 @@ shipped separately via [BWGVILLAGEPLAN.md](BWGVILLAGEPLAN.md) (v0.176.0–v0.181
 
 - **#64** — rework the wet-wood water feature (deep pond → broad shallow swamp/marsh) — see the **In-game test findings** section below.
 - **#65** — fix the wet-wood zero-tree floor (Small tiers, Huge Bayou) — same section.
-- **#66** — spirit-band **re-test** over a confirmed `pale_bog` (diagnosed as a mislabelled test, not a defect) — same section.
+- ~~**#66**~~ — ✅ **DONE (2026-07-02):** a forest seed grew **spirit trees** — band confirmed working (the earlier "no spirit" read was the mislabelled-biome test); no code change.
 - **#22** — density follow-up: lift the held wet/semi forest biomes (mangrove/swamp/riverside, cherry/grove/mushroom/bamboo/flower) to the agreed level. The in-game density read this was waiting on is confirmed good; it's small numeric `tries` edits ×3 tier files (e.g. `theme/huge_forest.json` still has `minecraft:mangrove_swamp` at 40/16 vs the canonical forests' 120) + version/CHANGELOG bump.
 - **#23** — Step 4 remainder: config-curation pass + `mods.txt` regen — see the **Step 4** section below.
-- **In-game sign-offs**: the **#3** quest-book test-load and the **#10** guide-reveal check — see the **Step 5** and **Step 4** sections below.
+- **In-game sign-offs ✅ DONE (2026-07-02):** **#3** quest-book test-load and **#10** guide-reveal (both Patchouli +
+  Modonomicon) confirmed — the BWG branch works as intended. **#10 fully closed:** the stale "Eleven wood families"
+  flavour text was corrected to the current **twenty** (v0.184.0).
 
 ## The three mods
 
@@ -73,10 +75,11 @@ onto Modonomicon too). All tag ids verified against the BWG 2.6.0 jar (v0.171.0,
 - A deliberate coherence pass over the tracked `overrides/config/biomeswevegone/{misc,mob_spawn,trades,world_generation}.json` (note: `eroded_borealis` is set `false` — one of holly's alternate host biomes; confirm intentional. Keep biome injection ON). OTYG needs no config (none is generated); create-otbwg is pure datapack.
 - Regenerate `mods.txt` when the bundled Skyseed jar is refreshed — it currently lists `skyseed-1.21.1_0.174.0.jar` vs `mod_version` 0.181.0.
 
-**Remaining in-game sign-off (#10):** confirm the guide entry is **hidden** with BWG absent and **appears**
-once BWG is installed and a BWG plank is obtained — check both the Patchouli book and the Modonomicon
-Almanac. While there, fix the entry's stale flavour text: it still says "Eleven wood families answer the
-Forest seed today" — the Forest family now grows 20 woods (24 planks total across families).
+**#10 ✅ DONE (2026-07-02):** the guide entry hides with BWG absent and appears once BWG is installed (both the
+Patchouli book and the Modonomicon Almanac), AND the stale flavour text is fixed — `exotic_biomes.json` now reads
+"Twenty wood families answer the Forest seed today" with the current list (aspen … rainbow eucalyptus + the enchanted
+woods), verified against the forest wood bands. The stale text lived only in the Patchouli entry (the Modonomicon twin
+did not carry it). Shipped v0.184.0.
 
 ## Step 5 — Quests — ✅ SHIPPED; sign-off open
 
@@ -87,7 +90,7 @@ Grand* (B703, checkmark, depends on B701).
 
 **★ Why an advancement, not a filter task.** First attempt used an `ftbfiltersystem:smart_filter` item task with `item_tag(skyseed:exotic_woods)` — **it does NOT work**: in-game FTB Quests treats the Smart Filter as a *literal item to obtain* (the "Valid items" screen shows only the filter), not as a tag expansion. Reusing the hidden reveal advancement (built for the Patchouli guide gate) is the robust fix — one hidden advancement drives both the quest and the guide entry. `ftb-filter-system` is therefore **not required** by this branch (harmless to keep as a general QoL mod). This is a standing trap for **all future tag-based quest tasks**.
 
-**Remaining (#3):** in-game quest-book test-load — tasks/rewards resolve (incl. B703's Skyfarer's Cache roll).
+**#3 ✅ DONE (2026-07-02):** in-game quest-book test-load passed — the B701–B703 branch works as intended (tasks/rewards resolve, incl. B703's Skyfarer's Cache roll).
 
 ## Plank coverage audit — 24 / 25 obtainable ✅ CLOSED (v0.173.0)
 
@@ -124,7 +127,7 @@ errors). Three groups of issues to address (do **not** fix inline — tracked as
      for willow specifically, confirm `bayou_trees`/`willow_tree1..4` even *can* place on the Aquatic pad (it may need
      water-adjacent mud) — if not, pick a smaller willow variant for the Small/Huge floor. All three want the client loop
      to confirm the count actually moves off 0, so no speculative edit was shipped.
-3. **Spirit band not resolving (→ #66). ✅ DIAGNOSED (2026-07-01) — no code/data change; a re-test item.** A seed
+3. **Spirit band (→ #66). ✅ RESOLVED (2026-07-02) — re-test passed: a forest seed grew spirit trees, band confirmed working (the earlier "no spirit" was the mislabelled-biome test). No code/data change.** A seed
    over `pale_bog` reportedly produced only **oak & birch, no spirit trees**. Root-cause audit against the jar + engine:
    `biomeswevegone:pale_bog` and `biomeswevegone:spirit_trees` both exist in 2.6.0; the band is present, prepended, and
    gametest-asserted; spirit uses the same `ohthetreesyoullgrow:tree_from_nbt_v1` feature type as the **working**

@@ -1,0 +1,9 @@
+{
+  "_comment": "First-party Quark compat (QUARKISLANDPLAN #71, Phase 1) — Quark stones + a deep corundum geode on the large rocky island (counts scaled up for the bigger body). Extras only, no seed. Inert without Quark.",
+  "target": "skyseed:rocky_large",
+  "ores": [
+    { "block": "quark:limestone", "chance": 0.90, "count": { "min": 8, "max": 12 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "quark:jasper", "chance": 0.70, "count": { "min": 4, "max": 8 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
+    { "block": "quark:blue_corundum", "chance": 0.45, "count": { "min": 1, "max": 3 }, "vein_size": { "min": 3, "max": 6 }, "depth": "deep_core" }
+  ]
+}

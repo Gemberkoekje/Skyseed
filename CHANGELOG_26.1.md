@@ -9,6 +9,41 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.185.0] - 2026-07-02
+
+### Added
+- **Quark island integration Phases 2 & 3 + myalite End (QUARKISLANDPLAN #71) — completes the Quark island work.**
+  Blossom trees + saplings as a merged accent variant on the Forest tiers' snowy/swamp/savanna/plains/badlands bands
+  (`quark_forest{,_large,_huge}.json`); Ancient Tomes loot extended to the Trial Chamber + Nether-fortress chests
+  (config); myalite veins the rocky/ancient End form. Extras only, inert without Quark. Gametests
+  `quarkBlossomBandsMergeOntoForestTiers` / `quarkMyaliteReachesEndForm`.
+
+## [0.184.0] - 2026-07-02
+
+### Added
+- **Quark materials on the Rocky & Ancient mining islands (QUARKISLANDPLAN #71, Phase 1).** `theme_override`s add
+  limestone/jasper (Rocky) and jasper/shale (Ancient) veins + a deep blue-corundum geode across base/large/huge tiers.
+  Extras only, no seed; inert without Quark. Gametests `quarkStonesCompatTargetsRocky` / `quarkStonesCompatTargetsAncient`.
+
+### Fixed
+- **Exotic Woods guide: "Eleven wood families" → twenty** (`exotic_biomes.json`), matching the current Forest-seed set.
+
+## [0.183.0] - 2026-07-02
+
+### Fixed
+- **The void-death Totem shrine only ADDS blocks now — never overwrites an island** (fell-straight-down-through-an-island
+  case). Shrine fills air cells only; the totem rises to the first clear cell so it's never embedded. Shared with the
+  1.21.1 build.
+
+## [0.182.0] - 2026-07-02
+
+### Added
+- **Quark's Totem of Holding now works in the void (QUARKPLAN).** A void death used to drop the totem at the bottom of
+  the world, unreachable without flight. A freshly-spawned `quark:totem` below y50 now keeps its x/z, is raised to the
+  island band, and gets a small **lit shrine** built under it (3×3 stone-brick pad, glowing centre, four soul-lantern
+  posts) — bridge-reachable and beacon-visible. Matched by entity id (no-ops without Quark Oddities); Skyseed worlds only.
+  Shared handler with the 1.21.1 build.
+
 ## [0.181.0] - 2026-07-01
 
 ### Added

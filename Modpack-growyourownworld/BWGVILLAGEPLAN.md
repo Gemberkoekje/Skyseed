@@ -5,10 +5,12 @@
 > wood/flower [BWGPLAN.md](BWGPLAN.md). **Scope of THIS plan: villages only** — the aspen manor (#26) and bog
 > trial (#27) are separate follow-on items and are *not* covered here.
 >
-> **Status: PHASES 0–4 SHIPPED (v0.176.0–v0.179.0) + follow-up fixes (v0.180.0–v0.181.0).** All six styles
-> across all three tiers (Hamlet / Trade Post / Village Center), a variety pass, the shrine-hall door fix,
-> and the four missing profession shops (armorer/cleric/weaponsmith/leatherworker — all 13 professions now
-> obtainable). Both nodes green. **Only Phase 5 (in-game sign-off) is open** — see [Phasing](#phasing).
+> **Status: PHASES 0–4 SHIPPED (v0.176.0–v0.179.0) + follow-up fixes (v0.180.0–v0.181.0); PHASE 5 LARGELY SIGNED
+> OFF in-game 2026-07-02.** All six styles across all three tiers (Hamlet / Trade Post / Village Center), a variety
+> pass, the shrine-hall door fix, and the four missing profession shops (all 13 professions obtainable). Both nodes
+> green. The Phase-5 in-game sign-off passed (reachability + assembly), leaving **two follow-ups: #72 (doors face
+> inward — flip 180°) and #73 (cypress swampland → stilted overwater bayou, its own
+> [BWGSWAMPVILLAGEPLAN.md](BWGSWAMPVILLAGEPLAN.md))** — see [Phasing](#phasing).
 
 ## Goal
 
@@ -107,17 +109,21 @@ Phases 0–4 shipped (each with `mod_version` bump + per-node CHANGELOG entry + 
 - **Phase 2 — All six styles, core building set, trade_post tier.** ✅ v0.177.0 (`bwg_all_village_bands_wired_on_trade_post`, `bwg_village_styles_assemble`).
 - **Phase 3 — Hamlet + Village-Center tiers.** ✅ v0.178.0 (`bwg_hamlet_and_center_bands_wired`, `bwg_hamlet_and_center_assemble`; added the per-style `hamlet_start` pool).
 - **Phase 4 — Variety pass.** ✅ v0.179.0 (HIP roof, porch cottage + longhouse, animal-pen / market-stall / grove plots; `bwg_village_decor_variety`). Follow-up fixes: v0.180.0 (shrine-hall freestanding door removed), v0.181.0 (armorer/cleric/weaponsmith/leatherworker shops — 12 `shop_*.nbt`, all 13 professions obtainable; loft-ladder + smithy fixes; `village_offers_every_profession`).
-- **Phase 5 — Verify + document. ← THE OPEN PHASE (in-game, needs BWG installed):**
-  1. **Biome-reachability check** for the four new-to-us biomes: `pumpkin_valley`, `red_rock_valley`,
-     `weeping_witch_forest`, `cypress_wetlands` (confirm via F3/Debug tab that TerraBlender actually places each
-     in the void multi-noise overworld). If one never places, re-key that style's bands to a reachable sibling
-     biome (cf. the BWGPLAN #66 `pale_bog` precedent).
-  2. **Throw-a-seed assembly sign-off per style** (all 6 styles × the tiers you care about): real BWG blocks
-     render, roofs/fences/doors correct — this is also the only place the **BWG property-serialisation risk**
-     is finally proven (gametests run without BWG on the classpath, so they can't check the real blocks).
-     Includes the standing **swamp read**: if the swamp style reads flat/dry, decide whether to add the deferred
-     water channels/stilts.
-  3. Retire this plan into the CHANGELOG once signed off.
+- **Phase 5 — Verify + document. ← LARGELY SIGNED OFF in-game 2026-07-02 (BWG installed):**
+  1. **Biome-reachability** — ✅ `red_rock_valley` confirmed (the default village seed grew a red-rock village) and
+     `cypress_swamplands`/`cypress_wetlands` confirmed (cypress village seen). Still worth a spot-check:
+     `pumpkin_valley`, `weeping_witch_forest` (low risk; re-key to a reachable sibling if either never places, cf.
+     the BWGPLAN #66 `pale_bog` precedent).
+  2. **Throw-a-seed assembly sign-off** — ✅ villages assemble with the right BWG blocks (the property-serialisation
+     risk is retired). Two findings spun into their own items: **(a) doors face inward** — the front door sits on the
+     interior edge of its cell; flip its FACING 180° (NORTH→SOUTH for the z=0 front wall) so it's flush with the
+     outside wall (**#72**). The same `FACING=NORTH` front-door pattern is shared by `TradePostTemplates`/
+     `VillageCenterTemplates`/`HamletTemplates`/`RareStructureTemplates` — verify + fix those in the same pass, then
+     regen the affected `.nbt`; **(b) the swamp read** — resolved in step 3.
+  3. **Swamp read → RESOLVED (decision made 2026-07-02):** the cypress style should be a proper stilted bayou — ONE
+     swamp-water island with houses on stilts and wooden bridges, NOT the 3-island cluster. Its own plan:
+     **[BWGSWAMPVILLAGEPLAN.md](BWGSWAMPVILLAGEPLAN.md) (#73).**
+  4. Retire this plan into the CHANGELOG once #72 lands and the two reachability spot-checks pass (#73 tracks separately).
 
 **Possible later polish (not committed):** per-*building* signature decor — pumpkins *inside* pumpkin houses,
 wall vines, etc. (v0.179.0's decor is plot-level: grove/market-stall/animal-pen in the `fillers` pool.)
@@ -131,8 +137,9 @@ wall vines, etc. (v0.179.0's decor is plot-level: grove/market-stall/animal-pen 
   their analog (true for stairs/slabs/fences/doors/logs). A few odd ones (`cattail_thatch_stairs`,
   `dacite_pillar`, `pumpkin_burrow`, mushroom blocks) are only provable in-game → Phase 5 step 2;
   default-state (no Properties) is the safe fallback.
-- **Swamp water.** The swamp style wants channels/stilts over water; shipped templates are dry-pad + thatch
-  (water only in field/well/animal-pen basins) → decide at the Phase 5 swamp read.
+- **Swamp water.** RESOLVED (2026-07-02): the swamp style becomes a stilted overwater bayou (one water island +
+  stilts + wooden bridges) — see [BWGSWAMPVILLAGEPLAN.md](BWGSWAMPVILLAGEPLAN.md) (#73). Shipped templates are
+  dry-pad + thatch today.
 - **Vertical / bounding-box.** NOT a risk here — villages are street-network (flat) jigsaws; the vertical-jigsaw
   risk lives with the manor & trial (#26–#28 in STRUCTUREPLAN).
 
