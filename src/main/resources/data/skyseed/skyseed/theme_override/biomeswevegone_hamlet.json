@@ -33,8 +33,12 @@
         "trees": [ { "feature": "biomeswevegone:witch_hazel_trees", "tries": 2, "spacing": 3 } ],
         "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "biomeswevegone:pink_anemone", "chance": 0.04 }, { "block": "biomeswevegone:white_anemone", "chance": 0.04 } ] } } ] },
     { "biomes": ["biomeswevegone:cypress_swamplands", "biomeswevegone:cypress_wetlands"],
-      "surface": "minecraft:grass_block", "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.18 } ],
-      "jigsaw": { "pool": "skyseed:village_swamp/hamlet_start", "target": "minecraft:bottom", "depth": 2, "pad": 5, "reach": 12, "cap_prefix": "shop_", "cap_min": 1, "cap_count": 2, "cap_filler": "skyseed:village_swamp/fillers" },
+      "_comment_bayou": "BWGSWAMPVILLAGEPLAN #73 — a stilted overwater bayou: a broad shallow swamp (the #64 pond lever, extent raised so water dominates) with the hamlet lifted onto willow/cypress stilts + plank boardwalks (jigsaw stilt_height + PathSurfacer.supportStilts/resolveStilted). stilt_height is the in-game knob for how far floors clear the water.",
+      "surface": "minecraft:mud",
+      "pond": { "block": "minecraft:water", "radius": 24, "depth": 2, "slope": true, "extent": 0.9, "contained": true,
+        "plants": [ { "block": "minecraft:lily_pad", "chance": 0.16 }, { "block": "minecraft:seagrass", "chance": 0.10 } ],
+        "bank": [ { "block": "minecraft:sugar_cane", "chance": 0.50 } ] },
+      "jigsaw": { "pool": "skyseed:village_swamp/hamlet_start", "target": "minecraft:bottom", "depth": 2, "pad": 5, "reach": 12, "stilt_height": 2, "cap_prefix": "shop_", "cap_min": 1, "cap_count": 2, "cap_filler": "skyseed:village_swamp/fillers" },
       "variants": [ { "weight": 1, "name": "swamp", "decoration": {
         "trees": [ { "feature": "biomeswevegone:cypress_trees", "tries": 2, "spacing": 3 } ],
         "ground": [ { "block": "minecraft:short_grass", "chance": 0.28 }, { "block": "minecraft:fern", "chance": 0.10 }, { "block": "minecraft:brown_mushroom", "chance": 0.04 }, { "block": "minecraft:red_mushroom", "chance": 0.03 } ] } } ] }

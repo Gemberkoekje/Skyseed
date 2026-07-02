@@ -64,5 +64,5 @@ public record IslandPlan(List<BlockPlacement> blocks, List<TreeSite> trees, List
     public record JigsawSite(Id pool, Id target,
                              int depth, int pad, int ironGolems, BlockPos origin, int reach,
                              String capPrefix, int capCount, String capFiller, Optional<Id> centerpiece,
-                             boolean trestles) {}
+                             boolean trestles, int stiltHeight) {}
 }

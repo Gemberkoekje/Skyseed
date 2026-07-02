@@ -3,6 +3,7 @@ package dev.gemberkoekje.skyseed.worldgen;
 import dev.gemberkoekje.skyseed.Skyseed;
 import dev.gemberkoekje.skyseed.compat.Entities;
 import dev.gemberkoekje.skyseed.compat.Jigsaw;
+import dev.gemberkoekje.skyseed.compat.Id;
 import dev.gemberkoekje.skyseed.compat.Lookup;
 import dev.gemberkoekje.skyseed.worldgen.structure.PathSurfacer;
 import dev.gemberkoekje.skyseed.worldgen.structure.Traps;
@@ -335,6 +336,14 @@ public final class GenerationJob {
         }
     }
 
+    /** A stilted build's willow wood block ({@code biomeswevegone:willow_<suffix>}), falling back to the vanilla
+     *  {@code fallback} when BWG isn't installed — so the stilt/boardwalk pass places plain-oak legs off-BWG (and in CI),
+     *  and the swamp village (which only assembles with BWG present) gets its willow set. */
+    private static BlockState swampWood(String suffix, Block fallback) {
+        final Id id = Id.of("biomeswevegone:willow_" + suffix);
+        return Lookup.hasBlock(id) ? Lookup.blockState(id) : fallback.defaultBlockState();
+    }
+
     /**
      * Assemble the planned jigsaw structures, then spawn a villager at every bed they placed.
      *
@@ -366,12 +375,22 @@ public final class GenerationJob {
             // with empty decks, so they're skipped), THEN resolve the lane markers into terrain-aware paths and
             // over-void bridges — the lanes stay floating bridges, only buildings/fields/gardens get a foundation (§3a).
             if (js.reach() > 0) {
-                if (js.trestles()) {
-                    PathSurfacer.supportTrestles(level, js.origin(), js.reach()); // mineshaft: wooden legs over the void
+                if (js.stiltHeight() > 0) {
+                    // A stilted bayou village: hang wooden legs down through the swamp water to the bed under the lots,
+                    // and render the street lanes as plank boardwalks over the water (BWGSWAMPVILLAGEPLAN #73).
+                    final BlockState post = swampWood("log", Blocks.OAK_LOG);
+                    PathSurfacer.supportStilts(level, js.origin(), js.reach(), post);
+                    PathSurfacer.resolveStilted(level, js.origin(), js.reach(),
+                            swampWood("slab", Blocks.OAK_SLAB), swampWood("planks", Blocks.OAK_PLANKS),
+                            swampWood("fence", Blocks.OAK_FENCE), post);
                 } else {
-                    PathSurfacer.supportFloatingFloors(level, js.origin(), js.reach());
+                    if (js.trestles()) {
+                        PathSurfacer.supportTrestles(level, js.origin(), js.reach()); // mineshaft: wooden legs over the void
+                    } else {
+                        PathSurfacer.supportFloatingFloors(level, js.origin(), js.reach());
+                    }
+                    PathSurfacer.resolve(level, js.origin(), js.reach());
                 }
-                PathSurfacer.resolve(level, js.origin(), js.reach());
             }
             // Link up any fences / panes / walls (incl. the bridge railings just placed) in their default state.
             linkConnections(level, js.origin(), Math.max(LINK_RADIUS, js.reach()));

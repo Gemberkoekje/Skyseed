@@ -125,7 +125,7 @@ final class PondCarver {
      */
     static void containPond(Map<BlockPos, BlockState> blockMap, List<BlockPos> surfaceList, BlockPos center,
                             int waterY, int bottomY, BlockState surface, BlockState fill, Set<Long> carved, RandomSource random,
-                            boolean river) {
+                            boolean contain) {
         // 1) Pond bed: the block the water rests on, seen through the surface (per-column floor for a sloped basin).
         for (long k : carved) {
             final int bx = center.getX() + (int) (k >> 32), bz = center.getZ() + (int) k;
@@ -138,10 +138,10 @@ final class PondCarver {
             }
         }
         // 2) Containing ring + shore: every land column touching the water.
-        // A river runs to the rim and would otherwise sheet off all along its banks; wall it into a contained channel,
-        // keeping only a few coarse stretches open as deliberate falls. Rolled only for a river, so a plain pond's later
-        // RNG (and generation) is unchanged.
-        final long riverSalt = river ? random.nextLong() : 0L;
+        // A river/contained pool runs to the rim and would otherwise sheet off all along its banks; wall it into a
+        // contained basin, keeping only a few coarse stretches open as deliberate falls. Rolled only when containing, so
+        // a plain pond's later RNG (and generation) is unchanged.
+        final long riverSalt = contain ? random.nextLong() : 0L;
         final Set<Long> handled = new HashSet<>();
         final List<BlockPos> newRim = new ArrayList<>();
         for (long k : carved) {
@@ -156,10 +156,10 @@ final class PondCarver {
                 }
                 final int nx = center.getX() + ndx;
                 final int nz = center.getZ() + ndz;
-                // The ring needs island body beneath the floor to rest on. With none: a POND leaves it open (a rare,
-                // acceptable small waterfall); a RIVER would otherwise spill all along the rim, so it gets walled (a
-                // thin lip hung over the void) except at a few coarse stretches kept open as deliberate falls.
-                if (!blockMap.containsKey(new BlockPos(nx, bottomY - 1, nz)) && (!river || waterfallHere(ndx, ndz, riverSalt))) {
+                // The ring needs island body beneath the floor to rest on. With none: a plain POND leaves it open (a
+                // rare, acceptable small waterfall); a RIVER or CONTAINED pool would otherwise spill all along the rim,
+                // so it gets walled (a thin lip hung over the void) except at a few coarse stretches kept open as falls.
+                if (!blockMap.containsKey(new BlockPos(nx, bottomY - 1, nz)) && (!contain || waterfallHere(ndx, ndz, riverSalt))) {
                     continue;
                 }
                 final BlockPos top = new BlockPos(nx, waterY, nz);

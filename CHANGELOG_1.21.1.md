@@ -5,6 +5,54 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.188.0] - 2026-07-02
+
+### Added
+- **Cypress swampland villages grow as a stilted overwater bayou (BWGSWAMPVILLAGEPLAN #73).** The three cypress village
+  bands (`biomeswevegone_{hamlet,trade_post,village_center}.json`, biomes `cypress_swamplands`/`cypress_wetlands`) now
+  carve a broad **island-filling** shallow swamp (the #64 `pond` lever, `radius 24` / `extent 0.9` so the water covers
+  almost the whole island, leaving only a thin walkable rim), sit on a `mud` surface, and stand the village on stilts +
+  plank boardwalks over the open water — a stilted build **skips the levelled pad entirely**, so there is no dry
+  "footing" disc displacing the water under the centre. The pond is **`contained`** (a new `Pond` flag): like a river it
+  walls its un-backed rim into a lip instead of sheeting off, so a near-island-filling lake stays hemmed in bar a few
+  deliberate waterfalls. The village-center cypress band gets its **own single-island `shape`** (radius 15–17, no
+  `cluster_offsets`) so it stops inheriting the base 3-island cluster.
+  New engine, data-driven via a `stilt_height` on `JigsawConfig`:
+  - **`PathSurfacer.supportStilts`** hangs wooden legs from a lot floor down *through the water* to the bed (unlike the
+    dirt/trestle passes, which stop at the water surface); **`resolveStilted`/`boardwalk`** render the street-marker lanes
+    as plank decks on sparse pier posts, **railed only along their open-water edges** — never on a lane tile (kept
+    walkable) and never on a solid block (a house floor/plaza the walkway meets), so a rail can neither overwrite a house
+    nor fence a road shut. Legs/decks/rails use BWG willow (oak fallback when BWG is absent, so CI stays BWG-free). A
+    lifted stilted build also clears the island's surface decoration so a tree can't root below and grow up into a house.
+  - **`stilt_height`** (jigsaw config) seats the build that many blocks above the pad so its floors clear the water and
+    triggers the stilt/boardwalk passes; the three cypress bands set it to 2. It is the in-game tuning knob for floor
+    clearance (alongside the pond `extent`).
+  Also from the in-game passes: **`PathSurfacer` strips a tree trunk/canopy left over any resolved path tile**
+  (`clearCanopyAbove`) — trees are placed before structures, so a road laid across a tree column otherwise left the
+  trunk floating on the road (fixes trees-on-roads in **all** villages, not just the swamp; trees in the gaps stay). The
+  **cypress village-center island is now huge-sized** (its `shape` uses the huge-tier radius 24–30 / `top_dome` 2–3 /
+  `max_under_depth` 18, pond `radius` 40 so `extent` governs), so far more of the village sits on-island. And **stilts no
+  longer dangle into the void** — `stiltDown` places no leg where no bed is found within its 8-block search, so a stilt
+  only rests on its own island (never a stub into nothing or a reach down to another island).
+  Gametests `pathSurfacerStiltsDescendThroughWater` + `pathSurfacerBoardwalksOverWater` (+ the path/resolve test) guard
+  the mechanism on both nodes. The other five village styles are untouched (bar the shared tree-on-road fix). Inert
+  without BWG (cypress biomes never match). *(The over-water look + the exact `stilt_height`/`extent` are an in-world
+  tuning pass — throw a cypress village seed to sign off.)*
+
+## [0.187.0] - 2026-07-02
+
+### Fixed
+- **Village front doors sit flush with the outside wall now, not recessed inward (BWGVILLAGEPLAN #72).** The Phase-5
+  in-game sign-off flagged that BWG-village front doors "face inward" — a closed door with `FACING=NORTH` on a `z=0`
+  front wall renders on the cell's interior (`+Z`) edge, leaving a recess on the street side. Flipped the front-door
+  `FACING` `NORTH → SOUTH` (the closed panel now sits on the exterior `−Z` edge, flush with the wall) everywhere the
+  shared pattern occurs: `BwgVillageTemplates` (`door()` helper + porch cottage — all six BWG styles), `TradePostTemplates`
+  (the shop shell, great hall and blacksmith — all four biome variants), `VillageCenterTemplates` (the four plaza halls)
+  and `RareStructureTemplates` (the evoker cell). `HamletTemplates` already oriented its doors correctly (it picks
+  `SOUTH`/`NORTH` by which wall the door is on) and was left untouched. Regenerated the 163 affected door-bearing
+  `.nbt` on the 1.21.1 node; gametests still green on both nodes (149 on 1.21.1, 158 on 26.1.2). *(In-world visual
+  sign-off still yours.)*
+
 ## [0.186.0] - 2026-07-02
 
 ### Changed

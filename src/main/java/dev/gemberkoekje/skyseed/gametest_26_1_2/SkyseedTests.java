@@ -136,6 +136,8 @@ public final class SkyseedTests {
         reg(event, "debug_streets_seed_is_a_deep_jigsaw_spike", REGION, SkyseedTests::debugStreetsSeedIsADeepJigsawSpike);
         reg(event, "path_surfacer_resolves_markers_into_paths_and_bridges", REGION, SkyseedTests::pathSurfacerResolvesMarkersIntoPathsAndBridges);
         reg(event, "path_surfacer_supports_floating_floors", REGION, SkyseedTests::pathSurfacerSupportsFloatingFloors);
+        reg(event, "path_surfacer_stilts_descend_through_water", REGION, SkyseedTests::pathSurfacerStiltsDescendThroughWater);
+        reg(event, "path_surfacer_boardwalks_over_water", REGION, SkyseedTests::pathSurfacerBoardwalksOverWater);
         reg(event, "snow_cover_caps_highest_block", REGION, SkyseedTests::snowCoverCapsHighestBlock);
         reg(event, "trade_post_blacksmith_places", REGION, SkyseedTests::tradePostBlacksmithPlaces);
         reg(event, "trade_post_over_void_uses_piers", BIG_REGION, SkyseedTests::tradePostOverVoidUsesPiers);
@@ -1076,6 +1078,10 @@ public final class SkyseedTests {
         for (int x = 5; x <= 9; x++) { // a marker one block above every path tile (ground x5..7, void x8..9)
             level.setBlock(base.offset(x, y + 1, z), PathSurfacer.MARKER.defaultBlockState(), Block.UPDATE_CLIENTS);
         }
+        // A tree trunk left standing over a ground path tile (trees are placed before structures) — resolve must strip it.
+        level.setBlock(base.offset(6, y + 2, z), Blocks.OAK_LOG.defaultBlockState(), Block.UPDATE_CLIENTS);
+        level.setBlock(base.offset(6, y + 3, z), Blocks.OAK_LOG.defaultBlockState(), Block.UPDATE_CLIENTS);
+        level.setBlock(base.offset(6, y + 4, z), Blocks.OAK_LEAVES.defaultBlockState(), Block.UPDATE_CLIENTS);
 
         PathSurfacer.resolve(level, base.offset(7, y, z), 6);
 
@@ -1083,6 +1089,8 @@ public final class SkyseedTests {
             helper.assertTrue(level.getBlockState(base.offset(x, y, z)).is(Blocks.DIRT_PATH),
                     "ground deck x=" + x + " should be a dirt path");
         }
+        helper.assertTrue(level.getBlockState(base.offset(6, y + 2, z)).isAir(), "a tree trunk over a road should be stripped");
+        helper.assertTrue(level.getBlockState(base.offset(6, y + 4, z)).isAir(), "the tree canopy over a road should be stripped");
         helper.assertTrue(level.getBlockState(base.offset(8, y, z)).is(Blocks.OAK_SLAB), "void deck should be a slab");
         helper.assertTrue(level.getBlockState(base.offset(9, y, z)).is(Blocks.OAK_SLAB), "void deck should be a slab");
         // The exposed (over-void) side of a bridge tile gets an edge beam + a fence railing.
@@ -1123,6 +1131,103 @@ public final class SkyseedTests {
                 "a floor already on solid ground should not be stilted");
         helper.assertTrue(level.getBlockState(base.offset(16, deckY - 1, 20)).isAir(),
                 "an empty lane deck over the void should NOT be stilted (it stays a floating bridge)");
+        helper.succeed();
+    }
+
+    static void pathSurfacerStiltsDescendThroughWater(GameTestHelper helper) {
+        // BWGSWAMPVILLAGEPLAN #73: a stilted bayou lot floor over WATER hangs wooden legs down THROUGH the water to the
+        // bed — unlike supportFloatingFloors/supportTrestles, which stop at the first non-air block (the water surface).
+        final ServerLevel level = helper.getLevel();
+        final BlockPos base = helper.absolutePos(new BlockPos(2, 0, 2));
+        final int floorY = 12, bedY = 7;
+        for (int dx = 0; dx <= 1; dx++) {
+            for (int dz = 0; dz <= 1; dz++) {
+                level.setBlock(base.offset(dx, floorY, dz), Blocks.OAK_PLANKS.defaultBlockState(), Block.UPDATE_CLIENTS); // lot floor
+                for (int wy = bedY + 1; wy < floorY; wy++) {
+                    level.setBlock(base.offset(dx, wy, dz), Blocks.WATER.defaultBlockState(), Block.UPDATE_CLIENTS); // swamp water
+                }
+                level.setBlock(base.offset(dx, bedY, dz), Blocks.MUD.defaultBlockState(), Block.UPDATE_CLIENTS); // the bed (solid)
+            }
+        }
+        // A second 2×2 floor patch over PURE void (nothing solid within the search) — a stilt must NOT dangle a leg here.
+        for (int dx = 3; dx <= 4; dx++) {
+            for (int dz = 3; dz <= 4; dz++) {
+                level.setBlock(base.offset(dx, floorY, dz), Blocks.OAK_PLANKS.defaultBlockState(), Block.UPDATE_CLIENTS);
+            }
+        }
+
+        PathSurfacer.supportStilts(level, base.offset(0, floorY + 1, 0), 4, Blocks.OAK_LOG.defaultBlockState());
+
+        boolean legInWater = false, legAtBedTop = false, voidLeg = false;
+        for (int dx = 0; dx <= 1; dx++) {
+            for (int dz = 0; dz <= 1; dz++) {
+                if (level.getBlockState(base.offset(dx, floorY - 1, dz)).is(Blocks.OAK_LOG)) legInWater = true;
+                if (level.getBlockState(base.offset(dx, bedY + 1, dz)).is(Blocks.OAK_LOG)) legAtBedTop = true;
+            }
+        }
+        for (int dx = 3; dx <= 4; dx++) {
+            for (int dz = 3; dz <= 4; dz++) {
+                if (level.getBlockState(base.offset(dx, floorY - 1, dz)).is(Blocks.OAK_LOG)) voidLeg = true;
+            }
+        }
+        helper.assertTrue(legInWater, "a stilt leg should fill the water column just under the floor");
+        helper.assertTrue(legAtBedTop, "the stilt leg should descend through the water to rest on the bed");
+        helper.assertTrue(!voidLeg, "a floor over pure void must NOT hang a stilt leg (no dangling into the void)");
+        helper.assertTrue(level.getBlockState(base.offset(0, bedY, 0)).is(Blocks.MUD), "the bed should be left intact");
+        helper.assertTrue(!level.getBlockState(base.offset(0, bedY - 1, 0)).is(Blocks.OAK_LOG), "the leg must stop at the bed");
+        helper.succeed();
+    }
+
+    static void pathSurfacerBoardwalksOverWater(GameTestHelper helper) {
+        // BWGSWAMPVILLAGEPLAN #73: resolveStilted lays a plank boardwalk on posts and rails ONLY the open-water edges —
+        // never a lane tile (kept walkable) and never a solid block (a house floor/plaza the walkway meets), so it can
+        // neither overwrite a house nor fence a road shut. 2×2 marker patch over water on a mud bed; a "house floor"
+        // abuts the −X edge and must be left untouched (no beam over it, no rail into it), while an open edge IS railed.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos base = helper.absolutePos(new BlockPos(2, 0, 2));
+        final int deckY = 11, bedY = 7;
+        for (int dx = 3; dx <= 4; dx++) {
+            for (int dz = 5; dz <= 6; dz++) {
+                for (int wy = bedY + 1; wy < deckY; wy++) {
+                    level.setBlock(base.offset(dx, wy, dz), Blocks.WATER.defaultBlockState(), Block.UPDATE_CLIENTS);
+                }
+                level.setBlock(base.offset(dx, bedY, dz), Blocks.MUD.defaultBlockState(), Block.UPDATE_CLIENTS);
+                level.setBlock(base.offset(dx, deckY + 1, dz), PathSurfacer.MARKER.defaultBlockState(), Block.UPDATE_CLIENTS);
+            }
+        }
+        level.setBlock(base.offset(2, deckY, 5), Blocks.SPRUCE_PLANKS.defaultBlockState(), Block.UPDATE_CLIENTS); // a house floor
+
+        PathSurfacer.resolveStilted(level, base.offset(3, deckY, 5), 4,
+                Blocks.OAK_SLAB.defaultBlockState(), Blocks.OAK_PLANKS.defaultBlockState(),
+                Blocks.OAK_FENCE.defaultBlockState(), Blocks.OAK_LOG.defaultBlockState());
+
+        boolean anyPost = false;
+        for (int dx = 3; dx <= 4; dx++) {
+            for (int dz = 5; dz <= 6; dz++) {
+                helper.assertTrue(level.getBlockState(base.offset(dx, deckY, dz)).is(Blocks.OAK_SLAB),
+                        "every lane tile over water should become a plank boardwalk deck (slab)");
+                if (level.getBlockState(base.offset(dx, deckY - 1, dz)).is(Blocks.OAK_LOG)) {
+                    anyPost = true;
+                }
+            }
+        }
+        helper.assertTrue(anyPost, "the boardwalk should drop a sparse pier post under the walkway");
+        boolean anyFence = false;
+        for (int x = 1; x <= 7 && !anyFence; x++) {
+            for (int zz = 3; zz <= 8; zz++) {
+                if (level.getBlockState(base.offset(x, deckY + 1, zz)).is(Blocks.OAK_FENCE)) {
+                    anyFence = true;
+                    break;
+                }
+            }
+        }
+        helper.assertTrue(anyFence, "an over-water boardwalk should be railed along its open-water edges");
+        helper.assertTrue(level.getBlockState(base.offset(2, deckY, 5)).is(Blocks.SPRUCE_PLANKS),
+                "an adjacent house floor must NOT be overwritten by the boardwalk");
+        helper.assertTrue(level.getBlockState(base.offset(2, deckY + 1, 5)).isAir(),
+                "no rail should intrude above an adjacent house floor (that would fence the road/door)");
+        helper.assertTrue(!level.getBlockState(base.offset(3, deckY + 1, 5)).is(PathSurfacer.MARKER),
+                "the markers should be cleared");
         helper.succeed();
     }
 

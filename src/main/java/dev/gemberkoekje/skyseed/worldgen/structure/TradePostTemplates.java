@@ -289,10 +289,11 @@ public final class TradePostTemplates {
             }
         }
         // Door + lot connector on the −Z wall (faces the street once the jigsaw rotates the piece into place).
+        // FACING=SOUTH sits the closed door flush with the −Z (street) face; FACING=NORTH recessed it inward (#72).
         m.put(new BlockPos(mid, 1, 0), p.door().defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.NORTH));
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.SOUTH));
         m.put(new BlockPos(mid, 2, 0), p.door().defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.NORTH));
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.SOUTH));
         conn(m, bes, new BlockPos(mid, 0, 0), FrontAndTop.NORTH_UP, "skyseed:lot_door", "skyseed:lot",
                 "minecraft:empty", id(p.wall()));
         m.put(new BlockPos(0, 2, mid), glass);       // a window centred on each of the three non-door walls
@@ -391,10 +392,11 @@ public final class TradePostTemplates {
         }
         StructureParts.gableRoof(m, 0, mx, 0, mz, 6, wall, p.stairs(), p.slab(), 0); // a steep gable over the tall walls
         // Door + lot connector on the −Z wall (faces the lane once rotated into place).
+        // FACING=SOUTH sits the closed door flush with the −Z (lane) face; FACING=NORTH recessed it inward (#72).
         m.put(new BlockPos(mid, 1, 0), p.door().defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.NORTH));
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.SOUTH));
         m.put(new BlockPos(mid, 2, 0), p.door().defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.NORTH));
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.SOUTH));
         conn(m, bes, new BlockPos(mid, 0, 0), FrontAndTop.NORTH_UP, "skyseed:lot_door", "skyseed:lot",
                 "minecraft:empty", id(p.wall()));
         // tall windows down both long walls
@@ -459,10 +461,11 @@ public final class TradePostTemplates {
             }
         }
         // Door + lot connector on the front-centre wall (faces the street once the jigsaw rotates the piece).
+        // FACING=SOUTH sits the closed door flush with the −Z (street) face; FACING=NORTH recessed it inward (#72).
         m.put(new BlockPos(2, 1, 0), p.door().defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.NORTH));
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.SOUTH));
         m.put(new BlockPos(2, 2, 0), p.door().defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.NORTH));
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.SOUTH));
         conn(m, bes, new BlockPos(2, 0, 0), FrontAndTop.NORTH_UP, "skyseed:lot_door", "skyseed:lot",
                 "minecraft:empty", id(p.wall()));
         m.put(new BlockPos(0, 2, 1), glass);
