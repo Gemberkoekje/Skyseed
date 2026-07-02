@@ -33,8 +33,13 @@
         "trees": [ { "feature": "biomeswevegone:witch_hazel_trees", "tries": 4, "spacing": 3 } ],
         "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "biomeswevegone:pink_anemone", "chance": 0.04 }, { "block": "biomeswevegone:white_anemone", "chance": 0.04 } ] } } ] },
     { "biomes": ["biomeswevegone:cypress_swamplands", "biomeswevegone:cypress_wetlands"],
-      "surface": "minecraft:grass_block", "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.18 } ],
-      "jigsaw": { "pool": "skyseed:village_swamp/start_dense", "target": "minecraft:bottom", "depth": 6, "pad": 4, "reach": 64, "iron_golems": 1, "cap_prefix": "shop_", "cap_min": 4, "cap_count": 6, "cap_filler": "skyseed:village_swamp/fillers", "centerpiece": "minecraft:anvil" },
+      "_comment_bayou": "BWGSWAMPVILLAGEPLAN #73 — the cypress village-center is ONE bigger swamp-water island (its own shape replaces the base 3-island cluster: no cluster_offsets, radius bumped to hold the dense net + shops), a broad shallow swamp (the #64 pond lever, extent raised so water dominates), lifted onto willow/cypress stilts + plank boardwalks. stilt_height is the in-game knob for floor clearance over the water.",
+      "shape": { "radius": { "min": 24, "max": 30 }, "rim_noise": 0.42, "underside": "teardrop", "top_dome": { "min": 2, "max": 3 }, "max_under_depth": 18 },
+      "surface": "minecraft:mud",
+      "pond": { "block": "minecraft:water", "radius": 40, "depth": 2, "slope": true, "extent": 0.9, "contained": true,
+        "plants": [ { "block": "minecraft:lily_pad", "chance": 0.16 }, { "block": "minecraft:seagrass", "chance": 0.10 } ],
+        "bank": [ { "block": "minecraft:sugar_cane", "chance": 0.50 } ] },
+      "jigsaw": { "pool": "skyseed:village_swamp/start_dense", "target": "minecraft:bottom", "depth": 6, "pad": 4, "reach": 64, "stilt_height": 2, "iron_golems": 1, "cap_prefix": "shop_", "cap_min": 4, "cap_count": 6, "cap_filler": "skyseed:village_swamp/fillers", "centerpiece": "minecraft:anvil" },
       "variants": [ { "weight": 1, "name": "swamp", "decoration": {
         "trees": [ { "feature": "biomeswevegone:cypress_trees", "tries": 4, "spacing": 3 } ],
         "ground": [ { "block": "minecraft:short_grass", "chance": 0.28 }, { "block": "minecraft:fern", "chance": 0.10 }, { "block": "minecraft:brown_mushroom", "chance": 0.04 }, { "block": "minecraft:red_mushroom", "chance": 0.03 } ] } } ] }

@@ -113,7 +113,7 @@ public final class IslandGenerator {
 
         // Curated structure: a jigsaw building/cluster on a levelled pad (assembled later by GenerationJob), or a rare
         // structure's jigsaw + animal packs in its place.
-        final StructurePlan structure = planStructure(level, buffers, cfg, theme, rare, center, topDome, random);
+        final StructurePlan structure = planStructure(level, buffers, cfg, theme, rare, center, topDome, baseRadius, random);
         final List<IslandPlan.JigsawSite> jigsaws = structure.jigsaws();
         final List<IslandPlan.AnimalSpawn> animals = structure.animals();
 
@@ -326,7 +326,8 @@ public final class IslandGenerator {
             final Set<Long> carved = PondCarver.carvePond(blockMap, surfaceList, center, topDome, waterY, baseRadius, pond, pondWater, random);
             // Wall up any open edge to the water surface (a containing ring) and dress the bed/shore with
             // sand/clay/gravel — before decorations, so cane and lily pads sit on contained ground.
-            PondCarver.containPond(blockMap, surfaceList, center, waterY, bottomY, cfg.surface(), cfg.fill(), carved, random, pond.isRiver());
+            PondCarver.containPond(blockMap, surfaceList, center, waterY, bottomY, cfg.surface(), cfg.fill(), carved, random,
+                    pond.isRiver() || pond.contained());
             // Soften the banks (steep / sloped / mixed per island) so a sheer channel can become a gentle shore.
             PondCarver.terraceBanks(blockMap, surfaceList, center, waterY, carved, cfg.surface(), random, pond.isRiver());
             PondCarver.placePondPlants(blockMap, center, waterY, pond, carved, random);
@@ -370,7 +371,7 @@ public final class IslandGenerator {
      */
     private static StructurePlan planStructure(ServerLevel level, TerrainBuffers buffers, Resolved cfg,
                                                IslandTheme theme, RareStructure rare, BlockPos center, int topDome,
-                                               RandomSource random) {
+                                               int baseRadius, RandomSource random) {
         final List<IslandPlan.JigsawSite> jigsaws = new ArrayList<>();
         final List<IslandPlan.AnimalSpawn> animals = new ArrayList<>();
         final JigsawConfig jcBase = (cfg.ov() != null && cfg.ov().jigsaw().isPresent()) ? cfg.ov().jigsaw().get()
@@ -380,16 +381,32 @@ public final class IslandGenerator {
         final List<AnimalPack> animalPacks = rare != null ? rare.mobs() : theme.animals();
         if (jc != null) {
             final int gy = center.getY() + topDome;
-            levelStructurePad(buffers.blockMap(), buffers.surfaceList(), center, gy, jc.pad(), cfg.surface(), cfg.fill());
+            // A stilted (bayou) build skips the levelled pad entirely — no solid "footing" disc under the centre that
+            // would displace the swamp water; the village stands on stilts over the open pond instead. But it must still
+            // drop the island's surface decoration: the village is LIFTED, so a tree/plant rooted on the surface below
+            // would grow straight up into a house (killing its villager). Clear every surface column on the island so no
+            // trees/ground cover/ambient mobs are planned under the elevated village (the pond banks are already placed).
+            // Everything else levels a pad (BWGSWAMPVILLAGEPLAN #73).
+            if (jc.stiltHeight() > 0) {
+                final int clear2 = (baseRadius + 2) * (baseRadius + 2);
+                buffers.surfaceList().removeIf(pp -> {
+                    final int dx = pp.getX() - center.getX(), dz = pp.getZ() - center.getZ();
+                    return dx * dx + dz * dz <= clear2;
+                });
+            } else {
+                levelStructurePad(buffers.blockMap(), buffers.surfaceList(), center, gy, jc.pad(), cfg.surface(), cfg.fill());
+            }
             // JigsawPlacement lands the start piece's anchor block at origin.y - 1, so pass gy + 1 to seat the floor flush
             // on the pad; `sink` buries it further. The cap: a fixed cap_count, or — when cap_min is set below it — a
             // target rolled in [cap_min, cap_count] now, so a trade post lands a reproducible-but-varied 2–4 shops.
             final int cap = jc.capMin() > 0 && jc.capMin() < jc.capCount()
                     ? jc.capMin() + random.nextInt(jc.capCount() - jc.capMin() + 1)
                     : jc.capCount();
+            // A stilted (bayou) build seats stilt_height blocks ABOVE the pad, so its floors clear the swamp water
+            // and PathSurfacer.supportStilts can hang the legs down to the bed (BWGSWAMPVILLAGEPLAN #73).
             jigsaws.add(new IslandPlan.JigsawSite(jc.pool(), jc.target(), jc.depth(), jc.pad(), jc.ironGolems(),
-                    new BlockPos(center.getX(), gy + 1 - jc.sink(), center.getZ()), jc.reach(),
-                    jc.capPrefix(), cap, jc.capFiller(), jc.centerpiece(), jc.trestles()));
+                    new BlockPos(center.getX(), gy + 1 - jc.sink() + jc.stiltHeight(), center.getZ()), jc.reach(),
+                    jc.capPrefix(), cap, jc.capFiller(), jc.centerpiece(), jc.trestles(), jc.stiltHeight()));
             // An Animal Island (or a rare structure's mobs): roll one weighted pack onto the pad, a block above its floor.
             if (!animalPacks.isEmpty()) {
                 MobPlanner.rollAnimals(animalPacks, new BlockPos(center.getX(), gy, center.getZ()), animals, random);

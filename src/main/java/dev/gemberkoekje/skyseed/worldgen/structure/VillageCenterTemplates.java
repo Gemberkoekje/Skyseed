@@ -116,10 +116,11 @@ public final class VillageCenterTemplates {
             }
         }
         // Door + inward connector on the -Z wall (faces the plaza after the jigsaw rotates the hall in).
+        // FACING=SOUTH sits the closed door flush with the −Z (plaza) face; FACING=NORTH recessed it inward (#72).
         m.put(new BlockPos(mid, 1, 0), Blocks.OAK_DOOR.defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.NORTH));
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.SOUTH));
         m.put(new BlockPos(mid, 2, 0), Blocks.OAK_DOOR.defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.NORTH));
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.SOUTH));
         m.put(new BlockPos(mid, 0, 0), Blocks.JIGSAW.defaultBlockState().setValue(JigsawBlock.ORIENTATION, FrontAndTop.NORTH_UP));
         bes.put(new BlockPos(mid, 0, 0), jig("skyseed:hall_door", "skyseed:plaza_edge", "minecraft:empty", "minecraft:cobblestone"));
         // Windows + a hanging lantern so it stays lit (no mob spawns inside).

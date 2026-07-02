@@ -31,7 +31,7 @@ import java.util.Optional;
  */
 public record Pond(Id block, int radius, int depth, List<GroundEntry> plants,
                    List<GroundEntry> bank, List<MobEntry> waterMobs, String style, float extent, boolean slope,
-                   float chance, Optional<Pond> river) {
+                   float chance, Optional<Pond> river, boolean contained) {
     public static final Codec<Pond> CODEC = Codec.recursive("Pond", self -> RecordCodecBuilder.create(i -> i.group(
             Id.CODEC.optionalFieldOf("block", Id.of("minecraft:water")).forGetter(Pond::block),
             Codec.INT.optionalFieldOf("radius", 3).forGetter(Pond::radius),
@@ -43,7 +43,11 @@ public record Pond(Id block, int radius, int depth, List<GroundEntry> plants,
             Codec.FLOAT.optionalFieldOf("extent", 0.5f).forGetter(Pond::extent),
             Codec.BOOL.optionalFieldOf("slope", false).forGetter(Pond::slope),
             Codec.FLOAT.optionalFieldOf("chance", 1.0f).forGetter(Pond::chance),
-            self.optionalFieldOf("river").forGetter(Pond::river)
+            self.optionalFieldOf("river").forGetter(Pond::river),
+            // When true, the pool is walled in like a river even though it is a pond: an edge with no island body below
+            // is hung with a containing lip instead of left open, so a near-island-filling lake stays hemmed in with only
+            // a few deliberate waterfalls (default false = the classic pond, which leaves un-backed edges spilling). #73
+            Codec.BOOL.optionalFieldOf("contained", false).forGetter(Pond::contained)
     ).apply(i, Pond::new)));
 
     public boolean isRiver() {

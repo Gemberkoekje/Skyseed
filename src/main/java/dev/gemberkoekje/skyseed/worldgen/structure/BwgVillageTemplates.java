@@ -736,10 +736,12 @@ public final class BwgVillageTemplates {
         }
         bwgGableRoof(m, mods, 0, mx, zlo, zhi, 4, s.wall(), s.stairs(), s.slab(), 0);
         // Door in the front wall (z=zlo), opening onto the porch; the porch awning is a slab roof on two posts.
+        // FACING=SOUTH sits the closed door flush with the front (−Z / porch-facing) face of the wall (#72); FACING=NORTH
+        // recessed it to the interior edge (the "doors face inward" bug the in-game sign-off flagged).
         set(m, mods, new BlockPos(mid, 1, zlo), s.door().block().defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.NORTH), s.door().id());
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.SOUTH), s.door().id());
         set(m, mods, new BlockPos(mid, 2, zlo), s.door().block().defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.NORTH), s.door().id());
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.SOUTH), s.door().id());
         set(m, mods, new BlockPos(1, 1, 0), s.fence());
         set(m, mods, new BlockPos(mx - 1, 1, 0), s.fence());
         set(m, mods, new BlockPos(1, 2, 0), s.fence());
@@ -912,12 +914,14 @@ public final class BwgVillageTemplates {
         set(m, mods, p, slabState(slab, top), slab.id());
     }
 
-    /** A two-block door on the −Z wall, facing into the house (opens onto the street once the piece rotates). */
+    /** A two-block door on the −Z wall, flush with the outside (opens onto the street once the piece rotates).
+     *  FACING=SOUTH puts the closed door on the −Z (exterior) edge of the z=0 cell; FACING=NORTH recessed it to the
+     *  interior edge — the "doors face inward" bug the Phase-5 in-game sign-off flagged (#72). */
     private static void door(Map<BlockPos, BlockState> m, Map<BlockPos, String> mods, Style s, int x, int z) {
         set(m, mods, new BlockPos(x, 1, z), s.door().block().defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.NORTH), s.door().id());
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.SOUTH), s.door().id());
         set(m, mods, new BlockPos(x, 2, z), s.door().block().defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.NORTH), s.door().id());
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.SOUTH), s.door().id());
     }
 
     /** A red bed at {@code foot}, its head one block toward {@code facing}. */
