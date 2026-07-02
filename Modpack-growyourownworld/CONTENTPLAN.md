@@ -2,15 +2,27 @@
 
 Content-mod integration plan (NeoForge **1.21.1**). Companion to BEAUTIFYPLAN.md.
 
-> **Status (PR #14):** **Mystical Agriculture** is integrated (shipped) and **Oh The Biomes We've Gone** is integrated for
-> the forest-family woods (a Forest seed over a BWG biome grows that wood island — see BWGPLAN; the wet/fantasy woods are
-> still pending). Other content mods remain to be slotted in via the levers below.
+> **Status (2026-07-01, mod 0.181.0) — the foundation is shipped:** the void ChunkGenerator (v0.165.0), the
+> **Create + Crafts & Additions + Flux Networks** power backbone, **Silent Gear**, all seven curated Create
+> addons, **Mystical Agriculture** (ore islands on Ancient/Lush/Nether-Soul + its quest chapter — see
+> MYSTICALPLAN.md), the **full BWG integration** (woods, flowers, and all six village styles — see BWGPLAN.md /
+> BWGVILLAGEPLAN.md), and the six-chapter FTB quest spine. The tech backbone is **decided: Immersive
+> Engineering** (Mekanism dropped, see §7). What remains is the next content-mod wave below; priorities live in
+> [`../PLANOFPLANS.md`](../PLANOFPLANS.md).
 
-> **Plan audit (2026-07-01):** this plan predates a lot of shipped work — **11 items are marked ✅ below**: the void
-> ChunkGenerator (Order 0), the full Create + Crafts & Additions + Flux Networks power backbone, Silent Gear, all seven
-> curated Create addons (§3), the Mystical Agriculture starter, and the `gen-mods-txt.ps1` manifest refresh. The remaining
-> tech integrations (Mekanism / AE2 / …), Quark, Farmer's Delight, and the §7 decisions are still open — see
-> [`../PLANOFPLANS.md`](../PLANOFPLANS.md) for their priority.
+**What's left** (backlog #s = PLANOFPLANS):
+
+- **#34** Immersive Engineering — bauxite/aluminum ore island + FE integration (§2), gated on **#35** the Excavator fix (§7).
+- **#18** Applied Energistics 2 — certus + sky-stone bootstrap (§2).
+- **#15** Quark — module curation + Zeta dep (§2).
+- **#16** Farmer's Delight — wild crops on biome islands (§2).
+- **#32** Productive Bees — starter bees/hives (§2).
+- **#31** Critters and Companions — spawn verification on biome islands (§2).
+- **#36** Iron's Spells 'n Spellbooks — loot/mob injection (§2) + **#37** its scope decision (§7).
+- **#52** Verify the two uncertain Create addons — The Factory Must Grow, Extended Cogwheels — or drop them (§3).
+- **#38** Per-future-mod call: bespoke ore island vs. lean on MA seeds (§7 — settled in practice for shipped mods).
+- **#39** Prove FE flows Create → IE/AE2 across islands (§1 — moot until a consumer mod lands).
+- **#19 / #20** Rolling riders on every integration: its quest chapter (§6) and its gated island tier (§5 phase 7).
 
 **The lens:** Skyseed is a *void* skyblock — nothing generates naturally; all content arrives via
 seed-grown islands. So every mod's resources/structures need an on-island acquisition path. Effort is
@@ -24,212 +36,166 @@ mechanical conflicts** that islands/config can't solve.
    mobs spawn on grown biome islands.
 4. **Config** — neuter a mod's own worldgen (mostly inert in the void anyway) so it can't fight Skyseed.
 
-> **BYG replaces BetterNether/BetterEnd.** Officially maintained (no unofficial-port risk), and one mod
-> gives Overworld + Nether + End **block/flora/wood/mob palettes** — exactly the building material we want
-> for new island tiers. The worldgen is irrelevant (void); we mine it for content.
-
 ---
 
-## 1. Power & automation backbone (the interop plan)
+## 1. Power & automation backbone (the interop plan) — ✅ shipped; #39 proof pending
 
-Standardize on **Forge Energy (FE/RF)** as the shared currency. Create is the one outlier and gets bridged.
+Standardize on **Forge Energy (FE/RF)** as the shared currency. Create is the one outlier and is bridged.
 
 | Mod | Native power | Talks FE? | How it joins the grid |
 |---|---|---|---|
 | **Immersive Engineering** | Immersive Flux (= FE) | ✅ native | directly |
-| **Mekanism** | Joules (internal) | ✅ via Universal Cables + configurable Joule↔FE ratio | directly |
 | **Applied Energistics 2** | AE (internal) | ✅ accepts FE input | directly |
 | **Create** | Rotational **Stress Units** | ❌ | **Create: Crafts & Additions** — Alternator (rotation→FE @75%, needs ≥32 RPM) + Electric Motor (FE→rotation) |
 
-- **Bridge mod (required for the ask):** [Create: Crafts & Additions](https://modrinth.com/mod/createaddition)
-  (`createaddition`, NeoForge 1.21.1-1.6.0). This is what makes Create ↔ Mekanism/IE/AE2 power flow possible.
-- **Inter-island transfer:** **Flux Networks** (wireless FE) — run no cables across the void; a Flux Point
-  on each island shares one global FE network. Strongly recommended given the floating-island layout.
-- **Cabling:** all three FE mods interconnect, but mixing cable *types* is fiddly. Use **Flux Networks** as the
-  universal FE backbone, or pick one cable family (e.g. Mekanism Universal Cables) for local runs.
+*(Mekanism's row is gone — dropped 2026-07-01, see §7.)*
 
-**Natural power progression** (fits the skyblock arc):
-`Create water wheels / windmills (rotation, vanilla mats)` → `Crafts & Additions Alternator → FE` to boot
-the first Mek/IE/AE2 machines → mid/late **Mekanism** (gas/fission) and **IE** (diesel/multiblocks) become
-the heavy FE generators → **AE2** consumes FE for storage/automation.
+- ✅ **Shipped:** Create + **Crafts & Additions** (`createaddition` 1.6.0) + **Flux Networks** (wireless FE — a
+  Flux Point per island shares one global FE network; no cables across the void).
+- **Open (#39):** prove FE actually flows Create → IE/AE2 across islands — a one-time in-game check, only
+  testable once the first FE **consumer** (IE #34 or AE2 #18) lands.
+- **Cabling guidance for then:** all FE mods interconnect, but mixing cable *types* is fiddly — keep **Flux
+  Networks** as the universal backbone and one cable family for local runs.
+
+**Natural power progression:** Create water wheels / windmills (rotation, vanilla mats) → Alternator → FE to
+boot the first IE/AE2 machines → mid/late **IE** (diesel/multiblocks) becomes the heavy FE generator → **AE2**
+consumes FE for storage/automation.
 
 ---
 
-## 2. Per-mod integration
+## 2. Per-mod integration (the open wave)
 
 ### Tech (FE grid)
-- **Mekanism** — ❌ **DROPPED (2026-07-01): the pack standardizes on Immersive Engineering instead** (Mekanism reads
-  as too blocky/boring — aesthetic call, see §7). Detail kept for reference only: gateway **Osmium** (+ Tin, Lead;
-  late: Uranium, Fluorite); *Plan (not pursued):* an Industrial ore island (Osmium/Tin/Lead) with a deeper huge/late
-  island for Uranium/Fluorite.
-- **Immersive Engineering** — ✅ **the chosen tech backbone (2026-07-01).** Gateway **Bauxite/Aluminum** (+ uses
-  Copper [vanilla], Lead, Silver, Nickel). *Plan:* IE ore island (bauxite/silver/nickel) + FE integration. ⚠️
-  **Excavator** samples worldgen mineral veins that don't exist in void — the one un-rehomable mechanic. **Two
-  approaches to try (§7):** (1) patch it to derive its ore mix from the **island it's built on**, or (2) disable it
-  entirely and supply aluminum via the ore island. Everything else works.
-- **Applied Energistics 2** — gateway **Certus Quartz + Sky Stone** (normally from meteorites). AE2
+- **Immersive Engineering (#34)** — ✅ **the chosen tech backbone (2026-07-01).** Gateway **Bauxite/Aluminum**
+  (+ uses Copper [vanilla], Lead, Silver, Nickel). *Plan:* IE ore island (bauxite/silver/nickel) as a
+  `theme_override` gateway + FE integration, then its quest chapter. ⚠️ **Excavator** samples worldgen mineral
+  veins that don't exist in the void — the one un-rehomable mechanic; **gated on the #35 fix (§7)**.
+- **Applied Energistics 2 (#18)** — gateway **Certus Quartz + Sky Stone** (normally from meteorites). AE2
   self-multiplies via budding certus + crystal growth, so we only **bootstrap**: a small "meteorite island"
-  seed (sky stone + certus + a budding certus block) or a recipe; AE2 sustains itself after. Disable meteorite
-  worldgen.
+  seed (sky stone + certus + a budding certus block) or a recipe; AE2 sustains itself after. Confirm meteorite
+  worldgen is inert/disabled.
 
-### Tools
-- **Silent Gear** — *the Tinkers' Construct replacement* (no real TiC on 1.21.1). Playable on **vanilla
-  materials immediately → zero integration to start**. Custom ores (Crimson Iron [Nether], Bort, Azure Silver)
-  become optional nether/deep-island progression. Dep: **Silent Lib**.
-
-### Renewable resource engines (de-grind the tech tiers)
-- **Mystical Agriculture** — grow resources/ores **as crops**; the single most on-theme mod for "grow your
-  own world." Inferium from mob drops/crafting → tiered essences → resource & **ore seeds** that renewably
-  feed Mekanism/IE/AE2. *Plan:* provide starter prosperity/inferium via a seed or recipe; farming does the rest.
-  Dep: **Cucumber Library**.
-- **Productive Bees** — renewable ingots/resources via apiaries on your islands. *Plan:* grant a few starter
-  bees/hives via island or loot; breeding scales it. Pairs with Mystical Agriculture as the second renewable
-  pillar.
+### Renewable resource engines
+- **Productive Bees (#32)** — renewable ingots/resources via apiaries. *Plan:* grant a few starter bees/hives
+  via island or loot; breeding scales it. Pairs with the shipped Mystical Agriculture as the second renewable
+  pillar (which lowers its marginal value — deferrable).
 
 ### Farming / cozy
-- **Farmer's Delight** — gateway: starter crops (cabbage/tomato/onion/rice) normally from wild-crop worldgen +
-  trades. *Plan:* add FD wild crops as features on biome islands (cabbage/tomato/onion → forest/meadow/beach;
-  **rice → aquatic/lush island with water**), or grant starter seeds via a seed/loot. Renewable once seeded;
-  perfectly on-theme.
+- **Farmer's Delight (#16)** — gateway: starter crops (cabbage/tomato/onion/rice) normally from wild-crop
+  worldgen + trades. *Plan:* add FD wild crops as features on biome islands (cabbage/tomato/onion →
+  forest/meadow/beach; **rice → aquatic/lush island with water** — those override families now exist to
+  extend), or grant starter seeds via a seed/loot. Renewable once seeded; perfectly on-theme.
 
 ### Magic
-- **Iron's Spells 'n Spellbooks** — spell scrolls/gear are largely **loot-gated** (catacombs/structures) and
-  some mobs spawn in worldgen biomes. *Plan:* inject spell scrolls/loot into existing **structure-island loot
-  tables** (dungeon/mansion/trial/witch_hut), and spawn magic mobs on a themed island. Most progression work
-  of the bunch, but fully doable. Dep: **GeckoLib**.
+- **Iron's Spells 'n Spellbooks (#36)** — spell scrolls/gear are largely **loot-gated** (catacombs/structures)
+  and some mobs spawn in worldgen biomes. *Plan:* inject spell scrolls/loot into existing **structure-island
+  loot tables** (dungeon/mansion/trial/witch_hut), and spawn magic mobs on a themed island. Most progression
+  work of the bunch; scope decision first (**#37**, §7). Dep: **GeckoLib** (already in the pack).
 
 ### Mobs / flavor
-- **Critters and Companions** — biome-spawn passive animals. *Plan:* likely **spawn as-is** on grown biome
-  islands (forest/lush/meadow/aquatic) if their spawn biomes match your island biome tags — verify on a test
-  island; otherwise add spawn entries or grant spawn eggs via seeds. Pure flavor. Dep: **GeckoLib**.
+- **Critters and Companions (#31)** — biome-spawn passive animals. *Plan:* likely **spawn as-is** on grown
+  biome islands if their spawn biomes match the island biome tags — verify on a test island; otherwise add
+  spawn entries or grant spawn eggs via seeds. Pure flavor. Dep: **GeckoLib** (already in the pack).
 
 ### Building / palette
-- **Quark** — building blocks, decoration, QoL tweaks (modular). *Plan:* mostly additive; **curate modules**
-  (enable building/decoration/QoL, disable worldgen-dependent ones that won't fire in void). Dep: **Zeta**.
-- **Oh The Biomes You'll Go (BYG)** — huge Overworld/Nether/End palette (woods, plants, stones, mobs). *Plan:*
-  use as the **block/flora palette for new island tiers**; mobs spawn on matching biome islands. Replaces
-  BetterNether/BetterEnd. Worldgen irrelevant (void) — its stray void-floor features are handled by the
-  custom void ChunkGenerator (see §5 + mod `plannednotes.md`), so no per-mod config needed.
+- **Quark (#15)** — building blocks, decoration, QoL tweaks (modular). *Plan:* mostly additive; **curate
+  modules** (enable building/decoration/QoL, disable worldgen-dependent ones that won't fire in void).
+  Dep: **Zeta**.
+
+*(Shipped for reference: the biome-palette mod is **Oh The Biomes We've Gone** (BWG) 2.6.0 — overworld-focused,
+55 biomes / 25 woods, fully integrated per BWGPLAN.md + BWGVILLAGEPLAN.md. Its stray void-floor features are
+handled pack-wide by the void ChunkGenerator (see the mod's `plannednotes.md` — shipped v0.165.0), which makes
+**any** TerraBlender/structure mod safe to add: biomes flow into island theming, nothing decorates, no
+structures generate. Mystical Agriculture shipped via **ore islands** — deepslate on Ancient, stone on Lush,
+soulium on Nether-Soul — rather than a starter seed/recipe; see MYSTICALPLAN.md.)*
 
 ---
 
-## 3. Create addon pack (1.21.1-confirmed)
+## 3. Create addon pack
 
-Curated for a tech-skyblock; all verified present for NeoForge 1.21.1 / Create 6.x — ✅ **all shipped in `mods.txt`**:
+The seven curated addons (Crafts & Additions, Steam 'n' Rails, Enchantment Industry, Bells & Whistles,
+Connected, Rechiseled: Create, Better Motors) ✅ **all shipped in `mods.txt`** — along with several more added
+since (Deco, Encased, Aquatic Ambitions, Jetpack, Goggles, Interiors, Design-n-Decor, …).
 
-| Addon | Why |
-|---|---|
-| ✅ **Create: Crafts & Additions** | **Required** — the FE ↔ rotation power bridge (see §1) |
-| ✅ **Create: Steam 'n' Rails** | Trains/rail depth — thematically perfect for linking floating islands |
-| ✅ **Create: Enchantment Industry** | Automate XP/enchanting — strong mid/late progression |
-| ✅ **Create: Bells & Whistles** | Decoration/adornments for nicer builds |
-| ✅ **Create: Connected** | QoL blocks that "should exist" in Create |
-| ✅ **Rechiseled: Create** | Decorative block variants (build variety) |
-| ✅ **Create: Better Motors** *(optional)* | Enhances Crafts & Additions motors |
-
-*Verify before adding (1.21.1 status less certain):* Create: Deco, The Factory Must Grow, Extended Cogwheels.
-Avoid piling on overlapping addons — keep it focused.
+**Open (#52) — verify before adding (1.21.1 status less certain):** The Factory Must Grow, Extended Cogwheels —
+verify each for NeoForge 1.21.1 / Create 6.x, or explicitly drop them. *(Create: Deco was on this list and has
+since shipped.)*
 
 ---
 
-## 4. Dependencies checklist (don't forget the libs)
+## 4. Dependencies checklist (for the open wave)
 
-- Silent Gear → **Silent Lib**
-- Mystical Agriculture → **Cucumber Library**
-- Iron's Spells, Critters and Companions → **GeckoLib**
-- Quark → **Zeta**
-- Create addons → **Create** (6.x for 1.21.1)
-- FTB Quests → **Architectury API** + **FTB Library** + **FTB Teams**
-- (Mekanism / IE / AE2 / Farmer's Delight / Productive Bees / BYG / Flux Networks — standalone or self-bundled; confirm on download)
+- Quark (#15) → **Zeta**
+- Iron's Spells (#36), Critters and Companions (#31) → **GeckoLib** ✅ *already in the pack*
+- IE / AE2 / Farmer's Delight / Productive Bees — standalone or self-bundled; confirm on download
 
 ---
 
 ## 5. Build priority & order
 
-### Priority — ROI (best value-per-effort first)
-
-> Effort isn't a gate (we'll build it all), but doing high-ROI mods first means a fun, playable pack early. The
-> **void ChunkGenerator** (mod `plannednotes.md`) is a prerequisite — it unblocks BYG. **Mystical Agriculture** is a
-> force-multiplier: renewable ore crops lower the integration effort of every tech mod, so it goes early.
+Rows 0–3 of the original ROI ranking (void ChunkGenerator, Silent Gear, Create+FE bridge, Mystical
+Agriculture) and the BWG palette are ✅ shipped. Remaining, in ROI order:
 
 | Order | Mod | Value | Effort | Note |
 |---|---|---|---|---|
-| 0 | ✅ *Void ChunkGenerator* | — | Med | **DONE** (0.165.0). Prerequisite: unblocks BYG + all biome mods; structures-off. |
-| 1 | ✅ Silent Gear | High | ~Zero | **DONE.** Vanilla-mat playable; fills the Tinkers gap. |
-| 2 | ✅ Create (+ Crafts & Additions + Flux) | Very High | Low | **DONE.** The automation spine; only zinc needs a seed. |
-| 3 | ✅ Mystical Agriculture | Very High | Med | **DONE.** Force-multiplier — renewable ores feed the tech tiers. |
-| 4 | BYG | High | Low* | Partial — forest woods shipped; wet/fantasy pending (BWGPLAN). *after the void fix. |
-| 5 | Quark | Med-High | Low | Building/QoL breadth via config curation. |
-| 6 | Farmer's Delight | High | Med | Cozy, on-theme; crop injection onto biome islands. |
-| 7 | Applied Energistics 2 | High | Med | Storage endgame; self-multiplies after a certus bootstrap. |
-| 8 | ~~Mekanism~~ | — | — | ❌ **DROPPED (2026-07-01)** — IE is the tech backbone instead (aesthetic; see §7). |
-| 9 | Critters & Companions | Low-Med | Low | Flavor; likely spawns on biome islands. |
-| 10 | Productive Bees | Med | Med | Renewable, but overlaps Mystical Agriculture. |
-| 11 | ✅ **Immersive Engineering** | **High** | High | **The chosen tech backbone (2026-07-01).** Excavator needs a fix — patch to island-based ore mix, or disable (§7). |
-| 12 | Iron's Spells | Med | High | ⚠️ Loot/mob-gated → heavy injection; partial without it. |
-
-- **Most value / least effort:** rows 1–6 — gets you a fun, automatable, good-looking pack fast.
-- **Least value / most effort:** Iron's Spells — defer or scope down. *(Immersive Engineering was ranked here, but
-  taste re-ranked it: it's now the chosen tech backbone over Mekanism — see §7. The "IE's aesthetic is a personal
-  headline" case came true.)*
-- **FTB Quests:** author *last*, over the final set (its effort scales with the mod count).
-- Settles several §7 decisions: Myst Ag *first*; tech backbone = **Immersive Engineering** (Mekanism dropped — aesthetic); IE **Excavator** → patch-to-island-aware *or* disable (TODO, §7).
+| 1 | Quark (#15) | Med-High | Low | Building/QoL breadth via config curation. |
+| 2 | Farmer's Delight (#16) | High | Med | Cozy, on-theme; crop injection onto biome islands. |
+| 3 | **Immersive Engineering (#34)** | **High** | High | **The chosen tech backbone.** Gated on the Excavator fix (#35, §7). |
+| 4 | Applied Energistics 2 (#18) | High | Med | Storage endgame; self-multiplies after a certus bootstrap. |
+| 5 | Critters & Companions (#31) | Low-Med | Low | Flavor; likely spawns on biome islands. |
+| 6 | Productive Bees (#32) | Med | Med | Renewable, but overlaps Mystical Agriculture. |
+| 7 | Iron's Spells (#36/#37) | Med | High | ⚠️ Loot/mob-gated → heavy injection; scope it first. |
 
 ### Integration workflow (phases)
 
-1. ✅ **Worldgen compat — resolved Skyseed-side (one fix for all biome/structure mods).** **DONE** — the void ChunkGenerator shipped (0.165.0). Tested with BWG:
-   TerraBlender biome mods (BWG/BYG/Terralith/Incendium) inject biomes into Skyseed's overworld `multi_noise`
-   source; their *features* decorate at the void floor (~y=-64). Base terrain + Nether/End stay void. The fix is a
-   **custom void ChunkGenerator** in the mod that no-ops biome decoration + structures in the void dims (tracked in
-   the mod's `plannednotes.md`). **Once shipped, any TerraBlender/structure mod is safe to add** — biomes flow into
-   island theming, nothing decorates, and no structures generate regardless of the world-creation toggle. This
-   supersedes the old per-mod "is its worldgen disablable?" check.
-2. ✅ **Add mods + deps**, then `./gen-mods-txt.ps1` to refresh the manifest. **DONE** — `mods.txt` current at 92 mods.
-3. ✅ **Power backbone** — Create + Crafts & Additions + Flux Networks **shipped**. *(Still open: prove FE flows Create→Mek/IE/AE2 across islands — moot until a consumer mod lands.)*
-4. **Tech bootstraps** — **IE bauxite/aluminum island** (the tech backbone), AE2 certus/sky-stone bootstrap. *(Mekanism osmium island dropped — see §7.)*
-5. **Renewable engines** — Mystical Agriculture + Productive Bees starters.
-6. **Content & palette** — Silent Gear (works now), Farmer's Delight crops on biome islands, Critters spawns,
-   Iron's Spells loot injection, Quark module curation, BYG palette for new tiers.
-7. **Per-mod island tiers** — promote each mod's "gateway island" into a gated progression step.
+Phases 1–3 (worldgen compat via the void ChunkGenerator, mods + `gen-mods-txt.ps1` manifest, power backbone)
+are ✅ done. Remaining:
+
+4. **Tech bootstraps** — **IE bauxite/aluminum island** (the tech backbone), AE2 certus/sky-stone bootstrap.
+5. **Renewable engines** — Productive Bees starters (MA shipped).
+6. **Content & palette** — Farmer's Delight crops on biome islands, Critters spawns, Iron's Spells loot
+   injection, Quark module curation.
+7. **Per-mod island tiers (#20)** — promote each mod's "gateway island" into a gated progression step. The
+   pattern is proven for every installed mod (Create zinc on rocky/ancient, MA ores, the 15 `biomeswevegone_*`
+   override files); apply it to each future integration as it lands.
 
 ---
 
 ## 6. Quests — FTB Quests (the progression spine)
 
-**FTB Quests** (NeoForge `2101.x` for 1.21.1) — the modpack-author standard (206M+ downloads), with an
-**in-game editor** (fastest path to "quests for everything") and quests saved as **SNBT** you can commit.
-Deps: **Architectury API + FTB Library + FTB Teams**.
+**FTB Quests** (NeoForge `2101.x` for 1.21.1) — in-game editor, quests saved as **SNBT** and committed.
+Deps: **Architectury API + FTB Library + FTB Teams** (all shipped).
 
-- **Why it fits Skyseed:** the seed→island loop *is* a quest line. Quests use Skyseed's own island-seed items
-  as tasks/rewards, hook advancements, and surface the §2 content-mod tiers as one guided path.
+- ✅ **Shipped:** six chapters (Introduction, Skyseed, Create, Tools & Travel, Storage, Mystical Agriculture —
+  54 quests) plus the BWG branch (B701–B703), committed under `overrides/config/ftbquests/quests/`. See
+  QUESTPLAN.md.
 - **Authoring workflow (version-controlled):** build quests in a dev world → FTB Quests writes them to
-  `config/ftbquests/quests/` (SNBT) → copy that into `overrides/config/ftbquests/` so they ship with the pack.
-  Configs are committed (not gitignored), so the quest line lives in the repo. Player *progress* is per-world/
-  team and stays out of the pack.
-- **Suggested chapter spine:** Getting Started (first seeds) → Overworld islands → Nether chapter → End chapter →
-  Tools (Silent Gear) → Power & Automation (Create → FE bridge → Mek/IE) → Storage (AE2) → Renewables (Mystical
-  Agriculture, Productive Bees) → Farming (Farmer's Delight) → Magic (Iron's Spells) → Endgame. One chapter per
-  tier mirrors "each content mod = an island tier."
-- **Author last:** build the quest spine after the content + island tiers exist, so tasks point at real items/seeds.
-
-> Alternatives if you'd rather author in files: **Heracles** (datapack + web editor) or lighter JSON options
-> (Questlog, Boundless Quests). FTB Quests' in-game editor + ecosystem is the productivity win for a big quest line.
+  `config/ftbquests/quests/` (SNBT) → copy into `overrides/config/ftbquests/` so they ship with the pack.
+  Configs are committed; player *progress* is per-world/team and stays out of the pack.
+- **Rolling rule (#19):** each remaining integration (§2) is *followed by* its chapter — IE → Power &
+  Automation extension, AE2 → Storage extension, FD → Farming, Iron's → Magic, plus an eventual Endgame
+  chapter. Author each chapter right after its mod's island/tier integration lands, so tasks point at real
+  items/seeds (the original "author last over the final set" is superseded by this incremental weave —
+  that's how the six shipped chapters were built).
 
 ## 7. Open design decisions
 
-- **One tech backbone or two? ✅ DECIDED (2026-07-01) — Immersive Engineering, single backbone; Mekanism dropped.**
-  Mekanism and IE overlap (power + ore-doubling); rather than ship both, the pack standardizes on **IE**. The
-  reason is **aesthetic** — Mekanism's machines read as too blocky/boring, whereas IE's multiblock/diesel look is
-  the headline the player wants. (This is exactly the "taste re-ranks these" case flagged in §5.) Consequence: the
-  Mekanism osmium-island integration is **not** pursued; the tech-tier bootstrap is the **IE bauxite/aluminum island**.
-- **IE Excavator ✅ SCOPED (2026-07-01) — must be handled now that IE is the backbone.** The Excavator samples
-  **worldgen mineral veins that don't exist in the void**, so it's dead as shipped. Two approaches to try, in order
-  of preference (**TODO — not yet implemented**):
+- **One tech backbone or two? ✅ DECIDED (2026-07-01) — Immersive Engineering, single backbone; Mekanism
+  dropped.** Mekanism and IE overlap (power + ore-doubling); rather than ship both, the pack standardizes on
+  **IE**. The reason is **aesthetic** — Mekanism's machines read as too blocky/boring, whereas IE's
+  multiblock/diesel look is the headline the player wants. Consequence: no Mekanism osmium island; the
+  tech-tier bootstrap is the **IE bauxite/aluminum island** (#34).
+- **IE Excavator (#35) — must be handled now that IE is the backbone.** The Excavator samples **worldgen
+  mineral veins that don't exist in the void**, so it's dead as shipped. Two approaches to try, in order of
+  preference (**TODO — not yet implemented**):
   1. **Patch it to be island-aware** — make the Excavator's ore mix a function of the **island it's built on**
      (its Skyseed theme/biome) instead of the vanilla mineral-vein sample. Preferred: keeps the signature IE
      mechanic alive and on-theme. Would need a mixin/compat against IE's `ExcavatorHandler` / mineral-vein lookup.
   2. **Disable the Excavator entirely** for this pack — remove its recipe (and hide it in JEI) so players never
      expect it to work; supply aluminum/bauxite via the IE ore island instead. Simple fallback if (1) is too invasive.
-- **Iron's Spells scope** — how deep to wire the loot/mob injection (full discovery loop vs. crafted-only).
-- **Mystical Agriculture vs. bespoke ore islands** — renewable farming can *replace* most ore islands; decide
-  whether ore islands are the *first* acquisition (then Myst Ag scales) or skip some islands entirely.
+- **Iron's Spells scope (#37)** — how deep to wire the loot/mob injection (full discovery loop vs. crafted-only).
+  Settle when #36 is picked up.
+- **Mystical Agriculture vs. bespoke ore islands (#38)** — settled **in practice** for shipped mods (MA got its
+  own ore islands: deepslate on Ancient, stone on Lush, soulium on Nether-Soul — bespoke islands ship
+  *alongside* MA). Remaining: the per-mod call for each future integration (does IE/AE2 get a bespoke ore
+  island or lean on MA seeds).

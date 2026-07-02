@@ -2,7 +2,7 @@
 
 A **terraforming skyblock** mod for **Minecraft 1.21.1 and 26.1.2 / NeoForge** (one codebase, built for both via Stonecutter). Craft a *Skyseed*, throw it into open air, and ~2 seconds later a procedurally generated, themed sky island germinates where it comes to rest. Progression is driven by **exploration + crafting**, not block-condensing.
 
-> This README is the consolidated project plan: architecture, data model, decisions, and current status. The full version history is in **[CHANGELOG_1.21.1.md](CHANGELOG_1.21.1.md)**; the **26.1.2** build (which compiles, builds, and passes its own gametest suite) has its own **[CHANGELOG_26.1.md](CHANGELOG_26.1.md)**. The only open build plan is the multi-version refactor (`REFACTORPLAN.md`, now on Stage 3 — CI/generalize); every per-chapter and per-feature plan — including the 26.1.2 gametest harness, the recipe generator, and the Modonomicon guide — was retired into the changelogs once shipped.
+> This README is the consolidated project plan: architecture, data model, decisions, and current status. The full version history is in **[CHANGELOG_1.21.1.md](CHANGELOG_1.21.1.md)**; the **26.1.2** build (which compiles, builds, and passes its own gametest suite) has its own **[CHANGELOG_26.1.md](CHANGELOG_26.1.md)**. Open work across the repo is tracked in one prioritized backlog, **[PLANOFPLANS.md](PLANOFPLANS.md)**, which indexes the remaining plan docs (`REFACTORPLAN.md`, `plannednotes.md`, and the modpack's `Modpack-growyourownworld/*PLAN.md`); every per-chapter and per-feature plan — including the 26.1.2 gametest harness, the recipe generator, and the Modonomicon guide — was retired into the changelogs once shipped.
 
 ---
 
@@ -24,7 +24,7 @@ Different recipes produce Skyseeds of different **themes** (forest, rocky, …) 
 
 ## Status
 
-**Version 0.155.0** — see [CHANGELOG_1.21.1.md](CHANGELOG_1.21.1.md). **All three dimension chapters are built end to end.** The **overworld** (every island type + its Large variant, villages, animal farms, the loot/encounter structure islands, both grand structures, the rare surprises); the **Nether** (overworld seeds adapt or fizzle across the portal, five full-size native seeds + Large variants, all four Nether structures — the Fortress + blaze room, the Bastion Remnant, the Piglin Trading Post, the Wither Arena — and ruined-portal twins); and the **End** (a void End reached by an Eye-of-Ender portal bootstrap, End-native seeds, biome gating, the dragon-trophy capstone, and a full vanilla-style **End City** jigsaw). On top of those: a **Huge island tier** (bigger landmasses / archipelagos with internal cave systems and rare interior structures) and villages that assemble as varied **street villages** through deep jigsaw use. What exists today:
+**Version 0.181.0** — see [CHANGELOG_1.21.1.md](CHANGELOG_1.21.1.md). **All three dimension chapters are built end to end.** The **overworld** (every island type + its Large variant, villages, animal farms, the loot/encounter structure islands, both grand structures, the rare surprises); the **Nether** (overworld seeds adapt or fizzle across the portal, five full-size native seeds + Large variants, all four Nether structures — the Fortress + blaze room, the Bastion Remnant, the Piglin Trading Post, the Wither Arena — and ruined-portal twins); and the **End** (a void End reached by an Eye-of-Ender portal bootstrap, End-native seeds, biome gating, the dragon-trophy capstone, and a full vanilla-style **End City** jigsaw). On top of those: a **Huge island tier** (bigger landmasses / archipelagos with internal cave systems and rare interior structures) and villages that assemble as varied **street villages** through deep jigsaw use. What exists today:
 
 | Area | Built |
 |---|---|
@@ -52,12 +52,14 @@ Different recipes produce Skyseeds of different **themes** (forest, rocky, …) 
 | Water | Contained ponds and rivers (a containment ring walls the rim up to the water before decoration), sand/clay/gravel beds and shores; off-rim waterfall cascades; hand-built mangroves (`skyseed:mangrove`); per-island **bank styles** (steep / sloped / mixed) that step a river's banks down toward the waterline; shore plants (sugar cane only where water sits beside its support) |
 | Surface | Per-column `surface_scatter` (block mixes); snow-capped peaks (taller shape + snow) |
 | Lava | A `lava` theme field: a low-chance lava vein in the core, Y-banded contained lava lakes (Rocky/Ancient — likelier the deeper you throw; Aquatic below Y 0 comes up a bare stone/deepslate isle around a lava lake), and a pool at the foot of a Ruined Portal |
-| World | Void world preset with multi-noise overworld biomes; structures disabled |
+| World | Void world preset with multi-noise overworld biomes; a custom **`SkyseedVoidChunkGenerator`** no-ops biome decoration + structure starts in the void dims (see `plannednotes.md`), so any TerraBlender biome/structure mod is safe — biomes flow into island theming, nothing decorates or generates |
 | Start | Curated start island; safe spawn (valid biome, on island not in a tree); first-join guide book; honours the vanilla *Generate Bonus Chest* world option with a starter kit chest |
-| Guide | The Skyfarer's Almanac — **Patchouli optional**: the rich illustrated book when Patchouli is installed, a plain vanilla written book otherwise. Crafted from any one Skyseed (`#skyseed:skyseeds`); advancement-gated entries |
+| Guide | The Skyfarer's Almanac — **Modonomicon is the preferred rich-guide backend on every version**, Patchouli is the legacy fallback, and a plain vanilla written book covers the no-backend case. Crafted from any one Skyseed (`#skyseed:skyseeds`); advancement-gated entries |
 | Safety | Tick-budget placement (no single-tick stalls); block-overlap fit + horizontal nudge-off (islands sit flush), player-aware, fizzle-and-drop |
+| Theme overrides | The **`skyseed:theme_override`** datapack registry — a merge layer that appends/prepends `biome_overrides` (and jigsaw bands) onto base themes without editing them, powering the **first-party inert-without-the-mod compat**: Create (zinc), Mystical Agriculture (ores on Ancient/Lush/Nether-Soul), and Oh The Biomes We've Gone |
+| BWG compat | **Exotic-wood islands** — a seed over a BWG biome grows that biome's island: 24/25 BWG planks obtainable (wet/fantasy/plank-gap wood bands), millable BWG flowers (Meadow/Lush families feeding create-otbwg milling), a BWG-gated "Exotic Woods" guide entry — plus **BWG villages**: all six styles (forgotten/pumpkin_patch/red_rock/salem/skyris/swamp) × all three village tiers via a hermetic BWG-block `.nbt` engine, every villager profession obtainable |
 
-**All three chapters (overworld, Nether, End) and the Huge island tier are feature-complete.** The deep-jigsaw structural-diversity work is done too: the villages (street villages), the Woodland Mansion (footprint variety), the Nether Fortress (sprawl over the void), and connective galleries/courtyards for the Trial Chamber and Bastion (the Ocean Monument is kept as its single iconic water basin — its `grand` variant is its size variety). Multi-version is built too: the **26.1.2** node compiles, builds, and passes its gametests (the 1.21.4/1.21.5 worldgen content — Pale Garden, the new vegetation/mobs — is in, gated so the same data is inert on 1.21.1). The only build-out left is `REFACTORPLAN.md` **Stage 3** (CI/generalize); see **Roadmap** below.
+**All three chapters (overworld, Nether, End) and the Huge island tier are feature-complete.** The deep-jigsaw structural-diversity work is done too: the villages (street villages), the Woodland Mansion (footprint variety), the Nether Fortress (sprawl over the void), and connective galleries/courtyards for the Trial Chamber and Bastion (the Ocean Monument is kept as its single iconic water basin — its `grand` variant is its size variety). Multi-version is built too: the **26.1.2** node compiles, builds, and passes its own native gametest suite (the 1.21.4/1.21.5 worldgen content — Pale Garden, the new vegetation/mobs — is in, gated so the same data is inert on 1.21.1), and CI builds + gametests every node. The remaining work across the repo is tracked in **[PLANOFPLANS.md](PLANOFPLANS.md)**; see **Roadmap** below.
 
 ---
 
@@ -67,7 +69,7 @@ All three chapters and the Huge island tier are built; what's left is mostly opt
 
 - **A few more structures** that would sit well as island variants: a **Stronghold** (the lit End portal already exists as its own seed), and **Buried Treasure / Shipwreck** as Aquatic features. (The Mineshaft and Ancient City already shipped as Huge-tier rares.)
 - **Remaining vanilla blocks** — down to essentially the **copper bulb** (a small Trial Chamber template edit); the Nether- and End-gated block sets landed with their chapters.
-- **Multi-version support** (`REFACTORPLAN.md`) — building against multiple Minecraft / NeoForge versions from one codebase. The **Stonecutter skeleton + the `compat` facade** (Stages 0–1) and the **second version `26.1.2`** (Stage 2 — compiles, builds, native 134-test gametest suite, the full 1.21.4/1.21.5 worldgen content) are **done**; both nodes are green at every commit. Remaining: **Stage 3** (generalize + document) — `chiseledBuild`/`chiseledRunGameTestServer` fan a task across all nodes and CI (`build.yml`) runs those chiseled tasks over every node, both landed; adding further versions is the open generalization. NeoForge-only; no new runtime dependency; Fabric is a separate future concern.
+- **Multi-version support** (`REFACTORPLAN.md`) — building against multiple Minecraft / NeoForge versions from one codebase. The **Stonecutter skeleton + the `compat` facade** (Stages 0–1), the **second version `26.1.2`** (Stage 2 — compiles, builds, its own native gametest suite, the full 1.21.4/1.21.5 worldgen content), and the **Stage 3 generalization** (the chiseled CI fan-out + the documented "how to add a version" recipe) are all **done**; both nodes are green at every commit. Remaining: adding further version nodes as wanted. NeoForge-only; no new runtime dependency; Fabric is a separate future concern.
 
 > **⚠ Before 1.0 (cleanup):** **remove the `/emptynether` and `/emptyend` rescue commands** (`SkyseedCommands.java`, offered by the legacy-world warning in `PlayerEvents`). They're a one-time stopgap for worlds created *before* the void dimensions landed (v0.35.x) — by 1.0 there should be no pre-void world left to rescue — and the in-place conversion leans on Minecraft's **experimental-features** path, which is acceptable as a rescue route now but should **not** ship in a 1.0 release.
 
@@ -105,7 +107,7 @@ A normal datapack shaped-crafting recipe whose `result` is the theme's seed item
 
 ### Theme (data)
 
-One JSON per theme under `data/<namespace>/skyseed/theme/<id>.json` (the `skyseed:theme` datapack registry). Block/feature ids resolve at gen time; a **missing id is skipped with a warning**, so a theme can optionally reference modded content and still load cleanly without that mod.
+One JSON per theme under `data/<namespace>/skyseed/theme/<id>.json` (the `skyseed:theme` datapack registry). Block/feature ids resolve at gen time; a **missing id is skipped with a warning**, so a theme can optionally reference modded content and still load cleanly without that mod. A sibling **`skyseed:theme_override`** registry (`data/<namespace>/skyseed/theme_override/<id>.json`) lets a datapack, modpack, or another mod **extend** a theme without editing it — each override patch appends/prepends `biome_overrides` onto its target theme (merge-by-selector); this is how the first-party Create / Mystical Agriculture / BWG compat ships.
 
 **Top-level keys**
 
@@ -124,6 +126,9 @@ One JSON per theme under `data/<namespace>/skyseed/theme/<id>.json` (the `skysee
 | `lava` | Lava | — | Lava veins + Y-banded contained lava lakes |
 | `dimensions` | string[] | `["minecraft:overworld"]` | Which dimensions the base config implements; a seed thrown into one it doesn't implement (and no dimension-keyed override covers) **fizzles** |
 | `twin` | id | — | Grow this theme at the vanilla 8:1 linked coordinate in the other dimension (the Ruined Portal's cross-dimension twin) |
+| `ladder_shaft` | LadderShaft | — | A ladder shaft from the surface down to a sunk structure (the Trial Chamber's entrance) |
+| `fizzle` | FizzleRule | — | Custom fizzle behaviour for unsupported throws |
+| `caves` | Caves | — | Internal cave carving (the Huge tier's cave systems) |
 
 **Shape** — `radius` `{min,max}` (required) · `rim_noise` float (0.40) · `underside` (`teardrop`) · `top_dome` `{min,max}` (`{1,2}`; raise for peaks).
 
@@ -137,7 +142,7 @@ One JSON per theme under `data/<namespace>/skyseed/theme/<id>.json` (the `skysee
 
 **GroundEntry** — `block` id (required) · `chance` float per-column (required).
 
-**Pond** — `block` fluid id (`minecraft:water`) · `radius` int (3) · `depth` int (2) · `plants` GroundEntry[] (`[]`; per-column water plants — `lily_pad` floats on the surface, `kelp` fills a column, `tall_seagrass` places both halves, and anything else roots on the floor, waterlogged if it can be). Kept within ≈0.62× the island radius, then a **containment ring** walls every land column touching the water up to the surface (the island's fill/surface block), and the bed/shore are dressed with sand, clay and gravel — all before decoration, so it stays still and never spills off the rim (where the very edge can't be walled, a small waterfall is left as variety).
+**Pond** — `block` fluid id (`minecraft:water`) · `radius` int (3) · `depth` int (2) · `chance` float (1.0; how often the water feature is carved at all) · `river` Pond (an alternative river-style feature — when the roll carves water, it's a 50/50 pick between the pond and the river) · `style` string (`"river"` = a meandering walled channel instead of a round pool) · `plants` GroundEntry[] (`[]`; per-column water plants — `lily_pad` floats on the surface, `kelp` fills a column, `tall_seagrass` places both halves, and anything else roots on the floor, waterlogged if it can be). Kept within ≈0.62× the island radius, then a **containment ring** walls every land column touching the water up to the surface (the island's fill/surface block), and the bed/shore are dressed with sand, clay and gravel — all before decoration, so it stays still and never spills off the rim (where the very edge can't be walled, a small waterfall is left as variety).
 
 ### Biome overrides
 
@@ -190,11 +195,11 @@ A near-pure function `planIsland(ServerLevel, BlockPos center, IslandTheme, Hold
 `dev.gemberkoekje.skyseed`:
 
 - **`Skyseed`** — `@Mod` entry point; registers everything below. `MODID = "skyseed"`.
-- **`registry/`** — `DeferredRegister`s for the per-theme seed items (`ModItems.SEED_THEMES`), throwable entity type, creative tab; and `SkyseedRegistries` (the `skyseed:theme` datapack registry, via `DataPackRegistryEvent`).
-- **`item/`** — `IslandSeedItem` (charge-to-throw, one per theme) and `SkyseedGuide` (builds the guide book: Patchouli if present via the isolated `compat/PatchouliCompat`, else a vanilla written book).
+- **`registry/`** — `DeferredRegister`s for the per-theme seed items (`ModItems.SEED_THEMES`), throwable entity type, creative tab; and `SkyseedRegistries` (the `skyseed:theme` **and** `skyseed:theme_override` datapack registries, via `DataPackRegistryEvent`).
+- **`item/`** — `IslandSeedItem` (charge-to-throw, one per theme) and `SkyseedGuide` (builds the guide book: Modonomicon first via `compat/ModonomiconCompat` — the preferred backend on every version — then Patchouli via `compat/PatchouliCompat` as a legacy fallback, else a vanilla written book).
 - **`entity/IslandSeedEntity`** — `ThrowableItemProjectile` carrying the theme; arms `ARM_DURATION = 40` ticks (~2 s), rests on block-hit, then `germinate()`s (overlap loop → enqueue plan).
 - **`worldgen/`** — `IslandGenerator` (the algorithm) → `IslandPlan`; `GenerationJob` + `IslandGrowth` (the tick-budget scheduler on `ServerTickEvent.Post`); `StartIsland`; `SkyseedWorldData` (`SavedData`); `WorldSetupEvents`; `event/PlayerEvents`.
-- **`worldgen/theme/`** — the codec records: `IslandTheme`, `Shape`, `Palette`, `OreEntry`, `Variant`, `Decoration`, `TreeEntry`, `GroundEntry`, `Pond`, `BiomeOverride`, `MobEntry`, `JigsawConfig`, `AnimalPack`, `RareStructure`, `Lava`, plus `IntRange`, `OreDepth`, `Underside`.
+- **`worldgen/theme/`** — the codec records: `IslandTheme`, `Shape`, `Palette`, `OreEntry`, `Variant`, `Decoration`, `TreeEntry`, `GroundEntry`, `Pond`, `BiomeOverride`, `MobEntry`, `JigsawConfig`, `AnimalPack`, `RareStructure`, `Lava`, `Caves`, `FizzleRule`, `LadderShaft`, `ThemeOverride`, `Themes`, plus `IntRange`, `OreDepth`, `Underside`.
 - **`worldgen/structure/`** — code-authored structure templates (`*Templates.java`, one per structure — hamlet, dungeon, ruined portal, nether fortress, …) written to `.nbt` at dev time via `DevStructureGenerator`, plus the shared `StructureParts` helpers (jigsaw anchors, loot chests, mob spawners, pitched `gableRoof`s, fence-linking).
 - **`client/SkyseedClientEvents`** — renderers and the world-type default hook.
 
@@ -217,12 +222,12 @@ The plan's former open questions, settled by the build:
 
 ## Modpack
 
-Two CurseForge packs are planned, both on NeoForge 1.21.1:
+Two CurseForge packs, both on NeoForge 1.21.1:
 
 - **Vanilla-like** — Skyseed plus a curated quality-of-life set, **no content mods** (nothing beyond vanilla blocks). Scaffolded in `modpack-vanilla/`.
-- **Full** (later) — layers in content mods (Quark, the Delights, storage, tech, …), and each one is also wired into island generation as a new island tier, so its blocks have somewhere to grow.
+- **"Grow your own world"** (`Modpack-growyourownworld/`) — the full pack: a ~92-mod manifest (`mods.txt`) built around **Create** (+ addons + the Crafts & Additions FE bridge + Flux Networks), **Oh The Biomes We've Gone**, **Mystical Agriculture / Botany Pots**, Silent Gear, Sophisticated storage, an FTB quest spine, and a full shader/visual stack — each content mod wired into island generation via `theme_override` so its blocks have somewhere to grow. The next integrations (Immersive Engineering as the tech backbone, AE2, Quark, Farmer's Delight, …) are tracked in [PLANOFPLANS.md](PLANOFPLANS.md) and its plan docs (`Modpack-growyourownworld/*PLAN.md`).
 
-Skyseed itself only optionally integrates with Patchouli; nothing else is referenced, so it drops cleanly into either pack.
+Skyseed itself optionally integrates with Modonomicon and Patchouli (guide backends) and ships first-party, inert-without-the-mod compat content for Oh The Biomes We've Gone, Mystical Agriculture, and Create — so it drops cleanly into either pack (or a vanilla install).
 
 ---
 
@@ -246,7 +251,7 @@ CI (`.github/workflows/build.yml`) builds + gametests every node by running `chi
 `gametest/SkyseedGameTests.java` holds the **1.21.1** GameTest suite (NeoForge `@GameTest`) that asserts
 generation/structure invariants (every theme plans without error, generation is deterministic, structures
 keep their key blocks). The **26.1.2** node has its own suite in `gametest_26_1_2/` on the newer
-`GameTestInstance` framework (134 tests, incl. a 26.1.2-captured golden master). Run a node's suite with
+`GameTestInstance` framework (150+ tests and growing with the content, incl. a 26.1.2-captured golden master). Run a node's suite with
 `./gradlew :<version>:runGameTestServer`, or all nodes with `./gradlew chiseledRunGameTestServer` — the
 safety net to run before and after refactors. For test **coverage** (1.21.1), run `./gradlew gameTestCoverage`
 (JaCoCo) → `build/reports/jacoco/gameTestCoverage/html/index.html`.
@@ -256,7 +261,7 @@ The build compiles with `-Xlint:all` (warnings stay visible in the log; the buil
 ## Repository layout
 
 - `src/main/java/dev/gemberkoekje/skyseed/` — mod sources (`Skyseed.java` is the `@Mod` entry point).
-- `src/main/resources/data/skyseed/skyseed/theme/` — the theme JSONs (`forest`, `forest_large`, `rocky`).
+- `src/main/resources/data/skyseed/skyseed/theme/` — the ~70 theme JSONs (all 10 biome themes + large/huge tiers, the Nether/End seeds, villages, structures, animal islands, …); the sibling `theme_override/` directory holds the first-party BWG / Mystical Agriculture / Create compat overrides.
 - `src/main/resources/` — assets, recipes, advancements, the Patchouli book, and the world preset.
 - `src/main/templates/` — `META-INF/neoforge.mods.toml` source (Patchouli is an *optional* dep).
 - `gradle.properties` — mod id/version and Minecraft/NeoForge versions.

@@ -1,18 +1,22 @@
 # MYSTICALPLAN — Mystical Agriculture + Botany Pots integration
 
 Grounded in the actual jars (MA `8.0.27`, Agradditions `8.0.13`, Botany Pots `21.1.44`, Botany Pots Mystical `21.1.12`).
-Skyseed is now `0.167.0`.
 
-> **Status: DONE — shipped.** The first-party MA `theme_override` compat and the Mystical Agriculture quest chapter both
-> merged. The ore split is now complete: **stone** inferium/prosperity on the **Lush** island (`mysticalagriculture_lush{,_large,_huge}.json`,
-> v0.172.0 — the original §Fix intent) **and** the **deepslate** variants on **Ancient**, plus soulium on Nether Soul.
-> Item #62 (the Lush stone ores) closed 2026-07-01. Only soft follow-ups remain (balance watch, optional Prosperity island).
-
-> **Plan audit (2026-07-01):** the pending in-game quest-book test-load (Build order §3) is ✅ complete, and the
-> **in-game bootstrap-loop sanity check (Build order §2) is now ✅ done** — deepslate Inferium/Prosperity ore confirmed on
-> Ancient and the Inferium Seed + Inferium Farmland in an Elite Botany Pot grows as intended. That test surfaced **#62**
-> (stone MA ores on Lush — both stone ores exist in MA 8.0.27). Remaining soft follow-ups (balance-tuning watch, the
-> optional dedicated Prosperity island) are tracked in [`../PLANOFPLANS.md`](../PLANOFPLANS.md).
+> **Status: SHIPPED (verified in-game 2026-07-01).** The first-party MA `theme_override` compat is complete —
+> **stone** inferium/prosperity ores on **Lush** (`mysticalagriculture_lush{,_large}.json` +
+> `mysticalagriculture_huge_lush.json`, v0.172.0, item #62), the **deepslate** variants on **Ancient**, and
+> soulium on **Nether Soul** — each with gametests on both nodes. The 9-quest MA chapter shipped incl. its
+> in-game test-load, and the in-game bootstrap-loop check passed (ore on Ancient; essence → Inferium Farmland →
+> seed → Elite Botany Pot grows as intended).
+>
+> **What's left** (tracked in [`../PLANOFPLANS.md`](../PLANOFPLANS.md)):
+> - **#69 — refresh quest B602 "Prosperity Found":** its text still says the MA ores "come from one place" and
+>   directs the player to grow an **Ancient** island (gated on B105 "Into the Deep") — written before v0.172.0
+>   added the more accessible **stone ores on Lush**. Update the description in
+>   `overrides/config/ftbquests/quests/lang/en_us.snbt` (~line 291) to mention the Lush source (and optionally
+>   revisit the gating).
+> - **#51 — balance watch** (ongoing playtesting): see [Role & gating](#role--gating-keep-it-a-layer-not-a-bypass).
+> - **#50 — optional dedicated Prosperity island** (pure polish): see below.
 
 ## Mods added (roles + deps)
 **Mystical Agriculture family (BlakeBr0):**
@@ -27,51 +31,27 @@ Skyseed is now `0.167.0`.
 - `BotanyPotsTiers` — faster tiered pots. `BotanyTrees` — grow trees (renewable wood) in pots. `MechanicalBotany` — powered/auto-harvest pots.
 - `BotanyPotsMystical` — the glue: MA crops grow in pots using **MA farmland tiers as the soil** (`inferium`→`supremium`, Agradditions `insanium` + the Tier-6 **Crux** blocks).
 
-## Compatibility / worldgen
-- All dependencies present; no load conflicts expected.
-- MA ores place via NeoForge **biome modifiers** (`mysticalagriculture:inferium_ore` & `prosperity_ore` → `#is_overworld`; `soulium_ore` → nether/soulstone). The `skyseed:void` ChunkGenerator already suppresses overworld/nether biome decoration, so **MA ores never generate naturally** — exactly the BWG/zinc situation. No config wiring needed; we add them deliberately via theme-override (below).
+## Compatibility / worldgen (standing trap for any future MA work)
+- MA ores place via NeoForge **biome modifiers** (`mysticalagriculture:inferium_ore` & `prosperity_ore` → `#is_overworld`; `soulium_ore` → nether/soulstone). The `skyseed:void` ChunkGenerator suppresses overworld/nether biome decoration, so **MA ores never generate naturally** — any MA ore source (including a future Prosperity island, #50) must carry its ores via the theme system, never natural generation.
 - Botany Pots / Trees / Tiers / Mechanical Botany: item/block + automation only, no worldgen.
 
-## ⭐ The one thing that MUST be solved: the bootstrap gap
-MA progression starts from two items:
-- **Inferium Essence** — drops from hostile mobs (default) **and** Inferium Ore. (Has an alt source.)
-- **Prosperity Shard** — **only from Prosperity Ore. No mob drop.** It's required for **Prosperity Seed Base**, which every crafting seed needs.
-
-So without Prosperity Ore the whole mod is hard-blocked — and MA ores don't generate in the void. **The player needs Prosperity + Inferium ore from a Skyseed island.**
-
-### Fix — first-party theme-override (mirrors the Create-zinc compat)
-Ship a Skyseed theme-override (data-only, inert without MA, like `data/skyseed/skyseed/theme_override/create_rocky.json`):
-- `mysticalagriculture:prosperity_ore` + `inferium_ore` (the **stone** variants) on a fertile island — **Lush** is the natural home (green + ore-cave vibe), gated mid-game. **✅ SHIPPED (v0.172.0)** — `mysticalagriculture_lush.json` (+ `_large`/`_huge`), stone ores at `core`, inert without MA, `mystical_agriculture_compat_targets_lush` gametest on both nodes.
-- Their **deepslate** variants (`deepslate_prosperity_ore`/`deepslate_inferium_ore`) in a deep (≤y8) band → "throw it low for the richer ore," consistent with the zinc deep-band. **✅ SHIPPED** — placed on the **Ancient** island (`mysticalagriculture_ancient.json` + `_large`/`_huge`; Lush had no deep band, so the fallback was taken).
-- `mysticalagriculture:soulium_ore` on a **Nether** island (`nether_soul` — soulstone is nether). **✅ SHIPPED.**
-- Files: **✅ shipped** `mysticalagriculture_ancient.json` (+ `_large`/`_huge`) + `mysticalagriculture_nether_soul.json` (+ `_large`), with the `mysticalAgricultureCompatTargetsAncient`/`…NetherSoul` gametests. **⏳ #62:** add `mysticalagriculture_lush.json` (+ `_large`/`_huge`) with the **stone** ores on a surface/shallow band + a gametest + version bump. *(In-game test 2026-07-01 confirmed the deepslate ores + the bootstrap loop work; #62 adds the more-accessible stone source the plan first intended.)*
-- *(Alternative: a modpack-side datapack via a global-pack loader — but first-party matches the Create precedent and needs no extra mod.)*
-
-## The skyblock farming loop (why Botany Pots is the perfect pairing)
-1. Mine a little Prosperity + Inferium ore off the Lush island.
-2. Craft **Inferium Farmland** (dirt + Inferium Essence) and a **Prosperity Seed Base** → resource crafting seeds.
-3. Drop the farmland into a **Botany Pot**, plant the seed — grows **land-free**, no tilled soil needed.
-4. **Mechanical Botany** (or a Create deployer/harvester) auto-harvests; **Sophisticated** storage already handles output.
-- **Botany Trees** covers renewable wood in pots; **Botany Pots Tiers** speeds it up.
+## The bootstrap gap (why the ore islands exist — grounding for #50)
+MA progression starts from two items: **Inferium Essence** (drops from hostile mobs and Inferium Ore) and
+**Prosperity Shard** (**only from Prosperity Ore — no mob drop**; required for the Prosperity Seed Base that
+every crafting seed needs). Without Prosperity Ore the whole mod is hard-blocked — hence the shipped ore
+overrides. **The gap is solved**: Lush = the accessible stone tier, Ancient = the deep richer deepslate tier
+("throw it low"), Nether Soul = soulium. A dedicated Prosperity island (#50) is therefore **optional polish**
+for progression clarity, not a blocker — if ever built: seed recipe + theme json + gametest + quest hook.
 
 ## Role & gating (keep it a layer, not a bypass)
 - Position MA as the **mid/late automation layer**: Skyseed islands stay "first of each resource"; MA is "now scale/automate it." Don't let an Iron seed undercut the Rocky island on day one.
-- Gate the Lush(+MA-ore) island mid-game in the quest line (after the basic + rocky/ancient islands). The deepslate ore in the deep band reinforces the existing "throw low" mechanic.
-- **Agradditions Tier-6** (Nether Star / Dragon Egg / Neutronium / Gaia / Nitro / Awakened Draconium) = far endgame — let it sit past the Dragon Trophy.
-- Balance knobs: keep mob Inferium drops on (gentle early alt source); watch Growth Accelerator stacking if crops get too fast.
+- The Lush(+MA-ore) island is gated mid-game in the quest line; the deepslate ore on Ancient reinforces the existing "throw low" mechanic.
+- **Agradditions Tier-6** = far endgame — let it sit past the Dragon Trophy.
+- **Balance knobs (#51, watch during normal play):** keep mob Inferium drops on (gentle early alt source); watch **Growth Accelerator stacking** and crop speed — tune the MA / Botany Pots Tiers configs only if playtesting surfaces a problem (no overrides exist yet, deliberately).
 
-## Quest chapter (build later, same weave as Create)
-A "Mystical Agriculture" chapter, gated off the Lush/Prosperity island:
-1. **Pot It Up** — Botany Pots: land-free farming + soils.
-2. **Prosperity Found** — grow the Lush island, mine Prosperity + Inferium ore.
-3. **First Essence** — Inferium Essence → Inferium Farmland → Prosperity Seed Base.
-4. **Sow a Seed** — craft a resource seed, grow it in a pot on Inferium farmland.
-5. **Climb the Tiers** — Prudentium → Supremium farmland; Infusion Altar + Infusion Crystal.
-6. **Hands-Free Harvest** — Mechanical Botany / Create auto-pots.
-7. **Branches** — Botany Trees (wood), Soulium Dagger (mob seeds), Insanium / Tier-6 (endgame).
-
-## Build order
-1. **Skyseed first-party MA theme-override** — ✅ DONE: deepslate ore → Ancient, **stone ore → Lush (#62, v0.172.0)**, soulium → nether; all with gametests + version bumps.
-2. ✅ **Verify in-game (2026-07-01):** deepslate Inferium/Prosperity ore appears on Ancient, and the MA bootstrap (essence → Inferium Farmland → seed → Elite Botany Pot crop) works. *(Surfaced #62: add the stone ores to Lush.)*
-3. ✅ **MA quest chapter** — shipped; the previously-pending in-game quest-book test-load is **complete**.
-4. *(Later, roadmap)* optional dedicated **Prosperity island** as its own Skyseed seed/tier.
+## The skyblock farming loop (reference)
+1. Mine a little Prosperity + Inferium ore off the **Lush** island (or the richer deepslate off **Ancient**).
+2. Craft **Inferium Farmland** (dirt + Inferium Essence) and a **Prosperity Seed Base** → resource crafting seeds.
+3. Drop the farmland into a **Botany Pot**, plant the seed — grows **land-free**, no tilled soil needed.
+4. **Mechanical Botany** (or a Create deployer/harvester) auto-harvests; **Sophisticated** storage handles output.
+- **Botany Trees** covers renewable wood in pots; **Botany Pots Tiers** speeds it up.

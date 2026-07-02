@@ -4,21 +4,16 @@ A **cosy, handholdy** quest line that explains every mod and how to use it. Auth
 chapter per mod as it lands), not last — so no end-of-project overflow. Engine: **FTB Quests** (installed:
 `ftb-quests` / `ftb-library` / `ftb-teams` / `architectury`).
 
-> **Status (2026-07-01):** the six base chapters — Introduction · Skyseed · Create · Mystical Agriculture · Tools & Travel ·
-> Storage — have shipped, and the **BWG quest branch** (Into the Wilds / Mill the Blooms / Grow Something Grand, BWGPLAN
-> Step 5) is now ✅ **SHIPPED, authored under the Tools & Travel chapter** (it's an explore-the-wilds line, so it rides
-> Tools & Travel rather than the Skyseed spine). Quests B701–B703 in `chapters/tools.snbt` + text in `lang/en_us.snbt`;
-> **Into the Wilds** auto-completes via an **advancement task** on the hidden `skyseed:reveal_exotic_woods` advancement
-> (fires on any exotic plank — a smart-filter item task was tried first but FTB Quests treats the filter as a literal
-> item); Mill the Blooms + Grow Something Grand are checkmarks. Cross-gated on **B103** (grow a biome island) and
-> **B204** (Create Millstone). Only the in-game test-load remains.
+> **Status (2026-07-01):** everything authorable is authored — the six chapters (**Introduction · Skyseed ·
+> Create · Mystical Agriculture · Tools & Travel · Storage**, 54 quests) plus the **BWG branch** (B701–B703
+> under Tools & Travel) are shipped and committed under `overrides/config/ftbquests/quests/`. **Open:**
+> 1. **(#3)** the in-game quest-book **test-load of the BWG branch** — chapter renders, B701's advancement task
+>    (`skyseed:reveal_exotic_woods` / `has_exotic_wood`) resolves and auto-completes on an exotic plank, B703's
+>    Skyfarer's Cache reward rolls.
+> 2. The **future per-mod chapters** below (#41–#47) — each gated on its mod actually landing (CONTENTPLAN §2).
+> 3. **(#19, rolling)** the standing rule: every new integration is followed by its chapter.
 
-> **Plan audit (2026-07-01):** 5 items below marked ✅ done — the **Tools**, **Create Extras**, and **Other** chapters all
-> shipped (Extras folded into the Create chapter; Other + Tools merged into **"Tools & Travel"**), the Silent Gear
-> placement question is **resolved**, and the **Mystical Agriculture** chapter shipped. The BWG chapter and the future
-> per-mod chapters remain open — see [`../PLANOFPLANS.md`](../PLANOFPLANS.md).
-
-## Approach
+## Approach (the authoring conventions — applies to every future chapter)
 
 - **Tone — explain, don't gate.** Every quest carries a short plain-language description: what the mod/mechanic is, why
   you'd use it, the one key trick. The quests teach the *why*; lean on the mods' own in-game docs for the deep *how* —
@@ -27,107 +22,65 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 - **Task style.** Mostly "obtain item X" or "complete advancement Y." Skyseed already defines `reveal_*` / `craft_*` /
   `gathered_*` advancements — FTB Quests can hook them directly, so the Skyseed chapter rides the mod's own progression.
   Use OR-tasks + optional quests so the line guides without straitjacketing.
+  - **★ The smart-filter trap (standing warning for tag-based tasks):** an `ftbfiltersystem:smart_filter` item
+    task (e.g. `item_tag(...)`) does **NOT** work — in-game FTB Quests treats the filter as a *literal item to
+    obtain*, not a tag expansion. Use an **advancement task** on a hidden advancement instead (that's how B701
+    works, via `skyseed:reveal_exotic_woods`).
 - **Reward style.** Rewards bootstrap the *next* step (a few of the next ingredient, XP, a choice reward). Cosy = the
   player is never left wondering "what now?".
 - **Authoring + version control.** Build chapters in-game (FTB Quests **edit mode** — far faster than hand-writing),
   which saves SNBT to `config/ftbquests/quests/`; copy that into `overrides/config/ftbquests/` so it ships with the pack
   and is committed (configs are tracked — see CONTENTPLAN §6). Author one chapter, test it, commit; repeat.
 
-## Chapter map (your categories + Silent Gear)
+## Shipped chapters (for orientation)
 
-```
-[1 Introduction] ──▶ [2 Skyseed] ─┬─▶ [3 Tools (Silent Gear)]
-   (onboarding)        (the spine) ├─▶ [4 Create] ──▶ [5 Create Extras]
-                                   ├─▶ [6 Storage]
-                                   └─▶ [7 Other]
-```
+| Chapter (snbt) | Quests | Covers |
+|---|---|---|
+| Introduction (`introduction`) | 3 | the void-skyblock pitch; QoL tour (JEI/Jade/Xaero/Vein Mining, the guide) |
+| Skyseed (`skyseed`) | 16 | the spine — seed→island→relics→Nether→End; gates the rest |
+| Tools & Travel (`tools`) | 7 | Silent Gear · Waystones/Xaero travel · the **BWG branch** (B701–B703) |
+| Create (`create`) | 16 | the tech chain incl. the Extras (rails, enchantment industry, deco, …) |
+| Storage (`storage`) | 3 | Sophisticated Backpacks + Storage (**not** AE2) |
+| Mystical Agriculture (`mysticalagriculture`) | 9 | the MA loop (B601–B609) |
 
-| # | Chapter | Installed mods it covers | Role |
-|---|---|---|---|
-| 1 | **Introduction** | the void-skyblock idea; JEI, Jade, Xaero map, AppleSkin, Vein Mining, the Skyseed guide | onboard + QoL tour |
-| 2 | **Skyseed** | `skyseed` (seed→island progression, relics/edges, overworld→nether→end) | the spine; gates the rest |
-| 3 | ✅ **Tools & Travel** *(shipped; also hosts the ✅ shipped BWG branch)* | Silent Gear (+ Jade tiers, JEI plugin); Waystones / Xaero travel; **BWG branch — ✅ shipped** | early tools/armor · travel · exotic wilds |
-| 4 | **Create** | `create`, Crafts & Additions (`createaddition`), Flux Networks | the main tech chain |
-| 5 | ✅ **Create Extras** *(shipped — folded into the Create chapter)* | Steam'n'Rails, Enchantment Industry, Goggles, Jetpack, deco (Deco/Connected/Rechiseled/Bells&Whistles/Interiors/Design'n'Decor) | optional/advanced |
-| 6 | **Storage** | Sophisticated Backpacks + Storage (+ their Create integrations) | storage QoL (**not** AE2) |
-| 7 | ✅ **Other** *(shipped — merged into "Tools & Travel")* | Waystones (+ Xaero waystones compat); odds & ends | utility |
+**BWG branch record (BWGPLAN Step 5):** *Into the Wilds* (B701 — advancement task on the hidden
+`skyseed:reveal_exotic_woods`, covering all 24 growable exotic planks via `#skyseed:exotic_woods`; dep B103),
+*Mill the Blooms* (B702 — checkmark; deps B701 + B204 Millstone), *Grow Something Grand* (B703 — checkmark; dep
+B701; reward: Skyfarer's Cache).
 
-> **Silent Gear** wasn't in your list. It's a meaty tools/armor mod (your Tinkers replacement), so I'd give it a small
-> **Tools** chapter rather than bury it in "Other." Alternative: fold its first quest into the Introduction's early game.
-> ✅ **Decided (shipped):** it got its own dedicated Tools section — the "Tools" half of the "Tools & Travel" chapter.
+## Cross-chapter flow & gating (design rules for every future chapter)
 
-## Per-chapter quest breakdown
-
-### 1. Introduction — onboarding + QoL tour
-- **Welcome to the Void** — the pitch (you grow your own world from seeds). Task: checkmark. Reward: starter kit + the guide book.
-- **Your Almanac** — open the Skyseed guide (Modonomicon). Task: *have* the guide. Reward: XP.
-- **Look It Up** — JEI: `R` = recipe, `U` = uses. Task: checkmark.
-- **What's That?** — Jade: hover a block/mob for its info. Task: checkmark.
-- **Find Your Way** — Xaero minimap + a waypoint. Task: checkmark.
-- **Mine Smart** — Vein Mining: fell a whole vein at once. Task: mine an ore (or checkmark). Reward: food (AppleSkin tie-in).
-- → unlocks the **Skyseed** chapter.
-
-### 2. Skyseed — the spine (mirrors the guide's progression; hooks the mod's advancements)
-- **Your First Seed** → **Grow Your World** (throw it, watch it germinate) → **A Greener Start** (biome seeds: forest/desert/…).
-- **Reap the Relics** (gather relics/edges off grown islands) → **Bigger Worlds** (large seeds) → **Huge Horizons** (huge tier).
-- **Through the Portal** (portal-frame shards / ruined-portal seed) → **Nether Bound** (nether islands → blaze, fortress, bastion).
-- **Eye of the End** (end-portal seed → reach the End) → **The Dragon's Trophy** (capstone).
-- *Tasks key off Skyseed's existing `reveal_*` / `craft_*` / `gathered_*` advancements; structure follows the guide-book chapters so the two stay in lockstep.*
-
-### 3. Tools & Travel — Silent Gear (+ the BWG branch) ✅ *(chapter shipped; BWG branch pending)*
-- **Forge a Tool** (rod + head → your first Silent Gear tool) → **Make It Yours** (material traits, blueprints) →
-  **Keep It Sharp** (repair kits, tips/grips) → **Tiered Up** (better materials — e.g. nether Crimson Iron later).
-
-**BWG branch — ✅ SHIPPED (BWGPLAN Step 5), authored under this Tools & Travel chapter:** a small "explore the wilds, grow
-exotic woods" line — thematically travel/exploration, so it lives here rather than on the Skyseed spine. Kept light
-(3 quests, not a megachapter); its integration (BWG woods + create-otbwg milling + OTYG growth) already ships:
-- **Into the Wilds** (B701) — obtain any BWG plank (proof you grew an exotic-wood island). **Advancement task** on the
-  hidden `skyseed:reveal_exotic_woods` (criterion `has_exotic_wood`, on `#skyseed:exotic_woods` — all 24 growable exotic planks); dep **B103**.
-- **Mill the Blooms** (B702) — mill a BWG bloom into dye/petals (ties BWG flowers → Create). Checkmark; deps **B701 + B204** (Millstone).
-- **Grow Something Grand** (B703) — grow a tree from a sapling (OTYG). Checkmark; dep **B701**. Reward: Skyfarer's Cache.
-
-### 4. Create — the main tech chain (point each quest to its Ponder)
-- **First Rotation** (Andesite Alloy + a water wheel/windmill) → **Cased In** (Andesite Casing).
-- **Press It** (Mechanical Press → plates) → **Double Your Ore** (Millstone/Crushing Wheels — *ore doubling*, the skyblock win).
-- **Brass & Beyond** (Mixer → Brass). ⭐ **Gated on Skyseed:** brass needs **zinc → grow a Rocky island** (the theme-override
-  zinc we just shipped). This quest *depends on* the Skyseed chapter's "grow a rocky island."
-- **Automate It** (Deployer, Mechanical Arm, Mechanical Crafter) → **Power Up** (Crafts & Additions: Electric Motor /
-  Alternator — rotation ↔ FE) → **Wireless Watts** (Flux Networks: one FE grid across your islands, no cables over the void).
-
-### 5. Create Extras — optional/advanced ✅ *(shipped — folded into the Create chapter)*
-- **All Aboard** (Steam'n'Rails: track + station + a train to link islands) · **Enchanted Industry** (automate XP/enchanting) ·
-  **Goggles On** (Create Goggles) · **Take Flight** (Create Jetpack) · **Dress It Up** (the decoration addons).
-
-### 6. Storage — Sophisticated (not AE2)
-- **Pack It Up** (Sophisticated Backpacks + upgrades: pickup, magnet, stack) → **Barrels & Boxes** (Sophisticated Storage:
-  barrels/chests, upgrade slots, the controller) → **Hooked to Create** (the Storage↔Create integration).
-
-### 7. Other — utility ✅ *(shipped — merged into "Tools & Travel")*
-- **Set Your Home** (Waystones: place + attune + teleport between islands — big QoL for a multi-island world) ·
-  **On the Map** (Xaero waystones compat) · *odds & ends as they arrive.*
-
-## Cross-chapter flow & gating
-- **Skyseed is the spine.** Tech needs materials, materials come from grown islands — so chapters 3–7 unlock off Skyseed
-  milestones, not at world start.
-- **The one hard tie-in so far:** Create's **brass** ⇐ **zinc** ⇐ **grow a Rocky island**. The Create "Brass & Beyond" quest
-  takes the Skyseed "grow a rocky island" quest as a dependency. (This is exactly why we did the zinc theme-override first.)
+- **Skyseed is the spine.** Tech needs materials, materials come from grown islands — so mod chapters unlock off
+  Skyseed milestones, not at world start.
+- **The one hard tie-in so far:** Create's **brass** ⇐ **zinc** ⇐ **grow a Rocky island** — the Create "Brass &
+  Beyond" quest depends on the Skyseed "grow a rocky island" quest.
 - Keep dependencies *soft* elsewhere (chapters openable in parallel) so the pack stays cosy, not on-rails.
 
-## Scope & future chapters
-- **Covered now:** Skyseed, Create (+ extras), Sophisticated storage, Silent Gear, Waystones, the QoL/nav mods.
-- **Future chapters (mods to integrate later, each gets its own):** **Applied Energistics 2** (its own chapter, as you
-  noted), **Mekanism**, **Immersive Engineering**, ✅ ~~**Mystical Agriculture**~~ *(shipped)*, **Productive Bees**, **Farmer's Delight**,
-  **Iron's Spells**, **Quark**, and **BYG** content. Each lands with its island/resource integration (+ a theme-override
-  patch where it needs ores), then its quest chapter — same weave as Create.
+## Future chapters (each gated on its mod landing — CONTENTPLAN §2)
 
-## Mod coverage (current jars)
-- **Quested:** skyseed · create + createaddition + create_better_motors · FluxNetworks · railways · create-enchantment-industry ·
-  creategoggles · create_jetpack · (deco) createdeco/create_connected/rechiseledcreate/bellsandwhistles/interiors/Design-n-Decor ·
-  create content (aquatic_ambitions/things_and_misc/DragonsPlus/Encased — fold into Extras) · silent-gear · sophisticated(backpacks/storage/core + integrations) ·
-  waystones (+ xaero compat) · veinmining · Xaero mini/world map · JEI · Jade · AppleSkin.
-- **Invisible (no quests — libs / perf / aesthetic):** embeddium, iris, monocle, EuphoriaPatcher, modernfix, ferritecore,
-  entityculling, fpsreducer, ambientsounds, fallingleaves, fastleafdecay, sound-physics, fusion, EMF/ETF, balm, kotlinforforge,
-  geckolib, corgilib, better_lib, framework, configured, catalogue, searchables, creativecore, supermartijn642 ×2,
-  TerraBlender, Clumps, Controlling, MouseTweaks, AdvancedLootInfo, JustEnoughResources, silentgear jade/jei plugins.
-- **Not installed (so no chapter yet):** Applied Energistics 2, Mekanism, Immersive Engineering, ~~Mystical Agriculture~~ *(✅ now installed + chaptered)*,
-  Productive Bees, Farmer's Delight, Iron's Spells, Quark.
+| # | Chapter | Gate | Note |
+|---|---|---|---|
+| #45 | **Immersive Engineering** | IE integration (#34) | **promoted** — IE is now the tech backbone; same weave as Create (island/resource integration first, then the chapter) |
+| #41 | **Applied Energistics 2** | AE2 integration (#18) | its own chapter (storage/automation endgame) |
+| #42 | **Farmer's Delight** | FD integration (#16) | cosy, on-theme |
+| #44 | **Productive Bees** | PB integration (#32) | overlaps shipped MA — low marginal value |
+| #46 | **Iron's Spells** | Iron's integration (#36/#37) | loot/mob-gated, heaviest |
+| #43 | **Quark** | Quark add (#15) | minimal coverage may suffice |
+| #47 | **"BYG content"** | — | ⚠ **scope unclear**: the installed biome mod is **BWG** and its branch (B701–B703) already shipped. Either this meant the separate predecessor mod BYG (not installed, not planned) or *deeper* BWG coverage beyond the 3-quest branch — decide before it's actionable. |
+
+*(Mekanism's future chapter — old #40 — is **dropped**: Mekanism was cut from the pack on 2026-07-01, CONTENTPLAN §7.)*
+
+## Mod coverage (triage refreshed 2026-07-01)
+
+- **Quested:** skyseed · create + createaddition + create_better_motors · FluxNetworks · railways ·
+  create-enchantment-industry · creategoggles · create_jetpack · the Create deco set · silent-gear ·
+  sophisticated (backpacks/storage/core + integrations) · waystones (+ xaero compat) · veinmining · Xaero
+  mini/world map · JEI · Jade · AppleSkin · **MysticalAgriculture + Botany Pots family** (MA chapter) ·
+  **BWG + OTYG + create-otbwg-compat** (the BWG branch).
+- **Invisible (no quests — libs / perf / aesthetic / backends):** embeddium, iris, monocle, EuphoriaPatcher,
+  modernfix, ferritecore, entityculling, fpsreducer, ambientsounds, fallingleaves, fastleafdecay, sound-physics,
+  fusion, EMF/ETF, balm, kotlinforforge, geckolib, corgilib, better_lib, framework, configured, catalogue,
+  searchables, creativecore, supermartijn642 ×2, TerraBlender, Clumps, Controlling, MouseTweaks,
+  AdvancedLootInfo, JustEnoughResources, silentgear jade/jei plugins, Cucumber, Patchouli, ftb-filter-system.
+- **Not installed (so no chapter yet):** Applied Energistics 2, Immersive Engineering, Productive Bees,
+  Farmer's Delight, Iron's Spells, Quark. *(Mekanism: dropped.)*
