@@ -58,7 +58,7 @@ Skyseed island themes assemble a referenced jigsaw `pool` (the `rare_structures`
 
 ## Sequencing
 
-1. ✅ Prerequisite (BWGPLAN Step 1, wood biome adaptation) — shipped.
+1. ✅ Prerequisite (BWGPLAN's wood biome adaptation) — shipped.
 2. ✅ **Villages** — shipped via [BWGVILLAGEPLAN.md](BWGVILLAGEPLAN.md) (Phase-5 in-game sign-off tracked there).
 3. **Manor + bog trial (#26/#27)** — decide the vehicle (route 1 vs 3 above), adapt/author, gametest each
    (the bounding-box risk), ship per-step.

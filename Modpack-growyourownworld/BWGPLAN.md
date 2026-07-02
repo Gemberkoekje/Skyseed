@@ -76,7 +76,7 @@ onto Modonomicon too). All tag ids verified against the BWG 2.6.0 jar (v0.171.0,
 **Remaining in-game sign-off (#10):** confirm the guide entry is **hidden** with BWG absent and **appears**
 once BWG is installed and a BWG plank is obtained — check both the Patchouli book and the Modonomicon
 Almanac. While there, fix the entry's stale flavour text: it still says "Eleven wood families answer the
-Forest seed today" — the Forest family now grows 19 woods (24 planks total across families).
+Forest seed today" — the Forest family now grows 20 woods (24 planks total across families).
 
 ## Step 5 — Quests — ✅ SHIPPED; sign-off open
 

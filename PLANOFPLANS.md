@@ -102,7 +102,7 @@ they're worth doing before the next content lands on top.
 **Shipped-feature sign-offs (do soon; all need BWG installed):**
 
 - [ ] **(#3)** The **BWG quest branch** (Tools & Travel) loads in the quest book; B701's advancement task auto-completes on obtaining an exotic plank; B703's Skyfarer's Cache reward rolls.
-- [ ] **(#10)** The **"Exotic Woods" guide entry** is hidden with BWG absent, and appears (Patchouli book AND Modonomicon Almanac) once BWG is installed and a BWG plank is obtained. *(While there: its flavour text still says "Eleven wood families" — now 19; fix during the check.)*
+- [ ] **(#10)** The **"Exotic Woods" guide entry** is hidden with BWG absent, and appears (Patchouli book AND Modonomicon Almanac) once BWG is installed and a BWG plank is obtained. *(While there: its flavour text still says "Eleven wood families" — now 20; fix during the check.)*
 - [ ] **(#14 Phase 5a)** **Village-biome reachability:** confirm `pumpkin_valley`, `red_rock_valley`, `weeping_witch_forest`, `cypress_wetlands` actually occur in the void overworld (F3/Debug tab). If one never places, re-key that style's bands (cf. #66 precedent).
 - [ ] **(#14 Phase 5b)** **Throw-a-seed per village style** (all 6): real BWG blocks render, roofs/fences/doors correct (this finally proves the BWG property-serialisation assumption); judge whether the **swamp** style needs its deferred water channels/stilts.
 - [ ] **(#66)** **Spirit re-test:** stand on a **confirmed** `biomeswevegone:pale_bog` (F3 first!) and throw a Forest seed — spirit trees must grow (a matched band can only emit `spirit_trees`). Also confirm `pale_bog` is reachable at all; if not, spirit needs re-keying.
