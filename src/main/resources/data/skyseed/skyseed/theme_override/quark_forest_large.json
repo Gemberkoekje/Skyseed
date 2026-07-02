@@ -1,0 +1,26 @@
+{
+  "_comment": "First-party Quark compat (QUARKISLANDPLAN #71, Phase 2) — the blossom accent variants on the LARGE Forest tier's matching biome bands (blue=snowy, lavender=swamp, orange=savanna, yellow=plains, red=badlands). Same selectors as the base forest_large bands so they merge (append a variant). Extras only, no seed. Inert without Quark.",
+  "target": "skyseed:forest_large",
+  "biome_overrides": [
+    { "biomes": ["minecraft:snowy_plains", "minecraft:snowy_taiga", "minecraft:ice_spikes", "minecraft:snowy_slopes", "minecraft:frozen_peaks", "minecraft:jagged_peaks", "minecraft:snowy_beach"],
+      "variants": [ { "weight": 1, "name": "blue_blossom", "decoration": {
+        "trees": [ { "feature": "minecraft:spruce", "tries": 2, "spacing": 2 }, { "feature": "quark:blue_blossom", "tries": 3, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.12 }, { "block": "quark:blue_blossom_sapling", "chance": 0.05 } ] } } ] },
+    { "biomes": ["minecraft:swamp"],
+      "variants": [ { "weight": 1, "name": "lavender_blossom", "decoration": {
+        "trees": [ { "feature": "minecraft:swamp_oak", "tries": 3, "spacing": 2 }, { "feature": "quark:lavender_blossom", "tries": 3, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:fern", "chance": 0.15 }, { "block": "minecraft:short_grass", "chance": 0.15 }, { "block": "quark:lavender_blossom_sapling", "chance": 0.05 } ] } } ] },
+    { "biomes": ["minecraft:plains", "minecraft:sunflower_plains", "minecraft:meadow"],
+      "variants": [ { "weight": 1, "name": "yellow_blossom", "decoration": {
+        "trees": [ { "feature": "minecraft:oak", "tries": 2, "spacing": 3 }, { "feature": "quark:yellow_blossom", "tries": 3, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "quark:yellow_blossom_sapling", "chance": 0.05 } ] } } ] },
+    { "biomes": ["#minecraft:is_savanna"],
+      "variants": [ { "weight": 1, "name": "orange_blossom", "decoration": {
+        "trees": [ { "feature": "minecraft:acacia", "tries": 2, "spacing": 3 }, { "feature": "quark:orange_blossom", "tries": 3, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.15 }, { "block": "quark:orange_blossom_sapling", "chance": 0.05 } ] } } ] },
+    { "biomes": ["minecraft:desert", "#minecraft:is_badlands"],
+      "variants": [ { "weight": 1, "name": "red_blossom", "decoration": {
+        "trees": [ { "feature": "minecraft:oak", "tries": 2, "spacing": 3 }, { "feature": "quark:red_blossom", "tries": 3, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.10 }, { "block": "quark:red_blossom_sapling", "chance": 0.04 } ] } } ] }
+  ]
+}

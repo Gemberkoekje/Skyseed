@@ -271,6 +271,10 @@ public final class SkyseedTests {
         reg(event, "mystical_agriculture_compat_targets_ancient", REGION, SkyseedTests::mysticalAgricultureCompatTargetsAncient);
         reg(event, "mystical_agriculture_compat_targets_lush", REGION, SkyseedTests::mysticalAgricultureCompatTargetsLush);
         reg(event, "mystical_agriculture_compat_targets_nether_soul", REGION, SkyseedTests::mysticalAgricultureCompatTargetsNetherSoul);
+        reg(event, "quark_stones_compat_targets_rocky", REGION, SkyseedTests::quarkStonesCompatTargetsRocky);
+        reg(event, "quark_stones_compat_targets_ancient", REGION, SkyseedTests::quarkStonesCompatTargetsAncient);
+        reg(event, "quark_blossom_bands_merge_onto_forest_tiers", REGION, SkyseedTests::quarkBlossomBandsMergeOntoForestTiers);
+        reg(event, "quark_myalite_reaches_end_form", REGION, SkyseedTests::quarkMyaliteReachesEndForm);
         reg(event, "biomeswevegone_compat_prepends_forest_bands", REGION, SkyseedTests::biomeswevegoneCompatPrependsForestBands);
         reg(event, "biomeswevegone_compat_prepends_aquatic_bands", REGION, SkyseedTests::biomeswevegoneCompatPrependsAquaticBands);
         reg(event, "biomeswevegone_compat_places_meadow_flowers", REGION, SkyseedTests::biomeswevegoneCompatPlacesMeadowFlowers);
@@ -3184,6 +3188,79 @@ public final class SkyseedTests {
         helper.assertTrue(resolved != null, "nether_soul must resolve");
         helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("mysticalagriculture:soulium_ore")),
                 "nether_soul's resolved ores should include mysticalagriculture:soulium_ore");
+        helper.succeed();
+    }
+
+    /** First-party Quark compat (QUARKISLANDPLAN #71, Phase 1): rocky's resolved ores gain Quark stone types + a corundum geode (inert without Quark). */
+    static void quarkStonesCompatTargetsRocky(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme baseRocky = theme(level, "rocky");
+        final IslandTheme resolved = Themes.resolve(level.registryAccess(), Id.of("skyseed:rocky"));
+        helper.assertTrue(resolved != null, "rocky must resolve");
+        helper.assertTrue(resolved.ores().size() > baseRocky.ores().size(),
+                "the shipped quark_rocky theme_override should add ores to rocky");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("quark:limestone")),
+                "rocky's resolved ores should include quark:limestone");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("quark:blue_corundum")),
+                "rocky's resolved ores should include the quark:blue_corundum geode");
+        helper.succeed();
+    }
+
+    /** First-party Quark compat (QUARKISLANDPLAN #71, Phase 1): ancient's resolved ores gain jasper/shale + a corundum geode (inert without Quark). */
+    static void quarkStonesCompatTargetsAncient(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme baseAncient = theme(level, "ancient");
+        final IslandTheme resolved = Themes.resolve(level.registryAccess(), Id.of("skyseed:ancient"));
+        helper.assertTrue(resolved != null, "ancient must resolve");
+        helper.assertTrue(resolved.ores().size() > baseAncient.ores().size(),
+                "the shipped quark_ancient theme_override should add ores to ancient");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("quark:shale")),
+                "ancient's resolved ores should include quark:shale");
+        helper.assertTrue(resolved.ores().stream().anyMatch(o -> o.block().value().equals("quark:blue_corundum")),
+                "ancient's resolved ores should include the quark:blue_corundum geode");
+        helper.succeed();
+    }
+
+    /** First-party Quark compat (QUARKISLANDPLAN #71, Phase 2): the blossom bands MERGE into the matching biome band of
+     *  every forest tier (append a variant) rather than prepending a shadow band — all 5 blossom biomes × 3 tiers. */
+    static void quarkBlossomBandsMergeOntoForestTiers(GameTestHelper helper) {
+        final java.util.List<java.util.List<String>> selectors = java.util.List.of(
+                java.util.List.of("minecraft:snowy_plains", "minecraft:snowy_taiga", "minecraft:ice_spikes",
+                        "minecraft:snowy_slopes", "minecraft:frozen_peaks", "minecraft:jagged_peaks", "minecraft:snowy_beach"),
+                java.util.List.of("minecraft:swamp"),
+                java.util.List.of("minecraft:plains", "minecraft:sunflower_plains", "minecraft:meadow"),
+                java.util.List.of("#minecraft:is_savanna"),
+                java.util.List.of("minecraft:desert", "#minecraft:is_badlands"));
+        for (final String tier : java.util.List.of("forest", "forest_large", "huge_forest")) {
+            final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:" + tier));
+            helper.assertTrue(resolved != null, tier + " must resolve");
+            for (final java.util.List<String> sel : selectors) {
+                final var band = resolved.biomeOverrides().stream().filter(b -> b.biomes().equals(sel)).findFirst();
+                helper.assertTrue(band.isPresent() && band.get().variants().isPresent()
+                                && band.get().variants().get().size() >= 2,
+                        tier + ": band " + sel + " should have merged in the appended blossom variant (not prepended a shadow)");
+            }
+        }
+        helper.succeed();
+    }
+
+    /** First-party Quark compat (QUARKISLANDPLAN #71, Phase 1): myalite reaches the End form of the rocky & ancient
+     *  islands — the {@code dimension: the_end} patch selector-merges into the base End band. */
+    static void quarkMyaliteReachesEndForm(GameTestHelper helper) {
+        for (final String tier : java.util.List.of("rocky", "ancient")) {
+            final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:" + tier));
+            helper.assertTrue(resolved != null, tier + " must resolve");
+            final long endBands = resolved.biomeOverrides().stream()
+                    .filter(b -> b.dimension().equals(java.util.Optional.of("minecraft:the_end")) && b.biomes().isEmpty())
+                    .count();
+            helper.assertTrue(endBands == 1, tier + ": the_end band must be merged (one band), not duplicated");
+            final var endBand = resolved.biomeOverrides().stream()
+                    .filter(b -> b.dimension().equals(java.util.Optional.of("minecraft:the_end")) && b.biomes().isEmpty())
+                    .findFirst();
+            helper.assertTrue(endBand.isPresent() && endBand.get().ores().isPresent() && endBand.get().ores().get().stream()
+                            .anyMatch(o -> o.block().value().equals("quark:myalite")),
+                    tier + ": the End band should include quark:myalite after the selector band-merge");
+        }
         helper.succeed();
     }
 

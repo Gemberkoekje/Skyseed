@@ -1,0 +1,16 @@
+{
+  "_comment": "First-party Quark compat (QUARKISLANDPLAN #71, Phase 1) — Quark stone types (limestone + jasper) through the rocky mining island, plus a rare deep blue-corundum geode; and myalite (Quark's End-flavoured stone) on the End form. Extras only, no dedicated seed. Inert without Quark (unknown ores are skipped before any RNG, so generation is byte-identical).",
+  "target": "skyseed:rocky",
+  "ores": [
+    { "block": "quark:limestone", "chance": 0.55, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "quark:jasper", "chance": 0.35, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
+    { "block": "quark:blue_corundum", "chance": 0.22, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
+  ],
+  "biome_overrides": [
+    { "_comment": "End form: myalite veins the end-stone island. Off the overworld home dim the base ores don't apply (useBase=false), so the End band must set its own ores; empty-biomes + dimension the_end selector-merges into rocky's base End band (which supplies the shape).",
+      "dimension": "minecraft:the_end",
+      "ores": [
+        { "block": "quark:myalite", "chance": 0.60, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" }
+      ] }
+  ]
+}

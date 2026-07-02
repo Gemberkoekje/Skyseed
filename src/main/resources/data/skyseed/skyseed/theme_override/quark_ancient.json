@@ -1,0 +1,16 @@
+{
+  "_comment": "First-party Quark compat (QUARKISLANDPLAN #71, Phase 1) — jasper + shale read well on the deepslate-bodied ancient mining island, plus a rare deep blue-corundum geode; and myalite on the End form. Extras only, no dedicated seed. Inert without Quark (unknown ores are skipped before any RNG).",
+  "target": "skyseed:ancient",
+  "ores": [
+    { "block": "quark:jasper", "chance": 0.45, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
+    { "block": "quark:shale", "chance": 0.45, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
+    { "block": "quark:blue_corundum", "chance": 0.22, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
+  ],
+  "biome_overrides": [
+    { "_comment": "End form: myalite veins the end-stone island (see quark_rocky.json). Empty-biomes + dimension the_end selector-merges into ancient's base End band.",
+      "dimension": "minecraft:the_end",
+      "ores": [
+        { "block": "quark:myalite", "chance": 0.60, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" }
+      ] }
+  ]
+}
