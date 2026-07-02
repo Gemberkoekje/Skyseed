@@ -65,7 +65,7 @@ B701; reward: Skyfarer's Cache).
 | #42 | **Farmer's Delight** | FD integration (#16) | cosy, on-theme |
 | #44 | **Productive Bees** | PB integration (#32) | overlaps shipped MA — low marginal value |
 | #46 | **Iron's Spells** | Iron's integration (#36/#37) | loot/mob-gated, heaviest |
-| #43 | **Quark** | Quark add (#15) | minimal coverage may suffice |
+| #43 | **Quark** | Quark add (#15) | minimal coverage may suffice — 3-quest sketch in [QUARKPLAN.md](QUARKPLAN.md) |
 | #47 | **"BYG content"** | — | ⚠ **scope unclear**: the installed biome mod is **BWG** and its branch (B701–B703) already shipped. Either this meant the separate predecessor mod BYG (not installed, not planned) or *deeper* BWG coverage beyond the 3-quest branch — decide before it's actionable. |
 
 *(Mekanism's future chapter — old #40 — is **dropped**: Mekanism was cut from the pack on 2026-07-01, CONTENTPLAN §7.)*

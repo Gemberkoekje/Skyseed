@@ -26,6 +26,10 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
   in several families with different emphasis. File convention in [BWGPLAN § Q2](Modpack-growyourownworld/BWGPLAN.md).
 - **Tech backbone: Immersive Engineering; Mekanism DROPPED** (aesthetic call). Cascades: #34 promoted, the
   Excavator fix #35 required, Mekanism integration + quest chapter dead. [CONTENTPLAN §7](Modpack-growyourownworld/CONTENTPLAN.md).
+- **Quark: GO for NeoForge 1.21.1 (verified 2026-07-02)** — Quark 4.1-481 + Zeta 1.1-40 confirmed available
+  (official Violet Moon release, actively patched; availability was the open question). Plan: **4 jars** (Quark,
+  Zeta, Quark Oddities marker, QuarkPonders) + void-skyblock module curation. #15 stays open (the jars + curation
+  are the work); #43's minimal quest sketch included. Own plan: [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md).
 - **Structure scope: FULL** — all 6 villages (✅ since shipped) + aspen manor + bog trial; prairie/fossil stay
   optional. [STRUCTUREPLAN § Scope decision](Modpack-growyourownworld/STRUCTUREPLAN.md).
 - **Village vehicle: our OWN jigsaw set in BWG palettes** (hermetic string-id `.nbt` engine — no BWG on any
@@ -44,7 +48,8 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 |---|---|---|
 | [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | BWG woods/flowers integration | #64 #65 #66 #22 #23 + sign-offs #3 #10 |
 | [BWGVILLAGEPLAN.md](Modpack-growyourownworld/BWGVILLAGEPLAN.md) | BWG villages (shipped) | #14 Phase 5 (in-game sign-off) only |
-| [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration | #34 #35 #18 #15 #16 #31 #32 #36 #37 #38 #39 #52 + rolling #19 #20 |
+| [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration | #34 #35 #18 #16 #31 #32 #36 #37 #38 #39 #52 + rolling #19 #20 |
+| [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) | Quark integration (child of CONTENTPLAN) | #15 (+ #43 quest sketch) |
 | [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | BWG structures long tail | #26 #27 #28 #29 #30 #49 #60 #68 |
 | [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | #3 + future chapters #41–#47 |
 | [MYSTICALPLAN.md](Modpack-growyourownworld/MYSTICALPLAN.md) | Mystical Agriculture (shipped) | #50 #51 #69 |
@@ -68,7 +73,9 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 
 ### Tier 2 — the content-mod wave *(in ROI order; each is followed by its quest chapter #19 and gated tier #20)*
 
-- **#15** Quark + Zeta — cheap building/QoL breadth. *(CONTENTPLAN · small)*
+- **#15** Quark + Zeta — cheap building/QoL breadth. **Availability verified 2026-07-02** (Quark 4.1-481 +
+  Zeta 1.1-40, NeoForge 1.21.1); jar list, module curation, smoke pass, and follow-ons (Quark Engineering ← #34,
+  Farmer's Cutting: Quark ← #16) in [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md). *(QUARKPLAN · small)*
 - **#16** Farmer's Delight — wild crops on biome islands. *(CONTENTPLAN · medium)*
 - **#34** Immersive Engineering — the tech backbone (bauxite/aluminum island + FE), **gated on #35** the Excavator fix (island-aware ore mix preferred, else disable + hide in JEI). *(CONTENTPLAN · large + medium)*
 - **#18** Applied Energistics 2 — certus/sky-stone bootstrap. *(CONTENTPLAN · medium)*
@@ -133,7 +140,7 @@ they're worth doing before the next content lands on top.
 | 69 | Refresh quest B602 "Prosperity Found" text/gating for the Lush stone-ore source (v0.172.0) | MYSTICALPLAN | medium | small | open |
 | 22 | Density follow-up: lift held wet/semi forest biomes to the agreed level (`tries` edits ×3 tiers) | BWGPLAN | low | small | open |
 | 23 | BWG config coherence pass + `mods.txt` regen (bundled skyseed jar stale at 0.174.0) | BWGPLAN | low | small | partial |
-| 15 | Curate Quark modules + add Zeta | CONTENTPLAN | medium | small | open |
+| 15 | Curate Quark modules + add Zeta (4 jars + curation; versions verified 2026-07-02) | QUARKPLAN | medium | small | open (planned) |
 | 16 | Farmer's Delight — wild crops on biome islands | CONTENTPLAN | medium | medium | open |
 | 34 | Immersive Engineering — bauxite/aluminum island + FE (the tech backbone) | CONTENTPLAN | medium | large | open (gated on 35) |
 | 35 | IE Excavator fix — island-aware ore mix (preferred) else disable + hide in JEI | CONTENTPLAN | medium | medium | open |
@@ -157,7 +164,7 @@ they're worth doing before the next content lands on top.
 | 39 | Prove FE flows Create → IE/AE2 across islands | CONTENTPLAN | low | small | blocked (needs a consumer) |
 | 41 | Future chapter: AE2 (quest) | QUESTPLAN | low | unknown | gated on 18 |
 | 42 | Future chapter: Farmer's Delight (quest) | QUESTPLAN | low | unknown | gated on 16 |
-| 43 | Future chapter: Quark (quest) | QUESTPLAN | low | unknown | gated on 15 |
+| 43 | Future chapter: Quark (quest — minimal 3-quest sketch in QUARKPLAN) | QUESTPLAN | low | unknown | gated on 15 |
 | 44 | Future chapter: Productive Bees (quest) | QUESTPLAN | low | unknown | gated on 32 |
 | 45 | Future chapter: Immersive Engineering (quest — promoted with the backbone decision) | QUESTPLAN | medium | unknown | gated on 34 |
 | 46 | Future chapter: Iron's Spells (quest) | QUESTPLAN | low | unknown | gated on 36 |
