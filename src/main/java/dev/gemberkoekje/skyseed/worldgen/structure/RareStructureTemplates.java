@@ -231,10 +231,11 @@ public final class RareStructureTemplates {
         window(m, new BlockPos(max, 0, 2), new BlockPos(max, 0, mid), new BlockPos(max, 0, 4), glass, white);
         // Front wall: a dark-oak door framed by wood, with the illagers' red windows out at the edges (next to
         // the cobblestone pillars) rather than crowding the door.
+        // FACING=SOUTH sits the closed door flush with the −Z (front) face; FACING=NORTH recessed it inward (#72).
         m.put(new BlockPos(mid, 1, 0), Blocks.DARK_OAK_DOOR.defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.NORTH));
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER).setValue(DoorBlock.FACING, Direction.SOUTH));
         m.put(new BlockPos(mid, 2, 0), Blocks.DARK_OAK_DOOR.defaultBlockState()
-                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.NORTH));
+                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER).setValue(DoorBlock.FACING, Direction.SOUTH));
         for (final int wx : new int[]{1, 5}) {
             m.put(new BlockPos(wx, 2, 0), red);
             m.put(new BlockPos(wx, 3, 0), glass);

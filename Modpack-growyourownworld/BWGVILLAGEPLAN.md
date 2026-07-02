@@ -8,9 +8,11 @@
 > **Status: PHASES 0–4 SHIPPED (v0.176.0–v0.179.0) + follow-up fixes (v0.180.0–v0.181.0); PHASE 5 LARGELY SIGNED
 > OFF in-game 2026-07-02.** All six styles across all three tiers (Hamlet / Trade Post / Village Center), a variety
 > pass, the shrine-hall door fix, and the four missing profession shops (all 13 professions obtainable). Both nodes
-> green. The Phase-5 in-game sign-off passed (reachability + assembly), leaving **two follow-ups: #72 (doors face
-> inward — flip 180°) and #73 (cypress swampland → stilted overwater bayou, its own
-> [BWGSWAMPVILLAGEPLAN.md](BWGSWAMPVILLAGEPLAN.md))** — see [Phasing](#phasing).
+> green. The Phase-5 in-game sign-off passed (reachability + assembly). **#72 (doors face inward) SHIPPED v0.187.0**
+> — front-door `FACING` flipped `NORTH → SOUTH` so the closed panel sits flush with the outside wall; 163 door-bearing
+> `.nbt` regenerated, both nodes green (in-world look-see still to sign off). The one remaining follow-up is **#73
+> (cypress swampland → stilted overwater bayou, its own [BWGSWAMPVILLAGEPLAN.md](BWGSWAMPVILLAGEPLAN.md))** — see
+> [Phasing](#phasing).
 
 ## Goal
 
@@ -115,15 +117,17 @@ Phases 0–4 shipped (each with `mod_version` bump + per-node CHANGELOG entry + 
      `pumpkin_valley`, `weeping_witch_forest` (low risk; re-key to a reachable sibling if either never places, cf.
      the BWGPLAN #66 `pale_bog` precedent).
   2. **Throw-a-seed assembly sign-off** — ✅ villages assemble with the right BWG blocks (the property-serialisation
-     risk is retired). Two findings spun into their own items: **(a) doors face inward** — the front door sits on the
-     interior edge of its cell; flip its FACING 180° (NORTH→SOUTH for the z=0 front wall) so it's flush with the
-     outside wall (**#72**). The same `FACING=NORTH` front-door pattern is shared by `TradePostTemplates`/
-     `VillageCenterTemplates`/`HamletTemplates`/`RareStructureTemplates` — verify + fix those in the same pass, then
-     regen the affected `.nbt`; **(b) the swamp read** — resolved in step 3.
+     risk is retired). Two findings spun into their own items: **(a) doors face inward → ✅ FIXED (#72, v0.187.0):**
+     flipped the front-door FACING `NORTH → SOUTH` (the closed panel now sits on the exterior `−Z` edge, flush with the
+     wall) across the shared pattern — `BwgVillageTemplates` (`door()` + porch), `TradePostTemplates`,
+     `VillageCenterTemplates`, `RareStructureTemplates`; `HamletTemplates` was already correct (picks the facing by
+     wall) and left as-is. 163 door-bearing `.nbt` regenerated on the 1.21.1 node, both nodes' gametests green (the
+     in-world look-see is still to sign off); **(b) the swamp read** — resolved in step 3.
   3. **Swamp read → RESOLVED (decision made 2026-07-02):** the cypress style should be a proper stilted bayou — ONE
      swamp-water island with houses on stilts and wooden bridges, NOT the 3-island cluster. Its own plan:
      **[BWGSWAMPVILLAGEPLAN.md](BWGSWAMPVILLAGEPLAN.md) (#73).**
-  4. Retire this plan into the CHANGELOG once #72 lands and the two reachability spot-checks pass (#73 tracks separately).
+  4. Retire this plan into the CHANGELOG once the two reachability spot-checks (`pumpkin_valley` / `weeping_witch_forest`)
+     pass and the #72 in-world look-see signs off (#72 code+regen ✅ v0.187.0; #73 tracks separately).
 
 **Possible later polish (not committed):** per-*building* signature decor — pumpkins *inside* pumpkin houses,
 wall vines, etc. (v0.179.0's decor is plot-level: grove/market-stall/animal-pen in the `fillers` pool.)

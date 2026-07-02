@@ -71,10 +71,13 @@
           ] } }
       ] },
     { "_comment": "Swamp — a stilted bayou village over cypress swamplands / wetlands; willow & cypress, mushrooms.",
+      "_comment_bayou": "BWGSWAMPVILLAGEPLAN #73 — a broad shallow swamp (the #64 pond lever, extent raised so water dominates) with the village lifted onto willow/cypress stilts + plank boardwalks (jigsaw stilt_height + PathSurfacer.supportStilts/resolveStilted). stilt_height is the in-game knob for floor clearance over the water.",
       "biomes": ["biomeswevegone:cypress_swamplands", "biomeswevegone:cypress_wetlands"],
-      "surface": "minecraft:grass_block",
-      "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.18 } ],
-      "jigsaw": { "pool": "skyseed:village_swamp/start", "target": "minecraft:bottom", "depth": 4, "pad": 5, "reach": 48, "cap_prefix": "shop_", "cap_min": 2, "cap_count": 4, "cap_filler": "skyseed:village_swamp/fillers" },
+      "surface": "minecraft:mud",
+      "pond": { "block": "minecraft:water", "radius": 24, "depth": 2, "slope": true, "extent": 0.9, "contained": true,
+        "plants": [ { "block": "minecraft:lily_pad", "chance": 0.16 }, { "block": "minecraft:seagrass", "chance": 0.10 } ],
+        "bank": [ { "block": "minecraft:sugar_cane", "chance": 0.50 } ] },
+      "jigsaw": { "pool": "skyseed:village_swamp/start", "target": "minecraft:bottom", "depth": 4, "pad": 5, "reach": 48, "stilt_height": 2, "cap_prefix": "shop_", "cap_min": 2, "cap_count": 4, "cap_filler": "skyseed:village_swamp/fillers" },
       "variants": [
         { "weight": 1, "name": "swamp", "decoration": {
           "trees": [ { "feature": "biomeswevegone:cypress_trees", "tries": 3, "spacing": 3 } ],

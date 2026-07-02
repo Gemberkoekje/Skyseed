@@ -9,6 +9,38 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.188.0] - 2026-07-02
+
+### Added
+- **Cypress swampland villages grow as a stilted overwater bayou (BWGSWAMPVILLAGEPLAN #73).** The three cypress village
+  bands carve a broad **island-filling** shallow swamp (the #64 `pond` lever, `extent 0.9`) on a `mud` surface and stand
+  the village on stilts + plank boardwalks over the open water. A stilted build **skips the levelled pad** (no dry
+  footing disc displaces the water) and lifts the whole village by a data-driven **`stilt_height`** (`JigsawConfig`;
+  cypress bands use 2 — the in-game floor-clearance knob). The pond is **`contained`** (new `Pond` flag) so it walls its
+  un-backed rim like a river, staying hemmed in bar a few deliberate waterfalls. The **village-center island is huge-sized**
+  (its own `shape`: radius 24–30, `top_dome` 2–3, `max_under_depth` 18; pond `radius` 40 so `extent` governs) instead of
+  the base 3-island cluster. Engine in `PathSurfacer`: **`supportStilts`** hangs willow legs from a floor down *through
+  the water* to the bed (never over pure void — no dangling stub / reach to another island); **`boardwalk`** lays a plank
+  deck on sparse pier posts, **railed only along open-water edges** (never a lane tile or a solid block, so a rail can't
+  overwrite a house or fence a road); and every resolved path tile has a stray tree trunk/canopy stripped above it
+  (`clearCanopyAbove`) so **no village gets trees growing on its roads**. Legs/decks/rails use willow (oak fallback,
+  BWG-free CI); a stilted island also clears its surface decoration. Gametests
+  `pathSurfacerStiltsDescendThroughWater` + `pathSurfacerBoardwalksOverWater` (+ the resolve test) guard it. The other
+  five styles are untouched (bar the shared tree-on-road fix); inert without BWG. *(Over-water look + exact
+  `stilt_height`/`extent` are an in-world tuning pass.)*
+
+## [0.187.0] - 2026-07-02
+
+### Fixed
+- **Village front doors now sit flush with the outside wall, not recessed inward (BWGVILLAGEPLAN #72).** A closed door
+  with `FACING=NORTH` on a `z=0` front wall renders on the interior (`+Z`) edge of its cell, leaving a street-side
+  recess — the "doors face inward" read from the Phase-5 sign-off. Flipped the front-door `FACING` `NORTH → SOUTH` (panel
+  now on the exterior `−Z` edge) across the shared pattern: `BwgVillageTemplates` (`door()` + porch, all six BWG styles),
+  `TradePostTemplates` (shop shell / great hall / blacksmith, all four variants), `VillageCenterTemplates` (four plaza
+  halls) and `RareStructureTemplates` (evoker cell). `HamletTemplates` was already correct (it chooses the facing by
+  wall) and untouched. The 163 affected door-bearing `.nbt` were regenerated on the 1.21.1 node (shared source; loaded
+  here via DataFixerUpper); all 158 gametests green on this node, 149 on 1.21.1. *(In-world visual sign-off still yours.)*
+
 ## [0.186.0] - 2026-07-02
 
 ### Changed

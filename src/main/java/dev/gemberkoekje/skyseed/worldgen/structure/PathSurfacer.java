@@ -43,9 +43,32 @@ public final class PathSurfacer {
     private static final int SUPPORT_SEARCH = 8; // how far below a floating floor to look for ground to anchor onto
     private static final int SUPPORT_STUB = 2;   // over pure void (no ground found within the search): a short stub only
     private static final int TRESTLE_STUB = 4;   // a mineshaft trestle leg hangs a little longer over pure void
+    private static final int CLEAR_ABOVE = 8;    // how far above a laid path tile to strip a tree trunk/canopy that grew there
+
+    /** The four woods a bridge/boardwalk lays: {@code deck} slab, {@code beam} edge, {@code fence} railing, {@code post}
+     *  leg. Void bridges use {@link #OAK}; a stilted swamp build passes its willow/cypress set via {@link #resolveStilted}. */
+    private record Wood(BlockState deck, BlockState beam, BlockState fence, BlockState post) {}
+
+    private static final Wood OAK = new Wood(Blocks.OAK_SLAB.defaultBlockState(), Blocks.OAK_PLANKS.defaultBlockState(),
+            Blocks.OAK_FENCE.defaultBlockState(), Blocks.OAK_LOG.defaultBlockState());
+
+    /** Resolve every path marker within {@code reach} (horizontal half-extent) of {@code origin}. Oak, void-only. */
+    public static void resolve(ServerLevel level, BlockPos origin, int reach) {
+        resolve(level, origin, reach, OAK, false);
+    }
+
+    /**
+     * As {@link #resolve}, but for a STILTED bayou build: lanes over WATER (as well as void) become plank bridges in the
+     * given {@code deck}/{@code beam}/{@code fence} wood, each railed edge dropping a {@code post} leg down to the bed —
+     * a boardwalk over the swamp. (BWGSWAMPVILLAGEPLAN #73.)
+     */
+    public static void resolveStilted(ServerLevel level, BlockPos origin, int reach,
+                                      BlockState deck, BlockState beam, BlockState fence, BlockState post) {
+        resolve(level, origin, reach, new Wood(deck, beam, fence, post), true);
+    }
 
     /** Resolve every path marker within {@code reach} (horizontal half-extent) of {@code origin}. */
-    public static void resolve(ServerLevel level, BlockPos origin, int reach) {
+    private static void resolve(ServerLevel level, BlockPos origin, int reach, Wood wood, boolean overWater) {
         // Phase A — snapshot the markers and the set of deck (path-tile) columns they cover.
         final List<BlockPos> markers = new ArrayList<>();
         final Set<Long> deckTiles = new HashSet<>();
@@ -68,14 +91,19 @@ public final class PathSurfacer {
         if (markers.isEmpty()) {
             return;
         }
-        // Phase B — resolve each deck tile, reading the void/ground test from below the deck.
+        // Phase B — resolve each deck tile. A STILTED build lays a plank boardwalk on posts for every lane (it is
+        // lifted over the swamp, so its tiles are always over water/air); a normal build reads the void/ground test.
         for (final BlockPos marker : markers) {
             final BlockPos deck = marker.below();
-            if (level.getBlockState(deck.below()).isAir()) {
-                bridge(level, deck, deckTiles);
+            if (overWater) {
+                boardwalk(level, deck, deckTiles, wood); // a plank walkway on posts, railed only along open-water edges
+            } else if (level.getBlockState(deck.below()).isAir()) {
+                bridge(level, deck, deckTiles, wood); // over the void — a self-railing wooden bridge
             } else {
                 level.setBlock(deck, Blocks.DIRT_PATH.defaultBlockState(), FLAGS); // a uniform worn path (no stripes)
             }
+            clearCanopyAbove(level, deck); // trees are placed BEFORE structures, so a lane laid across a tree column
+                                           // leaves its trunk floating on the road — strip it (keeps trees in the gaps).
         }
         // Phase C — clear the markers (after every neighbour has been read).
         for (final BlockPos marker : markers) {
@@ -83,14 +111,53 @@ public final class PathSurfacer {
         }
     }
 
+    /**
+     * A stilted-boardwalk deck tile: a plank deck on a sparse (even/even) post, with a fence rail run along each side
+     * that opens onto water/void. Crucially the rail is placed ONLY on a neighbour that is open water or void — never on
+     * another lane tile (kept walkable) and never on a solid block (a house floor/wall or the plaza), so it can neither
+     * overwrite a building nor fence a road shut (both were the earlier bugs). The rail sits in the adjacent open cell at
+     * deck height + a sparse post drops to the bed under it, so a walkway edge reads as a railed pier while the lanes and
+     * doorways themselves stay clear. Water is left visible between the sparse posts. (BWGSWAMPVILLAGEPLAN #73.)
+     */
+    private static void boardwalk(ServerLevel level, BlockPos deck, Set<Long> deckTiles, Wood wood) {
+        level.setBlock(deck, wood.deck(), FLAGS);
+        if (evenGrid(deck)) {
+            stiltDown(level, deck, wood.post()); // a pier post under the walkway (a no-op where it already rests on ground)
+        }
+        for (final Direction dir : Direction.Plane.HORIZONTAL) {
+            final BlockPos nb = deck.relative(dir);
+            final BlockState nbState = level.getBlockState(nb);
+            // Never rail a walkable neighbour: skip another lane tile and skip any SOLID block (house/plaza edge, a door
+            // threshold). Only an open cell (air or the swamp water itself) gets a rail.
+            if (deckTiles.contains(nb.asLong()) || (!nbState.isAir() && nbState.getFluidState().isEmpty())) {
+                continue;
+            }
+            // ...and only where that cell opens onto a drop (water/void below), not where it rests on the shore.
+            final BlockState nbUnder = level.getBlockState(nb.below());
+            if (!nbUnder.isAir() && nbUnder.getFluidState().isEmpty()) {
+                continue;
+            }
+            level.setBlock(nb.above(), wood.fence(), FLAGS); // the rail, along the open-water edge
+            if (evenGrid(nb)) {
+                level.setBlock(nb, wood.post(), FLAGS);
+                stiltDown(level, nb, wood.post()); // a sparse rail post down into the water
+            }
+        }
+    }
+
+    /** The even/even world-grid that the sparse pier posts land on — shared so lot legs, deck posts and rail posts align. */
+    private static boolean evenGrid(BlockPos p) {
+        return (p.getX() & 1) == 0 && (p.getZ() & 1) == 0;
+    }
+
     /** A void deck tile: a slab deck, plus an edge beam + fence railing on each side that is itself an open drop. */
-    private static void bridge(ServerLevel level, BlockPos deck, Set<Long> deckTiles) {
-        level.setBlock(deck, Blocks.OAK_SLAB.defaultBlockState(), FLAGS);
+    private static void bridge(ServerLevel level, BlockPos deck, Set<Long> deckTiles, Wood wood) {
+        level.setBlock(deck, wood.deck(), FLAGS);
         for (final Direction dir : Direction.Plane.HORIZONTAL) {
             final BlockPos nb = deck.relative(dir);
             if (!deckTiles.contains(nb.asLong()) && level.getBlockState(nb.below()).isAir()) {
-                level.setBlock(nb, Blocks.OAK_PLANKS.defaultBlockState(), FLAGS);        // edge beam
-                level.setBlock(nb.above(), Blocks.OAK_FENCE.defaultBlockState(), FLAGS); // railing
+                level.setBlock(nb, wood.beam(), FLAGS);        // edge beam
+                level.setBlock(nb.above(), wood.fence(), FLAGS); // railing
             }
         }
     }
@@ -161,6 +228,69 @@ public final class PathSurfacer {
                 for (int d = 1; d <= gap; d++) {
                     level.setBlock(new BlockPos(wx, deckY - d, wz), fence, FLAGS);
                 }
+            }
+        }
+    }
+
+    /**
+     * The bayou-stilt variant of {@link #supportFloatingFloors}: under a sparse (every-other-column) grid of the
+     * over-water/void floor tiles of a stilted build, hang a wooden {@code post} leg down — through any WATER — to the
+     * first solid block (the swamp bed), or a short {@link #STILT_STUB} stub over pure void. Unlike the dirt/trestle
+     * passes, which stop at the first non-air block (the water surface), this descends through the fluid so a house
+     * standing over the marsh rests on legs planted in the bed, not on the water. Sparse so it reads as legs, not a
+     * wall; {@code linkConnections} joins adjacent legs afterwards. Run BEFORE {@link #resolveStilted} (while the
+     * connective lanes are still empty-deck markers, so only the solid lot floors get legs). (BWGSWAMPVILLAGEPLAN #73.)
+     */
+    public static void supportStilts(ServerLevel level, BlockPos origin, int reach, BlockState post) {
+        final int deckY = origin.getY() - 1; // the structure floor sits one below the jigsaw origin
+        final BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
+        for (int dx = -reach; dx <= reach; dx++) {
+            for (int dz = -reach; dz <= reach; dz++) {
+                final int wx = origin.getX() + dx;
+                final int wz = origin.getZ() + dz;
+                if ((wx & 1) != 0 || (wz & 1) != 0) {
+                    continue; // a leg only on the even/even grid — stilts, not a wall of posts
+                }
+                p.set(wx, deckY, wz);
+                if (!level.isLoaded(p) || level.getBlockState(p).isAir()) {
+                    continue; // not a floor tile
+                }
+                final BlockState below = level.getBlockState(new BlockPos(wx, deckY - 1, wz));
+                if (!below.isAir() && below.getFluidState().isEmpty()) {
+                    continue; // already resting on solid ground (a dry stretch) — no leg needed
+                }
+                stiltDown(level, p.immutable(), post);
+            }
+        }
+    }
+
+    /** Drop a wooden leg from just under {@code floor} down through air/water to the first solid block (the bed) within
+     *  {@link #SUPPORT_SEARCH}. Over PURE void (no bed found in range) it places NOTHING — a stilt only ever rests on the
+     *  island it belongs to; it never dangles a stub into the void or reaches down to a different island below (the
+     *  boardwalk/floor simply floats there instead). Shared by the over-water rail edges and {@link #supportStilts}. */
+    private static void stiltDown(ServerLevel level, BlockPos floor, BlockState post) {
+        int gap = 0; // pure void ⇒ no leg at all
+        for (int d = 1; d <= SUPPORT_SEARCH; d++) {
+            final BlockState s = level.getBlockState(new BlockPos(floor.getX(), floor.getY() - d, floor.getZ()));
+            if (!s.isAir() && s.getFluidState().isEmpty()) {
+                gap = d - 1; // the first SOLID block below is the bed; the leg fills the water/air above it
+                break;
+            }
+        }
+        for (int d = 1; d <= gap; d++) {
+            level.setBlock(new BlockPos(floor.getX(), floor.getY() - d, floor.getZ()), post, FLAGS);
+        }
+    }
+
+    /** Strip a tree trunk/canopy left floating over a just-laid path/boardwalk tile. Trees are placed BEFORE structures,
+     *  so a lane run across a tree's column overwrites only the ground block and leaves the trunk standing on the road;
+     *  clear the tree blocks above it. Trees in the gaps (not under a lane) are untouched. */
+    private static void clearCanopyAbove(ServerLevel level, BlockPos deck) {
+        for (int dy = 1; dy <= CLEAR_ABOVE; dy++) {
+            final BlockPos p = deck.above(dy);
+            final BlockState s = level.getBlockState(p);
+            if (s.is(BlockTags.LOGS) || s.is(BlockTags.LEAVES) || s.is(BlockTags.SAPLINGS)) {
+                level.setBlock(p, Blocks.AIR.defaultBlockState(), FLAGS);
             }
         }
     }
