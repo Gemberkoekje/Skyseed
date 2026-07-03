@@ -1,0 +1,11 @@
+{
+  "_comment": "First-party Farmer's Delight WILD-CROP compat on the HUGE MEADOW tier — mirror of farmersdelight_meadow.json (mirror-island-tiers rule), only target differs. Weight 6 (~40%) top-level veg patch. See that file for the full rationale.",
+  "target": "skyseed:huge_meadow",
+  "variants": [
+    { "weight": 6, "name": "wild_veg", "decoration": {
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.15 },
+        { "block": "farmersdelight:wild_onions", "chance": 0.08 },
+        { "block": "farmersdelight:wild_carrots", "chance": 0.08 },
+        { "block": "farmersdelight:wild_cabbages", "chance": 0.04 } ] } }
+  ]
+}

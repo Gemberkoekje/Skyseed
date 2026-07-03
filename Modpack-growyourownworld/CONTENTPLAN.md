@@ -15,7 +15,8 @@ Content-mod integration plan (NeoForge **1.21.1**). Companion to BEAUTIFYPLAN.md
 - **#18** Applied Energistics 2 — certus + sky-stone bootstrap (§2).
 - **#15** Quark — **SHIPPED** (4 jars in + curated + Totem void fix v0.182.0; smoke-pass sign-off open) (§2). **Own plan:
   [QUARKPLAN.md](QUARKPLAN.md)**; island integration is **#71** → [QUARKISLANDPLAN.md](QUARKISLANDPLAN.md).
-- **#16** Farmer's Delight — wild crops on biome islands (§2).
+- **#16** Farmer's Delight — **jars in** (curated 8-mod set); wild crops on biome islands **pending** (§2). **Own plan:
+  [FARMERSDELIGHTPLAN.md](FARMERSDELIGHTPLAN.md).**
 - **#32** Productive Bees — starter bees/hives (§2).
 - **#31** Critters and Companions — spawn verification on biome islands (§2).
 - **#36** Iron's Spells 'n Spellbooks — loot/mob injection (§2) + **#37** its scope decision (§7).
@@ -70,10 +71,13 @@ void). IE (native FE) and AE2 (accepts FE) join directly when they land. Progres
   pillar (which lowers its marginal value — deferrable).
 
 ### Farming / cozy
-- **Farmer's Delight (#16)** — gateway: starter crops (cabbage/tomato/onion/rice) normally from wild-crop
-  worldgen + trades. *Plan:* add FD wild crops as features on biome islands (cabbage/tomato/onion →
-  forest/meadow/beach; **rice → aquatic/lush island with water** — those override families now exist to
-  extend), or grant starter seeds via a seed/loot. Renewable once seeded; perfectly on-theme.
+- **Farmer's Delight (#16)** — ✅ **the curated jar set is IN** (`overrides/mods/`): base FD 1.3.2 + the three
+  dimension delights (End's / My Nether's / Ocean's) + zero-worldgen QoL/compat (Autochef's, Chef's, Chopper's, FD
+  Extended). ~50 ecosystem addons deliberately skipped. Gateway: starter crops (cabbage/tomato/onion/rice) normally
+  from wild-crop worldgen + trades. *Plan:* inject FD wild crops as `ground`/pond features on biome islands
+  (cabbage/tomato/onion → forest/meadow/desert; **rice → aquatic/lush pond**), chorus_succulent → Chorus Forest,
+  bullet_pepper/powdery_cane → Nether seeds. Renewable once seeded (drops replantable seeds); perfectly on-theme.
+  **Full detail, verified ids, and the ⚠ version-range checks in its own plan: [FARMERSDELIGHTPLAN.md](FARMERSDELIGHTPLAN.md).**
 
 ### Magic
 - **Iron's Spells 'n Spellbooks (#36)** — spell scrolls/gear are largely **loot-gated** (catacombs/structures)

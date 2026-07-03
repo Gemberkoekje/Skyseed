@@ -60,6 +60,7 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 | [IEPLAN.md](Modpack-growyourownworld/IEPLAN.md) | Immersive Engineering + flight + petroleum (child of CONTENTPLAN) | jars in; **shipped:** #34 ore island + crude-oil pocket, #45 quest chapter, #35 excavator pinned (defaultconfigs, chance 0.7); FD×IE compat verified fine; **left:** in-game verifies · #39 FE proof · add Quark Engineering jar |
 | [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) | Quark integration (child of CONTENTPLAN) | #43 quest sketch (+ partner-gated add-ons) |
 | [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md) | Quark × island integration (child of QUARKPLAN) | #71 (Y-band fix shipped v0.192.0 — in-game re-verify) |
+| [FARMERSDELIGHTPLAN.md](Modpack-growyourownworld/FARMERSDELIGHTPLAN.md) | Farmer's Delight integration (child of CONTENTPLAN) | #16 (jars in; crops shipped — dry crops + rice + chorus + nether, 20 overrides + gametests), #42 quest SHIPPED (A008). Pending: in-game throw-test + quest-book load |
 | [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | structures long tail | #26 #27 #28 #29 #30 #49 #60 #68 |
 | [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | future chapters #41–#47 |
 | [MYSTICALPLAN.md](Modpack-growyourownworld/MYSTICALPLAN.md) | Mystical Agriculture (shipped) | #50 #51 |
@@ -87,11 +88,13 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 
 ### Tier 2 — the content-mod wave *(in ROI order; each is followed by its quest chapter #19 and gated tier #20)*
 
-- **#16** Farmer's Delight — wild crops on biome islands. *(CONTENTPLAN · medium)*
+- **#16** Farmer's Delight — **curated 8-mod set is in `overrides/mods/` and boot-verified** (all load clean; one
+  bounded netherwood cutting-recipe casualty + two cosmetic warns). **Wild-crop island injection** is the open work.
+  *(CONTENTPLAN → [FARMERSDELIGHTPLAN.md](Modpack-growyourownworld/FARMERSDELIGHTPLAN.md) · medium)*
 - **#34** Immersive Engineering — the tech backbone (bauxite/aluminum island + FE), **gated on #35** the Excavator
   fix (island-aware ore mix preferred, else disable + hide in JEI). *(CONTENTPLAN · large + medium)*
 - **#18** Applied Energistics 2 — certus/sky-stone bootstrap. *(CONTENTPLAN · medium)*
-- Then their quest chapters: **#45** IE, **#41** AE2, **#42** FD, **#43** Quark. *(QUESTPLAN)*
+- Then their quest chapters: **#45** IE, **#41** AE2, **#43** Quark. *(**#42** FD chapter ✅ shipped — A008.)* *(QUESTPLAN)*
 - *(**#39** FE-flow proof is blocked until the first FE consumer lands — see "Not yet testable" below.)*
 
 ### Tier 3 — structures & trial-chamber polish
@@ -144,7 +147,7 @@ moment its blocker lands.
 | # | Item | Plan | Priority | Effort | Status |
 |---|---|---|---|---|---|
 | 71 | Quark island stones — Y-band bug **fixed v0.192.0** (veins now merge into every overworld Y-band across the 6 `quark_{rocky,ancient}{,_large,_huge}` files; ids verified; gametest-guarded). Remaining: in-game re-verify at low/mid/high throws + tune weights + blossom/Ancient-Tome loot sign-off | QUARKISLANDPLAN | medium | medium | fix shipped (in-game re-verify) |
-| 16 | Farmer's Delight — wild crops on biome islands | CONTENTPLAN | medium | medium | open |
+| 16 | Farmer's Delight — curated 8-mod set in `overrides/mods/` (base FD 1.3.2 + End's/My Nether's/Ocean's + Autochef's/Chef's/Chopper's/FD Extended), **boot-verified all load clean**. Wild-crop island injection = open | FARMERSDELIGHTPLAN | medium | medium | jars in + boot-verified; injection pending |
 | 34 | Immersive Engineering — bauxite/aluminum island + FE (the tech backbone) | CONTENTPLAN | medium | large | open (gated on 35) |
 | 35 | IE Excavator fix — island-aware ore mix (preferred) else disable + hide in JEI | CONTENTPLAN | medium | medium | open |
 | 18 | AE2 — certus + sky-stone bootstrap | CONTENTPLAN | medium | medium | open |
@@ -164,7 +167,7 @@ moment its blocker lands.
 | 38 | Per-future-mod call: bespoke ore island vs MA seeds | CONTENTPLAN | low | small | standing rule |
 | 39 | Prove FE flows Create → IE/AE2 across islands | CONTENTPLAN | low | small | not yet testable (needs a consumer) |
 | 41 | Future chapter: AE2 (quest) | QUESTPLAN | low | unknown | gated on 18 |
-| 42 | Future chapter: Farmer's Delight (quest) | QUESTPLAN | low | unknown | gated on 16 |
+| 42 | Farmer's Delight quest chapter — **SHIPPED** (`chapters/farmersdelight.snbt`, A008, B801–B808 + lang). In-game quest-book load pending | QUESTPLAN | low | small | shipped (in-game load pending) |
 | 43 | Future chapter: Quark (quest — minimal 3-quest sketch in QUARKPLAN) | QUESTPLAN | low | unknown | unblocked (#15 ✅) — build last |
 | 44 | Future chapter: Productive Bees (quest) | QUESTPLAN | low | unknown | gated on 32 |
 | 45 | Future chapter: Immersive Engineering (quest — promoted with the backbone decision) | QUESTPLAN | medium | unknown | gated on 34 |

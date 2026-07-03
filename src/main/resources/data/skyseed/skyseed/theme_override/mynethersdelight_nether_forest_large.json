@@ -1,0 +1,17 @@
+{
+  "_comment": "First-party My Nether's Delight compat on the LARGE NETHER FOREST tier (FARMERSDELIGHTPLAN #16) — mirror of mynethersdelight_nether_forest.json. powdery_cane placed via its configured feature (grows a harvestable cane; the raw block is a 'growth 0%' stick-dropping stub). Feature place() is try/caught. ⚠ IN-GAME VERIFY. Inert without MND.",
+  "target": "skyseed:nether_forest_large",
+  "variants": [
+    { "weight": 1, "name": "crimson_powdery", "decoration": {
+      "trees": [
+        { "feature": "minecraft:crimson_fungus_planted", "tries": 6, "spacing": 3 },
+        { "feature": "mynethersdelight:patch_powdery_cane", "tries": 6, "spacing": 2 }
+      ],
+      "ground": [
+        { "block": "minecraft:crimson_roots", "chance": 0.30 },
+        { "block": "minecraft:crimson_fungus", "chance": 0.10 },
+        { "block": "minecraft:shroomlight", "chance": 0.05 }
+      ],
+      "underside": [ { "block": "minecraft:weeping_vines", "chance": 0.25 } ] } }
+  ]
+}

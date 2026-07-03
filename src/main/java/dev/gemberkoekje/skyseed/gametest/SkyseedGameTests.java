@@ -131,6 +131,32 @@ public final class SkyseedGameTests {
         return false;
     }
 
+    /** True if any TOP-LEVEL variant of {@code theme} places a ground block in {@code namespace} (e.g. an FD wild crop
+     *  appended to a theme that has no matching biome band, like Meadow/Desert). */
+    private static boolean topGroundHasNamespace(IslandTheme theme, String namespace) {
+        for (Variant v : theme.variants()) {
+            for (var g : v.decoration().ground()) {
+                if (namespace.equals(g.block().namespace())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /** True if any TOP-LEVEL variant of {@code theme} places a tree/plant FEATURE in {@code namespace} (e.g. the My
+     *  Nether's Delight powdery-cane feature, placed as a feature rather than a raw block so it grows properly). */
+    private static boolean topTreesHaveNamespace(IslandTheme theme, String namespace) {
+        for (Variant v : theme.variants()) {
+            for (TreeEntry t : v.decoration().trees()) {
+                if (namespace.equals(t.feature().namespace())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /** Plan an island for {@code themeName} around the test region, with a fixed seed for reproducibility. */
     private static IslandPlan plan(GameTestHelper helper, String themeName, long seed) {
         final ServerLevel level = helper.getLevel();
@@ -305,6 +331,148 @@ public final class SkyseedGameTests {
                                 && band.get().variants().get().size() >= 2,
                         tier + ": band " + sel + " should have merged in the appended blossom variant (not prepended a shadow)");
             }
+        }
+        helper.succeed();
+    }
+
+    /** First-party Farmer's Delight compat (FARMERSDELIGHTPLAN #16): the wild-crop bands MERGE into the matching biome
+     *  band of every forest tier (append a variant carrying farmersdelight: ground), rather than prepending a shadow —
+     *  checked for all 5 farmable selectors × 3 tiers. A merged band keeps its base variant(s) AND gains the crop one
+     *  (size >= 2). Inert without Farmer's Delight (the farmersdelight: ids are skipped at gen time by Lookup.hasBlock). */
+    @GameTest(template = REGION)
+    public static void farmersDelightCropsMergeOntoForestTiers(GameTestHelper helper) {
+        final java.util.List<java.util.List<String>> selectors = java.util.List.of(
+                java.util.List.of("#minecraft:is_forest"),
+                java.util.List.of("minecraft:birch_forest", "minecraft:old_growth_birch_forest"),
+                java.util.List.of("minecraft:flower_forest"),
+                java.util.List.of("minecraft:dark_forest"),
+                java.util.List.of("#minecraft:is_taiga"),
+                java.util.List.of("#minecraft:is_jungle"),
+                java.util.List.of("minecraft:plains", "minecraft:sunflower_plains", "minecraft:meadow"),
+                java.util.List.of("minecraft:desert", "#minecraft:is_badlands"),
+                java.util.List.of("#minecraft:is_beach"),
+                java.util.List.of("#minecraft:is_savanna"));
+        for (final String tier : java.util.List.of("forest", "forest_large", "huge_forest")) {
+            final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:" + tier));
+            helper.assertTrue(resolved != null, tier + " must resolve");
+            for (final java.util.List<String> sel : selectors) {
+                final var band = resolved.biomeOverrides().stream().filter(b -> b.biomes().equals(sel)).findFirst();
+                helper.assertTrue(band.isPresent() && band.get().variants().isPresent()
+                                && band.get().variants().get().size() >= 2,
+                        tier + ": band " + sel + " should have merged in the appended FD crop variant");
+                helper.assertTrue(groundHasNamespace(band.get(), "farmersdelight"),
+                        tier + ": band " + sel + " should carry a farmersdelight wild crop after the merge");
+            }
+        }
+        helper.succeed();
+    }
+
+    /** First-party Farmer's Delight compat (FARMERSDELIGHTPLAN #16): Meadow has no overworld biome bands, so the veg
+     *  patch appends as a TOP-LEVEL variant on every meadow tier. Inert without FD. */
+    @GameTest(template = REGION)
+    public static void farmersDelightCropsReachMeadowTiers(GameTestHelper helper) {
+        for (final String tier : java.util.List.of("meadow", "meadow_large", "huge_meadow")) {
+            final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:" + tier));
+            helper.assertTrue(resolved != null, tier + " must resolve");
+            helper.assertTrue(topGroundHasNamespace(resolved, "farmersdelight"),
+                    tier + ": a top-level variant should carry a farmersdelight wild crop");
+        }
+        helper.succeed();
+    }
+
+    /** First-party Farmer's Delight compat (FARMERSDELIGHTPLAN #16): Desert grows wild tomatoes/beetroots on both the
+     *  plain-desert (top-level) and badlands (merged is_badlands band) forms, on every desert tier. Inert without FD. */
+    @GameTest(template = REGION)
+    public static void farmersDelightCropsReachDesertTiers(GameTestHelper helper) {
+        for (final String tier : java.util.List.of("desert", "desert_large", "huge_desert")) {
+            final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:" + tier));
+            helper.assertTrue(resolved != null, tier + " must resolve");
+            helper.assertTrue(topGroundHasNamespace(resolved, "farmersdelight"),
+                    tier + ": a top-level variant should carry a farmersdelight desert crop");
+            final var badlands = resolved.biomeOverrides().stream()
+                    .filter(b -> b.biomes().equals(java.util.List.of("#minecraft:is_badlands"))).findFirst();
+            helper.assertTrue(badlands.isPresent() && groundHasNamespace(badlands.get(), "farmersdelight"),
+                    tier + ": the is_badlands band should carry a farmersdelight crop after the merge");
+        }
+        helper.succeed();
+    }
+
+    /** First-party Farmer's Delight compat (FARMERSDELIGHTPLAN #16): wild_rice reaches the Lush pond on every lush tier
+     *  (pond is scalar-replaced with the base pond + rice; PondCarver has a dedicated wild_rice surface case). Inert
+     *  without FD (placePondPlants gates on Lookup.hasBlock). */
+    @GameTest(template = REGION)
+    public static void farmersDelightRiceReachesLushPonds(GameTestHelper helper) {
+        for (final String tier : java.util.List.of("lush", "lush_large", "huge_lush")) {
+            final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:" + tier));
+            helper.assertTrue(resolved != null, tier + " must resolve");
+            helper.assertTrue(resolved.pond().isPresent(), tier + " must keep a pond");
+            boolean rice = false;
+            for (var g : resolved.pond().get().plants()) {
+                if ("farmersdelight".equals(g.block().namespace())) {
+                    rice = true;
+                    break;
+                }
+            }
+            helper.assertTrue(rice, tier + ": the pond's plant list should include farmersdelight:wild_rice");
+        }
+        helper.succeed();
+    }
+
+    /** First-party Farmer's Delight compat (FARMERSDELIGHTPLAN #16): wild_rice reaches the Aquatic freshwater pond AND
+     *  the #is_river / swamp band ponds on every aquatic tier (each pond scalar-replaced with base + rice). Inert w/o FD. */
+    @GameTest(template = REGION)
+    public static void farmersDelightRiceReachesAquaticPonds(GameTestHelper helper) {
+        for (final String tier : java.util.List.of("aquatic", "aquatic_large", "huge_aquatic")) {
+            final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:" + tier));
+            helper.assertTrue(resolved != null, tier + " must resolve");
+            boolean fresh = false;
+            if (resolved.pond().isPresent()) {
+                for (var g : resolved.pond().get().plants()) {
+                    if ("farmersdelight".equals(g.block().namespace())) {
+                        fresh = true;
+                    }
+                }
+            }
+            helper.assertTrue(fresh, tier + ": the freshwater pond should carry farmersdelight:wild_rice");
+            for (final java.util.List<String> sel : java.util.List.of(
+                    java.util.List.of("#minecraft:is_river"), java.util.List.of("minecraft:swamp"))) {
+                final var band = resolved.biomeOverrides().stream().filter(b -> b.biomes().equals(sel)).findFirst();
+                boolean riced = band.isPresent() && band.get().pond().isPresent();
+                if (riced) {
+                    boolean r = false;
+                    for (var g : band.get().pond().get().plants()) {
+                        if ("farmersdelight".equals(g.block().namespace())) {
+                            r = true;
+                        }
+                    }
+                    riced = r;
+                }
+                helper.assertTrue(riced, tier + ": the " + sel + " band pond should carry farmersdelight:wild_rice");
+            }
+        }
+        helper.succeed();
+    }
+
+    /** First-party End's Delight compat (FARMERSDELIGHTPLAN #16): chorus_succulent appends as a top-level ground plant
+     *  on the Chorus Forest island. Inert without End's Delight. */
+    @GameTest(template = REGION)
+    public static void endsDelightSucculentReachesChorusForest(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:chorus_forest"));
+        helper.assertTrue(resolved != null, "chorus_forest must resolve");
+        helper.assertTrue(topGroundHasNamespace(resolved, "ends_delight"),
+                "chorus_forest should carry an ends_delight ground plant (chorus_succulent)");
+        helper.succeed();
+    }
+
+    /** First-party My Nether's Delight compat (FARMERSDELIGHTPLAN #16): powdery_cane appends as a top-level ground plant
+     *  on the Nether Soul & Nether Forest seeds (+ their large tiers). Inert without MND. */
+    @GameTest(template = REGION)
+    public static void myNethersDelightCaneReachesNetherSeeds(GameTestHelper helper) {
+        for (final String tier : java.util.List.of("nether_soul", "nether_soul_large", "nether_forest", "nether_forest_large")) {
+            final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:" + tier));
+            helper.assertTrue(resolved != null, tier + " must resolve");
+            helper.assertTrue(topTreesHaveNamespace(resolved, "mynethersdelight"),
+                    tier + ": should carry the mynethersdelight powdery-cane feature");
         }
         helper.succeed();
     }

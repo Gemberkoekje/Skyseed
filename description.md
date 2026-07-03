@@ -134,6 +134,7 @@ Skyseed ships ready-made island support for a few favourites — all of it dorma
 - **Oh The Biomes We've Gone.** The sky's biome map fills with BWG's biomes, and your seeds respond: throw one over an exotic biome and it grows that biome's island — nearly every BWG wood is growable this way, the flower fields feed Create milling, and village seeds thrown over the right biomes grow BWG's six village styles in their own block palettes. Growing your first exotic wood even unlocks a new Almanac entry.
 - **Mystical Agriculture.** Inferium and Prosperity ore grow on the Lush and Ancient islands (plus soulium in the Nether), so the essence loop bootstraps without any worldgen.
 - **Create.** Zinc ore turns up on the mining islands, so brass is a matter of growing the right island.
+- **Farmer's Delight.** Wild crops grow on your biome islands — onions, carrots, cabbages and tomatoes, plus rice in the ponds — so its whole cooking loop bootstraps from what you grow. Its add-ons come along too: chorus succulents on a Chorus Forest, powdery cane in the Nether.
 
 And thanks to a custom void generator, *any* biome or structure mod is safe to add — biomes flow into island theming, and nothing ever generates uninvited in the void.
 

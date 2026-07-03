@@ -1,0 +1,13 @@
+{
+  "_comment": "First-party End's Delight compat on the CHORUS FOREST island (FARMERSDELIGHTPLAN #16). The End chapter's chorus_forest seed grows on end stone — End's Delight's chorus_succulent generates natively on end stone, so it drops in as a per-column ground plant on a chorus-look variant (chorus plants + succulents). Placed as a ground BLOCK (setBlock, never throws) rather than its configured feature, since the tree-feature path isn't try/caught. Appended as a top-level variant (concat) so it's a weighted alternative alongside the base chorus / purpur_clearing looks. Inert without End's Delight: an unknown ends_delight: id is skipped by the tolerant ground resolver → byte-identical generation. ID VERIFIED vs ends_delight-2.6.1+neoforge.1.21.1.jar (2026-07-03: block ends_delight:chorus_succulent).",
+  "target": "skyseed:chorus_forest",
+  "variants": [
+    { "weight": 2, "name": "chorus_succulent", "decoration": {
+      "trees": [ { "feature": "minecraft:chorus_plant", "tries": 8, "spacing": 2 } ],
+      "ground": [
+        { "block": "ends_delight:chorus_succulent", "chance": 0.06 },
+        { "block": "minecraft:end_rod", "chance": 0.03 },
+        { "block": "minecraft:purpur_block", "chance": 0.04 }
+      ] } }
+  ]
+}
