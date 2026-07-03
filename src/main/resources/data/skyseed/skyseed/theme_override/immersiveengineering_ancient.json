@@ -1,0 +1,24 @@
+{
+  "_comment": "First-party Immersive Engineering compat (IEPLAN #34) — the deep/precious IE metals (deepslate bauxite/aluminum, silver, uranium) on the deepslate-bodied ancient mining island; complements the rocky family (aluminum/lead/nickel). IE physical ores never worldgen in the void, so this is a hand-mining path. Inert without IE. First-pass counts — throw-test + tune like #71. Bands merge into ancient's max_y:20 / min_y:96 bands (selectors match ancient.json) so the veins don't vanish on low/high throws, per quark_ancient.json. Mirror to immersiveengineering_ancient_large.json + immersiveengineering_huge_ancient.json.",
+  "target": "skyseed:ancient",
+  "ores": [
+    { "block": "immersiveengineering:deepslate_ore_aluminum", "chance": 0.70, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "immersiveengineering:deepslate_ore_silver", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
+    { "block": "immersiveengineering:deepslate_ore_uranium", "chance": 0.30, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 2, "max": 4 }, "depth": "deep_core" }
+  ],
+  "biome_overrides": [
+    { "_comment": "…into the deep band (max_y 20) — deepslate metals + an uncommon crude-oil pocket near bedrock (Immersive Petroleum lore); else it replaces the ore list. Oil is a small deep_core vein of source blocks, walled by the stone body — pump with the IE Fluid Pump. Inert without IP (unknown ore skipped before RNG). This is the void's crude-oil path since IP reservoirs don't generate (decoration skipped).", "max_y": 20,
+      "ores": [
+        { "block": "immersiveengineering:deepslate_ore_aluminum", "chance": 0.70, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "immersiveengineering:deepslate_ore_silver", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
+        { "block": "immersiveengineering:deepslate_ore_uranium", "chance": 0.30, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 2, "max": 4 }, "depth": "deep_core" },
+        { "block": "immersivepetroleum:crudeoil_fluid_block", "chance": 0.15, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 2, "max": 4 }, "depth": "deep_core" }
+      ] },
+    { "_comment": "…into the high band (min_y 96).", "min_y": 96,
+      "ores": [
+        { "block": "immersiveengineering:deepslate_ore_aluminum", "chance": 0.70, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "immersiveengineering:deepslate_ore_silver", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
+        { "block": "immersiveengineering:deepslate_ore_uranium", "chance": 0.30, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 2, "max": 4 }, "depth": "deep_core" }
+      ] }
+  ]
+}

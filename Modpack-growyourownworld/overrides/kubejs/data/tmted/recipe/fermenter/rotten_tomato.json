@@ -1,0 +1,11 @@
+{
+  "type": "immersiveengineering:fermenter",
+  "energy": 6400,
+  "fluid": {
+    "amount": 120,
+    "id": "immersiveengineering:ethanol"
+  },
+  "input": {
+    "item": "farmersdelight:rotten_tomato"
+  }
+}

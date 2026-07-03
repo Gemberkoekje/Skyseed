@@ -1,4 +1,5 @@
-# mods (104)
+# mods (115)
+[NeoForge - 1.21.1] Camera Zoom - 1.0.6.jar
 AdvancedLootInfo-neoforge-1.21.1-1.12.0.jar
 AmbientSounds_NEOFORGE_v6.3.8_mc1.21.1.jar
 appleskin-neoforge-mc1.21-3.0.9.jar
@@ -23,6 +24,7 @@ Corgilib-NeoForge-1.21.1-5.0.0.9.jar
 Create Encased-1.21.1-1.9.0-ht1.jar
 create_aquatic_ambitions-1.21.1-2.0.2.jar
 create_better_motors-4.0.0.jar
+create_completeimmersiveaircraft-1.0.7-neoforge-1.21.1.jar
 create_connected-1.3.2-mc1.21.1.jar
 create_jetpack-forge-5.1.2.jar
 create_things_and_misc-4.1.1-neoforge-1.21.1.jar
@@ -38,6 +40,7 @@ Cucumber-1.21.1-8.0.16.jar
 Design-n-Decor-1.21.1-2.2b.jar
 embeddium-1.0.15+mc1.21.1.jar
 ends_delight-2.6.1+neoforge.1.21.1.jar
+Engineers Delight 1.21.1 neoforge R.1.8.jar
 entity_model_features-3.2.4-1.21-neoforge.jar
 entity_texture_features_1.21-neoforge-7.1.jar
 entityculling-neoforge-1.10.5-mc1.21.1.jar
@@ -55,12 +58,17 @@ ftb-quests-neoforge-2101.1.27.jar
 ftb-teams-neoforge-2101.1.10.jar
 fusion-1.3.5-neoforge-mc1.21.1.jar
 geckolib-neoforge-1.21.1-4.9.2.jar
+iaie-1.0-1.21.1.jar
+immersive_aircraft-1.4.6+1.21.1-neoforge.jar
+ImmersiveEngineering-1.21.1-12.4.2-194.jar
+ImmersivePetroleum-1.21.1-4.4.1-37.jar
 interiors-1.21.1-neoforge-0.6.1.jar
 iris-neoforge-1.8.12+mc1.21.1.jar
 Jade-1.21.1-NeoForge-15.10.5.jar
 jei-1.21.1-neoforge-19.27.0.336.jar
 JustEnoughResources-NeoForge-1.21.1-1.6.0.17.jar
 kotlinforforge-5.12.0-all.jar
+kubejs-neoforge-2101.7.2-build.368.jar
 mechanical_botany-1.1.3+1.21.1-neoforged.jar
 modernfix-neoforge-5.27.15+mc1.21.1.jar
 monocle-0.2.3.ms.jar
@@ -75,17 +83,19 @@ Oh-The-Trees-Youll-Grow-neoforge-1.21.1-5.3.2.jar
 Patchouli-1.21.1-93-NEOFORGE.jar
 prickle-neoforge-1.21.1-21.1.11.jar
 Quark-4.1-481.jar
+QuarkEngineering-1.21.1-5.10.29.jar
 QuarkOddities-1.21.1.jar
 QuarkPonders-1.5.1_NeoForge-1.21.1.jar
 railways-0.2.1+neoforge-mc1.21.1.jar
 rechiseled-1.2.5-neoforge-mc1.21.jar
 rechiseledcreate-1.1.1-neoforge-mc1.21.jar
+rhino-2101.2.7-build.85.jar
 Searchables-neoforge-1.21.1-1.0.2.jar
 silentgear_jade_tiers-1.11.1-1.21.1.jar
 silent-gear-1.21.1-neoforge-4.2.1.1.jar
 silentgearjei-1.2.0.jar
 silent-lib-1.21.1-neoforge-10.6.0.jar
-skyseed-1.21.1_0.203.0.jar
+skyseed-1.21.1_0.205.0.jar
 sophisticated_jei_index-1.0.3+1.21.1.jar
 sophisticatedbackpacks-1.21.1-3.25.66.1958.jar
 sophisticatedbackpackscreateintegration-1.21.1-0.1.7.119.jar
@@ -97,6 +107,7 @@ supermartijn642configlib-1.1.8-neoforge-mc1.21.jar
 supermartijn642corelib-1.1.21-neoforge-mc1.21.jar
 TerraBlender-neoforge-1.21.1-4.1.0.8.jar
 veinmining-neoforge-5.0.0-beta.2+1.21.jar
+visualhealth-neoforge-1.21.1-2.0.2.jar
 waystones-neoforge-1.21.1-21.1.34.jar
 xaerominimap-neoforge-1.21.1-26.1.0.jar
 xaeros_waystones_compatibility-NeoForge-1.21.1-2.1.0.jar

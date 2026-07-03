@@ -7,7 +7,7 @@
 		id: "waystones:waystone"
 	}
 	id: "5C0000000000A004"
-	order_index: 4
+	order_index: 6
 	quest_links: [ ]
 	quests: [
 		{
@@ -159,6 +159,110 @@
 			}]
 			x: 0.0d
 			y: 4.5d
+		}
+		{
+			dependencies: ["5C0000000000B502"]
+			id: "5C0000000000B916"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D916"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C916"
+				item: { count: 1, id: "immersive_aircraft:gyrodyne" }
+				type: "item"
+			}]
+			x: 3.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B916"]
+			id: "5C0000000000B917"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D917"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C917"
+				item: { count: 1, id: "immersive_aircraft:engine" }
+				type: "item"
+			}]
+			x: 4.5d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B917"]
+			id: "5C0000000000B918"
+			rewards: [{
+				count: 16
+				id: "5C0000000000D918"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C918"
+				item: { count: 1, id: "immersive_aircraft:biplane" }
+				type: "item"
+			}]
+			x: 6.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B917"]
+			id: "5C0000000000B919"
+			rewards: [{
+				count: 16
+				id: "5C0000000000D919"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C919"
+				item: { count: 1, id: "immersive_aircraft:airship" }
+				type: "item"
+			}]
+			x: 6.0d
+			y: 0.5d
+		}
+		{
+			dependencies: [
+				"5C0000000000B918"
+				"5C0000000000B914"
+			]
+			id: "5C0000000000B920"
+			optional: true
+			rewards: [{
+				count: 8
+				id: "5C0000000000D920"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C920"
+				item: { count: 1, id: "immersivepetroleum:kerosene_bucket" }
+				type: "item"
+			}]
+			x: 7.5d
+			y: 1.5d
 		}
 	]
 }

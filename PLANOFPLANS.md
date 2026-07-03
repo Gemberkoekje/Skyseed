@@ -57,6 +57,7 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 | Plan | What it covers | Open items |
 |---|---|---|
 | [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration | #34 #35 #18 #16 #31 #32 #36 #37 #38 #39 #52 + rolling #19 #20 |
+| [IEPLAN.md](Modpack-growyourownworld/IEPLAN.md) | Immersive Engineering + flight + petroleum (child of CONTENTPLAN) | jars in; **shipped:** #34 ore island + crude-oil pocket, #45 quest chapter, #35 excavator pinned (defaultconfigs, chance 0.7); FD×IE compat verified fine; **left:** in-game verifies · #39 FE proof · add Quark Engineering jar |
 | [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) | Quark integration (child of CONTENTPLAN) | #43 quest sketch (+ partner-gated add-ons) |
 | [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md) | Quark × island integration (child of QUARKPLAN) | #71 (Y-band fix shipped v0.192.0 — in-game re-verify) |
 | [FARMERSDELIGHTPLAN.md](Modpack-growyourownworld/FARMERSDELIGHTPLAN.md) | Farmer's Delight integration (child of CONTENTPLAN) | #16 (jars in; crops shipped — dry crops + rice + chorus + nether, 20 overrides + gametests), #42 quest SHIPPED (A008). Pending: in-game throw-test + quest-book load |

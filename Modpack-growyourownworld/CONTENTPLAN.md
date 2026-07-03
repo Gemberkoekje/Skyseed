@@ -55,10 +55,11 @@ void). IE (native FE) and AE2 (accepts FE) join directly when they land. Progres
 ## 2. Per-mod integration (the open wave)
 
 ### Tech (FE grid)
-- **Immersive Engineering (#34)** — ✅ **the chosen tech backbone (2026-07-01).** Gateway **Bauxite/Aluminum**
-  (+ uses Copper [vanilla], Lead, Silver, Nickel). *Plan:* IE ore island (bauxite/silver/nickel) as a
-  `theme_override` gateway + FE integration, then its quest chapter. ⚠️ **Excavator** samples worldgen mineral
-  veins that don't exist in the void — the one un-rehomable mechanic; **gated on the #35 fix (§7)**.
+- **Immersive Engineering (#34)** — ✅ **the chosen tech backbone (2026-07-01).** Jars + configs **landed**
+  (IE 12.4.2-194 + the flight cluster + KubeJS); island/quest/Excavator work is open. **Own plan:
+  [IEPLAN.md](IEPLAN.md).** Gateway **Bauxite/Aluminum** (+ uses Copper [vanilla], Lead, Silver, Nickel). ⚠️
+  **Excavator** (#35) — reframed in IEPLAN: IE's veins are per-chunk *data*, not worldgen ore, so it likely works
+  in the void and closes with config, not a mixin (§7).
 - **Applied Energistics 2 (#18)** — gateway **Certus Quartz + Sky Stone** (normally from meteorites). AE2
   self-multiplies via budding certus + crystal growth, so we only **bootstrap**: a small "meteorite island"
   seed (sky stone + certus + a budding certus block) or a recipe; AE2 sustains itself after. Confirm meteorite

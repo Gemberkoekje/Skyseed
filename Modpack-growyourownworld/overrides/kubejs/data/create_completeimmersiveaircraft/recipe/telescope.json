@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    " P ",
+    " C "
+  ],
+  "key": {
+    "P": { "item": "create:precision_mechanism" },
+    "S": { "item": "minecraft:spyglass" },
+    "C": { "item": "create:copper_casing" }
+  },
+  "result": {
+    "id": "immersive_aircraft:telescope",
+    "count": 1
+  }
+}

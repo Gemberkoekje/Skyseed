@@ -7,7 +7,7 @@
 		id: "farmersdelight:cooking_pot"
 	}
 	id: "5C0000000000A008"
-	order_index: 8
+	order_index: 3
 	quest_links: [ ]
 	quests: [
 		{
@@ -16,7 +16,10 @@
 			rewards: [{
 				count: 4
 				id: "5C0000000000D801"
-				item: { count: 1, id: "farmersdelight:onion" }
+				item: {
+					count: 1
+					id: "farmersdelight:onion"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -33,7 +36,10 @@
 			rewards: [{
 				count: 6
 				id: "5C0000000000D802"
-				item: { count: 1, id: "minecraft:experience_bottle" }
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -50,7 +56,10 @@
 			rewards: [{
 				count: 6
 				id: "5C0000000000D803"
-				item: { count: 1, id: "minecraft:experience_bottle" }
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -65,9 +74,11 @@
 			dependencies: ["5C0000000000B802"]
 			id: "5C0000000000B804"
 			rewards: [{
-				count: 1
 				id: "5C0000000000D804"
-				item: { count: 1, id: "farmersdelight:iron_knife" }
+				item: {
+					count: 1
+					id: "farmersdelight:iron_knife"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -84,7 +95,10 @@
 			rewards: [{
 				count: 12
 				id: "5C0000000000D805"
-				item: { count: 1, id: "minecraft:experience_bottle" }
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -101,7 +115,10 @@
 			rewards: [{
 				count: 8
 				id: "5C0000000000D806"
-				item: { count: 1, id: "farmersdelight:rice" }
+				item: {
+					count: 1
+					id: "farmersdelight:rice"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -121,7 +138,10 @@
 			rewards: [{
 				count: 8
 				id: "5C0000000000D807"
-				item: { count: 1, id: "minecraft:experience_bottle" }
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
 				type: "item"
 			}]
 			tasks: [{
@@ -141,7 +161,10 @@
 			rewards: [{
 				count: 16
 				id: "5C0000000000D808"
-				item: { count: 1, id: "minecraft:experience_bottle" }
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
 				type: "item"
 			}]
 			tasks: [{
