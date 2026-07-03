@@ -1,0 +1,18 @@
+{
+  "_comment": "First-party Farmer's Delight WILD-CROP compat on the DESERT family (FARMERSDELIGHTPLAN #16). Desert is hot/dry, so it grows wild TOMATOES + BEETROOTS (FD generates both on desert sand — the block supports sand). Appends a top-level 'wild desert crops' variant (used on plain-desert islands) AND merges the same crops into the #minecraft:is_badlands band (selector byte-identical to the base band, so it appends a variant rather than shadowing). Inert without FD: unknown farmersdelight: ids skipped via Lookup.hasBlock → byte-identical generation. IDS VERIFIED vs FarmersDelight-1.21.1-1.3.2.jar (2026-07-03). Shared verbatim across desert/desert_large/huge_desert (mirror-island-tiers rule); only target differs.",
+  "target": "skyseed:desert",
+  "variants": [
+    { "weight": 1, "name": "wild_desert_crops", "decoration": {
+      "ground": [ { "block": "farmersdelight:wild_tomatoes", "chance": 0.05 },
+        { "block": "farmersdelight:wild_beetroots", "chance": 0.04 },
+        { "block": "minecraft:dead_bush", "chance": 0.08 },
+        { "block": "minecraft:cactus", "chance": 0.03 } ] } }
+  ],
+  "biome_overrides": [
+    { "biomes": ["#minecraft:is_badlands"],
+      "variants": [ { "weight": 1, "name": "wild_red_crops", "decoration": {
+        "ground": [ { "block": "farmersdelight:wild_tomatoes", "chance": 0.05 },
+          { "block": "farmersdelight:wild_beetroots", "chance": 0.04 },
+          { "block": "minecraft:dead_bush", "chance": 0.10 } ] } } ] }
+  ]
+}

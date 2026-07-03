@@ -1,0 +1,156 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "farmersdelight"
+	group: ""
+	icon: {
+		id: "farmersdelight:cooking_pot"
+	}
+	id: "5C0000000000A008"
+	order_index: 8
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: ["5C0000000000B103"]
+			id: "5C0000000000B801"
+			rewards: [{
+				count: 4
+				id: "5C0000000000D801"
+				item: { count: 1, id: "farmersdelight:onion" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C801"
+				item: { count: 1, id: "farmersdelight:onion" }
+				type: "item"
+			}]
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B801"]
+			id: "5C0000000000B802"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D802"
+				item: { count: 1, id: "minecraft:experience_bottle" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C802"
+				item: { count: 1, id: "farmersdelight:cooking_pot" }
+				type: "item"
+			}]
+			x: 1.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B802"]
+			id: "5C0000000000B803"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D803"
+				item: { count: 1, id: "minecraft:experience_bottle" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C803"
+				item: { count: 1, id: "farmersdelight:skillet" }
+				type: "item"
+			}]
+			x: 3.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B802"]
+			id: "5C0000000000B804"
+			rewards: [{
+				count: 1
+				id: "5C0000000000D804"
+				item: { count: 1, id: "farmersdelight:iron_knife" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C804"
+				item: { count: 1, id: "farmersdelight:cutting_board" }
+				type: "item"
+			}]
+			x: 1.5d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B803"]
+			id: "5C0000000000B805"
+			rewards: [{
+				count: 12
+				id: "5C0000000000D805"
+				item: { count: 1, id: "minecraft:experience_bottle" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C805"
+				item: { count: 1, id: "farmersdelight:vegetable_soup" }
+				type: "item"
+			}]
+			x: 4.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B801"]
+			id: "5C0000000000B806"
+			rewards: [{
+				count: 8
+				id: "5C0000000000D806"
+				item: { count: 1, id: "farmersdelight:rice" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C806"
+				item: { count: 1, id: "farmersdelight:rice" }
+				type: "item"
+			}]
+			x: 0.0d
+			y: 1.5d
+		}
+		{
+			dependencies: [
+				"5C0000000000B806"
+				"5C0000000000B110"
+			]
+			id: "5C0000000000B807"
+			rewards: [{
+				count: 8
+				id: "5C0000000000D807"
+				item: { count: 1, id: "minecraft:experience_bottle" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C807"
+				item: { count: 1, id: "mynethersdelight:powder_cannon" }
+				type: "item"
+			}]
+			x: 0.0d
+			y: 3.0d
+		}
+		{
+			dependencies: [
+				"5C0000000000B806"
+				"5C0000000000B113"
+			]
+			id: "5C0000000000B808"
+			rewards: [{
+				count: 16
+				id: "5C0000000000D808"
+				item: { count: 1, id: "minecraft:experience_bottle" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C808"
+				item: { count: 1, id: "ends_delight:chorus_succulent" }
+				type: "item"
+			}]
+			x: 1.5d
+			y: 3.0d
+		}
+	]
+}

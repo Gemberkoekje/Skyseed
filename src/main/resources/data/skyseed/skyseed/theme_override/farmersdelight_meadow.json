@@ -1,0 +1,11 @@
+{
+  "_comment": "First-party Farmer's Delight WILD-CROP compat on the MEADOW family (FARMERSDELIGHTPLAN #16). Meadow islands use TOP-LEVEL variants (no overworld biome bands), so this APPENDS one weighted 'wild veg patch' variant (onions/carrots/cabbages). WEIGHT 6 vs the base flowers' summed weight 9 → ~40% of meadow throws roll it (v0.2 fix — the first pass at weight 2 was only ~18%, so crops were too rare to find). Inert without FD: unknown farmersdelight: ids are skipped via Lookup.hasBlock → byte-identical generation. IDS VERIFIED vs FarmersDelight-1.21.1-1.3.2.jar (2026-07-03). Shared verbatim across meadow/meadow_large/huge_meadow (mirror-island-tiers rule); only target differs.",
+  "target": "skyseed:meadow",
+  "variants": [
+    { "weight": 6, "name": "wild_veg", "decoration": {
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.15 },
+        { "block": "farmersdelight:wild_onions", "chance": 0.08 },
+        { "block": "farmersdelight:wild_carrots", "chance": 0.08 },
+        { "block": "farmersdelight:wild_cabbages", "chance": 0.04 } ] } }
+  ]
+}

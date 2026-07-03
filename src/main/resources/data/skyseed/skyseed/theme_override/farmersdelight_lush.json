@@ -1,0 +1,9 @@
+{
+  "_comment": "First-party Farmer's Delight WILD-RICE compat on the LUSH family (FARMERSDELIGHTPLAN #16). Lush islands always carry the base water pond, so this is the RELIABLE rice bootstrap: wild_rice is added to the pond's plant list. wild_rice is a two-tall waterlogged plant — PondCarver.plantInPond has a dedicated 'wild_rice' case that stands it at the water surface (panicles above the waterline). NOTE: 'pond' is a scalar-REPLACE (no list-merge), so this pond is a verbatim copy of lush.json's base pond (water r4 d3 + axolotls) with wild_rice appended — re-sync if the base pond changes. Inert without FD: placePondPlants gates on Lookup.hasBlock, so an unknown wild_rice id is skipped → byte-identical generation. IDS VERIFIED vs FarmersDelight-1.21.1-1.3.2.jar (2026-07-03).",
+  "target": "skyseed:lush",
+  "pond": {
+    "block": "minecraft:water", "radius": 4, "depth": 3,
+    "plants": [ { "block": "farmersdelight:wild_rice", "chance": 0.12 } ],
+    "water_mobs": [ { "entity": "minecraft:axolotl", "chance": 0.50, "count": { "min": 1, "max": 2 } } ]
+  }
+}

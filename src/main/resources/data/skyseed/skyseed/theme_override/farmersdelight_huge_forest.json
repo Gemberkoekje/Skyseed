@@ -1,0 +1,82 @@
+{
+  "_comment": "First-party Farmer's Delight WILD-CROP compat on the HUGE FOREST tier — mirror of farmersdelight_forest.json (mirror-island-tiers rule), identical bands, only target differs. See that file for the full rationale (bootstrap, ~50% weights, sub-biome coverage, byte-identical merge, inert without FD, ids verified vs FarmersDelight-1.21.1-1.3.2.jar).",
+  "target": "skyseed:huge_forest",
+  "biome_overrides": [
+    { "_comment": "temperate forest floor (catch-all) — onions/potatoes/carrots; weight 5 → ~50%",
+      "biomes": ["#minecraft:is_forest"],
+      "variants": [ { "weight": 5, "name": "wild_forest_crops", "decoration": {
+        "trees": [ { "feature": "minecraft:oak", "tries": 4, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.18 },
+          { "block": "farmersdelight:wild_onions", "chance": 0.05 },
+          { "block": "farmersdelight:wild_potatoes", "chance": 0.05 },
+          { "block": "farmersdelight:wild_carrots", "chance": 0.05 } ] } } ] },
+    { "_comment": "birch forest — onions/potatoes/carrots",
+      "biomes": ["minecraft:birch_forest", "minecraft:old_growth_birch_forest"],
+      "variants": [ { "weight": 1, "name": "wild_birch_crops", "decoration": {
+        "trees": [ { "feature": "minecraft:birch", "tries": 4, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.18 },
+          { "block": "farmersdelight:wild_onions", "chance": 0.05 },
+          { "block": "farmersdelight:wild_potatoes", "chance": 0.05 },
+          { "block": "farmersdelight:wild_carrots", "chance": 0.05 } ] } } ] },
+    { "_comment": "flower forest — onions/carrots + keeps a bloom",
+      "biomes": ["minecraft:flower_forest"],
+      "variants": [ { "weight": 1, "name": "wild_flower_crops", "decoration": {
+        "trees": [ { "feature": "minecraft:oak", "tries": 3, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.15 },
+          { "block": "minecraft:oxeye_daisy", "chance": 0.04 },
+          { "block": "farmersdelight:wild_onions", "chance": 0.05 },
+          { "block": "farmersdelight:wild_carrots", "chance": 0.05 } ] } } ] },
+    { "_comment": "dark forest — onions/potatoes/carrots under dark oaks",
+      "biomes": ["minecraft:dark_forest"],
+      "variants": [ { "weight": 1, "name": "wild_dark_crops", "decoration": {
+        "trees": [ { "feature": "minecraft:dark_oak", "tries": 3, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.15 },
+          { "block": "farmersdelight:wild_onions", "chance": 0.05 },
+          { "block": "farmersdelight:wild_potatoes", "chance": 0.05 },
+          { "block": "farmersdelight:wild_carrots", "chance": 0.05 } ] } } ] },
+    { "_comment": "taiga — onions/potatoes/carrots among spruce",
+      "biomes": ["#minecraft:is_taiga"],
+      "variants": [ { "weight": 1, "name": "wild_taiga_crops", "decoration": {
+        "trees": [ { "feature": "minecraft:spruce", "tries": 4, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:fern", "chance": 0.12 }, { "block": "minecraft:short_grass", "chance": 0.12 },
+          { "block": "farmersdelight:wild_onions", "chance": 0.05 },
+          { "block": "farmersdelight:wild_potatoes", "chance": 0.05 },
+          { "block": "farmersdelight:wild_carrots", "chance": 0.05 } ] } } ] },
+    { "_comment": "jungle — carrots/potatoes in the humid understory",
+      "biomes": ["#minecraft:is_jungle"],
+      "variants": [ { "weight": 1, "name": "wild_jungle_crops", "decoration": {
+        "trees": [ { "feature": "minecraft:jungle_tree", "tries": 4, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 },
+          { "block": "farmersdelight:wild_carrots", "chance": 0.06 },
+          { "block": "farmersdelight:wild_potatoes", "chance": 0.05 } ] } } ] },
+    { "_comment": "plains/meadow — onions/carrots/cabbages",
+      "biomes": ["minecraft:plains", "minecraft:sunflower_plains", "minecraft:meadow"],
+      "variants": [ { "weight": 1, "name": "wild_plains_crops", "decoration": {
+        "trees": [ { "feature": "minecraft:oak", "tries": 3, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 },
+          { "block": "farmersdelight:wild_onions", "chance": 0.06 },
+          { "block": "farmersdelight:wild_carrots", "chance": 0.06 },
+          { "block": "farmersdelight:wild_cabbages", "chance": 0.03 } ] } } ] },
+    { "_comment": "hot/dry (a Forest seed over desert/badlands) — tomatoes/beetroots",
+      "biomes": ["minecraft:desert", "#minecraft:is_badlands"],
+      "variants": [ { "weight": 1, "name": "wild_dry_crops", "decoration": {
+        "trees": [ { "feature": "minecraft:oak", "tries": 2, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.08 },
+          { "block": "farmersdelight:wild_tomatoes", "chance": 0.05 },
+          { "block": "farmersdelight:wild_beetroots", "chance": 0.04 },
+          { "block": "minecraft:dead_bush", "chance": 0.05 } ] } } ] },
+    { "_comment": "beach — cabbages/beetroots",
+      "biomes": ["#minecraft:is_beach"],
+      "variants": [ { "weight": 1, "name": "wild_beach_crops", "decoration": {
+        "trees": [ { "feature": "minecraft:oak", "tries": 3, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.15 },
+          { "block": "farmersdelight:wild_cabbages", "chance": 0.05 },
+          { "block": "farmersdelight:wild_beetroots", "chance": 0.04 } ] } } ] },
+    { "_comment": "savanna — tomatoes",
+      "biomes": ["#minecraft:is_savanna"],
+      "variants": [ { "weight": 1, "name": "wild_savanna_crops", "decoration": {
+        "trees": [ { "feature": "minecraft:acacia", "tries": 3, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.12 },
+          { "block": "farmersdelight:wild_tomatoes", "chance": 0.05 } ] } } ] }
+  ]
+}

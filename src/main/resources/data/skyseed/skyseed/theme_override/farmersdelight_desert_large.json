@@ -1,0 +1,18 @@
+{
+  "_comment": "First-party Farmer's Delight WILD-CROP compat on the LARGE DESERT tier — the mirror of farmersdelight_desert.json (mirror-island-tiers rule), identical top-level + is_badlands crops, only target differs. See that file for the full rationale.",
+  "target": "skyseed:desert_large",
+  "variants": [
+    { "weight": 1, "name": "wild_desert_crops", "decoration": {
+      "ground": [ { "block": "farmersdelight:wild_tomatoes", "chance": 0.05 },
+        { "block": "farmersdelight:wild_beetroots", "chance": 0.04 },
+        { "block": "minecraft:dead_bush", "chance": 0.08 },
+        { "block": "minecraft:cactus", "chance": 0.03 } ] } }
+  ],
+  "biome_overrides": [
+    { "biomes": ["#minecraft:is_badlands"],
+      "variants": [ { "weight": 1, "name": "wild_red_crops", "decoration": {
+        "ground": [ { "block": "farmersdelight:wild_tomatoes", "chance": 0.05 },
+          { "block": "farmersdelight:wild_beetroots", "chance": 0.04 },
+          { "block": "minecraft:dead_bush", "chance": 0.10 } ] } } ] }
+  ]
+}

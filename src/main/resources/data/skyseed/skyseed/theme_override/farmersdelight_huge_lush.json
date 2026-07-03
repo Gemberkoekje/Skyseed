@@ -1,0 +1,9 @@
+{
+  "_comment": "First-party Farmer's Delight WILD-RICE compat on the HUGE LUSH tier (FARMERSDELIGHTPLAN #16) — mirror of farmersdelight_lush.json. 'pond' is a scalar-REPLACE, so this is a verbatim copy of huge_lush.json's base pond (water r10 d3 + axolotls) with wild_rice appended to plants — re-sync if the base pond changes. Inert without FD (Lookup.hasBlock gate).",
+  "target": "skyseed:huge_lush",
+  "pond": {
+    "block": "minecraft:water", "radius": 10, "depth": 3,
+    "plants": [ { "block": "farmersdelight:wild_rice", "chance": 0.12 } ],
+    "water_mobs": [ { "entity": "minecraft:axolotl", "chance": 0.50, "count": { "min": 1, "max": 2 } } ]
+  }
+}

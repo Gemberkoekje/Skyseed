@@ -377,6 +377,25 @@ final class PondCarver {
                     blockMap.put(floor.above(), Blocks.TALL_SEAGRASS.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
                 }
             }
+            case "wild_rice" -> {
+                // Farmer's Delight wild rice: a two-tall waterlogged plant that stands at the water SURFACE (panicles
+                // above the waterline), NOT floor-rooted like seagrass. Lower half occupies the top water block
+                // (waterlogged, water still below/around it); upper half sits in the air above. Written generically via
+                // the HALF property so it isn't hard-coupled to FD — any two-tall waterlogged plant placed here reads the
+                // same. Reached only when the block resolves (placePondPlants gates on Lookup.hasBlock), so it's inert
+                // without Farmer's Delight.
+                BlockState rice = Lookup.blockState(id);
+                BlockState lower = rice.hasProperty(DoublePlantBlock.HALF)
+                        ? rice.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER) : rice;
+                if (lower.hasProperty(BlockStateProperties.WATERLOGGED)) {
+                    lower = lower.setValue(BlockStateProperties.WATERLOGGED, Boolean.TRUE);
+                }
+                blockMap.put(new BlockPos(wx, waterY, wz), lower);
+                if (rice.hasProperty(DoublePlantBlock.HALF)) {
+                    blockMap.put(new BlockPos(wx, waterY + 1, wz),
+                            rice.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
+                }
+            }
             default -> {
                 BlockState st = Lookup.blockState(id);
                 if (st.hasProperty(BlockStateProperties.WATERLOGGED)) {

@@ -109,7 +109,7 @@ public final class GenerationJob {
             int treeBudget = TREES_PER_TICK;
             while (treeBudget-- > 0 && treeIndex < treeCount) {
                 IslandPlan.TreeSite ts = plan.trees().get(treeIndex++);
-                if (ts.feature().place(level, generator, plan.random(), ts.pos())) {
+                if (placeFeatureSafely(generator, ts)) {
                     treesPlaced++;
                 }
             }
@@ -211,10 +211,26 @@ public final class GenerationJob {
     private void forceOneTree(ChunkGenerator generator) {
         for (IslandPlan.TreeSite ts : plan.trees()) {
             clearPlantingSpot(ts.pos());
-            if (ts.feature().place(level, generator, plan.random(), ts.pos())) {
+            if (placeFeatureSafely(generator, ts)) {
                 treesPlaced++;
                 return;
             }
+        }
+    }
+
+    /**
+     * Place a (possibly third-party) configured feature defensively. Vanilla features return {@code false} for a bad
+     * spot, but a modded feature can <em>throw</em> — and these {@code place()} calls run inside the tick loop, so an
+     * uncaught exception would abort the whole in-progress island. Catch and skip instead, so one misbehaving feature
+     * (e.g. a Nether-delight cane over an unexpected surface) can't break generation. Hardens every modded tree/plant
+     * feature a theme references.
+     */
+    private boolean placeFeatureSafely(ChunkGenerator generator, IslandPlan.TreeSite ts) {
+        try {
+            return ts.feature().place(level, generator, plan.random(), ts.pos());
+        } catch (Exception | LinkageError e) {
+            Skyseed.LOGGER.warn("[skyseed] feature threw while placing at {} — skipping (modded-feature guard)", ts.pos(), e);
+            return false;
         }
     }
 
