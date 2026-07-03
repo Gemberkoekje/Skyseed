@@ -1,9 +1,9 @@
 {
-  "_comment": "First-party Quark compat (QUARKISLANDPLAN #71, Phase 1) — jasper + shale read well on the deepslate-bodied ancient mining island, plus a rare deep blue-corundum geode; and myalite on the End form. Extras only, no dedicated seed. Inert without Quark (unknown ores are skipped before any RNG).",
+  "_comment": "First-party Quark compat (QUARKISLANDPLAN #71) — jasper + shale + a rare deep blue-corundum geode on the deepslate-bodied ancient mining island, plus myalite on the End form. Extras only, no dedicated seed. Inert without Quark. The overworld biome_override bands re-add the Quark veins into ancient's deep (max_y:20) and high (min_y:96) Y-bands, which otherwise REPLACE the top-level ore list — without them the stones only appeared at Y 20-96. Selectors match ancient.json exactly so they MERGE (append).",
   "target": "skyseed:ancient",
   "ores": [
-    { "block": "quark:jasper", "chance": 0.45, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
-    { "block": "quark:shale", "chance": 0.45, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
+    { "block": "quark:jasper", "chance": 0.70, "count": { "min": 3, "max": 5 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "quark:shale", "chance": 0.70, "count": { "min": 3, "max": 5 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
     { "block": "quark:blue_corundum", "chance": 0.22, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
   ],
   "biome_overrides": [
@@ -11,6 +11,18 @@
       "dimension": "minecraft:the_end",
       "ores": [
         { "block": "quark:myalite", "chance": 0.60, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" }
+      ] },
+    { "_comment": "Merge the Quark veins into the deep band (max_y 20) — else it replaces the ore list.", "max_y": 20,
+      "ores": [
+        { "block": "quark:jasper", "chance": 0.70, "count": { "min": 3, "max": 5 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "quark:shale", "chance": 0.70, "count": { "min": 3, "max": 5 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "quark:blue_corundum", "chance": 0.22, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
+      ] },
+    { "_comment": "…into the high band (min_y 96).", "min_y": 96,
+      "ores": [
+        { "block": "quark:jasper", "chance": 0.70, "count": { "min": 3, "max": 5 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "quark:shale", "chance": 0.70, "count": { "min": 3, "max": 5 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "quark:blue_corundum", "chance": 0.22, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
       ] }
   ]
 }

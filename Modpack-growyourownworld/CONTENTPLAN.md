@@ -2,13 +2,12 @@
 
 Content-mod integration plan (NeoForge **1.21.1**). Companion to BEAUTIFYPLAN.md.
 
-> **Status (2026-07-01, mod 0.181.0) — the foundation is shipped:** the void ChunkGenerator (v0.165.0), the
-> **Create + Crafts & Additions + Flux Networks** power backbone, **Silent Gear**, all seven curated Create
-> addons, **Mystical Agriculture** (ore islands on Ancient/Lush/Nether-Soul + its quest chapter — see
-> MYSTICALPLAN.md), the **full BWG integration** (woods, flowers, and all six village styles — see BWGPLAN.md /
-> BWGVILLAGEPLAN.md), and the six-chapter FTB quest spine. The tech backbone is **decided: Immersive
-> Engineering** (Mekanism dropped, see §7). What remains is the next content-mod wave below; priorities live in
-> [`../PLANOFPLANS.md`](../PLANOFPLANS.md).
+> **Status — the foundation is shipped (see CHANGELOG):** the void ChunkGenerator, the **Create + Crafts &
+> Additions + Flux Networks** power backbone, **Silent Gear**, the curated Create addons, **Mystical Agriculture**
+> (see MYSTICALPLAN.md), the **full BWG integration** (woods, flowers, and all six village styles — shipped +
+> signed off, see CHANGELOG), and the six-chapter FTB quest spine. The tech backbone is **decided:
+> Immersive Engineering** (Mekanism dropped, see §7). What remains is the next content-mod wave below; priorities
+> live in [`../PLANOFPLANS.md`](../PLANOFPLANS.md).
 
 **What's left** (backlog #s = PLANOFPLANS):
 
@@ -39,28 +38,16 @@ mechanical conflicts** that islands/config can't solve.
 
 ---
 
-## 1. Power & automation backbone (the interop plan) — ✅ shipped; #39 proof pending
+## 1. Power & automation backbone — ✅ shipped (see CHANGELOG); #39 proof pending
 
-Standardize on **Forge Energy (FE/RF)** as the shared currency. Create is the one outlier and is bridged.
+The FE/RF grid is shipped: Create bridged to **Forge Energy** via **Crafts & Additions** (Alternator/Electric
+Motor) + **Flux Networks** (wireless FE — a Flux Point per island shares one global network; no cables across the
+void). IE (native FE) and AE2 (accepts FE) join directly when they land. Progression: Create rotation → Alternator
+→ FE boots the first IE/AE2 machines → IE becomes the heavy generator → AE2 consumes for storage/automation.
 
-| Mod | Native power | Talks FE? | How it joins the grid |
-|---|---|---|---|
-| **Immersive Engineering** | Immersive Flux (= FE) | ✅ native | directly |
-| **Applied Energistics 2** | AE (internal) | ✅ accepts FE input | directly |
-| **Create** | Rotational **Stress Units** | ❌ | **Create: Crafts & Additions** — Alternator (rotation→FE @75%, needs ≥32 RPM) + Electric Motor (FE→rotation) |
-
-*(Mekanism's row is gone — dropped 2026-07-01, see §7.)*
-
-- ✅ **Shipped:** Create + **Crafts & Additions** (`createaddition` 1.6.0) + **Flux Networks** (wireless FE — a
-  Flux Point per island shares one global FE network; no cables across the void).
-- **Open (#39):** prove FE actually flows Create → IE/AE2 across islands — a one-time in-game check, only
-  testable once the first FE **consumer** (IE #34 or AE2 #18) lands.
-- **Cabling guidance for then:** all FE mods interconnect, but mixing cable *types* is fiddly — keep **Flux
-  Networks** as the universal backbone and one cable family for local runs.
-
-**Natural power progression:** Create water wheels / windmills (rotation, vanilla mats) → Alternator → FE to
-boot the first IE/AE2 machines → mid/late **IE** (diesel/multiblocks) becomes the heavy FE generator → **AE2**
-consumes FE for storage/automation.
+- **Open (#39):** prove FE actually flows Create → IE/AE2 across islands — a one-time in-game check, only testable
+  once the first FE **consumer** (IE #34 or AE2 #18) lands. Keep **Flux Networks** the universal backbone + one
+  cable family for local runs (mixing cable *types* is fiddly).
 
 ---
 
@@ -106,11 +93,11 @@ consumes FE for storage/automation.
   blossom) are committed as **#71** → [QUARKISLANDPLAN.md](QUARKISLANDPLAN.md). Remaining on #15: the in-game smoke-pass.
 
 *(Shipped for reference: the biome-palette mod is **Oh The Biomes We've Gone** (BWG) 2.6.0 — overworld-focused,
-55 biomes / 25 woods, fully integrated per BWGPLAN.md + BWGVILLAGEPLAN.md. Its stray void-floor features are
-handled pack-wide by the void ChunkGenerator (see the mod's `plannednotes.md` — shipped v0.165.0), which makes
-**any** TerraBlender/structure mod safe to add: biomes flow into island theming, nothing decorates, no
-structures generate. Mystical Agriculture shipped via **ore islands** — deepslate on Ancient, stone on Lush,
-soulium on Nether-Soul — rather than a starter seed/recipe; see MYSTICALPLAN.md.)*
+55 biomes / 25 woods, fully integrated (shipped + signed off, see CHANGELOG). Its stray
+void-floor features are handled pack-wide by the void ChunkGenerator (shipped v0.165.0), which makes **any**
+TerraBlender/structure mod safe to add: biomes flow into island theming, nothing decorates, no structures
+generate. Mystical Agriculture shipped via **ore islands** — deepslate on Ancient, stone on Lush, soulium on
+Nether-Soul; see MYSTICALPLAN.md.)*
 
 ---
 
@@ -169,9 +156,8 @@ are ✅ done. Remaining:
 **FTB Quests** (NeoForge `2101.x` for 1.21.1) — in-game editor, quests saved as **SNBT** and committed.
 Deps: **Architectury API + FTB Library + FTB Teams** (all shipped).
 
-- ✅ **Shipped:** six chapters (Introduction, Skyseed, Create, Tools & Travel, Storage, Mystical Agriculture —
-  54 quests) plus the BWG branch (B701–B703), committed under `overrides/config/ftbquests/quests/`. See
-  QUESTPLAN.md.
+- ✅ **Shipped (see CHANGELOG / QUESTPLAN.md):** six chapters (Introduction, Skyseed, Create, Tools & Travel,
+  Storage, Mystical Agriculture — 54 quests) plus the BWG branch (B701–B703), under `overrides/config/ftbquests/quests/`.
 - **Authoring workflow (version-controlled):** build quests in a dev world → FTB Quests writes them to
   `config/ftbquests/quests/` (SNBT) → copy into `overrides/config/ftbquests/` so they ship with the pack.
   Configs are committed; player *progress* is per-world/team and stays out of the pack.

@@ -1,13 +1,15 @@
 {
   "dimensions": ["minecraft:overworld"],
-  "shape": { "radius": { "min": 16, "max": 19 }, "rim_noise": 0.28, "underside": "teardrop", "top_dome": { "min": 1, "max": 3 } },
+  "_comment_shape": "Purpose-built trial island — expanded + deepened (BWGSTRUCTUREPLAN #24/#61) to hold the taller, multi-story vanilla-style trial chamber. Radius 24-30 with an uncapped teardrop underside (~25-31 deep at the centre) leaves room for the two-storey atrium + downward levels; low top_dome keeps a broad flat top.",
+  "shape": { "radius": { "min": 24, "max": 30 }, "rim_noise": 0.30, "underside": "teardrop", "top_dome": { "min": 1, "max": 2 } },
   "palette": { "surface": "minecraft:stone", "fill": "minecraft:tuff", "core": "minecraft:deepslate", "fill_depth": 4,
     "surface_scatter": [ { "block": "minecraft:tuff", "chance": 0.25 }, { "block": "minecraft:cobblestone", "chance": 0.10 } ] },
   "ores": [
     { "block": "minecraft:copper_ore", "chance": 0.85, "count": { "min": 5, "max": 8 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
     { "block": "minecraft:iron_ore", "chance": 0.55, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" }
   ],
-  "jigsaw": { "pool": "skyseed:trial_chamber/start", "target": "minecraft:bottom", "depth": 3, "pad": 10, "sink": 7 },
+  "_comment_jigsaw": "depth 5 lets the warren wind atrium→passages→junctions→chambers→descents a few hops deep; pieces are kept small + sprawl is capped by depth so it stays inside the deepened island (#61, keep-island/cap-sprawl).",
+  "jigsaw": { "pool": "skyseed:trial_chamber/start", "target": "minecraft:bottom", "depth": 5, "pad": 14, "sink": 10 },
   "variants": [
     { "weight": 1, "name": "rocky", "decoration": {
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.04 } ] } }

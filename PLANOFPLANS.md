@@ -4,139 +4,137 @@
 to the plan that owns the detail. Item numbers are stable (they carry over from the previous backlog; closed
 numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` / `CHANGELOG_26.1.md` and git).
 
-> **Regenerated 2026-07-01 at mod 0.181.0** by a full plan-vs-repo audit: every plan doc was re-verified
-> item-by-item against the code, the datapack, the gametests, both changelogs, `mods.txt`, and the modpack
-> configs. All fully-done items were removed from the plans; `CODE_REVIEW.md` was retired entirely (all 21
-> findings fixed + merged via PR #15 — its three open follow-ups are carried in
-> [Engineering debt](#engineering-debt-ex-code_reviewmd) below).
+> **Cleaned 2026-07-02 at mod 0.191.0** (refreshed after the round of in-game sign-offs). All
+> fully-shipped-and-signed-off items were removed, and the three fully-complete BWG plans were **retired** into the
+> changelogs + git — `BWGPLAN.md` (wood/flowers), `BWGSWAMPVILLAGEPLAN.md` (cypress bayou), and `BWGVILLAGEPLAN.md`
+> (all six village styles, now that #14 biome-reachability is signed off). Their still-governing decisions were
+> carried into the Decisions log below, and the villages' reusable string-id structure engine into STRUCTUREPLAN.
+> The trial-chamber vanilla redesign shipped end-to-end (#24 + #25, v0.189–v0.191). Shipped sections inside the
+> still-open plans were trimmed to changelog pointers.
 
 ## Headline
 
-- **~40 open items** remain — about half are **in-game sign-offs and small fixes** on already-shipped content;
-  the other half is the **next content-mod wave** (IE / AE2 / Quark / Farmer's Delight / …) and the
-  **structure long tail** (manor, bog trial, trial-chamber polish).
-- The BWG arc is **done end-to-end** (woods, flowers, planks 24/25, guide, quests, and all six village styles
-  × three tiers, v0.170.0–v0.181.0). Its in-game sign-offs are **done** (#3, #10, #66; #14 Phase 5 assembly +
-  reachability for red_rock/cypress). **#72** (village doors) **SHIPPED v0.187.0** (front-door FACING flipped flush;
-  163 `.nbt` regenerated) and **#73** (cypress overwater bayou) **SHIPPED v0.188.0** (shallow-swamp water + a
-  data-driven stilt/boardwalk engine; both nodes green) — both now await only their in-world look-see, plus two biome
-  reachability spot-checks.
-- The two **wet-wood quality fixes** in-game testing flagged (**#64** broad shallow marsh, **#65** the ≥1-tree
-  guarantee), the **#69** quest-text refresh, the **#22** density lift and the **#23** config/jar pass all **shipped
-  v0.186.0** (both nodes green), and **#64/#65 are signed off in-game (2026-07-02)** — the BWG arc is now **code-complete
-  end-to-end** (#72 v0.187.0 + #73 v0.188.0 both shipped), leaving only in-world look-sees. Best value next: the
-  remaining **Tier 1 sign-offs**.
+- The **BWG arc is done end-to-end** — woods, flowers, planks, guide, quests, and all six village styles × three
+  tiers, plus the door-flush fix (**#72**) and the cypress overwater bayou (**#73**), all shipped **and signed off
+  in-game** (v0.170.0–v0.188.0). Its dedicated plans are retired.
+- The **Trial Chamber** shipped its vanilla redesign (**#24** aged-copper palette/lighting/cornice + multi-story-downward
+  layout, **#25** greebling, v0.189–v0.191) and then a **corridor-WARREN restructure** (**#61**, v0.194.0) so it reads
+  like a real smaller vanilla trial dungeon — atrium → winding passages → junctions → chambers-on-spurs, not rooms
+  bolted on. Both nodes green; the in-game feel/fit is the pending sign-off.
+- **In-game sign-offs on shipped content are cleared** (2026-07-02): #3/#10/#66/#64/#65 earlier, plus **#14** (village
+  biomes reachable) and **#15** (Quark smoke pass). **#71** Quark island stones — Y-band bug **fixed v0.192.0** +
+  limestone/jasper/shale made abundant across all tiers **v0.193.0**; awaiting an in-game re-verify.
+- What's meaningfully **left**: two **in-game re-verifies** (#71 Quark stones at all depths, #61 the trial warren's
+  feel/fit); the **next content-mod wave** (Farmer's Delight, Immersive Engineering + AE2, each with its quest chapter
+  + gated island tier); and a **standing-rule / contingency tail** (visuals, further version nodes, engineering debt).
+- Best value next: throw-test #71 + #61, then open the **content-mod wave** (Farmer's Delight is the highest-ROI mod).
 
 ## Decisions log (standing decisions that govern the open work)
 
-- **Q2 (BWG bands): DISTRIBUTE** across typed seed families, priority-ordered per seed — same biome may appear
-  in several families with different emphasis. File convention in [BWGPLAN § Q2](Modpack-growyourownworld/BWGPLAN.md).
-- **Tech backbone: Immersive Engineering; Mekanism DROPPED** (aesthetic call). Cascades: #34 promoted, the
-  Excavator fix #35 required, Mekanism integration + quest chapter dead. [CONTENTPLAN §7](Modpack-growyourownworld/CONTENTPLAN.md).
-- **Quark: SHIPPED for NeoForge 1.21.1** — the **4 jars are in** (Quark 4.1-481, Zeta 1.1-40, Quark Oddities marker,
-  QuarkPonders 1.5.1) and the modules are **curated** (overlaps + void-dead worldgen off). The **Totem of Holding now
-  works in the void**: Skyseed relocates a void-death totem to a lit shrine at the island band (v0.182.0 — the totem is
-  otherwise unreachable). #15 is now in progress (only the in-game smoke-pass sign-off remains); #43's minimal quest
-  sketch is queued. **Island integration is committed as #71** ([QUARKISLANDPLAN](Modpack-growyourownworld/QUARKISLANDPLAN.md)).
-  Own plan: [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md).
-- **Structure scope: FULL** — all 6 villages (✅ since shipped) + aspen manor + bog trial; prairie/fossil stay
-  optional. [STRUCTUREPLAN § Scope decision](Modpack-growyourownworld/STRUCTUREPLAN.md).
-- **Village vehicle: our OWN jigsaw set in BWG palettes** (hermetic string-id `.nbt` engine — no BWG on any
-  classpath). The manor/trial must make the same route choice (adapt BWG pools vs author own). [STRUCTUREPLAN § Mechanism](Modpack-growyourownworld/STRUCTUREPLAN.md).
+- **BWG bands (Q2): DISTRIBUTE** across typed seed families, priority-ordered per seed — the same biome may appear
+  in several families with different emphasis. *(BWG arc shipped; retained as the convention for any future biome-band work.)*
 - **BWG dedicated-seed bar (Q3):** only non-growable AND farm-worthy content earns a dedicated seed — nothing
-  currently qualifies. [BWGPLAN § Q3](Modpack-growyourownworld/BWGPLAN.md).
-- **fir is the documented non-growable BWG plank** (no configured tree feature in 2.6.0) → 24/25 planks
-  island-obtainable, gametest-guarded.
-- **FTB Quests tag-tasks trap:** smart-filter item tasks don't expand tags — use an advancement task
-  ([QUESTPLAN § Approach](Modpack-growyourownworld/QUESTPLAN.md)).
+  currently qualifies. Governs **#60**. *(BWG arc shipped.)*
+- **fir is the documented non-growable BWG plank** (no configured tree feature in 2.6.0) → the 24/25 planks are
+  island-obtainable, gametest-guarded. *(BWG arc shipped.)*
+- **Tech backbone: Immersive Engineering; Mekanism DROPPED** (aesthetic call). Cascades: **#34** promoted, the
+  Excavator fix **#35** required, Mekanism integration + quest chapter dead. [CONTENTPLAN §7](Modpack-growyourownworld/CONTENTPLAN.md).
+- **Quark: SHIPPED for NeoForge 1.21.1** — 4 jars in (Quark 4.1-481, Zeta 1.1-40, Quark Oddities marker,
+  QuarkPonders 1.5.1) + modules curated + the void-death **Totem of Holding** relocated to a lit island shrine
+  (v0.182.0). **#15 smoke pass signed off** 2026-07-02; **#43** quest sketch is queued; island integration (**#71**)
+  is shipped but has a Y-band bug (Tier 2). Plans: [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) /
+  [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md).
+- **Structure scope: FULL** — all 6 villages (✅ shipped) + aspen manor + bog trial; prairie/fossil stay optional.
+  [STRUCTUREPLAN § Scope](Modpack-growyourownworld/STRUCTUREPLAN.md).
+- **Structure vehicle: our OWN jigsaw set in themed palettes** (hermetic string-id `.nbt` engine — no BWG on any
+  classpath). The manor/trial must make the same route choice (adapt pools vs author own).
+  [STRUCTUREPLAN § Mechanism](Modpack-growyourownworld/STRUCTUREPLAN.md).
+- **FTB Quests tag-tasks trap:** smart-filter item tasks don't expand tags — use an advancement task.
+  [QUESTPLAN § Approach](Modpack-growyourownworld/QUESTPLAN.md).
 
 ## Snapshot by plan
 
 | Plan | What it covers | Open items |
 |---|---|---|
-| [BWGPLAN.md](Modpack-growyourownworld/BWGPLAN.md) | BWG woods/flowers integration | — (all shipped & signed off) |
-| [BWGVILLAGEPLAN.md](Modpack-growyourownworld/BWGVILLAGEPLAN.md) | BWG villages (shipped) | #14 Phase-5 spot-checks (#72 door fix shipped v0.187.0) |
-| [BWGSWAMPVILLAGEPLAN.md](Modpack-growyourownworld/BWGSWAMPVILLAGEPLAN.md) | Cypress swampland villages overwater rework (child of BWGVILLAGEPLAN) | #73 shipped v0.188.0 (in-world tuning) |
 | [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration | #34 #35 #18 #16 #31 #32 #36 #37 #38 #39 #52 + rolling #19 #20 |
-| [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) | Quark integration (child of CONTENTPLAN) | #15 (smoke-pass sign-off) (+ #43 quest sketch) |
-| [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md) | Quark × island integration (child of QUARKPLAN) | #71 |
-| [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | BWG structures long tail | #26 #27 #28 #29 #30 #49 #60 #68 |
+| [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) | Quark integration (child of CONTENTPLAN) | #43 quest sketch (+ partner-gated add-ons) |
+| [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md) | Quark × island integration (child of QUARKPLAN) | #71 (Y-band fix shipped v0.192.0 — in-game re-verify) |
+| [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | structures long tail | #26 #27 #28 #29 #30 #49 #60 #68 |
 | [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | future chapters #41–#47 |
 | [MYSTICALPLAN.md](Modpack-growyourownworld/MYSTICALPLAN.md) | Mystical Agriculture (shipped) | #50 #51 |
 | [BEAUTIFYPLAN.md](Modpack-growyourownworld/BEAUTIFYPLAN.md) | Modpack visuals (shipped) | #21 #55 (+ optional revivals #53 #54) |
 | [REFACTORPLAN.md](REFACTORPLAN.md) | Multi-version build (shipped) | #56 #59 (+ contingencies #57 #58) |
-| [plannednotes.md](plannednotes.md) | Trial Chamber polish, misc | #24 #25 #33 #61 #70 |
+| [plannednotes.md](plannednotes.md) | Trial Chamber tail + misc | #33 #61 #70 |
 | Engineering debt (ex-CODE_REVIEW) | crash-robustness follow-ups | 5.2, 5.3, #67 |
 
 ---
 
 ## Priority tiers
 
-### Tier 1 — sign-offs & small fixes on shipped content *(do these first)*
+### Tier 1 — in-game sign-offs on shipped content
 
-- ✅ **#3 / #10 / #66 — DONE** (2026-07-02 in-game sign-off); **#14 Phase 5** largely signed off (assembly ✅ + reachability for red_rock/cypress), leaving two biome spot-checks. Of the follow-ups it surfaced, **#72** (village doors face inward) **SHIPPED v0.187.0** (code+regen, both nodes green — in-world look-see still open) and **#73** (cypress → stilted overwater bayou) is design-locked but not yet coded. See the [checklist](#-in-game-verification-checklist-for-you-to-test).
-- ✅ **#64 — DONE (v0.186.0, signed off 2026-07-02):** the wet-wood water feature is a broad shallow swamp/marsh (`depth: 2`, `slope`, raised `extent` 0.6/0.62/0.68) across all ×3 Aquatic tiers; gametest-guarded, and the in-game re-throw confirmed the water reads as a marsh. *(BWGPLAN)*
-- ✅ **#65 — DONE (v0.186.0, signed off 2026-07-02):** the `forceOneTree` guarantee grades a real 5×5 planting clearing so big BWG NBT trees can't silently fail to zero; base-tier `tries` 4→6. In-game re-throw confirmed Small grows ≥1 tree and **Huge Bayou grows willows** (the clearing fixed it — lever (c) not needed). *(BWGPLAN)*
-- ✅ **#69 — DONE (v0.186.0):** quest **B602 "Prosperity Found"** text refreshed — leads with the accessible Lush stone ores, Ancient framed as the richer deepslate option. *(MYSTICALPLAN)*
-- ✅ **#22 — DONE (v0.186.0):** the held wet/semi forest biomes (flower/cherry/grove/mangrove/swamp/river/mushroom/bamboo) lifted to the canonical per-tier forest density (7/40/120 base/large/huge); both nodes green. *(BWGPLAN)*
-- ✅ **#23 — DONE (v0.186.0):** BWG config coherence pass complete (biome injection ON; all 35 targeted biomes enabled; `eroded_borealis: false` confirmed harmless — holly reachable via `dacite_ridges`); `mods.txt` skyseed jar bumped 0.179.0 → 0.186.0. *(BWGPLAN)*
+**✅ Cleared (2026-07-02):** #3/#10/#66/#64/#65 earlier, plus **#14** (all village biomes reachable) and **#15**
+(Quark smoke pass — all works).
+
+- [ ] **(#71)** **Quark island stones — re-verify after the fix (v0.192.0).** The Y-band bug is fixed (the veins now
+  merge into every Rocky/Ancient Y-band, so they no longer vanish on low/high throws). Confirm in-game: throw Rocky +
+  Ancient islands at **low, mid, and high** Y and **mine into the core** — you should find limestone/jasper (rocky),
+  jasper/shale (ancient) + the occasional deep blue-corundum geode at every depth. Then tune vein weights, and sign
+  off the blossom/Ancient-Tome loot half of #71. *(QUARKISLANDPLAN)*
+
+*(**#61** trial rooms — grander/less-square — needs dev work first; it's in Tier 3.)*
 
 ### Tier 2 — the content-mod wave *(in ROI order; each is followed by its quest chapter #19 and gated tier #20)*
 
-- **#15** Quark + Zeta — cheap building/QoL breadth. **Availability verified 2026-07-02** (Quark 4.1-481 +
-  Zeta 1.1-40, NeoForge 1.21.1); jar list, module curation, smoke pass, and follow-ons (Quark Engineering ← #34,
-  Farmer's Cutting: Quark ← #16) in [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md). *(QUARKPLAN · small)*
 - **#16** Farmer's Delight — wild crops on biome islands. *(CONTENTPLAN · medium)*
-- **#34** Immersive Engineering — the tech backbone (bauxite/aluminum island + FE), **gated on #35** the Excavator fix (island-aware ore mix preferred, else disable + hide in JEI). *(CONTENTPLAN · large + medium)*
+- **#34** Immersive Engineering — the tech backbone (bauxite/aluminum island + FE), **gated on #35** the Excavator
+  fix (island-aware ore mix preferred, else disable + hide in JEI). *(CONTENTPLAN · large + medium)*
 - **#18** Applied Energistics 2 — certus/sky-stone bootstrap. *(CONTENTPLAN · medium)*
 - Then their quest chapters: **#45** IE, **#41** AE2, **#42** FD, **#43** Quark. *(QUESTPLAN)*
-- **#39** FE-flow proof rides the first consumer (IE or AE2) landing.
+- *(**#39** FE-flow proof is blocked until the first FE consumer lands — see "Not yet testable" below.)*
 
 ### Tier 3 — structures & trial-chamber polish
 
-- **#26** aspen manor + **#27** bog trial — first decision: vehicle (adapt BWG pools vs author own set like the villages); each carries **#28** (vertical-jigsaw bounding-box mitigation + placement gametest) and **#29** (on-pad assembly check); **#30** release hygiene rides every step. *(STRUCTUREPLAN · medium each)*
-- **#24** Trial Chamber palette + lighting pass (copper bulbs / grate, mud bricks, stairs-slabs-walls shapes) → **#25** atmosphere/greebling half (vaults already ✅) → **#33** more room/corridor variants → **#61** clean rebuild + vanilla comparison (mind the NBT staging trap). *(plannednotes · medium/medium/large/small)*
+- **#61** Trial Chamber — **corridor-warren first pass SHIPPED v0.194.0.** Reworked the jigsaw flow so it reads like a
+  smaller vanilla trial dungeon (atrium → winding passages → T-junctions → chambers on spurs + a small cell + descents),
+  not chambers bolted onto the atrium. Both nodes green. **In-game feel/fit is yours to confirm** (does it wind/branch,
+  chambers open off junctions, stays inside the island); tune hall/junction weights + jigsaw `depth` after the look.
+- **#33** Trial Chamber more variants — partly done by the warren (corner/junction/cell/descent); further options:
+  cross-intersections, alcove-corridors, bigger multi-cell chambers, vaulted ceilings. *(plannednotes)*
+- **#26** aspen manor + **#27** bog trial — first decision: vehicle (adapt pools vs author own set like the
+  villages); each carries **#28** (vertical-jigsaw bounding-box mitigation + placement gametest) and **#29** (on-pad
+  assembly check); **#30** release hygiene rides every step. *(STRUCTUREPLAN · medium each)*
 
 ### Tier 4 — long tail / optional / future
 
-- Flavor mods: **#31** Critters & Companions (small), **#32** Productive Bees (medium), **#36** Iron's Spells (large; decide scope **#37** first). *(CONTENTPLAN)*
-- Optional visuals: **#21** Distant Horizons (unblocked), **#53** Vanilla Tweaks revival, **#54** standalone resource pack. *(BEAUTIFYPLAN)*
-- Standing rules (work only when triggered): **#55** shaderPack pin refresh on Complementary/Euphoria updates; **#30** per-structure-step hygiene; **#38** per-future-mod ore-island-vs-MA call.
-- Refactor tail: **#59** further version nodes (discretionary — the recipe is ready), **#56** route gametest suites through compat (deprioritized), **#57**/**#58** contingencies (shared-suite fingerprint map / per-version data variant — build only when needed). *(REFACTORPLAN)*
+- Flavor mods: **#31** Critters & Companions (small), **#32** Productive Bees (medium), **#36** Iron's Spells (large;
+  decide scope **#37** first). *(CONTENTPLAN)*
+- Optional visuals: **#21** Distant Horizons (unblocked), **#53** Vanilla Tweaks revival, **#54** standalone resource
+  pack. *(BEAUTIFYPLAN)*
+- Standing rules (work only when triggered): **#55** shaderPack pin refresh on Complementary/Euphoria updates;
+  **#30** per-structure-step hygiene; **#38** per-future-mod ore-island-vs-MA call.
+- Refactor tail: **#59** further version nodes (discretionary — the recipe is ready), **#56** route gametest suites
+  through compat (deprioritized), **#57**/**#58** contingencies (shared-suite fingerprint map / per-version data
+  variant — build only when needed). *(REFACTORPLAN)*
 - **#52** verify The Factory Must Grow + Extended Cogwheels for 1.21.1, or drop them. *(CONTENTPLAN · small)*
-- **#47** clarify the "BYG content" future-chapter scope (BWG's branch already shipped — deeper BWG coverage, or the separate BYG mod?). *(QUESTPLAN · decision)*
-- **#49** prairie houses / rugged fossil, **#60** dedicated structure seeds (fallback), **#68** net-new bespoke structures (Create sheds, abandoned Inferium farmlands, … — future want). *(STRUCTUREPLAN)*
+- **#47** clarify the "BYG content" future-chapter scope (BWG's branch already shipped — deeper BWG coverage, or the
+  separate BYG mod?). *(QUESTPLAN · decision)*
+- **#49** prairie houses / rugged fossil, **#60** dedicated structure seeds (fallback), **#68** net-new bespoke
+  structures (Create sheds, abandoned Inferium farmlands, … — future want). *(STRUCTUREPLAN)*
 - **#50** optional dedicated Prosperity island. *(MYSTICALPLAN · medium)*
 - **#70** waystone drop-compat idea (decision + build, unscoped). *(plannednotes)*
+- **#51** MA balance — an **ongoing watch** (Growth Accelerator stacking + mob Inferium drop rates). Deferred out of
+  Tier 1: revisit only if a normal playthrough surfaces a problem, once there's enough feedback to act on. *(MYSTICALPLAN)*
 
 ---
 
-## 🎮 In-game verification checklist (for you to test)
+## Not yet testable (blocked until a dependency lands)
 
-Items that need a running client/server — one list to work through. Several could surface a real bug, so
-they're worth doing before the next content lands on top.
+Parked here so Tier 1 stays a list of things that can actually be done now. Move an item up to its testable tier the
+moment its blocker lands.
 
-**Shipped-feature sign-offs (all need BWG installed) — ✅ largely cleared 2026-07-02:**
-
-- [x] **(#3)** The **BWG quest branch** (Tools & Travel) — ✅ loads and works as intended (tasks/rewards resolve).
-- [x] **(#10)** The **"Exotic Woods" guide entry** — ✅ hidden without BWG, appears (Patchouli AND Modonomicon) once installed; and the stale "Eleven wood families" flavour text was corrected to **twenty** (v0.184.0).
-- [ ] **(#14 Phase 5a)** **Village-biome reachability** — PARTIAL: ✅ `red_rock_valley` (the default village seed grew a red-rock village) + `cypress_swamplands`/`cypress_wetlands` confirmed; still to spot-check **`pumpkin_valley`** and **`weeping_witch_forest`** (re-key to a reachable sibling if either never places, cf. #66).
-- [x] **(#14 Phase 5b)** **Throw-a-seed per village style** — ✅ villages assemble with the right BWG blocks (property-serialisation proven). Two findings spun off: **#72** (doors face inward — code+regen shipped v0.187.0, needs the in-world look-see below) and **#73** (cypress → stilted overwater bayou, design-locked).
-- [ ] **(#72)** **Doors flush look-see** — the front-door FACING was flipped `NORTH→SOUTH` and all 163 door-bearing `.nbt` regenerated (both nodes green). Throw a village seed and confirm front doors now sit flush with the outer wall (BWG villages + a vanilla trade post / village center) rather than recessed inward.
-- [ ] **(#73)** **Cypress bayou tuning** — the cypress hamlet/trade-post/village-center now carve a shallow swamp and stand on stilts + plank boardwalks (v0.188.0, both nodes green). Throw all three cypress tiers and tune two data knobs: the jigsaw **`stilt_height`** (floors should clear the water by ~1 block, not be awash or floating too high) and the pond **`extent`** (enough water to read as a bayou, shore still walkable). Confirm the village-center is one island (not the 3-island cluster) and the boardwalks span the water between buildings.
-- [x] **(#66)** **Spirit re-test** — ✅ a Forest seed grew spirit trees; band confirmed working (the earlier "no spirit" was the mislabelled-biome test).
-
-- [x] **(#64/#65)** **Wet-wood re-throw sign-off** — ✅ **DONE (2026-07-02):** re-threw the wet-wood seeds (cypress/bayou/white-mangrove/palm) across all three tiers — the water reads as a **broad shallow marsh**, **Small tiers grow ≥1 tree**, and **Huge Bayou grows willows**. The `forceOneTree` clearing was sufficient; BWGPLAN lever (c) was not needed.
-
-**Balance & polish — observe during a normal playthrough:**
-
-- [ ] **(#71)** Quark island extras (needs Quark installed): a Forest seed over savanna/plains/swamp/snowy/badlands sometimes grows a **blossom grove** (saplings obtainable); Rocky/Ancient islands vein Quark stones + a deep corundum geode, End form veins myalite; **Ancient Tomes** appear in the dungeon/mansion/bastion/ancient-city/trial/fortress island chests. Tune weights after the read.
-- [ ] **(#51)** MA balance — watch Growth Accelerator stacking + mob Inferium drop rates; tune configs only if needed.
-- [ ] **(#61)** Trial Chamber — after the #24/#25/#33 polish lands: clean rebuild + visual comparison to a vanilla trial chamber (stale-NBT Stonecutter trap).
-
-**Blocked until the mod lands:**
-
-- [ ] **(#39)** FE flows Create → IE/AE2 across islands (needs the first FE consumer installed).
+- **#39** Prove FE flows Create → IE/AE2 across islands — **blocked**: needs the first FE **consumer** (IE #34 or
+  AE2 #18) installed. Promote to a Tier-1 sign-off the moment either lands. *(CONTENTPLAN)*
 
 ---
 
@@ -144,21 +142,15 @@ they're worth doing before the next content lands on top.
 
 | # | Item | Plan | Priority | Effort | Status |
 |---|---|---|---|---|---|
-| 14 | BWG villages Phase 5 — reachability ✅ (red_rock_valley + cypress confirmed; spot-check pumpkin_valley/weeping_witch_forest) + per-style assembly ✅; two follow-ups spun off (#72, #73), then retire the plan | BWGVILLAGEPLAN | high | small | mostly done |
-| 72 | Village doors face inward — flipped z=0-wall front-door FACING `NORTH→SOUTH` (flush outside) in BwgVillage/TradePost/VillageCenter/RareStructure (Hamlet already correct, untouched); 163 door `.nbt` regenerated, both nodes green | BWGVILLAGEPLAN | high | small | ✅ shipped v0.187.0 (in-world look-see open) |
-| 73 | Cypress swampland villages → single swamp-water island with stilts + plank boardwalks (all 3 tiers; de-clustered village_center). Shipped: #64 `pond` water + data-driven `stilt_height` lift + PathSurfacer.supportStilts/resolveStilted (terrain-aware legs through water; no piece regen needed); gametest-guarded, both nodes green | BWGSWAMPVILLAGEPLAN | medium | large | ✅ shipped v0.188.0 (in-world tuning open) |
-| 15 | Quark + Zeta: 4 jars in + modules curated + void-death Totem shrine shipped (v0.182.0) | QUARKPLAN | medium | small | in progress (smoke-pass sign-off) |
-| 71 | Quark island integrations (extras only — NO new seeds/tiers): stones+corundum (Rocky/Ancient) + myalite (End) + blossoms (all 3 Forest tiers) + Ancient-Tome loot — ✅ ALL PHASES SHIPPED v0.184–0.185, both nodes green; only the in-game look/loot sign-off remains | QUARKISLANDPLAN | medium | medium | shipped (sign-off) |
+| 71 | Quark island stones — Y-band bug **fixed v0.192.0** (veins now merge into every overworld Y-band across the 6 `quark_{rocky,ancient}{,_large,_huge}` files; ids verified; gametest-guarded). Remaining: in-game re-verify at low/mid/high throws + tune weights + blossom/Ancient-Tome loot sign-off | QUARKISLANDPLAN | medium | medium | fix shipped (in-game re-verify) |
 | 16 | Farmer's Delight — wild crops on biome islands | CONTENTPLAN | medium | medium | open |
 | 34 | Immersive Engineering — bauxite/aluminum island + FE (the tech backbone) | CONTENTPLAN | medium | large | open (gated on 35) |
 | 35 | IE Excavator fix — island-aware ore mix (preferred) else disable + hide in JEI | CONTENTPLAN | medium | medium | open |
 | 18 | AE2 — certus + sky-stone bootstrap | CONTENTPLAN | medium | medium | open |
 | 19 | Rolling: quest chapter per newly-landed mod | QUESTPLAN / CONTENTPLAN | medium | rolling | partial |
 | 20 | Rolling: gated island tier per newly-landed mod | CONTENTPLAN | medium | rolling | partial |
-| 24 | Trial Chamber palette + lighting pass (7 NBTs) | plannednotes | medium | medium | open |
-| 25 | Trial Chamber atmosphere/greebling (vault half ✅ done) | plannednotes | low | medium | partial |
-| 33 | Trial Chamber more room/corridor variants | plannednotes | low | large | open |
-| 61 | Trial Chamber clean rebuild + vanilla comparison | plannednotes | low | small | gated on 24/25/33 |
+| 61 | Trial Chamber corridor-WARREN — atrium → passages → junctions → chambers-on-spurs + cell + descents (reads like a real vanilla trial dungeon). First pass shipped v0.194.0, both nodes green | plannednotes | medium | medium | shipped (in-game feel/fit) |
+| 33 | Trial Chamber more variants — partly done by the warren (corner/junction/cell); further: cross-intersections, alcove-corridors, multi-cell/vaulted chambers | plannednotes | low | large | open |
 | 26 | Resurrect aspen manor (vehicle decision first) | STRUCTUREPLAN | low | medium | open |
 | 27 | Resurrect bog trial (vehicle decision first) | STRUCTUREPLAN | low | medium | open |
 | 28 | Vertical-jigsaw bounding-box mitigation + placement gametest (rides 26/27) | STRUCTUREPLAN | low | medium | rider |
@@ -169,10 +161,10 @@ they're worth doing before the next content lands on top.
 | 36 | Iron's Spells — loot/mob injection | CONTENTPLAN | low | large | open (decide 37 first) |
 | 37 | Decide Iron's Spells scope (full discovery loop vs crafted-only) | CONTENTPLAN | low | small | decision |
 | 38 | Per-future-mod call: bespoke ore island vs MA seeds | CONTENTPLAN | low | small | standing rule |
-| 39 | Prove FE flows Create → IE/AE2 across islands | CONTENTPLAN | low | small | blocked (needs a consumer) |
+| 39 | Prove FE flows Create → IE/AE2 across islands | CONTENTPLAN | low | small | not yet testable (needs a consumer) |
 | 41 | Future chapter: AE2 (quest) | QUESTPLAN | low | unknown | gated on 18 |
 | 42 | Future chapter: Farmer's Delight (quest) | QUESTPLAN | low | unknown | gated on 16 |
-| 43 | Future chapter: Quark (quest — minimal 3-quest sketch in QUARKPLAN) | QUESTPLAN | low | unknown | gated on 15 |
+| 43 | Future chapter: Quark (quest — minimal 3-quest sketch in QUARKPLAN) | QUESTPLAN | low | unknown | unblocked (#15 ✅) — build last |
 | 44 | Future chapter: Productive Bees (quest) | QUESTPLAN | low | unknown | gated on 32 |
 | 45 | Future chapter: Immersive Engineering (quest — promoted with the backbone decision) | QUESTPLAN | medium | unknown | gated on 34 |
 | 46 | Future chapter: Iron's Spells (quest) | QUESTPLAN | low | unknown | gated on 36 |

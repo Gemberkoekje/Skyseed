@@ -5,11 +5,12 @@
     "surface": "minecraft:stone", "fill": "minecraft:cobblestone", "core": "minecraft:stone", "fill_depth": 3,
     "surface_scatter": [ { "block": "minecraft:andesite", "chance": 0.15 }, { "block": "minecraft:gravel", "chance": 0.10 } ]
   },
+  "_comment_ores": "BASE-density ore counts (identical to rocky.json). OrePlanner scales veins/size UP to this island's actual core volume at runtime, so a large island gets ~its size's worth of ore automatically — do NOT pre-inflate the counts here. Overworld emerald is the one large-tier addition (a mountain gem). Mirror to rocky.json + huge_rocky.json.",
   "ores": [
-    { "block": "minecraft:iron_ore", "chance": 0.90, "count": { "min": 9, "max": 13 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
-    { "block": "minecraft:copper_ore", "chance": 0.90, "count": { "min": 9, "max": 13 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
-    { "block": "minecraft:coal_ore", "chance": 0.70, "count": { "min": 7, "max": 11 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
-    { "block": "minecraft:gold_ore", "chance": 0.30, "count": { "min": 1, "max": 3 }, "vein_size": { "min": 2, "max": 4 }, "depth": "deep_core" },
+    { "block": "minecraft:iron_ore", "chance": 1.0, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "minecraft:copper_ore", "chance": 1.0, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "minecraft:coal_ore", "chance": 1.0, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "minecraft:gold_ore", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "deep_core" },
     { "block": "minecraft:lapis_ore", "chance": 0.35, "count": { "min": 1, "max": 3 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" },
     { "block": "minecraft:redstone_ore", "chance": 0.20, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "deep_core" },
     { "block": "minecraft:emerald_ore", "chance": 0.40, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 1, "max": 1 }, "depth": "core" }
@@ -84,9 +85,9 @@
       "variants": [ { "weight": 1, "name": "alpine", "snow": 0.85, "decoration": {
         "trees": [ { "feature": "minecraft:spruce", "tries": 4, "spacing": 3 } ] } } ],
       "ores": [
-        { "block": "minecraft:coal_ore", "chance": 0.95, "count": { "min": 10, "max": 15 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
-        { "block": "minecraft:iron_ore", "chance": 0.75, "count": { "min": 9, "max": 13 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
-        { "block": "minecraft:emerald_ore", "chance": 0.55, "count": { "min": 1, "max": 3 }, "vein_size": { "min": 1, "max": 1 }, "depth": "core" }
+        { "block": "minecraft:coal_ore", "chance": 0.95, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "minecraft:iron_ore", "chance": 0.75, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "minecraft:emerald_ore", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 1, "max": 1 }, "depth": "core" }
       ] },
 
     { "min_y": 130,
@@ -96,29 +97,29 @@
       "variants": [ { "weight": 1, "name": "alpine", "snow": 0.85, "decoration": {
         "trees": [ { "feature": "minecraft:spruce", "tries": 4, "spacing": 3 } ] } } ],
       "ores": [
-        { "block": "minecraft:coal_ore", "chance": 0.95, "count": { "min": 10, "max": 15 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
-        { "block": "minecraft:iron_ore", "chance": 0.75, "count": { "min": 9, "max": 13 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
-        { "block": "minecraft:emerald_ore", "chance": 0.55, "count": { "min": 1, "max": 3 }, "vein_size": { "min": 1, "max": 1 }, "depth": "core" }
+        { "block": "minecraft:coal_ore", "chance": 0.95, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "minecraft:iron_ore", "chance": 0.75, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "minecraft:emerald_ore", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 1, "max": 1 }, "depth": "core" }
       ] },
 
     { "max_y": 8,
       "surface": "minecraft:deepslate", "fill": "minecraft:cobbled_deepslate", "core": "minecraft:deepslate",
       "variants": [],
       "ores": [
-        { "block": "minecraft:deepslate_diamond_ore", "chance": 0.80, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 1, "max": 3 }, "depth": "deep_core" },
-        { "block": "minecraft:deepslate_redstone_ore", "chance": 0.90, "count": { "min": 2, "max": 5 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" },
-        { "block": "minecraft:deepslate_lapis_ore", "chance": 0.60, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" },
+        { "block": "minecraft:deepslate_diamond_ore", "chance": 0.80, "count": { "min": 1, "max": 3 }, "vein_size": { "min": 1, "max": 3 }, "depth": "deep_core" },
+        { "block": "minecraft:deepslate_redstone_ore", "chance": 0.90, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" },
+        { "block": "minecraft:deepslate_lapis_ore", "chance": 0.60, "count": { "min": 1, "max": 3 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" },
         { "block": "minecraft:deepslate_gold_ore", "chance": 0.55, "count": { "min": 1, "max": 3 }, "vein_size": { "min": 2, "max": 4 }, "depth": "deep_core" },
-        { "block": "minecraft:deepslate_iron_ore", "chance": 0.75, "count": { "min": 2, "max": 5 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "minecraft:deepslate_iron_ore", "chance": 0.75, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
         { "block": "minecraft:deepslate_coal_ore", "chance": 0.25, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" },
-        { "block": "minecraft:deepslate_copper_ore", "chance": 0.30, "count": { "min": 1, "max": 3 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" }
+        { "block": "minecraft:deepslate_copper_ore", "chance": 0.30, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" }
       ] },
 
     { "min_y": 70,
       "ores": [
-        { "block": "minecraft:coal_ore", "chance": 0.95, "count": { "min": 11, "max": 16 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
-        { "block": "minecraft:iron_ore", "chance": 0.85, "count": { "min": 9, "max": 14 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
-        { "block": "minecraft:copper_ore", "chance": 0.45, "count": { "min": 3, "max": 6 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
+        { "block": "minecraft:coal_ore", "chance": 0.95, "count": { "min": 3, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "minecraft:iron_ore", "chance": 0.80, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "minecraft:copper_ore", "chance": 0.40, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
         { "block": "minecraft:emerald_ore", "chance": 0.50, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 1, "max": 1 }, "depth": "core" }
       ] }
   ],

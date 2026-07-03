@@ -29,6 +29,15 @@ final class OrePlanner {
     /** Attempts to find a valid (depth-appropriate, not-yet-ore) seed block before giving up on a vein. */
     private static final int SEED_TRIES = 16;
 
+    // --- Ore scales with island size (so every island — any tier, any Y-band, any theme — carries volume-appropriate
+    // ore). A theme's {@code count} describes a NORMAL-tier island (~REF_CORE core blocks); a bigger island gets
+    // proportionally MORE veins of the authored size. Sub-linear (EXP<1) so the biggest islands sit a touch leaner than
+    // a normal one (~0.7×); never scales BELOW the authored baseline. The EXTRA veins are placed from a SEPARATE,
+    // deterministic RNG so scaling never shifts the main generation stream — a normal-size island stays byte-identical,
+    // and every island's downstream rolls (lava / pond / decoration / mobs) are unaffected by how much ore it gets.
+    private static final double REF_CORE = 550.0;   // ~a normal-tier island's core volume — the baseline the JSON counts describe
+    private static final double SCALE_EXP = 0.92;   // <1 → huge ≈ 0.7×, large ≈ 0.85× a normal island's ore density
+
     static void planOres(Map<BlockPos, BlockState> blockMap, List<OreEntry> ores, List<BlockPos> coreList,
                          int minCoreY, int maxCoreY, RandomSource random) {
         final Set<Long> coreSet = new HashSet<>(coreList.size() * 2);
@@ -36,6 +45,9 @@ final class OrePlanner {
             coreSet.add(p.asLong());
         }
         final int deepMaxY = minCoreY + (int) Math.round((maxCoreY - minCoreY) * DEEP_CORE_FRACTION); // lower 40% = deep_core
+        final double volScale = Math.pow(Math.max(1.0, coreList.size() / REF_CORE), SCALE_EXP);
+        // A side RNG for the size-scaled extra veins — deterministic per island (its core span), never touches `random`.
+        final RandomSource extra = RandomSource.create(coreList.size() * 2654435761L + minCoreY * 31L + maxCoreY);
 
         for (OreEntry ore : ores) {
             if (!Lookup.hasBlock(ore.block())) {
@@ -46,11 +58,20 @@ final class OrePlanner {
                 continue;
             }
             final BlockState state = Lookup.blockState(ore.block());
-            final int veins = ore.count().sample(random);
-            for (int v = 0; v < veins; v++) {
+            // The baseline veins on the MAIN stream (byte-identical to a no-scaling island)…
+            final int baseVeins = ore.count().sample(random);
+            for (int v = 0; v < baseVeins; v++) {
                 final BlockPos seed = pickSeed(coreList, coreSet, ore.depth(), deepMaxY, random);
                 if (seed != null) {
                     growVein(blockMap, seed, state, ore.veinSize().sample(random), coreSet, random);
+                }
+            }
+            // …then the size-appropriate EXTRA veins on the side RNG (adds ore only; doesn't move anything else).
+            final int extraVeins = (int) Math.round(baseVeins * volScale) - baseVeins;
+            for (int v = 0; v < extraVeins; v++) {
+                final BlockPos seed = pickSeed(coreList, coreSet, ore.depth(), deepMaxY, extra);
+                if (seed != null) {
+                    growVein(blockMap, seed, state, ore.veinSize().sample(extra), coreSet, extra);
                 }
             }
         }
