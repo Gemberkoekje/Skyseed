@@ -1,9 +1,36 @@
 {
-  "_comment": "First-party Quark compat (QUARKISLANDPLAN #71, Phase 1) — Quark stones + a deep corundum geode on the huge rocky island. Extras only, no seed. Inert without Quark.",
+  "_comment": "First-party Quark compat (QUARKISLANDPLAN #71) — Quark stones + a deep corundum geode on the huge rocky island. Extras only, no seed. Inert without Quark. The biome_override bands merge the veins into huge_rocky's deepslate (max_y:8) / high (min_y:70 / min_y:130) / snowy Y-bands (which replace the top-level ores). Selectors match huge_rocky.json exactly.",
   "target": "skyseed:huge_rocky",
   "ores": [
-    { "block": "quark:limestone", "chance": 0.90, "count": { "min": 8, "max": 12 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
-    { "block": "quark:jasper", "chance": 0.70, "count": { "min": 4, "max": 8 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
-    { "block": "quark:blue_corundum", "chance": 0.50, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 3, "max": 6 }, "depth": "deep_core" }
+    { "block": "quark:limestone", "chance": 0.95, "count": { "min": 4, "max": 7 }, "vein_size": { "min": 8, "max": 14 }, "depth": "core" },
+    { "block": "quark:jasper", "chance": 0.55, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "quark:blue_corundum", "chance": 0.22, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
+  ],
+  "biome_overrides": [
+    { "_comment": "Merge the Quark veins into the snowy-biome band.",
+      "biomes": [ "minecraft:snowy_plains", "minecraft:snowy_taiga", "minecraft:ice_spikes", "minecraft:snowy_slopes", "minecraft:frozen_peaks", "minecraft:jagged_peaks", "minecraft:grove", "minecraft:snowy_beach", "minecraft:frozen_river", "minecraft:frozen_ocean", "minecraft:deep_frozen_ocean" ],
+      "ores": [
+        { "block": "quark:limestone", "chance": 0.95, "count": { "min": 4, "max": 7 }, "vein_size": { "min": 8, "max": 14 }, "depth": "core" },
+        { "block": "quark:jasper", "chance": 0.55, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "quark:blue_corundum", "chance": 0.22, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
+      ] },
+    { "_comment": "…into the high snow-peak band (min_y 130).", "min_y": 130,
+      "ores": [
+        { "block": "quark:limestone", "chance": 0.95, "count": { "min": 4, "max": 7 }, "vein_size": { "min": 8, "max": 14 }, "depth": "core" },
+        { "block": "quark:jasper", "chance": 0.55, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "quark:blue_corundum", "chance": 0.22, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
+      ] },
+    { "_comment": "…into the deepslate band (max_y 8).", "max_y": 8,
+      "ores": [
+        { "block": "quark:limestone", "chance": 0.95, "count": { "min": 4, "max": 7 }, "vein_size": { "min": 8, "max": 14 }, "depth": "core" },
+        { "block": "quark:jasper", "chance": 0.55, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "quark:blue_corundum", "chance": 0.22, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
+      ] },
+    { "_comment": "…into the high band (min_y 70).", "min_y": 70,
+      "ores": [
+        { "block": "quark:limestone", "chance": 0.95, "count": { "min": 4, "max": 7 }, "vein_size": { "min": 8, "max": 14 }, "depth": "core" },
+        { "block": "quark:jasper", "chance": 0.55, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+        { "block": "quark:blue_corundum", "chance": 0.22, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
+      ] }
   ]
 }

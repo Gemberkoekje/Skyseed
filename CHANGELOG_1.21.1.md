@@ -5,6 +5,193 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.203.0] - 2026-07-03
+
+### Changed
+- **Trial chamber phase-2 rollout — the whole warren now shares the atrium's look (#61).** Applied the framed-panel
+  **MOSAIC** wall texturer + the **laid-floor** tiler (from the atrium) to *every* remaining piece — the rooms, the
+  small cell, corridor, corner, junction, descent, and the end room. They all now carry the same tuff-brick-framed
+  copper panels (warm **and** oxidized copper, with chiseled-copper / chiseled-tuff / grate motifs), **cut-copper corner
+  posts**, and studded laid floors + ceilings — replacing the old per-block `mix()` speckle that read as noise. The
+  small cell also gains the aged-copper **cornice** + greebling the big chambers already had; the descent's stepped
+  treads are now laid floor over a plain substructure with the mosaic on its walls. So you walk one coherent decorated
+  temple end to end, not "the atrium, then a set of plain rooms." Regenerated all 11 non-hub trial `.nbt`; a gametest
+  now asserts the end room carries the mosaic. Both nodes green (154 / 163). *(Remaining: phase-3 in-game tuning —
+  module size, motif frequency, patina mix.)*
+
+## [0.202.0] - 2026-07-03
+
+### Changed
+- **Ore now scales to island size at runtime — uniformly across every size, Y-band, and theme.** `OrePlanner` multiplies
+  each ore's vein count by the island's actual **core volume** vs a normal-island baseline (sub-linear, so the biggest
+  islands sit ~0.7× a normal island's density; never below the authored baseline). Because a Y-band changes the island's
+  shape (and thus its core volume), **the bands scale automatically too** — no more per-band tuning. Every island (any
+  tier, any Y-band, any current *or future* theme) now carries volume-appropriate ore for free. The scaled **extra veins
+  draw from a separate, deterministic RNG**, so a normal-size island stays byte-identical and every island's downstream
+  rolls (lava / ponds / decoration / mobs) are unaffected by how much ore it gets. Collapsed all the per-tier
+  hand-scaled ore counts — rocky/ancient large+huge **and** the Create/MA/Quark compat overrides — back to a single
+  **base-density baseline** so they don't double-scale (this ends the earlier whack-a-mole where the top-level, staples,
+  compat, and bands were each scaled separately and incompletely). Data + one `OrePlanner` change; both nodes green.
+
+## [0.201.0] - 2026-07-03
+
+### Fixed
+- **Trial chamber — more atrium/descent fixes from the in-game read (TRIALCHAMBERPLAN #61).**
+  - **Atrium dais back to a 2-block raise** (a 2-step staircase) so the elevated back exit sits *under* the mid-wall
+    ridge instead of being blocked by it — keeps the height difference without the ridge clipping the doorway.
+  - **Cornice + ridge corners** are now a clean top slab instead of clashing stairs (stairs can't hook cleanly at an
+    inner corner).
+  - **Descent staircase de-cramped** (taller headroom) and its exit now **draws the rooms pool**, so a staircase down
+    always lands you in a trial/treasure room instead of a dead end.
+  Hub + descent `.nbt` regenerated, both nodes green.
+
+## [0.200.0] - 2026-07-02
+
+### Fixed
+- **Mining islands now reliably carry their staple ores.** `OrePlanner` rolls each ore's `chance` once per island — a
+  fail meant that ore was *entirely absent*. The rocky/ancient staples were gated (iron 0.9, copper 0.9, coal 0.7,
+  ancient-coal 0.5), so ~30 % of stone islands had **no coal at all**, ~10 % no iron — unlike vanilla, where
+  iron/coal/copper are effectively in every chunk. Raised iron/copper/coal to **always present** (chance 1.0, coal 0.9
+  on ancient) and gold to **0.55** (still `deep_core`, so it sits near the island bottom ~like vanilla's deep gold) —
+  across all rocky + ancient tiers (base/large/huge). This is why a Y60 huge stone island could show lots of zinc/Quark
+  stone but little iron/coal: the staples had simply rolled off. Data-only; both nodes green.
+  *(Still open: the deep/high/snowy Y-band overrides keep their own smaller counts — a huge island thrown at Y≥70 or
+  Y≤8 still gets less ore than one in the Y8–70 range; scaling those bands is a follow-up.)*
+
+## [0.199.0] - 2026-07-02
+
+### Fixed
+- **Trial atrium geometry fixes from the in-game read (TRIALCHAMBERPLAN #61).** (1) The dais step is now a proper
+  **3-step staircase** (was a single step) rising the right way (stairs face **south**, ascending toward the dais).
+  (2) The **ladder moved off the corner** onto the −X wall so it climbs cleanly instead of awkwardly through the
+  wall/ceiling junction. (3) The **cornice + mid-wall ridge stairs face outward** now (were backwards). Hub `.nbt`
+  regenerated, both nodes green.
+
+## [0.198.0] - 2026-07-02
+
+### Changed
+- **Trial atrium reshaped — rectangular, two floor levels, warmer copper, broken-up walls (TRIALCHAMBERPLAN #61).**
+  Following the in-game read, the atrium went from a flat 9×9 box to a **rectangular 11×13** with a **raised back dais**
+  (a platform reached by a **stair step**), so the room reads on **two floor levels** — the breeze spawner on the lower
+  arena, the ominous vault up on the dais. One of the four passage exits is now **elevated** off the dais (the jigsaw
+  seats that corridor a level up), a warmer **non-weathered copper** set (plain/exposed/cut copper) joins the oxidized
+  greens in the wall mosaic so it reads as banded aged metal, and a **mid-wall ridge** (a cut-copper belt at half
+  height) breaks up the tall blank walls alongside the crown cornice. Hub `.nbt` regenerated, both nodes green.
+  *(In-game verification is yours — especially the stair-step orientation + dais walkability + the elevated exit.)*
+
+## [0.197.0] - 2026-07-02
+
+### Changed
+- **The compat ore overrides now scale with island size too** — clears the caveat from v0.195.0. Create zinc, Mystical
+  Agriculture inferium/prosperity, and the Quark stones (limestone/jasper/shale + corundum) on the large/huge **rocky**,
+  **ancient** and **lush** tiers were scaled by the same per-tier factors as the vanilla ores (large ≈ count ×1.5–2.5 +
+  vein ×1.5; huge ≈ count ×3.5–5 + vein ×2.5, ~0.7× normal density), so a huge island's *modded* ore density ~matches a
+  normal one instead of being ~10–18× dilute. E.g. huge-rocky zinc `8–12`×`4–8` → `40–60`×`10–20`; huge-lush prosperity
+  scaled likewise. MA **nether-soul** left as-is (Nether islands are deliberately tiny). Data-only; both nodes green.
+
+## [0.196.0] - 2026-07-02
+
+### Changed
+- **Trial atrium walls are now a decorated framed-panel MOSAIC, not random speckle (TRIALCHAMBERPLAN #61, phase 1).**
+  The old `mix()` filled walls with a per-block hash — 8 blocks coin-flipped independently, which read as *noise*. Added
+  a position-aware **wall/floor texturer**: tuff-brick **frames** grid each wall into panels, every panel is a patch of
+  **one** copper patina (oxidized/weathered/cut) with a **chiseled-copper / chiseled-tuff / grate motif** at its centre,
+  cut-copper **corner posts**, and a laid **floor tile** (checker + chiseled studs) — the vanilla "decorated temple"
+  read. Applied to the **atrium** first (the showcase); rolls out to the rest of the warren next once the look is
+  confirmed. Hub `.nbt` regenerated, both nodes green. *(In-game look is yours — see TRIALCHAMBERPLAN.md.)*
+
+## [0.195.0] - 2026-07-02
+
+### Changed
+- **Ore now scales with island size on the mining islands, so a huge island has ~the same stone-to-ore ratio as a
+  normal one.** Ore `count` is a fixed number per theme (`OrePlanner` never scales it to island size), but the base
+  volume grows ~72× from normal to huge rocky while the ore counts had only grown ~4× — so a **huge rocky island was
+  ~18× more ore-dilute than a normal one** (~0.43 % vs ~7.9 % ore-by-volume), and large ~2.4× dilute. Same on ancient.
+  Rescaled the ore tables of `rocky_large`/`huge_rocky`/`ancient_large`/`huge_ancient` to their core volume via
+  **bigger + more veins** (large ≈ full normal density; **huge ≈ 0.7× normal**, deliberately a touch leaner for the
+  biggest tier): e.g. huge-rocky iron `8–12`×`4–8` → `40–60`×`10–20`. After: large ≈ 7.6 %/10.4 %, huge ≈ 5.5 %/7.1 %.
+  Data-only; both nodes green. *(The compat ore overrides — Create zinc, MA ores, Quark stones — ride these same tiers
+  and still under-scale on huge; a follow-up.)*
+
+## [0.194.0] - 2026-07-02
+
+### Changed
+- **Trial chamber is now a corridor WARREN, not chambers bolted onto the atrium (plannednotes #61).** Reworked the
+  jigsaw flow so it reads like a real (smaller) vanilla trial dungeon: the atrium's four edges now open onto
+  **passages** (a new `halls` pool), passages **wind** through straight `corridor`s + 90° `corner`s and **branch** at
+  T-`junction`s, and the spawner/treasure **chambers hang off junction spurs** (the `rooms` pool) — so you walk
+  corridors between rooms instead of finding them stuck to the atrium. Added a small 5×5 spawner **cell** for
+  chamber-size variety, and the `descent` staircase is now a passage that drops the warren a storey (multi-level).
+  New pieces `corridor`/`corner`/`junction`/`room_small`; `gallery` retired; jigsaw `depth` 3→5 (sprawl capped to keep
+  it inside the existing island). Gametest `trialWarrenWiring` verifies the atrium→halls→junction→chamber connector
+  flow; both nodes green. *(In-world feel/fit is yours to confirm.)*
+
+## [0.193.0] - 2026-07-02
+
+### Changed
+- **More Quark stone on the mining islands (QUARKISLANDPLAN #71).** Limestone is now abundant (it's just a building
+  stone) — Rocky `chance` 0.55→0.95 with far bigger/more veins (base count 2–3→4–7, vein 4–8→8–14; large 12–18, huge
+  16–24) — and jasper/shale got a matching bump on Rocky/Ancient across all three tiers (base/large/huge). The
+  blue-corundum geode stays rare. All six `quark_{rocky,ancient}{,_large,_huge}.json` overrides updated together (the
+  base→large→huge mirror rule); `quarkStonesReachYBands` now asserts every tier carries the veins.
+
+## [0.192.0] - 2026-07-02
+
+### Fixed
+- **Quark island stones now appear at every throw depth (QUARKISLANDPLAN #71).** The Quark stone veins (limestone/jasper
+  on Rocky, jasper/shale on Ancient, + a deep blue-corundum geode) were only reaching the *top-level* ore list, which a
+  matched Y-band `biome_override` **replaces** — so they only generated in the un-banded gap (Rocky Y 8–70, Ancient
+  Y 20–96) and were invisible on low (deepslate) or high throws. Added same-selector band patches to all six
+  `quark_{rocky,ancient}{,_large,_huge}.json` overrides so the veins **merge** into every overworld Y-band (deepslate
+  `max_y:8`, high `min_y:70`/`min_y:130`, snowy for Rocky; `max_y:20`/`min_y:96` for Ancient) — the same trick
+  `create_rocky.json` uses for deepslate zinc. Block ids were verified correct against `Quark-4.1-481.jar`; the stones
+  are still buried core veins (mine into the island body). New gametest `quarkStonesReachYBands` guards it on both nodes.
+
+## [0.191.0] - 2026-07-02
+
+### Added
+- **Trial chamber greebling — the vanilla atmosphere layer (plannednotes #25, phase 3 of the redesign).** The atrium
+  and chambers now carry deterministic set-dressing: **cobwebs** tucked under ceiling corners, **lit candles** and
+  **decorated pots** on the floor, a brushable **suspicious gravel** dig (the vanilla `archaeology/trial_chambers` loot),
+  and a **moss** patch. Placement is guarded so greebling can never bury a spawner, vault, copper-bulb lamp, chain,
+  ladder, connector or cornice. `TrialChamberTemplates.greeble()` runs in `hub`/`room`/`end` (corridors stay bare, as in
+  vanilla); the hub gametest now also asserts a decorated pot is present. Both nodes green.
+
+## [0.190.0] - 2026-07-02
+
+### Added
+- **Trial chamber is now multi-story, leaning downward (plannednotes #24, phase 2).** Two new jigsaw pieces make the
+  chamber descend into the deepened island instead of sprawling flat:
+  - **`descent`** — a staircase corridor whose entrance (`room_door`) is at the top floor and whose exit
+    (`chamber_edge`, redrawing the rooms pool) is a full storey (5 blocks) LOWER at the far end, so the jigsaw seats the
+    next piece a level down. Its exit box sits beyond the parent's footprint, so it never overlaps the parent (the
+    vertical-jigsaw hazard, STRUCTUREPLAN #28). Copper-bulb lit, aged-copper palette.
+  - **`end`** — a climactic 7×7 chamber capped with an **ominous vault** + a breeze spawner, terminal, that ends a branch
+    on a big reward (vanilla puts ominous vaults in both the atrium and the end).
+  Both added to the `trial_chamber/rooms` pool (`descent` weight 2, `end` weight 1). Gametests
+  `trialDescentDropsALevel` (entrance sits above the exit + the exit redraws the pool) and `trialEndRoomHasOminousVault`
+  guard them on both nodes. The trial island was already deepened in v0.189.0 to hold the extra levels.
+  *(Phase 3 — greebling — to follow; the in-world multi-level / vanilla-compare read is yours.)*
+
+## [0.189.0] - 2026-07-02
+
+### Changed
+- **Trial chamber — vanilla aged-copper look, bigger & on a deeper island (plannednotes #24, phase 1 of the redesign).**
+  Reworked the pieces toward the real trial-chamber feel and set up for a multi-story downward layout:
+  - **Aged-copper palette:** `TrialChamberTemplates.mix()` is now tuff-brick dominant with the **waxed weathered/oxidized
+    copper** family woven in (copper + cut copper + chiseled + copper grate) — the signature green-teal patina, waxed so
+    it never changes — replacing the old bright cut-copper mix.
+  - **Copper-bulb lighting:** the plain hanging lanterns are replaced by lit **waxed copper bulbs on chains**
+    (`ceilingLamp`), and a **cut-copper stair crown cornice** (`crownCornice`) trims the wall-tops.
+  - **Bigger & taller:** the hub is now a 9×9 two-storey **atrium** (was 7×7); rooms are 7×7 chambers (was 5×5); the
+    corridor is 5×7 (was 5×5). Doorways are 3 tall.
+  - **Deeper/wider island:** the purpose-built trial island grew to radius 24–30 with an uncapped teardrop underside
+    (~25–31 deep at the centre) and `sink` 7→10 / `pad` 10→14, so the taller chamber (and the coming downward levels)
+    fit entirely under the surface.
+  Regenerated the 7 trial-chamber `.nbt`; gametests updated (atrium boss/vault + copper-bulb lighting), both nodes green.
+  *(Phase 2 — descent staircases + a lower level of chambers + end room — and phase 3 — greebling — to follow. The
+  in-world vanilla-compare is yours.)*
+
 ## [0.188.0] - 2026-07-02
 
 ### Added

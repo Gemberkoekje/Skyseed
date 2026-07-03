@@ -46,20 +46,13 @@ and the NeoForge glue (registration, events, network). **Strategy:** route it th
 (`Ids` / `Id` / `Lookup` / `Jigsaw` / `Entities` / `Players`) with stable internal signatures, plus per-file `//?`
 directives for the residual that a facade can't hide (entity NBT, SavedData, recipes, client APIs).
 
-## Migration stages
+## Migration stages — ✅ DONE (Stages 0–3, see CHANGELOG)
 
-0. **Stonecutter skeleton + build proof — ✅ DONE.** Stonecutter wraps ModDevGradle; `versions/` + `.stonecutter/`
-   gitignored.
-1. **Concentrate the volatile surface into `compat` — ✅ DONE.** Behaviour-preserving (the `islandOutputIsStable`
-   golden master stayed byte-identical). *(The gametest suites kept direct calls as the golden-master oracle —
-   routing them is the open #56.)*
-2. **Add the second version — MC `26.1.2` / NeoForge `26.1.2.76` — ✅ DONE.** Both nodes compile, build, and pass
-   their own native suites. The full delta record is kept below as the **reference catalog for the next node**.
-3. **Generalize + document — ✅ DONE except #59.** The **CI fan-out is wired**: `stonecutter.gradle.kts` registers
-   `chiseledBuild` + `chiseledRunGameTestServer` (fanned across every node), and `.github/workflows/build.yml` runs
-   those two chiseled tasks — so it builds + gametests **every** node with **no per-version workflow edit** (the
-   version list lives only in `settings.gradle`; each node's JDK is auto-provisioned by the foojay resolver). The
-   "how to add a version" recipe is written (below). Remaining: **adding further versions as wanted (#59)**.
+Stonecutter wraps ModDevGradle; the volatile surface is concentrated in `compat` (golden master byte-identical); the
+second node (MC 26.1.2 / NeoForge 26.1.2.76) compiles, builds, and passes its own native suite; and the CI fan-out is
+wired (`chiseledBuild` + `chiseledRunGameTestServer` over every node in `settings.gradle`, no per-version workflow
+edit, JDKs auto-provisioned by foojay). The rest of this doc is retained as the **working reference for adding the
+next node (#59)**: the Stonecutter primer, the toolchain traps, the API-delta catalogs, and the recipe.
 
 ---
 
@@ -146,26 +139,16 @@ The once-pragmatic 26.1.2 stubs (worldGenOptions / icon hook / `findResource` / 
 all **re-wired to real 26.1.2 APIs** (`ThemeScanner` / `DevStructureGenerator` use real hooks). The NeoForge
 sources jar in the gradle cache is the reference for NeoForge-specific deltas.
 
-### 2.8 Stage 2d content progress — ✅ ALL COMPLETE (anchor labels kept: 2d-1…2d-4)
+### 2.8 Stage 2d content — ✅ ALL COMPLETE (see CHANGELOG)
 
-- **2b tolerant codecs** — every resolve path skips unknown ids; proven by `unknownThemeIdsFallBack`.
-- **2d-1 Pale Garden** — a `pale_garden` biome override on the Forest line (all three tiers), v0.164.0; gametest
-  `forest_over_pale_garden_grows_pale_variant`. *(A dedicated Pale Garden seed was built then folded into the
-  override — see the gating pattern below.)*
-- **2d-2 1.21.5 vegetation** — decoration on existing themes (forest/meadow/desert/badlands, + fallen logs from
-  the post-completion jar-diff audit); gametests `new_vegetation_resolves_on_themes`, `forest_places_fallen_logs`.
-- **2d-3 new-mob placements** — nautilus/zombie_nautilus → aquatic, parched/camel_husk → desert, happy_ghast →
-  huge_meadow, copper_golem → village_center; mannequin skipped (display entity); gametest
-  `new_mobs_resolve_on_themes`.
-- **2d-4 cow/pig/chicken biome-temperature variants** — verified to default through the existing spawn path (no
-  code change); gametest `farm_animals_default_to_biome_variant`.
-- **2c block-completeness** — all 109 new 26.1.2 ids obtainable (new primary sources above; remainder craftable).
+The 26.1.2-era content shipped (tolerant codecs, Pale Garden override, 1.21.5 vegetation + fallen logs, new-mob
+placements, farm-animal biome variants, all 109 new ids obtainable), each gametest-guarded.
 
-**The modern-only-content gating pattern** (proved by the since-folded Pale Garden seed, documented for the next
-genuinely node-only seed): `//?`-gate the `SEED_THEMES` entry, recipes under `recipes/_modern_only/` (skipped on
-legacy by `generateRecipes`), **tags** in advancements (a direct unknown item id breaks the legacy datapack load;
-an unknown tag resolves to empty), `{id, required:false}` in `#skyseeds`, and a `generateGuide` filter for the
-book entry. The machinery stays wired (currently unused).
+**The modern-only-content gating pattern** (kept as the reference for the next genuinely node-only seed): `//?`-gate
+the `SEED_THEMES` entry, recipes under `recipes/_modern_only/` (skipped on legacy by `generateRecipes`), **tags** in
+advancements (a direct unknown item id breaks the legacy datapack load; an unknown tag resolves to empty),
+`{id, required:false}` in `#skyseeds`, and a `generateGuide` filter for the book entry. The machinery stays wired
+(currently unused).
 
 ---
 
@@ -222,12 +205,9 @@ absorbs most of it, and the data is already tolerant. Keep the existing nodes gr
 
 ---
 
-## Definition of done
+## Definition of done — ✅ met
 
-- Stonecutter builds ≥2 versions; `chiseledBuild` yields a jar per version and each passes its gametests. ✅
-- The version-volatile calls live in `compat` or in named per-file `//?` blocks; the **algorithm and the data model
-  carry no version directives**. ✅ *(As-built: the facade absorbs the bulk; ~28 files carry accepted per-file
-  residual directives — entity NBT, SavedData, recipes, client, structure templates.)*
-- No new runtime dependency; still NeoForge-only. ✅
-- Adding a version is "a Stonecutter node + a handful of `compat` directives", documented. ✅ (the recipe above)
-- Open: routing the gametest suites through `compat` (#56) and any further nodes (#59).
+Stonecutter builds both nodes (`chiseledBuild` → a jar per version, each passing its gametests); the version-volatile
+calls live in `compat` or named per-file `//?` blocks (the algorithm + data model carry none; ~28 files carry accepted
+residual directives); no new runtime dependency; and adding a version is a documented Stonecutter node + a handful of
+`compat` directives (the recipe above). **Open:** routing the gametest suites through `compat` (#56); any further nodes (#59).

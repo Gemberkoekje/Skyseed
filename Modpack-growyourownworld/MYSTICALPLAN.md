@@ -10,27 +10,14 @@ Grounded in the actual jars (MA `8.0.27`, Agradditions `8.0.13`, Botany Pots `21
 > seed → Elite Botany Pot grows as intended).
 >
 > **What's left** (tracked in [`../PLANOFPLANS.md`](../PLANOFPLANS.md)):
-> - ~~**#69 — refresh quest B602 "Prosperity Found"**~~ ✅ **DONE (v0.186.0):** the description in
->   `overrides/config/ftbquests/quests/lang/en_us.snbt` (B602 `quest_desc`) no longer says the MA ores "come from
->   one place" / directs only to an **Ancient** island — it now **leads with the accessible Lush stone ores** (added
->   v0.172.0) and frames Ancient as the *richer* deepslate option. **Gating left as-is** (B602 still depends on B601
->   Botany Pots + B105 "Into the Deep"): the player reaches B602 having already done the deep dive, so presenting Lush
->   as the easy alternative reads fine; loosening the B105 dependency is a bigger quest-graph call, deferred as optional.
 > - **#51 — balance watch** (ongoing playtesting): see [Role & gating](#role--gating-keep-it-a-layer-not-a-bypass).
 > - **#50 — optional dedicated Prosperity island** (pure polish): see below.
 
-## Mods added (roles + deps)
-**Mystical Agriculture family (BlakeBr0):**
-- `Cucumber` — required library.
-- `MysticalAgriculture` — core: grow resources as crops via the Inferium → Prudentium → Tertium → Imperium → Supremium essence tiers.
-- `MysticalAgradditions` — endgame: the **Insanium** 5th tier + **Tier-6 crops** (Nether Star, Dragon Egg, Neutronium, Gaia Spirit, Nitro Crystal, Awakened Draconium) via Crux blocks.
-- `MysticalCustomization` — datapack/config tool to add or re-gate crops/tiers (ships no content itself).
+## Mods added (shipped — see `mods.txt`)
 
-**Botany Pots ecosystem (Darkhax et al.):**
-- `Bookshelf`, `Prickle` — required libraries.
-- `BotanyPots` — grow crops/saplings in pots with **no farmland/land**. Soils are tag-based (dirt/sand/nether/end/…).
-- `BotanyPotsTiers` — faster tiered pots. `BotanyTrees` — grow trees (renewable wood) in pots. `MechanicalBotany` — powered/auto-harvest pots.
-- `BotanyPotsMystical` — the glue: MA crops grow in pots using **MA farmland tiers as the soil** (`inferium`→`supremium`, Agradditions `insanium` + the Tier-6 **Crux** blocks).
+The MA family (Cucumber, MysticalAgriculture, MysticalAgradditions incl. the Insanium 5th tier + Tier-6 Crux crops,
+MysticalCustomization) + the Botany Pots ecosystem (Bookshelf, Prickle, BotanyPots, BotanyPotsTiers, BotanyTrees,
+MechanicalBotany, and the **BotanyPotsMystical** glue — MA crops grow in pots using MA farmland tiers as soil). All in.
 
 ## Compatibility / worldgen (standing trap for any future MA work)
 - MA ores place via NeoForge **biome modifiers** (`mysticalagriculture:inferium_ore` & `prosperity_ore` → `#is_overworld`; `soulium_ore` → nether/soulstone). The `skyseed:void` ChunkGenerator suppresses overworld/nether biome decoration, so **MA ores never generate naturally** — any MA ore source (including a future Prosperity island, #50) must carry its ores via the theme system, never natural generation.

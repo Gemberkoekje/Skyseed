@@ -4,14 +4,12 @@ A **cosy, handholdy** quest line that explains every mod and how to use it. Auth
 chapter per mod as it lands), not last — so no end-of-project overflow. Engine: **FTB Quests** (installed:
 `ftb-quests` / `ftb-library` / `ftb-teams` / `architectury`).
 
-> **Status (2026-07-01):** everything authorable is authored — the six chapters (**Introduction · Skyseed ·
-> Create · Mystical Agriculture · Tools & Travel · Storage**, 54 quests) plus the **BWG branch** (B701–B703
-> under Tools & Travel) are shipped and committed under `overrides/config/ftbquests/quests/`. **Open:**
-> 1. **(#3)** the in-game quest-book **test-load of the BWG branch** — chapter renders, B701's advancement task
->    (`skyseed:reveal_exotic_woods` / `has_exotic_wood`) resolves and auto-completes on an exotic plank, B703's
->    Skyfarer's Cache reward rolls.
-> 2. The **future per-mod chapters** below (#41–#47) — each gated on its mod actually landing (CONTENTPLAN §2).
-> 3. **(#19, rolling)** the standing rule: every new integration is followed by its chapter.
+> **Status:** everything authorable is authored — the six chapters (**Introduction · Skyseed · Create · Mystical
+> Agriculture · Tools & Travel · Storage**, 54 quests) plus the **BWG branch** (B701–B703 under Tools & Travel) are
+> shipped and committed under `overrides/config/ftbquests/quests/`; the in-game quest-book test-load (#3) signed off
+> 2026-07-02. **Open:**
+> 1. The **future per-mod chapters** below (#41–#47) — each gated on its mod actually landing (CONTENTPLAN §2).
+> 2. **(#19, rolling)** the standing rule: every new integration is followed by its chapter.
 
 ## Approach (the authoring conventions — applies to every future chapter)
 
@@ -43,7 +41,7 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 | Storage (`storage`) | 3 | Sophisticated Backpacks + Storage (**not** AE2) |
 | Mystical Agriculture (`mysticalagriculture`) | 9 | the MA loop (B601–B609) |
 
-**BWG branch record (BWGPLAN Step 5):** *Into the Wilds* (B701 — advancement task on the hidden
+**BWG branch record:** *Into the Wilds* (B701 — advancement task on the hidden
 `skyseed:reveal_exotic_woods`, covering all 24 growable exotic planks via `#skyseed:exotic_woods`; dep B103),
 *Mill the Blooms* (B702 — checkmark; deps B701 + B204 Millstone), *Grow Something Grand* (B703 — checkmark; dep
 B701; reward: Skyfarer's Cache).
@@ -65,7 +63,7 @@ B701; reward: Skyfarer's Cache).
 | #42 | **Farmer's Delight** | FD integration (#16) | cosy, on-theme |
 | #44 | **Productive Bees** | PB integration (#32) | overlaps shipped MA — low marginal value |
 | #46 | **Iron's Spells** | Iron's integration (#36/#37) | loot/mob-gated, heaviest |
-| #43 | **Quark** | Quark add (#15) | minimal coverage may suffice — 3-quest sketch in [QUARKPLAN.md](QUARKPLAN.md) |
+| #43 | **Quark** | Quark smoke pass (#15) | Quark shipped v0.182.0; minimal coverage may suffice — 3-quest sketch in [QUARKPLAN.md](QUARKPLAN.md) |
 | #47 | **"BYG content"** | — | ⚠ **scope unclear**: the installed biome mod is **BWG** and its branch (B701–B703) already shipped. Either this meant the separate predecessor mod BYG (not installed, not planned) or *deeper* BWG coverage beyond the 3-quest branch — decide before it's actionable. |
 
 *(Mekanism's future chapter — old #40 — is **dropped**: Mekanism was cut from the pack on 2026-07-01, CONTENTPLAN §7.)*
@@ -82,5 +80,6 @@ B701; reward: Skyfarer's Cache).
   fusion, EMF/ETF, balm, kotlinforforge, geckolib, corgilib, better_lib, framework, configured, catalogue,
   searchables, creativecore, supermartijn642 ×2, TerraBlender, Clumps, Controlling, MouseTweaks,
   AdvancedLootInfo, JustEnoughResources, silentgear jade/jei plugins, Cucumber, Patchouli, ftb-filter-system.
+- **Installed, chapter pending:** Quark (#43 — shipped v0.182.0; 3-quest sketch in QUARKPLAN.md, gated on the #15 smoke pass).
 - **Not installed (so no chapter yet):** Applied Energistics 2, Immersive Engineering, Productive Bees,
-  Farmer's Delight, Iron's Spells, Quark. *(Mekanism: dropped.)*
+  Farmer's Delight, Iron's Spells. *(Mekanism: dropped.)*

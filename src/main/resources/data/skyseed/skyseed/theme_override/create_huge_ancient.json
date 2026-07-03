@@ -1,7 +1,7 @@
 {
-  "_comment": "First-party Create compat: deepslate zinc on the huge ancient island, mirroring its deepslate copper. Inert without Create.",
+  "_comment": "First-party Create compat: deepslate zinc on the huge ancient island. BASE-density counts — OrePlanner scales veins to this HUGE island's core volume at runtime. Inert without Create. Mirror to create_ancient.json + create_ancient_large.json.",
   "target": "skyseed:huge_ancient",
   "ores": [
-    { "block": "create:deepslate_zinc_ore", "chance": 0.80, "count": { "min": 8, "max": 20 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" }
+    { "block": "create:deepslate_zinc_ore", "chance": 0.80, "count": { "min": 2, "max": 5 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" }
   ]
 }

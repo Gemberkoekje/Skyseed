@@ -1,0 +1,11 @@
+{
+  "fallback": "minecraft:empty",
+  "_comment": "The warren's PASSAGES (#61): the atrium + passage exits draw this pool, so you walk winding corridors + junctions between chambers. Junctions carry a chamber spur (drawing the rooms pool); the empty terminator caps a dead-end passage.",
+  "elements": [
+    { "weight": 4, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:trial_chamber/corridor", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 3, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:trial_chamber/corner",   "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 3, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:trial_chamber/junction", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:trial_chamber/descent",  "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 2, "element": { "element_type": "minecraft:empty_pool_element" } }
+  ]
+}

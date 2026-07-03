@@ -253,6 +253,37 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    /** First-party Quark compat (QUARKISLANDPLAN #71 fix): the Quark veins must reach the Y-BANDED ore lists, not just
+     *  the top-level. A matched biome_override replaces the ore list (IslandGenerator.eff), so without a same-selector
+     *  band patch the stones only appear at rocky Y 8-70 / ancient Y 20-96. Assert the deep bands carry them. */
+    @GameTest(template = REGION)
+    public static void quarkStonesReachYBands(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        // Checks all THREE tiers (base + large + huge) so the fix is mirrored to _large/huge (per the mirror rule).
+        for (final String r : new String[]{"skyseed:rocky", "skyseed:rocky_large", "skyseed:huge_rocky"}) {
+            final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(r));
+            helper.assertTrue(t != null, r + " must resolve");
+            helper.assertTrue(bandHasOre(t, ov -> ov.maxY().map(y -> y == 8).orElse(false), "quark:limestone"),
+                    r + "'s deepslate band (max_y 8) should carry quark:limestone after the #71 fix");
+            helper.assertTrue(bandHasOre(t, ov -> ov.minY().map(y -> y == 70).orElse(false), "quark:limestone"),
+                    r + "'s high band (min_y 70) should carry quark:limestone after the #71 fix");
+        }
+        for (final String a : new String[]{"skyseed:ancient", "skyseed:ancient_large", "skyseed:huge_ancient"}) {
+            final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(a));
+            helper.assertTrue(t != null, a + " must resolve");
+            helper.assertTrue(bandHasOre(t, ov -> ov.maxY().map(y -> y == 20).orElse(false), "quark:shale"),
+                    a + "'s deep band (max_y 20) should carry quark:shale after the #71 fix");
+        }
+        helper.succeed();
+    }
+
+    /** True if some overworld (non-dimensioned) band of {@code theme} selected by {@code sel} lists ore {@code id}. */
+    private static boolean bandHasOre(IslandTheme theme, java.util.function.Predicate<BiomeOverride> sel, String id) {
+        return theme.biomeOverrides().stream()
+                .filter(ov -> ov.dimension().isEmpty()).filter(sel)
+                .anyMatch(ov -> ov.ores().map(list -> list.stream().anyMatch(o -> o.block().value().equals(id))).orElse(false));
+    }
+
     /** First-party Quark compat (QUARKISLANDPLAN #71, Phase 2): the blossom bands MERGE into the matching biome band of
      *  every forest tier (append a variant), rather than prepending a shadow band — checked for all 5 blossom biomes ×
      *  3 tiers. A merged band keeps its base variant(s) AND gains the blossom one (size >= 2). Inert without Quark. */
@@ -3885,32 +3916,95 @@ public final class SkyseedGameTests {
     @GameTest(template = REGION)
     public static void trialHubHasBossAndOminousVault(GameTestHelper helper) {
         final BlockPos o = place(helper, "skyseed:trial_chamber/hub");
-        helper.assertTrue(contains(helper, o, 8, 8, 8, Blocks.TRIAL_SPAWNER), "trial hub lost its breeze boss spawner");
-        helper.assertTrue(contains(helper, o, 8, 8, 8, Blocks.VAULT), "trial hub lost its ominous vault");
+        helper.assertTrue(contains(helper, o, 13, 12, 15, Blocks.TRIAL_SPAWNER), "trial atrium lost its breeze boss spawner");
+        helper.assertTrue(contains(helper, o, 13, 12, 15, Blocks.VAULT), "trial atrium lost its ominous vault");
+        helper.assertTrue(contains(helper, o, 13, 12, 15, Blocks.WAXED_COPPER_BULB), "trial atrium lost its copper-bulb lighting (#24)");
+        helper.assertTrue(contains(helper, o, 13, 12, 15, Blocks.DECORATED_POT), "trial atrium lost its greebling (#25)");
         helper.succeed();
     }
 
     @GameTest(template = REGION)
-    public static void trialGalleryChainsTheRoomsPool(GameTestHelper helper) {
-        // Phase 5 layout variety: the connective gallery mates the hub like a room (a room_door connector) AND re-draws
-        // the rooms pool from its far end, so the chamber chains rooms through corridors. Checked on the template.
+    public static void trialWarrenWiring(GameTestHelper helper) {
+        // #61: the warren flows atrium → PASSAGES (halls pool) → junctions → CHAMBERS (rooms pool), so you walk
+        // corridors between rooms rather than finding chambers bolted onto the atrium. Verify the connector wiring on
+        // the templates so the jigsaw actually assembles a warren.
         final ServerLevel level = helper.getLevel();
-        final StructureTemplate t = level.getStructureManager().get(skyseed("trial_chamber/gallery")).orElseThrow();
-        int in = 0, out = 0;
+        helper.assertTrue(countJig(level, "trial_chamber/hub", "hall", "skyseed:trial_chamber/halls") == 4,
+                "the atrium should open onto 4 PASSAGES (edge connectors drawing the halls pool), not chambers");
+        helper.assertTrue(countName(level, "trial_chamber/corridor", "hall_end") == 1
+                        && countJig(level, "trial_chamber/corridor", "hall", "skyseed:trial_chamber/halls") == 1,
+                "the corridor should mate a hall and chain the halls pool");
+        helper.assertTrue(countName(level, "trial_chamber/junction", "hall_end") == 1
+                        && countJig(level, "trial_chamber/junction", "hall", "skyseed:trial_chamber/halls") >= 2
+                        && countJig(level, "trial_chamber/junction", "chamber_edge", "skyseed:trial_chamber/rooms") == 1,
+                "the junction should branch ≥2 passages AND spur a chamber (rooms pool)");
+        helper.assertTrue(countName(level, "trial_chamber/room_small", "room_door") == 1,
+                "the small cell should mate a chamber spur (a room_door entrance)");
+        helper.succeed();
+    }
+
+    /** Count jigsaws in template {@code loc} whose {@code name} is {@code skyseed:<name>}. */
+    private static int countName(ServerLevel level, String loc, String name) {
+        final StructureTemplate t = level.getStructureManager().get(skyseed(loc)).orElseThrow();
+        int n = 0;
+        for (final var j : t.filterBlocks(BlockPos.ZERO, new StructurePlaceSettings(), Blocks.JIGSAW)) {
+            if (j.nbt() != null && j.nbt().getString("name").equals("skyseed:" + name)) {
+                n++;
+            }
+        }
+        return n;
+    }
+
+    /** Count jigsaws in template {@code loc} named {@code skyseed:<name>} that draw {@code pool}. */
+    private static int countJig(ServerLevel level, String loc, String name, String pool) {
+        final StructureTemplate t = level.getStructureManager().get(skyseed(loc)).orElseThrow();
+        int n = 0;
+        for (final var j : t.filterBlocks(BlockPos.ZERO, new StructurePlaceSettings(), Blocks.JIGSAW)) {
+            if (j.nbt() != null && j.nbt().getString("name").equals("skyseed:" + name)
+                    && j.nbt().getString("pool").equals(pool)) {
+                n++;
+            }
+        }
+        return n;
+    }
+
+    @GameTest(template = REGION)
+    public static void trialDescentDropsALevel(GameTestHelper helper) {
+        // Multi-story: the descent's entrance (hall_end) sits ABOVE its exit (hall) — so the jigsaw seats the next
+        // passage a storey lower — and the exit redraws the halls pool so the warren continues downward. (#61: it's now
+        // a PASSAGE in the halls pool, not a chamber connector.)
+        final ServerLevel level = helper.getLevel();
+        final StructureTemplate t = level.getStructureManager().get(skyseed("trial_chamber/descent")).orElseThrow();
+        int entranceY = -1, exitY = -1;
+        boolean exitRedrawsRooms = false;
         for (final var j : t.filterBlocks(BlockPos.ZERO, new StructurePlaceSettings(), Blocks.JIGSAW)) {
             if (j.nbt() == null) {
                 continue;
             }
-            if (j.nbt().getString("name").equals("skyseed:room_door")) {
-                in++;   // mates the hub/parent exactly like a room
+            if (j.nbt().getString("name").equals("skyseed:hall_end")) {
+                entranceY = j.pos().getY();
             }
-            if (j.nbt().getString("target").equals("skyseed:room_door")
-                    && j.nbt().getString("pool").equals("skyseed:trial_chamber/rooms")) {
-                out++;  // its far end re-draws the rooms pool → corridors, not just spokes
+            if (j.nbt().getString("name").equals("skyseed:chamber_edge")) {
+                exitY = j.pos().getY();
+                exitRedrawsRooms = j.nbt().getString("pool").equals("skyseed:trial_chamber/rooms");
             }
         }
-        helper.assertTrue(in == 1, "the gallery should mate the hub like a room (1 room_door connector, got " + in + ")");
-        helper.assertTrue(out == 1, "the gallery should re-draw the rooms pool from its far end (got " + out + ")");
+        helper.assertTrue(entranceY >= 0 && exitY >= 0, "descent needs a hall_end entrance AND a chamber_edge exit");
+        helper.assertTrue(entranceY > exitY, "the descent exit must sit BELOW its entrance (drops a level): entrance y="
+                + entranceY + " exit y=" + exitY);
+        helper.assertTrue(exitRedrawsRooms, "the descent exit should draw the rooms pool (a staircase always lands in a trial room)");
+        helper.succeed();
+    }
+
+    @GameTest(template = REGION)
+    public static void trialEndRoomHasOminousVault(GameTestHelper helper) {
+        // Phase 2: the climactic end room caps a branch with an ominous vault + a trial spawner.
+        final BlockPos o = place(helper, "skyseed:trial_chamber/end");
+        helper.assertTrue(contains(helper, o, 8, 8, 8, Blocks.VAULT), "the end room should have a vault");
+        helper.assertTrue(contains(helper, o, 8, 8, 8, Blocks.TRIAL_SPAWNER), "the end room should have a trial spawner");
+        helper.assertTrue(contains(helper, o, 8, 8, 8, Blocks.WAXED_COPPER_BULB), "the end room should be copper-bulb lit");
+        helper.assertTrue(contains(helper, o, 8, 8, 8, Blocks.WAXED_OXIDIZED_CHISELED_COPPER),
+                "the end room should carry the framed-panel MOSAIC (phase-2 texturer rollout, #61)");
         helper.succeed();
     }
 
