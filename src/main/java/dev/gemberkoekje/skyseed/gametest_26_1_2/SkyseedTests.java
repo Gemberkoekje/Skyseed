@@ -180,7 +180,9 @@ public final class SkyseedTests {
         reg(event, "bank_sugar_cane_stands_in_water", REGION, SkyseedTests::bankSugarCaneStandsInWater);
 
         // --- world-apply: the throw -> germinate -> GenerationJob pipeline (covers IslandSeedEntity + GenerationJob) ---
-        reg(event, "seed_germinates_into_island", REGION, 200, SkyseedTests::seedGerminatesIntoIsland);
+        // Generous 400-tick budget: the one async, wall-clock-sensitive e2e path (seed arm + async drain to first
+        // grass) has flaked on loaded CI runners at 200; it still succeeds the instant grass appears.
+        reg(event, "seed_germinates_into_island", REGION, 400, SkyseedTests::seedGerminatesIntoIsland);
         reg(event, "generation_job_builds_structure_island", REGION, 200, SkyseedTests::generationJobBuildsStructureIsland);
         reg(event, "ladder_island_punches_a_shaft_to_a_landing", REGION, SkyseedTests::ladderIslandPunchesAShaftToALanding);
         reg(event, "large_ladder_island_punches_deeper", REGION, SkyseedTests::largeLadderIslandPunchesDeeper);

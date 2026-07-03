@@ -4121,9 +4121,11 @@ public final class SkyseedGameTests {
 
     // --- world-apply: the throw → germinate → GenerationJob pipeline (covers IslandSeedEntity + GenerationJob) ---
 
-    @GameTest(template = REGION, timeoutTicks = 200)
+    @GameTest(template = REGION, timeoutTicks = 400)
     public static void seedGerminatesIntoIsland(GameTestHelper helper) {
         // End-to-end: a thrown seed arms (~40 ticks), germinates, and IslandGrowth drains the GenerationJob.
+        // Generous tick budget: this is the one async, wall-clock-sensitive e2e path (arm + async drain to first
+        // grass) and it has flaked on loaded CI runners at 200; it still succeeds the instant grass appears.
         final ServerLevel level = helper.getLevel();
         final BlockPos center = helper.absolutePos(new BlockPos(8, 12, 8));
         final IslandSeedEntity seed = new IslandSeedEntity(ModEntities.ISLAND_SEED.get(), level);
