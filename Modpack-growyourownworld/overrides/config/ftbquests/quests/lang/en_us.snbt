@@ -5,6 +5,53 @@
 	chapter.5C0000000000A004.title: "Tools \\& Travel"
 	chapter.5C0000000000A005.title: "Storage"
 	chapter.5C0000000000A007.title: "Mystical Agriculture"
+	chapter.5C0000000000A008.title: "Farmer's Delight"
+	chapter.5C0000000000A009.title: "Immersive Engineering"
+	quest.5C0000000000B901.quest_subtitle: "The gateway metal"
+	quest.5C0000000000B901.title: "Bauxite \\& Aluminium"
+	quest.5C0000000000B902.title: "The Engineer's Hammer"
+	quest.5C0000000000B903.title: "The Engineer's Manual"
+	quest.5C0000000000B904.quest_subtitle: "Power from the open sky"
+	quest.5C0000000000B904.title: "Catch the Wind"
+	quest.5C0000000000B905.title: "Wire It Up"
+	quest.5C0000000000B906.title: "Coke Oven"
+	quest.5C0000000000B907.title: "Crude Blast Furnace"
+	quest.5C0000000000B908.quest_subtitle: "The backbone alloy"
+	quest.5C0000000000B908.title: "Forged in Steel"
+	quest.5C0000000000B909.quest_subtitle: "Ore doubling"
+	quest.5C0000000000B909.title: "Crush It"
+	quest.5C0000000000B910.quest_desc: [
+		"The Excavator digs out a whole chunk's mineral vein."
+		""
+		"Unlike physical ores, IE's mineral veins are per-chunk data — so the Excavator works even over the void. Build it on any island for bulk ore."
+	]
+	quest.5C0000000000B910.quest_subtitle: "Bulk ore, even over the void"
+	quest.5C0000000000B910.title: "The Excavator"
+	quest.5C0000000000B911.title: "Fluid Pump"
+	quest.5C0000000000B912.quest_desc: [
+		"Crude oil doesn't pool naturally in the void."
+		""
+		"Throw a Rocky or Ancient island LOW and mine down toward its base — you'll occasionally strike a slick black pocket of crude oil. Pump it out with the IE Fluid Pump, then refine it."
+	]
+	quest.5C0000000000B912.quest_subtitle: "A slick black pocket near bedrock"
+	quest.5C0000000000B912.title: "Striking Oil"
+	quest.5C0000000000B913.title: "Refine It"
+	quest.5C0000000000B914.title: "Diesel"
+	quest.5C0000000000B915.quest_subtitle: "Fuel to Flux"
+	quest.5C0000000000B915.title: "Burn for Power"
+	quest.5C0000000000B916.quest_subtitle: "Muscle-powered lift"
+	quest.5C0000000000B916.title: "First Flight"
+	quest.5C0000000000B917.title: "Build an Engine"
+	quest.5C0000000000B918.quest_subtitle: "Fast — mind the runway"
+	quest.5C0000000000B918.title: "Take to the Skies"
+	quest.5C0000000000B920.quest_desc: [
+		"Your aircraft will burn coal or charcoal, but a tankful doesn't last long."
+		""
+		"Anything tagged as aircraft fuel works — and refined petroleum goes much further. Distil crude oil into diesel or kerosene and top up your plane for the long hauls."
+	]
+	quest.5C0000000000B920.quest_subtitle: "Petrol beats coal"
+	quest.5C0000000000B920.title: "Aviation Fuel"
+	quest.5C0000000000B919.title: "The Airship"
 	quest.5C0000000000B001.quest_desc: [
 		"Welcome, skyfarer."
 		""
@@ -366,6 +413,63 @@
 	]
 	quest.5C0000000000B703.quest_subtitle: "Watch a sapling rise"
 	quest.5C0000000000B703.title: "Grow Something Grand"
+	quest.5C0000000000B801.quest_desc: [
+		"§eFarmer's Delight§r turns farming into cooking — hearty meals, comfort food, a whole cosy kitchen."
+		""
+		"It starts in the wild. Grown biome islands sprout §ewild crops§r: §eonions§r and §ecarrots§r on Forest and Meadow isles, §ecabbages§r on beaches, §etomatoes§r on desert throws. Harvest a patch — it drops seeds to replant on tilled dirt."
+		""
+		"§7Tip: wild crops are a scattered find. Throw a few Forest or Meadow seeds if the first island comes up bare.§r"
+	]
+	quest.5C0000000000B801.quest_subtitle: "Find a wild crop"
+	quest.5C0000000000B801.title: "Wild Harvest"
+	quest.5C0000000000B802.quest_desc: [
+		"The §eCooking Pot§r is the heart of the kitchen. Set it over a §eheat source§r — a campfire, a stove, or a furnace — then drop in ingredients and a bowl and it simmers them into stews and soups."
+		""
+		"Craft one and place it. Most Farmer's Delight meals come out of this pot."
+	]
+	quest.5C0000000000B802.quest_subtitle: "Simmer something"
+	quest.5C0000000000B802.title: "The Cooking Pot"
+	quest.5C0000000000B803.quest_desc: [
+		"The §eSkillet§r fries food fast over heat — and doubles as a hefty frying-pan weapon."
+		""
+		"Reach for it for quick single-serving dishes when you don't want to fire up the whole pot."
+	]
+	quest.5C0000000000B803.title: "The Skillet"
+	quest.5C0000000000B804.quest_desc: [
+		"A §eCutting Board§r, paired with a §eKnife§r, processes ingredients by hand — slicing and peeling, turning planks into extra items and logs into bark."
+		""
+		"§7This pack ships §eChopper's Delight§r, so you can craft a cutting board from §oevery§r wood — vanilla, Nether, and all the exotic BWG planks.§r"
+	]
+	quest.5C0000000000B804.quest_subtitle: "Cutting Board \\& Knife"
+	quest.5C0000000000B804.title: "A Sharp Edge"
+	quest.5C0000000000B805.quest_desc: [
+		"Time to cook. Simmer a §eVegetable Soup§r — any veg plus a bowl — in the Cooking Pot, or whip up any Farmer's Delight dish."
+		""
+		"Cooked meals fill more than raw food and often grant a short §ecomfort§r buff. Keep a few in your pack for long island-hops."
+	]
+	quest.5C0000000000B805.quest_subtitle: "Cook your first meal"
+	quest.5C0000000000B805.title: "A Hearty Meal"
+	quest.5C0000000000B806.quest_desc: [
+		"§eRice§r grows in water. Find §ewild rice§r standing in a §eLush§r island's pond — or in the rivers and swamps of an §eAquatic§r isle — and harvest it."
+		""
+		"Replant it on tilled dirt beside water and it spreads on its own. Rice opens up rice rolls, medleys and a whole second cuisine."
+	]
+	quest.5C0000000000B806.quest_subtitle: "The water crop"
+	quest.5C0000000000B806.title: "Rice Paddies"
+	quest.5C0000000000B807.quest_desc: [
+		"Past the portal, §eMy Nether's Delight§r cooks with the Nether's bounty — hoglin roasts, stuffed feasts and spicy stews."
+		""
+		"§ePowdery Cane§r grows on §eNether Soul§r and §eNether Forest§r islands. Harvest a grown cane for §ePowder Cannon§r — your first Nether ingredient, and the seed to plant more (grow it beside lava and it fruits into §ebullet peppers§r). Then build up to the big hoglin dishes."
+	]
+	quest.5C0000000000B807.quest_subtitle: "My Nether's Delight"
+	quest.5C0000000000B807.title: "Nether Kitchen"
+	quest.5C0000000000B808.quest_desc: [
+		"At the world's edge, §eEnd's Delight§r makes desserts and dishes from the End's strange harvest — chorus pies, shulker omelettes, even dragon-egg cuisine."
+		""
+		"§eChorus Succulent§r grows on a §eChorus Forest§r island; gather it to begin. A sweet reward for the long climb out here."
+	]
+	quest.5C0000000000B808.quest_subtitle: "End's Delight"
+	quest.5C0000000000B808.title: "Taste of the End"
 	reward_table.5C00000000005001.title: "Skyfarer's Cache"
 	reward_table.5C00000000005002.title: "Engineer's Cache"
 	task.5C0000000000C001.title: "Begin"

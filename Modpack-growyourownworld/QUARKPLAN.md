@@ -22,8 +22,12 @@ nothing. Only **Glimmering Weald** is disabled (it adds a biome that trips the 1
 - [ ] **(#43)** **Minimal quest chapter** (build last, now unblocked by the #15 sign-off): a short branch — *Sort Your Life Out*
   (sorting/chest QoL) · *Enter the Matrix* (Matrix Enchanting setup) · *Hold That Thought* (Totem of Holding recovery,
   the void fix already shipped). Keep it minimal per QUESTPLAN.
-- **Partner-gated add-ons (install when the partner lands):** **Quark Engineering** (IE compat) when **IE #34** lands;
-  **Farmer's Cutting: Quark** (FD cutting-board recipes) when **Farmer's Delight #16** lands.
+- **Partner-gated add-ons — both partners have now landed:**
+  - **Quark Engineering** (IE compat) — ✅ **verified `QuarkEngineering-1.21.1-5.10.29.jar`** (Oct 2025): IE sawmill
+    recipes for Quark woods/bookshelves + smelting/blasting IE raw-ore blocks, gated by Quark's own config flags.
+    Deps Quark + Zeta + IE (all present). **Recommend adding** (drop jar + regen `mods.txt`). See [IEPLAN.md](IEPLAN.md).
+  - **Farmer's Cutting: Quark** (FD cutting-board recipes) — now unblocked (FD is in); verify a 1.21.1/NeoForge build
+    before adding.
 
 **Caveat:** young NeoForge port — keep the pairing pinned (Quark 4.1-481 + Zeta 1.1-40) and watch patch notes before
 quests point at Quark features.

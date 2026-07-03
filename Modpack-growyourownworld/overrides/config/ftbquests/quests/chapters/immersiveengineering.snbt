@@ -1,0 +1,320 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "immersiveengineering"
+	group: ""
+	icon: {
+		id: "immersiveengineering:hammer"
+	}
+	id: "5C0000000000A009"
+	order_index: 5
+	quest_links: [ ]
+	quests: [
+		{
+			dependencies: ["5C0000000000B104"]
+			id: "5C0000000000B901"
+			rewards: [{
+				count: 4
+				id: "5C0000000000D901"
+				item: {
+					count: 1
+					id: "immersiveengineering:ingot_aluminum"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C901"
+				item: { count: 1, id: "immersiveengineering:ingot_aluminum" }
+				type: "item"
+			}]
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B901"]
+			id: "5C0000000000B902"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D902"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C902"
+				item: { count: 1, id: "immersiveengineering:hammer" }
+				type: "item"
+			}]
+			x: 1.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B901"]
+			id: "5C0000000000B903"
+			rewards: [{
+				count: 4
+				id: "5C0000000000D903"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C903"
+				item: { count: 1, id: "immersiveengineering:manual" }
+				type: "item"
+			}]
+			x: 0.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["5C0000000000B902"]
+			id: "5C0000000000B904"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D904"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C904"
+				item: { count: 1, id: "immersiveengineering:windmill" }
+				type: "item"
+			}]
+			x: 3.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["5C0000000000B904"]
+			id: "5C0000000000B905"
+			rewards: [{
+				count: 4
+				id: "5C0000000000D905"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C905"
+				item: { count: 1, id: "immersiveengineering:connector_lv" }
+				type: "item"
+			}]
+			x: 4.5d
+			y: -1.5d
+		}
+		{
+			dependencies: ["5C0000000000B902"]
+			id: "5C0000000000B906"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D906"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C906"
+				item: { count: 1, id: "immersiveengineering:coke_oven" }
+				type: "item"
+			}]
+			x: 3.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B906"]
+			id: "5C0000000000B907"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D907"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C907"
+				item: { count: 1, id: "immersiveengineering:blast_furnace" }
+				type: "item"
+			}]
+			x: 4.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B907"]
+			id: "5C0000000000B908"
+			rewards: [{
+				count: 4
+				id: "5C0000000000D908"
+				item: {
+					count: 1
+					id: "immersiveengineering:ingot_steel"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C908"
+				item: { count: 1, id: "immersiveengineering:ingot_steel" }
+				type: "item"
+			}]
+			x: 6.0d
+			y: 0.0d
+		}
+		{
+			dependencies: [
+				"5C0000000000B908"
+				"5C0000000000B905"
+			]
+			id: "5C0000000000B909"
+			rewards: [{
+				count: 8
+				id: "5C0000000000D909"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C909"
+				item: { count: 1, id: "immersiveengineering:crusher" }
+				type: "item"
+			}]
+			x: 7.5d
+			y: -1.5d
+		}
+		{
+			dependencies: [
+				"5C0000000000B908"
+				"5C0000000000B905"
+			]
+			id: "5C0000000000B910"
+			rewards: [{
+				count: 16
+				id: "5C0000000000D910"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C910"
+				item: { count: 1, id: "immersiveengineering:excavator" }
+				type: "item"
+			}]
+			x: 7.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["5C0000000000B908"]
+			id: "5C0000000000B911"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D911"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C911"
+				item: { count: 1, id: "immersiveengineering:fluid_pump" }
+				type: "item"
+			}]
+			x: 6.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B911"]
+			id: "5C0000000000B912"
+			rewards: [{
+				count: 8
+				id: "5C0000000000D912"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C912"
+				item: { count: 1, id: "immersivepetroleum:crudeoil_bucket" }
+				type: "item"
+			}]
+			x: 7.5d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B912"]
+			id: "5C0000000000B913"
+			rewards: [{
+				count: 8
+				id: "5C0000000000D913"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C913"
+				item: { count: 1, id: "immersivepetroleum:distillation_tower" }
+				type: "item"
+			}]
+			x: 9.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B913"]
+			id: "5C0000000000B914"
+			rewards: [{
+				count: 8
+				id: "5C0000000000D914"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C914"
+				item: { count: 1, id: "immersivepetroleum:diesel_bucket" }
+				type: "item"
+			}]
+			x: 10.5d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B914"]
+			id: "5C0000000000B915"
+			rewards: [{
+				count: 8
+				id: "5C0000000000D915"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C915"
+				item: { count: 1, id: "immersiveengineering:diesel_generator" }
+				type: "item"
+			}]
+			x: 10.5d
+			y: 0.5d
+		}
+	]
+}

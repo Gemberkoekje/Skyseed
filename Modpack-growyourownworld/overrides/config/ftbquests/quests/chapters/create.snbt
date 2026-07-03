@@ -7,7 +7,7 @@
 		id: "create:mechanical_arm"
 	}
 	id: "5C0000000000A003"
-	order_index: 2
+	order_index: 4
 	quest_links: [ ]
 	quests: [
 		{

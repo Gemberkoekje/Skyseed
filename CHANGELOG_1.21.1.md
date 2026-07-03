@@ -5,6 +5,25 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.204.0] - 2026-07-03
+
+### Added
+- **Immersive Engineering first-party compat (`theme_override`).** Six inert-without-IE overrides put IE's metals on
+  the mining islands: bauxite/aluminium, lead and nickel on the **Rocky** family (rocky / large / huge), and the deeper
+  bauxite/aluminium, silver and uranium (deepslate) on the **Ancient** family. Each vein is merged into *every* base
+  Y-band (the post-#71 pattern, selectors matched to the base themes) so metals never vanish on low/high throws.
+- **Crude oil as an on-island resource for Immersive Petroleum.** The Rocky (`max_y:8`) and Ancient (`max_y:20`) deep
+  bands also carry an uncommon walled `deep_core` pocket of `immersivepetroleum:crudeoil_fluid_block` — pump it with the
+  IE Fluid Pump. IP's oil *reservoir* is a worldgen feature that never runs under `SkyseedVoidChunkGenerator` (biome
+  decoration is skipped in the void overworld/Nether), so an in-island pocket is the void's oil source; it matches IP's
+  own lore ("a slick black substance found while mining near bedrock"). All of the above is inert without IE / IP —
+  unknown ore ids are skipped before any RNG, so generation stays byte-identical. Gametests green (154).
+
+> Modpack (`Modpack-growyourownworld/`, not the mod jar): the IE / IP / Immersive Aircraft + crossovers wave —
+> the FTB **Immersive Engineering** quest chapter, a **flight** line in Tools & Travel (basic flight is oil-free; an
+> optional "Aviation Fuel" quest bridges to the crude-oil line), the excavator `defaultconfigs` pin, and KubeJS data
+> fixes for 5 broken bridge recipes (Engineers Delight ×3, Create-Complete-Immersive-Aircraft ×2). See `IEPLAN.md`.
+
 ## [0.203.0] - 2026-07-03
 
 ### Changed

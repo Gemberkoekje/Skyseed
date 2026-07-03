@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "PTW",
+    " C "
+  ],
+  "key": {
+    "D": { "item": "minecraft:dispenser" },
+    "P": { "item": "create:pulse_timer" },
+    "T": { "item": "immersive_aircraft:sturdy_pipes" },
+    "W": { "item": "create:precision_mechanism" },
+    "C": { "item": "create:copper_casing" }
+  },
+  "result": {
+    "id": "immersive_aircraft:rotary_cannon",
+    "count": 1
+  }
+}
