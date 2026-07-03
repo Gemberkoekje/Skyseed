@@ -10,9 +10,9 @@ lives in `CHANGELOG_1.21.1.md` / `CHANGELOG_26.1.md`.
   - **Structure — corridor-warren SHIPPED v0.194.0** (atrium → passages → junctions → chambers). *In-game: does it
     wind/branch, stay inside the island? Knobs: hall/junction weights in `halls.json`, jigsaw `depth`.*
   - **Surface — decorated framed-panel wall MOSAIC** replacing the old random `mix()` speckle (the thing that made it
-    read as "rooms using the tileset"). **Phase 1 SHIPPED v0.196.0 on the ATRIUM** (showcase); rolls out to the rest
-    of the warren once the look is confirmed in-game. *(User: pillars too much at this scale — decoration is the lever,
-    not size/pillars.)*
+    read as "rooms using the tileset"). **SHIPPED to every piece v0.196.0–v0.203.0** (atrium showcase → full rollout,
+    both nodes green). *In-game left: the vanilla feel/fit sign-off + tune (module size, motif frequency, patina mix).
+    (User: pillars too much at this scale — decoration is the lever, not size/pillars.)*
 - [ ] **(#33)** Trial Chamber — more room/corridor variants. Partly done by the warren (corner/junction/cell/descent
   add variety); further options: cross-intersections, an alcove-corridor (chamber spur off a straight hall), bigger
   multi-cell chambers, vaulted ceilings. All in `TrialChamberTemplates.java`; new pieces trigger the **2-build regen

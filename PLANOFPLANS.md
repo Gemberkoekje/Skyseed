@@ -4,30 +4,34 @@
 to the plan that owns the detail. Item numbers are stable (they carry over from the previous backlog; closed
 numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` / `CHANGELOG_26.1.md` and git).
 
-> **Cleaned 2026-07-02 at mod 0.191.0** (refreshed after the round of in-game sign-offs). All
-> fully-shipped-and-signed-off items were removed, and the three fully-complete BWG plans were **retired** into the
-> changelogs + git — `BWGPLAN.md` (wood/flowers), `BWGSWAMPVILLAGEPLAN.md` (cypress bayou), and `BWGVILLAGEPLAN.md`
-> (all six village styles, now that #14 biome-reachability is signed off). Their still-governing decisions were
-> carried into the Decisions log below, and the villages' reusable string-id structure engine into STRUCTUREPLAN.
-> The trial-chamber vanilla redesign shipped end-to-end (#24 + #25, v0.189–v0.191). Shipped sections inside the
-> still-open plans were trimmed to changelog pointers.
+> **Cleaned 2026-07-03 at mod 0.206.0.** The whole **content-mod wave shipped end-to-end** since the last clean —
+> Farmer's Delight (crops + quest), Immersive Engineering + Petroleum + flight (island + quest + configs), Applied
+> Energistics 2 (certus/sky-stone bootstrap, meteorite island Phases 1–3, the tiered Meteorite-Core presses, quest
+> chapter), and the Quark island tie-ins — all both-nodes-green. The fully-complete **`METEORPLAN.md` was retired**
+> into the changelogs + git (all three meteor phases shipped; its only residual is the in-game throw-test, tracked
+> under AE2 below). Shipped sections inside the still-open plans are trimmed to changelog pointers; what remains here
+> is what's **LEFT** — almost entirely **in-game sign-offs** plus a tail of unbuilt/optional work.
+> *(Earlier clean: 2026-07-02 at 0.191.0 retired the three BWG plans + the trial vanilla redesign; their still-governing
+> decisions live in the Decisions log below.)*
 
 ## Headline
 
-- The **BWG arc is done end-to-end** — woods, flowers, planks, guide, quests, and all six village styles × three
-  tiers, plus the door-flush fix (**#72**) and the cypress overwater bayou (**#73**), all shipped **and signed off
-  in-game** (v0.170.0–v0.188.0). Its dedicated plans are retired.
-- The **Trial Chamber** shipped its vanilla redesign (**#24** aged-copper palette/lighting/cornice + multi-story-downward
-  layout, **#25** greebling, v0.189–v0.191) and then a **corridor-WARREN restructure** (**#61**, v0.194.0) so it reads
-  like a real smaller vanilla trial dungeon — atrium → winding passages → junctions → chambers-on-spurs, not rooms
-  bolted on. Both nodes green; the in-game feel/fit is the pending sign-off.
-- **In-game sign-offs on shipped content are cleared** (2026-07-02): #3/#10/#66/#64/#65 earlier, plus **#14** (village
-  biomes reachable) and **#15** (Quark smoke pass). **#71** Quark island stones — Y-band bug **fixed v0.192.0** +
-  limestone/jasper/shale made abundant across all tiers **v0.193.0**; awaiting an in-game re-verify.
-- What's meaningfully **left**: two **in-game re-verifies** (#71 Quark stones at all depths, #61 the trial warren's
-  feel/fit); the **next content-mod wave** (Farmer's Delight, Immersive Engineering + AE2, each with its quest chapter
-  + gated island tier); and a **standing-rule / contingency tail** (visuals, further version nodes, engineering debt).
-- Best value next: throw-test #71 + #61, then open the **content-mod wave** (Farmer's Delight is the highest-ROI mod).
+- **The content-mod wave is shipped end-to-end** (v0.196.0–v0.206.0, both nodes green): **Farmer's Delight** (#16 wild
+  crops on biome islands + rice ponds + Nether/End delights, #42 quest A008), **Immersive Engineering + Petroleum +
+  flight** (#34 ore island + crude-oil pocket, #35 Excavator config pinned, #45 quest A009, IE×FD compat), and **AE2**
+  (#18 the whole certus/sky-stone bootstrap, the meteorite island Phases 1–3, the tiered **Meteorite-Core** presses,
+  #41 quest B404–B419). What's left on all three is **in-game sign-off only** — throw-tests, tuning, pump/feature
+  verifies — none of it runnable in the headless dev env.
+- The earlier arcs remain done: the **BWG arc** (woods/flowers/planks/guide/quests + all six village styles × three
+  tiers + #72/#73, plans retired) and the **Trial Chamber** (vanilla redesign #24/#25 + corridor-warren #61 + the
+  framed-panel mosaic rollout, v0.189–v0.203). **Quark** shipped (#15 + island tie-ins #71).
+- What's meaningfully **left** is three buckets: **(a) in-game sign-offs/re-verifies** on shipped content (#71 Quark
+  stones at depth, #61 trial feel/fit, #39 FE power-chain, the IE/FD/AE2 throw-tests + quest-book loads); **(b) unbuilt
+  content** — the aspen manor (#26) + bog trial (#27), the flavor mods (#31/#32/#36), the per-biome **Nether/End seed
+  adaptation** (SKYNETHERENDBIOMEPLAN — plan-first, awaiting a design-fork sign-off), and the future quest chapters;
+  **(c) a standing-rule / contingency / engineering-debt tail** (visuals, further version nodes, crash-robustness).
+- Best value next: clear the **in-game sign-off queue** (Tier 1), then decide the SKYNETHERENDBIOMEPLAN design fork or
+  pick up the manor/bog-trial (#26/#27).
 
 ## Decisions log (standing decisions that govern the open work)
 
@@ -42,8 +46,8 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 - **Quark: SHIPPED for NeoForge 1.21.1** — 4 jars in (Quark 4.1-481, Zeta 1.1-40, Quark Oddities marker,
   QuarkPonders 1.5.1) + modules curated + the void-death **Totem of Holding** relocated to a lit island shrine
   (v0.182.0). **#15 smoke pass signed off** 2026-07-02; **#43** quest sketch is queued; island integration (**#71**)
-  is shipped but has a Y-band bug (Tier 2). Plans: [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) /
-  [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md).
+  is shipped — the Y-band bug was **fixed v0.192.0**, in-game re-verify pending (Tier 1). Plans:
+  [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) / [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md).
 - **Structure scope: FULL** — all 6 villages (✅ shipped) + aspen manor + bog trial; prairie/fossil stay optional.
   [STRUCTUREPLAN § Scope](Modpack-growyourownworld/STRUCTUREPLAN.md).
 - **Structure vehicle: our OWN jigsaw set in themed palettes** (hermetic string-id `.nbt` engine — no BWG on any
@@ -56,57 +60,63 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 
 | Plan | What it covers | Open items |
 |---|---|---|
-| [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration | #34 #35 #18 #16 #31 #32 #36 #37 #38 #39 #52 + rolling #19 #20 |
-| [IEPLAN.md](Modpack-growyourownworld/IEPLAN.md) | Immersive Engineering + flight + petroleum (child of CONTENTPLAN) | jars in; **shipped:** #34 ore island + crude-oil pocket, #45 quest chapter, #35 excavator pinned (defaultconfigs, chance 0.7); FD×IE compat verified fine; **left:** in-game verifies · #39 FE proof · add Quark Engineering jar |
-| [AE2PLAN.md](Modpack-growyourownworld/AE2PLAN.md) | Applied Energistics 2 + Create/IE bridges (child of CONTENTPLAN) | jars in; **integration SHIPPED** — #18a meteorite island theme+seed, #18d certus deposit, #18c IE+certus seed gate, **#18b presses from the tiered Meteorite Core** (sky-stone recipes dropped; MA press+sky_stone essence bypasses removed; custom `skyseed:meteorite_core` block, small→1/medium→2-distinct/huge→4, iron-tier harvest), **#41 quest chapter (16 quests in Storage `B404`–`B419`)**, **#39 FE-flow proven on paper**. Meteorite worldgen already suppressed. Immersive Energistics + MA certus seed both confirmed present. **#18e meteor redesign SHIPPED — Phase 1 (visual) + Phase 2 (compat/wild meteors) + Phase 3 (tiered core); all both-nodes-green** → [METEORPLAN.md](Modpack-growyourownworld/METEORPLAN.md). **#41 quest chapter VERIFIED in-game 2026-07-04** (renders + deps resolve; user repositioned nodes so lines don't cross). **Left (in-game human verify only, can't run in dev env):** #39 power-chain sign-off, meteor throw-tests/tuning |
-| [METEORPLAN.md](Modpack-growyourownworld/METEORPLAN.md) | Meteor island redesign (child of AE2PLAN #18e) | **Phase 1 SHIPPED 2026-07-03 (both nodes green):** overworld body + crater + sky-stone globe + Mysterious Cube, `MeteorPlacer` + codec-slot refactor, gametest `meteorIslandFormsCrater`. **Phase 2 SHIPPED 2026-07-04 (both nodes green):** AE2 compat layer (`Ae2Compat` conditional seed reg + AE2-gated jar default recipe of 8 sky stone + certus + tag-based advancements so nothing hard-refs AE2) and a **1% wild meteor** (no cube, sky stone only) on natural overworld islands as the standalone bootstrap — position-RNG roll (no gen disruption), toggled off in the pack via the new `wildMeteorChance` common config (`skyseed-common.toml = 0.0`). **Phase 3 SHIPPED 2026-07-04 (both nodes green):** tiered press drops — a custom `skyseed:meteorite_core` block (skyseed's first block) replaces the Mysterious Cube so the drop scales by tier (small→1 random / medium→2 distinct, uniform over 6 `expand:false` pair-tags / huge→all 4); loot is tag-based → inert without AE2. In-game throw-test/tune pending |
-| [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) | Quark integration (child of CONTENTPLAN) | #43 quest sketch (+ partner-gated add-ons) |
-| [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md) | Quark × island integration (child of QUARKPLAN) | #71 (Y-band fix shipped v0.192.0 — in-game re-verify) |
-| [FARMERSDELIGHTPLAN.md](Modpack-growyourownworld/FARMERSDELIGHTPLAN.md) | Farmer's Delight integration (child of CONTENTPLAN) | #16 (jars in; crops shipped — dry crops + rice + chorus + nether, 20 overrides + gametests), #42 quest SHIPPED (A008). Pending: in-game throw-test + quest-book load |
+| [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration | flavor mods **#31 #32 #36 #37**, Create-addon check **#52**, standing call **#38** · rolling **#19 #20** · shipped, in-game-verify only: #16 #18 #34 #35 #39 |
+| [IEPLAN.md](Modpack-growyourownworld/IEPLAN.md) | Immersive Engineering + flight + petroleum (child of CONTENTPLAN) | **all built** (#34 ore island + crude-oil pocket, #35 Excavator config pinned @0.7, #45 quest A009, IE×FD compat, Quark-Engineering jar in). **Left: in-game verifies only** — Excavator yields veins over void, oil pump-extractable, nether-cane feature grows, diesel aircraft consumes fuel · #39 FE sign-off |
+| [AE2PLAN.md](Modpack-growyourownworld/AE2PLAN.md) | Applied Energistics 2 + the meteorite island (child of CONTENTPLAN; absorbed the retired METEORPLAN) | **all built & both-nodes-green** — certus deposit (#18d) + IE-gated seed (#18c) + meteorite island (overworld body + crater + sky-stone globe, Phases 1–3), the tiered **`skyseed:meteorite_core`** presses (#18b small→1/med→2-distinct/huge→4), the #41 quest (B404–B419, in-game-verified). **Left: in-game only** — #39 FE power-chain sign-off, meteor throw-test/tuning (sizes, crater palette) |
+| [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) | Quark integration (child of CONTENTPLAN) | #43 quest sketch (+ partner add-ons: Farmer's Cutting: Quark still to verify) |
+| [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md) | Quark × island integration (child of QUARKPLAN) | #71 (Y-band fix shipped v0.192.0 — in-game re-verify + large-End myalite follow-up) |
+| [FARMERSDELIGHTPLAN.md](Modpack-growyourownworld/FARMERSDELIGHTPLAN.md) | Farmer's Delight integration (child of CONTENTPLAN) | **all built** (#16 crops — dry + rice ponds + chorus + nether cane, 20 overrides + gametests; #42 quest A008). **Left: in-game only** — throw-test crops, nether-cane feature grows, quest-book load |
+| [SKYNETHERENDBIOMEPLAN.md](SKYNETHERENDBIOMEPLAN.md) | Per-biome Nether/End seed adaptation | **entirely unbuilt — plan-first.** Gated on the §3 design-fork + §8 decisions sign-off; then ~36 data-only theme edits (5 Nether "biome kits" + a light End pass, base + `_large`) |
 | [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | structures long tail | #26 #27 #28 #29 #30 #49 #60 #68 |
-| [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | future chapters #41–#47 |
+| [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | future chapters **#43 #44 #46**, scope decision **#47** (#41/#42/#45 shipped) · rolling #19 |
 | [MYSTICALPLAN.md](Modpack-growyourownworld/MYSTICALPLAN.md) | Mystical Agriculture (shipped) | #50 #51 |
 | [BEAUTIFYPLAN.md](Modpack-growyourownworld/BEAUTIFYPLAN.md) | Modpack visuals (shipped) | #21 #55 (+ optional revivals #53 #54) |
 | [REFACTORPLAN.md](REFACTORPLAN.md) | Multi-version build (shipped) | #56 #59 (+ contingencies #57 #58) |
-| [plannednotes.md](plannednotes.md) | Trial Chamber tail + misc | #33 #61 #70 |
+| [TRIALCHAMBERPLAN.md](TRIALCHAMBERPLAN.md) / [plannednotes.md](plannednotes.md) | Trial Chamber feel + misc | #33 #61 (mosaic rolled out; in-game tune/feel left) #70 |
 | Engineering debt (ex-CODE_REVIEW) | crash-robustness follow-ups | 5.2, 5.3, #67 |
 
 ---
 
 ## Priority tiers
 
-### Tier 1 — in-game sign-offs on shipped content
+### Tier 1 — in-game sign-offs on shipped content *(the biggest bucket of "left")*
 
-**✅ Cleared (2026-07-02):** #3/#10/#66/#64/#65 earlier, plus **#14** (all village biomes reachable) and **#15**
-(Quark smoke pass — all works).
+Everything here is **BUILT and both-nodes-green**; it needs a human throw-test in a real client (nothing below runs in
+the headless dev env). Clearing this queue is the highest-value next work.
 
-- [ ] **(#71)** **Quark island stones — re-verify after the fix (v0.192.0).** The Y-band bug is fixed (the veins now
-  merge into every Rocky/Ancient Y-band, so they no longer vanish on low/high throws). Confirm in-game: throw Rocky +
-  Ancient islands at **low, mid, and high** Y and **mine into the core** — you should find limestone/jasper (rocky),
-  jasper/shale (ancient) + the occasional deep blue-corundum geode at every depth. Then tune vein weights, and sign
-  off the blossom/Ancient-Tome loot half of #71. *(QUARKISLANDPLAN)*
+**✅ Cleared:** #3/#10/#66/#64/#65, **#14** (village biomes reachable), **#15** (Quark smoke pass), **#41** (AE2 quest
+renders + deps resolve, 2026-07-04).
 
-*(**#61** trial rooms — grander/less-square — needs dev work first; it's in Tier 3.)*
+- [ ] **(#71)** **Quark island stones** — re-verify at low/mid/high throws (mine into the core): limestone/jasper
+  (rocky), jasper/shale (ancient) + the odd deep corundum geode at every depth; then tune vein weights + sign off the
+  blossom/Ancient-Tome loot. *(QUARKISLANDPLAN)*
+- [ ] **(#16)** **Farmer's Delight** — throw Forest/Meadow/Desert/Aquatic/Lush, confirm crops appear + the harvest→
+  replant loop + rice in ponds; confirm the nether powdery-cane **feature** grows a harvestable cane; quest-book load. *(FARMERSDELIGHTPLAN)*
+- [ ] **(#34/#35)** **Immersive Engineering** — Excavator yields veins over the void (tune `chance`); the crude-oil
+  source survives grow-in + is IE-Fluid-Pump-extractable; a diesel-fuelled aircraft consumes fuel; IE quest load. *(IEPLAN)*
+- [ ] **(#18/#39)** **AE2 / meteorite** — throw-test the meteor island per tier (crater/globe/core read right; tune
+  sizes + crater palette); **#39** the FE power-chain (generator island → Flux → IE/AE2 Energy Acceptor → a Controller powers up). *(AE2PLAN)*
+- [ ] **(#61)** **Trial Chamber** feel/fit — the framed-panel mosaic rolled out to every piece (v0.203); the in-game
+  vanilla compare + tune is the sign-off (details in Tier 3). *(TRIALCHAMBERPLAN)*
 
-### Tier 2 — the content-mod wave *(in ROI order; each is followed by its quest chapter #19 and gated tier #20)*
+### Tier 2 — the content-mod wave — ✅ SHIPPED
 
-- **#16** Farmer's Delight — **curated 8-mod set is in `overrides/mods/` and boot-verified** (all load clean; one
-  bounded netherwood cutting-recipe casualty + two cosmetic warns). **Wild-crop island injection** is the open work.
-  *(CONTENTPLAN → [FARMERSDELIGHTPLAN.md](Modpack-growyourownworld/FARMERSDELIGHTPLAN.md) · medium)*
-- **#34** Immersive Engineering — the tech backbone (bauxite/aluminum island + FE), **gated on #35** the Excavator
-  fix (island-aware ore mix preferred, else disable + hide in JEI). *(CONTENTPLAN · large + medium)*
-- **#18** Applied Energistics 2 — **curated jar set + Create/IE bridges landed**; open work is the sky-stone island
-  bootstrap and the **inscriber-press** blocker (presses are meteorite-loot-only and uncraftable → needs a bespoke
-  source before the chapter). *(→ [AE2PLAN.md](Modpack-growyourownworld/AE2PLAN.md) · medium)*
-- Then their quest chapters: **#45** IE, **#41** AE2, **#43** Quark. *(**#42** FD chapter ✅ shipped — A008.)* *(QUESTPLAN)*
-- *(**#39** FE-flow proof is blocked until the first FE consumer lands — see "Not yet testable" below.)*
+The FD / IE / AE2 / Quark wave is **built end-to-end** (v0.196–v0.206, both nodes green), each with its island
+integration **and** quest chapter. Its only remaining work is the **in-game verifies in Tier 1**. The next *unbuilt*
+integrations — the flavor/renewable mods (**#31** Critters, **#32** Productive Bees, **#36/#37** Iron's Spells) — are
+lower-ROI and live in **Tier 4**. The per-biome **Nether/End seed adaptation** (SKYNETHERENDBIOMEPLAN) is the other
+sizeable unbuilt content block — plan-first, awaiting its design-fork sign-off (Tier 3).
 
-### Tier 3 — structures & trial-chamber polish
+### Tier 3 — structures, trial-chamber polish & the Nether/End biome pass
 
-- **#61** Trial Chamber — **corridor-warren first pass SHIPPED v0.194.0.** Reworked the jigsaw flow so it reads like a
-  smaller vanilla trial dungeon (atrium → winding passages → T-junctions → chambers on spurs + a small cell + descents),
-  not chambers bolted onto the atrium. Both nodes green. **In-game feel/fit is yours to confirm** (does it wind/branch,
-  chambers open off junctions, stays inside the island); tune hall/junction weights + jigsaw `depth` after the look.
+- **(new content) Per-biome Nether/End seed adaptation** — SKYNETHERENDBIOMEPLAN, **entirely unbuilt, plan-first.**
+  First step is the user sign-off on the §3 design fork (A: seed-identity + biome-flavor [recommended] vs B) and the
+  §8 decisions (End scope, Forest normalization, nether trees); then ~36 data-only theme edits (5 Nether "biome kits"
+  + a light End pass, base + `_large`). No code changes expected. *(SKYNETHERENDBIOMEPLAN)*
+- **#61** Trial Chamber — structure (corridor warren, v0.194) **and** the framed-panel wall MOSAIC + laid-floor tiler
+  + corner posts **rolled out to every piece** (v0.196–v0.203, both nodes green). **In-game feel/fit is the sign-off**
+  (does it wind/branch + read as a vanilla trial chamber); then tune module size / motif frequency / patina mix / hall
+  weights. *(TRIALCHAMBERPLAN)*
 - **#33** Trial Chamber more variants — partly done by the warren (corner/junction/cell/descent); further options:
   cross-intersections, alcove-corridors, bigger multi-cell chambers, vaulted ceilings. *(plannednotes)*
 - **#26** aspen manor + **#27** bog trial — first decision: vehicle (adapt pools vs author own set like the
@@ -136,29 +146,18 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 
 ---
 
-## Not yet testable (blocked until a dependency lands)
-
-Parked here so Tier 1 stays a list of things that can actually be done now. Move an item up to its testable tier the
-moment its blocker lands.
-
-- **#39** Prove FE flows Create → IE/AE2 across islands — **unblocked** (IE + AE2 both landed) and **proven on paper**
-  (C&A → Flux → IE/AE2 Energy Acceptor, all standard NeoForge FE — AE2PLAN #39). Only the one-time **in-game
-  sign-off** remains (a Tier-1 verify), not a blocker. *(CONTENTPLAN / AE2PLAN)*
-
----
-
 ## Full ranked backlog (open items only)
 
 | # | Item | Plan | Priority | Effort | Status |
 |---|---|---|---|---|---|
 | 71 | Quark island stones — Y-band bug **fixed v0.192.0** (veins now merge into every overworld Y-band across the 6 `quark_{rocky,ancient}{,_large,_huge}` files; ids verified; gametest-guarded). Remaining: in-game re-verify at low/mid/high throws + tune weights + blossom/Ancient-Tome loot sign-off | QUARKISLANDPLAN | medium | medium | fix shipped (in-game re-verify) |
-| 16 | Farmer's Delight — curated 8-mod set in `overrides/mods/` (base FD 1.3.2 + End's/My Nether's/Ocean's + Autochef's/Chef's/Chopper's/FD Extended), **boot-verified all load clean**. Wild-crop island injection = open | FARMERSDELIGHTPLAN | medium | medium | jars in + boot-verified; injection pending |
-| 34 | Immersive Engineering — bauxite/aluminum island + FE (the tech backbone) | CONTENTPLAN | medium | large | open (gated on 35) |
-| 35 | IE Excavator fix — island-aware ore mix (preferred) else disable + hide in JEI | CONTENTPLAN | medium | medium | open |
-| 18 | AE2 — jars in; **integration SHIPPED 2026-07-03 (both nodes green):** #18a meteorite island theme+seed, #18d rocky/ancient certus deposit, #18c IE+certus seed gate, #18b sky-stone press recipes. Left: meteorite-disable config, #41 quest, #39 FE proof, in-game throw-tests | AE2PLAN | medium | medium | built; in-game verify pending |
-| 19 | Rolling: quest chapter per newly-landed mod | QUESTPLAN / CONTENTPLAN | medium | rolling | partial |
-| 20 | Rolling: gated island tier per newly-landed mod | CONTENTPLAN | medium | rolling | partial |
-| 61 | Trial Chamber corridor-WARREN — atrium → passages → junctions → chambers-on-spurs + cell + descents (reads like a real vanilla trial dungeon). First pass shipped v0.194.0, both nodes green | plannednotes | medium | medium | shipped (in-game feel/fit) |
+| 16 | Farmer's Delight — **crops SHIPPED** (dry crops on Forest/Meadow/Desert + rice on Lush/Aquatic ponds + chorus succulent + nether powdery-cane feature; 20 `theme_override` files, gametest-guarded, both nodes green). Remaining: in-game throw-test + nether-cane feature grows + quest-book load | FARMERSDELIGHTPLAN | medium | medium | built; in-game verify |
+| 34 | Immersive Engineering — **ore island SHIPPED** (6 `immersiveengineering_*` overrides: aluminum/lead/nickel/silver/uranium + a deep crude-oil pocket, inert-safe, gametest-guarded). Remaining: in-game verify all metals appear at low/mid/high + oil is pump-extractable | CONTENTPLAN / IEPLAN | medium | large | built; in-game verify |
+| 35 | IE Excavator — **config pinned** (`overrides/defaultconfigs/immersiveengineering-server.toml`, `chance` 0.9→0.7). Remaining: in-game confirm it yields veins over the void, then fine-tune | CONTENTPLAN / IEPLAN | medium | medium | built; in-game verify |
+| 18 | AE2 — **integration SHIPPED end-to-end (both nodes green):** certus deposit (#18d) + IE-gated seed (#18c) + meteorite island Phases 1–3 (overworld body + crater + sky-stone globe) + the tiered `skyseed:meteorite_core` presses (#18b) + #41 quest. Remaining: #39 FE sign-off + meteor throw-test/tuning | AE2PLAN | medium | medium | built; in-game verify |
+| 19 | Rolling: quest chapter per newly-landed mod — kept pace (FD/IE/AE2 all authored); re-arms per future integration | QUESTPLAN / CONTENTPLAN | medium | rolling | caught up |
+| 20 | Rolling: gated island tier per newly-landed mod — done for every installed mod; re-arms per future integration | CONTENTPLAN | medium | rolling | caught up |
+| 61 | Trial Chamber corridor-warren (v0.194) **+ the framed-panel wall MOSAIC + laid-floor tiler rolled out to every piece** (v0.196–v0.203, both nodes green). Remaining: in-game vanilla compare + tune module/motif/patina/hall weights | TRIALCHAMBERPLAN / plannednotes | medium | medium | built; in-game feel/fit |
 | 33 | Trial Chamber more variants — partly done by the warren (corner/junction/cell); further: cross-intersections, alcove-corridors, multi-cell/vaulted chambers | plannednotes | low | large | open |
 | 26 | Resurrect aspen manor (vehicle decision first) | STRUCTUREPLAN | low | medium | open |
 | 27 | Resurrect bog trial (vehicle decision first) | STRUCTUREPLAN | low | medium | open |
@@ -171,11 +170,11 @@ moment its blocker lands.
 | 37 | Decide Iron's Spells scope (full discovery loop vs crafted-only) | CONTENTPLAN | low | small | decision |
 | 38 | Per-future-mod call: bespoke ore island vs MA seeds | CONTENTPLAN | low | small | standing rule |
 | 39 | Prove FE flows Create → IE/AE2 across islands — **proven on paper** (C&A `alternator` → Flux `plug`/`point` → IE native / AE2 `energy_acceptor`, all standard NeoForge FE; see AE2PLAN #39). Left: one-time in-game sign-off | CONTENTPLAN / AE2PLAN | low | small | proven; in-game sign-off pending |
-| 41 | AE2 quest chapter — **SHIPPED** (16 quests `B404`–`B419` in the **Storage** chapter, not a new chapter; gated off IE steel `B908`). In-game book-load pending | QUESTPLAN / AE2PLAN | low | small | shipped (in-game load pending) |
+| 41 | AE2 quest chapter — **SHIPPED + in-game-verified 2026-07-04** (16 quests `B404`–`B419` in the **Storage** chapter; renders + deps resolve; user repositioned nodes so lines don't cross — do not revert) | QUESTPLAN / AE2PLAN | low | small | ✅ shipped + verified |
 | 42 | Farmer's Delight quest chapter — **SHIPPED** (`chapters/farmersdelight.snbt`, A008, B801–B808 + lang). In-game quest-book load pending | QUESTPLAN | low | small | shipped (in-game load pending) |
 | 43 | Future chapter: Quark (quest — minimal 3-quest sketch in QUARKPLAN) | QUESTPLAN | low | unknown | unblocked (#15 ✅) — build last |
 | 44 | Future chapter: Productive Bees (quest) | QUESTPLAN | low | unknown | gated on 32 |
-| 45 | Future chapter: Immersive Engineering (quest — promoted with the backbone decision) | QUESTPLAN | medium | unknown | gated on 34 |
+| 45 | Immersive Engineering quest chapter — **SHIPPED** (`chapters/immersiveengineering.snbt`, A009, 15 quests B9xx + the flight line moved to Tools). In-game quest-book load pending | QUESTPLAN / IEPLAN | medium | small | shipped (in-game load pending) |
 | 46 | Future chapter: Iron's Spells (quest) | QUESTPLAN | low | unknown | gated on 36 |
 | 47 | Clarify "BYG content" chapter scope (BWG branch already shipped) | QUESTPLAN | low | small | decision |
 | 49 | Prairie houses / rugged fossil (optional polish) | STRUCTUREPLAN | low | small | open |

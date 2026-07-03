@@ -49,27 +49,23 @@ Each piece loop currently does `mix(x, y+z)` (walls) / `mix(x, z)` (floor+ceilin
 
 ## Phasing (aesthetic-blind → iterate in-game)
 
-1. **Atrium showcase** — apply the texturer to `hub` only, regen just the hub, and get the in-game look (the atrium is
-   what the user judges). Cheapest way to validate the *direction* before touching every piece. **✅ v0.196.0** (texturer)
-   **+ v0.198.0** (shape/level pass, from the in-game read): rectangular **11×13**, a **raised back dais** reached by a
-   **stair step** (two floor levels — spawner on the lower arena, vault up on the dais), one **elevated passage exit**
-   off the dais, **non-weathered (warm) copper** added to the wall palette, and a **mid-wall ridge** (cut-copper belt)
-   breaking up the tall walls. Per the user: no free-standing pillars — decoration + shape + level changes carry it.
-2. **Roll out** — apply to all remaining pieces for a coherent warren; regen all; both-node gametests. **✅ v0.203.0**:
-   the framed-panel MOSAIC + laid-floor tiler + cut-copper corner posts now cover *every* piece (rooms, small cell,
-   corridor, corner, junction, descent, end room). The small cell also picked up the cornice + greebling; the descent's
-   treads became laid floor over a plain substructure. All 11 non-hub `.nbt` regenerated; a gametest asserts the end room
-   carries the mosaic; both nodes green (154 / 163). **Learnings from the atrium/descent passes carried through the
-   rollout (v0.196–v0.201):**
-   - Wall MOSAIC (framed panels + motifs + oxidized *and* non-weathered copper) + the `floorTile` on every piece.
-   - Level changes read best as a **2-block** raise (a 2-step stair), with a mid-wall **ridge** doubling as the doorway
+1. **Atrium showcase** — ✅ **SHIPPED v0.196.0 (texturer) + v0.198.0 (shape/level pass).** The hub became a rectangular
+   **11×13** with a **raised back dais** (2-step stair — spawner on the lower arena, vault up on the dais), one elevated
+   passage exit, warm (non-weathered) copper added to the palette, and a mid-wall cut-copper ridge. No free-standing
+   pillars — decoration + shape + level changes carry it.
+2. **Roll out** — ✅ **SHIPPED v0.203.0 (both nodes green, 154/163).** The framed-panel MOSAIC + laid-floor tiler +
+   cut-copper corner posts now cover *every* piece (rooms, small cell, corridor, corner, junction, descent, end room);
+   the small cell picked up the cornice + greebling; all 11 non-hub `.nbt` regenerated; a gametest asserts the end room
+   carries the mosaic. **Learnings carried through (still guide the tune + the #33 variants):**
+   - Level changes read best as a **2-block** raise (a 2-step stair), the mid-wall **ridge** doubling as the doorway
      lintel; belt **corners use a top slab** (stairs can't hook cleanly at an inner corner).
-   - Passages must be **roomy, not cramped** (≥5 tall interior on stairs).
-   - **Branch-ends should land in a trial room, never a dead end** — the descent's exit draws the *rooms* pool. Consider
-     the same for other terminal passages so "the last room is always a trial room" (user request).
-   - No free-standing pillars at this scale — decoration + shape + level changes carry it.
-3. **Tune** — module size (4?), motif frequency, patina mix, plinth, grate backing (a grate on an outer wall shows the
-   island body behind — acceptable as a vent, or back it with a solid block / use sparingly). All in-game.
+   - Passages must be **roomy** (≥5 tall interior on stairs).
+   - **Branch-ends should land in a trial room, never a dead end** (the descent's exit draws the *rooms* pool; consider
+     the same for other terminal passages — user request).
+   - No free-standing pillars at this scale.
+3. **Tune — LEFT (in-game).** Module size (4?), motif frequency, patina mix, plinth, grate backing (a grate on an outer
+   wall shows the island body — acceptable as a vent, or back it with a solid block / use sparingly). Plus the overall
+   vanilla feel/fit sign-off (#61). All in-game.
 
 ## Regen + verify
 The wall/floor texture changes every piece, so **delete all `trial_chamber/*.nbt` and run the 2-build regen dance**
