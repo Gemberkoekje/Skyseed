@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [ { "type": "neoforge:mod_loaded", "modid": "ae2" } ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "SCS",
+    "SSS"
+  ],
+  "key": {
+    "S": "ae2:smooth_sky_stone_block",
+    "C": "ae2:certus_quartz_crystal"
+  },
+  "result": {
+    "id": "skyseed:meteorite_skyseed"
+  }
+}

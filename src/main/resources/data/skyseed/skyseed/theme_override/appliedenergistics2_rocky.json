@@ -1,0 +1,26 @@
+{
+  "_comment": "First-party Applied Energistics 2 compat (AE2PLAN #18d) — a small, FINITE certus deposit on the rocky mining island: ae2:quartz_block (the inert 'Certus Quartz Block'; deconstructs shapeless → 4 certus crystals). This is the GATE INGREDIENT the meteorite-island seed recipe consumes — you must mine certus in normal play before you can grow the AE2 island — NOT a functional AE2 supply: certus alone builds no storage (that needs the meteorite island's sky stone + inscriber presses). Modern AE2 has no certus ore, so the inert quartz_block is the deposit block (full solid cube — no attachment/placement issue like quartz_cluster). Inert without AE2 (unknown block skipped before any RNG → byte-identical). Bands merge into rocky's snowy / min_y:130 / max_y:8 / min_y:70 bands (selectors match rocky.json) so certus doesn't vanish on low/high throws, per quark_rocky.json / immersiveengineering_rocky.json. Base-density counts (OrePlanner scales by volume). Mirror to appliedenergistics2_rocky_large.json + appliedenergistics2_huge_rocky.json.",
+  "target": "skyseed:rocky",
+  "ores": [
+    { "block": "ae2:quartz_block", "chance": 0.45, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" }
+  ],
+  "biome_overrides": [
+    { "_comment": "…into the snowy-biome band (else it replaces the ore list → no certus on snowy rocky islands).",
+      "biomes": [ "minecraft:snowy_plains", "minecraft:snowy_taiga", "minecraft:ice_spikes", "minecraft:snowy_slopes", "minecraft:frozen_peaks", "minecraft:jagged_peaks", "minecraft:grove", "minecraft:snowy_beach", "minecraft:frozen_river", "minecraft:frozen_ocean", "minecraft:deep_frozen_ocean" ],
+      "ores": [
+        { "block": "ae2:quartz_block", "chance": 0.45, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" }
+      ] },
+    { "_comment": "…into the high snow-peak band (min_y 130).", "min_y": 130,
+      "ores": [
+        { "block": "ae2:quartz_block", "chance": 0.45, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" }
+      ] },
+    { "_comment": "…into the deepslate band (max_y 8).", "max_y": 8,
+      "ores": [
+        { "block": "ae2:quartz_block", "chance": 0.45, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" }
+      ] },
+    { "_comment": "…into the high band (min_y 70).", "min_y": 70,
+      "ores": [
+        { "block": "ae2:quartz_block", "chance": 0.45, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" }
+      ] }
+  ]
+}

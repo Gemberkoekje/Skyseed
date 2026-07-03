@@ -1,6 +1,7 @@
 package dev.gemberkoekje.skyseed.registry;
 
 import dev.gemberkoekje.skyseed.Skyseed;
+import dev.gemberkoekje.skyseed.compat.Ae2Compat;
 import dev.gemberkoekje.skyseed.compat.Id;
 import dev.gemberkoekje.skyseed.compat.Ids;
 import dev.gemberkoekje.skyseed.item.IslandSeedItem;
@@ -24,8 +25,9 @@ import java.util.Map;
 public final class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Skyseed.MODID);
 
-    /** Theme ids (in the catalogue/creative-tab order), each registered as a distinct {@code <id>_skyseed} item. */
-    public static final List<String> SEED_THEMES = List.of(
+    /** Base theme ids (in catalogue/creative-tab order), each a distinct {@code <id>_skyseed} item. The AE2-compat
+     *  Meteorite family is appended by {@link #SEED_THEMES} only when AE2 is present. */
+    private static final List<String> BASE_SEED_THEMES = List.of(
             "forest", "forest_large", "rocky", "rocky_large", "desert", "desert_large",
             "mushroom", "mushroom_large", "frozen", "frozen_large", "meadow", "meadow_large",
             "badlands", "badlands_large", "ancient", "ancient_large", "lush", "lush_large",
@@ -43,6 +45,17 @@ public final class ModItems {
             "dungeon", "dungeon_large", "ruined_portal", "desert_temple", "jungle_temple", "witch_hut", "outpost", "trial_chamber",
             "woodland_mansion", "ocean_monument", "end_portal", "return_portal", "chorus_forest", "end_city",
             "dragon_trophy");
+
+    /**
+     * Theme ids registered as seed items. The Meteorite Skyseed family is a Skyseed↔AE2 <b>compat</b> feature
+     * (METEORPLAN Phase 2) — appended only when AE2 is installed ({@link Ae2Compat#LOADED}), so without AE2 the seed
+     * items simply don't exist (not craftable, not in the creative tab, skipped by the seed-coverage gametest). The
+     * meteorite <em>theme</em> JSON still ships (harmless dead data; {@code MeteorPlacer} skips its AE2 blocks).
+     */
+    public static final List<String> SEED_THEMES = Ae2Compat.LOADED
+            ? java.util.stream.Stream.concat(BASE_SEED_THEMES.stream(),
+                    java.util.stream.Stream.of("meteorite", "meteorite_large", "huge_meteorite")).toList()
+            : BASE_SEED_THEMES;
 
     /**
      * Hand-made debug <em>themes</em> for the one thing the auto scan ({@link ThemeScanner}) cannot derive — a

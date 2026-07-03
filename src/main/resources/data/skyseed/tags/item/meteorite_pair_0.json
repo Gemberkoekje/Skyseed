@@ -1,0 +1,7 @@
+{
+  "_comment": "Meteorite Core medium-tier drop pair 0 of 6 (calculation + engineering). expand:false in the loot table drops BOTH; required:false → empty & clean without AE2. See loot_table/blocks/meteorite_core.json (METEORPLAN Phase 3).",
+  "values": [
+    { "id": "ae2:calculation_processor_press", "required": false },
+    { "id": "ae2:engineering_processor_press", "required": false }
+  ]
+}

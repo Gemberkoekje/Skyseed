@@ -1,0 +1,8 @@
+{
+  "_comment": "All three tiers render the same (the globe size already conveys the tier); the `tier` value only drives the loot table.",
+  "variants": {
+    "tier=0": { "model": "skyseed:block/meteorite_core" },
+    "tier=1": { "model": "skyseed:block/meteorite_core" },
+    "tier=2": { "model": "skyseed:block/meteorite_core" }
+  }
+}

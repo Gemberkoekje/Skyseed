@@ -2,7 +2,7 @@
 	default_hide_dependency_lines: false
 	default_quest_shape: ""
 	filename: "storage"
-	group: ""
+	group: "5C0000000000E002"
 	icon: {
 		components: {
 			"sophisticatedcore:number_of_inventory_slots": 27
@@ -11,7 +11,7 @@
 		id: "sophisticatedbackpacks:backpack"
 	}
 	id: "5C0000000000A005"
-	order_index: 7
+	order_index: 3
 	quest_links: [ ]
 	quests: [
 		{
@@ -73,6 +73,336 @@
 			}]
 			x: 1.5d
 			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B104"]
+			id: "5C0000000000B404"
+			rewards: [{
+				count: 2
+				id: "5C0000000000D404"
+				item: {
+					count: 1
+					id: "ae2:certus_quartz_crystal"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C404"
+				item: { count: 1, id: "ae2:certus_quartz_crystal" }
+				type: "item"
+			}]
+			x: 0.0d
+			y: 3.0d
+		}
+		{
+			dependencies: [
+				"5C0000000000B404"
+				"5C0000000000B908"
+			]
+			id: "5C0000000000B405"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D405"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C405"
+				item: { count: 1, id: "skyseed:meteorite_skyseed" }
+				type: "item"
+			}]
+			x: 1.5d
+			y: 3.0d
+		}
+		{
+			dependencies: ["5C0000000000B405"]
+			id: "5C0000000000B406"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D406"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C406"
+				item: { count: 1, id: "ae2:sky_stone_block" }
+				type: "item"
+			}]
+			x: 3.0d
+			y: 3.0d
+		}
+		{
+			dependencies: ["5C0000000000B406"]
+			id: "5C0000000000B407"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D407"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C407"
+				item: { count: 1, id: "ae2:calculation_processor_press" }
+				type: "item"
+			}]
+			x: 4.5d
+			y: 4.5d
+		}
+		{
+			dependencies: ["5C0000000000B404"]
+			id: "5C0000000000B408"
+			rewards: [{
+				count: 4
+				id: "5C0000000000D408"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C408"
+				item: { count: 1, id: "ae2:charged_certus_quartz_crystal" }
+				type: "item"
+			}]
+			x: 1.5d
+			y: 6.0d
+		}
+		{
+			dependencies: ["5C0000000000B408"]
+			id: "5C0000000000B409"
+			rewards: [{
+				count: 4
+				id: "5C0000000000D409"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C409"
+				item: { count: 1, id: "ae2:fluix_crystal" }
+				type: "item"
+			}]
+			x: 4.5d
+			y: 6.0d
+		}
+		{
+			dependencies: [
+				"5C0000000000B407"
+				"5C0000000000B409"
+			]
+			id: "5C0000000000B410"
+			rewards: [{
+				count: 8
+				id: "5C0000000000D410"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C410"
+				item: { count: 1, id: "ae2:logic_processor" }
+				type: "item"
+			}]
+			x: 6.0d
+			y: 4.5d
+		}
+		{
+			dependencies: [
+				"5C0000000000B406"
+				"5C0000000000B410"
+			]
+			id: "5C0000000000B411"
+			rewards: [{
+				count: 8
+				id: "5C0000000000D411"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C411"
+				item: { count: 1, id: "ae2:controller" }
+				type: "item"
+			}]
+			x: 7.5d
+			y: 3.0d
+		}
+		{
+			dependencies: ["5C0000000000B411"]
+			id: "5C0000000000B412"
+			rewards: [{
+				id: "5C0000000000D412"
+				item: {
+					count: 1
+					id: "ae2:item_storage_cell_1k"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C412"
+				item: { count: 1, id: "ae2:drive" }
+				type: "item"
+			}]
+			x: 9.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B411"]
+			id: "5C0000000000B413"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D413"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C413"
+				item: { count: 1, id: "ae2:terminal" }
+				type: "item"
+			}]
+			x: 9.0d
+			y: 3.0d
+		}
+		{
+			dependencies: ["5C0000000000B411"]
+			id: "5C0000000000B414"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D414"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C414"
+				item: { count: 1, id: "ae2:energy_acceptor" }
+				type: "item"
+			}]
+			x: 9.0d
+			y: 4.5d
+		}
+		{
+			dependencies: ["5C0000000000B409"]
+			id: "5C0000000000B415"
+			rewards: [{
+				count: 6
+				id: "5C0000000000D415"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C415"
+				item: { count: 1, id: "ae2:growth_accelerator" }
+				type: "item"
+			}]
+			x: 6.0d
+			y: 6.0d
+		}
+		{
+			dependencies: ["5C0000000000B413"]
+			id: "5C0000000000B416"
+			rewards: [{
+				count: 8
+				id: "5C0000000000D416"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C416"
+				item: { count: 1, id: "ae2wtlib:wireless_universal_terminal" }
+				type: "item"
+			}]
+			x: 10.5d
+			y: 3.0d
+		}
+		{
+			dependencies: ["5C0000000000B412"]
+			id: "5C0000000000B417"
+			rewards: [{
+				count: 8
+				id: "5C0000000000D417"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C417"
+				item: { count: 1, id: "megacells:item_storage_cell_1m" }
+				type: "item"
+			}]
+			x: 10.5d
+			y: 1.5d
+		}
+		{
+			dependencies: ["5C0000000000B411"]
+			id: "5C0000000000B418"
+			optional: true
+			rewards: [{
+				count: 6
+				id: "5C0000000000D418"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C418"
+				item: { count: 1, id: "createstockbridge:ae_bridge" }
+				type: "item"
+			}]
+			x: 7.5d
+			y: 4.5d
+		}
+		{
+			dependencies: ["5C0000000000B414"]
+			id: "5C0000000000B419"
+			optional: true
+			rewards: [{
+				count: 6
+				id: "5C0000000000D419"
+				item: {
+					count: 1
+					id: "minecraft:experience_bottle"
+				}
+				type: "item"
+			}]
+			tasks: [{
+				id: "5C0000000000C419"
+				item: { count: 1, id: "create_ae_generator:kinetic_acceptor" }
+				type: "item"
+			}]
+			x: 10.5d
+			y: 4.5d
 		}
 	]
 }

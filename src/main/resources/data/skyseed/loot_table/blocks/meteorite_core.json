@@ -1,0 +1,38 @@
+{
+  "_comment": "Meteorite Core drop, tiered by the `tier` blockstate (METEORPLAN Phase 3). Tag-based on purpose: tag entries resolve empty (never error) when AE2 is absent, so the block is inert without AE2 — the core is only ever placed inside a sky-stone globe (AE2-present) anyway. tier 0 (small) = 1 random press; tier 1 (medium) = 2 DISTINCT, uniform over all 6 pairs (a tag entry with expand:false drops one of EVERY item in the tag, so each `meteorite_pair_N` tag = its 2 presses); tier 2 (huge) = all 4.",
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "conditions": [
+        { "condition": "minecraft:block_state_property", "block": "skyseed:meteorite_core", "properties": { "tier": "0" } }
+      ],
+      "entries": [
+        { "type": "minecraft:tag", "name": "ae2:inscriber_presses", "expand": true }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        { "condition": "minecraft:block_state_property", "block": "skyseed:meteorite_core", "properties": { "tier": "1" } }
+      ],
+      "entries": [
+        { "type": "minecraft:tag", "name": "skyseed:meteorite_pair_0", "expand": false },
+        { "type": "minecraft:tag", "name": "skyseed:meteorite_pair_1", "expand": false },
+        { "type": "minecraft:tag", "name": "skyseed:meteorite_pair_2", "expand": false },
+        { "type": "minecraft:tag", "name": "skyseed:meteorite_pair_3", "expand": false },
+        { "type": "minecraft:tag", "name": "skyseed:meteorite_pair_4", "expand": false },
+        { "type": "minecraft:tag", "name": "skyseed:meteorite_pair_5", "expand": false }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        { "condition": "minecraft:block_state_property", "block": "skyseed:meteorite_core", "properties": { "tier": "2" } }
+      ],
+      "entries": [
+        { "type": "minecraft:tag", "name": "ae2:inscriber_presses", "expand": false }
+      ]
+    }
+  ]
+}

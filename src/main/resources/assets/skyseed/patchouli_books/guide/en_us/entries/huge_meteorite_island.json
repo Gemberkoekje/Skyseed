@@ -1,0 +1,25 @@
+{
+  "name": "Huge Meteorite Seed",
+  "category": "skyseed:overworld",
+  "advancement": "skyseed:reveal_huge_meteorite",
+  "icon": "skyseed:huge_meteorite_skyseed",
+  "sortnum": 57,
+  "flag": "mod:ae2",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The $(item)Huge Meteorite Skyseed$() — a vast overworld island with a huge meteor crater, its body honeycombed with $(item)caves$().$(br2)$(bold)The cost$()$(br)End-game, like all huge seeds: a $(item)Large Meteorite Skyseed$() ringed between an $(item)Ender Pearl$() and $(item)Blaze Powder$(), packed in blackstone."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "skyseed:huge_meteorite_skyseed",
+      "text": "The large seed between an ender pearl and blaze powder.",
+      "advancement": "skyseed:gathered_huge_meteorite"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)What you get$()$(br)A huge island with a massive $(item)sky-stone globe$() in its crater — sky stone in bulk — plus an internal $(item)cave system$() (sometimes sealed, sometimes opened by a sinkhole). Crack the $(item)Meteorite Core$() at its centre for $(bold)all four inscriber presses$() at once — the whole set from a single throw.",
+      "advancement": "skyseed:craft_huge_meteorite"
+    }
+  ]
+}

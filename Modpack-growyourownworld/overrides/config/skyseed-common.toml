@@ -1,0 +1,7 @@
+#Chance [0..1] that a NATURAL overworld island (forest / desert / meadow / rocky / … — not a
+#structure, village, ladder or the dedicated meteorite) grown IN THE OVERWORLD also carries a
+#small wild meteor: a sky-stone globe with NO Meteorite Core (no free presses). It's the
+#standalone way to find your first sky stone for the Meteorite Skyseed. Set 0 to disable — the
+#modpack does, gating the meteor behind the dedicated seed (IE + certus) instead.
+#Range: 0.0 ~ 1.0
+wildMeteorChance = 0.0

@@ -1,6 +1,7 @@
 package dev.gemberkoekje.skyseed.worldgen;
 
 import dev.gemberkoekje.skyseed.Skyseed;
+import dev.gemberkoekje.skyseed.SkyseedCommonConfig;
 import dev.gemberkoekje.skyseed.compat.Id;
 import dev.gemberkoekje.skyseed.compat.Ids;
 import dev.gemberkoekje.skyseed.compat.Lookup;
@@ -110,6 +111,26 @@ public final class IslandGenerator {
         final List<GroundEntry> caveDeco = cfg.variant() != null ? cfg.variant().decoration().underside() : List.of();
         theme.caves().ifPresent(caves -> CaveCarver.carve(blockMap, buffers.surfaceList(), buffers.bottomList(),
                 center, baseRadius, caves, caveDeco, random));
+
+        // Meteor. The dedicated meteorite island (theme has a `meteor`) always gets one WITH a Meteorite Core (tiered).
+        // Otherwise a NATURAL overworld island has a small chance (wildMeteorChance) of a WILD meteor — a sky-stone
+        // globe with NO cube, the standalone way to find sky stone (the modpack disables it via config). Before the
+        // structure/decoration passes so nothing grows in the crater. Inert without AE2. See MeteorPlacer.
+        theme.meteor().ifPresentOrElse(
+                m -> MeteorPlacer.place(blockMap, buffers.surfaceList(), center, baseRadius, m.radius().sample(random), m.coreTier(), random),
+                () -> {
+                    final double chance = SkyseedCommonConfig.wildMeteorChance();
+                    if (chance > 0 && "minecraft:overworld".equals(cfg.dim())
+                            && theme.jigsaw().isEmpty() && theme.ladderShaft().isEmpty()) {
+                        // Roll from a POSITION-derived RNG (not the shared stream), so the 99% of islands WITHOUT a wild
+                        // meteor generate byte-identically — no RNG shift into their decoration/mob passes.
+                        final RandomSource wild = RandomSource.create(center.asLong() * 0x9E3779B97F4A7C15L);
+                        if (wild.nextFloat() < chance) {
+                            // coreTier -1: sky-stone globe only, no Meteorite Core (no free presses from a wild meteor).
+                            MeteorPlacer.place(blockMap, buffers.surfaceList(), center, baseRadius, 1 + wild.nextInt(2), -1, wild);
+                        }
+                    }
+                });
 
         // Curated structure: a jigsaw building/cluster on a levelled pad (assembled later by GenerationJob), or a rare
         // structure's jigsaw + animal packs in its place.

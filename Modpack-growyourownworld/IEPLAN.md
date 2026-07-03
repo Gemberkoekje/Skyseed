@@ -135,8 +135,10 @@ source, fall back to a KubeJS crude-oil recipe. Tune `chance` after a few throws
   `create:precision_mechanism` tag→item, result `gyroscope_dials`→`rotary_cannon`; telescope — add the missing
   pattern commas. All 5 JSON-validated. (Base Immersive Aircraft still crafts rotary_cannon/telescope too, so those
   were never truly lost — but the addon's Create variants now work.)
-- [ ] **(#39)** **FE-flow proof — now testable** (IE is the first FE *consumer*): confirm Create → FE →
-  IE machines across islands via Flux. Promote to a Tier-1 sign-off.
+- [~] **(#39)** **FE-flow proof — proven on paper (see [AE2PLAN.md](AE2PLAN.md) #39), in-game sign-off pending.** The
+  chain is type-compatible end to end (C&A `alternator` → Flux `flux_plug`/`flux_point` → IE native FE / AE2
+  `energy_acceptor`), all standard NeoForge FE. IE is a native FE consumer, so the same trace covers it. Left: the
+  one-time in-game check (generator island → Flux → IE machine on another island).
 - [x] **Flight fuel chain — wired** (tags, above): vanilla fuel / blaze powder → **IE biodiesel** → **IP
   diesel/kerosene** all count as `iaie:fuel`. In-game, just confirm a diesel-fuelled aircraft actually consumes it.
 - [x] **Quark Engineering (Quark × IE) — verified available; recommend adding.** `QuarkEngineering-1.21.1-5.10.29.jar`

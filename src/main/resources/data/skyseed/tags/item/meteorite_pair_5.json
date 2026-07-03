@@ -1,0 +1,7 @@
+{
+  "_comment": "Meteorite Core medium-tier drop pair 5 of 6 (logic + silicon). See loot_table/blocks/meteorite_core.json (METEORPLAN Phase 3).",
+  "values": [
+    { "id": "ae2:logic_processor_press", "required": false },
+    { "id": "ae2:silicon_press", "required": false }
+  ]
+}

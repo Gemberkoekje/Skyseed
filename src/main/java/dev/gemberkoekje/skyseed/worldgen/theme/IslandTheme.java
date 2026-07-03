@@ -1,6 +1,7 @@
 package dev.gemberkoekje.skyseed.worldgen.theme;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.gemberkoekje.skyseed.compat.Id;
 import net.minecraft.core.Holder;
@@ -27,7 +28,8 @@ public record IslandTheme(Shape shape, Palette palette, List<OreEntry> ores, Lis
                           List<BiomeOverride> biomeOverrides, Optional<Pond> pond, List<MobEntry> mobs,
                           Optional<JigsawConfig> jigsaw, List<AnimalPack> animals, List<RareStructure> rareStructures,
                           Optional<Lava> lava, List<String> dimensions, Optional<Id> twin,
-                          Optional<LadderShaft> ladderShaft, Optional<FizzleRule> fizzle, Optional<Caves> caves) {
+                          Optional<LadderShaft> ladderShaft, Optional<FizzleRule> fizzle, Optional<Caves> caves,
+                          Optional<Meteor> meteor) {
 
     /** True if this theme's base config is an implementation for {@code dim} (its declared {@code dimensions}). */
     public boolean baseValidIn(String dim) {
@@ -62,7 +64,30 @@ public record IslandTheme(Shape shape, Palette palette, List<OreEntry> ores, Lis
             // A hard biome exclusion: fizzle (with a message) when thrown into these biomes even in a dimension this
             // theme implements — the Bastion never forms in the basalt deltas. See IslandGenerator.formValidFor.
             FizzleRule.CODEC.optionalFieldOf("fizzle").forGetter(IslandTheme::fizzle),
-            // Internal cave systems carved into the body (huge islands) — see Caves / CaveCarver, SKYHUGEPLAN Phase 2.
-            Caves.CODEC.optionalFieldOf("caves").forGetter(IslandTheme::caves)
-    ).apply(i, IslandTheme::new));
+            // Two terrain-carving optionals folded into ONE codec slot so the group stays within DFU's 16-field limit
+            // (the theme JSON keeps `caves` + `meteor` both top-level). caves = internal cave systems (Caves /
+            // CaveCarver, SKYHUGEPLAN Phase 2); meteor = an impact crater + sky-stone globe + Meteorite Core (Meteor /
+            // MeteorPlacer, METEORPLAN, AE2PLAN #18e).
+            Carve.CODEC.forGetter(t -> new Carve(t.caves(), t.meteor()))
+    ).apply(i, IslandTheme::from));
+
+    /** Reassembles the record from the codec's 16 group values (the last being the combined {@link Carve} slot). */
+    private static IslandTheme from(Shape shape, Palette palette, List<OreEntry> ores, List<Variant> variants,
+                                    List<BiomeOverride> biomeOverrides, Optional<Pond> pond, List<MobEntry> mobs,
+                                    Optional<JigsawConfig> jigsaw, List<AnimalPack> animals,
+                                    List<RareStructure> rareStructures, Optional<Lava> lava, List<String> dimensions,
+                                    Optional<Id> twin, Optional<LadderShaft> ladderShaft, Optional<FizzleRule> fizzle,
+                                    Carve carve) {
+        return new IslandTheme(shape, palette, ores, variants, biomeOverrides, pond, mobs, jigsaw, animals,
+                rareStructures, lava, dimensions, twin, ladderShaft, fizzle, carve.caves(), carve.meteor());
+    }
+
+    /** The two terrain-carving optionals ({@code caves} + {@code meteor}), combined into one {@link #CODEC} slot to
+     *  keep the group within DFU's 16-field limit. Both remain top-level fields in the theme JSON. */
+    private record Carve(Optional<Caves> caves, Optional<Meteor> meteor) {
+        static final MapCodec<Carve> CODEC = RecordCodecBuilder.mapCodec(c -> c.group(
+                Caves.CODEC.optionalFieldOf("caves").forGetter(Carve::caves),
+                Meteor.CODEC.optionalFieldOf("meteor").forGetter(Carve::meteor)
+        ).apply(c, Carve::new));
+    }
 }

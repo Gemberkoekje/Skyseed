@@ -1,0 +1,13 @@
+{
+  "neoforge:conditions": [ { "type": "neoforge:mod_loaded", "modid": "ae2" } ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [ "SSS", "ELP", "SSS" ],
+  "key": {
+    "S": "ae2:smooth_sky_stone_block",
+    "E": "minecraft:ender_pearl",
+    "L": "skyseed:meteorite_large_skyseed",
+    "P": "minecraft:blaze_powder"
+  },
+  "result": { "id": "skyseed:huge_meteorite_skyseed" }
+}

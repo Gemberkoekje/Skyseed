@@ -58,6 +58,8 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 |---|---|---|
 | [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration | #34 #35 #18 #16 #31 #32 #36 #37 #38 #39 #52 + rolling #19 #20 |
 | [IEPLAN.md](Modpack-growyourownworld/IEPLAN.md) | Immersive Engineering + flight + petroleum (child of CONTENTPLAN) | jars in; **shipped:** #34 ore island + crude-oil pocket, #45 quest chapter, #35 excavator pinned (defaultconfigs, chance 0.7); FD×IE compat verified fine; **left:** in-game verifies · #39 FE proof · add Quark Engineering jar |
+| [AE2PLAN.md](Modpack-growyourownworld/AE2PLAN.md) | Applied Energistics 2 + Create/IE bridges (child of CONTENTPLAN) | jars in; **integration SHIPPED** — #18a meteorite island theme+seed, #18d certus deposit, #18c IE+certus seed gate, **#18b presses from the tiered Meteorite Core** (sky-stone recipes dropped; MA press+sky_stone essence bypasses removed; custom `skyseed:meteorite_core` block, small→1/medium→2-distinct/huge→4, iron-tier harvest), **#41 quest chapter (16 quests in Storage `B404`–`B419`)**, **#39 FE-flow proven on paper**. Meteorite worldgen already suppressed. Immersive Energistics + MA certus seed both confirmed present. **#18e meteor redesign SHIPPED — Phase 1 (visual) + Phase 2 (compat/wild meteors) + Phase 3 (tiered core); all both-nodes-green** → [METEORPLAN.md](Modpack-growyourownworld/METEORPLAN.md). **#41 quest chapter VERIFIED in-game 2026-07-04** (renders + deps resolve; user repositioned nodes so lines don't cross). **Left (in-game human verify only, can't run in dev env):** #39 power-chain sign-off, meteor throw-tests/tuning |
+| [METEORPLAN.md](Modpack-growyourownworld/METEORPLAN.md) | Meteor island redesign (child of AE2PLAN #18e) | **Phase 1 SHIPPED 2026-07-03 (both nodes green):** overworld body + crater + sky-stone globe + Mysterious Cube, `MeteorPlacer` + codec-slot refactor, gametest `meteorIslandFormsCrater`. **Phase 2 SHIPPED 2026-07-04 (both nodes green):** AE2 compat layer (`Ae2Compat` conditional seed reg + AE2-gated jar default recipe of 8 sky stone + certus + tag-based advancements so nothing hard-refs AE2) and a **1% wild meteor** (no cube, sky stone only) on natural overworld islands as the standalone bootstrap — position-RNG roll (no gen disruption), toggled off in the pack via the new `wildMeteorChance` common config (`skyseed-common.toml = 0.0`). **Phase 3 SHIPPED 2026-07-04 (both nodes green):** tiered press drops — a custom `skyseed:meteorite_core` block (skyseed's first block) replaces the Mysterious Cube so the drop scales by tier (small→1 random / medium→2 distinct, uniform over 6 `expand:false` pair-tags / huge→all 4); loot is tag-based → inert without AE2. In-game throw-test/tune pending |
 | [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) | Quark integration (child of CONTENTPLAN) | #43 quest sketch (+ partner-gated add-ons) |
 | [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md) | Quark × island integration (child of QUARKPLAN) | #71 (Y-band fix shipped v0.192.0 — in-game re-verify) |
 | [FARMERSDELIGHTPLAN.md](Modpack-growyourownworld/FARMERSDELIGHTPLAN.md) | Farmer's Delight integration (child of CONTENTPLAN) | #16 (jars in; crops shipped — dry crops + rice + chorus + nether, 20 overrides + gametests), #42 quest SHIPPED (A008). Pending: in-game throw-test + quest-book load |
@@ -93,7 +95,9 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
   *(CONTENTPLAN → [FARMERSDELIGHTPLAN.md](Modpack-growyourownworld/FARMERSDELIGHTPLAN.md) · medium)*
 - **#34** Immersive Engineering — the tech backbone (bauxite/aluminum island + FE), **gated on #35** the Excavator
   fix (island-aware ore mix preferred, else disable + hide in JEI). *(CONTENTPLAN · large + medium)*
-- **#18** Applied Energistics 2 — certus/sky-stone bootstrap. *(CONTENTPLAN · medium)*
+- **#18** Applied Energistics 2 — **curated jar set + Create/IE bridges landed**; open work is the sky-stone island
+  bootstrap and the **inscriber-press** blocker (presses are meteorite-loot-only and uncraftable → needs a bespoke
+  source before the chapter). *(→ [AE2PLAN.md](Modpack-growyourownworld/AE2PLAN.md) · medium)*
 - Then their quest chapters: **#45** IE, **#41** AE2, **#43** Quark. *(**#42** FD chapter ✅ shipped — A008.)* *(QUESTPLAN)*
 - *(**#39** FE-flow proof is blocked until the first FE consumer lands — see "Not yet testable" below.)*
 
@@ -137,8 +141,9 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 Parked here so Tier 1 stays a list of things that can actually be done now. Move an item up to its testable tier the
 moment its blocker lands.
 
-- **#39** Prove FE flows Create → IE/AE2 across islands — **blocked**: needs the first FE **consumer** (IE #34 or
-  AE2 #18) installed. Promote to a Tier-1 sign-off the moment either lands. *(CONTENTPLAN)*
+- **#39** Prove FE flows Create → IE/AE2 across islands — **unblocked** (IE + AE2 both landed) and **proven on paper**
+  (C&A → Flux → IE/AE2 Energy Acceptor, all standard NeoForge FE — AE2PLAN #39). Only the one-time **in-game
+  sign-off** remains (a Tier-1 verify), not a blocker. *(CONTENTPLAN / AE2PLAN)*
 
 ---
 
@@ -150,7 +155,7 @@ moment its blocker lands.
 | 16 | Farmer's Delight — curated 8-mod set in `overrides/mods/` (base FD 1.3.2 + End's/My Nether's/Ocean's + Autochef's/Chef's/Chopper's/FD Extended), **boot-verified all load clean**. Wild-crop island injection = open | FARMERSDELIGHTPLAN | medium | medium | jars in + boot-verified; injection pending |
 | 34 | Immersive Engineering — bauxite/aluminum island + FE (the tech backbone) | CONTENTPLAN | medium | large | open (gated on 35) |
 | 35 | IE Excavator fix — island-aware ore mix (preferred) else disable + hide in JEI | CONTENTPLAN | medium | medium | open |
-| 18 | AE2 — certus + sky-stone bootstrap | CONTENTPLAN | medium | medium | open |
+| 18 | AE2 — jars in; **integration SHIPPED 2026-07-03 (both nodes green):** #18a meteorite island theme+seed, #18d rocky/ancient certus deposit, #18c IE+certus seed gate, #18b sky-stone press recipes. Left: meteorite-disable config, #41 quest, #39 FE proof, in-game throw-tests | AE2PLAN | medium | medium | built; in-game verify pending |
 | 19 | Rolling: quest chapter per newly-landed mod | QUESTPLAN / CONTENTPLAN | medium | rolling | partial |
 | 20 | Rolling: gated island tier per newly-landed mod | CONTENTPLAN | medium | rolling | partial |
 | 61 | Trial Chamber corridor-WARREN — atrium → passages → junctions → chambers-on-spurs + cell + descents (reads like a real vanilla trial dungeon). First pass shipped v0.194.0, both nodes green | plannednotes | medium | medium | shipped (in-game feel/fit) |
@@ -165,8 +170,8 @@ moment its blocker lands.
 | 36 | Iron's Spells — loot/mob injection | CONTENTPLAN | low | large | open (decide 37 first) |
 | 37 | Decide Iron's Spells scope (full discovery loop vs crafted-only) | CONTENTPLAN | low | small | decision |
 | 38 | Per-future-mod call: bespoke ore island vs MA seeds | CONTENTPLAN | low | small | standing rule |
-| 39 | Prove FE flows Create → IE/AE2 across islands | CONTENTPLAN | low | small | not yet testable (needs a consumer) |
-| 41 | Future chapter: AE2 (quest) | QUESTPLAN | low | unknown | gated on 18 |
+| 39 | Prove FE flows Create → IE/AE2 across islands — **proven on paper** (C&A `alternator` → Flux `plug`/`point` → IE native / AE2 `energy_acceptor`, all standard NeoForge FE; see AE2PLAN #39). Left: one-time in-game sign-off | CONTENTPLAN / AE2PLAN | low | small | proven; in-game sign-off pending |
+| 41 | AE2 quest chapter — **SHIPPED** (16 quests `B404`–`B419` in the **Storage** chapter, not a new chapter; gated off IE steel `B908`). In-game book-load pending | QUESTPLAN / AE2PLAN | low | small | shipped (in-game load pending) |
 | 42 | Farmer's Delight quest chapter — **SHIPPED** (`chapters/farmersdelight.snbt`, A008, B801–B808 + lang). In-game quest-book load pending | QUESTPLAN | low | small | shipped (in-game load pending) |
 | 43 | Future chapter: Quark (quest — minimal 3-quest sketch in QUARKPLAN) | QUESTPLAN | low | unknown | unblocked (#15 ✅) — build last |
 | 44 | Future chapter: Productive Bees (quest) | QUESTPLAN | low | unknown | gated on 32 |

@@ -1,0 +1,7 @@
+{
+  "_comment": "Reuses a vanilla texture (crying obsidian — a dark, cracked, faintly-glowing core) so no new PNG ships. Worldgen-only block; no item model (never held as an item).",
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "minecraft:block/crying_obsidian"
+  }
+}

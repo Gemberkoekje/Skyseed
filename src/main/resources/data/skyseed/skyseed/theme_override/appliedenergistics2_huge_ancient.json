@@ -1,0 +1,17 @@
+{
+  "_comment": "First-party Applied Energistics 2 compat (AE2PLAN #18d) — the FINITE certus deposit (ae2:quartz_block; deconstructs → 4 certus crystals) on the HUGE ancient island. The gate ingredient for the meteorite-island seed, not a functional supply. Inert without AE2. Base-density counts — OrePlanner scales to this HUGE island's core volume at runtime. Bands merge into huge_ancient's max_y:20 / min_y:96 bands, per immersiveengineering_huge_ancient.json. Mirror to appliedenergistics2_ancient.json + appliedenergistics2_ancient_large.json.",
+  "target": "skyseed:huge_ancient",
+  "ores": [
+    { "block": "ae2:quartz_block", "chance": 0.45, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" }
+  ],
+  "biome_overrides": [
+    { "_comment": "…into the deep band (max_y 20).", "max_y": 20,
+      "ores": [
+        { "block": "ae2:quartz_block", "chance": 0.45, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" }
+      ] },
+    { "_comment": "…into the high band (min_y 96).", "min_y": 96,
+      "ores": [
+        { "block": "ae2:quartz_block", "chance": 0.45, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" }
+      ] }
+  ]
+}

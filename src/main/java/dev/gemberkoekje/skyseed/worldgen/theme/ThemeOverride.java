@@ -86,7 +86,8 @@ public record ThemeOverride(Id target, Patch patch) {
                     twin.isPresent() ? twin : base.twin(),
                     ladderShaft.isPresent() ? ladderShaft : base.ladderShaft(),
                     fizzle.isPresent() ? fizzle : base.fizzle(),
-                    caves.isPresent() ? caves : base.caves());
+                    caves.isPresent() ? caves : base.caves(),
+                    base.meteor()); // meteor is base-theme only — overrides never patch it
         }
 
         private static <T> List<T> concat(List<T> a, List<T> b) {

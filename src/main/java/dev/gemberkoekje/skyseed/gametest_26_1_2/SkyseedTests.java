@@ -280,6 +280,8 @@ public final class SkyseedTests {
         reg(event, "quark_stones_compat_targets_rocky", REGION, SkyseedTests::quarkStonesCompatTargetsRocky);
         reg(event, "quark_stones_compat_targets_ancient", REGION, SkyseedTests::quarkStonesCompatTargetsAncient);
         reg(event, "quark_stones_reach_y_bands", REGION, SkyseedTests::quarkStonesReachYBands);
+        reg(event, "applied_energistics_certus_reaches_mining_tiers", REGION, SkyseedTests::appliedEnergisticsCertusReachesMiningTiers);
+        reg(event, "meteor_island_forms_crater", REGION, SkyseedTests::meteorIslandFormsCrater);
         reg(event, "quark_blossom_bands_merge_onto_forest_tiers", REGION, SkyseedTests::quarkBlossomBandsMergeOntoForestTiers);
         reg(event, "quark_myalite_reaches_end_form", REGION, SkyseedTests::quarkMyaliteReachesEndForm);
         reg(event, "biomeswevegone_compat_prepends_forest_bands", REGION, SkyseedTests::biomeswevegoneCompatPrependsForestBands);
@@ -3411,6 +3413,51 @@ public final class SkyseedTests {
             helper.assertTrue(bandHasOre(t, ov -> ov.maxY().map(y -> y == 20).orElse(false), "quark:shale"),
                     a + "'s deep band (max_y 20) should carry quark:shale after the #71 fix");
         }
+        helper.succeed();
+    }
+
+    /** AE2 compat (AE2PLAN #18d): the certus deposit (ae2:quartz_block) reaches top-level + the deep band of every
+     *  rocky + ancient tier. Mirror of the 1.21.1 node's appliedEnergisticsCertusReachesMiningTiers. */
+    static void appliedEnergisticsCertusReachesMiningTiers(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        for (final String r : new String[]{"skyseed:rocky", "skyseed:rocky_large", "skyseed:huge_rocky"}) {
+            final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(r));
+            helper.assertTrue(t != null, r + " must resolve");
+            helper.assertTrue(t.ores().stream().anyMatch(o -> o.block().value().equals("ae2:quartz_block")),
+                    r + "'s top-level ores should include the ae2:quartz_block certus deposit");
+            helper.assertTrue(bandHasOre(t, ov -> ov.maxY().map(y -> y == 8).orElse(false), "ae2:quartz_block"),
+                    r + "'s deepslate band (max_y 8) should carry the certus deposit");
+        }
+        for (final String a : new String[]{"skyseed:ancient", "skyseed:ancient_large", "skyseed:huge_ancient"}) {
+            final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(a));
+            helper.assertTrue(t != null, a + " must resolve");
+            helper.assertTrue(t.ores().stream().anyMatch(o -> o.block().value().equals("ae2:quartz_block")),
+                    a + "'s top-level ores should include the ae2:quartz_block certus deposit");
+            helper.assertTrue(bandHasOre(t, ov -> ov.maxY().map(y -> y == 20).orElse(false), "ae2:quartz_block"),
+                    a + "'s deep band (max_y 20) should carry the certus deposit");
+        }
+        helper.succeed();
+    }
+
+    /** AE2 endgame island (AE2PLAN #18a, METEORPLAN #18e): the meteorite theme resolves on every tier and carries a
+     *  `meteor` config; the crater's obsidian appears in the base-tier plan even without AE2 (globe/cube skip). Mirror
+     *  of the 1.21.1 meteorIslandFormsCrater. */
+    static void meteorIslandFormsCrater(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final String[] tiers = {"skyseed:meteorite", "skyseed:meteorite_large", "skyseed:huge_meteorite"};
+        final int[] expectedCoreTier = {0, 1, 2}; // small→1 press / medium→2 distinct / huge→4 (METEORPLAN Phase 3)
+        for (int i = 0; i < tiers.length; i++) {
+            final String m = tiers[i];
+            final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(m));
+            helper.assertTrue(t != null, m + " must resolve");
+            helper.assertTrue(t.meteor().isPresent(), m + " must carry a meteor config");
+            helper.assertTrue(t.meteor().get().coreTier() == expectedCoreTier[i],
+                    m + " meteor core_tier should be " + expectedCoreTier[i] + ", was " + t.meteor().get().coreTier());
+        }
+        final IslandPlan p = plan(helper, "meteorite", 1L);
+        helper.assertTrue(p.blocks().size() > 100, "a meteorite island should be > 100 blocks, was " + p.blocks().size());
+        helper.assertTrue(p.blocks().stream().anyMatch(b -> b.state().is(Blocks.OBSIDIAN)),
+                "the meteor crater should skin its bowl with obsidian (found none in the plan)");
         helper.succeed();
     }
 

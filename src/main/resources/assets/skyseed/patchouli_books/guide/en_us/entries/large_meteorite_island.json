@@ -1,0 +1,25 @@
+{
+  "name": "Large Meteorite Island",
+  "category": "skyseed:overworld",
+  "advancement": "skyseed:reveal_meteorite_large",
+  "icon": "ae2:sky_stone_block",
+  "sortnum": 56,
+  "flag": "mod:ae2",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The $(item)Large Meteorite Skyseed$() — a $(item)Meteorite Skyseed$() ringed in blackstone and basalt. A bigger overworld island, and a $(bold)bigger meteor$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "skyseed:meteorite_large_skyseed",
+      "text": "Everything's in hand — here's how it goes together.",
+      "advancement": "skyseed:gathered_meteorite_large"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)A bigger impact$()$(br)A larger island with a proportionally bigger crater and $(item)sky-stone globe$() — more sky stone from a single throw. The $(item)Meteorite Core$() at its centre yields $(bold)two different presses$() — one large meteor gets you halfway to the set.",
+      "advancement": "skyseed:craft_meteorite_large"
+    }
+  ]
+}
