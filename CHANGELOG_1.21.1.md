@@ -5,6 +5,40 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.204.0] - 2026-07-03
+
+### Added
+- **Farmer's Delight integration — the cosy cooking layer (CONTENTPLAN #16 → [FARMERSDELIGHTPLAN.md](Modpack-growyourownworld/FARMERSDELIGHTPLAN.md)).**
+  Curated an 8-mod FD set into the "Grow your own world" pack (base **Farmer's Delight** + the three dimension delights
+  **End's / My Nether's / Ocean's** + the zero-worldgen QoL/compat **Autochef's / Chef's / Chopper's / FD Extended**) and
+  wired its wild content onto seed-grown islands so the farming/cooking loop bootstraps in the void — ~50 ecosystem
+  addons deliberately skipped. **20 first-party `theme_override` files**, all inert without the mods (every id resolves
+  through the tolerant `Lookup`, so generation is byte-identical when the mod is absent):
+  - **Dry wild crops** on the biome islands — onions/potatoes/carrots/cabbages on **Forest** (10 biome bands: the
+    `#is_forest` catch-all + birch/flower/dark/taiga/jungle + plains/beach/savanna/desert), onions/carrots/cabbages on
+    **Meadow**, tomatoes/beetroots on **Desert**. Each is a lightly-treed "wild clearing" variant that keeps the biome's
+    look, tuned to ~40–50% per island so a couple of throws reliably turns some up; harvesting drops replantable seeds.
+  - **Wild rice** in the ponds of **Lush** (every island) and **Aquatic** (freshwater + river + swamp bands), stood at
+    the water surface by a new `PondCarver` `wild_rice` case (a two-tall waterlogged plant, generic via the `HALF`/`WATERLOGGED` properties).
+  - **End's Delight** chorus succulents on the **Chorus Forest** island; **My Nether's Delight** powdery cane on the
+    **Nether Soul / Nether Forest** seeds — placed via its configured feature so it grows a harvestable cane (the raw
+    block is an age-0 stub that only drops a stick) that drops **Powder Cannon**.
+- **Farmer's Delight quest chapter** — FTB Quests chapter `A008`, 8 quests (`B801–B808`): Wild Harvest → Cooking Pot →
+  Skillet / Cutting Board (Chopper's any-wood) → Hearty Meal, with a Rice branch and Nether/End delight branches gated
+  off the Skyseed spine (`B103`/`B110`/`B113`). All `item` tasks on jar-verified ids (no smart-filter tag tasks).
+
+### Changed
+- **`GenerationJob` now places tree/plant features defensively** (`placeFeatureSafely`, both call sites). Vanilla
+  features return `false` for a blocked spot, but a third-party feature can *throw* — and these run inside the tick loop,
+  so an uncaught exception would abort an in-progress island. It now catch-and-skips (logged), hardening every modded
+  feature a theme references (used first by the Nether powdery-cane compat). Behaviour-neutral for well-behaved features.
+
+### Notes
+- Version shared with the 26.1.2 node; the FD content is a 1.21.1-pack feature and the shared engine changes
+  (feature-placement guard + the `wild_rice` pond case) are inert on 26.1.2 (FD absent → ids skipped), so generation
+  there stays byte-identical. 1.21.1 gametest suite green (7 new FD `theme_override` guards); 26.1.2 verified by CI.
+  In-game sign-offs pending: the powdery-cane grow-test and the quest-book load.
+
 ## [0.203.0] - 2026-07-03
 
 ### Changed

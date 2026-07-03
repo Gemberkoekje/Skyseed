@@ -1,0 +1,12 @@
+{
+  "_comment": "First-party My Nether's Delight compat on the LARGE NETHER SOUL tier (FARMERSDELIGHTPLAN #16) — mirror of mynethersdelight_nether_soul.json. powdery_cane placed via its configured feature (grows a harvestable cane; the raw block is a 'growth 0%' stick-dropping stub). Feature place() is try/caught. ⚠ IN-GAME VERIFY. Inert without MND.",
+  "target": "skyseed:nether_soul_large",
+  "variants": [
+    { "weight": 2, "name": "powdery_valley", "decoration": {
+      "trees": [ { "feature": "mynethersdelight:patch_powdery_cane", "tries": 8, "spacing": 2 } ],
+      "ground": [
+        { "block": "minecraft:soul_fire", "chance": 0.06 },
+        { "block": "minecraft:basalt", "chance": 0.05 }
+      ] } }
+  ]
+}

@@ -61,6 +61,8 @@ versions/
 ### Auto-generated config regenerated on first launch (derived from the installed mod set, not curated pack config) ###
 # JEI mod/type/category ordering — auto-appended as mods are added; regenerates identically.
 **/overrides/config/jei/*-sort-order.ini
+# JEI per-world state (bookmarks / local overlay) — runtime, created per test world, not curated pack config.
+**/overrides/config/jei/world/
 # Sound Physics per-sound rate table — 1700+ auto-generated default entries (occlusion/reflectivity/soundphysics.properties ARE kept).
 **/overrides/config/sound_physics_remastered/sound_rates.properties
 # Editor/mod backup files.

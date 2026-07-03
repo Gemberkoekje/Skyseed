@@ -40,6 +40,7 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 | Create (`create`) | 16 | the tech chain incl. the Extras (rails, enchantment industry, deco, …) |
 | Storage (`storage`) | 3 | Sophisticated Backpacks + Storage (**not** AE2) |
 | Mystical Agriculture (`mysticalagriculture`) | 9 | the MA loop (B601–B609) |
+| Farmer's Delight (`farmersdelight`) | 8 | the cosy cooking loop (B801–B808) — crops → pot/skillet/board → meal → rice → Nether/End delights |
 
 **BWG branch record:** *Into the Wilds* (B701 — advancement task on the hidden
 `skyseed:reveal_exotic_woods`, covering all 24 growable exotic planks via `#skyseed:exotic_woods`; dep B103),
@@ -60,7 +61,7 @@ B701; reward: Skyfarer's Cache).
 |---|---|---|---|
 | #45 | **Immersive Engineering** | IE integration (#34) | **promoted** — IE is now the tech backbone; same weave as Create (island/resource integration first, then the chapter) |
 | #41 | **Applied Energistics 2** | AE2 integration (#18) | its own chapter (storage/automation endgame) |
-| #42 | **Farmer's Delight** | FD integration (#16) | cosy, on-theme |
+| ~~#42~~ | ~~**Farmer's Delight**~~ | — | ✅ **SHIPPED** — `chapters/farmersdelight.snbt` (A008, B801–B808), gated off the Skyseed spine at B103; Nether/End branches gated on B110/B113. In-game test-load pending. |
 | #44 | **Productive Bees** | PB integration (#32) | overlaps shipped MA — low marginal value |
 | #46 | **Iron's Spells** | Iron's integration (#36/#37) | loot/mob-gated, heaviest |
 | #43 | **Quark** | Quark smoke pass (#15) | Quark shipped v0.182.0; minimal coverage may suffice — 3-quest sketch in [QUARKPLAN.md](QUARKPLAN.md) |
@@ -74,7 +75,8 @@ B701; reward: Skyfarer's Cache).
   create-enchantment-industry · creategoggles · create_jetpack · the Create deco set · silent-gear ·
   sophisticated (backpacks/storage/core + integrations) · waystones (+ xaero compat) · veinmining · Xaero
   mini/world map · JEI · Jade · AppleSkin · **MysticalAgriculture + Botany Pots family** (MA chapter) ·
-  **BWG + OTYG + create-otbwg-compat** (the BWG branch).
+  **BWG + OTYG + create-otbwg-compat** (the BWG branch) · **Farmer's Delight family** (base FD + End's / My Nether's /
+  Ocean's / Autochef's / Chef's / Chopper's / FD Extended — the FD chapter A008).
 - **Invisible (no quests — libs / perf / aesthetic / backends):** embeddium, iris, monocle, EuphoriaPatcher,
   modernfix, ferritecore, entityculling, fpsreducer, ambientsounds, fallingleaves, fastleafdecay, sound-physics,
   fusion, EMF/ETF, balm, kotlinforforge, geckolib, corgilib, better_lib, framework, configured, catalogue,
@@ -82,4 +84,4 @@ B701; reward: Skyfarer's Cache).
   AdvancedLootInfo, JustEnoughResources, silentgear jade/jei plugins, Cucumber, Patchouli, ftb-filter-system.
 - **Installed, chapter pending:** Quark (#43 — shipped v0.182.0; 3-quest sketch in QUARKPLAN.md, gated on the #15 smoke pass).
 - **Not installed (so no chapter yet):** Applied Energistics 2, Immersive Engineering, Productive Bees,
-  Farmer's Delight, Iron's Spells. *(Mekanism: dropped.)*
+  Iron's Spells. *(Mekanism: dropped. Farmer's Delight: installed + chapter A008 shipped.)*

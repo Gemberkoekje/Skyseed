@@ -29,6 +29,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      # Expose mod_version (from gradle.properties) so the artifact name can carry it (skyseed-jars-<version>).
+      # tr strips any trailing CR/whitespace so the name stays clean if the file has CRLF line endings.
+      - name: Read mod version
+        id: modver
+        run: echo "version=$(grep -E '^mod_version=' gradle.properties | head -1 | cut -d= -f2 | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
+
       # Bootstrap JDK that runs Gradle itself. The per-version compile toolchains are auto-provisioned
       # (foojay), so this stays fixed even as the mod targets new Java versions.
       - name: Set up bootstrap JDK
@@ -71,7 +77,7 @@ jobs:
       - name: Upload jars as build artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: skyseed-jars
+          name: skyseed-jars-${{ steps.modver.outputs.version }}
           path: dist/*.jar
           if-no-files-found: error
 

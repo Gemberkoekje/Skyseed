@@ -1,0 +1,47 @@
+{
+  "_comment": "First-party Farmer's Delight WILD-RICE compat on the LARGE AQUATIC tier (FARMERSDELIGHTPLAN #16) — mirror of farmersdelight_aquatic.json. Verbatim copies of aquatic_large.json's freshwater / #is_river / swamp ponds with wild_rice appended to plants; band bands carry only {biomes, pond} so the merge swaps just the pond. Re-sync if a base pond changes. Inert without FD (Lookup.hasBlock gate).",
+  "target": "skyseed:aquatic_large",
+  "pond": {
+    "block": "minecraft:water", "radius": 6, "depth": 5, "slope": true,
+    "plants": [
+      { "block": "minecraft:lily_pad", "chance": 0.08 },
+      { "block": "minecraft:kelp", "chance": 0.15 },
+      { "block": "minecraft:seagrass", "chance": 0.18 },
+      { "block": "minecraft:tall_seagrass", "chance": 0.06 },
+      { "block": "farmersdelight:wild_rice", "chance": 0.10 }
+    ],
+    "bank": [ { "block": "minecraft:sugar_cane", "chance": 0.55 } ],
+    "water_mobs": [
+      { "entity": "minecraft:squid", "chance": 0.80, "count": { "min": 2, "max": 4 } },
+      { "entity": "minecraft:salmon", "chance": 0.60, "count": { "min": 2, "max": 4 } },
+      { "entity": "minecraft:glow_squid", "chance": 0.45, "count": { "min": 1, "max": 3 } }
+    ]
+  },
+  "biome_overrides": [
+    { "biomes": [ "#minecraft:is_river" ],
+      "pond": {
+        "block": "minecraft:water", "radius": 3, "depth": 3, "style": "river",
+        "plants": [
+          { "block": "minecraft:seagrass", "chance": 0.14 },
+          { "block": "minecraft:kelp", "chance": 0.08 },
+          { "block": "farmersdelight:wild_rice", "chance": 0.14 }
+        ],
+        "bank": [ { "block": "minecraft:sugar_cane", "chance": 0.55 } ],
+        "water_mobs": [
+          { "entity": "minecraft:salmon", "chance": 0.60, "count": { "min": 2, "max": 4 } },
+          { "entity": "minecraft:squid", "chance": 0.40, "count": { "min": 1, "max": 2 } }
+        ]
+      } },
+    { "biomes": [ "minecraft:swamp" ],
+      "pond": {
+        "block": "minecraft:water", "radius": 7, "depth": 5, "slope": true,
+        "plants": [
+          { "block": "minecraft:lily_pad", "chance": 0.18 },
+          { "block": "minecraft:seagrass", "chance": 0.10 },
+          { "block": "farmersdelight:wild_rice", "chance": 0.14 }
+        ],
+        "bank": [ { "block": "minecraft:sugar_cane", "chance": 0.60 } ],
+        "water_mobs": [ { "entity": "minecraft:squid", "chance": 0.50, "count": { "min": 2, "max": 3 } } ]
+      } }
+  ]
+}

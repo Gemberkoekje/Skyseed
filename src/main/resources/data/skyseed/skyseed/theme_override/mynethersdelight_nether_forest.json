@@ -1,0 +1,17 @@
+{
+  "_comment": "First-party My Nether's Delight compat on the NETHER FOREST seed (FARMERSDELIGHTPLAN #16). Appends a crimson-look variant that grows a patch of MND's powdery_cane among the crimson roots/fungi. v0.2 FIX: placed via its CONFIGURED FEATURE `mynethersdelight:patch_powdery_cane` (not a raw ground block) — the raw block reads 'growth 0%' and drops only a stick; the feature grows a proper cane that drops `powder_cannon`. Crimson_nylium is a valid soil (the plantable tag includes #minecraft:nylium). The tree-feature place() path is now try/caught (GenerationJob.placeFeatureSafely). Inert without MND (Lookup.configuredFeature skips unknown ids). ⚠ IN-GAME VERIFY the feature places a harvestable cane on crimson nylium.",
+  "target": "skyseed:nether_forest",
+  "variants": [
+    { "weight": 1, "name": "crimson_powdery", "decoration": {
+      "trees": [
+        { "feature": "minecraft:crimson_fungus_planted", "tries": 4, "spacing": 3 },
+        { "feature": "mynethersdelight:patch_powdery_cane", "tries": 4, "spacing": 2 }
+      ],
+      "ground": [
+        { "block": "minecraft:crimson_roots", "chance": 0.30 },
+        { "block": "minecraft:crimson_fungus", "chance": 0.10 },
+        { "block": "minecraft:shroomlight", "chance": 0.05 }
+      ],
+      "underside": [ { "block": "minecraft:weeping_vines", "chance": 0.25 } ] } }
+  ]
+}
