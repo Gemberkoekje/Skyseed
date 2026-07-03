@@ -38,7 +38,8 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 | Skyseed (`skyseed`) | 16 | the spine — seed→island→relics→Nether→End; gates the rest |
 | Tools & Travel (`tools`) | 7 | Silent Gear · Waystones/Xaero travel · the **BWG branch** (B701–B703) |
 | Create (`create`) | 16 | the tech chain incl. the Extras (rails, enchantment industry, deco, …) |
-| Storage (`storage`) | 3 | Sophisticated Backpacks + Storage (**not** AE2) |
+| **Power (`power`)** | 8 | ⚡ the **FE backbone as one story** — generation (Alternator, IE Diesel Gen) → movement (C&A wires, **Flux** wireless across islands) → storage (capacitor, Flux bank) → consumption (**one grid feeds IE + AE2**, the #39 payoff). A deliberate *system* hub chapter (like Storage), gated off `B203` water wheel; keeps the per-mod power quests in place. |
+| Storage (`storage`) | 19 | Sophisticated Backpacks + Storage (B401–B403) **+ the AE2 endgame line** (B404–B419, #41) |
 | Mystical Agriculture (`mysticalagriculture`) | 9 | the MA loop (B601–B609) |
 | Farmer's Delight (`farmersdelight`) | 8 | the cosy cooking loop (B801–B808) — crops → pot/skillet/board → meal → rice → Nether/End delights |
 
@@ -46,6 +47,21 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 `skyseed:reveal_exotic_woods`, covering all 24 growable exotic planks via `#skyseed:exotic_woods`; dep B103),
 *Mill the Blooms* (B702 — checkmark; deps B701 + B204 Millstone), *Grow Something Grand* (B703 — checkmark; dep
 B701; reward: Skyfarer's Cache).
+
+## Chapter groups (sidebar organization — shipped)
+
+Rather than merge mod chapters (which makes unwieldy 30-quest canvases and blurs progression tiers), the chapters are
+sorted into **three collapsible sidebar groups** via `chapter_groups.snbt` (each chapter's `group:` field points at a
+group id; within-group order is the chapter `order_index`). No quests move — every mod keeps its own focused chapter.
+
+| Group (`chapter_groups.snbt` id) | Chapters (in order) |
+|---|---|
+| **Progression** (`…E001`) | Introduction · Skyseed · Tools & Travel |
+| **Industry** (`…E002`) | Create · Power · Immersive Engineering · Storage (AE2) |
+| **Farming** (`…E003`) | Mystical Agriculture · Farmer's Delight |
+
+*Decision (declined the merge):* keep Create/IE and MA/FD as separate chapters; group them in the sidebar instead —
+same thematic "tech together / farming together" feel, none of the size/churn/progression-clarity costs of merging.
 
 ## Cross-chapter flow & gating (design rules for every future chapter)
 
@@ -60,7 +76,7 @@ B701; reward: Skyfarer's Cache).
 | # | Chapter | Gate | Note |
 |---|---|---|---|
 | #45 | **Immersive Engineering** | IE integration (#34) | **promoted** — IE is now the tech backbone; same weave as Create (island/resource integration first, then the chapter) |
-| #41 | **Applied Energistics 2** | AE2 integration (#18) | its own chapter (storage/automation endgame) |
+| ~~#41~~ | ~~**Applied Energistics 2**~~ | — | ✅ **SHIPPED** — folded into the **Storage** chapter (`A005`) as 16 quests `B404`–`B419` (AE2 = the storage endgame), not a standalone chapter. Gated off `B104` (rocky→certus) + IE steel `B908`. Weaves the #39 FE-power step (Energy Acceptor) + Create bridges. In-game book-load pending. |
 | ~~#42~~ | ~~**Farmer's Delight**~~ | — | ✅ **SHIPPED** — `chapters/farmersdelight.snbt` (A008, B801–B808), gated off the Skyseed spine at B103; Nether/End branches gated on B110/B113. In-game test-load pending. |
 | #44 | **Productive Bees** | PB integration (#32) | overlaps shipped MA — low marginal value |
 | #46 | **Iron's Spells** | Iron's integration (#36/#37) | loot/mob-gated, heaviest |
@@ -83,5 +99,6 @@ B701; reward: Skyfarer's Cache).
   searchables, creativecore, supermartijn642 ×2, TerraBlender, Clumps, Controlling, MouseTweaks,
   AdvancedLootInfo, JustEnoughResources, silentgear jade/jei plugins, Cucumber, Patchouli, ftb-filter-system.
 - **Installed, chapter pending:** Quark (#43 — shipped v0.182.0; 3-quest sketch in QUARKPLAN.md, gated on the #15 smoke pass).
-- **Not installed (so no chapter yet):** Applied Energistics 2, Immersive Engineering, Productive Bees,
-  Iron's Spells. *(Mekanism: dropped. Farmer's Delight: installed + chapter A008 shipped.)*
+- **Not installed (so no chapter yet):** Productive Bees, Iron's Spells. *(Mekanism: dropped. Farmer's Delight:
+  chapter A008. Immersive Engineering: chapter A009. **Applied Energistics 2: installed + the Storage-chapter AE2 line
+  B404–B419 shipped (#41).**)*

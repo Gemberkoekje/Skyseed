@@ -1,0 +1,12 @@
+{
+  "criteria": {
+    "has_0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": "#skyseed:meteorite_makings" }
+        ]
+      }
+    }
+  }
+}

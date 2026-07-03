@@ -1,0 +1,7 @@
+{
+  "_comment": "The Meteorite Skyseed's crafting makings (AE2 compat, METEORPLAN Phase 2). Referenced by the gathered_/reveal_meteorite advancements so they carry NO hard AE2 item id — required:false means the tag is empty (and the advancement simply never triggers) when AE2 is absent, with no load error.",
+  "values": [
+    { "id": "ae2:smooth_sky_stone_block", "required": false },
+    { "id": "ae2:certus_quartz_crystal", "required": false }
+  ]
+}

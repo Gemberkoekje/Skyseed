@@ -5,6 +5,34 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.206.0] - 2026-07-04
+
+### Added
+- **Applied Energistics 2 integration — the storage endgame (CONTENTPLAN #18 → [AE2PLAN.md](Modpack-growyourownworld/AE2PLAN.md)).**
+  AE2 lands as a deliberately rare, expensive endgame reward (it trivializes inventory management), gated behind a
+  one-time bootstrap of **certus quartz** and **sky stone** — both normally meteorite-only, inert in the void.
+  - **Meteorite island family (`meteorite` / `meteorite_large` / `huge_meteorite`, a Skyseed↔AE2 compat feature).** A
+    normal overworld island that a meteor crashed onto: an obsidian-and-scorched-glass **crater** cradling a
+    **sky-stone globe** (the only source of sky stone in the void) with a **Meteorite Core** at its centre. The seed,
+    its jar recipe (sky stone + certus, `neoforge:mod_loaded ae2`-conditioned), items, advancements, and guide entries
+    are **all absent without AE2** — no hard dependency, everything tag/condition-gated so nothing errors.
+  - **Meteorite Core — tiered inscriber-press source (skyseed's first custom block).** Replaces AE2's Mysterious Cube
+    so the drop scales with the meteor tier: **small → 1 random press, large → 2 distinct** (uniform over all six
+    pairs), **huge → all four**. Iron-tier harvest (matches the sky-stone globe, so a harvest-tier tooltip reads and
+    presses can't be lost to a wrong tool). Loot is tag-based → inert without AE2.
+  - **Finite certus deposit** on the Rocky/Ancient island families (the gate ingredient), and a **1 % wild meteor**
+    (config `wildMeteorChance`, sky stone only, no core) on natural overworld islands as a standalone bootstrap — off
+    in the modpack. Position-derived RNG, so islands without one stay byte-identical.
+- **`skyseed-common.toml` config** — `wildMeteorChance` (default 0.01).
+
+> Modpack (`Modpack-growyourownworld/`, not the mod jar): the full AE2 wave — the curated AE2 jar set (AE2 19.2.17 +
+> GuideME + Wireless Terminals / AE2 Things / MEGA Cells + Create AE Generator / Stock Bridge / Applied Create /
+> Create Energistics + **Immersive Energistics** + Rechiseled: AE2), a **16-quest AE2 chapter** in the Storage book and
+> a new **Power** chapter, chapter groups (Progression / Industry / Farming), the IE+certus seed recipe override, the
+> Meteorite Core press loot, and removal of the Mystical Agriculture essence-press gate bypasses. See `AE2PLAN.md`.
+> The **#39 FE power-chain** (Create → Alternator → Flux → Energy Acceptor → ME Controller) is proven type-compatible;
+> its one-time in-game sign-off is the last open AE2 item.
+
 ## [0.205.0] - 2026-07-03
 
 ### Added

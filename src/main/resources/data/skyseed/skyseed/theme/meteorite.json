@@ -1,0 +1,23 @@
+{
+  "_comment": "AE2 endgame island (AE2PLAN #18a, METEORPLAN #18e): a NORMAL overworld island that a meteor crashed onto. Body is plain overworld (grass/dirt/stone) with normal ores; the `meteor` feature stamps an impact crater + sky-stone GLOBE + Meteorite Core on the top-centre (MeteorPlacer) — the sky stone (→ ME Controller) + presses source. Inert without AE2 (the globe/core skip → just a vanilla crater). Seed is IE+certus-gated (modpack recipe). Base-density ores + base-tier meteor (radius 2 ≈ 5×5, core_tier 0 → 1 random press). Mirror to meteorite_large.json + huge_meteorite.json (ores identical; shape + meteor.radius + core_tier per tier).",
+  "dimensions": ["minecraft:overworld"],
+  "shape": { "radius": { "min": 5, "max": 7 }, "rim_noise": 0.38, "underside": "teardrop" },
+  "palette": { "surface": "minecraft:grass_block", "fill": "minecraft:dirt", "core": "minecraft:stone", "fill_depth": 3 },
+  "ores": [
+    { "block": "minecraft:coal_ore", "chance": 1.0, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "minecraft:iron_ore", "chance": 1.0, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
+    { "block": "minecraft:copper_ore", "chance": 0.70, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" }
+  ],
+  "mobs": [
+    { "entity": "minecraft:sheep", "chance": 0.25, "count": { "min": 1, "max": 2 } },
+    { "entity": "minecraft:cow", "chance": 0.15, "count": { "min": 1, "max": 2 } }
+  ],
+  "variants": [
+    { "weight": 3, "name": "grassy", "decoration": {
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:dandelion", "chance": 0.04 }, { "block": "minecraft:poppy", "chance": 0.04 }, { "block": "minecraft:oxeye_daisy", "chance": 0.03 } ] } },
+    { "weight": 1, "name": "grove", "decoration": {
+      "trees": [ { "feature": "minecraft:oak", "tries": 2, "spacing": 4 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.22 }, { "block": "minecraft:dandelion", "chance": 0.03 } ] } }
+  ],
+  "meteor": { "radius": { "min": 2, "max": 2 }, "core_tier": 0 }
+}

@@ -2,7 +2,7 @@
 	default_hide_dependency_lines: false
 	default_quest_shape: ""
 	filename: "introduction"
-	group: ""
+	group: "5C0000000000E001"
 	icon: {
 		id: "skyseed:forest_skyseed"
 	}

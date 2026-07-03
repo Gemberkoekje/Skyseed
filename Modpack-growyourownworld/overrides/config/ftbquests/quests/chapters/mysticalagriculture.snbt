@@ -2,12 +2,12 @@
 	default_hide_dependency_lines: false
 	default_quest_shape: ""
 	filename: "mysticalagriculture"
-	group: ""
+	group: "5C0000000000E003"
 	icon: {
 		id: "mysticalagriculture:inferium_farmland"
 	}
 	id: "5C0000000000A007"
-	order_index: 2
+	order_index: 0
 	quest_links: [ ]
 	quests: [
 		{

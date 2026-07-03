@@ -1,0 +1,30 @@
+{
+  "name": "Meteorite Island",
+  "category": "skyseed:overworld",
+  "advancement": "skyseed:reveal_meteorite",
+  "icon": "ae2:sky_stone_block",
+  "sortnum": 55,
+  "flag": "mod:ae2",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The $(item)Meteorite Skyseed$() grows an ordinary overworld island — with a $(bold)meteor blasted into it$(). Its recipe is steep: the $(item)certus$() you've mined, $(item)IE steel$(), and a $(item)Create precision mechanism$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "skyseed:meteorite_skyseed",
+      "text": "Everything's in hand — here's how it goes together.",
+      "advancement": "skyseed:gathered_meteorite"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)The crater$()$(br)At the island's heart, an impact crater of $(item)obsidian$() and scorched glass rings a $(item)sky-stone globe$() — the meteoric rock an $(item)ME Controller$() is built from. Mine it out; sky stone falls nowhere else.",
+      "advancement": "skyseed:craft_meteorite"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)The core$()$(br)Dig to the globe's centre and you'll strike a $(item)Meteorite Core$(). Break it for $(bold)one inscriber press$() — a random one of the four. The bigger meteors give more per throw, but any press you're missing is only ever a small island away.",
+      "advancement": "skyseed:craft_meteorite"
+    }
+  ]
+}

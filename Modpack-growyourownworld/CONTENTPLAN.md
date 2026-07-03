@@ -12,7 +12,9 @@ Content-mod integration plan (NeoForge **1.21.1**). Companion to BEAUTIFYPLAN.md
 **What's left** (backlog #s = PLANOFPLANS):
 
 - **#34** Immersive Engineering — bauxite/aluminum ore island + FE integration (§2), gated on **#35** the Excavator fix (§7).
-- **#18** Applied Energistics 2 — certus + sky-stone bootstrap (§2).
+- **#18** Applied Energistics 2 — **SHIPPED** (curated set + Create/IE bridges; certus/sky-stone bootstrap; the
+  **inscriber-press** blocker solved via the tiered Meteorite Core; meteorite island Phases 1–3 + AE2 quest chapter;
+  both nodes green). Only the **#39** FE power-chain in-game sign-off is open (§2). **Own plan: [AE2PLAN.md](AE2PLAN.md).**
 - **#15** Quark — **SHIPPED** (4 jars in + curated + Totem void fix v0.182.0; smoke-pass sign-off open) (§2). **Own plan:
   [QUARKPLAN.md](QUARKPLAN.md)**; island integration is **#71** → [QUARKISLANDPLAN.md](QUARKISLANDPLAN.md).
 - **#16** Farmer's Delight — **jars in** (curated 8-mod set); wild crops on biome islands **pending** (§2). **Own plan:
@@ -60,10 +62,17 @@ void). IE (native FE) and AE2 (accepts FE) join directly when they land. Progres
   [IEPLAN.md](IEPLAN.md).** Gateway **Bauxite/Aluminum** (+ uses Copper [vanilla], Lead, Silver, Nickel). ⚠️
   **Excavator** (#35) — reframed in IEPLAN: IE's veins are per-chunk *data*, not worldgen ore, so it likely works
   in the void and closes with config, not a mixin (§7).
-- **Applied Energistics 2 (#18)** — gateway **Certus Quartz + Sky Stone** (normally from meteorites). AE2
-  self-multiplies via budding certus + crystal growth, so we only **bootstrap**: a small "meteorite island"
-  seed (sky stone + certus + a budding certus block) or a recipe; AE2 sustains itself after. Confirm meteorite
-  worldgen is inert/disabled.
+- **Applied Energistics 2 (#18)** — ✅ **curated jar set landed** (`overrides/mods/`): AE2 19.2.17 + GuideME + the
+  Wireless Terminals / AE2 Things / MEGA Cells addons + the Create bridges (Create: AE Generator, Create Stock
+  Bridge) + Rechiseled: AE2. Gateway **Certus Quartz + Sky Stone** (normally from meteorites, inert in the void).
+  AE2 self-multiplies via budding certus + crystal growth, so the island only **bootstraps** it — but the four
+  **inscriber presses** are meteorite-loot-only and *not craftable*, so they're a hard progression blocker that
+  needs a bespoke source. Because AE2 trivializes inventory management it's **gated as a rare, expensive endgame
+  reward**: the endgame unlocks (**sky stone + presses**, both verified effectively meteorite-only) live on a
+  **dedicated `skyseed:meteorite` theme with its own IE-gated seed**, while a small **finite certus deposit**
+  (`ae2:quartz_block`) on rocky/ancient is the *gate ingredient* the seed recipe consumes (certus itself isn't
+  storage-gating). Expansion afterwards is easier but stays expensive. **Full curation, versions, the press decision,
+  the rarity design, and the bootstrap plan in its own plan: [AE2PLAN.md](AE2PLAN.md).**
 
 ### Renewable resource engines
 - **Productive Bees (#32)** — renewable ingots/resources via apiaries. *Plan:* grant a few starter bees/hives

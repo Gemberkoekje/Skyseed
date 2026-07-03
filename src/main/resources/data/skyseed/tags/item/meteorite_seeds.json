@@ -1,0 +1,7 @@
+{
+  "_comment": "The Meteorite Skyseed items (AE2 compat, METEORPLAN Phase 2) — themselves AE2-gated (registered only with AE2). Referenced by the large/huge gathered_/reveal_ advancements so they carry no hard reference to an item that may not exist; required:false → empty tag (no load error) without AE2.",
+  "values": [
+    { "id": "skyseed:meteorite_skyseed", "required": false },
+    { "id": "skyseed:meteorite_large_skyseed", "required": false }
+  ]
+}

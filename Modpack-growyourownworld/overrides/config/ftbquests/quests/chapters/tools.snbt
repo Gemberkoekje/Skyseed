@@ -2,12 +2,12 @@
 	default_hide_dependency_lines: false
 	default_quest_shape: ""
 	filename: "tools"
-	group: ""
+	group: "5C0000000000E001"
 	icon: {
 		id: "waystones:waystone"
 	}
 	id: "5C0000000000A004"
-	order_index: 6
+	order_index: 2
 	quest_links: [ ]
 	quests: [
 		{

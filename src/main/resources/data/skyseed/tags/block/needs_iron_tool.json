@@ -1,0 +1,6 @@
+{
+  "_comment": "Iron-tier harvest, matching AE2's sky_stone_block (the globe the core sits in) — so the core reads the same 'Tier 02 - Blaze Gold' as sky stone via Silent Gear's Jade tier plugin, and can't be reached (through iron-tier sky stone) without already holding the tool to harvest it. Pairs with requiresCorrectToolForDrops in ModBlocks + mineable/pickaxe.",
+  "values": [
+    "skyseed:meteorite_core"
+  ]
+}

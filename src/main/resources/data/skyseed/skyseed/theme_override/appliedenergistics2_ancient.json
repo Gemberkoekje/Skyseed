@@ -1,0 +1,17 @@
+{
+  "_comment": "First-party Applied Energistics 2 compat (AE2PLAN #18d) — the FINITE certus deposit (ae2:quartz_block; deconstructs → 4 certus crystals) on the deepslate-bodied ancient mining island; complements the rocky family. The gate ingredient the meteorite-island seed recipe consumes, NOT a functional AE2 supply (certus alone builds no storage — that needs the meteorite island's sky stone + inscriber presses). Modern AE2 has no certus ore; the inert quartz_block is the deposit block. Inert without AE2 (unknown block skipped before RNG → byte-identical). Bands merge into ancient's max_y:20 / min_y:96 bands (selectors match ancient.json) so certus doesn't vanish on low/high throws, per immersiveengineering_ancient.json. Base-density counts. Mirror to appliedenergistics2_ancient_large.json + appliedenergistics2_huge_ancient.json.",
+  "target": "skyseed:ancient",
+  "ores": [
+    { "block": "ae2:quartz_block", "chance": 0.45, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" }
+  ],
+  "biome_overrides": [
+    { "_comment": "…into the deep band (max_y 20); else it replaces the ore list → no certus deep.", "max_y": 20,
+      "ores": [
+        { "block": "ae2:quartz_block", "chance": 0.45, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" }
+      ] },
+    { "_comment": "…into the high band (min_y 96).", "min_y": 96,
+      "ores": [
+        { "block": "ae2:quartz_block", "chance": 0.45, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" }
+      ] }
+  ]
+}

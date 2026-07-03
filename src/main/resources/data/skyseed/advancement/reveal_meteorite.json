@@ -1,0 +1,24 @@
+{
+  "criteria": {
+    "prereq": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "skyseed:ancient_skyseed"
+      }
+    },
+    "has_0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": "#skyseed:meteorite_makings" }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "prereq",
+      "has_0"
+    ]
+  ]
+}

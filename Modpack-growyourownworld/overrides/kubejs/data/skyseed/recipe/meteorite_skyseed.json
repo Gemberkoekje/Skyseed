@@ -1,0 +1,19 @@
+{
+  "_comment": "AE2PLAN #18c — the modpack's endgame gate for the Meteorite Skyseed. Shadows skyseed's baseline blackstone+basalt recipe (higher-priority KubeJS datapack, same id) with an IE + Create + CERTUS gated one, so AE2's storage island is genuinely endgame: 2 Certus Quartz Blocks (mined from rocky/ancient — appliedenergistics2_rocky.json etc.), 2 IE Steel, a Create Precision Mechanism, framed in the meteorite's own blackstone. Uncraftable until the IE backbone runs and you've mined certus. The seed does NOT require sky stone (you get that FROM the island it grows). Large/huge tiers upgrade from this base seed, so they inherit the gate.",
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BCB",
+    "SMS",
+    "BCB"
+  ],
+  "key": {
+    "B": { "item": "minecraft:blackstone" },
+    "C": { "item": "ae2:quartz_block" },
+    "S": { "item": "immersiveengineering:ingot_steel" },
+    "M": { "item": "create:precision_mechanism" }
+  },
+  "result": {
+    "id": "skyseed:meteorite_skyseed"
+  }
+}

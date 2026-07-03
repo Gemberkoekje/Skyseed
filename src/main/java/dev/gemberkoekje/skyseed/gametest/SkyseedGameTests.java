@@ -397,6 +397,56 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    /** First-party Applied Energistics 2 compat (AE2PLAN #18d): the FINITE certus deposit (ae2:quartz_block) reaches the
+     *  top-level ores AND the deep Y-band of every rocky + ancient tier, so it doesn't vanish on low/high throws. This is
+     *  the gate ingredient the meteorite-island seed recipe consumes; inert without AE2 (id skipped before RNG). */
+    @GameTest(template = REGION)
+    public static void appliedEnergisticsCertusReachesMiningTiers(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        for (final String r : new String[]{"skyseed:rocky", "skyseed:rocky_large", "skyseed:huge_rocky"}) {
+            final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(r));
+            helper.assertTrue(t != null, r + " must resolve");
+            helper.assertTrue(t.ores().stream().anyMatch(o -> o.block().value().equals("ae2:quartz_block")),
+                    r + "'s top-level ores should include the ae2:quartz_block certus deposit");
+            helper.assertTrue(bandHasOre(t, ov -> ov.maxY().map(y -> y == 8).orElse(false), "ae2:quartz_block"),
+                    r + "'s deepslate band (max_y 8) should carry the certus deposit");
+        }
+        for (final String a : new String[]{"skyseed:ancient", "skyseed:ancient_large", "skyseed:huge_ancient"}) {
+            final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(a));
+            helper.assertTrue(t != null, a + " must resolve");
+            helper.assertTrue(t.ores().stream().anyMatch(o -> o.block().value().equals("ae2:quartz_block")),
+                    a + "'s top-level ores should include the ae2:quartz_block certus deposit");
+            helper.assertTrue(bandHasOre(t, ov -> ov.maxY().map(y -> y == 20).orElse(false), "ae2:quartz_block"),
+                    a + "'s deep band (max_y 20) should carry the certus deposit");
+        }
+        helper.succeed();
+    }
+
+    /** First-party Applied Energistics 2 endgame island (AE2PLAN #18a, METEORPLAN #18e): the meteorite theme resolves
+     *  on every tier and carries a `meteor` config (the crater / sky-stone globe / Meteorite Core feature) with the
+     *  right core_tier per tier (0/1/2). Base-tier build smoke: the meteor pass carves + skins a crater, so OBSIDIAN
+     *  appears even in the AE2-less dev env (the globe + core skip via Lookup.hasBlock) — validating the pass runs
+     *  without AE2. Guards a large + huge tier. */
+    @GameTest(template = REGION)
+    public static void meteorIslandFormsCrater(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        final String[] tiers = {"skyseed:meteorite", "skyseed:meteorite_large", "skyseed:huge_meteorite"};
+        final int[] expectedCoreTier = {0, 1, 2}; // small→1 press / medium→2 distinct / huge→4 (METEORPLAN Phase 3)
+        for (int i = 0; i < tiers.length; i++) {
+            final String m = tiers[i];
+            final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(m));
+            helper.assertTrue(t != null, m + " must resolve");
+            helper.assertTrue(t.meteor().isPresent(), m + " must carry a meteor config");
+            helper.assertTrue(t.meteor().get().coreTier() == expectedCoreTier[i],
+                    m + " meteor core_tier should be " + expectedCoreTier[i] + ", was " + t.meteor().get().coreTier());
+        }
+        final IslandPlan p = plan(helper, "meteorite", 1L);
+        helper.assertTrue(p.blocks().size() > 100, "a meteorite island should be > 100 blocks, was " + p.blocks().size());
+        helper.assertTrue(p.blocks().stream().anyMatch(b -> b.state().is(Blocks.OBSIDIAN)),
+                "the meteor crater should skin its bowl with obsidian (found none in the plan)");
+        helper.succeed();
+    }
+
     /** First-party Farmer's Delight compat (FARMERSDELIGHTPLAN #16): wild_rice reaches the Lush pond on every lush tier
      *  (pond is scalar-replaced with the base pond + rice; PondCarver has a dedicated wild_rice surface case). Inert
      *  without FD (placePondPlants gates on Lookup.hasBlock). */

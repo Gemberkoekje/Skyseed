@@ -2,6 +2,7 @@ package dev.gemberkoekje.skyseed;
 
 import com.mojang.logging.LogUtils;
 import dev.gemberkoekje.skyseed.network.SkyseedNetwork;
+import dev.gemberkoekje.skyseed.registry.ModBlocks;
 import dev.gemberkoekje.skyseed.registry.ModChunkGenerators;
 import dev.gemberkoekje.skyseed.registry.ModCreativeTabs;
 import dev.gemberkoekje.skyseed.registry.ModEntities;
@@ -29,6 +30,7 @@ public class Skyseed {
     // FML passes in the mod event bus and container automatically.
     public Skyseed(IEventBus modEventBus, ModContainer modContainer) {
         VERSION = modContainer.getModInfo().getVersion().toString();
+        ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
         ModLoot.register(modEventBus);
         ModEntities.register(modEventBus);
@@ -40,6 +42,7 @@ public class Skyseed {
         SkyseedNetwork.register(modEventBus);
         modEventBus.addListener(DevStructureGenerator::onCommonSetup); // dev-only: emits building .nbt templates
         modContainer.registerConfig(ModConfig.Type.CLIENT, SkyseedClientConfig.SPEC);
+        modContainer.registerConfig(ModConfig.Type.COMMON, SkyseedCommonConfig.SPEC);
 
         LOGGER.info("Skyseed loaded — {} seed items, throwable entity, and theme registry registered.", ModItems.SEED_THEMES.size());
     }

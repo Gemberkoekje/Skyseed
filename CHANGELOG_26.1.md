@@ -9,6 +9,16 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.206.0] - 2026-07-04
+
+### Added
+- **Meteorite island family + Meteorite Core (the mod side of the Applied Energistics 2 integration, CONTENTPLAN #18 →
+  [AE2PLAN.md](Modpack-growyourownworld/AE2PLAN.md)).** The `meteorite` / `meteorite_large` / `huge_meteorite` themes
+  (a crater + sky-stone globe + a tiered **Meteorite Core** press source — skyseed's first custom block), the
+  AE2-compat layer (seed + jar recipe present only with AE2), the 1 % wild-meteor `wildMeteorChance` common config, and
+  the tiered/iron-tier press loot all ship to this node too. Gametests green (165). (The modpack-side content — jars,
+  quests, KubeJS — is 1.21.1-only; see [CHANGELOG_1.21.1.md](CHANGELOG_1.21.1.md).)
+
 ## [0.203.0] - 2026-07-03
 
 ### Changed

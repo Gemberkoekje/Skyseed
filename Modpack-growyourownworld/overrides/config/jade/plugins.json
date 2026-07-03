@@ -65,6 +65,9 @@
   "mysticalagradditions": {
     "infused_farmland": true
   },
+  "immersiveengineering": {
+    "multiblock_icon": true
+  },
   "jade": {
     "coordinates.rel": false,
     "registry_name.special": false,
@@ -79,6 +82,10 @@
   "waystones": {
     "waystone": true
   },
+  "appliedcreate": {
+    "grid_node_state": true,
+    "power_storage": true
+  },
   "mysticalagriculture": {
     "infused_farmland": true,
     "crop": true,
@@ -86,5 +93,17 @@
   },
   "balm": {
     "jade": true
+  },
+  "ae2": {
+    "part_icon": true,
+    "charger": true,
+    "debug": true,
+    "part_tooltip": true,
+    "grid_node_state": true,
+    "pattern_provider": true,
+    "part_mod_name": true,
+    "power_storage": true,
+    "crafting_monitor": true,
+    "part_name": true
   }
 }
