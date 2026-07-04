@@ -168,8 +168,9 @@ are ✅ done. Remaining:
 **FTB Quests** (NeoForge `2101.x` for 1.21.1) — in-game editor, quests saved as **SNBT** and committed.
 Deps: **Architectury API + FTB Library + FTB Teams** (all shipped).
 
-- ✅ **Shipped (see CHANGELOG / QUESTPLAN.md):** six chapters (Introduction, Skyseed, Create, Tools & Travel,
-  Storage, Mystical Agriculture — 54 quests) plus the BWG branch (B701–B703), under `overrides/config/ftbquests/quests/`.
+- ✅ **Shipped (see CHANGELOG / QUESTPLAN.md):** nine chapters (Introduction, Skyseed, Tools & Travel, Create, Power,
+  Immersive Engineering, Storage, Mystical Agriculture, Farmer's Delight — ~106 quests) plus the BWG branch
+  (B701–B703), under `overrides/config/ftbquests/quests/`.
 - **Authoring workflow (version-controlled):** build quests in a dev world → FTB Quests writes them to
   `config/ftbquests/quests/` (SNBT) → copy into `overrides/config/ftbquests/` so they ship with the pack.
   Configs are committed; player *progress* is per-world/team and stays out of the pack.
@@ -177,7 +178,7 @@ Deps: **Architectury API + FTB Library + FTB Teams** (all shipped).
   Automation extension, AE2 → Storage extension, FD → Farming, Iron's → Magic, plus an eventual Endgame
   chapter. Author each chapter right after its mod's island/tier integration lands, so tasks point at real
   items/seeds (the original "author last over the final set" is superseded by this incremental weave —
-  that's how the six shipped chapters were built).
+  that's how the nine shipped chapters were built).
 
 ## 7. Open design decisions
 

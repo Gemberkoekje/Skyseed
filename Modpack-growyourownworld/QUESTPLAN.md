@@ -5,7 +5,7 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 `ftb-quests` / `ftb-library` / `ftb-teams` / `architectury`).
 
 > **Status:** everything authorable is authored — **nine chapters** (**Introduction · Skyseed · Tools & Travel ·
-> Create · Power · Immersive Engineering · Storage · Mystical Agriculture · Farmer's Delight**, ~101 quests) plus the
+> Create · Power · Immersive Engineering · Storage · Mystical Agriculture · Farmer's Delight**, ~106 quests) plus the
 > **BWG branch** (B701–B703 under Tools & Travel) are shipped and committed under `overrides/config/ftbquests/quests/`;
 > the in-game quest-book test-load (#3) signed off 2026-07-02 (the newer FD/IE/AE2 additions still want an in-game load).
 > **Open:**
@@ -38,7 +38,7 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 |---|---|---|
 | Introduction (`introduction`) | 3 | the void-skyblock pitch; QoL tour (JEI/Jade/Xaero/Vein Mining, the guide) |
 | Skyseed (`skyseed`) | 16 | the spine — seed→island→relics→Nether→End; gates the rest |
-| Tools & Travel (`tools`) | 7 | Silent Gear · Waystones/Xaero travel · the **BWG branch** (B701–B703) |
+| Tools & Travel (`tools`) | 12 | Silent Gear · Waystones/Xaero travel · the **BWG branch** (B701–B703) · the **flight line** (B916–B919 + the optional Aviation Fuel B920, moved here from IE) |
 | Create (`create`) | 16 | the tech chain incl. the Extras (rails, enchantment industry, deco, …) |
 | **Power (`power`)** | 8 | ⚡ the **FE backbone as one story** — generation (Alternator, IE Diesel Gen) → movement (C&A wires, **Flux** wireless across islands) → storage (capacitor, Flux bank) → consumption (**one grid feeds IE + AE2**, the #39 payoff). A deliberate *system* hub chapter (like Storage), gated off `B203` water wheel; keeps the per-mod power quests in place. |
 | **Immersive Engineering (`immersiveengineering`)** | 15 | A009, B9xx — the tech backbone: Aluminium → Hammer/Manual → Windmill/LV → Coke Oven→Blast Furnace→Steel→Crusher/Excavator → Fluid Pump→Crude Oil→Distillation→Diesel Gen (#45) |
