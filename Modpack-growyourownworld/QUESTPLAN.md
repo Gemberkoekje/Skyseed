@@ -4,11 +4,13 @@ A **cosy, handholdy** quest line that explains every mod and how to use it. Auth
 chapter per mod as it lands), not last — so no end-of-project overflow. Engine: **FTB Quests** (installed:
 `ftb-quests` / `ftb-library` / `ftb-teams` / `architectury`).
 
-> **Status:** everything authorable is authored — the six chapters (**Introduction · Skyseed · Create · Mystical
-> Agriculture · Tools & Travel · Storage**, 54 quests) plus the **BWG branch** (B701–B703 under Tools & Travel) are
-> shipped and committed under `overrides/config/ftbquests/quests/`; the in-game quest-book test-load (#3) signed off
-> 2026-07-02. **Open:**
-> 1. The **future per-mod chapters** below (#41–#47) — each gated on its mod actually landing (CONTENTPLAN §2).
+> **Status:** everything authorable is authored — **nine chapters** (**Introduction · Skyseed · Tools & Travel ·
+> Create · Power · Immersive Engineering · Storage · Mystical Agriculture · Farmer's Delight**, ~106 quests) plus the
+> **BWG branch** (B701–B703 under Tools & Travel) are shipped and committed under `overrides/config/ftbquests/quests/`;
+> the in-game quest-book test-load (#3) signed off 2026-07-02 (the newer FD/IE/AE2 additions still want an in-game load).
+> **Open:**
+> 1. The remaining **future per-mod chapters** below — **#43** Quark, **#44** Productive Bees, **#46** Iron's Spells,
+>    **#47** scope decision — each gated on its mod (CONTENTPLAN §2). *(#41 AE2, #42 FD, #45 IE have shipped.)*
 > 2. **(#19, rolling)** the standing rule: every new integration is followed by its chapter.
 
 ## Approach (the authoring conventions — applies to every future chapter)
@@ -36,9 +38,10 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 |---|---|---|
 | Introduction (`introduction`) | 3 | the void-skyblock pitch; QoL tour (JEI/Jade/Xaero/Vein Mining, the guide) |
 | Skyseed (`skyseed`) | 16 | the spine — seed→island→relics→Nether→End; gates the rest |
-| Tools & Travel (`tools`) | 7 | Silent Gear · Waystones/Xaero travel · the **BWG branch** (B701–B703) |
+| Tools & Travel (`tools`) | 12 | Silent Gear · Waystones/Xaero travel · the **BWG branch** (B701–B703) · the **flight line** (B916–B919 + the optional Aviation Fuel B920, moved here from IE) |
 | Create (`create`) | 16 | the tech chain incl. the Extras (rails, enchantment industry, deco, …) |
 | **Power (`power`)** | 8 | ⚡ the **FE backbone as one story** — generation (Alternator, IE Diesel Gen) → movement (C&A wires, **Flux** wireless across islands) → storage (capacitor, Flux bank) → consumption (**one grid feeds IE + AE2**, the #39 payoff). A deliberate *system* hub chapter (like Storage), gated off `B203` water wheel; keeps the per-mod power quests in place. |
+| **Immersive Engineering (`immersiveengineering`)** | 15 | A009, B9xx — the tech backbone: Aluminium → Hammer/Manual → Windmill/LV → Coke Oven→Blast Furnace→Steel→Crusher/Excavator → Fluid Pump→Crude Oil→Distillation→Diesel Gen (#45) |
 | Storage (`storage`) | 19 | Sophisticated Backpacks + Storage (B401–B403) **+ the AE2 endgame line** (B404–B419, #41) |
 | Mystical Agriculture (`mysticalagriculture`) | 9 | the MA loop (B601–B609) |
 | Farmer's Delight (`farmersdelight`) | 8 | the cosy cooking loop (B801–B808) — crops → pot/skillet/board → meal → rice → Nether/End delights |
@@ -75,7 +78,7 @@ same thematic "tech together / farming together" feel, none of the size/churn/pr
 
 | # | Chapter | Gate | Note |
 |---|---|---|---|
-| #45 | **Immersive Engineering** | IE integration (#34) | **promoted** — IE is now the tech backbone; same weave as Create (island/resource integration first, then the chapter) |
+| ~~#45~~ | ~~**Immersive Engineering**~~ | — | ✅ **SHIPPED** — `chapters/immersiveengineering.snbt` (A009, 15 quests B9xx); the flight line moved to Tools & Travel. In-game book-load pending. |
 | ~~#41~~ | ~~**Applied Energistics 2**~~ | — | ✅ **SHIPPED** — folded into the **Storage** chapter (`A005`) as 16 quests `B404`–`B419` (AE2 = the storage endgame), not a standalone chapter. Gated off `B104` (rocky→certus) + IE steel `B908`. Weaves the #39 FE-power step (Energy Acceptor) + Create bridges. In-game book-load pending. |
 | ~~#42~~ | ~~**Farmer's Delight**~~ | — | ✅ **SHIPPED** — `chapters/farmersdelight.snbt` (A008, B801–B808), gated off the Skyseed spine at B103; Nether/End branches gated on B110/B113. In-game test-load pending. |
 | #44 | **Productive Bees** | PB integration (#32) | overlaps shipped MA — low marginal value |

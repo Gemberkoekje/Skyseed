@@ -5,11 +5,13 @@
 
 ## Status
 
-**Jars in, integration pending.** The curated FD set is copied into `overrides/mods/` and recorded in `mods.txt`.
-None of it is wired into island generation yet — that's the open work. Like every content mod in this pack, FD's
-worldgen (its wild crops) is **inert in the void** and must be re-homed onto seed-grown islands via
-`theme_override`, exactly the way Mystical Agriculture ores (see [MYSTICALPLAN.md](MYSTICALPLAN.md)) and the BWG
-flowers ([`biomeswevegone_meadow.json`](../src/main/resources/data/skyseed/skyseed/theme_override/biomeswevegone_meadow.json)) are.
+**✅ SHIPPED (both nodes green); in-game verify left.** The curated 8-mod FD set is in `overrides/mods/` + `mods.txt`,
+the wild crops are re-homed onto seed-grown islands via `theme_override` (20 files — dry crops on Forest/Meadow/Desert,
+rice in Lush/Aquatic ponds, chorus succulent, the nether powdery-cane feature), all gametest-guarded and byte-identical
+without FD, and the **#42 quest chapter** (A008) is authored. **Left: an in-game throw-test** (crops appear + the
+harvest→replant loop + the nether-cane feature grows) **+ a quest-book load.** (Same re-homing pattern as the
+Mystical Agriculture ores, [MYSTICALPLAN.md](MYSTICALPLAN.md), and the BWG flowers.) The detail below is retained as
+the reference for the id map + the standing curation/worldgen rules; the build-order log is collapsed to a pointer.
 
 **Why FD earns the slot:** cozy farming/cooking is the pack's soul; it's the highest-ROI mod left in the backlog.
 It doesn't overlap what's installed — Mystical Agriculture is *resource/automation* crops, FD is *food* crops; the
@@ -151,58 +153,23 @@ A **Farming & Cooking** FTB chapter, authored *after* the crops are seed-reachab
 
 Remember the standing **FTB tag-task trap**: smart-filter item tasks don't expand tags — use an advancement task.
 
-## Build order
+## Build order — ✅ SHIPPED (both nodes green); detail in `CHANGELOG_1.21.1.md` + git
 
-1. ~~**Boot smoke-test** — confirm all eight load; resolve the three version flags.~~ ✅ **Done 2026-07-03** — all eight load clean; only the netherwood cutting recipe + two cosmetic warns (§ verification).
-2. **Base FD crop overrides** — the `theme_override` files per the theme→crop map, base + `_large` + `huge_` tiers,
-   `Lookup.hasBlock`-guarded, with a gametest asserting the ids resolve.
-   - ✅ **Forest / Meadow / Desert dry crops shipped** (`farmersdelight_{forest,meadow,desert}{,_large,huge_}.json`, 9
-     files). Forest merges a lightly-treed "wild clearing" crop variant into **10 farmable bands** (is_forest catch-all +
-     birch/flower/dark/taiga/jungle + plains + desert/badlands + beach + savanna) via byte-identical selectors; Meadow
-     appends a top-level veg patch; Desert adds tomatoes/beetroots top-level + into the is_badlands band. Three gametests
-     guard the merge on all 3 tiers each (`farmersDelightCropsMergeOntoForestTiers` / `…ReachMeadowTiers` / `…ReachDesertTiers`).
-   - **v0.2 discoverability fix (after playtest — desert/rice/nether found, forest/meadow came up empty):** two causes,
-     both fixed. (1) **Weights were too low** — the crop variant was ~18% (meadow) / ~29% (forest catch-all) vs desert's
-     ~50%, so crops were a rare roll. Bumped to **~50% forest** (is_forest crop weight 5 vs base 5) and **~40% meadow**
-     (weight 6 vs base 9). (2) **Forest biome-coverage gap** — a forest island over birch/dark/flower/taiga/jungle matched
-     its specific band *before* the is_forest catch-all, so those throws had zero crops; **added crop variants to those
-     five sub-biome bands.** (The crop variant carries the biome's tree, so a higher weight keeps the island reading
-     foresty.) No resolution bug — the overrides always resolved (gametest-proven); this was pure tuning + coverage.
-   - ✅ **Rice on Lush shipped** (`farmersdelight_lush{,_large,huge_}.json`, 3 files) — the reliable rice source
-     (every overworld lush island carries the pond). `wild_rice` is a waterlogged 2-tall plant and `pond` is a
-     scalar-replace, so each override is a verbatim copy of the base pond + `wild_rice` in `plants`; a **dedicated
-     `wild_rice` case in `PondCarver.plantInPond`** stands both halves at the water surface (panicles above the
-     waterline). Guarded by `farmersDelightRiceReachesLushPonds`.
-   - ✅ **Rice on Aquatic shipped** (`farmersdelight_aquatic{,_large,huge_}.json`, 3 files) — wild_rice added to the
-     freshwater (top-level) pond plus the **`#is_river` and `swamp` band ponds** (FD's canonical rice biomes). Each pond
-     is a verbatim copy of the base + rice (pond is scalar-replace); the band patches carry only `{biomes, pond}` so the
-     merge swaps just the pond. Guarded by `farmersDelightRiceReachesAquaticPonds`.
-3. **Dimension-delight overrides** —
-   - ✅ **Chorus Forest → `ends_delight:chorus_succulent`** (`endsdelight_chorus_forest.json`) as a ground block on an
-     appended chorus-look variant. Guarded by `endsDelightSucculentReachesChorusForest`.
-   - ✅ **Nether Soul + Nether Forest (+ large) → `mynethersdelight:powdery_cane`** (4 files) on an appended
-     valley/crimson variant. **v0.2 FIX (after playtest — the raw block read "growth 0%" and dropped a stick):**
-     powdery_cane is an age/lit crop whose loot table gives only a stick at age 0 and `powder_cannon` (the plantable) +
-     `bullet_pepper` (when lit near lava) once grown. A raw ground-block placement is therefore *always* the broken
-     stub — so it's now placed via its **configured feature `mynethersdelight:patch_powdery_cane`** (a `trees` entry),
-     which grows a real, harvestable cane. Valid soils per the mod's `powdery_cannon_plantable_on` tag include
-     `#minecraft:nylium` (crimson — Nether Forest) and `#minecraft:soul_speed_blocks` (soul sand — Nether Soul). To make
-     the feature route safe, the tree-feature `place()` path is now **try/caught** (`GenerationJob.placeFeatureSafely`,
-     applied at both call sites — a defensive win for *every* modded feature the themes reference). Guarded by
-     `myNethersDelightCaneReachesNetherSeeds` (now checks the feature in `trees`, not a ground block). **⚠ In-game
-     verify:** confirm the feature grows a harvestable cane on both nether surfaces. **`bullet_pepper` intentionally
-     skipped** — no worldgen form (a farmed crop; it drops from *lit* canes, so growing powdery_cane near lava is its
-     path). *(End's `chorus_succulent` stays a ground block — its `succulent` property is just cluster size 1–3 and even
-     the default drops the item, no stick trap.)*
-   - **Ocean's / Chef's / Autochef's / Chopper's / FD Extended** — no worldgen; nothing to inject (Chef's optional
-     village-workstation tie-in remains a nice-to-have).
-4. **In-game verify** — throw a Forest/Meadow/Aquatic island, confirm crops appear, harvest→replant→regrow loop works,
-   rice grows in the pond. Then the Nether/End seeds.
-5. ✅ **Quest chapter (#42) shipped** — `chapters/farmersdelight.snbt` (chapter `A008`, 8 quests `B801–B808`) + the
-   `lang/en_us.snbt` text. A cosy line: Wild Harvest → Cooking Pot → Skillet / Cutting Board (Chopper's) → Hearty Meal,
-   with a Rice branch and two dimension branches (Nether Kitchen gated on `B110`, Taste of the End on `B113`). Gated
-   off the Skyseed spine at `B103` (grow a biome island). All tasks are `item` tasks on verified ids (no smart-filter
-   tag tasks, per the QUESTPLAN trap). **Pending: an in-game quest-book test-load** (author-in-edit-mode convention).
+1. ✅ Boot smoke-test — all 8 load clean (one bounded netherwood cutting-recipe casualty + two cosmetic warns).
+2. ✅ Base FD crop overrides — Forest/Meadow/Desert dry crops (9 files, 3 gametests) + a v0.2 discoverability tuning
+   pass (bumped crop weights, added crop variants to the birch/dark/flower/taiga/jungle sub-biome bands that matched
+   before the is_forest catch-all); rice on Lush (3 files) + Aquatic (3 files, incl. the `#is_river`/`swamp` band
+   ponds), with a dedicated `wild_rice` case in `PondCarver.plantInPond` standing both halves at the water surface.
+3. ✅ Dimension delights — chorus succulent on Chorus Forest (1 file); powdery-cane on Nether Soul + Nether Forest (4
+   files) placed via its **configured feature** `mynethersdelight:patch_powdery_cane` (a raw ground block is the broken
+   age-0 stub) — and the tree-feature `place()` path is now try/caught (`GenerationJob.placeFeatureSafely`, a defensive
+   win for every modded feature). `bullet_pepper` intentionally skipped (no worldgen form). Ocean's/Chef's/Autochef's/
+   Chopper's/FD Extended have no worldgen.
+5. ✅ Quest chapter (#42) — `chapters/farmersdelight.snbt` (A008, B801–B808) + lang; gated off the Skyseed spine at
+   B103, with a Rice branch + Nether/End branches (B110/B113); all `item` tasks on verified ids (no smart-filter tags).
+
+**Left — in-game verify only:** throw Forest/Meadow/Aquatic/Lush, confirm crops appear + harvest→replant→regrow + rice
+in the pond; confirm the nether powdery-cane **feature** grows a harvestable cane on both surfaces; quest-book load.
 6. *(Optional)* Chef's Delight workstation into a village jigsaw pool.
 
 ## Open decisions

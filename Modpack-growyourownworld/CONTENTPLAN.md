@@ -2,30 +2,25 @@
 
 Content-mod integration plan (NeoForge **1.21.1**). Companion to BEAUTIFYPLAN.md.
 
-> **Status — the foundation is shipped (see CHANGELOG):** the void ChunkGenerator, the **Create + Crafts &
-> Additions + Flux Networks** power backbone, **Silent Gear**, the curated Create addons, **Mystical Agriculture**
-> (see MYSTICALPLAN.md), the **full BWG integration** (woods, flowers, and all six village styles — shipped +
-> signed off, see CHANGELOG), and the six-chapter FTB quest spine. The tech backbone is **decided:
-> Immersive Engineering** (Mekanism dropped, see §7). What remains is the next content-mod wave below; priorities
-> live in [`../PLANOFPLANS.md`](../PLANOFPLANS.md).
+> **Status — the foundation AND the content-mod wave are shipped (see CHANGELOG):** the void ChunkGenerator, the
+> **Create + Crafts & Additions + Flux Networks** power backbone, **Silent Gear**, the curated Create addons,
+> **Mystical Agriculture** (MYSTICALPLAN.md), the **full BWG integration** (woods, flowers, all six village styles),
+> the nine-chapter FTB quest spine — and now the whole wave: **Immersive Engineering + Petroleum + flight**
+> (IEPLAN.md), **Applied Energistics 2 + the meteorite island** (AE2PLAN.md), **Farmer's Delight** (FARMERSDELIGHTPLAN.md),
+> and **Quark** (QUARKPLAN.md). The tech backbone is **Immersive Engineering** (Mekanism dropped, §7). What remains is
+> mostly in-game sign-offs plus a tail of flavor mods; priorities live in [`../PLANOFPLANS.md`](../PLANOFPLANS.md).
 
 **What's left** (backlog #s = PLANOFPLANS):
 
-- **#34** Immersive Engineering — bauxite/aluminum ore island + FE integration (§2), gated on **#35** the Excavator fix (§7).
-- **#18** Applied Energistics 2 — **SHIPPED** (curated set + Create/IE bridges; certus/sky-stone bootstrap; the
-  **inscriber-press** blocker solved via the tiered Meteorite Core; meteorite island Phases 1–3 + AE2 quest chapter;
-  both nodes green). Only the **#39** FE power-chain in-game sign-off is open (§2). **Own plan: [AE2PLAN.md](AE2PLAN.md).**
-- **#15** Quark — **SHIPPED** (4 jars in + curated + Totem void fix v0.182.0; smoke-pass sign-off open) (§2). **Own plan:
-  [QUARKPLAN.md](QUARKPLAN.md)**; island integration is **#71** → [QUARKISLANDPLAN.md](QUARKISLANDPLAN.md).
-- **#16** Farmer's Delight — **jars in** (curated 8-mod set); wild crops on biome islands **pending** (§2). **Own plan:
-  [FARMERSDELIGHTPLAN.md](FARMERSDELIGHTPLAN.md).**
-- **#32** Productive Bees — starter bees/hives (§2).
-- **#31** Critters and Companions — spawn verification on biome islands (§2).
-- **#36** Iron's Spells 'n Spellbooks — loot/mob injection (§2) + **#37** its scope decision (§7).
+- **✅ Shipped, in-game verify only:** **#34** Immersive Engineering (ore island + crude-oil pocket + **#35** Excavator
+  config), **#18** Applied Energistics 2 (certus/sky-stone bootstrap + meteorite island Phases 1–3 + Meteorite-Core
+  presses + quest), **#15** Quark (jars + curation + Totem void fix + island tie-ins **#71**), **#16** Farmer's Delight
+  (wild crops + rice + dimension delights + quest), and **#39** the FE-flow (proven on paper). Each has its own plan.
+- **The unbuilt flavor tail:** **#32** Productive Bees (starter bees/hives), **#31** Critters and Companions (spawn
+  verification), **#36** Iron's Spells 'n Spellbooks (loot/mob injection) + **#37** its scope decision (§7).
 - **#52** Verify the two uncertain Create addons — The Factory Must Grow, Extended Cogwheels — or drop them (§3).
 - **#38** Per-future-mod call: bespoke ore island vs. lean on MA seeds (§7 — settled in practice for shipped mods).
-- **#39** Prove FE flows Create → IE/AE2 across islands (§1 — moot until a consumer mod lands).
-- **#19 / #20** Rolling riders on every integration: its quest chapter (§6) and its gated island tier (§5 phase 7).
+- **#19 / #20** Rolling riders on every *future* integration: its quest chapter (§6) and its gated island tier (§5 phase 7).
 
 **The lens:** Skyseed is a *void* skyblock — nothing generates naturally; all content arrives via
 seed-grown islands. So every mod's resources/structures need an on-island acquisition path. Effort is
@@ -58,7 +53,8 @@ void). IE (native FE) and AE2 (accepts FE) join directly when they land. Progres
 
 ### Tech (FE grid)
 - **Immersive Engineering (#34)** — ✅ **the chosen tech backbone (2026-07-01).** Jars + configs **landed**
-  (IE 12.4.2-194 + the flight cluster + KubeJS); island/quest/Excavator work is open. **Own plan:
+  (IE 12.4.2-194 + the flight cluster + KubeJS); ore island + quest (A009) + Excavator config all **shipped**, in-game
+  verify left. **Own plan:
   [IEPLAN.md](IEPLAN.md).** Gateway **Bauxite/Aluminum** (+ uses Copper [vanilla], Lead, Silver, Nickel). ⚠️
   **Excavator** (#35) — reframed in IEPLAN: IE's veins are per-chunk *data*, not worldgen ore, so it likely works
   in the void and closes with config, not a mixin (§7).
@@ -86,7 +82,8 @@ void). IE (native FE) and AE2 (accepts FE) join directly when they land. Progres
   from wild-crop worldgen + trades. *Plan:* inject FD wild crops as `ground`/pond features on biome islands
   (cabbage/tomato/onion → forest/meadow/desert; **rice → aquatic/lush pond**), chorus_succulent → Chorus Forest,
   bullet_pepper/powdery_cane → Nether seeds. Renewable once seeded (drops replantable seeds); perfectly on-theme.
-  **Full detail, verified ids, and the ⚠ version-range checks in its own plan: [FARMERSDELIGHTPLAN.md](FARMERSDELIGHTPLAN.md).**
+  ✅ **SHIPPED** (20 override files + the #42 quest A008; in-game verify left). **Full detail + verified ids in its own
+  plan: [FARMERSDELIGHTPLAN.md](FARMERSDELIGHTPLAN.md).**
 
 ### Magic
 - **Iron's Spells 'n Spellbooks (#36)** — spell scrolls/gear are largely **loot-gated** (catacombs/structures)
@@ -104,7 +101,8 @@ void). IE (native FE) and AE2 (accepts FE) join directly when they land. Progres
   Zeta 1.1-40 + Oddities marker + QuarkPonders 1.5.1), modules curated (overlaps + Glimmering Weald off; block-providing
   World modules kept ON for island reuse), and the **Totem of Holding void fix** is live (v0.182.0). **Own plan:
   [QUARKPLAN.md](QUARKPLAN.md)**; the four **island integrations** (corundum / Quark stones / Ancient-Tome loot /
-  blossom) are committed as **#71** → [QUARKISLANDPLAN.md](QUARKISLANDPLAN.md). Remaining on #15: the in-game smoke-pass.
+  blossom) are committed as **#71** → [QUARKISLANDPLAN.md](QUARKISLANDPLAN.md). The #15 smoke-pass signed off 2026-07-02;
+  #71's Y-band fix shipped v0.192.0 (in-game re-verify pending).
 
 *(Shipped for reference: the biome-palette mod is **Oh The Biomes We've Gone** (BWG) 2.6.0 — overworld-focused,
 55 biomes / 25 woods, fully integrated (shipped + signed off, see CHANGELOG). Its stray
@@ -170,8 +168,9 @@ are ✅ done. Remaining:
 **FTB Quests** (NeoForge `2101.x` for 1.21.1) — in-game editor, quests saved as **SNBT** and committed.
 Deps: **Architectury API + FTB Library + FTB Teams** (all shipped).
 
-- ✅ **Shipped (see CHANGELOG / QUESTPLAN.md):** six chapters (Introduction, Skyseed, Create, Tools & Travel,
-  Storage, Mystical Agriculture — 54 quests) plus the BWG branch (B701–B703), under `overrides/config/ftbquests/quests/`.
+- ✅ **Shipped (see CHANGELOG / QUESTPLAN.md):** nine chapters (Introduction, Skyseed, Tools & Travel, Create, Power,
+  Immersive Engineering, Storage, Mystical Agriculture, Farmer's Delight — ~106 quests) plus the BWG branch
+  (B701–B703), under `overrides/config/ftbquests/quests/`.
 - **Authoring workflow (version-controlled):** build quests in a dev world → FTB Quests writes them to
   `config/ftbquests/quests/` (SNBT) → copy into `overrides/config/ftbquests/` so they ship with the pack.
   Configs are committed; player *progress* is per-world/team and stays out of the pack.
@@ -179,7 +178,7 @@ Deps: **Architectury API + FTB Library + FTB Teams** (all shipped).
   Automation extension, AE2 → Storage extension, FD → Farming, Iron's → Magic, plus an eventual Endgame
   chapter. Author each chapter right after its mod's island/tier integration lands, so tasks point at real
   items/seeds (the original "author last over the final set" is superseded by this incremental weave —
-  that's how the six shipped chapters were built).
+  that's how the nine shipped chapters were built).
 
 ## 7. Open design decisions
 
@@ -188,14 +187,10 @@ Deps: **Architectury API + FTB Library + FTB Teams** (all shipped).
   **IE**. The reason is **aesthetic** — Mekanism's machines read as too blocky/boring, whereas IE's
   multiblock/diesel look is the headline the player wants. Consequence: no Mekanism osmium island; the
   tech-tier bootstrap is the **IE bauxite/aluminum island** (#34).
-- **IE Excavator (#35) — must be handled now that IE is the backbone.** The Excavator samples **worldgen
-  mineral veins that don't exist in the void**, so it's dead as shipped. Two approaches to try, in order of
-  preference (**TODO — not yet implemented**):
-  1. **Patch it to be island-aware** — make the Excavator's ore mix a function of the **island it's built on**
-     (its Skyseed theme/biome) instead of the vanilla mineral-vein sample. Preferred: keeps the signature IE
-     mechanic alive and on-theme. Would need a mixin/compat against IE's `ExcavatorHandler` / mineral-vein lookup.
-  2. **Disable the Excavator entirely** for this pack — remove its recipe (and hide it in JEI) so players never
-     expect it to work; supply aluminum/bauxite via the IE ore island instead. Simple fallback if (1) is too invasive.
+- **IE Excavator (#35) — ✅ RESOLVED via config** (IEPLAN reframe). The Excavator's mineral veins are a **per-chunk
+  data layer**, not physical ore, so they exist over empty sky — the config is pinned in
+  `overrides/defaultconfigs/immersiveengineering-server.toml` (`chance` 0.9→0.7). The island-aware mixin (former
+  option 1) and the disable-it fallback (former option 2) are both unneeded. **Left: in-game confirm it yields veins.**
 - **Iron's Spells scope (#37)** — how deep to wire the loot/mob injection (full discovery loop vs. crafted-only).
   Settle when #36 is picked up.
 - **Mystical Agriculture vs. bespoke ore islands (#38)** — settled **in practice** for shipped mods (MA got its

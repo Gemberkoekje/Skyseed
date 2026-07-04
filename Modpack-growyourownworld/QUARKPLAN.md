@@ -23,11 +23,11 @@ nothing. Only **Glimmering Weald** is disabled (it adds a biome that trips the 1
   (sorting/chest QoL) · *Enter the Matrix* (Matrix Enchanting setup) · *Hold That Thought* (Totem of Holding recovery,
   the void fix already shipped). Keep it minimal per QUESTPLAN.
 - **Partner-gated add-ons — both partners have now landed:**
-  - **Quark Engineering** (IE compat) — ✅ **verified `QuarkEngineering-1.21.1-5.10.29.jar`** (Oct 2025): IE sawmill
-    recipes for Quark woods/bookshelves + smelting/blasting IE raw-ore blocks, gated by Quark's own config flags.
-    Deps Quark + Zeta + IE (all present). **Recommend adding** (drop jar + regen `mods.txt`). See [IEPLAN.md](IEPLAN.md).
-  - **Farmer's Cutting: Quark** (FD cutting-board recipes) — now unblocked (FD is in); verify a 1.21.1/NeoForge build
-    before adding.
+  - **Quark Engineering** (IE compat) — ✅ **ADDED** (`QuarkEngineering-1.21.1-5.10.29.jar` in `overrides/mods/` +
+    `mods.txt`): IE sawmill recipes for Quark woods/bookshelves + smelting/blasting IE raw-ore blocks, gated by Quark's
+    own config flags. Deps Quark + Zeta + IE (all present). See [IEPLAN.md](IEPLAN.md).
+  - **Farmer's Cutting: Quark** (FD cutting-board recipes) — still open: now unblocked (FD is in); verify a
+    1.21.1/NeoForge build before adding.
 
 **Caveat:** young NeoForge port — keep the pairing pinned (Quark 4.1-481 + Zeta 1.1-40) and watch patch notes before
 quests point at Quark features.

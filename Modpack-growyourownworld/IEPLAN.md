@@ -104,59 +104,32 @@ family (all six `immersiveengineering_*` overrides), `chance 0.15`. Why this sha
 without flowing away and (b) is pumpable by the IE Fluid Pump. If a placed `LiquidBlock` won't register as a pump
 source, fall back to a KubeJS crude-oil recipe. Tune `chance` after a few throws.
 
-## Open work
+## Open work — ✅ ALL BUILT (both nodes green); in-game verifies left
 
-- [x] **(#34)** **IE metals ore island — SHIPPED.** Six `theme_override`s (inert without IE): rocky family
-  (`immersiveengineering_rocky{,_large}` + `huge_rocky`) carries **aluminum/lead/nickel**; ancient family
-  (`immersiveengineering_ancient{,_large}` + `huge_ancient`) carries the deep **aluminum/silver/uranium**
-  (deepslate). Veins merged into **every** base Y-band (post-#71 pattern, selectors match the base themes) so they
-  don't vanish on low/high throws; JSON validated. **First-pass densities — throw-test + tune like #71**, and
-  sign off that all five metals appear at low/mid/high throws.
-- [x] **(oil) crude-oil source — SHIPPED** as an uncommon `deep_core` pocket in the deep band of the six
-  `immersiveengineering_*` overrides (rocky `max_y:8`, ancient `max_y:20`, chance 0.15), pumped with the IE Fluid
-  Pump; inert without IP. **In-game verify**: source block stays put + is pump-extractable; then tune chance.
-- [x] **(#35)** Excavator config **pinned** → `overrides/defaultconfigs/immersiveengineering-server.toml` (full
-  server config, so every new world inherits it; server config is synced in MP). Tuned `[machines.excavator] chance`
-  **0.9 → 0.7** so veins are common enough to find under a grown island. **In-game verify** it yields veins over the
-  void, then fine-tune `chance` (the default `config/` copy is left as-is — `defaultconfigs/` is the one that ships).
-- [x] **FD built-in IE compat — VERIFIED FINE (not broken).** Checked the jars directly: FD 1.3.2's
-  `data/farmersdelight/recipe/integration/immersiveengineering/*` (22 recipes) use the **modern**
-  `"fluid": { "amount", "id" }` form — **byte-identical to IE 12.4.2's own native squeezer/fermenter recipes**. So
-  [#1068](https://github.com/vectorwing/FarmersDelight/issues/1068) was an older-version bug, fixed by FD 1.3.2:
-  the recipes load cleanly. **However**, a first-boot log scan (2026-07-03) found the *separate bridge/addon* mods
-  ship 5 genuinely broken recipes (JSON syntax + `id`/`item` misuse + copy-paste result/id errors):
-  **Engineers Delight (`tmted`)** — `fermenter/rotten_tomato`, `fermenter/tomato_crate`, `bottling/milk_bottle`;
-  **`create_completeimmersiveaircraft`** — `rotary_cannon`, `telescope`.
-- [x] **Broken bridge recipes — FIXED via KubeJS data overrides.** `overrides/kubejs/data/<ns>/recipe/<path>.json`
-  ships corrected copies of all 5 (the higher-priority KubeJS datapack shadows the mods' broken files, so it both
-  makes them craftable **and** silences the parse errors). Fixes: `id`→`item` on the fermenter inputs (+ point
-  `tomato_crate` at `farmersdelight:tomato_crate`, not rotten tomato); drop milk_bottle's malformed condition
-  (body was valid IE bottling); rotary_cannon — close the `key` brace, `sturdy_pipe`→`sturdy_pipes`,
-  `create:precision_mechanism` tag→item, result `gyroscope_dials`→`rotary_cannon`; telescope — add the missing
-  pattern commas. All 5 JSON-validated. (Base Immersive Aircraft still crafts rotary_cannon/telescope too, so those
-  were never truly lost — but the addon's Create variants now work.)
-- [~] **(#39)** **FE-flow proof — proven on paper (see [AE2PLAN.md](AE2PLAN.md) #39), in-game sign-off pending.** The
-  chain is type-compatible end to end (C&A `alternator` → Flux `flux_plug`/`flux_point` → IE native FE / AE2
-  `energy_acceptor`), all standard NeoForge FE. IE is a native FE consumer, so the same trace covers it. Left: the
-  one-time in-game check (generator island → Flux → IE machine on another island).
-- [x] **Flight fuel chain — wired** (tags, above): vanilla fuel / blaze powder → **IE biodiesel** → **IP
-  diesel/kerosene** all count as `iaie:fuel`. In-game, just confirm a diesel-fuelled aircraft actually consumes it.
-- [x] **Quark Engineering (Quark × IE) — verified available; recommend adding.** `QuarkEngineering-1.21.1-5.10.29.jar`
-  (Oct 2025) — adds IE sawmill recipes for Quark woods/bookshelves + smelting/blasting IE raw-ore blocks; gated by
-  Quark's own config flags (no new behaviour if those are off). Deps Quark + Zeta + IE, all present. **Action: drop
-  the jar in `overrides/mods/` + regen `mods.txt`.** (See [QUARKPLAN.md](QUARKPLAN.md).)
-- [x] **(#45 / rolling #19)** **IE quest chapter — SHIPPED.** `config/ftbquests/quests/chapters/immersiveengineering.snbt`
-  (chapter `A009`, **15 quests**, id-series `B9xx`) + titles/subtitles/descriptions in `quests/lang/en_us.snbt`. Tree:
-  Aluminium (dep the skyseed chapter's *Grow a Rocky Island* B104) → Hammer/Manual → Windmill+LV wiring →
-  Coke Oven→Blast Furnace→Steel→Crusher/**Excavator** → **Fluid Pump→Crude Oil→Distillation→Diesel→Diesel Generator**
-  (the oil-pocket payoff, with a quest_desc explaining the deep-throw mechanic).
-- [x] **Flight line — moved to Tools & Travel; no flight is gated on oil.** The four aircraft quests (B916–B919, ids
-  kept) now live in `chapters/tools.snbt`: **Gyrodyne** (basic muscle flight, dep the travel line B502) → **Engine** →
-  **Biplane** / **Airship** — all buildable and coal/blaze-fuelled without IE or petroleum. A separate **optional**
-  quest **"Aviation Fuel" (B920)**, dep [Biplane B918 + IE **Diesel** B914], teaches the fuel *upgrade* — refine crude
-  oil into diesel/kerosene (task: a kerosene bucket) for longer flights — without ever blocking flight itself. Global
-  dep-resolution checked: no dangling references; braces/brackets balanced. Not gametested (FTB isn't in the skyseed
-  dev env) — **in-game load check** both chapters render.
+Shipped end-to-end (detail in `CHANGELOG_1.21.1.md` + git):
+
+- **#34 IE metals ore island** — six inert-safe `immersiveengineering_*` overrides: rocky family aluminum/lead/nickel,
+  ancient family deep aluminum/silver/uranium; veins merged into every base Y-band; gametest-guarded.
+- **Crude oil (IP)** — an uncommon `deep_core` pocket of `immersivepetroleum:crudeoil_fluid_block` in the deep band of
+  the six IE overrides (rocky `max_y:8`, ancient `max_y:20`, chance 0.15), pumped with the IE Fluid Pump; inert-safe.
+- **#35 Excavator** — config **pinned** (`overrides/defaultconfigs/immersiveengineering-server.toml`, `chance` 0.9→0.7);
+  the island-aware mixin is demoted to a nice-to-have we don't need (veins are per-chunk data, work over the void).
+- **FD×IE compat** — FD 1.3.2's IE integration recipes verified byte-identical to IE's native ones; the 5 genuinely
+  broken *bridge* recipes (Engineers Delight fermenter/bottling; `create_completeimmersiveaircraft` rotary_cannon/telescope) fixed via KubeJS overrides.
+- **Flight fuel chain** — wired purely through tags: vanilla fuel / blaze powder → IE biodiesel → IP diesel/kerosene, all `iaie:fuel`.
+- **Quark Engineering** — `QuarkEngineering-1.21.1-5.10.29.jar` added to `overrides/mods/` + `mods.txt` (IE sawmill/smelting recipes for Quark woods + IE raw-ore blocks).
+- **#45 IE quest chapter** — `chapters/immersiveengineering.snbt` (A009, 15 quests B9xx): Aluminium → Hammer/Manual →
+  Windmill/LV → Coke Oven→Blast Furnace→Steel→Crusher/Excavator → Fluid Pump→Crude Oil→Distillation→Diesel Gen. The
+  flight line (B916–B919) moved to Tools & Travel (buildable/coal-fuelled without IE); an optional "Aviation Fuel"
+  (B920) teaches the diesel upgrade without ever blocking flight.
+
+**Left — in-game verifies only** (can't run headless):
+
+- [ ] Excavator yields veins over the void under a grown island; fine-tune `chance`.
+- [ ] The crude-oil source survives grow-in (doesn't flow away) + is IE-Fluid-Pump-extractable; tune `chance`. If a placed `LiquidBlock` won't register as a pump source, fall back to a KubeJS crude-oil recipe.
+- [ ] All five IE metals appear at low/mid/high throws.
+- [ ] A diesel-fuelled aircraft actually consumes it; both the IE + flight quest chapters load.
+- [~] **(#39)** the FE-flow in-game sign-off (shared with [AE2PLAN.md](AE2PLAN.md) #39).
 
 ## Caveats
 
