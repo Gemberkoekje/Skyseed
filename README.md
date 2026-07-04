@@ -251,7 +251,7 @@ CI (`.github/workflows/build.yml`) builds + gametests every node by running `chi
 Pushing a **`v*` tag** (e.g. `v0.206.0`) builds + gametests every node and then publishes the jars:
 
 - **GitHub Release** — always, via the runner's `gh` CLI (all nodes' jars attached).
-- **CurseForge** — optional, one Release file **per Minecraft version** (`skyseed-1.21.1_*.jar` under game version 1.21.1, `skyseed-26.1.2_*.jar` under 26.1.2), each with that node's latest [changelog](CHANGELOG_1.21.1.md) section as the file changelog. Uses [`Kir-Antipov/mc-publish`](https://github.com/Kir-Antipov/mc-publish) against the [CurseForge Upload API](https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-upload-api).
+- **CurseForge** — optional, one Release file **per Minecraft version** (`skyseed-1.21.1_*.jar` under game version 1.21.1, `skyseed-26.1.2_*.jar` under 26.1.2), each with that node's `## [<version>]` [changelog](CHANGELOG_1.21.1.md) section as the file changelog. A node whose changelog has **no entry for the tagged version** (i.e. it didn't change this release — the two changelogs diverge) is skipped, so single-node releases don't republish an unchanged jar. Uses [`Kir-Antipov/mc-publish`](https://github.com/Kir-Antipov/mc-publish) against the [CurseForge Upload API](https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-upload-api).
 
 The CurseForge step is **off until you arm it** with two repository settings (Settings → Secrets and variables → Actions):
 

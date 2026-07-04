@@ -108,7 +108,9 @@ jobs:
           fi
 
   # On a version tag, publish each node's jar to CurseForge as a Release file — ONE upload per Minecraft
-  # version, because the two jars target different MC versions and ship different changelogs. Uses
+  # version (a node whose changelog has no entry for the tagged version didn't change this release and is
+  # skipped, so single-node releases don't republish an unchanged jar). The two jars target different MC
+  # versions and ship different changelogs. Uses
   # Kir-Antipov/mc-publish, which resolves CurseForge's numeric game-version IDs from its API for us and
   # (given only CurseForge credentials) publishes to CurseForge alone — it never touches the GitHub
   # Release cut above, since github-token is left unset.
@@ -151,15 +153,31 @@ jobs:
           name: skyseed-jars-${{ needs.build.outputs.version }}
           path: dist
 
-      # CurseForge's changelog field wants THIS release's notes, not the whole file. Slice out the top
-      # "## [x.y.z]" section (its heading through the line before the next "## [") from this node's changelog.
+      # CurseForge's changelog field wants THIS release's notes. Slice out the section headed
+      # "## [<version>]" for the tagged version specifically — NOT just the top section. The two nodes'
+      # changelogs diverge: a version that changed only one node has no entry in the other's changelog
+      # (each file's preamble says so), so "top section" could be an OLDER version and would mislabel the
+      # upload. If this node has no section for the version it didn't change this release, so skip its
+      # upload (skip=true) instead of attaching some other version's notes.
       - name: Extract this release's changelog section
+        id: notes
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
         run: |
-          awk '/^## \[/{c++} c==1{print} c==2{exit}' "${{ matrix.changelog }}" > cf-changelog.md
+          awk -v v="$VERSION" '
+            index($0, "## [" v "]") == 1 { f = 1; print; next }   # our version heading: start capturing
+            /^## \[/ { if (f) exit }                               # next version heading: stop
+            f                                                      # body line inside our section: print
+          ' "${{ matrix.changelog }}" > cf-changelog.md
+          if [ ! -s cf-changelog.md ]; then
+            echo "No [$VERSION] section in ${{ matrix.changelog }} — MC ${{ matrix.mc }} unchanged this release; skipping its CurseForge upload."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
           echo "---- CurseForge changelog (MC ${{ matrix.mc }}) ----"
           cat cf-changelog.md
 
       - name: Upload to CurseForge
+        if: steps.notes.outputs.skip != 'true'
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
