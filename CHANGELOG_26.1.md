@@ -9,6 +9,22 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.207.0] - 2026-07-04
+
+### Added
+- **Iron's Spells exploration pillar — the mod side (→ [IRONSCONTENTGAPPLAN.md](Modpack-growyourownworld/IRONSCONTENTGAPPLAN.md)).**
+  The "Explore" seed tiers + `explore` theme, five home-curated structure rebuilds (Frozen Warren, War Barrow, Citadel,
+  Impaled Boat, and the new grand **Catacombs** — a descending deepslate crypt that restores the **Dead King** boss via
+  a baked dormant `dead_king_corpse` + `catacombs_zombie` spawners), **mithril ore** on the Rocky/Ancient families
+  (`deep_core`), the missing casters/bosses homed onto structure mob-packs, and the Iron's arcane-essence/upgrade-orb
+  loot modifiers all ship to this node (shared code + the 1.21.1-authored structure `.nbt` loaded here via DFU). All
+  inert-safe — the crypt's baked modded entities simply skip without the mod. Gametests green (177). (The modpack-side
+  content — jars, quests, configs — is 1.21.1-only; see [CHANGELOG_1.21.1.md](CHANGELOG_1.21.1.md).)
+
+### Changed
+- **Badlands `wooded` variant now reads badlands-first** — a coarse-dirt cap with sparse dark oaks instead of a grass
+  forest, and rarer, across all three badlands tiers.
+
 ## [0.206.0] - 2026-07-04
 
 ### Added

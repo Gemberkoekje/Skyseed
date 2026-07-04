@@ -3,5 +3,6 @@
 		{ icon: { id: "skyseed:forest_skyseed" }, id: "5C0000000000E001" }
 		{ icon: { id: "create:cogwheel" }, id: "5C0000000000E002" }
 		{ icon: { id: "minecraft:wheat" }, id: "5C0000000000E003" }
+		{ icon: { id: "irons_spellbooks:evoker_spell_book" }, id: "5C0000000000E004" }
 	]
 }

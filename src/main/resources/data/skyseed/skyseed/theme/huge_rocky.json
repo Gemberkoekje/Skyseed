@@ -29,7 +29,8 @@
     { "block": "minecraft:gold_ore", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "deep_core" },
     { "block": "minecraft:lapis_ore", "chance": 0.35, "count": { "min": 1, "max": 3 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" },
     { "block": "minecraft:redstone_ore", "chance": 0.2, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 4 }, "depth": "deep_core" },
-    { "block": "minecraft:emerald_ore", "chance": 0.40, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 1, "max": 1 }, "depth": "core" }
+    { "block": "minecraft:emerald_ore", "chance": 0.40, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 1, "max": 1 }, "depth": "core" },
+    { "_comment": "Iron's Spells mithril (inert if the mod is absent) — the mod's overworld ore, homed deep on stone islands. Gates the mid-tier spellbooks/armor.", "block": "irons_spellbooks:mithril_ore", "chance": 0.45, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 2, "max": 3 }, "depth": "deep_core" }
   ],
   "_comment_variants": "Stone-type look: normal stone stays the common case; the rest re-skin the whole body to a vanilla stone alternative. Deepslate/snowy bands set their own variants so a stone-type roll can't override them.",
   "variants": [
@@ -379,6 +380,14 @@
   },
   "_comment": "Huge Rocky (SKYHUGEPLAN Phase 4): a huge rocky island scaled from the base theme — biome adaptation (4 forms) + internal caves. radius 24-30, dome 12-20. Overworld.",
   "rare_structures": [
+    { "_comment": "Iron's Spells (experimental) — 1:1 reuse of the mod's Mountain Tower (the 'wizard's tower'). MOVED here from rocky_large, which it outgrew (it clipped the smaller island's rim). A lone archmage + a mage-hunter guard defend it (the mod's own structure carries no spawns on our jigsaw copies — see the guardian note in IRONSTRUCTUREREBUILDPLAN.md). INERT without Iron's Spells (rollRare hasTemplatePool guard). Auto-centred on the island (blank-target re-centre in Jigsaw). Playtest the fit; tune pad/depth if needed.",
+      "chance": 0.04,
+      "jigsaw": { "pool": "irons_spellbooks:mountain_tower_pool", "target": "", "depth": 2, "pad": 8, "sink": 3 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:archevoker", "adults": 1 }, { "entity": "irons_spellbooks:magehunter_vindicator", "adults": 1 } ] } ] },
+    { "_comment": "Mage's Sanctum — skyseed's home-curated rebuild of Iron's Spells' Citadel (the mod's flagship fortress was too big even for this tier — owner playtest). One bounded ~15×15 × ~25-tall keep: rampart skirt + corner turrets, an entrance hall, a double-height LIBRARY (bookshelf walls, mezzanine, chandeliers — the showpiece), a keeper's chamber (throne + ominous-reward chest), a deepslate spire, and a buried Vault (trial Vault + mansion chest), all linked by a ladder core. sink 4 seats the hall floor at the surface + buries the vault. The citadel_keeper (boss) presides; a hostile priest, two animated cursed armour stands, and a lurking mimic (Artifacts) guard the halls and vault — all from the mobs pack (inert-safe; unknown ids skip). Not a mod pool — always present. See IRONSTRUCTUREREBUILDPLAN.md §Citadel.",
+      "chance": 0.04,
+      "jigsaw": { "pool": "skyseed:citadel/keep", "target": "minecraft:bottom", "depth": 1, "pad": 15, "sink": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:citadel_keeper", "adults": 1 }, { "entity": "irons_spellbooks:priest", "adults": 1 }, { "entity": "irons_spellbooks:cursed_armor_stand", "adults": 2 }, { "entity": "artifacts:mimic", "adults": 1 } ] } ] },
     {
       "_comment": "2.5% — a Sprawling Dungeon complex (dungeon_complex/) sunk into the mountain: cobble/mossy rooms + corridors, spawners, loot, a treasure vault. (SKYDUNGEONPLAN Part A.)",
       "chance": 0.025,

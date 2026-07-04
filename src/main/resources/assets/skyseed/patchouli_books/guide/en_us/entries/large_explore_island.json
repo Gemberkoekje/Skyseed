@@ -1,0 +1,24 @@
+{
+  "name": "Large Explore Skyseed",
+  "category": "skyseed:overworld",
+  "advancement": "skyseed:reveal_explore_large",
+  "icon": "minecraft:compass",
+  "sortnum": 51,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The $(item)Large Explore Skyseed$() — four $(item)large$() biome seeds ringed around a spare structure seed. It grows a $(bold)large$() island of whatever biome it lands over and forces a rare building onto it — with room for structures the small Explore isle can't host."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "skyseed:explore_large_skyseed",
+      "text": "Ring four large biome seeds around any structure seed — it is spent to make one.",
+      "advancement": "skyseed:gathered_explore_large"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Why large?$()$(br)Many buildings — especially the modded magic ones — are too big for a small isle. This seed grows the large tier so they have space. Throw it and see what rises.",
+      "advancement": "skyseed:craft_explore_large"
+    }
+  ]
+}

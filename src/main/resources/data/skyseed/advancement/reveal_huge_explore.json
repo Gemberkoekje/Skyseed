@@ -1,0 +1,26 @@
+{
+  "criteria": {
+    "prereq": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": { "recipe_id": "skyseed:explore_large_skyseed" }
+    },
+    "has_0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": "skyseed:huge_forest_skyseed" },
+          { "items": "skyseed:huge_aquatic_skyseed" },
+          { "items": "skyseed:huge_desert_skyseed" },
+          { "items": "skyseed:huge_meadow_skyseed" },
+          { "items": "#skyseed:structure_seeds" }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "prereq",
+      "has_0"
+    ]
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Explore Skyseed",
+  "category": "skyseed:overworld",
+  "advancement": "skyseed:reveal_explore",
+  "icon": "minecraft:compass",
+  "sortnum": 50,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The $(item)Explore Skyseed$() — the four lands (Forest, Aquatic, Desert, Meadow) ringed around a spare $(item)structure seed$(). One adaptive seed for the wanderer who would rather be surprised."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "skyseed:explore_skyseed",
+      "text": "Ring the four biome seeds around any structure seed you can spare — it is spent to make one Explore Skyseed.",
+      "advancement": "skyseed:gathered_explore"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Throw it anywhere$()$(br)It reads the biome it lands over and grows that land's island — a desert over desert, a snowfield over snow — but $(bold)always$() with a rare building raised on it, and its loot waiting inside. Different lands, different finds.",
+      "advancement": "skyseed:craft_explore"
+    }
+  ]
+}

@@ -66,6 +66,9 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 | [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) | Quark integration (child of CONTENTPLAN) | #43 quest sketch (+ partner add-ons: Farmer's Cutting: Quark still to verify) |
 | [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md) | Quark × island integration (child of QUARKPLAN) | #71 (Y-band fix shipped v0.192.0 — in-game re-verify + large-End myalite follow-up) |
 | [FARMERSDELIGHTPLAN.md](Modpack-growyourownworld/FARMERSDELIGHTPLAN.md) | Farmer's Delight integration (child of CONTENTPLAN) | **all built** (#16 crops — dry + rice ponds + chorus + nether cane, 20 overrides + gametests; #42 quest A008). **Left: in-game only** — throw-test crops, nether-cane feature grows, quest-book load |
+| [IRONSPELLSPLAN.md](Modpack-growyourownworld/IRONSPELLSPLAN.md) | Iron's Spells + Artifacts + Relics — the magic/exploration pillar (child of CONTENTPLAN; **#36/#37**) | **Largely built in-branch (unmerged; both nodes green):** the adaptive **Explore seed** (3 tiers) + loot layer (mod auto-inject + inert-safe `add_drop` GLMs) + biome-theme rares on every tier + magic-mob guardians + all Iron's own structures re-homed 1:1 (empty-target + `hasTemplatePool` inert-guard + **auto-centre**) + custom **Impaled Boat** + debug-seed coverage. **Left:** the 3 oversized-structure rebuilds (IRONSTRUCTUREREBUILDPLAN) + in-game fit tests + #46 quest |
+| [IRONSTRUCTUREREBUILDPLAN.md](Modpack-growyourownworld/IRONSTRUCTUREREBUILDPLAN.md) | Island-friendly rebuilds of the oversized Iron's structures (child of IRONSPELLSPLAN; from the 2026-07-04 throw-test) | ✅ done: icebreaker→huge + custom boat; wizard→huge_rocky; mangrove→lush_large; guardians on 5 keepers; **auto-centre** for reused mod structures. 🔨 rebuilds (trial-chamber pattern, no-boxes + centred): **Ice Spider Den** (Frozen Warren), **Battleground** (War Barrow), **Citadel** (Mage's Sanctum — flagship) |
+| [PORTALTWINPLAN.md](Modpack-growyourownworld/PORTALTWINPLAN.md) | Ruined-Portal twin alignment (**separate PR**; child of IRONSPELLSPLAN's germination path) | **option C** — derive the twin from the real portal block via vanilla linking + matched rotation, post-assembly; fallback B = center the frame + fix rotation. Cross-dim link is in-game-verify-only |
 | [SKYNETHERENDBIOMEPLAN.md](SKYNETHERENDBIOMEPLAN.md) | Per-biome Nether/End seed adaptation | **entirely unbuilt — plan-first.** Gated on the §3 design-fork + §8 decisions sign-off; then ~36 data-only theme edits (5 Nether "biome kits" + a light End pass, base + `_large`) |
 | [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | structures long tail | #26 #27 #28 #29 #30 #49 #60 #68 |
 | [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | future chapters **#43 #44 #46**, scope decision **#47** (#41/#42/#45 shipped) · rolling #19 |
@@ -103,8 +106,10 @@ renders + deps resolve, 2026-07-04).
 
 The FD / IE / AE2 / Quark wave is **built end-to-end** (v0.196–v0.206, both nodes green), each with its island
 integration **and** quest chapter. Its only remaining work is the **in-game verifies in Tier 1**. The next *unbuilt*
-integrations — the flavor/renewable mods (**#31** Critters, **#32** Productive Bees, **#36/#37** Iron's Spells) — are
-lower-ROI and live in **Tier 4**. The per-biome **Nether/End seed adaptation** (SKYNETHERENDBIOMEPLAN) is the other
+integrations — the flavor mods (**#31** Critters, **#32** Productive Bees) — are lower-ROI and live in **Tier 4**.
+**Iron's Spells (#36/#37)** is further along: **largely built in-branch** (unmerged) — only the 3 structure rebuilds +
+in-game fit tests + #46 quest are left (IRONSPELLSPLAN / IRONSTRUCTUREREBUILDPLAN). The per-biome **Nether/End seed
+adaptation** (SKYNETHERENDBIOMEPLAN) is the other
 sizeable unbuilt content block — plan-first, awaiting its design-fork sign-off (Tier 3).
 
 ### Tier 3 — structures, trial-chamber polish & the Nether/End biome pass
@@ -125,8 +130,10 @@ sizeable unbuilt content block — plan-first, awaiting its design-fork sign-off
 
 ### Tier 4 — long tail / optional / future
 
-- Flavor mods: **#31** Critters & Companions (small), **#32** Productive Bees (medium), **#36** Iron's Spells (large;
-  decide scope **#37** first). *(CONTENTPLAN)*
+- Flavor mods: **#31** Critters & Companions (small), **#32** Productive Bees (medium). **#36** Iron's Spells is
+  **largely built in-branch** (Explore seed + loot + re-homed structures + guardians + auto-centre; scope **#37** ✅
+  decided) — left: the 3 oversized-structure rebuilds (IRONSTRUCTUREREBUILDPLAN) + in-game fit tests + #46 quest.
+  *(CONTENTPLAN / IRONSPELLSPLAN)*
 - Optional visuals: **#21** Distant Horizons (unblocked), **#53** Vanilla Tweaks revival, **#54** standalone resource
   pack. *(BEAUTIFYPLAN)*
 - Standing rules (work only when triggered): **#55** shaderPack pin refresh on Complementary/Euphoria updates;
@@ -166,8 +173,8 @@ sizeable unbuilt content block — plan-first, awaiting its design-fork sign-off
 | 30 | Per-structure-step release hygiene (standing rule) | STRUCTUREPLAN | low | small | standing rule |
 | 31 | Critters and Companions — spawn verification on biome islands | CONTENTPLAN | low | small | open |
 | 32 | Productive Bees — starter bees/hives | CONTENTPLAN | low | medium | open |
-| 36 | Iron's Spells — loot/mob injection | CONTENTPLAN | low | large | open (decide 37 first) |
-| 37 | Decide Iron's Spells scope (full discovery loop vs crafted-only) | CONTENTPLAN | low | small | decision |
+| 36 | Iron's Spells + Artifacts + Relics — the magic/exploration pillar. **Largely BUILT in-branch (unmerged; both nodes green):** Explore seed (3 tiers, full onboarding) + loot layer (mod auto-inject + inert-safe `add_drop` GLMs) + biome-theme rares every tier + magic-mob guardians + all Iron's own structures re-homed 1:1 (empty-target + `hasTemplatePool` guard + auto-centre) + custom **Impaled Boat** + debug-seed coverage. **Left:** the 3 oversized-structure rebuilds (Citadel/Battleground/Ice Spider Den — IRONSTRUCTUREREBUILDPLAN) + in-game fit throw-tests + #46 quest | CONTENTPLAN / IRONSPELLSPLAN | low | large | built in-branch; rebuilds + in-game left |
+| 37 | Iron's Spells scope — **DECIDED: the full exploration loop** (throw seed → grow island → rare building → special loot; mod worldgen inert, re-homed via themes + loot GLMs) | CONTENTPLAN / IRONSPELLSPLAN | low | small | ✅ decided |
 | 38 | Per-future-mod call: bespoke ore island vs MA seeds | CONTENTPLAN | low | small | standing rule |
 | 39 | Prove FE flows Create → IE/AE2 across islands — **proven on paper** (C&A `alternator` → Flux `plug`/`point` → IE native / AE2 `energy_acceptor`, all standard NeoForge FE; see AE2PLAN #39). Left: one-time in-game sign-off | CONTENTPLAN / AE2PLAN | low | small | proven; in-game sign-off pending |
 | 41 | AE2 quest chapter — **SHIPPED + in-game-verified 2026-07-04** (16 quests `B404`–`B419` in the **Storage** chapter; renders + deps resolve; user repositioned nodes so lines don't cross — do not revert) | QUESTPLAN / AE2PLAN | low | small | ✅ shipped + verified |
@@ -175,7 +182,7 @@ sizeable unbuilt content block — plan-first, awaiting its design-fork sign-off
 | 43 | Future chapter: Quark (quest — minimal 3-quest sketch in QUARKPLAN) | QUESTPLAN | low | unknown | unblocked (#15 ✅) — build last |
 | 44 | Future chapter: Productive Bees (quest) | QUESTPLAN | low | unknown | gated on 32 |
 | 45 | Immersive Engineering quest chapter — **SHIPPED** (`chapters/immersiveengineering.snbt`, A009, 15 quests B9xx + the flight line moved to Tools). In-game quest-book load pending | QUESTPLAN / IEPLAN | medium | small | shipped (in-game load pending) |
-| 46 | Future chapter: Iron's Spells (quest) | QUESTPLAN | low | unknown | gated on 36 |
+| 46 | Iron's Spells quest chapter — **Magic & Exploration** — ✅ **SHIPPED** (`chapters/ironsspells.snbt`, A00A, 11 quests BB01–BB0B, new E004 sidebar group; Explore-seed tiers → scroll/essence loot → spellbook/scroll-forge/arcane-anvil → Upgrade Orb; Relic + Artifact checkmark side-finds; gated off the Skyseed structure-seed quest B108). In-game book-load pending | QUESTPLAN / IRONSPELLSPLAN | low | small | shipped (in-game load pending) |
 | 47 | Clarify "BYG content" chapter scope (BWG branch already shipped) | QUESTPLAN | low | small | decision |
 | 49 | Prairie houses / rugged fossil (optional polish) | STRUCTUREPLAN | low | small | open |
 | 50 | Optional dedicated Prosperity island | MYSTICALPLAN | low | medium | open |

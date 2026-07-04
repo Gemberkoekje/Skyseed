@@ -37,6 +37,14 @@ public final class ThemeScanner {
     public record DebugSeedSpec(String id, String baseTheme, String label, Id forcedBiome,
                                 int forcedRare, boolean forcedWaterfall) {}
 
+    /** Ordering rank within a theme's tab group: biome overrides (0) → structure/rare overrides (1) → ladder waterfall (2). */
+    private static int kind(DebugSeedSpec s) {
+        if (s.forcedBiome() != null) {
+            return 0;
+        }
+        return s.forcedRare() >= 0 ? 1 : 2;
+    }
+
     public static List<DebugSeedSpec> scan() {
         final List<DebugSeedSpec> out = new ArrayList<>();
         final Set<String> ids = new HashSet<>();
@@ -54,6 +62,11 @@ public final class ThemeScanner {
         } catch (Exception e) {
             Skyseed.LOGGER.warn("[skyseed] debug-seed scan skipped: {}", e.toString());
         }
+        // Order the debug creative tab: group every debug seed by its theme (theme name ascending), and within a theme
+        // put the biome-override seeds before the structure (rare) seeds before the ladder waterfall. A STABLE sort keeps
+        // each group in its scanned (JSON array) order, and pulls theme_override-added seeds back next to their theme's
+        // base seeds instead of trailing at the end — so a specific one (e.g. huge_badlands's War Barrow) is easy to find.
+        out.sort(java.util.Comparator.comparing(DebugSeedSpec::baseTheme).thenComparingInt(ThemeScanner::kind));
         Skyseed.LOGGER.info("[skyseed] auto debug seeds: {}", out.size());
         return out;
     }

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " F ",
+    "AXD",
+    " M "
+  ],
+  "key": {
+    "F": "skyseed:forest_skyseed",
+    "A": "skyseed:aquatic_skyseed",
+    "D": "skyseed:desert_skyseed",
+    "M": "skyseed:meadow_skyseed",
+    "X": "#skyseed:structure_seeds"
+  },
+  "result": {
+    "id": "skyseed:explore_skyseed"
+  }
+}

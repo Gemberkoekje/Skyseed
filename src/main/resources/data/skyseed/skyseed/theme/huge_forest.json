@@ -1136,6 +1136,10 @@
     }
   },
   "rare_structures": [
+    { "_comment": "Iron's Spells (experimental, HUGE-gated) — 1:1 reuse of the mod's Evoker Fort (surface fort + towers). Owner playtest: fits, just wanted it centred a touch better — now auto-centred on the island (blank-target re-centre in Jigsaw). An archevoker + mage-hunter guards hold it (mod structure carries no spawns on our jigsaw copies). INERT without Iron's Spells (rollRare hasTemplatePool guard).",
+      "chance": 0.04,
+      "jigsaw": { "pool": "irons_spellbooks:evoker_fort/start_pool", "target": "", "depth": 5, "pad": 9 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:archevoker", "adults": 1 }, { "entity": "irons_spellbooks:magehunter_vindicator", "adults": 2 } ] } ] },
     {
       "_comment": "5% — a Woodland Mansion stands on the huge forest; its illagers replace the wildlife.",
       "chance": 0.05,

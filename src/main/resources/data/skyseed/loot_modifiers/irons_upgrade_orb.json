@@ -1,0 +1,17 @@
+{
+  "_comment": "IRONSPELLSPLAN — the rare end of the 'stronger = rarer' dial. The Upgrade Orb is Iron's Spells' scarce gear-upgrade item, so it drops only in the deadliest / most-gated explore structures, and rarely. A lucky low roll can still turn one up — that's intended. Inert without Iron's Spells (Lookup.hasItem gate in AddDropModifier).",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    {
+      "condition": "minecraft:any_of",
+      "terms": [
+        { "condition": "neoforge:loot_table_id", "loot_table_id": "minecraft:chests/trial_chambers/reward" },
+        { "condition": "neoforge:loot_table_id", "loot_table_id": "minecraft:chests/ancient_city" },
+        { "condition": "neoforge:loot_table_id", "loot_table_id": "minecraft:chests/woodland_mansion" },
+        { "condition": "neoforge:loot_table_id", "loot_table_id": "minecraft:chests/bastion_treasure" }
+      ]
+    }
+  ],
+  "item": "irons_spellbooks:upgrade_orb",
+  "chance": 0.04
+}

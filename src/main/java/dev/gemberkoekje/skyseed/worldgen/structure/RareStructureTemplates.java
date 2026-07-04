@@ -23,7 +23,8 @@ import java.util.Map;
  * Code-authored templates for the {@code rare_structures} surprises that occasionally germinate in place of an
  * ordinary island: the snowy {@link #igloo()} (a rounded snow dome with a zombie villager to cure and an
  * igloo-loot chest), the {@link #abandonedCottage()} (a cobwebbed ruin of a Hamlet home, haunted by a zombie
- * villager), and the {@link #oceanRuin()} (a flooded stone-brick basin with suspicious sand and a sunken chest).
+ * villager), the {@link #oceanRuin()} (a flooded stone-brick basin with suspicious sand and a sunken chest), and the
+ * {@link #impaledBoat()} (a wrecked longboat beset in sea ice and impaled on a blue-ice spike, on cold water isles).
  * The mobs themselves come from each rare structure's {@code mobs} pack (spawned at the island centre); these
  * templates are the architecture. Written to {@code .nbt} at dev time — see {@link DevStructureGenerator}.
  */
@@ -36,6 +37,119 @@ public final class RareStructureTemplates {
         writeIfAbsent(base.resolve("ocean_ruin/ruin.nbt"), oceanRuin());
         writeIfAbsent(base.resolve("evoker_cell/cell.nbt"), evokerCell());
         writeIfAbsent(base.resolve("vault_cell/cell.nbt"), vaultCell());
+        writeIfAbsent(base.resolve("impaled_boat/wreck.nbt"), impaledBoat());
+    }
+
+    /**
+     * The <b>Impaled Boat</b> — our small, hand-built answer to Iron's Spells' oversized Impaled Icebreaker (which
+     * clips smaller islands and now lives only on huge_aquatic). A wrecked spruce longboat sits <em>beset in a floe of
+     * sea ice</em> (a radius-5 disc of packed/blue ice with a few open water leads), a blue-ice spike punched up
+     * <em>through</em> its shattered hull (the "impaled" motif), a snapped mast with a tattered sail, a soul-lantern on
+     * the sternpost, and an underwater-ruin chest in the hold. Self-contained — it brings its own ice + water, so it
+     * reads as a frozen wreck on a cold Aquatic isle or a Frozen one alike, regardless of the theme's own pond. Built on
+     * an 11×11 footprint (anchor at the centre); all vanilla blocks, so it ships in the base mod. Iron's exploration
+     * loot reaches the chest through the {@code underwater_ruin_big} global loot modifier. See {@code IRONSPELLSPLAN.md}.
+     */
+    private static Built impaledBoat() {
+        final Map<BlockPos, BlockState> m = new HashMap<>();
+        final Map<BlockPos, CompoundTag> bes = new HashMap<>();
+        final BlockState plank = Blocks.SPRUCE_PLANKS.defaultBlockState();
+        final BlockState log = Blocks.STRIPPED_SPRUCE_LOG.defaultBlockState();
+        final BlockState blueIce = Blocks.BLUE_ICE.defaultBlockState();
+        final BlockState packedIce = Blocks.PACKED_ICE.defaultBlockState();
+        final int mid = 5; // 11×11 disc; anchor at the centre
+
+        // The sea-ice floe (y=0): an irregular radius-5 disc of packed/blue ice, snow and clear ice — the frozen sea
+        // the boat is beset in. A handful of interior cells are open water "leads" (cracks in the ice); all leads sit
+        // well inside the rim so the water is walled by ice and never spills into the void.
+        for (int x = 0; x <= 10; x++) {
+            for (int z = 0; z <= 10; z++) {
+                if (sq(x - mid) + sq(z - mid) <= 25) {
+                    m.put(new BlockPos(x, 0, z), seaIce(x, z));
+                }
+            }
+        }
+        for (final BlockPos lead : new BlockPos[]{
+                new BlockPos(5, 0, 2), new BlockPos(4, 0, 2), new BlockPos(6, 0, 8),
+                new BlockPos(5, 0, 8), new BlockPos(3, 0, 3), new BlockPos(7, 0, 7)}) {
+            m.put(lead, Blocks.WATER.defaultBlockState());
+        }
+        // A couple of ridged ice hummocks shoved up against the hull, for silhouette.
+        for (final BlockPos berg : new BlockPos[]{new BlockPos(2, 1, 3), new BlockPos(8, 1, 7)}) {
+            m.put(berg, packedIce);
+        }
+
+        // The wrecked longboat: keel along X (bow at x=2, square stern at x=8), beam z=4..6. The keel (y=1) sits on the
+        // floe — a ship stuck ON the ice, not floating. Two planks are stove in (holes onto the ice below).
+        for (int x = 2; x <= 8; x++) {
+            for (int z = 4; z <= 6; z++) {
+                if (x == 2 && z != 5) {
+                    continue; // bow tapers to a point
+                }
+                m.put(new BlockPos(x, 1, z), plank);
+            }
+        }
+        m.remove(new BlockPos(7, 1, 4));  // a stove-in hull plank
+        m.remove(new BlockPos(3, 1, 6));
+
+        // Gunwales (y=2): spruce stairs raked inward (tumblehome) down each side; a square plank transom at the stern.
+        for (int x = 3; x <= 7; x++) {
+            m.put(new BlockPos(x, 2, 4), rakedStair(Direction.SOUTH)); // port rail, faces inward
+            m.put(new BlockPos(x, 2, 6), rakedStair(Direction.NORTH)); // starboard rail
+        }
+        for (int z = 4; z <= 6; z++) {
+            m.put(new BlockPos(8, 2, z), plank);                       // stern transom
+        }
+        m.remove(new BlockPos(5, 2, 4)); // a broken length of rail
+        // Prow: a raised stripped-log stem, with a stair stepping up to it.
+        m.put(new BlockPos(2, 1, 5), log);
+        m.put(new BlockPos(2, 2, 5), log);
+        m.put(new BlockPos(2, 3, 5), log);
+        m.put(new BlockPos(3, 2, 5), rakedStair(Direction.WEST));
+        // Sternposts + a soul-lantern (cold blue glow) sitting on the port sternpost.
+        m.put(new BlockPos(8, 3, 4), log);
+        m.put(new BlockPos(8, 3, 6), log);
+        m.put(new BlockPos(8, 4, 4), Blocks.SOUL_LANTERN.defaultBlockState());
+
+        // The blue-ice spike, punched up THROUGH the hull just aft of centre (x=6, z=5): it stoves the keel and rail,
+        // splays ice across the deck, and tapers to a packed-ice tip. This is the "impaled" motif.
+        m.put(new BlockPos(6, 1, 5), blueIce);   // through the keel
+        m.put(new BlockPos(6, 2, 5), blueIce);   // deck level — the hole
+        m.put(new BlockPos(6, 2, 4), packedIce);  // ice splayed where it broke through
+        m.put(new BlockPos(6, 2, 6), packedIce);
+        m.put(new BlockPos(6, 3, 5), blueIce);
+        m.put(new BlockPos(6, 4, 5), blueIce);
+        m.put(new BlockPos(6, 5, 5), packedIce);
+        m.put(new BlockPos(6, 6, 5), packedIce);  // tip
+
+        // A snapped mast stub forward of the spike, with a tattered sail and a cobweb.
+        m.put(new BlockPos(4, 2, 5), log);
+        m.put(new BlockPos(4, 3, 5), log);
+        m.put(new BlockPos(4, 3, 4), Blocks.WHITE_WOOL.defaultBlockState()); // sail scrap
+        m.put(new BlockPos(4, 4, 5), Blocks.COBWEB.defaultBlockState());
+
+        // The hold: a decorative supply barrel and the ruin chest (Iron's loot reaches it via the GLM).
+        m.put(new BlockPos(7, 2, 5), Blocks.BARREL.defaultBlockState());
+        m.put(new BlockPos(5, 2, 5), Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.WEST));
+        bes.put(new BlockPos(5, 2, 5), StructureParts.lootChest("minecraft:chests/underwater_ruin_big"));
+
+        StructureParts.anchor(m, bes, new BlockPos(mid, 0, mid), "minecraft:packed_ice");
+        return new Built(m, bes);
+    }
+
+    /** A spruce hull-rail stair raked inward (bottom half, straight) toward {@code facing}. */
+    private static BlockState rakedStair(Direction facing) {
+        return Blocks.SPRUCE_STAIRS.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, facing);
+    }
+
+    /** A deterministic frozen-sea ice mix for the floe: mostly packed ice, some blue ice, a little clear ice / snow. */
+    private static BlockState seaIce(int a, int b) {
+        return switch (Math.floorMod(a * 7 + b * 13, 8)) {
+            case 4, 5 -> Blocks.BLUE_ICE.defaultBlockState();
+            case 6 -> Blocks.ICE.defaultBlockState();
+            case 7 -> Blocks.SNOW_BLOCK.defaultBlockState();
+            default -> Blocks.PACKED_ICE.defaultBlockState();
+        };
     }
 
     /**

@@ -15,8 +15,10 @@ import dev.gemberkoekje.skyseed.worldgen.IslandGrowth;
 import dev.gemberkoekje.skyseed.worldgen.IslandPlacement;
 import dev.gemberkoekje.skyseed.worldgen.IslandPlan;
 import dev.gemberkoekje.skyseed.worldgen.TwinPlacer;
+import dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes;
 import dev.gemberkoekje.skyseed.worldgen.theme.FizzleRule;
 import dev.gemberkoekje.skyseed.worldgen.theme.IslandTheme;
+import dev.gemberkoekje.skyseed.worldgen.theme.RareStructure;
 import dev.gemberkoekje.skyseed.worldgen.theme.Themes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -55,6 +57,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -171,6 +174,41 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
         return new DebugForce(getForcedRare(), getForcedWaterfall());
     }
 
+    /**
+     * Choose which rare structure the Explore seed forces on {@code theme} at {@code biome}: a weighted-random pick
+     * (by {@code chance}, so repeat throws in the same biome vary) among the theme's {@code rare_structures} that can
+     * roll here — dimension- and biome-gated, and whose jigsaw pool is actually registered (a mod structure absent
+     * from the pack is skipped, staying inert). Returns -1 when none fit, so the island still grows via the usual
+     * chance roll — usually a plain, biome-adapted island.
+     */
+    private int pickFittingRare(ServerLevel level, IslandTheme theme, Holder<Biome> biome, BlockPos base) {
+        final String dim = Lookup.dimensionId(level.dimension());
+        final boolean baseValidHere = theme.baseValidIn(dim);
+        final List<RareStructure> rares = theme.rareStructures();
+        final List<Integer> fitting = new ArrayList<>();
+        float total = 0f;
+        for (int i = 0; i < rares.size(); i++) {
+            final RareStructure rs = rares.get(i);
+            if (rs.rollsIn(dim, baseValidHere) && rs.matchesBiome(biome)
+                    && Lookup.hasTemplatePool(level.registryAccess(), rs.jigsaw().pool())) {
+                fitting.add(i);
+                total += Math.max(1.0e-4f, rs.chance());
+            }
+        }
+        if (fitting.isEmpty()) {
+            return -1;
+        }
+        final RandomSource rng = RandomSource.create(level.getSeed() ^ base.asLong() ^ 0x5EED_E5CA9EL);
+        float roll = rng.nextFloat() * total;
+        for (final int idx : fitting) {
+            roll -= Math.max(1.0e-4f, rares.get(idx).chance());
+            if (roll <= 0f) {
+                return idx;
+            }
+        }
+        return fitting.get(fitting.size() - 1);
+    }
+
     /** A debug seed's forced biome resolved to a holder, or {@code null} for the normal planting-biome behaviour. */
     private Holder<Biome> forcedBiomeHolder(ServerLevel level) {
         Id forced = getForcedBiome();
@@ -228,8 +266,9 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
     }
 
     private void germinate(ServerLevel level) {
-        IslandTheme theme = resolveTheme(level);
-        if (theme == null) {
+        final boolean adaptive = ExploreThemes.isAdaptive(getTheme());
+        IslandTheme theme = adaptive ? null : resolveTheme(level);
+        if (!adaptive && theme == null) {
             Skyseed.LOGGER.warn("[skyseed] no island themes are loaded — nothing germinated");
             fizzle(level);
             this.discard();
@@ -245,6 +284,20 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
         // grow into (so islands sit adjacent, not stacked), and only lift up/down if there's no horizontal room.
         final BlockPos base = this.blockPosition();
         final Holder<Biome> biome = biomeAt(level, base);
+
+        // The Explore Skyseed carries no fixed island: resolve the dedicated base theme the local biome's own seed
+        // would grow, then force a biome-appropriate rare structure onto it (a deliberate version of the ~5% roll).
+        DebugForce force = debugForce();
+        if (adaptive) {
+            theme = Themes.resolve(level.registryAccess(), ExploreThemes.resolveFor(getTheme(), biome));
+            if (theme == null) {
+                Skyseed.LOGGER.warn("[skyseed] Explore seed could not resolve a theme for this biome — nothing germinated");
+                fizzle(level);
+                this.discard();
+                return;
+            }
+            force = DebugForce.rare(pickFittingRare(level, theme, biome, base));
+        }
         // Dimension gate: a seed only grows where it has an implementation (its base dimensions, or a dimension-keyed
         // override). Thrown into a dimension it doesn't implement — an overworld seed in the Nether, say — it fizzles
         // rather than growing the wrong, foreign base island here. A `fizzle` biome rule also excludes specific biomes
@@ -264,7 +317,7 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
             final BlockState s = level.getBlockState(probe.set(x, y, z));
             return !s.isAir() && !s.canBeReplaced();
         };
-        final IslandPlan plan = findClearSpot(level, theme, base, players, occupied);
+        final IslandPlan plan = findClearSpot(level, theme, force, base, players, occupied);
         if (plan == null) {
             fizzle(level); // nowhere clear to grow — give the seed back rather than carve into things
             this.discard();
@@ -304,11 +357,11 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
      * Returns {@code null} if nothing is clear within those margins — the caller then fizzles the seed back to the
      * thrower instead of shoving the island high.
      */
-    private IslandPlan findClearSpot(ServerLevel level, IslandTheme theme, BlockPos base,
+    private IslandPlan findClearSpot(ServerLevel level, IslandTheme theme, DebugForce force, BlockPos base,
                                      List<Vec3> players, IslandPlacement.Occupancy occupied) {
         BlockPos cursor = base;
         for (int attempt = 0; attempt < MAX_H_ATTEMPTS; attempt++) {
-            final IslandPlan candidate = planAt(level, theme, cursor, forcedBiomeHolder(level), debugForce());
+            final IslandPlan candidate = planAt(level, theme, cursor, forcedBiomeHolder(level), force);
             final IslandPlacement.Fit fit = IslandPlacement.check(candidate, players, occupied);
             if (fit.ok()) {
                 this.setPos(cursor.getX() + 0.5, cursor.getY() + 0.5, cursor.getZ() + 0.5);
@@ -329,7 +382,7 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
         }
         for (int lift : V_FALLBACK) {
             final BlockPos c = base.above(lift);
-            final IslandPlan candidate = planAt(level, theme, c, forcedBiomeHolder(level), debugForce());
+            final IslandPlan candidate = planAt(level, theme, c, forcedBiomeHolder(level), force);
             if (IslandPlacement.check(candidate, players, occupied).ok()) {
                 this.setPos(c.getX() + 0.5, c.getY() + 0.5, c.getZ() + 0.5);
                 return candidate;

@@ -71,7 +71,7 @@
   ],
   "variants": [
     {
-      "weight": 3,
+      "weight": 5,
       "name": "mesa",
       "decoration": {
         "ground": [
@@ -104,24 +104,25 @@
       }
     },
     {
+      "_comment": "Subtle Wooded Badlands nod (~1-in-8): reads BADLANDS first — a coarse-dirt cap (not grass) with a handful of scattered dark oaks over the huge top, so it never looks like a forest island. Weight 1 vs mesa 5 / eroded 2.",
       "weight": 1,
       "name": "wooded",
-      "surface_override": "minecraft:grass_block",
+      "surface_override": "minecraft:coarse_dirt",
       "decoration": {
         "trees": [
           {
             "feature": "minecraft:dark_oak",
-            "tries": 32,
-            "spacing": 3
+            "tries": 6,
+            "spacing": 6
           }
         ],
         "ground": [
           {
-            "block": "minecraft:short_grass",
-            "chance": 0.12
+            "block": "minecraft:dead_bush",
+            "chance": 0.06
           },
           {
-            "block": "minecraft:dead_bush",
+            "block": "minecraft:short_grass",
             "chance": 0.04
           }
         ]
@@ -141,6 +142,10 @@
   },
   "_comment": "Huge Badlands (SKYHUGEPLAN Phase 4): a huge badlands island scaled from the base theme — biome adaptation (0 forms) + internal caves. radius 26-32, dome 5-12. Overworld.",
   "rare_structures": [
+    { "_comment": "War Barrow — skyseed's home-curated rebuild of Iron's Spells' Ancient Battleground (the mod's own jigsaw sprawled a surface graveyard/camp too wide for the island — owner playtest). One bounded ~19×19 surface piece: an earthen barrow mound with a hollow crypt (skeleton spawner + coffin chest), a necromancer's altar on top (soul-lantern posts, candles, skull, reward chest), a ring of gravestones, tattered A-frame tents, a broken palisade, bone piles + skull pikes. The mod's necromancer + cultists come from the mobs pack (inert-safe). Not a mod pool — always present. See IRONSTRUCTUREREBUILDPLAN.md §Battleground.",
+      "chance": 0.05,
+      "jigsaw": { "pool": "skyseed:war_barrow/barrow", "target": "minecraft:bottom", "depth": 1, "pad": 10 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:necromancer", "adults": 1 }, { "entity": "irons_spellbooks:cultist", "adults": 2 } ] } ] },
     {
       "_comment": "2.5% — a Trial Chamber buried in the mesa (trial spawners + vaults).",
       "chance": 0.025,

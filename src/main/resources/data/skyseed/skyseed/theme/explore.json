@@ -1,0 +1,23 @@
+{
+  "_comment": "The Explore Skyseed's FALLBACK theme. The explore_skyseed item resolves the local biome to a dedicated theme (ExploreThemes) and forces a fitting rare structure; this theme is what it grows only when no rule matches the biome (an unusual/modded biome, say) — a modest grassy island that still raises a ruin, so the seed never comes up empty.",
+  "dimensions": ["minecraft:overworld"],
+  "shape": { "radius": { "min": 7, "max": 10 }, "rim_noise": 0.35, "underside": "teardrop" },
+  "palette": { "surface": "minecraft:grass_block", "fill": "minecraft:dirt", "core": "minecraft:stone", "fill_depth": 3 },
+  "ores": [
+    { "block": "minecraft:coal_ore", "chance": 0.80, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
+    { "block": "minecraft:iron_ore", "chance": 0.50, "count": { "min": 1, "max": 3 }, "vein_size": { "min": 2, "max": 4 }, "depth": "core" }
+  ],
+  "rare_structures": [
+    { "chance": 1.0,
+      "jigsaw": { "pool": "skyseed:trail_ruins/ruins", "target": "minecraft:bottom", "depth": 1, "pad": 4, "sink": 3 } }
+  ],
+  "mobs": [
+    { "entity": "minecraft:sheep", "chance": 0.25, "count": { "min": 1, "max": 2 } },
+    { "entity": "minecraft:chicken", "chance": 0.25, "count": { "min": 1, "max": 2 } }
+  ],
+  "variants": [
+    { "weight": 1, "name": "oak", "decoration": {
+      "trees": [ { "feature": "minecraft:oak", "tries": 4, "spacing": 3 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "minecraft:poppy", "chance": 0.03 }, { "block": "minecraft:dandelion", "chance": 0.03 } ] } }
+  ]
+}
