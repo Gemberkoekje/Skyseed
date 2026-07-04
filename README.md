@@ -246,6 +246,22 @@ One codebase, two version nodes via **Stonecutter** (`1.21.1` and `26.1.2`). Eac
 
 CI (`.github/workflows/build.yml`) builds + gametests every node by running `chiseledBuild` + `chiseledRunGameTestServer` — a chiseled fan-out over the `settings.gradle` version list (not a GitHub Actions matrix), so adding a version needs no workflow edit. The first invocation downloads Gradle, NeoForge, and Minecraft (and the 26.1.2 node decompiles via NeoForm), so it takes a while.
 
+### Publishing
+
+Pushing a **`v*` tag** (e.g. `v0.206.0`) builds + gametests every node and then publishes the jars:
+
+- **GitHub Release** — always, via the runner's `gh` CLI (all nodes' jars attached).
+- **CurseForge** — optional, one Release file **per Minecraft version** (`skyseed-1.21.1_*.jar` under game version 1.21.1, `skyseed-26.1.2_*.jar` under 26.1.2), each with that node's `## [<version>]` [changelog](CHANGELOG_1.21.1.md) section as the file changelog. A node whose changelog has **no entry for the tagged version** (i.e. it didn't change this release — the two changelogs diverge) is skipped, so single-node releases don't republish an unchanged jar. Uses [`Kir-Antipov/mc-publish`](https://github.com/Kir-Antipov/mc-publish) against the [CurseForge Upload API](https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-upload-api).
+
+The CurseForge step is **off until you arm it** with two repository settings (Settings → Secrets and variables → Actions):
+
+| Kind | Name | Value |
+| --- | --- | --- |
+| Variable | `CURSEFORGE_PROJECT_ID` | The numeric project id from the mod's CurseForge page. Its presence is the on/off switch — unset ⇒ the CurseForge job is skipped and only the GitHub Release is cut. |
+| Secret | `CURSEFORGE_TOKEN` | An API token from [authors.curseforge.com → API Tokens](https://authors.curseforge.com/account/api-tokens). |
+
+Adding an MC version needs one line in the `curseforge` job's matrix (version → its changelog file); the build/gametest jobs stay version-agnostic.
+
 ### Tests
 
 `gametest/SkyseedGameTests.java` holds the **1.21.1** GameTest suite (NeoForge `@GameTest`) that asserts
