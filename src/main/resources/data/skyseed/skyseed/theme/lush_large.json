@@ -9,6 +9,16 @@
   },
   "ores": [],
   "rare_structures": [
+    { "_comment": "Iron's Spells (experimental) — 1:1 reuse of the mod's Mangrove Hut. MOVED here from base lush, which it outgrew (it landed off the small island's edge). A swamp necromancer + an apothecarist (the mod's potion-brewer wizard — a fitting keeper for a potion hut) hold it. INERT without Iron's Spells (rollRare hasTemplatePool guard). Playtest: if still too big for lush_large, bump to huge_lush. See IRONSTRUCTUREREBUILDPLAN.md.",
+      "chance": 0.05, "suppress_pond": true,
+      "jigsaw": { "pool": "irons_spellbooks:mangrove_hut_pool", "target": "", "depth": 3, "pad": 6, "sink": 2 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:necromancer", "adults": 1 }, { "entity": "irons_spellbooks:apothecarist", "adults": 1 } ] } ] },
+    { "chance": 0.06, "suppress_pond": true,
+      "jigsaw": { "pool": "skyseed:jungle_temple/temple", "target": "minecraft:bottom", "depth": 1, "pad": 6 } },
+    { "chance": 0.05,
+      "jigsaw": { "pool": "skyseed:dungeon/buried", "target": "minecraft:bottom", "depth": 1, "pad": 5, "sink": 5 } },
+    { "chance": 0.05, "suppress_pond": true,
+      "jigsaw": { "pool": "skyseed:trail_ruins/ruins", "target": "minecraft:bottom", "depth": 1, "pad": 4, "sink": 3 } },
     { "chance": 0.01,
       "jigsaw": { "pool": "skyseed:ruined_portal/portal", "target": "minecraft:bottom", "depth": 1, "pad": 4 }, "twin": "skyseed:ruined_portal" }
   ],

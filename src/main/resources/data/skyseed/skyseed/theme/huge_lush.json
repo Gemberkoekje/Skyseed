@@ -22,6 +22,12 @@
     "fill_depth": 3
   },
   "ores": [],
+  "rare_structures": [
+    { "_comment": "Fills the huge-lush rare slot so huge_explore finds a building here — an Abandoned Mineshaft carved beneath the overgrown isle (pad 0 / sink 10 = fully buried below the surface pond, no bald pad, no pond conflict). Reused from huge_rocky (SKYDUNGEONPLAN Part B).",
+      "chance": 0.05,
+      "jigsaw": { "pool": "skyseed:mineshaft/start", "target": "minecraft:bottom", "depth": 4, "pad": 0, "sink": 10, "reach": 24 },
+      "mobs": [] }
+  ],
   "pond": {
     "block": "minecraft:water",
     "radius": 10,

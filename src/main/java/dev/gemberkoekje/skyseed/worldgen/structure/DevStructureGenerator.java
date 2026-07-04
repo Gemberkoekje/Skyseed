@@ -79,6 +79,10 @@ public final class DevStructureGenerator {
             EndCityTemplates.generateInto(base.resolve("end_city")); // SKYENDPLAN Phase 3 — the flagship
             DragonTrophyTemplates.generateInto(base.resolve("dragon_trophy")); // SKYENDPLAN Phase 6 — the capstone trophy
             RareStructureTemplates.generateInto(base);
+            FrozenWarrenTemplates.generateInto(base.resolve("frozen_warren")); // IRONSTRUCTUREREBUILDPLAN §Den — Ice Spider Den rebuild
+            WarBarrowTemplates.generateInto(base.resolve("war_barrow"));       // IRONSTRUCTUREREBUILDPLAN §Battleground — Ancient Battleground rebuild
+            CitadelTemplates.generateInto(base.resolve("citadel"));            // IRONSTRUCTUREREBUILDPLAN §Citadel — Citadel rebuild (Mage's Sanctum)
+            CatacombsTemplates.generateInto(base.resolve("catacombs"));         // IRONSCONTENTGAPPLAN §Catacombs — grand crypt + Dead King
             writeGameTestRegion(base.resolve("gametest").resolve("region.nbt"));
             writeBigGameTestRegion(base.resolve("gametest").resolve("big_region.nbt"));
         } catch (Exception e) {

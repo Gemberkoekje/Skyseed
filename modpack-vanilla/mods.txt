@@ -1,0 +1,26 @@
+# mods (21)
+appleskin-neoforge-mc1.21-3.0.9.jar
+catalogue-neoforge-1.21.1-1.11.2.jar
+Clumps-neoforge-1.21.1-19.0.0.1.jar
+configured-neoforge-1.21.1-2.6.3.jar
+Controlling-neoforge-1.21.1-19.0.5.jar
+embeddium-1.0.15+mc1.21.1.jar
+entityculling-neoforge-1.10.5-mc1.21.1.jar
+fastleafdecay-35.jar
+ferritecore-7.0.3-neoforge.jar
+FpsReducer2-neoforge-1.21-2.10.jar
+framework-neoforge-1.21.1-0.13.11.jar
+Jade-1.21.1-NeoForge-15.10.5.jar
+jei-1.21.1-neoforge-19.27.0.336.jar
+JustEnoughResources-NeoForge-1.21.1-1.6.0.17.jar
+modernfix-neoforge-5.27.15+mc1.21.1.jar
+MouseTweaks-neoforge-mc1.21-2.26.1.jar
+Patchouli-1.21.1-93-NEOFORGE.jar
+Searchables-neoforge-1.21.1-1.0.2.jar
+veinmining-neoforge-5.0.0-beta.2+1.21.jar
+xaerominimap-neoforge-1.21.1-26.1.0.jar
+xaeroworldmap-neoforge-1.21.1-1.41.2.jar
+
+# shaderpacks (0)
+
+# resourcepacks (0)

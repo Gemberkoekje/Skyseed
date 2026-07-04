@@ -45,6 +45,7 @@ chapter per mod as it lands), not last — so no end-of-project overflow. Engine
 | Storage (`storage`) | 19 | Sophisticated Backpacks + Storage (B401–B403) **+ the AE2 endgame line** (B404–B419, #41) |
 | Mystical Agriculture (`mysticalagriculture`) | 9 | the MA loop (B601–B609) |
 | Farmer's Delight (`farmersdelight`) | 8 | the cosy cooking loop (B801–B808) — crops → pot/skillet/board → meal → rice → Nether/End delights |
+| **Magic \& Exploration (`ironsspells`)** | 11 | A00A, BB01–BB0B — the Iron's Spells pillar: Explore-seed tiers → scroll/Arcane Essence loot → Copper Spellbook / Scroll Forge / Arcane Anvil → the rare **Upgrade Orb**; Relic + Artifact checkmark side-finds. Gated off the Skyseed structure-seed quest (B108). |
 
 **BWG branch record:** *Into the Wilds* (B701 — advancement task on the hidden
 `skyseed:reveal_exotic_woods`, covering all 24 growable exotic planks via `#skyseed:exotic_woods`; dep B103),
@@ -62,6 +63,7 @@ group id; within-group order is the chapter `order_index`). No quests move — e
 | **Progression** (`…E001`) | Introduction · Skyseed · Tools & Travel |
 | **Industry** (`…E002`) | Create · Power · Immersive Engineering · Storage (AE2) |
 | **Farming** (`…E003`) | Mystical Agriculture · Farmer's Delight |
+| **Magic \& Exploration** (`…E004`) | Iron's Spells (Explore seeds → magic loot → relics/artifacts) |
 
 *Decision (declined the merge):* keep Create/IE and MA/FD as separate chapters; group them in the sidebar instead —
 same thematic "tech together / farming together" feel, none of the size/churn/progression-clarity costs of merging.
@@ -82,7 +84,7 @@ same thematic "tech together / farming together" feel, none of the size/churn/pr
 | ~~#41~~ | ~~**Applied Energistics 2**~~ | — | ✅ **SHIPPED** — folded into the **Storage** chapter (`A005`) as 16 quests `B404`–`B419` (AE2 = the storage endgame), not a standalone chapter. Gated off `B104` (rocky→certus) + IE steel `B908`. Weaves the #39 FE-power step (Energy Acceptor) + Create bridges. In-game book-load pending. |
 | ~~#42~~ | ~~**Farmer's Delight**~~ | — | ✅ **SHIPPED** — `chapters/farmersdelight.snbt` (A008, B801–B808), gated off the Skyseed spine at B103; Nether/End branches gated on B110/B113. In-game test-load pending. |
 | #44 | **Productive Bees** | PB integration (#32) | overlaps shipped MA — low marginal value |
-| #46 | **Iron's Spells** | Iron's integration (#36/#37) | loot/mob-gated, heaviest |
+| ~~#46~~ | ~~**Iron's Spells**~~ | — | ✅ **SHIPPED** — `chapters/ironsspells.snbt` (A00A, 11 quests BB01–BB0B) in a new **Magic \& Exploration** sidebar group (E004). Gated off the Skyseed structure-seed quest B108. Explore-seed tiers → scroll/essence loot → spellbook/scroll-forge/arcane-anvil → the rare Upgrade Orb; Relic + Artifact as checkmark side-finds. In-game book-load pending. |
 | #43 | **Quark** | Quark smoke pass (#15) | Quark shipped v0.182.0; minimal coverage may suffice — 3-quest sketch in [QUARKPLAN.md](QUARKPLAN.md) |
 | #47 | **"BYG content"** | — | ⚠ **scope unclear**: the installed biome mod is **BWG** and its branch (B701–B703) already shipped. Either this meant the separate predecessor mod BYG (not installed, not planned) or *deeper* BWG coverage beyond the 3-quest branch — decide before it's actionable. |
 

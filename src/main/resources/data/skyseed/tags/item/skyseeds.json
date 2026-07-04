@@ -2,6 +2,9 @@
   "values": [
     "skyseed:forest_skyseed",
     "skyseed:forest_large_skyseed",
+    "skyseed:explore_skyseed",
+    "skyseed:explore_large_skyseed",
+    "skyseed:huge_explore_skyseed",
     "skyseed:rocky_skyseed",
     "skyseed:rocky_large_skyseed",
     "skyseed:desert_skyseed",

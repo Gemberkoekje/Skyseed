@@ -206,6 +206,16 @@ public final class SkyseedTests {
 
         // --- book/icon coverage + structure diversity (Phase 4, batch a) ---
         reg(event, "every_craftable_seed_has_unique_icon", REGION, SkyseedTests::everyCraftableSeedHasUniqueIcon);
+        reg(event, "explore_seed_resolves_biomes_to_dedicated_themes", REGION, SkyseedTests::exploreSeedResolvesBiomesToDedicatedThemes);
+        reg(event, "mod_item_loot_modifiers_are_inert_without_the_mod", REGION, SkyseedTests::modItemLootModifiersAreInertWithoutTheMod);
+        reg(event, "explore_biome_themes_force_their_rare_structure", REGION, SkyseedTests::exploreBiomeThemesForceTheirRareStructure);
+        reg(event, "mod_structure_rares_are_inert_without_the_mod", REGION, SkyseedTests::modStructureRaresAreInertWithoutTheMod);
+        reg(event, "empty_target_jigsaw_uses_pool_default_start", REGION, SkyseedTests::emptyTargetJigsawUsesPoolDefaultStart);
+        reg(event, "impaled_boat_assembles", REGION, SkyseedTests::impaledBoatAssembles);
+        reg(event, "frozen_warren_assembles", REGION, SkyseedTests::frozenWarrenAssembles);
+        reg(event, "war_barrow_assembles", BIG_REGION, SkyseedTests::warBarrowAssembles);
+        reg(event, "citadel_keep_assembles", BIG_REGION, SkyseedTests::citadelKeepAssembles);
+        reg(event, "catacombs_assembles", BIG_REGION, SkyseedTests::catacombsAssembles);
         reg(event, "structure_theme_records_jigsaw", REGION, SkyseedTests::structureThemeRecordsJigsaw);
         reg(event, "mansion_garrison_planned", REGION, SkyseedTests::mansionGarrisonPlanned);
         reg(event, "mansion_assembles_with_flush_wings", BIG_REGION, SkyseedTests::mansionAssemblesWithFlushWings);
@@ -228,6 +238,8 @@ public final class SkyseedTests {
         reg(event, "debug_forced_waterfall_germinates_water_column", REGION, SkyseedTests::debugForcedWaterfallGerminatesWaterColumn);
         reg(event, "auto_debug_seeds_cover_overrides_and_rares", REGION, SkyseedTests::autoDebugSeedsCoverOverridesAndRares);
         reg(event, "every_auto_debug_seed_has_a_model", REGION, SkyseedTests::everyAutoDebugSeedHasAModel);
+        reg(event, "every_rare_structure_has_a_debug_seed", REGION, SkyseedTests::everyRareStructureHasADebugSeed);
+        reg(event, "debug_seeds_are_grouped_by_theme_biomes_first", REGION, SkyseedTests::debugSeedsAreGroupedByThemeBiomesFirst);
         reg(event, "every_test_instance_serializes_for_client_sync", REGION, SkyseedTests::everyTestInstanceSerializesForClientSync);
         reg(event, "seed_state_round_trips_through_nbt", REGION, SkyseedTests::seedStateRoundTripsThroughNbt);
         reg(event, "sprawling_dungeon_assembles", BIG_REGION, SkyseedTests::sprawlingDungeonAssembles);
@@ -2812,6 +2824,283 @@ public final class SkyseedTests {
         helper.succeed();
     }
 
+    static void exploreSeedResolvesBiomesToDedicatedThemes(GameTestHelper helper) {
+        // The Explore Skyseed grows the dedicated island the local biome's own seed would (ExploreThemes), so a desert
+        // throw is a Desert isle, a snowy throw a Frozen one; an unmapped biome falls to the explore fallback theme.
+        assertExplore(helper, "minecraft:desert", "skyseed:desert");
+        assertExplore(helper, "minecraft:ocean", "skyseed:aquatic");
+        assertExplore(helper, "minecraft:river", "skyseed:aquatic");
+        assertExplore(helper, "minecraft:snowy_plains", "skyseed:frozen");
+        assertExplore(helper, "minecraft:badlands", "skyseed:badlands");
+        assertExplore(helper, "minecraft:mushroom_fields", "skyseed:mushroom");
+        assertExplore(helper, "minecraft:plains", "skyseed:meadow");
+        assertExplore(helper, "minecraft:savanna", "skyseed:meadow");
+        assertExplore(helper, "minecraft:dark_forest", "skyseed:forest");
+        assertExplore(helper, "minecraft:jungle", "skyseed:forest");
+        // Every theme the resolver can pick (dedicated targets + the explore fallback) must actually resolve.
+        for (final String t : new String[]{"skyseed:desert", "skyseed:aquatic", "skyseed:frozen", "skyseed:badlands",
+                "skyseed:mushroom", "skyseed:meadow", "skyseed:forest", "skyseed:rocky", "skyseed:lush", "skyseed:explore"}) {
+            helper.assertTrue(Themes.resolve(helper.getLevel().registryAccess(), Id.of(t)) != null,
+                    "Explore target theme must resolve: " + t);
+        }
+        // The Large/Huge Explore seeds resolve the same family's _large / huge_ theme (Forest is the unmapped fallback).
+        final var d = Lookup.biomeHolder(helper.getLevel().registryAccess(), Id.of("minecraft:desert"));
+        helper.assertTrue(d != null, "desert biome missing from registry");
+        helper.assertTrue("skyseed:desert_large".equals(dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.resolveLarge(d).value()),
+                "explore_large over desert should grow desert_large");
+        helper.assertTrue("skyseed:huge_desert".equals(dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.resolveHuge(d).value()),
+                "huge_explore over desert should grow huge_desert");
+        helper.succeed();
+    }
+
+    /** Assert the Explore seed's biome→theme resolver maps {@code biomeId} to {@code expectedTheme}. */
+    static void assertExplore(GameTestHelper helper, String biomeId, String expectedTheme) {
+        final var biome = Lookup.biomeHolder(helper.getLevel().registryAccess(), Id.of(biomeId));
+        helper.assertTrue(biome != null, "test biome missing from registry: " + biomeId);
+        final Id got = dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.resolve(biome);
+        helper.assertTrue(expectedTheme.equals(got.value()),
+                "Explore in " + biomeId + " resolved " + got.value() + " (expected " + expectedTheme + ")");
+    }
+
+    static void modItemLootModifiersAreInertWithoutTheMod(GameTestHelper helper) {
+        // The Iron's Spells loot GLMs (irons_arcane_essence / irons_upgrade_orb) name modded item ids. Without the mod
+        // (as in CI) AddDropModifier's Lookup.hasItem gate keeps them inert: they still LOAD — the datapack parsed and
+        // this server started — and resolve to no item. Guards the tolerant-codec change (a strict item codec would
+        // have failed the whole global_loot_modifiers load, taking the server down before any test ran).
+        helper.assertTrue(!Lookup.hasItem(Id.of("irons_spellbooks:arcane_essence")),
+                "this inert-safety check assumes Iron's Spells is ABSENT in CI, but its item resolved");
+        helper.assertTrue(!Lookup.hasItem(Id.of("irons_spellbooks:upgrade_orb")), "irons_spellbooks:upgrade_orb should be absent in CI");
+        helper.assertTrue(!Lookup.hasItem(Id.of("skyseed:definitely_not_a_real_item")), "an unknown id must resolve to no item");
+        helper.assertTrue(Lookup.hasItem(Id.of("minecraft:diamond")), "Lookup.hasItem must resolve a present vanilla item");
+        helper.assertTrue(resourceExists("/data/skyseed/loot_modifiers/irons_arcane_essence.json"),
+                "the irons_arcane_essence loot modifier must ship");
+        helper.assertTrue(resourceExists("/data/skyseed/loot_modifiers/irons_upgrade_orb.json"),
+                "the irons_upgrade_orb loot modifier must ship");
+        helper.succeed();
+    }
+
+    static void exploreBiomeThemesForceTheirRareStructure(GameTestHelper helper) {
+        // The base biome themes the Explore seed resolves to each carry a biome-fitting rare structure now. Forcing it
+        // (as the Explore seed does, DebugForce.rare(0)) must record a jigsaw site — the pool resolves and the pad is
+        // planned — so a thrown Explore seed reliably raises a building there, not an empty island.
+        assertForcedRareRecordsJigsaw(helper, "desert", Biomes.DESERT);
+        assertForcedRareRecordsJigsaw(helper, "badlands", Biomes.BADLANDS);
+        assertForcedRareRecordsJigsaw(helper, "rocky", Biomes.STONY_PEAKS);
+        assertForcedRareRecordsJigsaw(helper, "meadow", Biomes.MEADOW);
+        assertForcedRareRecordsJigsaw(helper, "mushroom", Biomes.MUSHROOM_FIELDS);
+        assertForcedRareRecordsJigsaw(helper, "lush", Biomes.JUNGLE);
+        helper.succeed();
+    }
+
+    /** Plan {@code themeName} at {@code biomeKey} with its first rare structure forced, and assert a jigsaw was recorded. */
+    static void assertForcedRareRecordsJigsaw(GameTestHelper helper, String themeName, ResourceKey<Biome> biomeKey) {
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme resolved = theme(level, themeName);
+        helper.assertTrue(!resolved.rareStructures().isEmpty(), themeName + " must declare a rare structure");
+        final IslandPlan p = IslandGenerator.planIsland(level, new BlockPos(40, 64, 40), resolved, biome(level, biomeKey),
+                RandomSource.create(1234L), DebugForce.rare(0));
+        helper.assertTrue(!p.jigsaws().isEmpty(), "Explore-forced rare on '" + themeName + "' recorded no jigsaw site");
+    }
+
+    static void modStructureRaresAreInertWithoutTheMod(GameTestHelper helper) {
+        // The Iron's Spells structures added as rares (mangrove_hut on lush_large; mountain_tower on huge_rocky; the full
+        // icebreaker ship + big dungeons on huge_) all name jigsaw pools from that mod. Without it (CI) rollRare's Lookup.hasTemplatePool
+        // gate skips them — no bald pad for a building that can't assemble. Assert every such pool is absent so they stay inert.
+        final var access = helper.getLevel().registryAccess();
+        for (final String pool : new String[]{
+                "irons_spellbooks:mangrove_hut_pool", "irons_spellbooks:mountain_tower_pool",
+                "irons_spellbooks:impaled_icebreaker_pool", "irons_spellbooks:evoker_fort/start_pool",
+                "irons_spellbooks:ice_spider_den/start_pool", "irons_spellbooks:pyromancer_tower/start_pool",
+                "irons_spellbooks:battleground/start_pool", "irons_spellbooks:citadel/start_pool" }) {
+            helper.assertTrue(!Lookup.hasTemplatePool(access, Id.of(pool)),
+                    "this inert check assumes Iron's Spells is ABSENT in CI, but its pool resolved: " + pool);
+        }
+        // And a host theme still DECLARES the inert Iron's rare (so the guard keeps it inert, not omission).
+        // ...and with an EMPTY start-jigsaw target: the mod pools have no `minecraft:bottom` jigsaw (that's skyseed's own
+        // convention), so a non-empty target makes vanilla find no start piece and place nothing. Guards that fix.
+        helper.assertTrue(Themes.resolve(access, Id.of("skyseed:huge_forest")).rareStructures().stream()
+                        .anyMatch(rs -> rs.jigsaw().pool().value().equals("irons_spellbooks:evoker_fort/start_pool")
+                                && rs.jigsaw().target().value().isEmpty()),
+                "huge_forest's evoker_fort rare must use an empty start-jigsaw target (mod pools lack skyseed's minecraft:bottom)");
+        helper.assertTrue(Themes.resolve(access, Id.of("skyseed:huge_aquatic")).rareStructures().stream()
+                        .anyMatch(rs -> rs.jigsaw().pool().value().equals("irons_spellbooks:impaled_icebreaker_pool")
+                                && rs.jigsaw().target().value().isEmpty()),
+                "huge_aquatic's impaled_icebreaker rare must use an empty start-jigsaw target");
+        // The pyromancer tower has an open courtyard, so it seats into the ground with `excavate` (drop the pad to the
+        // sunk level) rather than a plain `sink` that would bury the courtyard in sand. Guard that config (can't be
+        // exercised in CI — the mod pool is inert — so assert the data).
+        helper.assertTrue(Themes.resolve(access, Id.of("skyseed:huge_desert")).rareStructures().stream()
+                        .anyMatch(rs -> rs.jigsaw().pool().value().equals("irons_spellbooks:pyromancer_tower/start_pool")
+                                && rs.jigsaw().excavate() && rs.jigsaw().sink() == 1),
+                "huge_desert's pyromancer rare must excavate at sink 1 (set into the ground, courtyard not buried)");
+        helper.succeed();
+    }
+
+    static void emptyTargetJigsawUsesPoolDefaultStart(GameTestHelper helper) {
+        // A BLANK jigsaw target means "use the pool's own default start element" — the path the reused mod structures
+        // depend on. Assemble a skyseed pool with an EMPTY target and confirm pieces actually place, rather than the
+        // "No starting jigsaw minecraft: found" error (Ids.parse("") yields minecraft:, not null). Guards the Jigsaw fix.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(8, 3, 8));
+        final Id poolId = Id.of("skyseed:trail_ruins/ruins");
+        helper.assertTrue(Lookup.hasTemplatePool(level.registryAccess(), poolId), "trail_ruins pool must be registered");
+        Jigsaw.placeCapped(level, Lookup.templatePool(level.registryAccess(), poolId), Id.of(""), 1, origin, false, "", 0, null);
+        int placed = 0;
+        long sumX = 0, sumZ = 0;
+        for (final BlockPos p : BlockPos.betweenClosed(origin.offset(-7, -2, -7), origin.offset(7, 7, 7))) {
+            if (!level.getBlockState(p).isAir()) {
+                placed++;
+                sumX += p.getX();
+                sumZ += p.getZ();
+            }
+        }
+        helper.assertTrue(placed > 5, "an empty-target jigsaw should place the pool's default start element (got " + placed + " blocks)");
+        // A blank target also means "reused mod pool" → the assembled footprint is auto-recentred on origin (so a
+        // corner-anchored mod build sits on the island, not off an edge). The placed-block centroid must land near origin.
+        helper.assertTrue(Math.abs(sumX / placed - origin.getX()) <= 4 && Math.abs(sumZ / placed - origin.getZ()) <= 4,
+                "an empty-target (mod-pool) placement must be re-centred on origin (centroid drifted off the island centre)");
+        helper.succeed();
+    }
+
+    static void impaledBoatAssembles(GameTestHelper helper) {
+        // The custom Impaled Boat (skyseed's small frozen-sea wreck — the cold-water/_large answer to the mod's
+        // oversized Impaled Icebreaker) assembles from its own minecraft:bottom start, lays down its sea-ice floe and
+        // places its underwater-ruin loot chest. Pure-vanilla blocks, so it ships in the base mod (unlike the mod ship).
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(8, 3, 8));
+        final Id poolId = Id.of("skyseed:impaled_boat/wreck");
+        helper.assertTrue(Lookup.hasTemplatePool(level.registryAccess(), poolId), "impaled_boat pool must be registered");
+        Jigsaw.placeCapped(level, Lookup.templatePool(level.registryAccess(), poolId), Id.of("minecraft:bottom"), 1, origin, false, "", 0, null);
+        int ice = 0;
+        boolean chest = false;
+        for (final BlockPos p : BlockPos.betweenClosed(origin.offset(-6, -2, -6), origin.offset(6, 8, 6))) {
+            final var st = level.getBlockState(p);
+            if (st.is(Blocks.PACKED_ICE) || st.is(Blocks.BLUE_ICE)) {
+                ice++;
+            }
+            if (st.is(Blocks.CHEST)) {
+                chest = true;
+            }
+        }
+        helper.assertTrue(ice > 10, "the impaled boat should lay down a sea-ice floe (got " + ice + " ice blocks)");
+        helper.assertTrue(chest, "the impaled boat should place its loot chest");
+        helper.succeed();
+    }
+
+    static void frozenWarrenAssembles(GameTestHelper helper) {
+        // Frozen Warren (skyseed's bounded rebuild of Iron's Spells' Ice Spider Den): a surface ice-fort mouth + a ladder
+        // shaft + a single buried ice cavern. Assemble it and confirm it lays its ice shell, cuts the ladder shaft, and
+        // places the reward chest + spider spawner — the bits that make it a den rather than an empty hole.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(8, 3, 8));
+        final Id poolId = Id.of("skyseed:frozen_warren/warren");
+        helper.assertTrue(Lookup.hasTemplatePool(level.registryAccess(), poolId), "frozen_warren pool must be registered");
+        Jigsaw.placeCapped(level, Lookup.templatePool(level.registryAccess(), poolId), Id.of("minecraft:bottom"), 1, origin, false, "", 0, null);
+        int ice = 0;
+        boolean chest = false, ladder = false, spawner = false;
+        for (final BlockPos p : BlockPos.betweenClosed(origin.offset(-7, -2, -7), origin.offset(7, 16, 7))) {
+            final var st = level.getBlockState(p);
+            if (st.is(Blocks.PACKED_ICE) || st.is(Blocks.BLUE_ICE)) {
+                ice++;
+            }
+            chest |= st.is(Blocks.CHEST);
+            ladder |= st.is(Blocks.LADDER);
+            spawner |= st.is(Blocks.SPAWNER);
+        }
+        helper.assertTrue(ice > 40, "the frozen warren should lay a substantial ice shell (got " + ice + ")");
+        helper.assertTrue(chest, "the frozen warren should place its reward chest");
+        helper.assertTrue(ladder, "the frozen warren should cut a ladder shaft");
+        helper.assertTrue(spawner, "the frozen warren should place its spider spawner");
+        helper.succeed();
+    }
+
+    static void warBarrowAssembles(GameTestHelper helper) {
+        // War Barrow (skyseed's bounded rebuild of Iron's Spells' Ancient Battleground): a surface graveyard-camp — barrow
+        // mound + crypt, a necromancer's altar, gravestones, tents, a palisade. Assemble it (BIG_REGION — it's ~19×19)
+        // and confirm the earthworks land, the altar's soul-lantern + reward chest build, and the crypt spawner places.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 3, 24));
+        final Id poolId = Id.of("skyseed:war_barrow/barrow");
+        helper.assertTrue(Lookup.hasTemplatePool(level.registryAccess(), poolId), "war_barrow pool must be registered");
+        Jigsaw.placeCapped(level, Lookup.templatePool(level.registryAccess(), poolId), Id.of("minecraft:bottom"), 1, origin, false, "", 0, null);
+        int dirt = 0;
+        boolean chest = false, spawner = false, lantern = false;
+        for (final BlockPos p : BlockPos.betweenClosed(origin.offset(-10, -2, -10), origin.offset(10, 9, 10))) {
+            final var st = level.getBlockState(p);
+            if (st.is(Blocks.COARSE_DIRT) || st.is(Blocks.PACKED_MUD)) {
+                dirt++;
+            }
+            chest |= st.is(Blocks.CHEST);
+            spawner |= st.is(Blocks.SPAWNER);
+            lantern |= st.is(Blocks.SOUL_LANTERN);
+        }
+        helper.assertTrue(dirt > 30, "the war barrow should lay its earthworks (got " + dirt + ")");
+        helper.assertTrue(chest, "the war barrow should place its reward chest");
+        helper.assertTrue(spawner, "the war barrow crypt should place its skeleton spawner");
+        helper.assertTrue(lantern, "the war barrow altar should raise its soul-lantern posts");
+        helper.succeed();
+    }
+
+    static void citadelKeepAssembles(GameTestHelper helper) {
+        // Mage's Sanctum (skyseed's bounded rebuild of Iron's Spells' Citadel) — the flagship keep: buried vault, hall,
+        // double-height library, keeper's chamber, spire, ladder core. Assemble it (BIG_REGION, seated low so the tall
+        // keep fits) and confirm the library bookshelves, the Vault + reward chests, a chandelier lantern and the ladder
+        // core land — the grandeur cues.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 2, 24));
+        final Id poolId = Id.of("skyseed:citadel/keep");
+        helper.assertTrue(Lookup.hasTemplatePool(level.registryAccess(), poolId), "citadel pool must be registered");
+        Jigsaw.placeCapped(level, Lookup.templatePool(level.registryAccess(), poolId), Id.of("minecraft:bottom"), 1, origin, false, "", 0, null);
+        int shelves = 0;
+        boolean vault = false, chest = false, lantern = false, ladder = false;
+        for (final BlockPos p : BlockPos.betweenClosed(origin.offset(-10, -2, -10), origin.offset(10, 20, 10))) {
+            final var st = level.getBlockState(p);
+            if (st.is(Blocks.BOOKSHELF) || st.is(Blocks.CHISELED_BOOKSHELF)) {
+                shelves++;
+            }
+            vault |= st.is(Blocks.VAULT);
+            chest |= st.is(Blocks.CHEST);
+            lantern |= st.is(Blocks.LANTERN);
+            ladder |= st.is(Blocks.LADDER);
+        }
+        helper.assertTrue(shelves > 20, "the citadel library should be bookshelf-lined (got " + shelves + ")");
+        helper.assertTrue(vault, "the citadel should place its buried Vault");
+        helper.assertTrue(chest, "the citadel should place a reward chest");
+        helper.assertTrue(lantern, "the citadel library should hang a chandelier lantern");
+        helper.assertTrue(ladder, "the citadel should thread its ladder core between floors");
+        helper.succeed();
+    }
+
+    static void catacombsAssembles(GameTestHelper helper) {
+        // Catacombs (skyseed's grand crypt restoring Iron's Spells' Dead King): a surface mausoleum → antechamber →
+        // ossuary → Crypt of the Dead King, descending ~16 into the body on a winding stair. Assemble it (BIG_REGION —
+        // it's 17×17 × ~21 tall) and confirm the deepslate masonry, the descent stairs, the crypt-zombie spawners and
+        // the reward chest land — the bits that make it a multi-level crypt rather than a hole.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 2, 24));
+        final Id poolId = Id.of("skyseed:catacombs/crypt");
+        helper.assertTrue(Lookup.hasTemplatePool(level.registryAccess(), poolId), "catacombs pool must be registered");
+        Jigsaw.placeCapped(level, Lookup.templatePool(level.registryAccess(), poolId), Id.of("minecraft:bottom"), 1, origin, false, "", 0, null);
+        int deepslate = 0;
+        boolean chest = false, spawner = false, stairs = false, lantern = false;
+        for (final BlockPos p : BlockPos.betweenClosed(origin.offset(-10, -1, -10), origin.offset(10, 20, 10))) {
+            final var st = level.getBlockState(p);
+            if (st.is(Blocks.DEEPSLATE_BRICKS) || st.is(Blocks.DEEPSLATE_TILES) || st.is(Blocks.CRACKED_DEEPSLATE_BRICKS)) {
+                deepslate++;
+            }
+            chest |= st.is(Blocks.CHEST);
+            spawner |= st.is(Blocks.SPAWNER);
+            stairs |= st.is(Blocks.DEEPSLATE_BRICK_STAIRS);
+            lantern |= st.is(Blocks.SOUL_LANTERN);
+        }
+        helper.assertTrue(deepslate > 80, "the catacombs should lay a substantial deepslate crypt (got " + deepslate + ")");
+        helper.assertTrue(stairs, "the catacombs should thread its descent stairs");
+        helper.assertTrue(spawner, "the catacombs crypt levels should place their zombie spawners");
+        helper.assertTrue(chest, "the catacombs should place a reward chest");
+        helper.assertTrue(lantern, "the catacombs boss chamber should light its soul-lantern sconces");
+        helper.succeed();
+    }
+
     static void structureThemeRecordsJigsaw(GameTestHelper helper) {
         // Hamlet is a jigsaw village; planning it must record a JigsawSite for GenerationJob to assemble.
         final IslandPlan p = plan(helper, "hamlet", 3L);
@@ -3763,6 +4052,33 @@ public final class SkyseedTests {
         helper.succeed();
     }
 
+    static void everyRareStructureHasADebugSeed(GameTestHelper helper) {
+        // Stronger than the "some exist" check: EVERY rare structure on EVERY seed theme must have an auto debug seed
+        // (ThemeScanner), so every building — the biome-forced ones and the Iron's ones alike — is throw-testable in
+        // creative. Add a rare structure and, if its debug seed didn't generate, this fails. The debug seed carries the
+        // host theme as its theme() and the rare slot as forcedRareIndex().
+        final var access = helper.getLevel().registryAccess();
+        int checked = 0;
+        for (final String themePath : ModItems.SEED_THEMES) {
+            final IslandTheme theme = Themes.resolve(access, Id.of("skyseed:" + themePath));
+            if (theme == null) {
+                continue;
+            }
+            final String themeId = "skyseed:" + themePath;
+            for (int i = 0; i < theme.rareStructures().size(); i++) {
+                final int idx = i;
+                final boolean has = ModItems.DEBUG_SEEDS.values().stream().anyMatch(h -> {
+                    final var it = h.get();
+                    return it.forcedRareIndex() == idx && it.theme() != null && themeId.equals(it.theme().value());
+                });
+                helper.assertTrue(has, "rare structure #" + idx + " on theme '" + themePath + "' has no auto debug seed");
+                checked++;
+            }
+        }
+        helper.assertTrue(checked >= 10, "expected many rare structures to be covered, only checked " + checked);
+        helper.succeed();
+    }
+
     static void everyAutoDebugSeedHasAModel(GameTestHelper helper) {
         // Every auto debug seed must ship a generated item model (generateDebugSeedModels, which mirrors ThemeScanner)
         // so the client never logs "Unable to load model" for it. Fails if the Gradle generator drifts from the runtime
@@ -3796,6 +4112,29 @@ public final class SkyseedTests {
         }
         helper.assertTrue(biomeForced > 10, "auto scan should make many biome-override debug seeds (got " + biomeForced + ")");
         helper.assertTrue(rareForced > 0, "auto scan should make rare-structure debug seeds (got " + rareForced + ")");
+        helper.succeed();
+    }
+
+    static void debugSeedsAreGroupedByThemeBiomesFirst(GameTestHelper helper) {
+        // The debug creative tab shows AUTO_DEBUG_SEEDS in order, so they must be grouped by theme (a theme's seeds
+        // contiguous) with biome overrides before structure overrides — so a specific one (huge_badlands's War Barrow)
+        // is easy to find. Assert the scan's ordering holds for every consecutive pair.
+        String prevTheme = "";
+        int prevKind = -1;
+        final java.util.Set<String> seenThemes = new java.util.HashSet<>();
+        for (final var s : ModItems.AUTO_DEBUG_SEEDS) {
+            final int k = s.forcedBiome() != null ? 0 : (s.forcedRare() >= 0 ? 1 : 2);
+            if (!s.baseTheme().equals(prevTheme)) {
+                helper.assertTrue(seenThemes.add(s.baseTheme()),
+                        "debug seeds for theme '" + s.baseTheme() + "' are split, not contiguous");
+                prevKind = -1;
+            }
+            helper.assertTrue(k >= prevKind,
+                    "in theme '" + s.baseTheme() + "' a biome override follows a structure override (want biomes first)");
+            prevTheme = s.baseTheme();
+            prevKind = k;
+        }
+        helper.assertTrue(seenThemes.size() >= 5, "expected many themes in the debug tab, saw " + seenThemes.size());
         helper.succeed();
     }
 

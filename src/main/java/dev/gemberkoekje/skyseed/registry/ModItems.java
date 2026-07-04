@@ -32,6 +32,13 @@ public final class ModItems {
             "mushroom", "mushroom_large", "frozen", "frozen_large", "meadow", "meadow_large",
             "badlands", "badlands_large", "ancient", "ancient_large", "lush", "lush_large",
             "aquatic", "aquatic_large",
+            // The Explore Skyseed — one ADAPTIVE seed that grows the local biome's island and forces a rare structure
+            // onto it (see ExploreThemes / IslandSeedEntity). Its item theme is the skyseed:explore sentinel; the
+            // explore.json theme backs it as the fallback for unmapped biomes. Full seed onboarding like any other.
+            "explore",
+            // The Large / Huge Explore Skyseeds — the same adaptive idea at the _large and huge_ tiers, where the bigger
+            // (and most Iron's) structures live, so the exploration seed can reach buildings a small isle can't host.
+            "explore_large", "huge_explore",
             // (Pale Garden is no longer a dedicated seed — it's a pale_garden biome override on the forest/forest_large/
             // huge_forest seeds, with the Creaking folded in; the pale content ships to both nodes, inert on 1.21.1.)
             "huge_forest", "huge_aquatic", "huge_rocky", "huge_desert", "huge_mushroom", "huge_frozen",

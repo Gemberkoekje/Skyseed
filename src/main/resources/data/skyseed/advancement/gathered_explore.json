@@ -1,0 +1,16 @@
+{
+  "criteria": {
+    "has_0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": "skyseed:forest_skyseed" },
+          { "items": "skyseed:aquatic_skyseed" },
+          { "items": "skyseed:desert_skyseed" },
+          { "items": "skyseed:meadow_skyseed" },
+          { "items": "#skyseed:structure_seeds" }
+        ]
+      }
+    }
+  }
+}

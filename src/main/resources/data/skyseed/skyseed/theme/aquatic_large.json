@@ -7,6 +7,9 @@
     { "block": "minecraft:gravel", "chance": 0.90, "count": { "min": 4, "max": 8 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" }
   ],
   "rare_structures": [
+    { "_comment": "Custom skyseed Impaled Boat — a small frozen-sea shipwreck impaled on a blue-ice spike (our own answer to the mod's oversized Impaled Icebreaker, which is too big for this tier and now lives on huge_aquatic). Self-contained: it brings its own packed/blue-ice floe + water leads, so it reads as a frozen wreck. Cold/frozen-ocean gated. Pond kept (no suppress). Not a mod pool — always present (skyseed structure). The full mod ship is the huge-tier version.",
+      "chance": 0.05, "biomes": [ "minecraft:frozen_ocean", "minecraft:deep_frozen_ocean", "minecraft:cold_ocean", "minecraft:deep_cold_ocean" ],
+      "jigsaw": { "pool": "skyseed:impaled_boat/wreck", "target": "minecraft:bottom", "depth": 1, "pad": 6 } },
     { "chance": 0.05, "biomes": [ "#minecraft:is_ocean", "#minecraft:is_deep_ocean" ], "suppress_pond": true,
       "jigsaw": { "pool": "skyseed:ocean_monument/start", "target": "minecraft:bottom", "depth": 1, "pad": 9, "sink": 5 },
       "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:elder_guardian", "adults": 1 }, { "entity": "minecraft:guardian", "adults": 4 } ] } ] },

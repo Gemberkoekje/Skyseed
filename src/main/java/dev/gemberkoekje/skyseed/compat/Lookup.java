@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 //?}
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -73,6 +74,20 @@ public final class Lookup {
     /** The entity type under {@code id} (callers gate with {@link #hasEntityType(Id)}). */
     public static EntityType<?> entityType(Id id) {
         return byId(BuiltInRegistries.ENTITY_TYPE, id);
+    }
+
+    // --- Items --------------------------------------------------------------------------------------------------
+
+    /** Whether an item is registered under {@code id} (a {@code null}/unparseable id → false). Mod-item loot GLMs
+     *  ({@link dev.gemberkoekje.skyseed.loot.AddDropModifier}) gate on this so an absent mod's id is inert, not a crash. */
+    public static boolean hasItem(Id id) {
+        final var rl = id == null ? null : Ids.parse(id.value());
+        return rl != null && BuiltInRegistries.ITEM.containsKey(rl);
+    }
+
+    /** The item under {@code id} (vanilla returns AIR for an unknown id; callers gate with {@link #hasItem(Id)}). */
+    public static Item item(Id id) {
+        return byId(BuiltInRegistries.ITEM, id);
     }
 
     // --- Biomes -------------------------------------------------------------------------------------------------

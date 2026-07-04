@@ -7,6 +7,14 @@
   ],
   "ores": [],
   "rare_structures": [
+    { "chance": 0.06,
+      "jigsaw": { "pool": "skyseed:outpost/tower", "target": "minecraft:bottom", "depth": 1, "pad": 8, "iron_golems": 1 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:pillager", "adults": 3 } ] } ] },
+    { "chance": 0.06,
+      "jigsaw": { "pool": "skyseed:evoker_cell/cell", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:evoker", "adults": 1 } ] } ] },
+    { "chance": 0.05,
+      "jigsaw": { "pool": "skyseed:trail_ruins/ruins", "target": "minecraft:bottom", "depth": 1, "pad": 4, "sink": 3 } },
     { "chance": 0.01,
       "jigsaw": { "pool": "skyseed:ruined_portal/portal", "target": "minecraft:bottom", "depth": 1, "pad": 4 }, "twin": "skyseed:ruined_portal" }
   ],

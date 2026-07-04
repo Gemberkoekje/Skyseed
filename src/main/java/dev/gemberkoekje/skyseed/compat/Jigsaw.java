@@ -82,11 +82,14 @@ public final class Jigsaw {
         //?} else {
         final int maxDist = 128;
         //?}
-        // Ids.parse is @Nullable: an unparseable/malformed data-driven start-jigsaw id resolves to nothing rather than
-        // crashing. Optional.ofNullable(null) → empty start name, which vanilla treats as "use the pool's default start
-        // element" — graceful degradation matching the Id contract (Id.java), where Optional.of(null) would NPE.
+        // The start-jigsaw name. A BLANK target is the "no specific start jigsaw" signal → reuse the pool's own default
+        // start element (vanilla picks a random start-pool piece); this is what lets us reuse a MOD's start pool, which
+        // has no skyseed `bottom` jigsaw. IMPORTANT: Ids.parse("") is NOT null — it yields `minecraft:` (empty path) —
+        // so a blank target must be guarded explicitly, else vanilla errors "No starting jigsaw minecraft: found in
+        // start pool …". A non-blank but malformed id still resolves to null (Ids.parse), also → the default element.
+        final var startJigsaw = target.value().isBlank() ? null : Ids.parse(target.value());
         final Optional<Structure.GenerationStub> stub = JigsawPlacement.addPieces(
-                context, pool, Optional.ofNullable(Ids.parse(target.value())), depth, origin, false, Optional.empty(), maxDist,
+                context, pool, Optional.ofNullable(startJigsaw), depth, origin, false, Optional.empty(), maxDist,
                 PoolAliasLookup.EMPTY, JigsawStructure.DEFAULT_DIMENSION_PADDING, JigsawStructure.DEFAULT_LIQUID_SETTINGS);
         if (stub.isEmpty()) {
             return;
@@ -109,9 +112,41 @@ public final class Jigsaw {
             }
             normaliseCappedPieces(pieces, origin, capPrefix, capCount, fillerPool, voidFillerPool, templates, random, level);
         }
+        // A reused MOD pool (blank target) has its start jigsaw at a corner/edge of the build, so it assembles off-centre
+        // on our island-centred pad (the owner's playtest: the evoker fort/pyromancer tower/wizard tower landed lopsided,
+        // hanging off an edge). Re-centre the whole assembled footprint horizontally on the island centre (origin) before
+        // stamping — the mod NBT is fixed, but the positions we stamp aren't. Our own skyseed pools (target
+        // minecraft:bottom, anchor already at the footprint centre) are centred by design and skip this.
+        if (target.value().isBlank() && !pieces.isEmpty()) {
+            recentreOnOrigin(pieces, origin);
+        }
         for (final StructurePiece piece : pieces) {
             if (piece instanceof PoolElementStructurePiece poolPiece) {
                 poolPiece.place(level, structureManager, generator, random, BoundingBox.infinite(), origin, keepJigsaws);
+            }
+        }
+    }
+
+    /**
+     * Shift every assembled piece horizontally so the union bounding box's centre sits on {@code origin} (X/Z only — the
+     * start piece's Y seating on the pad is preserved). This is how a corner-anchored reused mod structure is centred on
+     * the island: we measure the actual assembled footprint (all branches included) and counter-shift it, so there's no
+     * per-structure offset to hand-tune. A structure whose footprint already centres on origin gets a zero shift.
+     */
+    private static void recentreOnOrigin(List<StructurePiece> pieces, BlockPos origin) {
+        int minX = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE, maxZ = Integer.MIN_VALUE;
+        for (final StructurePiece piece : pieces) {
+            final BoundingBox b = piece.getBoundingBox();
+            minX = Math.min(minX, b.minX());
+            maxX = Math.max(maxX, b.maxX());
+            minZ = Math.min(minZ, b.minZ());
+            maxZ = Math.max(maxZ, b.maxZ());
+        }
+        final int dx = origin.getX() - (minX + maxX) / 2;
+        final int dz = origin.getZ() - (minZ + maxZ) / 2;
+        if (dx != 0 || dz != 0) {
+            for (final StructurePiece piece : pieces) {
+                piece.move(dx, 0, dz);
             }
         }
     }

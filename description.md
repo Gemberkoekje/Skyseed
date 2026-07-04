@@ -134,6 +134,7 @@ Skyseed ships ready-made island support for a few favourites — all of it dorma
 - **Oh The Biomes We've Gone.** The sky's biome map fills with BWG's biomes, and your seeds respond: throw one over an exotic biome and it grows that biome's island — nearly every BWG wood is growable this way, the flower fields feed Create milling, and village seeds thrown over the right biomes grow BWG's six village styles in their own block palettes. Growing your first exotic wood even unlocks a new Almanac entry.
 - **Mystical Agriculture.** Inferium and Prosperity ore grow on the Lush and Ancient islands (plus soulium in the Nether), so the essence loop bootstraps without any worldgen.
 - **Create.** Zinc ore turns up on the mining islands, so brass is a matter of growing the right island.
+- **Applied Energistics 2.** Certus quartz turns up on the mining islands to get a network started, and a dedicated Meteorite seed grows a cratered island with a sky-stone globe at its heart — the one place up here to mine sky stone and the inscriber presses AE2 otherwise buries in meteorites.
 - **Farmer's Delight.** Wild crops grow on your biome islands — onions, carrots, cabbages and tomatoes, plus rice in the ponds — so its whole cooking loop bootstraps from what you grow. Its add-ons come along too: chorus succulents on a Chorus Forest, powdery cane in the Nether.
 
 And thanks to a custom void generator, *any* biome or structure mod is safe to add — biomes flow into island theming, and nothing ever generates uninvited in the void.
@@ -163,6 +164,15 @@ The three chapters, overworld, Nether and End, are all built out, so what's left
 - Chop your first tree and dig the island for dirt and planks.
 - Craft a **Forest Skyseed** and throw it into open air for island number two.
 - Open the **Skyfarer's Almanac** for the recipes, and go build a sky.
+
+---
+
+## Play it in a pack
+
+If you'd rather not assemble a mod list yourself, there are two official Skyseed packs on CurseForge:
+
+- **[Skyseed](https://www.curseforge.com/minecraft/modpacks/skyseed-vanilla)** — the mod plus a hand-picked set of quality-of-life mods (maps, recipe lookup, vein mining, performance) and nothing that changes what you grow. The pure experience with the rough edges smoothed off.
+- Coming soon: **Skyseed: Grow Your Own World** — a full progression pack built around the mod: Create, Immersive Engineering, Applied Energistics, Mystical Agriculture, Farmer's Delight, Iron's Spells and more, with a guided quest book tying it all back to the islands you grow.
 
 ---
 

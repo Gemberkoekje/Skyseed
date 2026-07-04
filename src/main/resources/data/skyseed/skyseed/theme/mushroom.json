@@ -3,6 +3,11 @@
   "shape": { "radius": { "min": 6, "max": 9 }, "rim_noise": 0.40, "underside": "teardrop" },
   "palette": { "surface": "minecraft:mycelium", "fill": "minecraft:dirt", "core": "minecraft:stone", "fill_depth": 3 },
   "ores": [],
+  "rare_structures": [
+    { "chance": 0.05,
+      "jigsaw": { "pool": "skyseed:witch_hut/hut", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:witch", "adults": 1 } ] } ] }
+  ],
   "mobs": [
     { "entity": "minecraft:mooshroom", "chance": 0.60, "count": { "min": 1, "max": 2 } }
   ],

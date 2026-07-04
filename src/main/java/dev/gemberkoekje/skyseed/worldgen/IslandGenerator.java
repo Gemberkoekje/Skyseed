@@ -101,7 +101,7 @@ public final class IslandGenerator {
 
         // Rare structures: at most one germinates in place of the usual island. Rolled here, before the pond, so a
         // flooded ruin can suppress the pond it stands in for.
-        final RareStructure rare = rollRare(theme, biome, cfg, random, force.rareIndex());
+        final RareStructure rare = rollRare(level, theme, biome, cfg, random, force.rareIndex());
 
         // Water: a Y-banded lava lake (rolled first; a hit suppresses the pond) or the theme/override pond/river.
         final Water water = planWater(buffers, cfg, theme, center, sh, lava, rare, random);
@@ -233,14 +233,19 @@ public final class IslandGenerator {
      * Roll for a rare structure (the first whose chance hits) that germinates in place of the usual island. Gated to the
      * theme's home dimension unless the structure names its own. Consumes one RNG roll per candidate up to the hit.
      */
-    private static RareStructure rollRare(IslandTheme theme, Holder<Biome> biome, Resolved cfg, RandomSource random,
-                                          int forcedRare) {
+    private static RareStructure rollRare(ServerLevel level, IslandTheme theme, Holder<Biome> biome, Resolved cfg,
+                                          RandomSource random, int forcedRare) {
         // A debug seed can force a specific rare structure (bypassing the chance + dimension/biome gates entirely).
         if (forcedRare >= 0 && forcedRare < theme.rareStructures().size()) {
             return theme.rareStructures().get(forcedRare);
         }
         for (final RareStructure rs : theme.rareStructures()) {
-            if (rs.rollsIn(cfg.dim(), cfg.useBase()) && rs.matchesBiome(biome) && random.nextFloat() < rs.chance()) {
+            // Skip a rare whose jigsaw pool isn't registered (a mod structure the pack doesn't have). The gate is checked
+            // BEFORE the chance roll, so an absent-pool rare consumes no RNG and never levels a bald pad for a building
+            // that can't assemble — the same inert tolerance the theme system gives an unknown block id.
+            if (rs.rollsIn(cfg.dim(), cfg.useBase()) && rs.matchesBiome(biome)
+                    && Lookup.hasTemplatePool(level.registryAccess(), rs.jigsaw().pool())
+                    && random.nextFloat() < rs.chance()) {
                 return rs;
             }
         }
@@ -415,7 +420,12 @@ public final class IslandGenerator {
                     return dx * dx + dz * dz <= clear2;
                 });
             } else {
-                levelStructurePad(buffers.blockMap(), buffers.surfaceList(), center, gy, jc.pad(), cfg.surface(), cfg.fill());
+                // Normally the pad levels at the island surface (gy) and `sink` buries the structure below it (a temple
+                // hidden under the sand). But a reused MOD structure with an open courtyard doesn't carve its own air, so
+                // sinking it would fill that courtyard with the pad's surface layer. `excavate` instead drops the whole
+                // pad to the sunk floor level, setting the structure into the ground with its interior left clear.
+                final int padY = jc.excavate() ? gy - jc.sink() : gy;
+                levelStructurePad(buffers.blockMap(), buffers.surfaceList(), center, padY, jc.pad(), cfg.surface(), cfg.fill());
             }
             // JigsawPlacement lands the start piece's anchor block at origin.y - 1, so pass gy + 1 to seat the floor flush
             // on the pad; `sink` buries it further. The cap: a fixed cap_count, or — when cap_min is set below it — a

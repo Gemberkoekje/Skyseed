@@ -22,6 +22,12 @@
     "fill_depth": 3
   },
   "ores": [],
+  "rare_structures": [
+    { "_comment": "Fills the huge-mushroom rare slot so huge_explore finds a building here — a Sprawling Dungeon complex buried beneath the fungal isle (pad 0 / sink 10 = fully buried, no bald pad). Reused from huge_rocky (SKYDUNGEONPLAN Part A).",
+      "chance": 0.05,
+      "jigsaw": { "pool": "skyseed:dungeon_complex/start", "target": "minecraft:bottom", "depth": 4, "pad": 0, "sink": 10 },
+      "mobs": [] }
+  ],
   "mobs": [
     {
       "entity": "minecraft:mooshroom",

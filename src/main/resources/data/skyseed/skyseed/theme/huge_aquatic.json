@@ -52,6 +52,18 @@
   ],
   "rare_structures": [
     {
+      "_comment": "Iron's Spells (experimental) — 1:1 reuse of the mod's full Impaled Icebreaker ship. This is the huge-tier home the oversized ship needs (radius ~28-32 holds it; on aquatic_large it overhung into the void). Cold/frozen-ocean gated so it only germinates as a frozen-sea wreck (the 'cold/icy huge aquatic'). Pond KEPT (no suppress): the ship sits over the big lake, its own blue-ice spikes providing the ice. INERT without Iron's Spells (rollRare hasTemplatePool guard); empty target reuses the mod pool's default start. Playtest the fit; tune pad if the hull clips the rim.",
+      "chance": 0.05,
+      "biomes": [ "minecraft:frozen_ocean", "minecraft:deep_frozen_ocean", "minecraft:cold_ocean", "minecraft:deep_cold_ocean" ],
+      "jigsaw": {
+        "pool": "irons_spellbooks:impaled_icebreaker_pool",
+        "target": "",
+        "depth": 1,
+        "pad": 8
+      },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:cryomancer", "adults": 1 }, { "entity": "irons_spellbooks:ice_spider", "adults": 2 } ] } ]
+    },
+    {
       "_comment": "5% — a bigger (19x19) Ocean Monument in the centre, lake suppressed; an elder guardian + pack.",
       "chance": 0.05,
       "suppress_pond": true,
@@ -245,6 +257,26 @@
         }
       ],
       "variants": []
+    },
+    {
+      "_comment": "Cold/frozen ocean form — and the home of the full Impaled Icebreaker rare (above). A snowy, ice-spiked sea island: snow surface, the big lake kept as cold water with kelp/seagrass and cold fish, polar bears on the ice. Ordered BEFORE the warm is_ocean override so a frozen throw doesn't come up tropical (coral + sand). This is the 'add ice' backdrop the ship sits in.",
+      "biomes": [ "minecraft:frozen_ocean", "minecraft:deep_frozen_ocean", "minecraft:cold_ocean", "minecraft:deep_cold_ocean" ],
+      "surface": "minecraft:snow_block",
+      "fill": "minecraft:sand",
+      "pond": {
+        "block": "minecraft:water", "radius": 26, "extent": 0.8, "depth": 6, "slope": true,
+        "plants": [ { "block": "minecraft:kelp", "chance": 0.10 }, { "block": "minecraft:seagrass", "chance": 0.12 } ],
+        "water_mobs": [
+          { "entity": "minecraft:cod", "chance": 0.5, "count": { "min": 2, "max": 4 } },
+          { "entity": "minecraft:salmon", "chance": 0.5, "count": { "min": 2, "max": 4 } },
+          { "entity": "minecraft:squid", "chance": 0.4, "count": { "min": 1, "max": 3 } }
+        ]
+      },
+      "mobs": [ { "entity": "minecraft:polar_bear", "chance": 0.12, "count": { "min": 1, "max": 1 } } ],
+      "variants": [
+        { "weight": 1, "name": "pack_ice", "snow": 0.85, "decoration": {
+          "trees": [ { "feature": "skyseed:ice_spike", "tries": 6, "spacing": 3 } ] } }
+      ]
     },
     {
       "biomes": [

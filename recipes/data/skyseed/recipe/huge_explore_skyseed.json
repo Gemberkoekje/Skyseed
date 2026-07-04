@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " F ",
+    "AXD",
+    " M "
+  ],
+  "key": {
+    "F": "skyseed:huge_forest_skyseed",
+    "A": "skyseed:huge_aquatic_skyseed",
+    "D": "skyseed:huge_desert_skyseed",
+    "M": "skyseed:huge_meadow_skyseed",
+    "X": "#skyseed:structure_seeds"
+  },
+  "result": {
+    "id": "skyseed:huge_explore_skyseed"
+  }
+}

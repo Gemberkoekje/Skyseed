@@ -17,6 +17,7 @@
     { "block": "minecraft:deepslate_lapis_ore", "chance": 0.35, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 1, "max": 3 }, "depth": "core" },
     { "block": "minecraft:deepslate_diamond_ore", "chance": 0.14, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 1, "max": 2 }, "depth": "deep_core" },
     { "block": "minecraft:deepslate_emerald_ore", "chance": 0.06, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 1, "max": 1 }, "depth": "deep_core" },
+    { "_comment": "Iron's Spells mithril (inert if the mod is absent) — the mod's overworld ore in deepslate form, homed deep on the deepslate-cored Ancient islands (its faithful home). Gates the mid-tier spellbooks/armor.", "block": "irons_spellbooks:deepslate_mithril_ore", "chance": 0.5, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 2, "max": 3 }, "depth": "deep_core" },
     { "block": "minecraft:dripstone_block", "chance": 0.50, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
     { "block": "minecraft:calcite", "chance": 0.40, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
     { "block": "minecraft:amethyst_block", "chance": 0.30, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 5 }, "depth": "core" },

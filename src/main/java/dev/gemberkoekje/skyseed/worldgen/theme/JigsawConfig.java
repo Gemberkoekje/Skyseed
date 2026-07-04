@@ -34,7 +34,7 @@ import java.util.Optional;
  */
 public record JigsawConfig(Id pool, Id target, int depth, int pad, int ironGolems,
                            int sink, int reach, String capPrefix, int capCount, int capMin, String capFiller,
-                           Optional<Id> centerpiece, boolean trestles, int stiltHeight) {
+                           Optional<Id> centerpiece, boolean trestles, int stiltHeight, boolean excavate) {
     public static final Codec<JigsawConfig> CODEC = RecordCodecBuilder.create(i -> i.group(
             Id.CODEC.fieldOf("pool").forGetter(JigsawConfig::pool),
             Id.CODEC.optionalFieldOf("target", Id.of("minecraft:bottom")).forGetter(JigsawConfig::target),
@@ -54,12 +54,17 @@ public record JigsawConfig(Id pool, Id target, int depth, int pad, int ironGolem
             // When > 0, the structure is a STILTED bayou build: it seats this many blocks above the pad and its
             // over-water/void floors + street lanes get wooden stilt legs + plank bridges down to the bed (a swamp
             // village over the water). See PathSurfacer.supportStilts + the over-water branch in resolve. (BWGSWAMPVILLAGEPLAN #73)
-            Codec.INT.optionalFieldOf("stilt_height", 0).forGetter(JigsawConfig::stiltHeight)
+            Codec.INT.optionalFieldOf("stilt_height", 0).forGetter(JigsawConfig::stiltHeight),
+            // When true, {@code sink} <em>sets the structure into the ground</em> instead of burying it: the levelled pad
+            // drops to the sunk floor level, so a reused mod structure with an OPEN interior (a walled courtyard) seats
+            // lower without the island's surface filling its courtyard with sand. The default (false) is the classic
+            // "hide under the surface" sink — right for a skyseed structure that carves its own air (a buried temple).
+            Codec.BOOL.optionalFieldOf("excavate", false).forGetter(JigsawConfig::excavate)
     ).apply(i, JigsawConfig::new));
 
     /** A copy with a different {@code pool}, every other field preserved — for swapping in a dimension's pool variant. */
     public JigsawConfig withPool(Id newPool) {
         return new JigsawConfig(newPool, target, depth, pad, ironGolems, sink, reach,
-                capPrefix, capCount, capMin, capFiller, centerpiece, trestles, stiltHeight);
+                capPrefix, capCount, capMin, capFiller, centerpiece, trestles, stiltHeight, excavate);
     }
 }

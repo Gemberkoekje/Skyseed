@@ -37,6 +37,7 @@
     { "block": "minecraft:deepslate_lapis_ore", "chance": 0.35, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 1, "max": 3 }, "depth": "core" },
     { "block": "minecraft:deepslate_diamond_ore", "chance": 0.14, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 1, "max": 2 }, "depth": "deep_core" },
     { "block": "minecraft:deepslate_emerald_ore", "chance": 0.06, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 1, "max": 1 }, "depth": "deep_core" },
+    { "_comment": "Iron's Spells mithril (inert if the mod is absent) — the mod's overworld ore in deepslate form, homed deep on the deepslate-cored Ancient islands (its faithful home). Gates the mid-tier spellbooks/armor.", "block": "irons_spellbooks:deepslate_mithril_ore", "chance": 0.5, "count": { "min": 2, "max": 4 }, "vein_size": { "min": 2, "max": 3 }, "depth": "deep_core" },
     { "block": "minecraft:dripstone_block", "chance": 0.5, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
     { "block": "minecraft:calcite", "chance": 0.4, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
     { "block": "minecraft:amethyst_block", "chance": 0.3, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 5 }, "depth": "core" },
@@ -54,6 +55,18 @@
         "sink": 0
       },
       "mobs": []
+    },
+    {
+      "_comment": "Catacombs — skyseed's home-curated grand crypt (IRONSCONTENTGAPPLAN §Catacombs), restoring Iron's Spells' flagship DEAD KING boss (the mod's own catacombs digs a straight shaft, unfit for an island). One bounded 21×21 piece that descends ~16 into the deep deepslate body: a broken surface mausoleum (+ a ruined wing) → an antechamber → a bone-lined ossuary → the Crypt of the Dead King, linked by a winding stair, with a distinct side crypt bulging off two of the chambers into the corners. The dead_king_corpse (dormant boss) + cursed_armor_stand honour guard are baked into the boss chamber; catacombs_zombie spawners keep the crypt levels rising (kept dark). The mod's necromancer + cultists guard the mouth via this mobs pack (inert-safe). Not a mod pool — always present. sink 16 seats the mausoleum at the surface. Sits alongside the Ancient City as an alternative deep-ruin roll (more structure variety).",
+      "chance": 0.045,
+      "jigsaw": {
+        "pool": "skyseed:catacombs/crypt",
+        "target": "minecraft:bottom",
+        "depth": 1,
+        "pad": 9,
+        "sink": 16
+      },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:necromancer", "adults": 1 }, { "entity": "irons_spellbooks:cultist", "adults": 2 } ] } ]
     }
   ],
   "variants": [
