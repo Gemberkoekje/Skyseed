@@ -5,7 +5,12 @@ name: Build
 # Zero per-version maintenance: the version list lives only in settings.gradle. The `chiseledBuild`
 # task (stonecutter.gradle.kts) fans `build` out across EVERY version node, and each node compiles
 # with its own Java toolchain (1.21.1 -> 21, 26.1.2 -> 25, ...) which the foojay resolver configured
-# in settings.gradle auto-provisions. So adding a new MC version needs NO change to this file.
+# in settings.gradle auto-provisions. So adding a new MC version needs NO change to the build job.
+#
+# On a version tag (v*) the built + gametested jars are also published: a GitHub Release ("Publish
+# release" step) and — when CurseForge is configured — one CurseForge Release file per MC version
+# (the `curseforge` job at the bottom). Every other trigger just builds, tests, and uploads the
+# jars as run artifacts.
 
 on:
   push:
@@ -25,6 +30,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Expose the mod version so the curseforge job can download this job's jar artifact by its
+    # versioned name (skyseed-jars-<version>) without re-parsing gradle.properties.
+    outputs:
+      version: ${{ steps.modver.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -97,3 +106,71 @@ jobs:
           else
             gh release create "$GITHUB_REF_NAME" dist/*.jar --title "$GITHUB_REF_NAME" --generate-notes
           fi
+
+  # On a version tag, publish each node's jar to CurseForge as a Release file — ONE upload per Minecraft
+  # version, because the two jars target different MC versions and ship different changelogs. Uses
+  # Kir-Antipov/mc-publish, which resolves CurseForge's numeric game-version IDs from its API for us and
+  # (given only CurseForge credentials) publishes to CurseForge alone — it never touches the GitHub
+  # Release cut above, since github-token is left unset.
+  #
+  # Opt-in / kill switch: the job is gated on the CURSEFORGE_PROJECT_ID *variable*. Leave it unset and the
+  # job is skipped, so tag builds still cut the GitHub Release with no CurseForge account wired up. Arm it:
+  #   - repo variable  CURSEFORGE_PROJECT_ID  = the numeric project id from the mod's CurseForge page
+  #   - repo secret    CURSEFORGE_TOKEN       = an API token from https://authors.curseforge.com/account/api-tokens
+  # (Secrets can't be read in a job-level `if`, so the variable is the on/off switch; mc-publish fails with
+  # a clear message if the token is missing once the variable is set.)
+  #
+  # Unlike the build/gametest jobs, adding an MC version DOES cost one line here: a matrix entry pairing the
+  # version with its changelog file. That's unavoidable — CurseForge needs the game version stated per file,
+  # and the changelog names don't derive cleanly from the version (1.21.1 -> CHANGELOG_1.21.1.md, but
+  # 26.1.2 -> CHANGELOG_26.1.md).
+  curseforge:
+    name: Publish to CurseForge (MC ${{ matrix.mc }})
+    needs: build
+    if: ${{ startsWith(github.ref, 'refs/tags/') && vars.CURSEFORGE_PROJECT_ID != '' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # only reads the repo + this run's artifact; the GitHub Release is handled by the build job
+    strategy:
+      fail-fast: false # one node failing to upload must NOT cancel the other node's upload
+      matrix:
+        include:
+          - mc: "1.21.1"
+            changelog: CHANGELOG_1.21.1.md
+          - mc: "26.1.2"
+            changelog: CHANGELOG_26.1.md
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # Publish the exact bytes the build job built and gametested (artifact skyseed-jars-<version>) rather
+      # than rebuilding. The artifact holds every node's jar; the files glob below picks out just this leg's.
+      - name: Download built jars
+        uses: actions/download-artifact@v7
+        with:
+          name: skyseed-jars-${{ needs.build.outputs.version }}
+          path: dist
+
+      # CurseForge's changelog field wants THIS release's notes, not the whole file. Slice out the top
+      # "## [x.y.z]" section (its heading through the line before the next "## [") from this node's changelog.
+      - name: Extract this release's changelog section
+        run: |
+          awk '/^## \[/{c++} c==1{print} c==2{exit}' "${{ matrix.changelog }}" > cf-changelog.md
+          echo "---- CurseForge changelog (MC ${{ matrix.mc }}) ----"
+          cat cf-changelog.md
+
+      - name: Upload to CurseForge
+        uses: Kir-Antipov/mc-publish@v3.3.0
+        with:
+          curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          # Only this node's jar (skyseed-<mc>_<modver>.jar). The '_' after the MC version keeps the
+          # 1.21.1 glob from also matching 26.1.2 (and vice-versa).
+          files: dist/skyseed-${{ matrix.mc }}_*.jar
+          name: Skyseed ${{ needs.build.outputs.version }} (MC ${{ matrix.mc }})
+          version: ${{ needs.build.outputs.version }}
+          version-type: release
+          loaders: neoforge
+          game-versions: ${{ matrix.mc }}
+          changelog-file: cf-changelog.md
+          retry-attempts: 3 # ride out transient CurseForge API hiccups
