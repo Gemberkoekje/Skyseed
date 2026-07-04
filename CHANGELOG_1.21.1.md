@@ -5,6 +5,42 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.207.0] - 2026-07-04
+
+### Added
+- **Iron's Spells 'n Spellbooks exploration pillar (→ [IRONSPELLSPLAN.md](Modpack-growyourownworld/IRONSPELLSPLAN.md),
+  [IRONSTRUCTUREREBUILDPLAN.md](Modpack-growyourownworld/IRONSTRUCTUREREBUILDPLAN.md),
+  [IRONSCONTENTGAPPLAN.md](Modpack-growyourownworld/IRONSCONTENTGAPPLAN.md)).** Iron's Spells + Artifacts + Relics land
+  as a magic/exploration pillar — everything inert-safe (tag/condition-gated), so nothing errors without the mods.
+  - **"Explore" seed tiers (`explore` / `explore_large` / `huge_explore`).** New island-seed line with jar recipes,
+    item models + textures, reveal/craft/gathered advancements, guide-book entries, an `explore` theme, and a
+    `structure_seeds` item tag.
+  - **Five home-curated structure rebuilds.** Iron's own jigsaws sprawl too wide/deep for a floating island, so each is
+    rebuilt as one bounded, non-boxy, inert-safe piece that brings its own masonry shell and centres on the island:
+    **Frozen Warren** (Ice Spider Den), **War Barrow** (Ancient Battleground), **Citadel / Mage's Sanctum**, **Impaled
+    Boat** (a curated frozen-sea wreck for the cold aquatic/frozen large tiers; the full Impaled Icebreaker rides the
+    huge cold-aquatic tier), and the new grand **Catacombs** — a descending deepslate crypt with a winding stair, two
+    distinct corner side-crypts, and a ruined mausoleum wing.
+  - **Content-gap closure.** Audited every mob/boss/worldgen block a normal overworld would expose, then homed the
+    missing ones: **mithril ore** (`mithril_ore` on the Rocky family, `deepslate_mithril_ore` on the Ancient family, at
+    `deep_core` — the mod's only overworld ore, and the mid-tier spellbook/armor gate), and the missing casters/bosses
+    onto structure mob-packs / baked entities — `fire_boss` (pyromancer tower), `apothecarist` (mangrove hut), `priest`
+    + `cursed_armor_stand` + Artifacts `mimic` (citadel), and the restored **Dead King** (`dead_king_corpse`, dormant)
+    + `catacombs_zombie` in the Catacombs.
+- **Iron's arcane-essence + upgrade-orb global loot modifiers** — inject the mod's scroll/essence/upgrade-orb loot into
+  the re-homed structures' vanilla chests (inert without Iron's Spells).
+
+### Changed
+- **Badlands `wooded` variant now reads badlands-first.** Its surface is a coarse-dirt cap with a few sparse dark oaks
+  instead of a full grass forest, and it's rarer (mesa weight raised), across all three badlands tiers.
+- Debug seeds re-sorted — grouped per base theme with biome overrides before structure overrides.
+
+> Modpack (`Modpack-growyourownworld/`): the curated Iron's Spells / Artifacts / Relics / Curios / Lootr jar set +
+> configs; a new **Magic & Exploration** FTB quest chapter (11 quests) in its own sidebar group; restored the missing
+> Immersive Engineering quest descriptions; and gave the **Power** chapter sensible cross-chapter prerequisites.
+
+Both nodes green (175 / 177).
+
 ## [0.206.0] - 2026-07-04
 
 ### Added
