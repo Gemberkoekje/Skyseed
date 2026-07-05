@@ -9,6 +9,20 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.220.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 — the Alchemist's Distillery (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B29).** A `requires:["immersiveengineering","irons_spellbooks"]` epic (w1, Badlands) that only germinates where **both**
+  IE and Iron's Spells are installed: an IE refinery repurposed as an arcane still gone cold — a roofless rusty-sheetmetal
+  shed around a lava-cauldron fire, a weathered-copper still-head + brewing stand, a weathered-copper **condenser column**
+  with a lightning-rod vent, a water receiver, IE fluid tanks + a capacitor, and an amethyst focus / bookshelf study /
+  essence-scrap chest. IE machinery via the `modNames` side-map; Iron's is a mob/item mod so the still + arcane fittings are
+  all vanilla (the still stands on vanilla copper, so it doesn't float without IE — the gametest shell). **D4:** IE loot is an
+  iron plate (husk still, no working multiblock); Iron's loot is `arcane_essence` only. Wired w1 across all three Badlands
+  tiers. **Adversarial review (afterwards)** reworked the still off a full-width barrier into a left-side cluster so the
+  central doorway axis stays a clear walkway to the loot. Both nodes green (1.21.1: 208, 26.1.2: 210).
+
 ## [0.219.0] - 2026-07-05
 
 ### Added

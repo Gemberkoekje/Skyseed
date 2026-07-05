@@ -5,6 +5,31 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.220.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 — the Alchemist's Distillery (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B29).** A `requires:["immersiveengineering","irons_spellbooks"]` epic (w1, Badlands) that only germinates where **both**
+  Immersive Engineering and Iron's Spells are installed:
+  - **Alchemist's Distillery** (Badlands, a necromancer "dark alchemist") — an IE refinery repurposed as an arcane still,
+    gone cold. *Not a box*: a roofless rusty-sheetmetal shed (breached walls, broken corners) around a still — a
+    lava-cauldron fire, a weathered-copper still-head + brewing stand, a weathered-copper **condenser column** topped by a
+    lightning-rod vent, a water-cauldron receiver, and IE fluid tanks (metal barrels) + a capacitor; plus an amethyst focus,
+    a bookshelf study with a lectern, and the essence-scrap chest.
+  - **Authoring.** The IE machinery uses the `modNames` side-map (verified IE 12.4.2 ids); Iron's Spells is a mob/item mod so
+    the still + arcane fittings are **all vanilla** (and the assertable gametest shell — the still stands on vanilla copper,
+    so it doesn't float even without IE). The "Iron's" flavour is the mage + the loot.
+  - **D4 — compounding gate.** IE: only metal-barrel / capacitor husks (no working multiblock); loot is an iron plate. Iron's
+    Spells: loot is `arcane_essence` (the common crafting mat) — never a spellbook, named scroll or Upgrade Orb. Chest binds
+    `skyseed:chests/distillery_scrap` (vanilla brewing scrap) + two inert `add_drop` GLMs.
+  - Wired **w1** across all three tiers of Badlands. A new assembly gametest per suite mirror. Both nodes green (1.21.1: 208,
+    26.1.2: 210).
+  - **Adversarial physical review (afterwards).** The first pass had the still row spanning the whole interior at z1 —
+    barring the doorway from the back of the room (loot behind a wall that included a lava cauldron). Reworked so the central
+    doorway axis (x3) is a clear walkway, with the still on the left and the arcane fittings + chest on the right, both
+    reachable straight off it. Re-verified: no floating blocks (the still stands on vanilla copper), the chest is openable
+    (air above), the doorway is 2 tall.
+
 ## [0.219.0] - 2026-07-05
 
 ### Added

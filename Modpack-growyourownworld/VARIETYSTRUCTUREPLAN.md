@@ -34,7 +34,9 @@
 > tier-1 `inferium_essence`). A physical-review pass fixed a floating-beam class of bug across B24/B25/B26 and confirmed B27 clean.
 > The **FE→ME Substation** (B28, `requires:["immersiveengineering","ae2"]`, Rocky) — the sharpest D4 case — has shipped too:
 > an IE→AE2 conversion station over an **empty controller pit** (no sky stone / controller / press; fluix + wire-coil loot).
-> **Left:** the rest of Band 3 (the multi-mod combos B29–B30) + the base-tier
+> The **Alchemist's Distillery** (B29, `requires:["immersiveengineering","irons_spellbooks"]`, Badlands) — an IE refinery
+> reworked as a vanilla arcane still — has shipped as well (D4: IE plate + Iron's `arcane_essence`).
+> **Left:** the last Band-3 combo (B30 Sky-Freight Depot) + the base-tier
 > `huge_` mirrors for the small commons (scale permitting), and an in-game throw-test/tuning pass. This
 > is the scoped build-out of PLANOFPLANS **#68** ("net-new bespoke structures beyond BWG's 17"). The goal is many more
 > *common* and *rare* buildings so that every overworld seed has a **flat 5% chance** to germinate one that fits its
@@ -289,7 +291,7 @@ and every chest is a scrap pool.
 | ✅ B26 | **Magitech Workshop** | Create + Iron's Spells | an andesite/stone arcane-forge hall (caved roof, breached wall, broken brick forge-flue); a Create machine husk (casing gearbox → cogwheel + shaft → a `mechanical_press`) beside the arcane half (enchanting table + amethyst + candles, a bookshelf study, a brewing nook); vanilla scrap + Create `andesite_alloy` / Iron's `arcane_essence` + `blank_rune` GLMs (D4 both mods) | 2 mages (archevoker + magehunter) | **wired Rocky** (all 3 tiers, w1) |
 | ✅ B27 | **Automated Essence Farm (ruin)** | Create + Mystical | a derelict inferium field (farmland rows + tier-1 crops, some trampled) under a stalled harvester **gantry** (vanilla oak posts → rails → cross-bridge carrying a Create `mechanical_drill` husk + cogwheel drive), a west control-chest station, a broken tier-1 `growth_accelerator` + coolant cauldron; vanilla scrap + Create `andesite_alloy` / MA tier-1 `inferium_essence` GLMs (D4 both mods) | 1–2 zombies | **wired Meadow** (all 3 tiers, w1) |
 | ✅ B28 | **FE→ME Substation** | IE + AE2 | a gutted roofless hall — an IE concrete/sheetmetal west end (wire-mast + post-transformer husk + capacitor), a certus/fluix AE2 east end, a scorched deepslate **conversion column** (broken conduit antenna) over the **empty controller pit** (⛔ no sky stone / controller / press — the pit is empty); vanilla scrap + IE `wire_copper` / AE2 `fluix_crystal` GLMs | 1 creeper | **wired Rocky** (all 3 tiers, w1) |
-| B29 | **Alchemist's Distillery** | IE + Iron's Spells | a refinery husk as an arcane still; potion/essence scrap | 1 mage | Badlands |
+| ✅ B29 | **Alchemist's Distillery** | IE + Iron's Spells | a roofless sheetmetal shed around an arcane still (lava-cauldron fire, weathered-copper still-head + brewing stand, a copper condenser column + lightning-rod vent, a water receiver, IE metal-barrel tanks + capacitor) with an amethyst focus + bookshelf study; vanilla brewing scrap + IE `plate_iron` / Iron's `arcane_essence` GLMs (D4) | 1 necromancer | **wired Badlands** (all 3 tiers, w1) |
 | B30 | **Sky-Freight Depot** | Create + IE | a stalled train + conveyor husks + crates; cog/ingot scrap | 2 zombies | Rocky |
 
 The catalog is deliberately open-ended — treat B1–B30 as the **starter set**, not a ceiling. New buildings slot in

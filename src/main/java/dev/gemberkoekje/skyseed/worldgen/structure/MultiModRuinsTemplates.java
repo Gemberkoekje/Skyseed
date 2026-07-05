@@ -40,6 +40,7 @@ public final class MultiModRuinsTemplates {
         writeIfAbsent(base.resolve("magitech_workshop/workshop.nbt"), magitechWorkshop());
         writeIfAbsent(base.resolve("essence_farm/farm.nbt"), automatedEssenceFarm());
         writeIfAbsent(base.resolve("substation/substation.nbt"), feToMeSubstation());
+        writeIfAbsent(base.resolve("distillery/distillery.nbt"), alchemistsDistillery());
     }
 
     /**
@@ -337,6 +338,90 @@ public final class MultiModRuinsTemplates {
         m.put(new BlockPos(5, 2, 2), Blocks.COBWEB.defaultBlockState());
 
         StructureParts.anchor(m, bes, new BlockPos(3, 0, 3), "minecraft:deepslate");
+        return built(m, bes, mods);
+    }
+
+    /**
+     * The <b>Alchemist's Distillery</b> (B29, <b>Immersive Engineering + Iron's Spells</b>) — an IE refinery repurposed as
+     * an arcane still, gone cold in the badlands. <em>Not a box</em>: a roofless sheetmetal shed (breached walls, broken
+     * corners) around a still — a lava-cauldron fire under a weathered-copper still-head with its brewing stand, a
+     * weathered-copper <b>condenser column</b> topped by a lightning-rod vent (the anti-box vertical), a water-cauldron
+     * receiver, and IE fluid tanks (metal barrels) + a capacitor to the side; an amethyst focus, a bookshelf study with a
+     * lectern of alchemy notes, and the essence-scrap chest. Iron's Spells is a mob/item mod, so the arcane fittings are
+     * all vanilla (and the assertable gametest shell); the "Iron's" flavour is the mage of the theme {@code mobs} pack and
+     * the loot. Fits Badlands.
+     *
+     * <p><b>D4 (both mods).</b> IE: only metal-barrel / sheetmetal / capacitor husks — no working multiblock; loot is an
+     * iron plate. Iron's Spells: loot is {@code arcane_essence} (the common crafting mat) — never a spellbook, a named
+     * scroll or an Upgrade Orb.
+     */
+    private static Built alchemistsDistillery() {
+        final Map<BlockPos, BlockState> m = new HashMap<>();
+        final Map<BlockPos, String> mods = new HashMap<>();
+        final Map<BlockPos, CompoundTag> bes = new HashMap<>();
+        final int xMax = 6, zMax = 4; // 7×5
+
+        // IE concrete floor (the refinery pad).
+        for (int x = 0; x <= xMax; x++) {
+            for (int z = 0; z <= zMax; z++) {
+                set(m, mods, new BlockPos(x, 0, z), cube(), IE + ((x + z) % 3 == 0 ? "concrete_tile" : "concrete"));
+            }
+        }
+
+        // Perimeter walls: rusty IE sheetmetal + treated wood, two courses (corners three), ruined — a front doorway
+        // + two breaches.
+        for (int x = 0; x <= xMax; x++) {
+            for (int z = 0; z <= zMax; z++) {
+                if (!(x == 0 || x == xMax || z == 0 || z == zMax)) {
+                    continue;
+                }
+                if (x == 3 && z == 0) {
+                    continue; // front doorway
+                }
+                if ((x == 0 && z == 3) || (x == xMax && z == 2)) {
+                    continue; // breaches
+                }
+                final boolean corner = (x == 0 || x == xMax) && (z == 0 || z == zMax);
+                final boolean brokenTop = (x == 0 && z == 0) || (x == xMax && z == zMax);
+                for (int y = 1; y <= (brokenTop ? 2 : (corner ? 3 : 2)); y++) {
+                    set(m, mods, new BlockPos(x, y, z), cube(), IE + (y == 1 ? "sheetmetal_steel" : "treated_wood_horizontal"));
+                }
+            }
+        }
+
+        // -- The still (LEFT, x1-x2) — all-vanilla so it stands on its own: a copper condenser column topped by a
+        //    lightning-rod vent, a lava-cauldron fire, a copper still-head + brewing stand. The central x3 axis (the
+        //    doorway line) is left CLEAR as a walkway to the back, so the still never bars the room. -------------------
+        m.put(new BlockPos(1, 1, 1), Blocks.WEATHERED_COPPER.defaultBlockState()); // condenser column
+        m.put(new BlockPos(1, 2, 1), Blocks.WEATHERED_COPPER.defaultBlockState());
+        m.put(new BlockPos(1, 3, 1), Blocks.WEATHERED_COPPER.defaultBlockState());
+        m.put(new BlockPos(1, 4, 1), Blocks.LIGHTNING_ROD.defaultBlockState());    // the vent (anti-box vertical)
+        m.put(new BlockPos(2, 1, 1), Blocks.LAVA_CAULDRON.defaultBlockState());    // the still fire
+        m.put(new BlockPos(2, 1, 2), Blocks.WEATHERED_COPPER.defaultBlockState()); // the still base (vanilla)
+        m.put(new BlockPos(2, 2, 2), Blocks.BREWING_STAND.defaultBlockState());    // the still head, on the copper base
+        set(m, mods, new BlockPos(1, 1, 2), cube(), IE + "metal_barrel");          // an IE fluid tank
+        set(m, mods, new BlockPos(1, 1, 3), cube(), IE + "capacitor_hv");
+        m.put(new BlockPos(2, 1, 3), Blocks.GLOWSTONE.defaultBlockState());
+
+        // -- The right side (x4-x5): a water receiver + an IE tank, the amethyst focus, a bookshelf study + lectern,
+        //    the essence-scrap chest — all reachable straight off the x3 walkway. --------------------------------------
+        m.put(new BlockPos(4, 1, 1), Blocks.WATER_CAULDRON.defaultBlockState()
+                .setValue(BlockStateProperties.LEVEL_CAULDRON, 3));               // the receiver
+        set(m, mods, new BlockPos(5, 1, 1), cube(), IE + "metal_barrel");
+        m.put(new BlockPos(4, 1, 2), Blocks.AMETHYST_BLOCK.defaultBlockState());   // the arcane focus
+        m.put(new BlockPos(4, 2, 2), Blocks.AMETHYST_CLUSTER.defaultBlockState()
+                .setValue(BlockStateProperties.FACING, Direction.UP));
+        m.put(new BlockPos(5, 1, 2), Blocks.BOOKSHELF.defaultBlockState());
+        m.put(new BlockPos(5, 2, 2), Blocks.BOOKSHELF.defaultBlockState());
+        m.put(new BlockPos(5, 1, 3), Blocks.LECTERN.defaultBlockState()
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST));
+        m.put(new BlockPos(2, 3, 2), Blocks.COBWEB.defaultBlockState());
+        m.put(new BlockPos(5, 3, 3), Blocks.COBWEB.defaultBlockState());
+        // The chest faces the walkway (west); air above (4,2,3) so it opens.
+        m.put(new BlockPos(4, 1, 3), Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.WEST));
+        bes.put(new BlockPos(4, 1, 3), StructureParts.lootChest("skyseed:chests/distillery_scrap"));
+
+        StructureParts.anchor(m, bes, new BlockPos(3, 0, 3), "minecraft:cobblestone");
         return built(m, bes, mods);
     }
 

@@ -31,6 +31,8 @@
     "skyseed:essence_farm_gears",
     "skyseed:essence_farm_inferium",
     "skyseed:substation_wire",
-    "skyseed:substation_fluix"
+    "skyseed:substation_fluix",
+    "skyseed:distillery_plate",
+    "skyseed:distillery_essence"
   ]
 }

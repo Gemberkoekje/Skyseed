@@ -256,6 +256,7 @@ public final class SkyseedTests {
         reg(event, "magitech_workshop_assembles", BIG_REGION, SkyseedTests::magitechWorkshopAssembles);
         reg(event, "essence_farm_assembles", BIG_REGION, SkyseedTests::essenceFarmAssembles);
         reg(event, "substation_assembles", BIG_REGION, SkyseedTests::feToMeSubstationAssembles);
+        reg(event, "distillery_assembles", BIG_REGION, SkyseedTests::alchemistsDistilleryAssembles);
         // batch b — End-chapter / monument / ancient-city structure assembly:
         reg(event, "end_portal_chamber_has_twelve_empty_frames", BIG_REGION, SkyseedTests::endPortalChamberHasTwelveEmptyFrames);
         reg(event, "return_portal_shrine_has_end_portal", BIG_REGION, SkyseedTests::returnPortalShrineHasEndPortal);
@@ -4066,6 +4067,33 @@ public final class SkyseedTests {
         helper.assertTrue(antenna, "substation must have its conduit antenna (not a plain box)");
         helper.assertTrue(chest, "substation must place its scrap chest");
         helper.assertTrue(lantern, "substation must have its lantern");
+        helper.succeed();
+    }
+
+    static void alchemistsDistilleryAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B29) — the Immersive Engineering + Iron's Spells Alchemist's Distillery. The IE
+        // machinery is mod blocks (air without IE) and Iron's contributes no blocks, so assert the vanilla arcane still:
+        // the weathered-copper condenser, the brewing-stand still head, the amethyst focus, and the chest. Loads .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("distillery/distillery"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean copper = false, still = false, amethyst = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.WEATHERED_COPPER)) copper = true;
+                    else if (s.is(Blocks.BREWING_STAND)) still = true;
+                    else if (s.is(Blocks.AMETHYST_BLOCK)) amethyst = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(copper, "distillery must have its weathered-copper condenser column (not a plain box)");
+        helper.assertTrue(still, "distillery must have its brewing-stand still head");
+        helper.assertTrue(amethyst, "distillery must have its amethyst focus");
+        helper.assertTrue(chest, "distillery must place its essence-scrap chest");
         helper.succeed();
     }
 
