@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 3 (B26, D4/§5) — layers a little Create andesite alloy (the mod's basic crafting material) onto the Magitech Workshop's chest. Inert without Create: AddDropModifier resolves the id via Lookup.hasItem and adds nothing when absent. Gate-safe: andesite_alloy is trivially craftable and never skips the andesite->brass grind (never brass / precision mechanisms).",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/magitech_scrap" }
+  ],
+  "item": "create:andesite_alloy",
+  "chance": 0.6
+}

@@ -5,6 +5,28 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.216.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 — the Magitech Workshop (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B26), the first multi-mod epic.** A `requires:["create","irons_spellbooks"]` epic (w1) that only germinates where
+  **both** Create and Iron's Spells are installed:
+  - **Magitech Workshop** (Rocky, two mages) — an arcane-forge workshop where a mage once married cogwork to spellcraft,
+    now abandoned. *Not a box*: an andesite-and-stone workshop with a caved roof (open sky, fallen rubble), a breached east
+    wall, and a broken brick forge-flue jutting above the ridge. Inside, a **Create** machine husk (an `andesite_casing`
+    gearbox driving a cogwheel + shaft into a `mechanical_press` over its bed) stands beside the **arcane** half — an
+    enchanting table ringed with amethyst and candles, a bookshelf study with a lectern, and a brewing nook.
+  - **Authoring.** The Create machinery uses the `modNames` side-map (verified `create` 6.0.10 ids, `STONE`/stripped-log/
+    `CARVED_PUMPKIN` analogs); Iron's Spells is a mob/item mod so the arcane fittings are all vanilla (and the assertable
+    gametest shell — Create blocks resolve to air without the mod). The "Iron's" flavour is the two mages (`archevoker` +
+    `magehunter_vindicator`) of the theme `mobs` pack and the loot.
+  - **D4 — the compounding gate.** Create side: only casings / cogwheel / shaft and a `mechanical_press` husk (no working
+    contraption); loot tops out at `andesite_alloy` (never brass / precision mechanisms). Iron's side: loot is
+    `arcane_essence` + a `blank_rune` (an uninscribed base rune, inert without a gated Upgrade Orb) — never a spellbook,
+    named scroll or Upgrade Orb. Chest binds `skyseed:chests/magitech_scrap` (vanilla scrap) + three inert `add_drop` GLMs.
+  - Wired **w1** across all three tiers of Rocky. A new assembly gametest per suite mirror; adversarial-reviewed before the
+    regen. Both nodes green (1.21.1: 205, 26.1.2: 207).
+
 ## [0.215.0] - 2026-07-05
 
 ### Added

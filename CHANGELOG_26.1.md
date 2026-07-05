@@ -9,6 +9,20 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.216.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 — the Magitech Workshop (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B26), the first multi-mod epic.** A `requires:["create","irons_spellbooks"]` epic (w1, Rocky) that only germinates
+  where **both** Create and Iron's Spells are installed: an arcane-forge workshop, *not a box* — an andesite-and-stone hall
+  with a caved roof, a breached wall and a broken brick forge-flue, holding a **Create** machine husk (`andesite_casing`
+  gearbox → cogwheel + shaft → a `mechanical_press`) beside the **arcane** half (an enchanting table ringed with amethyst
+  and candles, a bookshelf study, a brewing nook). Create machinery via the `modNames` side-map; Iron's contributes the two
+  mages (`archevoker` + `magehunter_vindicator`) and loot, so the vanilla arcane fittings are the gametest shell. **D4
+  compounding gate:** Create loot tops out at `andesite_alloy` (husk press, no working contraption); Iron's loot is
+  `arcane_essence` + an uninscribed `blank_rune` (inert without a gated Upgrade Orb) — never a spellbook/scroll/Orb. Wired
+  w1 across all three Rocky tiers; a new gametest per mirror. Both nodes green (1.21.1: 205, 26.1.2: 207).
+
 ## [0.215.0] - 2026-07-05
 
 ### Added

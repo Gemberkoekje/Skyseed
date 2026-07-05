@@ -253,6 +253,7 @@ public final class SkyseedTests {
         reg(event, "inferium_plot_assembles", BIG_REGION, SkyseedTests::inferiumPlotAssembles);
         reg(event, "cook_homestead_assembles", BIG_REGION, SkyseedTests::cookHomesteadAssembles);
         reg(event, "ruined_chapel_assembles", BIG_REGION, SkyseedTests::ruinedChapelAssembles);
+        reg(event, "magitech_workshop_assembles", BIG_REGION, SkyseedTests::magitechWorkshopAssembles);
         // batch b — End-chapter / monument / ancient-city structure assembly:
         reg(event, "end_portal_chamber_has_twelve_empty_frames", BIG_REGION, SkyseedTests::endPortalChamberHasTwelveEmptyFrames);
         reg(event, "return_portal_shrine_has_end_portal", BIG_REGION, SkyseedTests::returnPortalShrineHasEndPortal);
@@ -3982,6 +3983,33 @@ public final class SkyseedTests {
         helper.assertTrue(bell, "ruined chapel must hang its bell-cote bell (not a plain box)");
         helper.assertTrue(lantern, "ruined chapel must light its altar with a soul lantern");
         helper.assertTrue(chest, "ruined chapel must place its reliquary chest");
+        helper.succeed();
+    }
+
+    static void magitechWorkshopAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B26) — the Create + Iron's Spells Magitech Workshop. The Create machinery is mod
+        // blocks (air without Create) and Iron's contributes no blocks, so assert the vanilla arcane shell: the enchanting
+        // table, a bookshelf, the amethyst focus, and the scrap chest. Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("magitech_workshop/workshop"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean table = false, shelf = false, amethyst = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.ENCHANTING_TABLE)) table = true;
+                    else if (s.is(Blocks.BOOKSHELF)) shelf = true;
+                    else if (s.is(Blocks.AMETHYST_BLOCK)) amethyst = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(table, "magitech workshop must have its arcane enchanting table");
+        helper.assertTrue(shelf, "magitech workshop must have a bookshelf study");
+        helper.assertTrue(amethyst, "magitech workshop must have its amethyst focus (not a plain box)");
+        helper.assertTrue(chest, "magitech workshop must place its scrap chest");
         helper.succeed();
     }
 

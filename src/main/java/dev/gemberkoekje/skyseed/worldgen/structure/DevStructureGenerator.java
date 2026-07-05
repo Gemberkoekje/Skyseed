@@ -86,6 +86,7 @@ public final class DevStructureGenerator {
             IronsRuinsTemplates.generateInto(base);   // VARIETYSTRUCTUREPLAN Band 2 — Iron's Spells-gated wizard builds
             MysticalRuinsTemplates.generateInto(base); // VARIETYSTRUCTUREPLAN Band 2 — Mystical Agriculture-gated essence plot
             FarmersRuinsTemplates.generateInto(base);  // VARIETYSTRUCTUREPLAN Band 2 — Farmer's Delight-gated cook's homestead
+            MultiModRuinsTemplates.generateInto(base);  // VARIETYSTRUCTUREPLAN Band 3 — multi-mod epic set-pieces
 
             FrozenWarrenTemplates.generateInto(base.resolve("frozen_warren")); // IRONSTRUCTUREREBUILDPLAN §Den — Ice Spider Den rebuild
             WarBarrowTemplates.generateInto(base.resolve("war_barrow"));       // IRONSTRUCTUREREBUILDPLAN §Battleground — Ancient Battleground rebuild

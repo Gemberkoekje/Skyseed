@@ -26,8 +26,11 @@
 > and Farmer's Delight, each inert without its mod.** **Band 3 has begun:** the vanilla **Ruined Chapel** epic (B25) is
 > wired w1 across Meadow + Rocky and floors the thin Lush/Mushroom themes' Explore seed — and with it the **weighted-gate
 > theme migration is complete** (`huge_lush`/`huge_mushroom` were the last two legacy overworld themes; every overworld
-> theme now runs the flat-5% weighted gate — **the D5 large/huge-rate question is settled: flat 5% on all sizes**).
-> **Left:** the rest of Band 3 (the multi-mod combos B26–B30) + the base-tier
+> theme now runs the flat-5% weighted gate — **the D5 large/huge-rate question is settled: flat 5% on all sizes**). The
+> first multi-mod epic has shipped too: the **Magitech Workshop** (B26, `requires:["create","irons_spellbooks"]`, Rocky) —
+> a Create machine husk fused with a vanilla arcane study, D4-safe against both mods (Create → `andesite_alloy`; Iron's →
+> `arcane_essence` + an uninscribed `blank_rune`).
+> **Left:** the rest of Band 3 (the multi-mod combos B27–B30) + the base-tier
 > `huge_` mirrors for the small commons (scale permitting), and an in-game throw-test/tuning pass. This
 > is the scoped build-out of PLANOFPLANS **#68** ("net-new bespoke structures beyond BWG's 17"). The goal is many more
 > *common* and *rare* buildings so that every overworld seed has a **flat 5% chance** to germinate one that fits its
@@ -279,7 +282,7 @@ and every chest is a scrap pool.
 | ✅ | **Vault Cell** (buried trial) | — (vanilla) | 2 trial spawners + a vault | trial waves | Ancient |
 | ✅ | **Ocean Ruin** (flooded basin) | — (vanilla) | archaeology + underwater-ruin chest | — | Aquatic |
 | ✅ B25 | **Ruined Chapel** | — (vanilla) | a caved-roof stone-brick chapel (open nave, fallen rubble, shattered arched windows), a front bell-cote with a hanging **bell** over a broken door, a chiseled chancel altar lit by a soul lantern behind a broken stained-glass rose window, the **reliquary chest** (emeralds/enchanted book/diamond/golden apple — a real epic reward) | 2–3 undead | **wired Meadow + Rocky** (all 3 tiers, w1) **+ Lush + Mushroom** (thin-theme Explore-floor) |
-| B26 | **Magitech Workshop** | Create + Iron's Spells | arcane-forge husk (gears + a *low-tier* scroll/spellbook + runes) | 2 mages | Rocky |
+| ✅ B26 | **Magitech Workshop** | Create + Iron's Spells | an andesite/stone arcane-forge hall (caved roof, breached wall, broken brick forge-flue); a Create machine husk (casing gearbox → cogwheel + shaft → a `mechanical_press`) beside the arcane half (enchanting table + amethyst + candles, a bookshelf study, a brewing nook); vanilla scrap + Create `andesite_alloy` / Iron's `arcane_essence` + `blank_rune` GLMs (D4 both mods) | 2 mages (archevoker + magehunter) | **wired Rocky** (all 3 tiers, w1) |
 | B27 | **Automated Essence Farm (ruin)** | Create + Mystical | stalled harvester husks over MA plots; a little low-tier inferium | 1–2 zombies | Meadow |
 | B28 | **FE→ME Substation** | IE + AE2 | wires *into* cables + an **empty controller husk**; scrap = fluix/coils (⛔ no sky stone / presses) | 1 creeper | Rocky |
 | B29 | **Alchemist's Distillery** | IE + Iron's Spells | a refinery husk as an arcane still; potion/essence scrap | 1 mage | Badlands |
