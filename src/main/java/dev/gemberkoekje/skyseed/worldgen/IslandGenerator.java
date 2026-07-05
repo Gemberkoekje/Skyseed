@@ -494,7 +494,7 @@ public final class IslandGenerator {
             // and PathSurfacer.supportStilts can hang the legs down to the bed (BWGSWAMPVILLAGEPLAN #73).
             jigsaws.add(new IslandPlan.JigsawSite(jc.pool(), jc.target(), jc.depth(), jc.pad(), jc.ironGolems(),
                     new BlockPos(center.getX(), gy + 1 - jc.sink() + jc.stiltHeight(), center.getZ()), jc.reach(),
-                    jc.capPrefix(), cap, jc.capFiller(), jc.centerpiece(), jc.trestles(), jc.stiltHeight()));
+                    jc.capPrefix(), cap, jc.capFiller(), jc.centerpiece(), jc.trestles(), jc.stiltHeight(), jc.traps()));
             // An Animal Island (or a rare structure's mobs): roll one weighted pack onto the pad, a block above its floor.
             if (!animalPacks.isEmpty()) {
                 MobPlanner.rollAnimals(animalPacks, new BlockPos(center.getX(), gy, center.getZ()), animals, random);

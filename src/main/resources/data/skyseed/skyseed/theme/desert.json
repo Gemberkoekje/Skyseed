@@ -23,7 +23,7 @@
       "jigsaw": { "pool": "skyseed:fossil_dig/dig", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
       "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:husk", "adults": 1 } ] } ] },
     { "weight": 5,
-      "jigsaw": { "pool": "skyseed:desert_temple/chamber", "target": "minecraft:bottom", "depth": 1, "pad": 4, "sink": 1 } }
+      "jigsaw": { "pool": "skyseed:desert_temple/chamber", "target": "minecraft:bottom", "depth": 1, "pad": 4, "sink": 1, "traps": true } }
   ],
   "mobs": [
     { "entity": "minecraft:rabbit", "chance": 0.18, "count": { "min": 1, "max": 2 } },

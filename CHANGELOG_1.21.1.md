@@ -5,6 +5,40 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.214.0] - 2026-07-05
+
+### Added
+- **Item-icon audit + full redraw pass (→ [ICONAUDITPLAN.md](ICONAUDITPLAN.md)).** Reviewed all 93 item textures and
+  rebuilt the outliers so every icon reads at 16×16 and stays inside the family's visual language (silhouette = size
+  tier, colour = theme). New dedicated **Large Forest** art (`island_seed_forest_large`, its model repointed off the
+  shared generic disc). 30 textures redrawn/tweaked + 1 new + 1 model repoint.
+- **Crash-safe island grows — persist/resume + force-load reconciliation (→ [CRASHRESUMEPLAN.md](CRASHRESUMEPLAN.md)).**
+  In-progress island grows now survive a hard crash: a new `PendingIsland` descriptor (re-plan inputs + progress) is
+  written at germination (`IslandSeedEntity`) and for twins (`TwinPlacer`), persisted every tick by `GenerationJob`, and
+  re-enqueued at its saved progress on server start by the new `CrashRecovery` handler (`GenerationJob.resume`).
+  Force-loaded chunks are recorded in `SkyseedWorldData` at the ref-count transitions and any leftovers are un-forced on
+  start, so a crash mid-grow no longer leaks a permanent `/forceload`. Both persistence paths (1.21.1 NBT + 26.1.2 Codec)
+  carry the new optional collections, guarded by a `crashResumeStateRoundTrips` gametest in both suites. *(In-game
+  hard-crash sign-off still pending.)*
+
+### Changed
+- **Icon consistency pass.** Farm seeds (stable/pasture/poultry/wool_farm) given distinct signatures; `nether_lava_large`
+  regains its lava glow; `nether_forest`/`nether_rocky` pulled apart (teal-fleck crimson vs brick + quartz); structure
+  seeds (hamlet, woodland_mansion, bastion, ocean_monument) unified onto the "island + structure silhouette" convention;
+  Explore & Wild now encode tier by shape (ball → disc → cone) instead of a colour ring; lush/meadow separated; ancient
+  contrast lifted; the four End-Portal Edges restyled as portal-frame blocks with a green ender-eye + per-variant gem.
+- **Temple traps are opt-in.** Jigsaw structures only place trap blocks when the theme entry sets `"traps": true`
+  (`JigsawConfig`); enabled on the desert-temple, jungle-temple and badlands chambers so traps stop leaking into reused
+  pools that shouldn't have them.
+- **Questline starter-seed icons reverted Wild → Forest** in the introduction and skyseed chapters.
+
+### Fixed
+- **Crash-robustness review — 7 findings + observability (#67).** Both `MobPlanner` inert-safety fixes, the `traps`
+  opt-in gate, per-candidate `findClearSpot` re-validation, a seed-derived `StartIsland` oak, the double dimension-reset
+  backup guard, and a concurrent force-load ref-count (two islands sharing a chunk column no longer un-force each
+  other's chunks). Adds a shutdown drain-cap warning and force-load acquire/release logging. Both nodes green
+  (1.21.1: 202/202).
+
 ## [0.213.0] - 2026-07-05
 
 ### Added

@@ -247,9 +247,14 @@ public final class SkyseedCommands {
                         target.label, target.dimKey());
                 return;
             }
-            // 2. Keep the original level.dat as a recovery point.
+            // 2. Keep the original level.dat as a recovery point — but never overwrite an existing backup. Arming both
+            //    /emptynether and /emptyend runs applyReset twice in one stop: the first flips level.dat, so a second
+            //    copy here would clobber the pristine backup with an already-void-Nether level.dat, and "restore
+            //    original" would no longer restore vanilla. Keep the earliest (pristine) backup.
             Path backup = levelDat.resolveSibling("level.dat_skyseed_backup");
-            Files.copy(levelDat, backup, StandardCopyOption.REPLACE_EXISTING);
+            if (!Files.exists(backup)) {
+                Files.copy(levelDat, backup);
+            }
             // 3. Delete the old chunks FIRST. If we're interrupted anywhere up to step 4, level.dat still names the
             //    vanilla generator, so the dimension just regenerates vanilla (a consistent world) and the command
             //    can simply be re-run — there is no half-converted state.

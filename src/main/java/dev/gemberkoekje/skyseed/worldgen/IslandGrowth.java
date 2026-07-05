@@ -46,12 +46,28 @@ public final class IslandGrowth {
         // doesn't leave a permanently half-built, unfinishable island — the seed was already consumed when the job was
         // enqueued, so there is no way to regrow it. Jobs carry no cross-server state, so draining each to completion
         // here (bounded by MAX_DRAIN_TICKS) is simpler and safer than persisting + resuming them across loads.
+        int unfinished = 0;
         for (GenerationJob job : new ArrayList<>(JOBS)) {
             int guard = 0;
-            while (!job.tick() && ++guard < MAX_DRAIN_TICKS) {
-                // drain the job's remaining budgeted steps to completion
+            boolean done = false;
+            while (guard++ < MAX_DRAIN_TICKS) {
+                if (job.tick()) { // drain the job's remaining budgeted steps to completion
+                    done = true;
+                    break;
+                }
+            }
+            if (!done) {
+                unfinished++;
             }
         }
+        if (unfinished > 0) {
+            // Observability (engineering-debt #67): the safety cap fired before an island finished — its remaining
+            // content is lost (the seed was already consumed) and its force-loaded chunks may linger. If this ever
+            // shows up, MAX_DRAIN_TICKS is too low for some island, or a job is wedged and never completing.
+            Skyseed.LOGGER.warn("[skyseed] {} growing island(s) did not finish within MAX_DRAIN_TICKS ({}) on shutdown "
+                    + "— their remaining content is lost; consider raising the cap", unfinished, MAX_DRAIN_TICKS);
+        }
         JOBS.clear(); // and don't carry jobs into a later server (e.g. another singleplayer world)
+        GenerationJob.forgetForcedRegions(); // clear the in-memory force-load ref-counts alongside the jobs
     }
 }
