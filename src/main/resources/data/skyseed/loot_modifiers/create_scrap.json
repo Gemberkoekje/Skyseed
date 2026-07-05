@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 2 (D4/§5) — layers a token Create scrap (Andesite Alloy, the mod's earliest crafting mat) onto the Create derelicts' chest. Inert without Create: AddDropModifier resolves the id via Lookup.hasItem and adds nothing when absent, so this ships safely in the base mod. Gate-safe: a common early mat, never bulk brass / precision mechanisms / a working contraption.",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/create_scrap" }
+  ],
+  "item": "create:andesite_alloy",
+  "chance": 0.6
+}

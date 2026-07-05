@@ -4,7 +4,7 @@
 	filename: "skyseed"
 	group: "5C0000000000E001"
 	icon: {
-		id: "skyseed:forest_large_skyseed"
+		id: "skyseed:wild_large_skyseed"
 	}
 	id: "5C0000000000A002"
 	order_index: 1
@@ -24,7 +24,7 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C101"
-				item: { count: 1, id: "skyseed:forest_skyseed" }
+				item: { count: 1, id: "skyseed:wild_skyseed" }
 				type: "item"
 			}]
 			x: 0.0d
@@ -33,7 +33,7 @@
 		{
 			dependencies: ["5C0000000000B101"]
 			icon: {
-				id: "skyseed:forest_skyseed"
+				id: "skyseed:wild_skyseed"
 			}
 			id: "5C0000000000B102"
 			rewards: [{
@@ -52,7 +52,7 @@
 		{
 			dependencies: ["5C0000000000B102"]
 			icon: {
-				id: "skyseed:forest_large_skyseed"
+				id: "skyseed:wild_large_skyseed"
 			}
 			id: "5C0000000000B103"
 			rewards: [{
@@ -119,7 +119,7 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C106"
-				item: { count: 1, id: "skyseed:forest_large_skyseed" }
+				item: { count: 1, id: "skyseed:wild_large_skyseed" }
 				type: "item"
 			}]
 			x: 3.0d
@@ -313,7 +313,7 @@
 			}]
 			tasks: [{
 				id: "5C0000000000C116"
-				item: { count: 1, id: "skyseed:huge_forest_skyseed" }
+				item: { count: 1, id: "skyseed:huge_wild_skyseed" }
 				type: "item"
 			}]
 			x: 9.0d

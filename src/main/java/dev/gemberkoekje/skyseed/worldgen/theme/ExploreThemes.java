@@ -33,6 +33,15 @@ public final class ExploreThemes {
      *  (the largest structures). Huge-forest is the unmapped fallback. */
     public static final Id MARKER_HUGE = Id.of("skyseed:huge_explore");
 
+    /** The Wild Skyseed sentinels ({@code wild_skyseed} / {@code wild_large_skyseed} / {@code huge_wild_skyseed}) — the
+     *  <em>default</em> adaptive seed. Like the Explore markers they resolve the germination biome to that biome's
+     *  dedicated theme, but the entity does <b>not</b> force a rare structure on them ({@link #forcesRare}) — the theme's
+     *  ordinary ~5% roll applies. The base tier's unmapped fallback is {@code forest} (a plain wooded island), not the
+     *  build-forcing {@code explore.json}. See {@code IslandSeedEntity}. */
+    public static final Id WILD = Id.of("skyseed:wild");
+    public static final Id WILD_LARGE = Id.of("skyseed:wild_large");
+    public static final Id WILD_HUGE = Id.of("skyseed:huge_wild");
+
     private record Rule(String biome, String theme) {}
 
     // Prefer the dedicated biome theme that biome's own seed grows, so the Explore island's terrain matches exactly
@@ -90,6 +99,14 @@ public final class ExploreThemes {
         return fam == null ? MARKER : Id.of("skyseed:" + fam);
     }
 
+    /** The dedicated BASE theme the Wild seed grows at {@code biome}, or {@code skyseed:forest} (a plain wooded island,
+     *  <em>not</em> the build-forcing {@code explore.json}) when no rule matches — so a Wild throw in an unmapped/modded
+     *  biome still grows something ordinary with only the usual ~5% building roll. */
+    public static Id resolveWildBase(Holder<Biome> biome) {
+        final String fam = family(biome);
+        return Id.of("skyseed:" + (fam == null ? "forest" : fam));
+    }
+
     /** The {@code <family>_large} theme the Large Explore seed grows (Forest large as the unmapped fallback). */
     public static Id resolveLarge(Holder<Biome> biome) {
         final String fam = family(biome);
@@ -102,24 +119,40 @@ public final class ExploreThemes {
         return Id.of("skyseed:huge_" + (fam == null ? "forest" : fam));
     }
 
-    /** Whether {@code theme} is any Explore-seed sentinel (base / large / huge). */
+    /** Whether {@code theme} is any adaptive-seed sentinel — an Explore (base/large/huge) or Wild (base/large/huge) marker. */
     public static boolean isAdaptive(Id theme) {
         if (theme == null) {
             return false;
         }
         final String v = theme.value();
-        return MARKER.value().equals(v) || MARKER_LARGE.value().equals(v) || MARKER_HUGE.value().equals(v);
+        return MARKER.value().equals(v) || MARKER_LARGE.value().equals(v) || MARKER_HUGE.value().equals(v)
+                || WILD.value().equals(v) || WILD_LARGE.value().equals(v) || WILD_HUGE.value().equals(v);
     }
 
-    /** Resolve the theme for an Explore sentinel {@code marker} at {@code biome} — dispatching to the right tier. */
+    /** Resolve the theme for an adaptive sentinel {@code marker} at {@code biome} — dispatching to the right tier.
+     *  Large/Huge Wild share the Explore large/huge resolution (Forest as the unmapped fallback); base Wild uses
+     *  {@link #resolveWildBase} (Forest fallback), where base Explore uses the build-forcing {@code explore.json}. */
     public static Id resolveFor(Id marker, Holder<Biome> biome) {
         final String v = marker.value();
-        if (MARKER_LARGE.value().equals(v)) {
+        if (MARKER_LARGE.value().equals(v) || WILD_LARGE.value().equals(v)) {
             return resolveLarge(biome);
         }
-        if (MARKER_HUGE.value().equals(v)) {
+        if (MARKER_HUGE.value().equals(v) || WILD_HUGE.value().equals(v)) {
             return resolveHuge(biome);
         }
+        if (WILD.value().equals(v)) {
+            return resolveWildBase(biome);
+        }
         return resolve(biome);
+    }
+
+    /** Whether the entity should <b>force</b> a rare structure for {@code marker}: {@code true} for the Explore markers
+     *  (the seed's guaranteed build), {@code false} for the Wild markers (ordinary ~5% roll) and anything else. */
+    public static boolean forcesRare(Id marker) {
+        if (marker == null) {
+            return false;
+        }
+        final String v = marker.value();
+        return MARKER.value().equals(v) || MARKER_LARGE.value().equals(v) || MARKER_HUGE.value().equals(v);
     }
 }

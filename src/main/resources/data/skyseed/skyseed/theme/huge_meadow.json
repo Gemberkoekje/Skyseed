@@ -258,10 +258,26 @@
     }
   },
   "_comment": "Huge Meadow (SKYHUGEPLAN Phase 4): a huge meadow island scaled from the base theme — biome adaptation (0 forms) + internal caves. radius 24-30, dome 1-2. Overworld.",
+  "_comment_rare": "VARIETYSTRUCTUREPLAN D5 — flat 5% gate (was 6%); chance → weight. No Tool Shed here (too small for a huge island; huge gets its own larger commons later).",
+  "rare_structure_chance": 0.05,
   "rare_structures": [
+    { "weight": 3, "requires": ["farmersdelight"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Overgrown Cook's Homestead (inert without Farmer's Delight; no mobs).",
+      "jigsaw": { "pool": "skyseed:cook_homestead/homestead", "target": "minecraft:bottom", "depth": 1, "pad": 5 } },
+    { "weight": 3, "requires": ["mysticalagriculture"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Abandoned Inferium Plot (inert without Mystical Agriculture).",
+      "jigsaw": { "pool": "skyseed:inferium_plot/plot", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:zombie", "adults": 1 } ] } ] },
+    { "weight": 3, "requires": ["irons_spellbooks"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Small Wizard's Hut (inert without Iron's Spells).",
+      "jigsaw": { "pool": "skyseed:wizard_hut/hut", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:cultist", "adults": 1 } ] } ] },
+    { "weight": 3, "requires": ["immersiveengineering"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Fallen Powerline (inert without Immersive Engineering).",
+      "jigsaw": { "pool": "skyseed:powerline/pylon", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:creeper", "adults": 1 } ] } ] },
+    { "weight": 3, "requires": ["create"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Broken Windmill (Create-gated; inert without Create).",
+      "jigsaw": { "pool": "skyseed:windmill/mill", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:zombie", "adults": 1 } ] } ] },
     {
-      "_comment": "6% — a Pillager Outpost towers over the meadow; a pillager band garrisons it.",
-      "chance": 0.06,
+      "_comment": "A Pillager Outpost towers over the meadow; a pillager band garrisons it.",
+      "weight": 6,
       "jigsaw": {
         "pool": "skyseed:outpost/tower",
         "target": "minecraft:bottom",

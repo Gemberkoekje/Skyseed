@@ -8,8 +8,13 @@
     "fill_depth": 3
   },
   "ores": [],
+  "_comment_rare": "VARIETYSTRUCTUREPLAN Phase 1 — weighted-gate model (5% gate) + the common Overgrown Well (w6; suppress_pond so the well's own water reads instead of the lush pond). Mirrored on lush_large.",
+  "rare_structure_chance": 0.05,
   "rare_structures": [
-    { "chance": 0.05, "suppress_pond": true,
+    { "weight": 6, "suppress_pond": true,
+      "jigsaw": { "pool": "skyseed:overgrown_well/well", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:drowned", "adults": 2 } ] } ] },
+    { "weight": 5, "suppress_pond": true,
       "jigsaw": { "pool": "skyseed:trail_ruins/ruins", "target": "minecraft:bottom", "depth": 1, "pad": 4, "sink": 3 } }
   ],
   "pond": {

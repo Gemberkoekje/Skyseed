@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 //?}
 import net.minecraft.tags.TagKey;
+import net.neoforged.fml.ModList;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
@@ -38,6 +39,15 @@ import java.util.stream.Stream;
 public final class Lookup {
 
     private Lookup() {
+    }
+
+    // --- Mods ---------------------------------------------------------------------------------------------------
+
+    /** Whether the mod {@code modId} is loaded — the {@code requires} gate for a mod-specific rare structure
+     *  ({@link dev.gemberkoekje.skyseed.worldgen.theme.RareStructure}). Mirrors {@link Ae2Compat}'s
+     *  {@code ModList.get().isLoaded(...)}; checked BEFORE any RNG so an absent mod's structure stays inert. */
+    public static boolean modLoaded(String modId) {
+        return modId != null && ModList.get().isLoaded(modId);
     }
 
     // --- Blocks -------------------------------------------------------------------------------------------------

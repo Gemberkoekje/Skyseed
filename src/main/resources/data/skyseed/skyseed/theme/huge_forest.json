@@ -1135,14 +1135,21 @@
       "max": 5
     }
   },
+  "_comment_rare": "VARIETYSTRUCTUREPLAN D5 — flat 5% gate (was ~9%); per-entry chances → weights (round chance×100).",
+  "rare_structure_chance": 0.05,
   "rare_structures": [
+    { "weight": 3, "requires": ["farmersdelight"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Overgrown Cook's Homestead (inert without Farmer's Delight; no mobs).",
+      "jigsaw": { "pool": "skyseed:cook_homestead/homestead", "target": "minecraft:bottom", "depth": 1, "pad": 5 } },
+    { "weight": 3, "requires": ["irons_spellbooks"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Small Wizard's Hut (inert without Iron's Spells).",
+      "jigsaw": { "pool": "skyseed:wizard_hut/hut", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:cultist", "adults": 1 } ] } ] },
     { "_comment": "Iron's Spells (experimental, HUGE-gated) — 1:1 reuse of the mod's Evoker Fort (surface fort + towers). Owner playtest: fits, just wanted it centred a touch better — now auto-centred on the island (blank-target re-centre in Jigsaw). An archevoker + mage-hunter guards hold it (mod structure carries no spawns on our jigsaw copies). INERT without Iron's Spells (rollRare hasTemplatePool guard).",
-      "chance": 0.04,
+      "weight": 4,
       "jigsaw": { "pool": "irons_spellbooks:evoker_fort/start_pool", "target": "", "depth": 5, "pad": 9 },
       "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:archevoker", "adults": 1 }, { "entity": "irons_spellbooks:magehunter_vindicator", "adults": 2 } ] } ] },
     {
-      "_comment": "5% — a Woodland Mansion stands on the huge forest; its illagers replace the wildlife.",
-      "chance": 0.05,
+      "_comment": "A Woodland Mansion stands on the huge forest; its illagers replace the wildlife.",
+      "weight": 5,
       "jigsaw": {
         "pool": "skyseed:woodland_mansion/start",
         "target": "minecraft:bottom",

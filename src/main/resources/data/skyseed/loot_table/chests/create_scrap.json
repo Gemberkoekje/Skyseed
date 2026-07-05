@@ -1,0 +1,32 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 2 (D3/D4) — the Create derelicts' chest. Vanilla 'kinetic scrap' only, so it loads inert without Create yet is a real reward (D3); a token Create item (andesite alloy / cogwheel) is layered on via the inert-safe skyseed:create_scrap / create_cog add_drop GLMs. Never a Create rich table or a gate-key (D4/§5): no bulk brass, precision mechanisms or a working contraption.",
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": { "min": 2, "max": 3 },
+      "entries": [
+        { "type": "minecraft:item", "name": "minecraft:iron_nugget", "weight": 6,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 6 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:iron_ingot", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:copper_ingot", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:coal", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 6 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:redstone", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:andesite", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 5 } } ] }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        { "type": "minecraft:empty", "weight": 6 },
+        { "type": "minecraft:item", "name": "minecraft:gold_nugget", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:experience_bottle", "weight": 1 }
+      ]
+    }
+  ]
+}

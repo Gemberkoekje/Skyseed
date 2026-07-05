@@ -102,14 +102,16 @@
       "depth": "core"
     }
   ],
+  "_comment_rare": "VARIETYSTRUCTUREPLAN D5 — flat 5% gate (was ~11%); per-entry chances → weights (round chance×100).",
+  "rare_structure_chance": 0.05,
   "rare_structures": [
     { "_comment": "Frozen Warren — skyseed's home-curated rebuild of Iron's Spells' Ice Spider Den (the mod's own jigsaw sprawled a deep cavern hanging under the island — owner playtest). One bounded piece: surface ice-fort mouth + ladder shaft + a single ice cavern carved into the island body (sink 10; the island's max_under_depth was deepened to 22 to hold it). A cave-spider spawner + cobweb nests inside; the mod's cryomancer + ice-spiders come from the mobs pack (inert-safe). Not a mod pool — always present. See IRONSTRUCTUREREBUILDPLAN.md §Den.",
-      "chance": 0.05,
+      "weight": 5,
       "jigsaw": { "pool": "skyseed:frozen_warren/warren", "target": "minecraft:bottom", "depth": 1, "pad": 8, "sink": 10 },
       "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:cryomancer", "adults": 1 }, { "entity": "irons_spellbooks:ice_spider", "adults": 2 } ] } ] },
     {
-      "_comment": "6% — a snow Igloo with its basement lab; the captive zombie villager below.",
-      "chance": 0.06,
+      "_comment": "A snow Igloo with its basement lab; the captive zombie villager below.",
+      "weight": 6,
       "jigsaw": {
         "pool": "skyseed:igloo/igloo",
         "target": "minecraft:bottom",

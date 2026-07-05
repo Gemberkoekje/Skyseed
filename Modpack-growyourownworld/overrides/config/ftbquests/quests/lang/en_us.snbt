@@ -66,7 +66,7 @@
 	quest.5C0000000000B105.quest_subtitle: "The Ancient seed"
 	quest.5C0000000000B105.title: "Into the Deep"
 	quest.5C0000000000B106.quest_desc: [
-		"Every biome seed has a §eLarge§r version — radius 13–17, a deeper ore-rich core, the same biome cues. The Large Forest comes from a stack of logs; other Large seeds from their matching blocks."
+		"Every biome seed has a §eLarge§r version — radius 13–17, a deeper ore-rich core, the same biome cues. Craft a §eLarge Wild Skyseed§r — a Wild Skyseed packed round with wood, sand, kelp and dirt — or step up any biome from its own matching blocks."
 		""
 		"Bigger island, bigger build, more ore. Step up whenever you've outgrown a small one."
 	]

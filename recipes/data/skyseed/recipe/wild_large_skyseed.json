@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PSP",
+    "WGD",
+    "PSP"
+  ],
+  "key": {
+    "P": "#minecraft:planks",
+    "S": "minecraft:sand",
+    "W": "minecraft:kelp",
+    "G": "skyseed:wild_skyseed",
+    "D": "minecraft:dirt"
+  },
+  "result": {
+    "id": "skyseed:wild_large_skyseed"
+  }
+}

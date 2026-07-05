@@ -5,6 +5,149 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.213.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 2 COMPLETE — the Farmer's Delight batch (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B24).** The last single-mod Band 2 build — a `requires`-gated rare surprise building that germinates on an ordinary
+  island only when **Farmer's Delight** is installed:
+  - **Overgrown Cook's Homestead** (Forest / Meadow, no mobs) — a kitchen cottage abandoned to the weeds: a 5×5 log-and-cobble
+    cabin with a caved-in roof, a breached east wall where a cold campfire hearth vents up an external cobblestone chimney
+    jutting broken above the ridge, a doorway and a shattered window; inside, the Farmer's Delight kitchen (a cold stove with
+    its cooking pot, a skillet, a cutting board, wall cabinets, the scrap chest, cobwebs and a hanging lantern); out front, a
+    weed-choked garden of FD crops (cabbages / tomatoes / onions / rice) at mixed growth on vanilla farmland, a rotting stack
+    of produce crates and a water butt.
+  - **Vanilla shell, modded fittings.** Only the appliances/cabinets/crates/crops are modded, authored through the `modNames`
+    side-map — a `SMOKER` analog carries the `facing` for every appliance/cabinet (FD ignores the extra `lit`, defaults its
+    own `support`/`open`), a `STONE` analog for the propertyless crates, a `WHEAT` analog for the crops (ages kept ≤3 for
+    tomatoes/rice so the swapped state parses). They resolve to air without the mod, so the assertable gametest anchor is the
+    deliberate **vanilla shell** (the log posts, the cobblestone chimney, the campfire hearth, the chest).
+  - **Loot (D4/§5).** Farmer's Delight has no progression gate, so there is nothing to leak — the chest binds
+    `skyseed:chests/cook_homestead` (vanilla larder scrap) + two inert `add_drop` GLMs layering a little raw FD produce
+    (onion) and rope, never a rich cooked meal.
+  - Wired **w3** across all three tiers of Forest + Meadow. A new assembly gametest per suite mirror. An adversarial review
+    before the regen caught + fixed two placement bugs (a garden weed and a mushroom each overwriting the bottom of a corner
+    log post). All FD ids verified against the 1.3.2 jar. Both nodes green (1.21.1: 200, 26.1.2: 202).
+  - **Band 2 is now complete (B13–B24):** Create (4), Immersive Engineering (2), Applied Energistics 2 (1), Iron's Spells (3),
+    Mystical Agriculture (1) and Farmer's Delight (1) — eleven mod-gated rare surprise buildings, each inert without its mod.
+
+## [0.212.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 2 — the Mystical Agriculture batch (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B23).** One more `requires`-gated rare surprise building that germinates on an ordinary island only when **Mystical
+  Agriculture** is installed:
+  - **Abandoned Inferium Plot** (Meadow / Hamlet, a wandering zombie) — an essence farm gone to seed: an irregular tilled
+    bed of inferium farmland (rows trampled back to coarse dirt, several harvested bare) around a water-cauldron trough, a
+    scatter of tier-1 essence crops at mixed growth, a lop-sided scarecrow (one arm snapped off, a carved-pumpkin head), a
+    caved tool lean-to sheltering the scrap chest, a toppled inferium growth accelerator, spilled hay straw and a broken
+    oak-fence perimeter with a swung-open gate.
+  - **Mostly-vanilla farmstead.** The only modded blocks are the essence farmland, the growing crops and the one broken
+    accelerator, authored through the `modNames` side-map (a vanilla `FARMLAND`/`WHEAT`/`STONE` analog carries the property
+    schema; the emitted `.nbt` palette `Name` is swapped to the real `mysticalagriculture:` id — no mod on the classpath).
+    Those resolve to air without the mod, so the assertable gametest anchor is the deliberate **vanilla shell** (the
+    scarecrow, the trough, the fence, the chest).
+  - **Gate-safe loot (D4/§5).** Mystical Agriculture's whole progression is the tier climb (inferium → … → supremium), so
+    the plot uses only **tier-1 inferium**, shown derelict, and the chest binds `skyseed:chests/inferium_plot` (vanilla
+    farm scrap) + two inert `add_drop` GLMs layering a little **Inferium Essence** / **Prosperity Shard** (the two
+    mineable base materials) — never a seed, a higher-tier essence, a prosperity block/ore or an infusion component.
+  - Wired **w3** across all three tiers of Meadow + the Hamlet theme. A new assembly gametest per suite mirror. An
+    adversarial review before the regen caught + fixed a jigsaw anchor sitting under a crop cell, a fence gate whose
+    `FACING` wouldn't connect to its E/W fence run, and a silently-overwritten grass tuft. All Mystical ids verified
+    against the 8.0.27 jar. Both nodes green (1.21.1: 199, 26.1.2: 201).
+
+## [0.211.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 2 — the Iron's Spells & Spellbooks batch (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B20–B22).** Three more `requires`-gated rare surprise buildings that germinate on an ordinary island only when
+  **Iron's Spells** is installed:
+  - **Small Wizard's Hut** (Forest / Meadow, an apprentice mage) — a cobble-and-oak hut under a tall pointed witch-hat
+    spruce roof capped by a lantern beacon, with a bookshelf wall, a brewing stand over a water cauldron, a lectern, an
+    amethyst focus and candles.
+  - **Wizard's Tower** (Rocky / Ancient, two mages) — a 5×5 stone-brick tower, two storeys joined by a ladder, arrow-slit
+    windows, a jutting balcony and a pointed spruce-stair spire; a bookshelf study below and the alchemy floor above.
+  - **Cursed Obelisk** (Ancient / Badlands, a necromancer) — a tapering blackstone/deepslate/basalt spire over a
+    soul-lantern-lit altar strung with black candles, bones and a wither rose (a carved base alcove holds the necromancer).
+  - **All-vanilla architecture.** Iron's Spells is a mob-and-item mod, so unlike the Create/IE/AE2 batches there is no
+    `modNames` side-map — the "Iron's" flavour is the `requires: ["irons_spellbooks"]` gate, the theme `mobs` pack (mages,
+    resolve-then-skipped without the mod), and the loot.
+  - **Gate-safe loot (D4/§5).** The chest binds `skyseed:chests/irons_wizard` (vanilla arcane scrap) + two inert `add_drop`
+    GLMs layering a token **Arcane Essence** / **Common Ink** (low-tier crafting mats) — never an Upgrade Orb, a top-tier
+    ink, or a named scroll (those stay the reward of the mod's own deadly explore structures).
+  - Wired **w3** across all three tiers of Forest + Meadow (Hut), Rocky + Ancient (Tower), Ancient + Badlands (Obelisk).
+    Three new assembly gametests per suite mirror. An adversarial review before the regen caught + fixed a chest walled
+    inside the obelisk's solid core, a mob-spawn cell buried in the spire (a base alcove was carved), and a slab-in-wall
+    balcony (made a proper doorway) — and the wiring keeps `huge_ancient`'s pinned index-0 intact. Both nodes green
+    (1.21.1: 198, 26.1.2: 200).
+
+## [0.210.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 2 — the Applied Energistics 2 batch (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B19).** One more `requires`-gated rare surprise building that germinates only when **Applied Energistics 2** is
+  installed: the **Gutted AE2 Lab** (Rocky / Ancient, 1 zombie) — a certus-quartz/fluix networking room stripped for
+  parts, walls breached and ceiling caved, conduit/cable stubs still strung under the ceiling and a snapped conduit
+  antenna jutting off the roof, and — the centrepiece — an **empty controller pit** (a scorched-deepslate mount where the
+  ME Controller was ripped out).
+  - **D4 gate-safety — the sharpest in the catalog.** AE2's storage endgame is gated on **sky stone** (→ the ME Controller)
+    and the four **inscriber presses** (→ processors), both meteorite-island-only. So the build places **no** `sky_stone_*`
+    (harvestable ⇒ a Controller), **no** `ae2:controller`, and its loot carries **no** press / processor / sky-stone — it is
+    built only from certus-quartz / fluix cubes (mid-game, renewable, not gating) and *shows the valuable core missing*.
+  - **Inert without AE2 + testable.** All `ae2:` blocks are the `modNames` side-map (ids verified against the 19.2.17 jar);
+    `requires: ["ae2"]` filters before any RNG. Because AE2 blocks are air without AE2, a deliberate **vanilla ruin shell**
+    (cobblestone rubble, a lantern, cobwebs, the deepslate controller mount, the chest) also anchors the assembly gametest.
+  - **Gate-safe loot (D4).** The chest binds `skyseed:chests/ae2_scrap` (vanilla quartz/tech scrap) + two inert `add_drop`
+    GLMs layering a token Certus / Fluix crystal — never a press, processor, Controller, or sky stone.
+  - Wired **w3** across all three tiers of Rocky + Ancient. One new assembly gametest per suite mirror. An adversarial
+    review before the regen caught + fixed an off-centre mob-blocking conduit, added the anti-box roof antenna, and a
+    prepend that had displaced `huge_ancient`'s index-0 (breaking the debug-force gametest). Both nodes green (1.21.1: 195,
+    26.1.2: 197).
+
+## [0.209.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 2 — the Immersive Engineering batch (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B17–B18).** Two more `requires`-gated rare surprise buildings that germinate only when **Immersive Engineering** is
+  installed:
+  - **Dilapidated IE Factory** (Rocky / Badlands, 2 zombies) — a concrete-slab hall on uneven part-collapsed concrete
+    pillars, treated-wood + sheetmetal walls breached in several places, a caved sheetmetal roof, a crusher/kiln **husk**
+    (reinforced concrete + a capacitor + a barrel), spilled crates, and an external HV wire-post jutting past the roofline.
+  - **Fallen Powerline** (Meadow / Desert, 1 creeper) — a lattice alu-scaffolding mast with alu-fence cross-arms hung with
+    HV connectors + razor wire and a transformer husk, with a whole span **snapped off and lying across the ground**.
+  - **Inert without IE + testable.** All `immersiveengineering:` machinery is the `modNames` side-map (analogs verified
+    against the 12.4.2 jar); `requires: ["immersiveengineering"]` filters before any RNG. Because IE builds are mostly mod
+    blocks (air without IE), each carries a deliberate **vanilla ruin shell** (cobblestone rubble, a lantern, cobwebs, the
+    chest) that also anchors the assembly gametests.
+  - **Gate-safe loot (D4).** Chests bind `skyseed:chests/ie_scrap` (vanilla industrial scrap) + two inert `add_drop` GLMs
+    layering a token iron plate / copper wire — never a working multiblock, a high-tier blueprint, or bulk metals.
+  - Wired **w3** across all three tiers of Rocky/Badlands (factory) and Meadow/Desert (powerline). Two new assembly
+    gametests per suite mirror. Both nodes green (1.21.1: 194, 26.1.2: 196).
+
+## [0.208.0] - 2026-07-04
+
+### Added
+- **Structure Variety Band 2 — the Create batch (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B13–B16).** Four single-mod "rare" surprise buildings that germinate on an ordinary overworld island **only when
+  Create is installed** — the first `requires`-gated builds in the catalog:
+  - **Broken Windmill** (Meadow / Hamlet), **Derelict Watermill** (Aquatic — brings its own walled water channel, so its
+    theme entry sets `suppress_pond`), **Abandoned Train Shed** (Rocky), **Rusted Drill Rig** (Badlands / Desert). Each is
+    an authored **no-box** ruin ([[skyseed-no-boxes]]): a caved mill house with a broken four-armed sail, a ruined mill
+    housing with a water wheel + press husk, an open-sided timber shed over a half-built casing train, a scaffold derrick
+    over a drilled shaft.
+  - **Inert without Create.** The Create machinery (`andesite_casing`/`brass_casing`/`copper_casing`/`millstone`/
+    `water_wheel`/`mechanical_press`/`mechanical_drill`/`shaft`/`cogwheel`) is authored with the `modNames` side-map — a
+    vanilla analog carries the shape while the emitted `.nbt` palette name is the real `create:` id (all verified against
+    the Create 6.0.10 jar). A theme entry gates each on `requires: ["create"]` (filtered **before any RNG** — determinism
+    parity), so the build never germinates and its `.nbt` never parses without the mod.
+  - **Reward-bearing but gate-safe (D3/D4).** Chests bind a curated vanilla-scrap loot table (`skyseed:chests/create_scrap`)
+    plus two inert-safe `add_drop` GLMs layering a token Andesite Alloy / Cogwheel on top — a real reward that never leaks
+    bulk brass, precision mechanisms, or a working contraption.
+  - Wired at **weight 3** across all three tiers (base / `_large` / `huge_`) of Meadow, Aquatic, Rocky, Badlands and
+    Desert, plus the Hamlet windmill — mirrored per [[skyseed-mirror-island-tiers]]. Five new gametests on both suite
+    mirrors (four on-pad assembly tests asserting the vanilla shell + a `requires`-gate inert-safety test). Both nodes
+    green (1.21.1: 192, 26.1.2: 194).
+
 ## [0.207.0] - 2026-07-04
 
 ### Added

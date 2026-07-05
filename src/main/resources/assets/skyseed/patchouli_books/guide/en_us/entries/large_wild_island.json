@@ -1,0 +1,24 @@
+{
+  "name": "Large Wild Skyseed",
+  "category": "skyseed:overworld",
+  "advancement": "skyseed:reveal_wild_large",
+  "icon": "minecraft:grass_block",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The $(item)Large Wild Skyseed$() — a Wild Skyseed packed round with a jumble of $(bold)wood, sand, water and dirt$(), because it could grow into anything. A $(bold)large$() island of whatever biome it lands over."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "skyseed:wild_large_skyseed",
+      "text": "Ring the base Wild Skyseed with planks, sand, kelp and dirt.",
+      "advancement": "skyseed:gathered_wild_large"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The same adapt-to-the-biome trick at the larger tier — radius 13–17, a deeper ore-rich core — with room for the bigger buildings a small isle can't host, when the ~1-in-20 roll lands one.",
+      "advancement": "skyseed:craft_wild_large"
+    }
+  ]
+}

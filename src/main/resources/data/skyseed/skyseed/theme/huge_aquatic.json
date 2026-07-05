@@ -50,10 +50,15 @@
       "depth": "core"
     }
   ],
+  "_comment_rare": "VARIETYSTRUCTUREPLAN D5 — flat 5% gate; per-entry chances → weights (round chance×100). Biome gates preserved.",
+  "rare_structure_chance": 0.05,
   "rare_structures": [
+    { "weight": 3, "requires": ["create"], "suppress_pond": true, "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Derelict Watermill (Create-gated; brings its own water).",
+      "jigsaw": { "pool": "skyseed:watermill/mill", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:drowned", "adults": 1 } ] } ] },
     {
       "_comment": "Iron's Spells (experimental) — 1:1 reuse of the mod's full Impaled Icebreaker ship. This is the huge-tier home the oversized ship needs (radius ~28-32 holds it; on aquatic_large it overhung into the void). Cold/frozen-ocean gated so it only germinates as a frozen-sea wreck (the 'cold/icy huge aquatic'). Pond KEPT (no suppress): the ship sits over the big lake, its own blue-ice spikes providing the ice. INERT without Iron's Spells (rollRare hasTemplatePool guard); empty target reuses the mod pool's default start. Playtest the fit; tune pad if the hull clips the rim.",
-      "chance": 0.05,
+      "weight": 5,
       "biomes": [ "minecraft:frozen_ocean", "minecraft:deep_frozen_ocean", "minecraft:cold_ocean", "minecraft:deep_cold_ocean" ],
       "jigsaw": {
         "pool": "irons_spellbooks:impaled_icebreaker_pool",
@@ -65,7 +70,7 @@
     },
     {
       "_comment": "5% — a bigger (19x19) Ocean Monument in the centre, lake suppressed; an elder guardian + pack.",
-      "chance": 0.05,
+      "weight": 5,
       "suppress_pond": true,
       "jigsaw": {
         "pool": "skyseed:ocean_monument/grand",

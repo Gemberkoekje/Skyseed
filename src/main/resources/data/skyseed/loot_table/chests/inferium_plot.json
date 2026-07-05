@@ -1,0 +1,35 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 2 (D3/D4) — the Mystical Agriculture Abandoned Inferium Plot's tool-chest. Vanilla farm scrap only, so it loads inert without Mystical Agriculture yet is a real reward (D3); a little tier-1 Inferium Essence + a Prosperity Shard (the two mineable base materials) are layered on via the inert-safe skyseed:inferium_plot_essence / inferium_plot_shard add_drop GLMs. Never a seed, a higher-tier essence, a prosperity block or an infusion component — those stay behind the mod's own tier climb (D4/§5).",
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": { "min": 2, "max": 3 },
+      "entries": [
+        { "type": "minecraft:item", "name": "minecraft:wheat_seeds", "weight": 6,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:wheat", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:bone_meal", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 6 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:poisonous_potato", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 2 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:string", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:gold_nugget", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        { "type": "minecraft:empty", "weight": 4 },
+        { "type": "minecraft:item", "name": "minecraft:iron_hoe", "weight": 2,
+          "functions": [ { "function": "minecraft:set_damage", "damage": { "min": 0.3, "max": 0.9 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:emerald", "weight": 2,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 2 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:experience_bottle", "weight": 2,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] }
+      ]
+    }
+  ]
+}

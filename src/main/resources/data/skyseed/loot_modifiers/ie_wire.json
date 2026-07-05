@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 2 (D4/§5) — layers a Copper Wire (the powerline's flavour scrap) onto the IE derelicts' chest. Inert without IE (AddDropModifier + Lookup.hasItem). Gate-safe: a common early wire, never a bulk wire-coil stash.",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/ie_scrap" }
+  ],
+  "item": "immersiveengineering:wire_copper",
+  "chance": 0.35
+}

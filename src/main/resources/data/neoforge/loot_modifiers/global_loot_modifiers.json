@@ -12,6 +12,18 @@
     "skyseed:trial_relic",
     "skyseed:trial_relic_ominous",
     "skyseed:irons_arcane_essence",
-    "skyseed:irons_upgrade_orb"
+    "skyseed:irons_upgrade_orb",
+    "skyseed:create_scrap",
+    "skyseed:create_cog",
+    "skyseed:ie_scrap",
+    "skyseed:ie_wire",
+    "skyseed:ae2_scrap",
+    "skyseed:ae2_fluix",
+    "skyseed:irons_wizard_essence",
+    "skyseed:irons_wizard_ink",
+    "skyseed:inferium_plot_essence",
+    "skyseed:inferium_plot_shard",
+    "skyseed:cook_homestead_produce",
+    "skyseed:cook_homestead_rope"
   ]
 }

@@ -79,6 +79,14 @@ public final class DevStructureGenerator {
             EndCityTemplates.generateInto(base.resolve("end_city")); // SKYENDPLAN Phase 3 — the flagship
             DragonTrophyTemplates.generateInto(base.resolve("dragon_trophy")); // SKYENDPLAN Phase 6 — the capstone trophy
             RareStructureTemplates.generateInto(base);
+            CommonRuinsTemplates.generateInto(base); // VARIETYSTRUCTUREPLAN Band 1 — common vanilla surprise ruins
+            CreateRuinsTemplates.generateInto(base);  // VARIETYSTRUCTUREPLAN Band 2 — Create-gated rare surprise ruins
+            IeRuinsTemplates.generateInto(base);      // VARIETYSTRUCTUREPLAN Band 2 — Immersive Engineering-gated rare ruins
+            AeRuinsTemplates.generateInto(base);      // VARIETYSTRUCTUREPLAN Band 2 — Applied Energistics 2-gated rare ruin
+            IronsRuinsTemplates.generateInto(base);   // VARIETYSTRUCTUREPLAN Band 2 — Iron's Spells-gated wizard builds
+            MysticalRuinsTemplates.generateInto(base); // VARIETYSTRUCTUREPLAN Band 2 — Mystical Agriculture-gated essence plot
+            FarmersRuinsTemplates.generateInto(base);  // VARIETYSTRUCTUREPLAN Band 2 — Farmer's Delight-gated cook's homestead
+
             FrozenWarrenTemplates.generateInto(base.resolve("frozen_warren")); // IRONSTRUCTUREREBUILDPLAN §Den — Ice Spider Den rebuild
             WarBarrowTemplates.generateInto(base.resolve("war_barrow"));       // IRONSTRUCTUREREBUILDPLAN §Battleground — Ancient Battleground rebuild
             CitadelTemplates.generateInto(base.resolve("citadel"));            // IRONSTRUCTUREREBUILDPLAN §Citadel — Citadel rebuild (Mage's Sanctum)

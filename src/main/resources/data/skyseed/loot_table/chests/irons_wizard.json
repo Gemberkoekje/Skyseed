@@ -1,0 +1,34 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 2 (D3/D4) — the Iron's Spells wizard builds' chest (hut/tower/obelisk). Vanilla arcane scrap only, so it loads inert without Iron's Spells yet is a real reward (D3); token Arcane Essence + Common Ink are layered on via the inert-safe skyseed:irons_wizard_essence / irons_wizard_ink add_drop GLMs. Never an Upgrade Orb, a top-tier ink, or a high-tier/named scroll — those stay the reward of the mod's own deadly explore structures (D4/§5; IRONSPELLSPLAN).",
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": { "min": 2, "max": 3 },
+      "entries": [
+        { "type": "minecraft:item", "name": "minecraft:book", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:paper", "weight": 6,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 6 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:amethyst_shard", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:lapis_lazuli", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 6 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:glowstone_dust", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:gold_nugget", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 6 } } ] }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        { "type": "minecraft:empty", "weight": 4 },
+        { "type": "minecraft:item", "name": "minecraft:ender_pearl", "weight": 2,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 2 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:experience_bottle", "weight": 2,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:enchanted_book", "weight": 1 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 2 (D4/§5) — layers a Prosperity Shard onto the Abandoned Inferium Plot's chest. Inert without Mystical Agriculture: AddDropModifier resolves the id via Lookup.hasItem and adds nothing when absent. Gate-safe: the prosperity shard is the mod's other mineable base material, never a prosperity block/ore, a seed base or an infusion component.",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/inferium_plot" }
+  ],
+  "item": "mysticalagriculture:prosperity_shard",
+  "chance": 0.4
+}

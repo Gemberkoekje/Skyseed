@@ -176,23 +176,26 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
 
     /**
      * Choose which rare structure the Explore seed forces on {@code theme} at {@code biome}: a weighted-random pick
-     * (by {@code chance}, so repeat throws in the same biome vary) among the theme's {@code rare_structures} that can
-     * roll here — dimension- and biome-gated, and whose jigsaw pool is actually registered (a mod structure absent
-     * from the pack is skipped, staying inert). Returns -1 when none fit, so the island still grows via the usual
-     * chance roll — usually a plain, biome-adapted island.
+     * among the theme's {@code rare_structures} that can roll here — dimension-, biome- and mod-gated, whose jigsaw pool
+     * is actually registered (an absent mod structure is skipped, staying inert), and that is {@code explorable} (a
+     * rewardless filler is barred — the premium Explore seed is guaranteed, so it must never land junk; VARIETYSTRUCTUREPLAN
+     * D3). Weighting is by {@code weight} for a weighted-gate theme, else the legacy {@code chance} (so repeat throws in
+     * the same biome vary either way). Returns -1 when none fit, so the island still grows via the usual roll — usually a
+     * plain, biome-adapted island.
      */
     private int pickFittingRare(ServerLevel level, IslandTheme theme, Holder<Biome> biome, BlockPos base) {
         final String dim = Lookup.dimensionId(level.dimension());
         final boolean baseValidHere = theme.baseValidIn(dim);
+        final boolean weighted = theme.rareStructureChance().isPresent();
         final List<RareStructure> rares = theme.rareStructures();
         final List<Integer> fitting = new ArrayList<>();
         float total = 0f;
         for (int i = 0; i < rares.size(); i++) {
             final RareStructure rs = rares.get(i);
-            if (rs.rollsIn(dim, baseValidHere) && rs.matchesBiome(biome)
+            if (rs.explorable() && rs.rollsIn(dim, baseValidHere) && rs.matchesBiome(biome) && rs.requiresPresent()
                     && Lookup.hasTemplatePool(level.registryAccess(), rs.jigsaw().pool())) {
                 fitting.add(i);
-                total += Math.max(1.0e-4f, rs.chance());
+                total += weight(rs, weighted);
             }
         }
         if (fitting.isEmpty()) {
@@ -201,12 +204,18 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
         final RandomSource rng = RandomSource.create(level.getSeed() ^ base.asLong() ^ 0x5EED_E5CA9EL);
         float roll = rng.nextFloat() * total;
         for (final int idx : fitting) {
-            roll -= Math.max(1.0e-4f, rares.get(idx).chance());
+            roll -= weight(rares.get(idx), weighted);
             if (roll <= 0f) {
                 return idx;
             }
         }
         return fitting.get(fitting.size() - 1);
+    }
+
+    /** The Explore-pick weight of a rare structure: its {@code weight} under the weighted-gate model, else its legacy
+     *  {@code chance} (floored so a 0 can't zero out the total). */
+    private static float weight(RareStructure rs, boolean weighted) {
+        return weighted ? Math.max(1, rs.weight()) : Math.max(1.0e-4f, rs.chance());
     }
 
     /** A debug seed's forced biome resolved to a holder, or {@code null} for the normal planting-biome behaviour. */
@@ -285,18 +294,21 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
         final BlockPos base = this.blockPosition();
         final Holder<Biome> biome = biomeAt(level, base);
 
-        // The Explore Skyseed carries no fixed island: resolve the dedicated base theme the local biome's own seed
-        // would grow, then force a biome-appropriate rare structure onto it (a deliberate version of the ~5% roll).
+        // The adaptive Skyseeds (Explore + Wild) carry no fixed island: resolve the dedicated base theme the local
+        // biome's own seed would grow. The Explore seed then FORCES a biome-appropriate rare structure onto it (a
+        // guaranteed build); the Wild seed leaves the theme's ordinary ~5% roll alone (forcesRare == false).
         DebugForce force = debugForce();
         if (adaptive) {
             theme = Themes.resolve(level.registryAccess(), ExploreThemes.resolveFor(getTheme(), biome));
             if (theme == null) {
-                Skyseed.LOGGER.warn("[skyseed] Explore seed could not resolve a theme for this biome — nothing germinated");
+                Skyseed.LOGGER.warn("[skyseed] adaptive seed could not resolve a theme for this biome — nothing germinated");
                 fizzle(level);
                 this.discard();
                 return;
             }
-            force = DebugForce.rare(pickFittingRare(level, theme, biome, base));
+            if (ExploreThemes.forcesRare(getTheme())) {
+                force = DebugForce.rare(pickFittingRare(level, theme, biome, base));
+            }
         }
         // Dimension gate: a seed only grows where it has an implementation (its base dimensions, or a dimension-keyed
         // override). Thrown into a dimension it doesn't implement — an overworld seed in the Nether, say — it fizzles

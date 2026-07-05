@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 2 (D4/§5) — layers a token IE scrap (an iron plate, an early crafting mat) onto the IE derelicts' chest. Inert without IE: AddDropModifier resolves the id via Lookup.hasItem and adds nothing when absent. Gate-safe: a low-tier component, never a multiblock or a high-tier blueprint.",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/ie_scrap" }
+  ],
+  "item": "immersiveengineering:plate_iron",
+  "chance": 0.6
+}

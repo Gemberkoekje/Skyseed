@@ -7,10 +7,24 @@
     { "block": "minecraft:gold_ore", "chance": 0.30, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 1, "max": 3 }, "depth": "deep_core" },
     { "block": "minecraft:bone_block", "chance": 0.25, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 4, "max": 9 }, "depth": "deep_core" }
   ],
+  "_comment_rare": "VARIETYSTRUCTUREPLAN D5 — flat 5% gate; per-entry chances → weights (round chance×100).",
+  "rare_structure_chance": 0.05,
   "rare_structures": [
-    { "chance": 0.05, "suppress_pond": true,
+    { "weight": 3, "requires": ["immersiveengineering"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Fallen Powerline (inert without Immersive Engineering).",
+      "jigsaw": { "pool": "skyseed:powerline/pylon", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:creeper", "adults": 1 } ] } ] },
+    { "weight": 3, "requires": ["create"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Rusted Drill Rig (Create-gated; inert without Create).",
+      "jigsaw": { "pool": "skyseed:drill_rig/rig", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:husk", "adults": 1 } ] } ] },
+    { "weight": 6,
+      "jigsaw": { "pool": "skyseed:prospectors_camp/camp", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:husk", "adults": 1 } ] } ] },
+    { "weight": 6,
+      "jigsaw": { "pool": "skyseed:fossil_dig/dig", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:husk", "adults": 1 } ] } ] },
+    { "weight": 5, "suppress_pond": true,
       "jigsaw": { "pool": "skyseed:desert_temple/chamber", "target": "minecraft:bottom", "depth": 1, "pad": 4, "sink": 1 } },
-    { "chance": 0.01,
+    { "weight": 1,
       "jigsaw": { "pool": "skyseed:ruined_portal/portal", "target": "minecraft:bottom", "depth": 1, "pad": 4 }, "twin": "skyseed:ruined_portal" }
   ],
   "pond": {
