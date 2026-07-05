@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BellAttachType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
@@ -38,6 +39,7 @@ public final class RareStructureTemplates {
         writeIfAbsent(base.resolve("evoker_cell/cell.nbt"), evokerCell());
         writeIfAbsent(base.resolve("vault_cell/cell.nbt"), vaultCell());
         writeIfAbsent(base.resolve("impaled_boat/wreck.nbt"), impaledBoat());
+        writeIfAbsent(base.resolve("ruined_chapel/chapel.nbt"), ruinedChapel()); // VARIETYSTRUCTUREPLAN Band 3 (B25)
     }
 
     /**
@@ -388,6 +390,134 @@ public final class RareStructureTemplates {
 
         StructureParts.anchor(m, bes, new BlockPos(mid, 0, mid), "minecraft:dark_oak_planks");
         return new Built(m, bes);
+    }
+
+    /**
+     * The <b>Ruined Chapel</b> (VARIETYSTRUCTUREPLAN Band 3, B25) — a vanilla <em>epic</em> showpiece so a mod-light pack
+     * still occasionally gets a "wow" build, and the shared reward-bearing {@code explorable} floor for the thin themes
+     * (Lush/Mushroom). A small stone-brick chapel fallen to ruin, <em>not a box</em>: a long nave whose roof has caved
+     * in almost entirely (a couple of surviving eave rafters, the rest open to the sky, fallen blocks strewn across the
+     * floor), arched side windows with shattered glass, a tall front bell-cote gable holding a hanging <b>bell</b> over a
+     * broken doorway, and — at the raised chancel — a chiseled altar with a soul-lantern, candles and the reliquary chest
+     * behind a broken rose window. The 2–3 undead of the theme's {@code mobs} pack haunt the open nave. All vanilla.
+     */
+    private static Built ruinedChapel() {
+        final Map<BlockPos, BlockState> m = new HashMap<>();
+        final Map<BlockPos, CompoundTag> bes = new HashMap<>();
+        final BlockState sb = Blocks.STONE_BRICKS.defaultBlockState();
+        final BlockState glassRemnant = Blocks.GLASS_PANE.defaultBlockState();
+        final int xMax = 6, zMax = 8; // 7 wide × 9 long
+
+        // -- Floor: a weathered stone-brick mix (cracked / mossy patches, cobblestone rubble). ----------------------
+        for (int x = 0; x <= xMax; x++) {
+            for (int z = 0; z <= zMax; z++) {
+                m.put(new BlockPos(x, 0, z), chapelStone(x, z));
+            }
+        }
+
+        // -- Side walls (x0 / x6), three courses, ruined: arched windows at z2 (a glass remnant) and z5 (blown open),
+        //    and a few blocks missing off the top for a jagged silhouette. -----------------------------------------
+        for (final int wx : new int[]{0, xMax}) {
+            for (int z = 1; z <= zMax - 1; z++) {
+                m.put(new BlockPos(wx, 1, z), chapelStone(wx, z));
+                if (z == 2) {
+                    m.put(new BlockPos(wx, 2, z), glassRemnant);          // a surviving window pane
+                } else if (z == 5) {
+                    // blown-open window — leave y2 empty
+                } else {
+                    m.put(new BlockPos(wx, 2, z), chapelStone(wx, z + 1));
+                }
+                final boolean brokenTop = (wx == 0 && (z == 3 || z == 7)) || (wx == xMax && z == 6);
+                if (!brokenTop) {
+                    m.put(new BlockPos(wx, 3, z), chapelStone(wx + z, z));
+                }
+            }
+        }
+
+        // -- Back (chancel) wall z8 with a broken rose window of stained glass. -------------------------------------
+        for (int x = 0; x <= xMax; x++) {
+            m.put(new BlockPos(x, 1, zMax), chapelStone(x, zMax));
+            if (x < 2 || x > 4) {
+                m.put(new BlockPos(x, 2, zMax), chapelStone(x, zMax));
+                m.put(new BlockPos(x, 3, zMax), chapelStone(x, zMax));
+            }
+        }
+        m.put(new BlockPos(2, 2, zMax), Blocks.PURPLE_STAINED_GLASS_PANE.defaultBlockState());
+        m.put(new BlockPos(3, 2, zMax), Blocks.RED_STAINED_GLASS_PANE.defaultBlockState());
+        m.put(new BlockPos(4, 2, zMax), Blocks.YELLOW_STAINED_GLASS_PANE.defaultBlockState());
+        m.put(new BlockPos(3, 3, zMax), Blocks.ORANGE_STAINED_GLASS_PANE.defaultBlockState()); // (2,3)/(4,3) blown out
+
+        // -- Front wall z0: a broken doorway at the centre, flanked by wall, rising into a bell-cote gable. ---------
+        for (int x = 0; x <= xMax; x++) {
+            if (x == 3) {
+                m.put(new BlockPos(x, 3, 0), sb); // door lintel (y1/y2 are the broken opening)
+            } else {
+                for (int y = 1; y <= 3; y++) {
+                    m.put(new BlockPos(x, y, 0), chapelStone(x, y));
+                }
+            }
+        }
+        // The bell-cote: two pillars (x2 / x4) up to y5 with a lintel, a hanging bell in the arch between them.
+        for (int y = 4; y <= 5; y++) {
+            m.put(new BlockPos(2, y, 0), sb);
+            m.put(new BlockPos(4, y, 0), sb);
+        }
+        m.put(new BlockPos(3, 5, 0), sb); // cote lintel over the arch
+        m.put(new BlockPos(3, 4, 0), Blocks.BELL.defaultBlockState()
+                .setValue(BlockStateProperties.BELL_ATTACHMENT, BellAttachType.CEILING)
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH));
+
+        // -- The caved roof: only a couple of eave rafters survive over the front bay + one cross-beam; the rest is
+        //    open sky, with fallen blocks strewn across the nave. --------------------------------------------------
+        for (int z = 1; z <= 2; z++) {
+            m.put(new BlockPos(1, 4, z), chapelRafter(Direction.WEST));
+            m.put(new BlockPos(5, 4, z), chapelRafter(Direction.EAST));
+        }
+        m.put(new BlockPos(3, 4, 3), sb); // a surviving cross-beam (the soul-lantern hangs from it)
+        m.put(new BlockPos(3, 3, 3), Blocks.SOUL_LANTERN.defaultBlockState().setValue(BlockStateProperties.HANGING, true));
+        for (final int[] r : new int[][]{{1, 1, 4}, {5, 1, 3}, {2, 1, 6}}) {          // fallen roof rubble
+            m.put(new BlockPos(r[0], r[1], r[2]), Blocks.COBBLESTONE.defaultBlockState());
+        }
+        m.put(new BlockPos(4, 1, 5), Blocks.STONE_BRICK_STAIRS.defaultBlockState()
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
+                .setValue(BlockStateProperties.HALF, net.minecraft.world.level.block.state.properties.Half.TOP)); // a fallen rafter
+
+        // -- The chancel altar (raised step at the back) + the reliquary chest. ------------------------------------
+        for (int x = 2; x <= 4; x++) {
+            m.put(new BlockPos(x, 1, 7), Blocks.STONE_BRICK_SLAB.defaultBlockState()); // the dais step
+        }
+        m.put(new BlockPos(3, 2, 7), Blocks.CHISELED_STONE_BRICKS.defaultBlockState()); // the altar block
+        m.put(new BlockPos(3, 3, 7), Blocks.CANDLE.defaultBlockState().setValue(BlockStateProperties.LIT, false));
+        m.put(new BlockPos(2, 2, 7), Blocks.CANDLE.defaultBlockState()
+                .setValue(BlockStateProperties.CANDLES, 2).setValue(BlockStateProperties.LIT, false));
+        // The reliquary chest in front of the altar — air above (3,2,6) so it opens ([[skyseed-structure-chest-openable]]).
+        m.put(new BlockPos(3, 1, 6), Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.NORTH));
+        bes.put(new BlockPos(3, 1, 6), StructureParts.lootChest("skyseed:chests/ruined_chapel"));
+
+        // -- Decay: cobwebs in the surviving corners. --------------------------------------------------------------
+        for (final int[] c : new int[][]{{1, 3, 1}, {5, 2, 7}, {1, 2, 7}}) {
+            m.put(new BlockPos(c[0], c[1], c[2]), Blocks.COBWEB.defaultBlockState());
+        }
+
+        StructureParts.anchor(m, bes, new BlockPos(3, 0, 3), "minecraft:stone_bricks");
+        return new Built(m, bes);
+    }
+
+    /** A weathered chapel stone: mostly stone brick, with cracked + mossy patches keyed off the position. */
+    private static BlockState chapelStone(int a, int b) {
+        final int k = Math.floorMod(a * 3 + b * 5, 7);
+        if (k == 0) {
+            return Blocks.MOSSY_STONE_BRICKS.defaultBlockState();
+        }
+        if (k == 1 || k == 4) {
+            return Blocks.CRACKED_STONE_BRICKS.defaultBlockState();
+        }
+        return Blocks.STONE_BRICKS.defaultBlockState();
+    }
+
+    /** A stone-brick eave rafter stair facing outward from the nave (so the surviving roof slopes up toward the ridge). */
+    private static BlockState chapelRafter(Direction facing) {
+        return Blocks.STONE_BRICK_STAIRS.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, facing);
     }
 
     /** A 2-tall framed window: {@code b} is the central glass pane, {@code a}/{@code c} the wool frame (y2–y3). */

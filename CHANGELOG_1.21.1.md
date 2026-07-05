@@ -5,6 +5,26 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.215.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 begins — the Ruined Chapel (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B25), plus the last theme migration.**
+  - **Ruined Chapel** (a vanilla **epic**, w1) — an all-vanilla showpiece so a mod-light pack still occasionally gets a
+    "wow" build, authored in `RareStructureTemplates`. A small stone-brick chapel fallen to ruin, *not a box*: a long nave
+    whose roof has caved in almost entirely (a couple of surviving eave rafters, the rest open sky, fallen blocks strewn
+    across the floor), arched side windows with shattered glass, a tall **front bell-cote gable** holding a hanging **bell**
+    over a broken doorway, and — at the raised chancel — a chiseled altar lit by a soul lantern behind a broken stained-glass
+    rose window, with the **reliquary chest** (a real epic reward: emeralds, an enchanted book, the odd diamond / golden
+    apple, a rare enchanted golden apple). The 2–3 undead of the theme's `mobs` pack haunt the open nave.
+  - Wired **w1** across all three tiers of **Meadow** and **Rocky** (the catalog targets) and — as the shared reward-bearing
+    `explorable` **Explore-floor** — all three tiers of the thin **Lush** and **Mushroom** themes (VARIETYSTRUCTUREPLAN §8 #3).
+  - **Finished the weighted-gate theme migration (D5):** `huge_lush` and `huge_mushroom` were the last two overworld themes
+    still on the legacy per-entry model — migrated to `rare_structure_chance: 0.05` + weighted entries (their buried
+    mineshaft/dungeon filler converted `chance → weight`). Every overworld theme now runs the flat-5% weighted gate; only
+    the Explore seed and the Nether/End themes stay legacy by design.
+  - A new assembly gametest per suite mirror. Both nodes green (1.21.1: 204, 26.1.2: 206).
+
 ## [0.214.0] - 2026-07-05
 
 ### Added

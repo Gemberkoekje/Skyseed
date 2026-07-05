@@ -252,6 +252,7 @@ public final class SkyseedTests {
         reg(event, "cursed_obelisk_assembles", BIG_REGION, SkyseedTests::cursedObeliskAssembles);
         reg(event, "inferium_plot_assembles", BIG_REGION, SkyseedTests::inferiumPlotAssembles);
         reg(event, "cook_homestead_assembles", BIG_REGION, SkyseedTests::cookHomesteadAssembles);
+        reg(event, "ruined_chapel_assembles", BIG_REGION, SkyseedTests::ruinedChapelAssembles);
         // batch b — End-chapter / monument / ancient-city structure assembly:
         reg(event, "end_portal_chamber_has_twelve_empty_frames", BIG_REGION, SkyseedTests::endPortalChamberHasTwelveEmptyFrames);
         reg(event, "return_portal_shrine_has_end_portal", BIG_REGION, SkyseedTests::returnPortalShrineHasEndPortal);
@@ -3955,6 +3956,32 @@ public final class SkyseedTests {
         helper.assertTrue(chimney, "cook homestead must have its cobblestone hearth-chimney (not a plain box)");
         helper.assertTrue(hearth, "cook homestead must have its cold campfire hearth");
         helper.assertTrue(chest, "cook homestead must place its scrap chest");
+        helper.succeed();
+    }
+
+    static void ruinedChapelAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B25) — the vanilla Ruined Chapel epic. Assert the ruin's signature features: the
+        // stone-brick shell, the bell-cote bell, the soul-lantern over the altar, and the reliquary chest. Loads .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("ruined_chapel/chapel"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean brick = false, bell = false, lantern = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.STONE_BRICKS)) brick = true;
+                    else if (s.is(Blocks.BELL)) bell = true;
+                    else if (s.is(Blocks.SOUL_LANTERN)) lantern = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(brick, "ruined chapel must have its stone-brick shell");
+        helper.assertTrue(bell, "ruined chapel must hang its bell-cote bell (not a plain box)");
+        helper.assertTrue(lantern, "ruined chapel must light its altar with a soul lantern");
+        helper.assertTrue(chest, "ruined chapel must place its reliquary chest");
         helper.succeed();
     }
 

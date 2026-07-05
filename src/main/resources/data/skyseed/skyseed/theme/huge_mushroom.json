@@ -22,9 +22,12 @@
     "fill_depth": 3
   },
   "ores": [],
+  "rare_structure_chance": 0.05,
   "rare_structures": [
-    { "_comment": "Fills the huge-mushroom rare slot so huge_explore finds a building here — a Sprawling Dungeon complex buried beneath the fungal isle (pad 0 / sink 10 = fully buried, no bald pad). Reused from huge_rocky (SKYDUNGEONPLAN Part A).",
-      "chance": 0.05,
+    { "weight": 1, "_comment": "VARIETYSTRUCTUREPLAN Band 3 — Ruined Chapel (vanilla epic; the thin theme's explorable Explore-floor).",
+      "jigsaw": { "pool": "skyseed:ruined_chapel/chapel", "target": "minecraft:bottom", "depth": 1, "pad": 6 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:zombie", "adults": 2 }, { "entity": "minecraft:skeleton", "adults": 1 } ] } ] },
+    { "weight": 6, "_comment": "Fills the huge-mushroom rare slot so huge_explore finds a building here — a Sprawling Dungeon complex buried beneath the fungal isle (pad 0 / sink 10 = fully buried, no bald pad). Reused from huge_rocky (SKYDUNGEONPLAN Part A). Migrated chance->weight to the weighted-gate model (VARIETYSTRUCTUREPLAN D5).",
       "jigsaw": { "pool": "skyseed:dungeon_complex/start", "target": "minecraft:bottom", "depth": 4, "pad": 0, "sink": 10 },
       "mobs": [] }
   ],

@@ -9,6 +9,19 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.215.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 begins — the Ruined Chapel (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B25), plus the last theme migration.** An all-vanilla **epic** (w1) showpiece: a stone-brick chapel fallen to ruin —
+  a caved nave open to the sky, arched shattered windows, a tall front bell-cote holding a hanging **bell**, and a chiseled
+  chancel altar lit by a soul lantern behind a broken rose window with the reliquary chest (emeralds, an enchanted book, the
+  odd diamond / golden apple). Wired **w1** across all three tiers of Meadow + Rocky, and — as the shared reward-bearing
+  `explorable` Explore-floor — the thin Lush + Mushroom themes. **Finished the weighted-gate migration (D5):** `huge_lush`
+  and `huge_mushroom` (the last two legacy overworld themes) were migrated to `rare_structure_chance: 0.05` + weighted
+  entries; every overworld theme now runs the flat-5% weighted gate (only the Explore seed + Nether/End stay legacy by
+  design). A new assembly gametest per mirror. Both nodes green (1.21.1: 204, 26.1.2: 206).
+
 ## [0.214.0] - 2026-07-05
 
 ### Added

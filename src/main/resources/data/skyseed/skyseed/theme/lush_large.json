@@ -11,6 +11,9 @@
   "_comment_rare": "VARIETYSTRUCTUREPLAN D5 — flat 5% gate (was ~20% stacked); per-entry chances → weights (round chance×100).",
   "rare_structure_chance": 0.05,
   "rare_structures": [
+    { "weight": 1, "_comment": "VARIETYSTRUCTUREPLAN Band 3 — Ruined Chapel (vanilla epic; the thin theme's explorable Explore-floor).",
+      "jigsaw": { "pool": "skyseed:ruined_chapel/chapel", "target": "minecraft:bottom", "depth": 1, "pad": 6 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:zombie", "adults": 2 }, { "entity": "minecraft:skeleton", "adults": 1 } ] } ] },
     { "weight": 6, "suppress_pond": true,
       "jigsaw": { "pool": "skyseed:overgrown_well/well", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
       "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:drowned", "adults": 2 } ] } ] },

@@ -4045,6 +4045,33 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    @GameTest(template = BIG_REGION)
+    public static void ruinedChapelAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B25) — the vanilla Ruined Chapel epic. Assert the ruin's signature features: the
+        // stone-brick shell, the bell-cote bell, the soul-lantern over the altar, and the reliquary chest. Loads .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("ruined_chapel/chapel"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean brick = false, bell = false, lantern = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.STONE_BRICKS)) brick = true;
+                    else if (s.is(Blocks.BELL)) bell = true;
+                    else if (s.is(Blocks.SOUL_LANTERN)) lantern = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(brick, "ruined chapel must have its stone-brick shell");
+        helper.assertTrue(bell, "ruined chapel must hang its bell-cote bell (not a plain box)");
+        helper.assertTrue(lantern, "ruined chapel must light its altar with a soul lantern");
+        helper.assertTrue(chest, "ruined chapel must place its reliquary chest");
+        helper.succeed();
+    }
+
     @GameTest(template = REGION)
     public static void endPortalEdgesCraftFromShardAndRelics(GameTestHelper helper) {
         // Phase-1 (End chapter) collect-a-thon: each of the four portal edges is a shapeless craft of one Portal Frame

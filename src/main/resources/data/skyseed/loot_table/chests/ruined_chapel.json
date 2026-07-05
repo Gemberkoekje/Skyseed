@@ -1,0 +1,36 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 3 (B25) — the Ruined Chapel's reliquary altar chest. A vanilla EPIC reward (explorable, so it also floors the thin themes' Explore seed, D3): emeralds, a little gold, an enchanted book and the odd golden apple / diamond, with a rare enchanted golden apple. All-vanilla, so it loads in the base mod with no mod dependency.",
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": { "min": 2, "max": 4 },
+      "entries": [
+        { "type": "minecraft:item", "name": "minecraft:emerald", "weight": 6,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 5 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:gold_ingot", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:gold_nugget", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 3, "max": 8 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:experience_bottle", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:book", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:ender_pearl", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 2 } } ] }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        { "type": "minecraft:item", "name": "minecraft:enchanted_book", "weight": 6,
+          "functions": [ { "function": "minecraft:enchant_with_levels", "levels": { "min": 15, "max": 30 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:golden_apple", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 2 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:name_tag", "weight": 3 },
+        { "type": "minecraft:item", "name": "minecraft:diamond", "weight": 2,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 2 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:enchanted_golden_apple", "weight": 1 }
+      ]
+    }
+  ]
+}

@@ -23,8 +23,11 @@
 > `requires:["farmersdelight"]`, on Forest/Meadow) closes Band 2 — a vanilla cabin shell with modded kitchen fittings
 > (`modNames` over `SMOKER`/`STONE`/`WHEAT` analogs) and flavour-only loot (FD has no progression gate). **Band 2 is now
 > COMPLETE (B13–B24): eleven mod-gated rare surprise buildings across Create, IE, AE2, Iron's Spells, Mystical Agriculture
-> and Farmer's Delight, each inert without its mod.**
-> **Left:** Band 3 (multi-mod epics) + the base-tier
+> and Farmer's Delight, each inert without its mod.** **Band 3 has begun:** the vanilla **Ruined Chapel** epic (B25) is
+> wired w1 across Meadow + Rocky and floors the thin Lush/Mushroom themes' Explore seed — and with it the **weighted-gate
+> theme migration is complete** (`huge_lush`/`huge_mushroom` were the last two legacy overworld themes; every overworld
+> theme now runs the flat-5% weighted gate — **the D5 large/huge-rate question is settled: flat 5% on all sizes**).
+> **Left:** the rest of Band 3 (the multi-mod combos B26–B30) + the base-tier
 > `huge_` mirrors for the small commons (scale permitting), and an in-game throw-test/tuning pass. This
 > is the scoped build-out of PLANOFPLANS **#68** ("net-new bespoke structures beyond BWG's 17"). The goal is many more
 > *common* and *rare* buildings so that every overworld seed has a **flat 5% chance** to germinate one that fits its
@@ -275,7 +278,7 @@ and every chest is a scrap pool.
 | ✅ | **Evoker Cell** (mini mansion) | — (vanilla) | woodland-mansion chest, bookshelves | 1 evoker (+ Totem) | dark-forest Forest |
 | ✅ | **Vault Cell** (buried trial) | — (vanilla) | 2 trial spawners + a vault | trial waves | Ancient |
 | ✅ | **Ocean Ruin** (flooded basin) | — (vanilla) | archaeology + underwater-ruin chest | — | Aquatic |
-| B25 | **Ruined Chapel** | — (vanilla) | a 2-room stone chapel, altar chest, bell | 2–3 undead | Meadow, Rocky |
+| ✅ B25 | **Ruined Chapel** | — (vanilla) | a caved-roof stone-brick chapel (open nave, fallen rubble, shattered arched windows), a front bell-cote with a hanging **bell** over a broken door, a chiseled chancel altar lit by a soul lantern behind a broken stained-glass rose window, the **reliquary chest** (emeralds/enchanted book/diamond/golden apple — a real epic reward) | 2–3 undead | **wired Meadow + Rocky** (all 3 tiers, w1) **+ Lush + Mushroom** (thin-theme Explore-floor) |
 | B26 | **Magitech Workshop** | Create + Iron's Spells | arcane-forge husk (gears + a *low-tier* scroll/spellbook + runes) | 2 mages | Rocky |
 | B27 | **Automated Essence Farm (ruin)** | Create + Mystical | stalled harvester husks over MA plots; a little low-tier inferium | 1–2 zombies | Meadow |
 | B28 | **FE→ME Substation** | IE + AE2 | wires *into* cables + an **empty controller husk**; scrap = fluix/coils (⛔ no sky stone / presses) | 1 creeper | Rocky |

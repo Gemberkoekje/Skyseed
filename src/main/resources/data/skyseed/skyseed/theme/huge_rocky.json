@@ -382,6 +382,9 @@
   "_comment_rare": "VARIETYSTRUCTUREPLAN D5 — flat 5% gate (was ~13% stacked); per-entry chances → weights (round chance×100). The Citadel (w4 of 14) now germinates at ~1.4% — the intended flagship dilution.",
   "rare_structure_chance": 0.05,
   "rare_structures": [
+    { "weight": 1, "_comment": "VARIETYSTRUCTUREPLAN Band 3 — Ruined Chapel (vanilla epic; explorable Explore-floor).",
+      "jigsaw": { "pool": "skyseed:ruined_chapel/chapel", "target": "minecraft:bottom", "depth": 1, "pad": 6 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:zombie", "adults": 2 }, { "entity": "minecraft:skeleton", "adults": 1 } ] } ] },
     { "weight": 3, "requires": ["irons_spellbooks"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Wizard's Tower (inert without Iron's Spells).",
       "jigsaw": { "pool": "skyseed:wizard_tower/tower", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
       "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:archevoker", "adults": 1 }, { "entity": "irons_spellbooks:magehunter_vindicator", "adults": 1 } ] } ] },
