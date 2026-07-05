@@ -70,8 +70,11 @@ A terraforming skyblock — craft and throw a Skyseed and a procedurally generat
     type="required" #mandatory
     # Optional field describing why the dependency is required or why it is incompatible
     # reason="..."
-    # The version range of the dependency
-    versionRange="[${neo_version},)" #mandatory
+    # The version range of the dependency. neo_version_range is the forward bracket (e.g. [26.1.2.76,26.2)) set per-node
+    # in gradle.properties (neorange_*): floor = the exact build we compiled against, ceiling = before the next feature
+    # version. Later bugfix builds load without a rebuild; older builds are refused (their NeoForge API differs — see the
+    # codecStart P1→P2 note in gradle.properties). NOT open-ended, and NOT below the tested build.
+    versionRange="${neo_version_range}" #mandatory
     # An ordering relationship for the dependency.
     # BEFORE - This mod is loaded BEFORE the dependency
     # AFTER - This mod is loaded AFTER the dependency

@@ -12,6 +12,7 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.pools.EmptyPoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -32,7 +33,43 @@ import java.util.Optional;
  */
 public final class Jigsaw {
 
+    /** Local position of the {@code minecraft:bottom} anchor jigsaw in the Ruined-Portal templates
+     *  ({@code RuinedPortalTemplates.anchor}) — the block {@link #placeSinglePiece} seats at {@code origin}. */
+    private static final BlockPos ANCHOR_LOCAL = new BlockPos(1, 0, 1);
+
     private Jigsaw() {
+    }
+
+    /**
+     * Place a SINGLE fixed start piece from {@code pool} at {@code origin} with an EXPLICIT {@code rotation}, seating it
+     * exactly as {@link JigsawPlacement#addPieces} would: the pool's named {@code minecraft:bottom} anchor lands at
+     * {@code origin} in XZ (for any rotation), then a vertical shift seats its ground level. Vanilla always rolls a
+     * <em>random</em> start rotation with no override hook, so this is how the Ruined-Portal frame is pinned to the same
+     * rotation as its cross-dimension twin (PORTALTWINPLAN option B). It assumes a single-element, child-less pool (the
+     * {@code ruined_portal/portal*} pools are exactly that), so it skips the recursive child assembly + cap logic
+     * {@link #placeCapped} runs — the whole frame is one rigid template.
+     */
+    public static void placeSinglePiece(ServerLevel level, Holder<StructureTemplatePool> pool, BlockPos origin,
+                                        Rotation rotation) {
+        final ChunkGenerator generator = level.getChunkSource().getGenerator();
+        final StructureTemplateManager templates = level.getStructureManager();
+        final StructureManager structureManager = level.structureManager();
+        final RandomSource random = RandomSource.create(level.getSeed() ^ origin.asLong());
+        final StructurePoolElement element = pool.value().getRandomTemplate(random);
+        if (element == EmptyPoolElement.INSTANCE) {
+            return; // an empty pool — nothing to place
+        }
+        // Reproduce vanilla's start-piece seating (JigsawPlacement.addPieces), identical across our MC nodes: the anchor
+        // jigsaw's world offset from origin is rotate(anchorLocal); placing the template's local origin at
+        // origin - that offset lands the anchor at origin (XZ), which is why the frame opening — one column above the
+        // anchor — sits on the island centre. Then move so the anchor's ground level seats (a -groundLevelDelta shift).
+        final BlockPos placePos = origin.subtract(ANCHOR_LOCAL.rotate(rotation));
+        final int groundLevelDelta = element.getGroundLevelDelta();
+        final BoundingBox box = element.getBoundingBox(templates, placePos, rotation);
+        final PoolElementStructurePiece piece = new PoolElementStructurePiece(templates, element, placePos,
+                groundLevelDelta, rotation, box, JigsawStructure.DEFAULT_LIQUID_SETTINGS);
+        piece.move(0, placePos.getY() - (box.minY() + groundLevelDelta), 0);
+        piece.place(level, structureManager, generator, random, BoundingBox.infinite(), origin, false);
     }
 
     /**

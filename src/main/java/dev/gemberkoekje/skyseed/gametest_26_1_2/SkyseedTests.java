@@ -132,6 +132,7 @@ public final class SkyseedTests {
         reg(event, "nether_soul_is_full_size_with_tiny_desert_overworld", REGION, SkyseedTests::netherSoulIsFullSizeWithTinyDesertOverworld);
         reg(event, "nether_basalt_is_full_size_with_tiny_badlands_overworld", REGION, SkyseedTests::netherBasaltIsFullSizeWithTinyBadlandsOverworld);
         reg(event, "ruined_portal_has_nether_variant_and_twins", REGION, SkyseedTests::ruinedPortalHasNetherVariantAndTwins);
+        reg(event, "ruined_portal_frame_seats_on_centre", REGION, SkyseedTests::ruinedPortalFrameSeatsOnCentre);
         reg(event, "large_nether_seeds_are_full_size_nether_native", REGION, SkyseedTests::largeNetherSeedsAreFullSizeNetherNative);
         reg(event, "blaze_room_rolls_on_large_nether_seeds", REGION, SkyseedTests::blazeRoomRollsOnLargeNetherSeeds);
         reg(event, "bastion_remnant_rolls_on_bastion_biome_large_seeds", REGION, SkyseedTests::bastionRemnantRollsOnBastionBiomeLargeSeeds);
@@ -973,6 +974,10 @@ public final class SkyseedTests {
         helper.assertTrue(ow.jigsaws().stream().anyMatch(j -> j.pool().path().equals("ruined_portal/portal")),
                 "the overworld ruined portal should use the goodies pool ruined_portal/portal");
         helper.assertTrue(ow.twinTheme().isPresent(), "the overworld ruined portal plan should carry a twin theme");
+        // PORTALTWINPLAN option B: the portal jigsaw is pinned to a fixed rotation so the frame across the divide faces
+        // the SAME axis and the two link (an ordinary structure jigsaw keeps vanilla's random rotation — empty here).
+        helper.assertTrue(ow.jigsaws().stream().allMatch(j -> j.rotation().isPresent()),
+                "the overworld ruined portal jigsaw should carry a forced rotation (twin-axis match)");
 
         // A ruined portal that rolls on a big island via rare_structures pairs too: the rare structure carries the
         // same twin theme, so planIsland routes it into the plan exactly like the dedicated seed does.
@@ -991,6 +996,8 @@ public final class SkyseedTests {
         helper.assertTrue(netherrack, "the Nether ruined portal should be a netherrack island");
         helper.assertTrue(nv.jigsaws().stream().anyMatch(j -> j.pool().path().equals("ruined_portal/portal_nether")),
                 "the Nether ruined portal should swap to the no-goodies pool ruined_portal/portal_nether");
+        helper.assertTrue(nv.jigsaws().stream().allMatch(j -> j.rotation().isPresent()),
+                "the Nether ruined portal jigsaw should carry the same forced rotation as its overworld twin");
 
         // Linked-coordinate maths: overworld/8 and nether*8 (vanilla's portal map).
         final BlockPos toNether = TwinPlacer.linkedPortalPos(new BlockPos(800, 80, 80), Level.NETHER, nether);
@@ -999,6 +1006,42 @@ public final class SkyseedTests {
         final BlockPos toOverworld = TwinPlacer.linkedPortalPos(new BlockPos(100, 70, 10), Level.OVERWORLD, overworld);
         helper.assertTrue(toOverworld.getX() == 800 && toOverworld.getZ() == 80,
                 "nether->overworld twin should multiply X/Z by 8, was " + toOverworld);
+        helper.succeed();
+    }
+
+    static void ruinedPortalFrameSeatsOnCentre(GameTestHelper helper) {
+        // PORTALTWINPLAN option B: Jigsaw.placeSinglePiece stamps the Ruined-Portal frame at an EXPLICIT rotation and
+        // seats the opening over the island centre (origin) — that centring is what makes the centre-based 8:1 twin
+        // maths land a cross-dimension frame block-exact in XZ. For EVERY rotation the bottom bar must sit AT origin and
+        // the opening column must be air one block up (the opening is directly above the anchor, which seats at origin,
+        // so this holds for all rotations). The frame must also stay a REPAIRABLE ruin: crying obsidian present, no lit
+        // nether-portal block. This is the CI-checkable half of the fix (the cross-dimension traversal is a manual verify).
+        final ServerLevel level = helper.getLevel();
+        final Id poolId = Id.of("skyseed:ruined_portal/portal");
+        helper.assertTrue(Lookup.hasTemplatePool(level.registryAccess(), poolId), "ruined_portal/portal pool must be registered");
+        for (final Rotation rot : Rotation.values()) {
+            final BlockPos origin = helper.absolutePos(new BlockPos(8, 3, 8));
+            // Wipe the work area between rotations so a previous stamp can't mask a gap in this one.
+            for (final BlockPos p : BlockPos.betweenClosed(origin.offset(-4, -2, -4), origin.offset(4, 8, 4))) {
+                level.setBlock(p, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
+            }
+            Jigsaw.placeSinglePiece(level, Lookup.templatePool(level.registryAccess(), poolId), origin, rot);
+            final BlockState atOrigin = level.getBlockState(origin);
+            helper.assertTrue(atOrigin.is(Blocks.OBSIDIAN) || atOrigin.is(Blocks.CRYING_OBSIDIAN),
+                    "the frame's bottom bar should seat AT origin for rotation " + rot + ", was " + atOrigin);
+            helper.assertTrue(level.getBlockState(origin.above()).isAir(),
+                    "the portal opening should sit one block above origin for rotation " + rot);
+            boolean crying = false, obsidian = false, litPortal = false;
+            for (final BlockPos p : BlockPos.betweenClosed(origin.offset(-3, -1, -3), origin.offset(3, 6, 3))) {
+                final BlockState st = level.getBlockState(p);
+                crying |= st.is(Blocks.CRYING_OBSIDIAN);
+                obsidian |= st.is(Blocks.OBSIDIAN);
+                litPortal |= st.is(Blocks.NETHER_PORTAL);
+            }
+            helper.assertTrue(obsidian, "the ruined portal should place its obsidian frame for rotation " + rot);
+            helper.assertTrue(crying, "the ruined portal should stay a repairable ruin (crying obsidian) for rotation " + rot);
+            helper.assertTrue(!litPortal, "the ruined portal must stay unlit (no nether-portal block) for rotation " + rot);
+        }
         helper.succeed();
     }
 

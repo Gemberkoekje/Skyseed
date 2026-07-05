@@ -31,6 +31,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
@@ -58,6 +59,9 @@ public final class IslandGenerator {
 
     /** Blocks of headroom cleared above a structure pad, so an assembled building isn't clipped by island terrain. */
     private static final int PAD_CLEAR_HEIGHT = 10;
+    /** The fixed rotation forced on a Ruined-Portal frame so both sides of a cross-dimension pair share an axis and
+     *  link (PORTALTWINPLAN option B). Any single value works — the point is that source and twin agree. */
+    private static final Rotation PORTAL_ROTATION = Rotation.NONE;
     /** Fallback shape for a dimension override that omits one — small, so it never inherits the overworld silhouette. */
     private static final Shape NEUTRAL_SHAPE = new Shape(new IntRange(3, 3), 0.2f, Underside.TEARDROP,
             new IntRange(1, 1), java.util.Optional.empty(), java.util.List.of());
@@ -159,7 +163,17 @@ public final class IslandGenerator {
         // Cross-dimension twin (Ruined Portal): a rolled rare structure's twin wins, else the theme's own.
         final Optional<Id> twinTheme =
                 (rare != null && rare.twin().isPresent()) ? rare.twin() : theme.twin();
-        return new IslandPlan(blocks, decor.trees(), mobs, hives, jigsaws, animals, random, twinTheme, fluidTicks,
+        // A twin-carrying island's sole jigsaw IS the Ruined-Portal frame. Force it to a fixed rotation so the frame
+        // on the far side of the divide faces the SAME axis: otherwise each side gets its own position-seeded random
+        // rotation, and lighting one frame forges/links a portal on that axis beside the differently-oriented twin
+        // ("facing the wrong way"). The opening already sits over the island-centre anchor (the jigsaw seats the
+        // `minecraft:bottom` anchor at the centre), so the centre-based 8:1 link maths lands both openings block-exact
+        // in XZ; only the axis needed pinning. A fixed rotation stays matched even if a twin is nudged off the link
+        // spot. Both sides are twin-flagged, so both pick up the identical rotation (PORTALTWINPLAN option B).
+        final List<IslandPlan.JigsawSite> placedJigsaws = twinTheme.isPresent()
+                ? jigsaws.stream().map(j -> j.withRotation(PORTAL_ROTATION)).toList()
+                : jigsaws;
+        return new IslandPlan(blocks, decor.trees(), mobs, hives, placedJigsaws, animals, random, twinTheme, fluidTicks,
                 decor.scatterPositions(), snow);
     }
 
@@ -494,7 +508,8 @@ public final class IslandGenerator {
             // and PathSurfacer.supportStilts can hang the legs down to the bed (BWGSWAMPVILLAGEPLAN #73).
             jigsaws.add(new IslandPlan.JigsawSite(jc.pool(), jc.target(), jc.depth(), jc.pad(), jc.ironGolems(),
                     new BlockPos(center.getX(), gy + 1 - jc.sink() + jc.stiltHeight(), center.getZ()), jc.reach(),
-                    jc.capPrefix(), cap, jc.capFiller(), jc.centerpiece(), jc.trestles(), jc.stiltHeight(), jc.traps()));
+                    jc.capPrefix(), cap, jc.capFiller(), jc.centerpiece(), jc.trestles(), jc.stiltHeight(), jc.traps(),
+                    Optional.empty()));
             // An Animal Island (or a rare structure's mobs): roll one weighted pack onto the pad, a block above its floor.
             if (!animalPacks.isEmpty()) {
                 MobPlanner.rollAnimals(animalPacks, new BlockPos(center.getX(), gy, center.getZ()), animals, random);

@@ -9,6 +9,27 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.225.0] - 2026-07-05
+
+### Fixed
+- **Ruined-Portal twins now line up across the divide (→ [PORTALTWINPLAN.md](Modpack-growyourownworld/PORTALTWINPLAN.md), option B).**
+  A Ruined-Portal island grows a linked twin at the vanilla 8:1 coordinate in the paired dimension, but the two frames got
+  **independent, position-seeded rotations** — so repairing + lighting one side dropped you *beside* the twin facing the
+  wrong way. The frame is now stamped at a **fixed rotation** on both sides (both plans carry the theme's `twin` flag, so
+  both adopt it), so the two frames share an axis and mutually link. The opening already sits on the island centre — the
+  jigsaw seats its `minecraft:bottom` start anchor there for any rotation — so the existing centre-based 8:1 maths is
+  block-exact in XZ; only the axis needed pinning (no re-sequencing, no `PortalForcer`, no template rebuild). A new
+  `Jigsaw.placeSinglePiece` stamps the single fixed frame at an explicit rotation (vanilla's jigsaw only rolls a random
+  one); gametests place it at all four rotations and assert the opening seats on centre and stays a repairable ruin. The
+  cross-dimension traversal itself remains a manual in-game check. *Side effect: every ruined portal now faces the same
+  direction rather than a random one.*
+
+### Changed
+- **NeoForge dependency range is now a forward bracket, not open-ended.** `neoforge.mods.toml` declares
+  `versionRange="[<tested build>,<next feature version>)"` (per-node `neorange_*` in `gradle.properties`): the floor is the
+  exact NeoForge build the jar was compiled against, the ceiling stops before the next feature version. Later bugfix
+  builds load without a rebuild; older builds (whose NeoForge API differs — see the `codecStart` P1→P2 note) are refused.
+
 ## [0.224.0] - 2026-07-05
 
 ### Added
