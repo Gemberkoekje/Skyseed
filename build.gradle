@@ -12,7 +12,8 @@ plugins {
 def mcv = project.name
 ext.minecraft_version       = property("mc_${mcv}")
 ext.minecraft_version_range = property("mcrange_${mcv}")
-ext.neo_version             = property("neo_${mcv}")
+ext.neo_version             = property("neo_${mcv}")           // exact build to compile against
+ext.neo_version_range       = property("neorange_${mcv}")      // wider dependency bracket shipped in mods.toml
 def javaVersion             = property("java_${mcv}") as int
 
 // Prefix the Minecraft version so jars and the in-game version are distinguishable across MC versions once we
@@ -453,6 +454,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
             neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
             loader_version_range   : loader_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,

@@ -505,8 +505,14 @@ public final class GenerationJob {
             final Holder<StructureTemplatePool> fillerPool = (js.capFiller().isEmpty()
                     || !Lookup.hasTemplatePool(level.registryAccess(), js.capFiller())) ? null
                     : Lookup.templatePool(level.registryAccess(), js.capFiller());
-            Jigsaw.placeCapped(level, pool, js.target(), js.depth(), js.origin(), false,
-                    js.capPrefix(), js.capCount(), fillerPool);
+            if (js.rotation().isPresent()) {
+                // A Ruined-Portal frame: place the single fixed piece at its forced rotation so it faces the same axis
+                // as its cross-dimension twin and the two frames link (PORTALTWINPLAN option B). No cap/child assembly.
+                Jigsaw.placeSinglePiece(level, pool, js.origin(), js.rotation().get());
+            } else {
+                Jigsaw.placeCapped(level, pool, js.target(), js.depth(), js.origin(), false,
+                        js.capPrefix(), js.capCount(), fillerPool);
+            }
             // Re-add any support-dependent trap blocks the jigsaw path would have popped (plate / tripwire) — but ONLY
             // for a structure that opted in (js.traps()). The markers are plain vanilla wool, so running this on every
             // structure would clobber decorative red/lime/yellow wool (a bandit-camp bedroll, a village bed) near the

@@ -4,6 +4,7 @@ import dev.gemberkoekje.skyseed.compat.Id;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
@@ -60,9 +61,19 @@ public record IslandPlan(List<BlockPlacement> blocks, List<TreeSite> trees, List
      * {@code ironGolems} golems are spawned at the centre once assembled; {@code reach} is the half-extent the
      * post-assembly connection-link and (when {@code > 0}) path/bridge surfacing passes scan (SKYJIGSAWPLAN §3a).
      * {@code centerpiece}, when present, is a block stamped at the centre (the origin) as a capstone.
+     * {@code rotation}, when present, forces the start piece to that rotation instead of vanilla's random one — used
+     * only for the Ruined-Portal frame so its cross-dimension twin faces the same axis and the two frames link
+     * (PORTALTWINPLAN option B). Empty everywhere else = vanilla's per-position random rotation, unchanged.
      */
     public record JigsawSite(Id pool, Id target,
                              int depth, int pad, int ironGolems, BlockPos origin, int reach,
                              String capPrefix, int capCount, String capFiller, Optional<Id> centerpiece,
-                             boolean trestles, int stiltHeight, boolean traps) {}
+                             boolean trestles, int stiltHeight, boolean traps, Optional<Rotation> rotation) {
+
+        /** A copy with the start-piece {@code rotation} forced — see the {@code rotation} field (PORTALTWINPLAN). */
+        public JigsawSite withRotation(Rotation r) {
+            return new JigsawSite(pool, target, depth, pad, ironGolems, origin, reach, capPrefix, capCount, capFiller,
+                    centerpiece, trestles, stiltHeight, traps, Optional.of(r));
+        }
+    }
 }

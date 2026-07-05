@@ -7,6 +7,33 @@
 > [`IslandSeedEntity.germinate`](../src/main/java/dev/gemberkoekje/skyseed/entity/IslandSeedEntity.java),
 > [`GenerationJob`](../src/main/java/dev/gemberkoekje/skyseed/worldgen/GenerationJob.java).
 
+## Implemented — option B (matched rotation), not C
+
+Shipped as **fallback (B)**, because a look at the actual seating showed C's heavy machinery is unnecessary here. The
+`ruined_portal/portal` jigsaw is a single rigid piece whose `minecraft:bottom` anchor vanilla always seats at the piece
+`origin` in XZ (`JigsawPlacement.addPieces`: `adjustedPosition = origin - rotate(anchor)`, so the anchor lands on `origin`
+for *any* rotation), and `planStructure` sets that `origin.xz` to the **island centre**. The portal opening sits one
+column above the anchor, so its XZ is *already* the island centre — the existing centre-based `TwinPlacer.linkedPortalPos`
+is therefore block-exact in XZ (and within vanilla's own ×8 rounding on the Nether→OW return). So issues #1 (offset) and
+#3 (extra forged portal) largely dissolve once the frames are centred; **only the independent random rotations (#2) had to
+be fixed.**
+
+What changed (no re-sequencing, no `PortalForcer`, no post-assembly callback, no `.nbt` rebuild):
+- [`IslandPlan.JigsawSite`](../src/main/java/dev/gemberkoekje/skyseed/worldgen/IslandPlan.java) gained an
+  `Optional<Rotation> rotation` (+ `withRotation`); empty everywhere but the portal keeps vanilla's random rotation.
+- [`IslandGenerator.planIsland`](../src/main/java/dev/gemberkoekje/skyseed/worldgen/IslandGenerator.java) forces a **fixed
+  rotation** (`Rotation.NONE`) on the jigsaw of any twin-carrying island. Both the source and its twin are twin-flagged, so
+  both pick up the identical rotation → the two frames share an axis. A fixed rotation stays matched even if a twin is
+  nudged off the link spot.
+- [`Jigsaw.placeSinglePiece`](../src/main/java/dev/gemberkoekje/skyseed/compat/Jigsaw.java) places the single fixed frame
+  at an explicit rotation (vanilla's `addPieces` only rolls a random one), reproducing vanilla's start-piece seating.
+  [`GenerationJob`](../src/main/java/dev/gemberkoekje/skyseed/worldgen/GenerationJob.java) routes the portal through it.
+- Gametests (`ruinedPortalFrameSeatsOnCentre` on both nodes) stamp the frame at all four rotations and assert the opening
+  seats over `origin` and stays a repairable ruin. The cross-dimension traversal remains a manual in-game verify.
+
+The rest of this doc is the original option-C design, kept for context / if a future change needs a portal that *isn't* at
+the island centre.
+
 ## The problem (why it doesn't line up today)
 
 A Ruined-Portal island grows a **twin** at the vanilla 8:1 coordinate in the paired dimension so the two frames link
