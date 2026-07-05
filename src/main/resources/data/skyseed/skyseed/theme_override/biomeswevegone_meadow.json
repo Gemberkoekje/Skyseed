@@ -59,6 +59,12 @@
         "ground": [
           { "block": "biomeswevegone:firecracker_flower_bush", "chance": 0.06 }, { "block": "biomeswevegone:california_poppy", "chance": 0.05 },
           { "block": "biomeswevegone:blue_sage", "chance": 0.04 },
-          { "block": "minecraft:dead_bush", "chance": 0.03 }, { "block": "minecraft:short_grass", "chance": 0.12 } ] } } ] }
+          { "block": "minecraft:dead_bush", "chance": 0.03 }, { "block": "minecraft:short_grass", "chance": 0.12 } ] } } ] },
+    { "biomes": ["biomeswevegone:pumpkin_valley"],
+      "_verify": "verified vs BWG 2.6.0: pumpkin_valley scatters minecraft:patch_pumpkin + BWG large/medium/small_pumpkin features — rendered here (BIOMECOVERAGEPLAN F4) as a pumpkin-patch meadow. Vanilla blocks; inert without BWG since the band only matches the BWG biome.",
+      "variants": [ { "weight": 1, "name": "pumpkin_patch", "decoration": {
+        "ground": [
+          { "block": "minecraft:pumpkin", "chance": 0.05 },
+          { "block": "minecraft:short_grass", "chance": 0.22 }, { "block": "minecraft:dandelion", "chance": 0.03 }, { "block": "minecraft:orange_tulip", "chance": 0.02 } ] } } ] }
   ]
 }

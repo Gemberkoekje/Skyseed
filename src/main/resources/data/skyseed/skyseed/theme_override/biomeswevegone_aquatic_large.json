@@ -4,7 +4,7 @@
   "_verify": "IDS VERIFIED vs BWG 2.6.0 (2026-07-01) — same set as biomeswevegone_aquatic.json (bayou_trees, white_mangrove_marshes, rainbow_beach/palm_trees). Tree tries / marsh sizes scaled for the large island.",
   "target": "skyseed:aquatic_large",
   "biome_overrides": [
-    { "biomes": ["biomeswevegone:cypress_swamplands"],
+    { "biomes": ["biomeswevegone:cypress_swamplands", "biomeswevegone:cypress_wetlands"],
       "_verify": "verified: biome cypress_swamplands + configured feature cypress_trees",
       "surface": "minecraft:mud",
       "pond": { "block": "minecraft:water", "radius": 9, "depth": 2, "slope": true, "extent": 0.62,
