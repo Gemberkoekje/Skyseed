@@ -254,6 +254,7 @@ public final class SkyseedTests {
         reg(event, "cook_homestead_assembles", BIG_REGION, SkyseedTests::cookHomesteadAssembles);
         reg(event, "ruined_chapel_assembles", BIG_REGION, SkyseedTests::ruinedChapelAssembles);
         reg(event, "magitech_workshop_assembles", BIG_REGION, SkyseedTests::magitechWorkshopAssembles);
+        reg(event, "essence_farm_assembles", BIG_REGION, SkyseedTests::essenceFarmAssembles);
         // batch b — End-chapter / monument / ancient-city structure assembly:
         reg(event, "end_portal_chamber_has_twelve_empty_frames", BIG_REGION, SkyseedTests::endPortalChamberHasTwelveEmptyFrames);
         reg(event, "return_portal_shrine_has_end_portal", BIG_REGION, SkyseedTests::returnPortalShrineHasEndPortal);
@@ -4010,6 +4011,33 @@ public final class SkyseedTests {
         helper.assertTrue(shelf, "magitech workshop must have a bookshelf study");
         helper.assertTrue(amethyst, "magitech workshop must have its amethyst focus (not a plain box)");
         helper.assertTrue(chest, "magitech workshop must place its scrap chest");
+        helper.succeed();
+    }
+
+    static void essenceFarmAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B27) — the Create + Mystical Agriculture Automated Essence Farm. The Create
+        // machinery + the MA farmland/crops are mod blocks (air without their mods), so assert the vanilla harvester
+        // gantry shell: the oak-log frame, the broken fence rail, the gantry lantern, and the control chest. Loads .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("essence_farm/farm"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean gantry = false, fence = false, lantern = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.OAK_LOG)) gantry = true;
+                    else if (s.is(Blocks.OAK_FENCE)) fence = true;
+                    else if (s.is(Blocks.LANTERN)) lantern = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(gantry, "essence farm must have its oak-log harvester gantry (not a plain box)");
+        helper.assertTrue(fence, "essence farm must have its broken oak-fence rail");
+        helper.assertTrue(lantern, "essence farm must have its gantry lantern");
+        helper.assertTrue(chest, "essence farm must place its control chest");
         helper.succeed();
     }
 

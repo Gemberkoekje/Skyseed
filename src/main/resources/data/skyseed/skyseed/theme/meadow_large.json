@@ -9,6 +9,9 @@
   "_comment_rare": "VARIETYSTRUCTUREPLAN D5 — flat 5% gate (was ~17% stacked); per-entry chances → weights (round chance×100), relative rarity preserved. Tool Shed (common, w6) mirrors base Meadow.",
   "rare_structure_chance": 0.05,
   "rare_structures": [
+    { "weight": 1, "requires": ["create", "mysticalagriculture"], "_comment": "VARIETYSTRUCTUREPLAN Band 3 — Automated Essence Farm (inert without Create + Mystical Agriculture).",
+      "jigsaw": { "pool": "skyseed:essence_farm/farm", "target": "minecraft:bottom", "depth": 1, "pad": 6 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:zombie", "adults": 2 } ] } ] },
     { "weight": 1, "_comment": "VARIETYSTRUCTUREPLAN Band 3 — Ruined Chapel (vanilla epic; explorable Explore-floor).",
       "jigsaw": { "pool": "skyseed:ruined_chapel/chapel", "target": "minecraft:bottom", "depth": 1, "pad": 6 },
       "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:zombie", "adults": 2 }, { "entity": "minecraft:skeleton", "adults": 1 } ] } ] },

@@ -27,6 +27,8 @@
     "skyseed:cook_homestead_rope",
     "skyseed:magitech_gears",
     "skyseed:magitech_essence",
-    "skyseed:magitech_rune"
+    "skyseed:magitech_rune",
+    "skyseed:essence_farm_gears",
+    "skyseed:essence_farm_inferium"
   ]
 }

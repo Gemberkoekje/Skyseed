@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 3 (B27, D4/§5) — layers a little tier-1 Inferium Essence onto the Automated Essence Farm's chest. Inert without Mystical Agriculture: AddDropModifier resolves the id via Lookup.hasItem and adds nothing when absent. Gate-safe: inferium essence is the mod's cheapest, renewable, mineable base material, never a seed / higher-tier essence / prosperity block.",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/essence_farm_scrap" }
+  ],
+  "item": "mysticalagriculture:inferium_essence",
+  "chance": 0.6
+}

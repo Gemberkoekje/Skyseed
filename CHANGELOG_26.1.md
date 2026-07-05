@@ -9,6 +9,22 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.218.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 — the Automated Essence Farm (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B27).** A `requires:["create","mysticalagriculture"]` epic (w1, Meadow) that only germinates where **both** Create and
+  Mystical Agriculture are installed: a mechanised inferium field seized up mid-harvest — a derelict essence plot (inferium
+  farmland rows, some trampled, crops at mixed growth) straddled by a stalled harvester **gantry** (a vanilla oak frame of
+  six posts → two side-rails → a cross-bridge, from which a **Create** `mechanical_drill` husk hangs with its casing body +
+  a cogwheel drive), a hanging gantry lantern, a west control station (casing panel + scrap chest), and a derelict tier-1
+  `growth_accelerator` + coolant cauldron behind a broken oak-fence rail. Create machinery + MA crops via the `modNames`
+  side-map; the gantry frame is deliberately vanilla (the gametest shell). **D4 compounding gate:** Create → `andesite_alloy`
+  (husk drill, no working contraption); MA → tier-1 `inferium_essence` only (no seeds/higher-tier essence/prosperity/infusion).
+  Wired w1 across all three Meadow tiers; a new gametest per mirror. **Adversarial physical review clean** — the whole gantry
+  is carried (nothing floats), the chest is openable, the field stays 2-blocks walkable. Both nodes green (1.21.1: 206,
+  26.1.2: 208).
+
 ## [0.217.0] - 2026-07-05
 
 ### Fixed

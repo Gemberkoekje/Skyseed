@@ -5,6 +5,31 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.218.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 — the Automated Essence Farm (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B27).** A `requires:["create","mysticalagriculture"]` epic (w1, Meadow) — a mechanised inferium field seized up
+  mid-harvest, only germinating where **both** Create and Mystical Agriculture are installed:
+  - **Automated Essence Farm** (Meadow, 1–2 zombies) — *not a box*: a derelict essence plot (rows of inferium farmland,
+    some trampled to coarse dirt, crops at mixed growth) straddled by a stalled harvester **gantry** — a vanilla oak frame
+    (six posts carry two side-rails, a cross-bridge rides the rails) from which a **Create** `mechanical_drill` husk hangs
+    over the rows with its `andesite_casing` body and a cogwheel drive, all frozen. A hanging lantern lights the gantry; a
+    west control station (an `andesite_casing` panel + the scrap chest) faces the field, and a derelict tier-1 inferium
+    `growth_accelerator` + a coolant cauldron sit at the east, behind a broken oak-fence rail.
+  - **Authoring.** Create machinery + MA farmland/crops via the `modNames` side-map (verified `create` 6.0.10 + MA 8.0.27
+    ids); the harvester **gantry frame is deliberately vanilla oak** (so it's the assertable gametest shell and a strong
+    silhouette when the mods are absent).
+  - **D4 — compounding gate.** Create: casing / cogwheel + a `mechanical_drill` husk (no working contraption); loot tops out
+    at `andesite_alloy`. Mystical Agriculture: **tier-1 inferium only** (farmland/crops + a broken tier-1 accelerator);
+    loot is a little `inferium_essence` — never a seed, higher-tier essence, prosperity block or infusion component. Chest
+    binds `skyseed:chests/essence_farm_scrap` + two inert `add_drop` GLMs.
+  - Wired **w1** across all three tiers of Meadow. A new assembly gametest per suite mirror. Both nodes green
+    (1.21.1: 206, 26.1.2: 208).
+  - **Adversarial physical review (clean).** Applied the previous review's lesson — the whole gantry is fully carried
+    (posts → rails → bridge; the drill/casing hang from the bridge, the lantern from a rail): no floating blocks, the
+    control chest is openable (air above), and the field stays 2-blocks walkable under the y3 rails.
+
 ## [0.217.0] - 2026-07-05
 
 ### Fixed

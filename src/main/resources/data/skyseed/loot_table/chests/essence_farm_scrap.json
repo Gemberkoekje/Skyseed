@@ -1,0 +1,35 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 3 (B27, D3/D4) — the Automated Essence Farm's control chest (Create + Mystical Agriculture). Vanilla farm + mechanical scrap only, so it loads inert with neither mod; a Create token (andesite_alloy) + an MA token (tier-1 inferium_essence) are layered on via the inert-safe skyseed:essence_farm_gears / essence_farm_inferium add_drop GLMs. D4 compounding gate: Create tops out at andesite_alloy (never brass / precision mechanisms); MA is tier-1 inferium_essence only (never a seed / higher-tier essence / prosperity block / infusion component).",
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": { "min": 2, "max": 3 },
+      "entries": [
+        { "type": "minecraft:item", "name": "minecraft:wheat_seeds", "weight": 6,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:bone_meal", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 6 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:iron_nugget", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 8 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:andesite", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 6 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:redstone", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 5 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:string", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        { "type": "minecraft:empty", "weight": 4 },
+        { "type": "minecraft:item", "name": "minecraft:emerald", "weight": 2,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 2 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:experience_bottle", "weight": 2,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:iron_hoe", "weight": 2,
+          "functions": [ { "function": "minecraft:set_damage", "damage": { "min": 0.3, "max": 0.9 } } ] }
+      ]
+    }
+  ]
+}

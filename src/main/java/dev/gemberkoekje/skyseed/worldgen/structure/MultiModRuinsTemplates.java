@@ -32,9 +32,11 @@ public final class MultiModRuinsTemplates {
     private MultiModRuinsTemplates() {}
 
     private static final String CREATE = "create:";
+    private static final String MA = "mysticalagriculture:";
 
     public static void generateInto(Path base) throws IOException {
         writeIfAbsent(base.resolve("magitech_workshop/workshop.nbt"), magitechWorkshop());
+        writeIfAbsent(base.resolve("essence_farm/farm.nbt"), automatedEssenceFarm());
     }
 
     /**
@@ -145,6 +147,98 @@ public final class MultiModRuinsTemplates {
 
         StructureParts.anchor(m, bes, new BlockPos(3, 0, 3), "minecraft:polished_andesite");
         return built(m, bes, mods);
+    }
+
+    /**
+     * The <b>Automated Essence Farm</b> (B27, <b>Create + Mystical Agriculture</b>) — a mechanised inferium field seized
+     * up mid-harvest. <em>Not a box</em>: a derelict essence plot (rows of inferium farmland, some trampled back to coarse
+     * dirt, crops at mixed growth) straddled by a stalled harvester <b>gantry</b> — a vanilla oak frame (six posts carry two
+     * side-rails, and a cross-bridge rides the rails) from which a <b>Create</b> {@code mechanical_drill} husk hangs over
+     * the rows, its {@code andesite_casing} body and a cogwheel drive beside it, all frozen. A hanging lantern lights the
+     * gantry; at the west end a control station (an {@code andesite_casing} panel + the scrap chest) faces the field, and a
+     * derelict inferium {@code growth_accelerator} + a coolant cauldron sit at the east. A broken oak-fence rail runs the
+     * edges. Fits Meadow; the theme {@code mobs} pack (1–2 zombies) shambles the rows.
+     *
+     * <p><b>D4 (both mods).</b> Create: only casing / cogwheel and a {@code mechanical_drill} husk — no working
+     * contraption; loot tops out at {@code andesite_alloy}. Mystical Agriculture: <b>tier-1 inferium only</b> — the
+     * farmland/crops and a broken tier-1 growth accelerator, shown derelict; loot is a little {@code inferium_essence}
+     * (the mineable base tier) — never a seed, a higher-tier essence, a prosperity block or an infusion component.
+     */
+    private static Built automatedEssenceFarm() {
+        final Map<BlockPos, BlockState> m = new HashMap<>();
+        final Map<BlockPos, String> mods = new HashMap<>();
+        final Map<BlockPos, CompoundTag> bes = new HashMap<>();
+        final BlockState log = Blocks.OAK_LOG.defaultBlockState();
+        final int xMax = 8, zMax = 4; // 9×5
+
+        // -- Ground: grass, with the inferium-farmland field carved into the centre (some rows trampled to coarse dirt). --
+        for (int x = 0; x <= xMax; x++) {
+            for (int z = 0; z <= zMax; z++) {
+                m.put(new BlockPos(x, 0, z), Blocks.GRASS_BLOCK.defaultBlockState());
+            }
+        }
+        for (int x = 1; x <= 7; x++) {
+            for (int z = 1; z <= 3; z++) {
+                set(m, mods, new BlockPos(x, 0, z), Blocks.FARMLAND.defaultBlockState(), MA + "inferium_farmland");
+            }
+        }
+        for (final int[] c : new int[][]{{5, 1}, {2, 2}, {6, 3}}) { // trampled rows — clear the farmland id (set...,null)
+            set(m, mods, new BlockPos(c[0], 0, c[1]), Blocks.COARSE_DIRT.defaultBlockState(), null);
+        }
+        // Essence crops (tier-1 inferium) at mixed growth; the cells under the drill + over the anchor stay bare/harvested.
+        maCrop(m, mods, 1, 1, 7); maCrop(m, mods, 3, 1, 5); maCrop(m, mods, 6, 1, 3); maCrop(m, mods, 7, 1, 7);
+        maCrop(m, mods, 1, 2, 7); maCrop(m, mods, 3, 2, 7); maCrop(m, mods, 5, 2, 5); maCrop(m, mods, 7, 2, 3);
+        maCrop(m, mods, 2, 3, 7); maCrop(m, mods, 3, 3, 7); maCrop(m, mods, 5, 3, 7); maCrop(m, mods, 7, 3, 7);
+
+        // -- The harvester gantry (vanilla oak): six posts, two side-rails resting on them, and a cross-bridge on the rails.
+        for (final int px : new int[]{0, 4, 8}) {
+            for (final int pz : new int[]{0, zMax}) {
+                m.put(new BlockPos(px, 1, pz), log);
+                m.put(new BlockPos(px, 2, pz), log);
+            }
+        }
+        for (int x = 0; x <= xMax; x++) {                                   // the two side-rails (rest on the posts)
+            m.put(new BlockPos(x, 3, 0), log.setValue(BlockStateProperties.AXIS, Direction.Axis.X));
+            m.put(new BlockPos(x, 3, zMax), log.setValue(BlockStateProperties.AXIS, Direction.Axis.X));
+        }
+        for (int z = 1; z <= 3; z++) {                                      // the cross-bridge (carried on the 4,_ posts)
+            m.put(new BlockPos(4, 3, z), log.setValue(BlockStateProperties.AXIS, Direction.Axis.Z));
+        }
+
+        // -- The stalled Create harvester head hanging under the bridge + its drive. --------------------------------
+        set(m, mods, new BlockPos(4, 2, 1), Blocks.END_ROD.defaultBlockState()
+                .setValue(BlockStateProperties.FACING, Direction.DOWN), CREATE + "mechanical_drill"); // the drill, pointing down
+        set(m, mods, new BlockPos(4, 2, 3), cube(), CREATE + "andesite_casing");                     // the harvester body
+        set(m, mods, new BlockPos(4, 4, 2), shaft(Direction.Axis.X), CREATE + "cogwheel");            // the drive cog atop the bridge
+        m.put(new BlockPos(6, 2, 0), Blocks.LANTERN.defaultBlockState()
+                .setValue(BlockStateProperties.HANGING, true));                                       // hung from the side-rail (6,3,0)
+
+        // -- The west control station: an andesite-casing panel + the scrap chest facing the field. ----------------
+        set(m, mods, new BlockPos(0, 1, 1), cube(), CREATE + "andesite_casing");
+        m.put(new BlockPos(0, 1, 2), Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.EAST));
+        bes.put(new BlockPos(0, 1, 2), StructureParts.lootChest("skyseed:chests/essence_farm_scrap"));
+        m.put(new BlockPos(0, 2, 1), Blocks.COBWEB.defaultBlockState());
+
+        // -- The east end: a derelict tier-1 growth accelerator + a coolant cauldron. -------------------------------
+        set(m, mods, new BlockPos(8, 1, 2), cube(), MA + "inferium_growth_accelerator");
+        m.put(new BlockPos(8, 1, 3), Blocks.WATER_CAULDRON.defaultBlockState()
+                .setValue(BlockStateProperties.LEVEL_CAULDRON, 3));
+        m.put(new BlockPos(8, 2, 2), Blocks.COBWEB.defaultBlockState());
+
+        // -- A broken oak-fence rail along the edges. ---------------------------------------------------------------
+        for (final int[] c : new int[][]{{2, 0}, {6, 0}, {2, zMax}, {6, zMax}}) {
+            m.put(new BlockPos(c[0], 1, c[1]), Blocks.OAK_FENCE.defaultBlockState());
+        }
+
+        StructureParts.linkFences(m);
+        StructureParts.anchor(m, bes, new BlockPos(4, 0, 2), "minecraft:grass_block");
+        return built(m, bes, mods);
+    }
+
+    /** An inferium essence crop at {@code age} (0-7) — a WHEAT analog whose palette Name is swapped to the MA crop. */
+    private static void maCrop(Map<BlockPos, BlockState> m, Map<BlockPos, String> mods, int x, int z, int age) {
+        set(m, mods, new BlockPos(x, 1, z),
+                Blocks.WHEAT.defaultBlockState().setValue(BlockStateProperties.AGE_7, age), MA + "inferium_crop");
     }
 
     // ------------------------------------------------------------------------------------------------------------
