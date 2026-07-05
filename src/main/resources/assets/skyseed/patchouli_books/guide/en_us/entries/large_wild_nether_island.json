@@ -1,0 +1,24 @@
+{
+  "name": "Large Nether Wild Skyseed",
+  "category": "skyseed:nether",
+  "advancement": "skyseed:reveal_wild_nether_large",
+  "icon": "minecraft:warped_nylium",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The $(item)Large Nether Wild Skyseed$() — the same adaptive idea at the bigger tier. It reads the local Nether biome and grows that biome's $(bold)Large$() dedicated isle, so there's room for the odd rare build the small one can't host."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "skyseed:wild_nether_large_skyseed",
+      "text": "Frame the base Nether Wild in netherrack and nether wart.",
+      "advancement": "skyseed:gathered_wild_nether_large"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Grows the $(bold)_large$() form of whichever Nether isle the biome calls for — a bigger mining rock, a broader fungal forest, a wider soul valley or delta — and, about $(bold)1 in 20$(), a blaze room or a bastion remnant rises with it.",
+      "advancement": "skyseed:craft_wild_nether_large"
+    }
+  ]
+}

@@ -29,6 +29,27 @@
           "underside": [ { "block": "minecraft:weeping_vines", "chance": 0.20 } ] } }
       ] },
 
+    { "_comment": "Nether biome flavor (SKYNETHERENDBIOMEPLAN model A) — Soul Sand Valley: soul soil/sand dusting over the seed's crimson base, bone-block clusters, soul fire, Skeletons. (Crimson is the base look; warped has its own bespoke override above.) Same-dimension → base fill/core/ores kept.",
+      "dimension": "minecraft:the_nether", "biomes": [ "minecraft:soul_sand_valley" ],
+      "surface_scatter": [ { "block": "minecraft:soul_soil", "chance": 0.4 }, { "block": "minecraft:soul_sand", "chance": 0.2 } ],
+      "mobs": [ { "entity": "minecraft:skeleton", "chance": 0.30, "count": { "min": 1, "max": 2 } }, { "entity": "minecraft:magma_cube", "chance": 0.15, "count": { "min": 1, "max": 1 } } ],
+      "variants": [ { "weight": 1, "name": "soul", "decoration": {
+        "ground": [ { "block": "minecraft:bone_block", "chance": 0.05 }, { "block": "minecraft:soul_fire", "chance": 0.05 } ] } } ] },
+
+    { "_comment": "Nether biome flavor — Basalt Deltas: basalt/blackstone/magma dusting, basalt pillars, a gilded-blackstone fleck, Magma Cubes.",
+      "dimension": "minecraft:the_nether", "biomes": [ "minecraft:basalt_deltas" ],
+      "surface_scatter": [ { "block": "minecraft:basalt", "chance": 0.4 }, { "block": "minecraft:blackstone", "chance": 0.2 }, { "block": "minecraft:magma_block", "chance": 0.05 } ],
+      "mobs": [ { "entity": "minecraft:magma_cube", "chance": 0.30, "count": { "min": 1, "max": 2 } } ],
+      "variants": [ { "weight": 1, "name": "basalt", "decoration": {
+        "trees": [ { "feature": "minecraft:basalt_pillar", "tries": 2, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:gilded_blackstone", "chance": 0.02 }, { "block": "minecraft:magma_block", "chance": 0.05 } ] } } ] },
+
+    { "_comment": "Nether biome flavor — Wastes: a sparse quartz-and-glowstone dusting; the seed's crimson surface shows through.",
+      "dimension": "minecraft:the_nether", "biomes": [ "minecraft:nether_wastes" ],
+      "surface_scatter": [ { "block": "minecraft:nether_quartz_ore", "chance": 0.04 }, { "block": "minecraft:glowstone", "chance": 0.02 } ],
+      "mobs": [ { "entity": "minecraft:zombified_piglin", "chance": 0.25, "count": { "min": 1, "max": 2 } }, { "entity": "minecraft:magma_cube", "chance": 0.15, "count": { "min": 1, "max": 1 } } ],
+      "variants": [ { "weight": 1, "name": "wastes", "decoration": {} } ] },
+
     { "_comment": "Overworld easter egg — thrown topside a Nether Forest seed makes a TINY ~7x7x4 plain grass island (a little tuft of green), not the fungal forest. The mirror of the Tier-2 design; a seed's a seed.",
       "dimension": "minecraft:overworld",
       "shape": { "radius": { "min": 2, "max": 3 }, "rim_noise": 0.2, "top_dome": { "min": 1, "max": 1 } },

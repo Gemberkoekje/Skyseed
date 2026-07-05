@@ -1,5 +1,13 @@
 # SKYNETHERENDBIOMEPLAN — Per-biome Nether & End seed adaptation
 
+> **Status: Nether pass BUILT + VERIFIED 2026-07-05 (v0.224.0) — both nodes green** (`runGameTestServer`:
+> 1.21.1 = 211/211, 26.1.2 = 213/213). Shipped per the §9c final scope: model-A biome-accent kits on the 5
+> dedicated `nether_*` families (base + `_large`); a hand-built crimson/warped stem-tree feature
+> (`CustomTrees` + `DecorationPlanner`); and a **Nether Wild** seed (normal + `_large`) with a Nether
+> biome→theme resolver in `ExploreThemes` + full onboarding. **End pass + End Wild remain deferred/dropped**
+> (§8.2, §9c-6). New golden-master gametests in both suites (`netherWildResolvesBiomesToDedicatedNetherThemes`,
+> `netherSeedsPickUpBiomeKits`). See the CHANGELOG (both nodes) [0.224.0].
+
 **Goal (user, 2026-07-02):** existing seeds should look *different depending on the Nether / End biome they
 germinate in* — the same "throw a Forest seed over cherry_grove → cherry island" richness the overworld
 already has, extended into the Nether and the End. **No new seeds.** Plan-first; execution gated on sign-off
@@ -159,11 +167,68 @@ kit-set (assert the biome overrides parse + select correctly), and **bump `mod_v
 per-node CHANGELOG entry in the same commit** (`bump-version-on-commit`). Reload gotcha applies — the
 `skyseed:theme` datapack registry needs a **server restart** (not `/reload`) to re-read theme JSON.
 
-## 8. Open decisions for the user
+## 8. Open decisions for the user — ★ SIGNED OFF 2026-07-05
 
-1. **Design fork §3: (A) seed-identity + biome-flavor [recommended] vs (B) biome-determines-type.**
-2. **End scope:** do the light End pass (§5) now, or Nether-only and defer End (given its known low value)?
-3. **Forest in the Nether:** keep its richer bespoke warped/crimson fungal-patch forms and only add the 3
-   missing kits (soul/basalt/wastes), or normalize Forest to the shared kit model for all 5?
-4. **Nether trees:** ship v1 as ground-scatter only, or invest in a hand-built crimson/warped "stem tree"
-   custom feature (like the mangrove/azalea hand-builds)?
+1. **Design fork §3 → (A) seed-identity + biome-flavor.** Seed keeps its identity; the biome adds
+   surface-scatter / ground+underside plants / mobs. Mirrors the overworld.
+2. **End scope → Nether-only now, defer the light End pass (§5).** The void End stays low-value; Phases 3–4
+   become a later follow-up. *(End Wild was considered at sign-off and **dropped** — the deferred/light End has
+   too little per-biome content to make an adaptive End seed worthwhile; §9c-6.)*
+3. **Forest in the Nether → keep bespoke + add the 3 missing kits.** Preserve Forest's richer warped/crimson
+   fungal-patch forms; only add soul_sand_valley / basalt_deltas / nether_wastes kits.
+4. **Nether trees → hand-built stem-tree feature.** Invest in a custom crimson/warped stem+shroomlight-cap
+   feature (like `skyseed:mangrove` / azalea). **This makes the pass NOT data-only — it adds Java** (a new
+   registered feature + version-gating on both nodes). Supersedes the §4 "ground-scatter only for v1" note.
+
+**New scope added at sign-off (2026-07-05):** a **Nether Wild** seed in **normal + large** tiers only (no huge;
+End Wild dropped). This breaks the "No new seeds / no code" premise — see §9.
+
+## 9. Reconciliation & new scope (added 2026-07-05, mod 0.223.0)
+
+The §2–§4 audit was written at **mod 0.181.0** and is now **42 minor versions stale**. Two corrections and one
+scope addition change the shape of this pass:
+
+### 9a. Dedicated `nether_*` seed families now exist
+Since the audit, the Nether gained **real craftable seed families** — `nether_forest`, `nether_soul`,
+`nether_basalt`, `nether_lava`, `nether_rocky` (each **base + `_large`**, registered in
+[ModItems.java](src/main/java/dev/gemberkoekje/skyseed/registry/ModItems.java) `BASE_SEED_THEMES`). Each is a
+full Nether island with its own `biome_overrides` (e.g. `nether_forest.json` already flips crimson→warped in a
+`warped_forest` biome and has an overworld easter-egg form). The **overworld** seeds (`forest.json` …) *also*
+still carry the tiny inline **"Tier-1"** Nether patches from the audit.
+
+So model (A) now has **two** possible targets, and this needs a call:
+- **(i)** Apply the 5 biome kits to the **dedicated `nether_*` seeds** (keep each one's identity, add biome
+  accents) — the natural home now, and where players actually build. *(recommended)*
+- **(ii)** *Also* enrich the overworld seeds' tiny inline Tier-1 patches to all 5 biomes, or leave them as the
+  minimal warped/crimson tuft they are today. *(recommend: leave as-is — they're intentionally tiny easter eggs.)*
+
+### 9b. Nether **Wild** seed (normal + large) — needs code
+The Wild Skyseed (overworld, BUILT — see [WILDSEEDPLAN](WILDSEEDPLAN.md)) is an **adaptive sentinel**:
+[`ExploreThemes.resolveWildBase`](src/main/java/dev/gemberkoekje/skyseed/worldgen/theme/ExploreThemes.java)
+maps the germination biome → that biome's dedicated theme via a **`RULES` table that is overworld-only**. A
+Nether Wild therefore requires:
+- **New sentinels** `WILD_NETHER` + `WILD_NETHER_LARGE` and their items / recipes / advancements / patchouli
+  (mirrors WILDSEEDPLAN) — **2 new seeds** (no huge tier).
+- **A Nether biome→theme resolver** in `ExploreThemes` (a new Nether `RULES` table mapping each of the 5 Nether
+  biomes → the matching dedicated `nether_*` family), plus the `IslandSeedEntity` dispatch — **Java**. Unmapped
+  fallback = a sensible default (`nether_forest`, mirroring the overworld Forest fallback). `forcesRare == false`
+  like the overworld Wild.
+
+The two former gaps are **closed by scope** (§9c): huge Nether Wild is dropped (no `huge_nether_*` themes
+needed) and End Wild is dropped (no End family themes needed).
+
+### 9c. New forks — ★ RESOLVED 2026-07-05
+5. **Nether Wild huge tier → dropped.** Ship Nether Wild as **normal + large only**; no `huge_nether_*` themes.
+6. **End Wild → dropped for now.** The deferred/light End (§5) has too little per-biome content to make an
+   adaptive End seed worth it; revisit only if the End pass is ever picked up.
+7. **§9a kit target → (i) dedicated `nether_*` seeds only.** Leave the overworld seeds' tiny inline Tier-1
+   Nether patches as-is (intentional easter eggs). *(This also relocates §8.3's "keep Forest bespoke + add 3
+   kits" onto the dedicated `nether_forest` seed — it already carries crimson base + a warped override, and
+   needs soul_sand_valley / basalt_deltas / nether_wastes accent overrides added.)*
+
+**Net scope (final):** (a) model-A biome-accent overrides on the 5 dedicated `nether_*` seeds, base + `_large`
+(~10 theme files, each gaining accent overrides for the non-home Nether biomes); (b) a hand-built crimson/warped
+**stem-tree feature** (Java + version-gating); (c) a **Nether Wild** seed, normal + large (2 seeds + a Nether
+resolver in `ExploreThemes` + recipes/advancements/guide/lang/models). **No End work, no huge Nether work.**
+Data **+ code** — re-phase §7 to: `1` tree feature → `2` nether kits (base) → `3` nether kits (`_large`) →
+`4` Nether Wild seed + resolver → `5` gametests + in-game sign-off.

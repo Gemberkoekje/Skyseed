@@ -2925,6 +2925,68 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    @GameTest(template = REGION)
+    public static void netherWildResolvesBiomesToDedicatedNetherThemes(GameTestHelper helper) {
+        // SKYNETHERENDBIOMEPLAN §9b: the Nether Wild seed resolves the germination Nether biome to that biome's
+        // dedicated nether_* seed (crimson/warped→nether_forest, soul→nether_soul, deltas→nether_basalt), with the
+        // wastes / any unmapped biome falling to nether_rocky. Large tier → the _large theme. Never forces a build.
+        assertNetherWild(helper, "minecraft:crimson_forest", "skyseed:nether_forest");
+        assertNetherWild(helper, "minecraft:warped_forest", "skyseed:nether_forest");
+        assertNetherWild(helper, "minecraft:soul_sand_valley", "skyseed:nether_soul");
+        assertNetherWild(helper, "minecraft:basalt_deltas", "skyseed:nether_basalt");
+        assertNetherWild(helper, "minecraft:nether_wastes", "skyseed:nether_rocky");
+        final var crimson = Lookup.biomeHolder(helper.getLevel().registryAccess(), Id.of("minecraft:crimson_forest"));
+        helper.assertTrue(crimson != null, "crimson_forest biome missing from registry");
+        helper.assertTrue("skyseed:nether_forest_large".equals(dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.resolveFor(
+                dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.WILD_NETHER_LARGE, crimson).value()),
+                "large nether wild over crimson_forest should grow nether_forest_large");
+        helper.assertTrue(!dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.forcesRare(
+                dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.WILD_NETHER), "nether wild must NOT force a build");
+        // Every nether family the resolver can pick must actually resolve to a loaded theme (no dead-end nulls).
+        for (final String t : new String[]{"skyseed:nether_forest", "skyseed:nether_soul", "skyseed:nether_basalt",
+                "skyseed:nether_rocky", "skyseed:nether_forest_large", "skyseed:nether_soul_large",
+                "skyseed:nether_basalt_large", "skyseed:nether_rocky_large"}) {
+            helper.assertTrue(Themes.resolve(helper.getLevel().registryAccess(), Id.of(t)) != null,
+                    "nether wild target theme must resolve: " + t);
+        }
+        helper.succeed();
+    }
+
+    /** Assert the Nether Wild seed's biome→theme resolver maps {@code biomeId} to {@code expectedTheme}. */
+    private static void assertNetherWild(GameTestHelper helper, String biomeId, String expectedTheme) {
+        final var biome = Lookup.biomeHolder(helper.getLevel().registryAccess(), Id.of(biomeId));
+        helper.assertTrue(biome != null, "test biome missing from registry: " + biomeId);
+        final Id got = dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.resolveFor(
+                dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.WILD_NETHER, biome);
+        helper.assertTrue(expectedTheme.equals(got.value()),
+                "Nether Wild in " + biomeId + " resolved " + got.value() + " (expected " + expectedTheme + ")");
+    }
+
+    @GameTest(template = REGION)
+    public static void netherSeedsPickUpBiomeKits(GameTestHelper helper) {
+        // SKYNETHERENDBIOMEPLAN model A: a dedicated nether_* seed thrown in a DIFFERENT Nether biome keeps its own
+        // body (identity) but takes on that biome's surface flavor + a hand-built stem tree. Nether Rocky (a bare
+        // netherrack mining rock) in a crimson_forest → still netherrack, now dusted crimson nylium with a huge
+        // crimson fungus (skyseed:crimson_tree). Plan against the live the_nether level so the dimension override wins.
+        final ServerLevel nether = helper.getLevel().getServer().getLevel(Level.NETHER);
+        helper.assertTrue(nether != null, "no the_nether level on the server");
+        final var crimson = nether.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(Biomes.CRIMSON_FOREST);
+        boolean netherrack = false, nylium = false, stem = false;
+        for (long seed = 1; seed <= 12 && !(netherrack && nylium && stem); seed++) {
+            final IslandPlan p = IslandGenerator.planIsland(nether, new BlockPos(40, 64, 40),
+                    theme(nether, "nether_rocky"), crimson, RandomSource.create(seed));
+            for (IslandPlan.BlockPlacement bp : p.blocks()) {
+                if (bp.state().is(Blocks.NETHERRACK)) netherrack = true;
+                if (bp.state().is(Blocks.CRIMSON_NYLIUM)) nylium = true;
+                if (bp.state().is(Blocks.CRIMSON_STEM)) stem = true;
+            }
+        }
+        helper.assertTrue(netherrack, "nether_rocky keeps its netherrack body in a crimson_forest (identity)");
+        helper.assertTrue(nylium, "nether_rocky in a crimson_forest should be dusted with crimson nylium (kit scatter)");
+        helper.assertTrue(stem, "nether_rocky in a crimson_forest should grow a hand-built crimson stem tree");
+        helper.succeed();
+    }
+
     /** Assert the Explore seed's biome→theme resolver maps {@code biomeId} to {@code expectedTheme}. */
     private static void assertExplore(GameTestHelper helper, String biomeId, String expectedTheme) {
         final var biome = Lookup.biomeHolder(helper.getLevel().registryAccess(), Id.of(biomeId));

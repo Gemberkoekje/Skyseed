@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "NN",
+    "GW"
+  ],
+  "key": {
+    "N": "minecraft:netherrack",
+    "G": "skyseed:wild_skyseed",
+    "W": "minecraft:nether_wart"
+  },
+  "result": {
+    "id": "skyseed:wild_nether_skyseed"
+  }
+}

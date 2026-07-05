@@ -49,6 +49,11 @@ public final class ModItems {
             "huge_forest", "huge_aquatic", "huge_rocky", "huge_desert", "huge_mushroom", "huge_frozen",
             "huge_meadow", "huge_badlands", "huge_ancient", "huge_lush",
             "ladder_small", "ladder_large",
+            // The Nether Wild Skyseed (SKYNETHERENDBIOMEPLAN §9b) — the adaptive Nether starter, leading the Nether
+            // group like Wild leads the overworld one. Carries the skyseed:wild_nether / wild_nether_large sentinel
+            // (ExploreThemes), resolved to the local Nether biome's dedicated nether_* seed at germination; no huge
+            // tier, no forced build (~5% roll on the resolved theme). Registered normally (recipe/tag/guide/advancements).
+            "wild_nether", "wild_nether_large",
             "nether_rocky", "nether_rocky_large", "nether_lava", "nether_lava_large", "nether_forest", "nether_forest_large",
             "nether_soul", "nether_soul_large", "nether_basalt", "nether_basalt_large", "nether_fortress", "bastion",
             "piglin_trading_post", "wither_arena",

@@ -42,6 +42,14 @@ public final class ExploreThemes {
     public static final Id WILD_LARGE = Id.of("skyseed:wild_large");
     public static final Id WILD_HUGE = Id.of("skyseed:huge_wild");
 
+    /** The Nether Wild Skyseed sentinels ({@code wild_nether_skyseed} / {@code wild_nether_large_skyseed}) — the
+     *  adaptive Nether starter (SKYNETHERENDBIOMEPLAN §9b). Like the overworld Wild they resolve the germination
+     *  biome to that biome's dedicated seed, but over the <b>Nether</b> biome map ({@link #resolveNether}); no huge
+     *  tier, and {@link #forcesRare} is false (the resolved theme's ordinary ~5% roll applies — only the {@code _large}
+     *  nether themes carry rare structures). */
+    public static final Id WILD_NETHER = Id.of("skyseed:wild_nether");
+    public static final Id WILD_NETHER_LARGE = Id.of("skyseed:wild_nether_large");
+
     private record Rule(String biome, String theme) {}
 
     // Prefer the dedicated biome theme that biome's own seed grows, so the Explore island's terrain matches exactly
@@ -142,6 +150,37 @@ public final class ExploreThemes {
         return Id.of("skyseed:huge_" + (fam == null ? "forest" : fam));
     }
 
+    // The Nether Wild biome→family map. crimson and warped share nether_forest (it carries both looks — crimson base +
+    // a warped override); the nether_wastes / unmapped fallback is nether_rocky (a plain netherrack mining rock).
+    // nether_lava has no biome of its own (a lava lagoon isn't a vanilla biome), so it isn't Wild-reachable — craft it
+    // directly, the same way overworld families like Ancient aren't reachable from the overworld Wild.
+    private static final List<Rule> NETHER_RULES = List.of(
+            new Rule("minecraft:crimson_forest", "nether_forest"),
+            new Rule("minecraft:warped_forest", "nether_forest"),
+            new Rule("minecraft:soul_sand_valley", "nether_soul"),
+            new Rule("minecraft:basalt_deltas", "nether_basalt"));
+
+    /** The dedicated {@code nether_<family>} name for a Nether {@code biome}, or {@code nether_rocky} (a plain
+     *  netherrack rock) for {@code nether_wastes} and any unmapped biome. Never null — the Nether Wild always grows. */
+    private static String netherFamily(Holder<Biome> biome) {
+        for (final Rule r : NETHER_RULES) {
+            if (Lookup.biomeMatches(biome, r.biome())) {
+                return r.theme();
+            }
+        }
+        return "nether_rocky";
+    }
+
+    /** The dedicated BASE theme the Nether Wild seed grows at {@code biome}. */
+    public static Id resolveNether(Holder<Biome> biome) {
+        return Id.of("skyseed:" + netherFamily(biome));
+    }
+
+    /** The {@code nether_<family>_large} theme the Large Nether Wild seed grows. */
+    public static Id resolveNetherLarge(Holder<Biome> biome) {
+        return Id.of("skyseed:" + netherFamily(biome) + "_large");
+    }
+
     /** Whether {@code theme} is any adaptive-seed sentinel — an Explore (base/large/huge) or Wild (base/large/huge) marker. */
     public static boolean isAdaptive(Id theme) {
         if (theme == null) {
@@ -149,7 +188,8 @@ public final class ExploreThemes {
         }
         final String v = theme.value();
         return MARKER.value().equals(v) || MARKER_LARGE.value().equals(v) || MARKER_HUGE.value().equals(v)
-                || WILD.value().equals(v) || WILD_LARGE.value().equals(v) || WILD_HUGE.value().equals(v);
+                || WILD.value().equals(v) || WILD_LARGE.value().equals(v) || WILD_HUGE.value().equals(v)
+                || WILD_NETHER.value().equals(v) || WILD_NETHER_LARGE.value().equals(v);
     }
 
     /** Resolve the theme for an adaptive sentinel {@code marker} at {@code biome} — dispatching to the right tier.
@@ -165,6 +205,12 @@ public final class ExploreThemes {
         }
         if (WILD.value().equals(v)) {
             return resolveWildBase(biome);
+        }
+        if (WILD_NETHER.value().equals(v)) {
+            return resolveNether(biome);
+        }
+        if (WILD_NETHER_LARGE.value().equals(v)) {
+            return resolveNetherLarge(biome);
         }
         return resolve(biome);
     }

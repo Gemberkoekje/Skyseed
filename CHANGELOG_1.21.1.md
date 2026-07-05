@@ -5,6 +5,30 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.224.0] - 2026-07-05
+
+### Added
+- **Per-biome Nether seed adaptation + a Nether Wild seed (→ [SKYNETHERENDBIOMEPLAN.md](SKYNETHERENDBIOMEPLAN.md)).**
+  The five dedicated Nether seed families (`nether_forest`/`soul`/`basalt`/`lava`/`rocky`, base + `_large`) now take on
+  the **local Nether biome's flavor** — model A: the seed keeps its own body / ores / lava (identity), and the biome it
+  germinates in adds a surface dusting, ground + underside growth, a stem tree and mobs. Thrown in a `crimson_forest` a
+  Nether Rocky mining rock stays netherrack but is dressed in crimson nylium + a huge crimson fungus; `soul_sand_valley`
+  dusts it in soul soil with bone clusters + soul fire; `basalt_deltas` in basalt/blackstone with pillars; `warped_forest`
+  goes teal; `nether_wastes` gets a light quartz/glowstone dusting. Each family carries kits for the biomes it isn't
+  native to (nether_forest keeps its bespoke crimson/warped forms + gains soul/basalt/wastes). Same-dimension overrides,
+  so the seed's fill/core/ores/lava fall through unchanged. Kits sit on the dedicated `nether_*` seeds only — the
+  overworld seeds' tiny inline Nether easter-egg patches are left as they were.
+- **Hand-built crimson/warped stem-tree feature** (`skyseed:crimson_tree` / `skyseed:warped_tree`, in `CustomTrees`) — a
+  stem topped by a wart-block cap flecked with shroomlight and trailing weeping/twisting vines, stamped straight into the
+  block plan (vanilla's huge-fungus feature won't place dry on a small floating pad).
+- **Nether Wild Skyseed** (normal + `_large`) — the adaptive Nether starter. Like the overworld Wild it grows the island
+  the local biome's own seed would, but over the **Nether** biome map (`ExploreThemes.resolveNether`; crimson/warped →
+  nether_forest, soul → nether_soul, deltas → nether_basalt, wastes/unmapped → nether_rocky). No huge tier; no forced
+  build (only the `_large` isles carry the ordinary ~5% rare roll). Full onboarding: recipe (Wild seed + netherrack +
+  nether wart, then a netherrack/wart frame for the Large), reveal/gathered/craft advancements, two guide entries, lang,
+  hand-drawn 16×16 icons (the Wild quartered-pod / island-slab motif re-skinned to the four Nether materials with a
+  crimson-fungus sprout), `skyseeds` tag. Golden-master gametests on both nodes (resolver mapping + kit selection/identity).
+
 ## [0.223.0] - 2026-07-05
 
 ### Added
