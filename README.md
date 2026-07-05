@@ -30,6 +30,8 @@ Different recipes produce Skyseeds of different **themes** (forest, rocky, …) 
 |---|---|
 | Core loop | Throwable charge-to-launch seed → arm timer → germinate → tick-budgeted grow-in |
 | Themes (seeds) | All 10 planned island types — **Forest**, **Rocky**, **Desert**, **Mushroom**, **Frozen**, **Meadow**, **Badlands**, **Ancient**, **Lush**, **Aquatic** — each with a **Large variant** (`*_large`): a bigger, pricier island with a thematic twist (Rocky → emerald mountain, Aquatic → deep lake, Desert → oasis, Frozen → frozen lake, Badlands → towering mesa, …) (`skyseed:*`) |
+| Adaptive seeds | **Wild** (`skyseed:wild`) — the **default adaptive starter** (planks + dirt; Forest moved to logs + dirt): reads the germination biome and grows that biome's dedicated island (desert over desert, rocky over peaks, meadow over meadow, …) with only the ordinary ~5% surprise roll. **Explore** (`skyseed:explore`) — the same biome resolution but *forces* a biome-appropriate rare structure onto the island (the exploration/loot seed; backs the Iron's Spells layer). Both in Large/Huge tiers, plus a **Nether Wild** over the Nether biome map. Resolved at germination by `ExploreThemes` |
+| Meteorite (AE2) | **Meteorite** (`skyseed:meteorite` + Large/Huge) — an AE2-gated cratered island with a sky-stone globe and a tiered `skyseed:meteorite_core` press at its heart: the one place up here to mine sky stone and the inscriber presses. Only registered when AE2 is present |
 | Banded fill | `fill_bands` palette option: a Y-cycled body palette for badlands-style strata |
 | Underside decor | per-variant `underside` list: hanging dripstone, cave vines, spore blossoms, roots from the island's bottom |
 | Two-tall plants | ground entries that are double plants (dripleaves, pitcher plant, tall flowers) place both halves |
@@ -267,7 +269,7 @@ Adding an MC version needs one line in the `curseforge` job's matrix (version �
 `gametest/SkyseedGameTests.java` holds the **1.21.1** GameTest suite (NeoForge `@GameTest`) that asserts
 generation/structure invariants (every theme plans without error, generation is deterministic, structures
 keep their key blocks). The **26.1.2** node has its own suite in `gametest_26_1_2/` on the newer
-`GameTestInstance` framework (150+ tests and growing with the content, incl. a 26.1.2-captured golden master). Run a node's suite with
+`GameTestInstance` framework (200+ tests and growing with the content, incl. a 26.1.2-captured golden master). Run a node's suite with
 `./gradlew :<version>:runGameTestServer`, or all nodes with `./gradlew chiseledRunGameTestServer` — the
 safety net to run before and after refactors. For test **coverage** (1.21.1), run `./gradlew gameTestCoverage`
 (JaCoCo) → `build/reports/jacoco/gameTestCoverage/html/index.html`.
@@ -277,7 +279,7 @@ The build compiles with `-Xlint:all` (warnings stay visible in the log; the buil
 ## Repository layout
 
 - `src/main/java/dev/gemberkoekje/skyseed/` — mod sources (`Skyseed.java` is the `@Mod` entry point).
-- `src/main/resources/data/skyseed/skyseed/theme/` — the ~70 theme JSONs (all 10 biome themes + large/huge tiers, the Nether/End seeds, villages, structures, animal islands, …); the sibling `theme_override/` directory holds the first-party BWG / Mystical Agriculture / Create compat overrides.
+- `src/main/resources/data/skyseed/skyseed/theme/` — the ~85 theme JSONs (all 10 biome themes + the Wild/Explore adaptive seeds + large/huge tiers, the Nether/End seeds, villages, structures, animal islands, …); the sibling `theme_override/` directory holds the first-party compat overrides (BWG, Mystical Agriculture, Create, Immersive Engineering, Applied Energistics 2, Quark, Farmer's Delight + its End's/My Nether's add-ons).
 - `src/main/resources/` — assets, recipes, advancements, the Patchouli book, and the world preset.
 - `src/main/templates/` — `META-INF/neoforge.mods.toml` source (Patchouli is an *optional* dep).
 - `gradle.properties` — mod id/version and Minecraft/NeoForge versions.
