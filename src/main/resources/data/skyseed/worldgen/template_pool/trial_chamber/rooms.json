@@ -1,6 +1,6 @@
 {
   "fallback": "minecraft:empty",
-  "_comment": "The CHAMBERS (#61): drawn only off junction spurs (never straight off the atrium), so they read as rooms opening off the passages. Varied sizes — 7×7 spawner/treasure rooms + the small 5×5 cell + the ominous-vault end.",
+  "_comment": "The CHAMBERS (#61): drawn only off junction/alcove spurs + descents (never straight off the atrium), so they read as rooms opening off the passages. Varied sizes — 7×7 spawner/treasure rooms + the small 5×5 cell + the ominous-vault end + the grand multi-cell vaulted chamber (#33).",
   "elements": [
     { "weight": 2, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:trial_chamber/room_zombie",   "processors": "minecraft:empty", "projection": "rigid" } },
     { "weight": 2, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:trial_chamber/room_skeleton", "processors": "minecraft:empty", "projection": "rigid" } },
@@ -9,6 +9,7 @@
     { "weight": 3, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:trial_chamber/room_small",    "processors": "minecraft:empty", "projection": "rigid" } },
     { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:trial_chamber/room_treasure", "processors": "minecraft:empty", "projection": "rigid" } },
     { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:trial_chamber/end", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "skyseed:trial_chamber/vaulted_chamber", "processors": "minecraft:empty", "projection": "rigid" } },
     { "weight": 1, "element": { "element_type": "minecraft:empty_pool_element" } }
   ]
 }

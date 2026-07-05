@@ -13,10 +13,11 @@ lives in `CHANGELOG_1.21.1.md` / `CHANGELOG_26.1.md`.
     read as "rooms using the tileset"). **SHIPPED to every piece v0.196.0–v0.203.0** (atrium showcase → full rollout,
     both nodes green). *In-game left: the vanilla feel/fit sign-off + tune (module size, motif frequency, patina mix).
     (User: pillars too much at this scale — decoration is the lever, not size/pillars.)*
-- [ ] **(#33)** Trial Chamber — more room/corridor variants. Partly done by the warren (corner/junction/cell/descent
-  add variety); further options: cross-intersections, an alcove-corridor (chamber spur off a straight hall), bigger
-  multi-cell chambers, vaulted ceilings. All in `TrialChamberTemplates.java`; new pieces trigger the **2-build regen
-  dance** (see [[skyseed-structure-staging]]).
+- [x] **(#33)** Trial Chamber — more room/corridor variants. **BUILT v0.227.0** (STRUCTURELONGTAILPLAN Phase C): a 4-way
+  **crossing**, an **alcove corridor** (chamber spur off a straight hall via an L-shaped side alcove), and a grand
+  **multi-cell vaulted chamber** (stepped groin vault) — all in `TrialChamberTemplates.java`, woven into the halls/rooms
+  pools, assembly-gametested, both nodes green (217/219). In-game feel/fit folds into **#61**. *(Was a 2-build regen
+  dance, [[skyseed-structure-staging]].)*
 
 ## Shipped (pointer-only)
 

@@ -1,0 +1,12 @@
+{
+  "_comment": "STRUCTURELONGTAILPLAN Phase D #49 — the Prairie House. A SECOND theme_override on the hamlet seed (the shipped biomeswevegone_hamlet.json carries the BWG village bands; multiple overrides per target concatenate). Over BWG's prairie biome the hamlet grows one of BWG's own prairie farmhouses (intact or abandoned, 50/50 via skyseed:prairie_house/start) in place of a hamlet. A shape override enlarges the small hamlet island (radius 9-11) to host the 15x16 house. INERT without BWG: biomeswevegone:prairie can't exist, so the band never matches and the normal hamlet grows byte-identical. Blank target reuses BWG's start element + auto-centres.",
+  "target": "skyseed:hamlet",
+  "biome_overrides": [
+    { "biomes": ["biomeswevegone:prairie"],
+      "surface": "minecraft:grass_block",
+      "shape": { "radius": { "min": 12, "max": 14 }, "rim_noise": 0.28, "underside": "teardrop", "top_dome": { "min": 1, "max": 1 } },
+      "jigsaw": { "pool": "skyseed:prairie_house/start", "target": "", "depth": 1, "pad": 9, "sink": 0 },
+      "variants": [ { "weight": 1, "name": "prairie", "decoration": {
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "minecraft:dandelion", "chance": 0.05 }, { "block": "minecraft:cornflower", "chance": 0.04 }, { "block": "minecraft:oxeye_daisy", "chance": 0.03 } ] } } ] }
+  ]
+}

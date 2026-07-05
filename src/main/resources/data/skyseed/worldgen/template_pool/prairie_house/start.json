@@ -1,0 +1,8 @@
+{
+  "_comment": "STRUCTURELONGTAILPLAN Phase D #49 — wrapper pool letting the prairie-house override roll EITHER BWG design (prairie_house intact / abandoned_prairie_house ruin), 50/50. Foreign .nbt referenced by location (lazy, resolved at placement, only ever over biomeswevegone:prairie = BWG present); processors are minecraft:empty (NOT the foreign biomeswevegone:*_house lists, which reference a BWG block) so this Skyseed pool loads WITHOUT BWG — the only loss is the processors' cosmetic grass->dirt/moss weathering; each house's ruin/character is baked into its own NBT. Blank jigsaw target picks a random start element + auto-centres it.",
+  "fallback": "minecraft:empty",
+  "elements": [
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "biomeswevegone:prairie_house", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "biomeswevegone:abandoned_prairie_house", "processors": "minecraft:empty", "projection": "rigid" } }
+  ]
+}

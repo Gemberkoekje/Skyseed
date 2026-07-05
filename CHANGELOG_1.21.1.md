@@ -5,6 +5,56 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.228.0] - 2026-07-05
+
+### Added
+- **Prairie House — BWG's prairie farmhouse, resurrected as a hamlet variant (→ [STRUCTURELONGTAILPLAN.md](STRUCTURELONGTAILPLAN.md) Phase D, #49).**
+  Throw the **Hamlet seed over a BWG `prairie`** biome and it grows one of BWG's own prairie farmhouses — the intact
+  **prairie house** or its **abandoned** ruin variant, 50/50 — in place of a hamlet. A shape override enlarges the small
+  hamlet island to host the 15×16 building. Delivered as a second biome-keyed `theme_override` on the hamlet seed
+  (alongside the shipped BWG-village bands), so it's **inert without BWG** (the `prairie` biome can't exist → the vanilla
+  hamlet grows byte-identical). A golden-master gametest asserts the band resolves, both nodes green (1.21.1 218, 26.1.2 220).
+  *(The rugged-fossil BWG structure is deliberately left recorded, not built: it uses terrain-matching placement that
+  doesn't fit a flat island pad, it's minor scenery, and Skyseed already ships an authored `fossil_dig` island for that
+  niche — see the plan.)*
+
+## [0.227.0] - 2026-07-05
+
+### Added
+- **Three new Trial Chamber pieces — the warren winds wider (→ [STRUCTURELONGTAILPLAN.md](STRUCTURELONGTAILPLAN.md) Phase C, #33).**
+  The corridor-warren jigsaw gains: a **4-way crossing** (passages now *cross*, so the warren can loop into a grid
+  instead of only branching into a tree — with a chiseled-copper cross inlaid in its floor); an **alcove corridor** (a
+  straight passage that also drops a trial chamber off a framed side alcove, so rooms can open off a hall, not only off
+  a junction — its L-shaped bump-out breaks the straight-box silhouette); and a grand **multi-cell vaulted chamber**
+  (a 9×9 climactic room — four corner spawner/vault cells around a raised central ominous-vault sanctum, capped by a
+  stepped groin vault rising from a y6 eave to a y8 apex, so the ceiling reads as a vault, not a flat lid). All three
+  reuse the shipped framed-panel mosaic texturer + corner posts + copper-bulb lighting, and are woven into the halls /
+  rooms pools by weight. New assembly gametests stamp each piece + assert its jigsaw wiring and mosaic, both nodes green
+  (1.21.1 217, 26.1.2 219). In-game feel/fit folds into the standing #61 trial tune.
+
+## [0.226.0] - 2026-07-05
+
+### Added
+- **Aspen Manor + Bog Trial — BWG's two special structures, resurrected as biome variants of existing seeds (→ [STRUCTURELONGTAILPLAN.md](STRUCTURELONGTAILPLAN.md), #26/#27).**
+  Throw the **Woodland-Mansion seed over a BWG `aspen_boreal`** biome and it grows BWG's own **Aspen Manor** (both of the
+  mod's two manor designs, 50/50) in place of the vanilla dark-oak mansion — keeping the mansion seed's evoker → Totem-of-
+  Undying garrison and swapping the decoration to BWG aspen trees. Throw the **Trial-Chamber seed over a BWG `pale_bog`**
+  and it grows BWG's own **Bog Trial** (seated one block lower after an in-game tune) in place of the Skyseed deep warren.
+  Both ship as a biome-keyed `theme_override` (the same mechanism as the BWG villages), so they're **inert without BWG** —
+  the host biome can't exist, the override never matches, and the vanilla mansion/trial grows byte-identical. The vehicle
+  was picked by a throw-test spike first (three temporary `debug_*` seeds that assembled BWG's own pools on a huge island);
+  the spike confirmed the mod's own buildings fit as-is, so no bespoke set was authored. New golden-master gametests assert
+  both override bands resolve onto their base seed (both nodes green). *(Wrapping both manor designs costs only a cosmetic
+  berry-bush processor; the bog trial keeps its full aging processor.)*
+
+### Fixed
+- **IE HV connectors were rendering upside-down on their posts** (Structure Variety — the Dilapidated Factory's wire-post,
+  the Fallen Powerline's insulators, and the FE→ME Substation's mast). Immersive Engineering's `connector_hv` `facing` is the
+  *mount* direction (the block face it attaches to), not the dish direction — so a connector sitting on top of a post needs
+  `facing=down` (mounted on the block below, dish up); the previous `facing=up` applied an x:180 flip, hanging it upside-down.
+  Corrected all five connector placements (`IeRuinsTemplates`, `MultiModRuinsTemplates`) and regenerated `factory.nbt`,
+  `pylon.nbt`, `substation.nbt`. Both nodes green.
+
 ## [0.225.0] - 2026-07-05
 
 ### Fixed

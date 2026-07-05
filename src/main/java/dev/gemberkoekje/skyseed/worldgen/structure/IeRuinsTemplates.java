@@ -110,7 +110,7 @@ public final class IeRuinsTemplates {
         set(m, mods, new BlockPos(6, 2, 2), cube(), IE + "alu_post");
         set(m, mods, new BlockPos(6, 3, 2), cube(), IE + "alu_post");
         set(m, mods, new BlockPos(6, 4, 2), Blocks.END_ROD.defaultBlockState()
-                .setValue(BlockStateProperties.FACING, Direction.UP), IE + "connector_hv");
+                .setValue(BlockStateProperties.FACING, Direction.DOWN), IE + "connector_hv"); // DOWN = mounted on the block below, dish up (facing=up would flip it upside-down)
         // A treated-fence railing along part of the front (breaks the wall line further).
         set(m, mods, new BlockPos(4, 1, 0), Blocks.OAK_FENCE.defaultBlockState(), IE + "treated_fence");
 
@@ -163,9 +163,9 @@ public final class IeRuinsTemplates {
         }
         // HV connectors (the insulators) on the arm tips + razor wire draped over the top.
         set(m, mods, new BlockPos(0, 6, 1), Blocks.END_ROD.defaultBlockState()
-                .setValue(BlockStateProperties.FACING, Direction.UP), IE + "connector_hv");
+                .setValue(BlockStateProperties.FACING, Direction.DOWN), IE + "connector_hv"); // DOWN = mounted on the block below, dish up (facing=up would flip it upside-down)
         set(m, mods, new BlockPos(4, 6, 1), Blocks.END_ROD.defaultBlockState()
-                .setValue(BlockStateProperties.FACING, Direction.UP), IE + "connector_hv");
+                .setValue(BlockStateProperties.FACING, Direction.DOWN), IE + "connector_hv"); // DOWN = mounted on the block below, dish up (facing=up would flip it upside-down)
         set(m, mods, new BlockPos(1, 6, 1), Blocks.CARVED_PUMPKIN.defaultBlockState()
                 .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH), IE + "razor_wire");
         set(m, mods, new BlockPos(3, 6, 1), Blocks.CARVED_PUMPKIN.defaultBlockState()
@@ -181,7 +181,7 @@ public final class IeRuinsTemplates {
         set(m, mods, new BlockPos(2, 1, 4), cube(), IE + "alu_scaffolding_standard");
         set(m, mods, new BlockPos(1, 1, 4), cube(), IE + "capacitor_hv"); // the toppled transformer
         set(m, mods, new BlockPos(1, 1, 3), Blocks.END_ROD.defaultBlockState()
-                .setValue(BlockStateProperties.FACING, Direction.UP), IE + "connector_hv");
+                .setValue(BlockStateProperties.FACING, Direction.DOWN), IE + "connector_hv"); // DOWN = mounted on the block below, dish up (facing=up would flip it upside-down)
         set(m, mods, new BlockPos(3, 1, 4), Blocks.CARVED_PUMPKIN.defaultBlockState()
                 .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH), IE + "razor_wire");
 

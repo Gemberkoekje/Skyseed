@@ -1,0 +1,12 @@
+{
+  "_comment": "STRUCTURELONGTAILPLAN Phase B #27 — the Bog Trial. When the trial-chamber seed is thrown over BWG's pale_bog, the jigsaw grows BWG's own bog_trial (single design, referenced directly so its cosmetic aging processor rides along) in place of the Skyseed deep warren, seated at sink 1 (the throw-test tune). INERT without BWG: pale_bog cannot exist, so this band never matches and the normal trial chamber grows byte-identical. The bog_trial NBT carries its own trial spawners/vault, so no mob pack is needed. A blank jigsaw target reuses BWG's own start element + auto-centres it.",
+  "target": "skyseed:trial_chamber",
+  "biome_overrides": [
+    { "biomes": ["biomeswevegone:pale_bog"],
+      "surface": "minecraft:grass_block",
+      "surface_scatter": [ { "block": "minecraft:mud", "chance": 0.18 }, { "block": "minecraft:moss_block", "chance": 0.10 } ],
+      "jigsaw": { "pool": "biomeswevegone:bog_trial", "target": "", "depth": 1, "pad": 14, "sink": 1 },
+      "variants": [ { "weight": 1, "name": "pale_bog", "decoration": {
+        "ground": [ { "block": "minecraft:brown_mushroom", "chance": 0.06 }, { "block": "minecraft:red_mushroom", "chance": 0.04 }, { "block": "minecraft:moss_carpet", "chance": 0.08 } ] } } ] }
+  ]
+}

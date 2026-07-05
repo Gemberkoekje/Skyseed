@@ -312,7 +312,7 @@ public final class MultiModRuinsTemplates {
             set(m, mods, new BlockPos(1, y, 1), cube(), IE + "alu_post");
         }
         set(m, mods, new BlockPos(1, 4, 1), Blocks.END_ROD.defaultBlockState()
-                .setValue(BlockStateProperties.FACING, Direction.UP), IE + "connector_hv"); // the HV line coming in
+                .setValue(BlockStateProperties.FACING, Direction.DOWN), IE + "connector_hv"); // the HV line, sitting upright on the mast (facing=down = mount below, dish up)
         set(m, mods, new BlockPos(1, 1, 3), Blocks.CARVED_PUMPKIN.defaultBlockState()
                 .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST), IE + "post_transformer"); // FE->ME transformer husk
         set(m, mods, new BlockPos(2, 1, 3), cube(), IE + "capacitor_hv");
