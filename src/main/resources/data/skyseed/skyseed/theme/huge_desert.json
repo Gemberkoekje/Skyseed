@@ -160,6 +160,11 @@
   "_comment_rare": "VARIETYSTRUCTUREPLAN D5 — flat 5% gate (was ~10%); per-entry chances → weights (round chance×100).",
   "rare_structure_chance": 0.05,
   "rare_structures": [
+    { "weight": 6, "_comment": "VARIETYSTRUCTUREPLAN Phase-4 tuning — mirror the base-tier small commons onto the huge tier (it was rare-heavy at ~38% common; this rebalances toward the 50/35/15 target).",
+      "jigsaw": { "pool": "skyseed:prospectors_camp/camp", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:husk", "adults": 1 } ] } ] },
+    { "weight": 6, "jigsaw": { "pool": "skyseed:fossil_dig/dig", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:husk", "adults": 1 } ] } ] },
     { "weight": 3, "requires": ["immersiveengineering"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Fallen Powerline (inert without Immersive Engineering).",
       "jigsaw": { "pool": "skyseed:powerline/pylon", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
       "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:creeper", "adults": 1 } ] } ] },

@@ -5,6 +5,29 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.222.0] - 2026-07-05
+
+### Changed
+- **Structure Variety Phase 4 — the weight-tuning pass (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §8), the last item on PLANOFPLANS #68.** An analytical pass over every overworld theme's weighted rare table (the
+  headless dev env can't playtest "to feel", but the distribution math can be verified):
+  - **Flagship dilution confirmed — the whole plan's goal.** Every flagship germinates well under 2% per fitting seed:
+    **citadel 0.48%**, **woodland mansion 0.93%**, **ocean monument ~1.9%**, **ancient city 1.5%** — genuine standouts
+    now, not the near-guaranteed builds they used to be.
+  - **Rebalanced the rare-heavy `huge_` tiers by mirroring the base-tier small commons up** (the user OK'd small structures
+    on large islands). The huge tiers had been left without the Band-1 vanilla commons their base/large siblings carry, so
+    they skewed rare/epic-heavy (huge_rocky was **0% common**). Mirrored the fitting commons onto **huge_meadow** (Farmstead,
+    Tool Shed), **huge_badlands** (Bandit Camp, Fossil Dig), **huge_desert** (Prospector's Camp, Fossil Dig), **huge_forest**
+    (Hunter's Blind, Graveyard) and **huge_rocky** (Mine Head, Cairn). Result: huge_meadow 26→51% common, huge_badlands
+    24→51%, huge_desert 38→64%, huge_forest 33→62%, huge_rocky 0→28% (it stays intentionally premium-dense — citadel +
+    dungeons + all the mod builds — but now grows ordinary vanilla variety too). Adding commons also diluted the flagships
+    further (mansion 1.67→0.93%, citadel 0.67→0.48%), which is exactly the point.
+  - **The base + `_large` tiers were already well-balanced** (~50/35/15 common/rare/epic, D2) and were left unchanged.
+  - **Final review** (per request — in case tuning closed a walking path): the pass is **theme-JSON weight/entry changes
+    only** — every added building is a pre-existing, already-reviewed common structure, so no `.nbt`/template geometry was
+    touched and no interior/path could change. Both nodes green (1.21.1: 209, 26.1.2: 211); all theme JSON valid, no
+    `debugForcedRareGerminates` regression. **This closes PLANOFPLANS #68 bar subjective in-game feel-tuning.**
+
 ## [0.221.0] - 2026-07-05
 
 ### Added

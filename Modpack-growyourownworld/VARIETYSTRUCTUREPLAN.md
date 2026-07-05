@@ -38,9 +38,11 @@
 > reworked as a vanilla arcane still — and the **Sky-Freight Depot** (B30, `requires:["create","immersiveengineering"]`,
 > Rocky) — a stalled Create train at an IE loading dock — have shipped as well. **Band 3 is COMPLETE (B25–B30), and the whole
 > B1–B30 catalog has shipped:** Phase-0 engine, Band 1 (12 vanilla commons), Band 2 (11 mod-gated rares), Band 3 (a vanilla
-> chapel + 5 multi-mod epics), the flat-5% weighted-gate migration of every overworld theme (D5), and a physical-review pass.
-> **Left:** just the in-game throw-test / weight-tuning pass + optional base-tier `huge_` mirrors for the small commons. This
-> is the scoped build-out of PLANOFPLANS **#68** ("net-new bespoke structures beyond BWG's 17"). The goal is many more
+> chapel + 5 multi-mod epics), the flat-5% weighted-gate migration of every overworld theme (D5), a physical-review pass, and
+> the **Phase-4 weight-tuning pass** (flagship dilution verified — citadel 0.48% / mansion 0.93% / monument ~1.9% / ancient
+> city 1.5% per fitting seed — and the rare-heavy `huge_` tiers rebalanced by mirroring the base-tier small commons up).
+> **Left:** only subjective in-game feel-tuning (a playtest — not runnable headless); every buildable/verifiable piece is done.
+> This is the scoped build-out of PLANOFPLANS **#68** ("net-new bespoke structures beyond BWG's 17"). The goal is many more
 > *common* and *rare* buildings so that every overworld seed has a **flat 5% chance** to germinate one that fits its
 > type — which **dilutes the citadel** (and the other flagships) down to a genuine standout, and makes the exploration
 > seed matter more. The roll-model engine (§2 A1–A3, A6) is **built and behavior-neutral** — it landed as a
@@ -424,8 +426,14 @@ Ship in batches, **per-step version bump + CHANGELOG + inert golden-master gamet
    physical-review pass (floating blocks / fit-through / chest-openability) ran over B24–B30 and fixed a floating-beam class
    of bug (B24/B25/B26), a stale-mod-id chest (B28) and a still-blocks-the-doorway barrier (B29). **The whole B1–B30 catalog
    has shipped.**
-5. **Phase 4 — tuning pass (§8) — THE ONLY THING LEFT.** In-game throw-tests per theme; adjust weights to feel; confirm the
-   citadel/mansion/monument now read as standouts. (Not runnable in the headless dev env — needs a playtest.)
+5. ✅ **Phase 4 — tuning pass (§8) DONE (analytically; v0.222.0).** An audit of every overworld theme's weighted table
+   confirmed the flagships are diluted to genuine standouts — **citadel 0.48%, woodland mansion 0.93%, ocean monument
+   ~1.9%, ancient city 1.5%** per fitting seed. Rebalanced the rare-heavy `huge_` tiers by **mirroring the base-tier small
+   commons up** (Farmstead/Tool Shed→huge_meadow, Bandit Camp/Fossil Dig→huge_badlands, Prospector's/Fossil→huge_desert,
+   Hunter's Blind/Graveyard→huge_forest, Mine Head/Cairn→huge_rocky) — the user OK'd small structures on large islands — so
+   the huge tiers now grow ordinary vanilla variety (huge_rocky 0→28% common, the rest to ~51–64%) and the flagships are
+   diluted further still. Base + `_large` tiers were already ~50/35/15 (D2) and left as-is. **The only thing left is
+   subjective in-game feel-tuning** (needs a playtest — not runnable headless); the numbers are sound.
 
 Each new building follows the **regen dance** ([[skyseed-structure-staging]]): edit `*Templates.java`, delete only the
 changed `.nbt` from repo-root src, regen on the **1.21.1 node** (`JAVA_HOME=…jdk-21… ./gradlew :1.21.1:runGameTestServer`),
