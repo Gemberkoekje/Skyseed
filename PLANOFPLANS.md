@@ -1,274 +1,150 @@
 # PLANOFPLANS — Skyseed prioritized backlog
 
-**A single prioritized view across every planning doc in the repo — only what is LEFT.** Each item links back
-to the plan that owns the detail. Item numbers are stable (they carry over from the previous backlog; closed
-numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` / `CHANGELOG_26.1.md` and git).
+**A single prioritized view across every planning doc in the repo — only what is LEFT.** Each item links back to
+the plan that owns the detail. Shipped history lives in `CHANGELOG_1.21.1.md` / `CHANGELOG_26.1.md` and git.
 
-> **Cleaned 2026-07-03 at mod 0.206.0.** The whole **content-mod wave shipped end-to-end** since the last clean —
-> Farmer's Delight (crops + quest), Immersive Engineering + Petroleum + flight (island + quest + configs), Applied
-> Energistics 2 (certus/sky-stone bootstrap, meteorite island Phases 1–3, the tiered Meteorite-Core presses, quest
-> chapter), and the Quark island tie-ins — all both-nodes-green. The fully-complete **`METEORPLAN.md` was retired**
-> into the changelogs + git (all three meteor phases shipped; its only residual is the in-game throw-test, tracked
-> under AE2 below). Shipped sections inside the still-open plans are trimmed to changelog pointers; what remains here
-> is what's **LEFT** — almost entirely **in-game sign-offs** plus a tail of unbuilt/optional work.
-> *(Earlier clean: 2026-07-02 at 0.191.0 retired the three BWG plans + the trial vanilla redesign; their still-governing
-> decisions live in the Decisions log below.)*
+> **Cleaned 2026-07-05 at mod 0.228.0.** A full **code-review + documentation + plan-cleanup pass**. Since the last
+> clean, everything that was "built in-branch / pending commit" **merged to main** — so the stale "pending commit"
+> language is gone. **Eleven fully-shipped plans were retired** into the changelogs + git (AE2, Farmer's Delight,
+> Biome-Coverage, Crash-Resume, Icon-Audit, Iron's-Content-Gap, Mystical, Portal-Twin, Structure-Long-Tail, Wild-Seed,
+> and the parent Structure plan). **Thirteen still-open plans were trimmed to their open items only.** What survives:
+> `EPICSTRUCTUREPLAN` (plan-first, unbuilt) and the trimmed `CONTENTPLAN` · `IEPLAN` · `IRONSPELLSPLAN` ·
+> `IRONSTRUCTUREREBUILDPLAN` · `QUARK(ISLAND)PLAN` · `QUESTPLAN` · `VARIETYSTRUCTUREPLAN` · `BEAUTIFYPLAN` ·
+> `REFACTORPLAN` · `SKYNETHERENDBIOMEPLAN` · `TRIALCHAMBERPLAN` · `plannednotes`.
 
-## Headline
+## Headline — what's meaningfully LEFT
 
-- **The content-mod wave is shipped end-to-end** (v0.196.0–v0.206.0, both nodes green): **Farmer's Delight** (#16 wild
-  crops on biome islands + rice ponds + Nether/End delights, #42 quest A008), **Immersive Engineering + Petroleum +
-  flight** (#34 ore island + crude-oil pocket, #35 Excavator config pinned, #45 quest A009, IE×FD compat), and **AE2**
-  (#18 the whole certus/sky-stone bootstrap, the meteorite island Phases 1–3, the tiered **Meteorite-Core** presses,
-  #41 quest B404–B419). What's left on all three is **in-game sign-off only** — throw-tests, tuning, pump/feature
-  verifies — none of it runnable in the headless dev env.
-- The earlier arcs remain done: the **BWG arc** (woods/flowers/planks/guide/quests + all six village styles × three
-  tiers + #72/#73, plans retired) and the **Trial Chamber** (vanilla redesign #24/#25 + corridor-warren #61 + the
-  framed-panel mosaic rollout, v0.189–v0.203). **Quark** shipped (#15 + island tie-ins #71).
-- What's meaningfully **left** is three buckets: **(a) in-game sign-offs/re-verifies** on shipped content (#71 Quark
-  stones at depth, #61 trial feel/fit, #39 FE power-chain, the IE/FD/AE2 throw-tests + quest-book loads); **(b) unbuilt
-  content** — the aspen manor (#26) + bog trial (#27), the flavor mods (#31/#32/#36), the per-biome **Nether/End seed
-  adaptation** (SKYNETHERENDBIOMEPLAN — plan-first, awaiting a design-fork sign-off), and the future quest chapters;
-  **(c) a standing-rule / contingency / engineering-debt tail** (visuals, further version nodes, crash-robustness).
-- Best value next: clear the **in-game sign-off queue** (Tier 1), then decide the SKYNETHERENDBIOMEPLAN design fork or
-  pick up the manor/bog-trial (#26/#27).
+- **(a) In-game sign-offs on shipped content** — the biggest bucket. Everything is built and both-nodes-green; none
+  runs in the headless dev env. Clear this queue first (Tier 1).
+- **(b) Unbuilt content** — the **grand epic structures** (#74, `EPICSTRUCTUREPLAN`, plan-first), the flavor mods
+  (#31/#32), the remaining **quest chapters** (#43/#44), the **End light pass** (`SKYNETHERENDBIOMEPLAN`, deferred),
+  and an optional Prosperity island (#50).
+- **(c) Standing rules / contingencies / debt tail** — per-mod calls, shader-pin refresh, further version nodes, and
+  a handful of code-review follow-ups (see **Engineering debt**).
 
 ## Decisions log (standing decisions that govern the open work)
 
-- **BWG bands (Q2): DISTRIBUTE** across typed seed families, priority-ordered per seed — the same biome may appear
-  in several families with different emphasis. *(BWG arc shipped; retained as the convention for any future biome-band work.)*
-- **BWG dedicated-seed bar (Q3):** only non-growable AND farm-worthy content earns a dedicated seed — nothing
-  currently qualifies. Governs **#60**. *(BWG arc shipped.)*
-- **fir is the documented non-growable BWG plank** (no configured tree feature in 2.6.0) → the 24/25 planks are
-  island-obtainable, gametest-guarded. *(BWG arc shipped.)*
-- **Tech backbone: Immersive Engineering; Mekanism DROPPED** (aesthetic call). Cascades: **#34** promoted, the
-  Excavator fix **#35** required, Mekanism integration + quest chapter dead. [CONTENTPLAN §7](Modpack-growyourownworld/CONTENTPLAN.md).
-- **Quark: SHIPPED for NeoForge 1.21.1** — 4 jars in (Quark 4.1-481, Zeta 1.1-40, Quark Oddities marker,
-  QuarkPonders 1.5.1) + modules curated + the void-death **Totem of Holding** relocated to a lit island shrine
-  (v0.182.0). **#15 smoke pass signed off** 2026-07-02; **#43** quest sketch is queued; island integration (**#71**)
-  is shipped — the Y-band bug was **fixed v0.192.0**, in-game re-verify pending (Tier 1). Plans:
-  [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) / [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md).
-- **Structure scope: FULL** — all 6 villages (✅ shipped) + aspen manor + bog trial; prairie/fossil stay optional.
-  [STRUCTUREPLAN § Scope](Modpack-growyourownworld/STRUCTUREPLAN.md).
-- **Structure vehicle: our OWN jigsaw set in themed palettes** (hermetic string-id `.nbt` engine — no BWG on any
-  classpath). The manor/trial must make the same route choice (adapt pools vs author own).
-  [STRUCTUREPLAN § Mechanism](Modpack-growyourownworld/STRUCTUREPLAN.md).
-- **Structure long tail (#26/#27 + tail): route 1 LOCKED (2026-07-05).** The spike ran (three `debug_*` seeds on a
-  huge island); the throw-test verdict was **both fit as-is** ("aspen manors look exactly as intended"; bog trial wants a
-  1-block sink), so we **adapt BWG's own pools** — no authored set. Delivery = a **biome-keyed `theme_override`** on the
-  existing seed (the village pattern): woodland-mansion seed over `biomeswevegone:aspen_boreal` → aspen manor;
-  trial-chamber seed over `biomeswevegone:pale_bog` → bog trial. No new seed items; #60 superseded. Full scope incl. #68.
-  Phase B (data-only, no regen dance) is next. [STRUCTURELONGTAILPLAN.md](STRUCTURELONGTAILPLAN.md).
-- **FTB Quests tag-tasks trap:** smart-filter item tasks don't expand tags — use an advancement task.
-  [QUESTPLAN § Approach](Modpack-growyourownworld/QUESTPLAN.md).
+- **BWG bands (Q2): DISTRIBUTE** across typed seed families, priority-ordered per seed. *(BWG arc shipped; retained as
+  the convention for future biome-band work.)*
+- **Dedicated-seed bar (Q3):** only non-growable AND farm-worthy content earns a dedicated seed. Governs #60 (now
+  superseded by biome-`theme_override`s). *(BWG arc shipped.)*
+- **Tech backbone: Immersive Engineering; Mekanism DROPPED** (aesthetic). Cascades: #34 promoted, the Excavator fix
+  #35 required, Mekanism integration + quest dead.
+- **Structure scope: FULL** — all 6 villages + aspen manor + bog trial (all shipped); prairie/fossil optional (prairie
+  shipped, fossil covered by `fossil_dig`).
+- **Structure long tail route 1 LOCKED** — adapt BWG's own pools via a biome-keyed `theme_override` on the existing
+  seed (the village pattern). No new seed items; #60 superseded. *(All shipped.)*
+- **Structure Variety D1–D5** — single weighted 5% gate; 50/35/15 mix; Explore reward floor; mod builds stay derelict
+  (loot never leaks a gate-key); **D5 large/huge rate = flat 5%**. *(B1–B30 shipped; #68 closed.)*
+- **Iron's Spells scope (#37): the full exploration loop** (throw → grow → rare building → special loot; mod worldgen
+  inert, re-homed via themes + loot GLMs).
+- **FTB Quests tag-task trap:** smart-filter item tasks don't expand tags — use an advancement task.
 
-## Snapshot by plan
+## Snapshot by plan (survivors — open items only)
 
-| Plan | What it covers | Open items |
-|---|---|---|
-| [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | Content-mod integration | flavor mods **#31 #32 #36 #37**, Create-addon check **#52**, standing call **#38** · rolling **#19 #20** · shipped, in-game-verify only: #16 #18 #34 #35 #39 |
-| [IEPLAN.md](Modpack-growyourownworld/IEPLAN.md) | Immersive Engineering + flight + petroleum (child of CONTENTPLAN) | **all built** (#34 ore island + crude-oil pocket, #35 Excavator config pinned @0.7, #45 quest A009, IE×FD compat, Quark-Engineering jar in). **Left: in-game verifies only** — Excavator yields veins over void, oil pump-extractable, nether-cane feature grows, diesel aircraft consumes fuel · #39 FE sign-off |
-| [AE2PLAN.md](Modpack-growyourownworld/AE2PLAN.md) | Applied Energistics 2 + the meteorite island (child of CONTENTPLAN; absorbed the retired METEORPLAN) | **all built & both-nodes-green** — certus deposit (#18d) + IE-gated seed (#18c) + meteorite island (overworld body + crater + sky-stone globe, Phases 1–3), the tiered **`skyseed:meteorite_core`** presses (#18b small→1/med→2-distinct/huge→4), the #41 quest (B404–B419, in-game-verified). **Left: in-game only** — #39 FE power-chain sign-off, meteor throw-test/tuning (sizes, crater palette) |
-| [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) | Quark integration (child of CONTENTPLAN) | #43 quest sketch (+ partner add-ons: Farmer's Cutting: Quark still to verify) |
-| [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md) | Quark × island integration (child of QUARKPLAN) | #71 (Y-band fix shipped v0.192.0 — in-game re-verify + large-End myalite follow-up) |
-| [FARMERSDELIGHTPLAN.md](Modpack-growyourownworld/FARMERSDELIGHTPLAN.md) | Farmer's Delight integration (child of CONTENTPLAN) | **all built** (#16 crops — dry + rice ponds + chorus + nether cane, 20 overrides + gametests; #42 quest A008). **Left: in-game only** — throw-test crops, nether-cane feature grows, quest-book load |
-| [IRONSPELLSPLAN.md](Modpack-growyourownworld/IRONSPELLSPLAN.md) | Iron's Spells + Artifacts + Relics — the magic/exploration pillar (child of CONTENTPLAN; **#36/#37**) | **Largely built in-branch (unmerged; both nodes green):** the adaptive **Explore seed** (3 tiers) + loot layer (mod auto-inject + inert-safe `add_drop` GLMs) + biome-theme rares on every tier + magic-mob guardians + all Iron's own structures re-homed 1:1 (empty-target + `hasTemplatePool` inert-guard + **auto-centre**) + custom **Impaled Boat** + debug-seed coverage. **Left:** the 3 oversized-structure rebuilds (IRONSTRUCTUREREBUILDPLAN) + in-game fit tests + #46 quest |
-| [IRONSTRUCTUREREBUILDPLAN.md](Modpack-growyourownworld/IRONSTRUCTUREREBUILDPLAN.md) | Island-friendly rebuilds of the oversized Iron's structures (child of IRONSPELLSPLAN; from the 2026-07-04 throw-test) | ✅ done: icebreaker→huge + custom boat; wizard→huge_rocky; mangrove→lush_large; guardians on 5 keepers; **auto-centre** for reused mod structures. 🔨 rebuilds (trial-chamber pattern, no-boxes + centred): **Ice Spider Den** (Frozen Warren), **Battleground** (War Barrow), **Citadel** (Mage's Sanctum — flagship) |
-| [PORTALTWINPLAN.md](Modpack-growyourownworld/PORTALTWINPLAN.md) | Ruined-Portal twin alignment (**separate PR**; child of IRONSPELLSPLAN's germination path) | **option C** — derive the twin from the real portal block via vanilla linking + matched rotation, post-assembly; fallback B = center the frame + fix rotation. Cross-dim link is in-game-verify-only |
-| [SKYNETHERENDBIOMEPLAN.md](SKYNETHERENDBIOMEPLAN.md) | Per-biome Nether seed adaptation | **Nether pass BUILT + verified 2026-07-05 (v0.224.0), both nodes green (211/213).** Model-A biome kits on the 5 `nether_*` families (base+`_large`) + hand-built crimson/warped stem-tree feature + a **Nether Wild** seed (normal+`_large`) with a Nether resolver in `ExploreThemes` + full onboarding + golden-master gametests. **End pass + End Wild remain deferred/dropped.** Details §9c |
-| [WILDSEEDPLAN.md](WILDSEEDPLAN.md) | New **Wild Skyseed** = adaptive default starter (biome-matching + ~5% builds); reuses the Explore engine | **plan-first, unbuilt; D1–D7 all signed off 2026-07-04 — ready to build.** Small code (ExploreThemes markers + a `forcesRare` gate) + recipes (Wild takes Forest's old planks+dirt; Forest→logs+dirt; nested Large/Huge, no-iron kelp token) + advancements + Patchouli/Modonomicon + FTB seed-swap (no new nodes) + self-drawn icons |
-| [BIOMECOVERAGEPLAN.md](Modpack-growyourownworld/BIOMECOVERAGEPLAN.md) | Biome → seed/override coverage audit (all vanilla + BWG + Quark biomes vs the two-layer resolver) | **audit done 2026-07-05; F1–F7 all implemented in-branch.** Root cause = snowy/desert keyed by explicit id (no vanilla `#is_*` tag) so BWG deserts + frozen biomes grew green forests. ✅ F1 deserts→Desert, F2 frozen→Frozen (+frosted bands), F3 vanilla `sparse_jungle`, F4 BWG plains→Meadow (+pumpkin_valley), F5 cypress_wetlands, F6 howling_peaks snow, F7 glimmering_weald→Lush, F8 orchard forest band (adversarial-review find). All inert without BWG/Quark. In-game throw-test left |
-| [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | structures long tail (audit + villages, retired into changelog) | tail now driven by STRUCTURELONGTAILPLAN ↓ |
-| [STRUCTURELONGTAILPLAN.md](STRUCTURELONGTAILPLAN.md) | Tier-D structure long tail — **effectively COMPLETE** | **#26/#27 BUILT v0.226.0** (route 1 biome-overrides) · **#33 BUILT v0.227.0** (3 new trial pieces) · **#49 prairie house BUILT v0.228.0** (fossil recorded — terrain-matching, `fossil_dig` covers it). **#60 superseded**, **#68 recorded**. Both nodes green (218/220); debug-seed spike cleanup done. Left: in-game throw-tests |
-| [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md) | Weighted 5%-per-seed surprise buildings — dilute the citadel (child of STRUCTUREPLAN; scopes **#68**) | **Engine + Band 1 (12 vanilla commons) + Band 2 (11 mod-gated rares) SHIPPED; Band 3 begun** (Ruined Chapel B25); **weighted-gate theme migration COMPLETE** (every overworld theme on the flat-5% gate; D5 large/huge rate settled = flat 5%); left: Band-3 multi-mod combos (B26–B30) + in-game tuning pass; D1–D5 decided |
-| [EPICSTRUCTUREPLAN.md](EPICSTRUCTUREPLAN.md) | Band 4 — grand epic versions of the 6 Band-3 "epics" on huge islands + catalog cross-wiring (child of VARIETYSTRUCTUREPLAN #68) | **plan-first, unbuilt; D1–D2 locked 2026-07-05.** The 6 epics are pad-5/6 sheds; rebuild each as a pad-14, 2–3-storey huge-island showpiece (tower/spire/gantry, caved-in undercrofts, a genuinely-spinning Create water wheel) wired huge-only, small builds kept. Plus a **cross-wiring** pass reusing every build across more themes/biomes. 3 batches (Chapel → 3 Create movers → 2 IE verticals), each regen + golden-master + gametests. **#74** |
-| [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | future chapters **#43 #44 #46**, scope decision **#47** (#41/#42/#45 shipped) · rolling #19 |
-| [MYSTICALPLAN.md](Modpack-growyourownworld/MYSTICALPLAN.md) | Mystical Agriculture (shipped) | #50 #51 |
-| [BEAUTIFYPLAN.md](Modpack-growyourownworld/BEAUTIFYPLAN.md) | Modpack visuals (shipped) | #21 #55 (+ optional revivals #53 #54) |
-| [REFACTORPLAN.md](REFACTORPLAN.md) | Multi-version build (shipped) | #56 #59 (+ contingencies #57 #58) |
-| [TRIALCHAMBERPLAN.md](TRIALCHAMBERPLAN.md) / [plannednotes.md](plannednotes.md) | Trial Chamber feel + misc | #33 #61 (mosaic rolled out; in-game tune/feel left) #70 |
-| [CRASHRESUMEPLAN.md](CRASHRESUMEPLAN.md) + engineering debt | crash-robustness follow-ups | **all implemented in-branch 2026-07-05** (7 findings + #67 + 5.2 persist/resume + persistent 5.3, both nodes green); in-game hard-crash sign-off left |
-| [ICONAUDITPLAN.md](ICONAUDITPLAN.md) | item-icon readability/consistency audit (93 textures) | **audit done 2026-07-05, art unbuilt.** Band A = 4 clear-cut redraws (farm-seed 4-way legibility, nether_lava_large colour, nether_forest/rocky twins, forest_large's missing dedicated art) — ready to build; Band B/C gated on §5 Q1/Q2 (structure-seed convention, Explore/Wild tier encoding) |
+| Plan | Open items |
+|---|---|
+| [EPICSTRUCTUREPLAN.md](EPICSTRUCTUREPLAN.md) | **#74** grand epic structures — plan-first, unbuilt (6 grand builds + cross-wiring, 3 batches; D1–D2 locked, OD-1/2/3 open) |
+| [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | flavor mods **#31 #32**, Create-addon check **#52**, standing call **#38**, rolling **#19 #20**, **#39** FE sign-off |
+| [IEPLAN.md](Modpack-growyourownworld/IEPLAN.md) | in-game verifies only (Excavator/oil/metals/aircraft) · **#39** |
+| [IRONSPELLSPLAN.md](Modpack-growyourownworld/IRONSPELLSPLAN.md) | in-game fit + loot + #46 book load; `createrelics` keep/drop |
+| [IRONSTRUCTUREREBUILDPLAN.md](Modpack-growyourownworld/IRONSTRUCTUREREBUILDPLAN.md) | **open:** `huge_citadel` giant tier vs keep the Mage's Sanctum rebuild; in-game fit tests |
+| [QUARKISLANDPLAN.md](Modpack-growyourownworld/QUARKISLANDPLAN.md) | **#71** in-game re-verify stones at depth + tune; optional myalite band on large/huge End forms |
+| [QUARKPLAN.md](Modpack-growyourownworld/QUARKPLAN.md) | **#43** Quark quest chapter; Farmer's Cutting: Quark verify+add |
+| [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | **#43 #44** chapters, **#47** BYG scope decision, in-game book-load sign-offs |
+| [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md) | in-game tuning; **Band 4 → EPICSTRUCTUREPLAN**. Engine + B1–B30 shipped (#68 closed) |
+| [BEAUTIFYPLAN.md](Modpack-growyourownworld/BEAUTIFYPLAN.md) | **#21** Distant Horizons (optional), **#55** shader-pin (standing), #53/#54 dropped-revivable |
+| [REFACTORPLAN.md](REFACTORPLAN.md) | **#56** route gametests through compat (deprioritized), **#59** further version nodes (discretionary), #57/#58 contingencies |
+| [SKYNETHERENDBIOMEPLAN.md](SKYNETHERENDBIOMEPLAN.md) | End light pass (§5, deferred); End Wild dropped; Nether in-game throw-test |
+| [TRIALCHAMBERPLAN.md](TRIALCHAMBERPLAN.md) | **#61** in-game vanilla feel/fit tune (module/motif/patina/grate/hall weights); plinth unbuilt |
+| [plannednotes.md](plannednotes.md) | **#70** waystone drop-compat (unscoped); #61/#33 pointers |
+
+*Retired 2026-07-05 (fully shipped — history in the changelogs + git): AE2PLAN, FARMERSDELIGHTPLAN, BIOMECOVERAGEPLAN,
+CRASHRESUMEPLAN, ICONAUDITPLAN, IRONSCONTENTGAPPLAN, MYSTICALPLAN, PORTALTWINPLAN, STRUCTURELONGTAILPLAN, WILDSEEDPLAN,
+STRUCTUREPLAN.*
 
 ---
 
 ## Priority tiers
 
-### Tier 1 — in-game sign-offs on shipped content *(the biggest bucket of "left")*
+### Tier 1 — in-game sign-offs on shipped content *(the biggest "left" bucket)*
 
-Everything here is **BUILT and both-nodes-green**; it needs a human throw-test in a real client (nothing below runs in
-the headless dev env). Clearing this queue is the highest-value next work.
+Everything here is **BUILT and both-nodes-green**; it needs a human throw-test in a real client (nothing below runs
+headless). Clearing this queue is the highest-value next work.
 
-**✅ Cleared:** #3/#10/#66/#64/#65, **#14** (village biomes reachable), **#15** (Quark smoke pass), **#41** (AE2 quest
-renders + deps resolve, 2026-07-04).
-
-- [ ] **(#71)** **Quark island stones** — re-verify at low/mid/high throws (mine into the core): limestone/jasper
-  (rocky), jasper/shale (ancient) + the odd deep corundum geode at every depth; then tune vein weights + sign off the
-  blossom/Ancient-Tome loot. *(QUARKISLANDPLAN)*
-- [ ] **(#16)** **Farmer's Delight** — throw Forest/Meadow/Desert/Aquatic/Lush, confirm crops appear + the harvest→
-  replant loop + rice in ponds; confirm the nether powdery-cane **feature** grows a harvestable cane; quest-book load. *(FARMERSDELIGHTPLAN)*
-- [ ] **(#34/#35)** **Immersive Engineering** — Excavator yields veins over the void (tune `chance`); the crude-oil
-  source survives grow-in + is IE-Fluid-Pump-extractable; a diesel-fuelled aircraft consumes fuel; IE quest load. *(IEPLAN)*
+- [ ] **(#71)** **Quark island stones** — re-verify at low/mid/high throws (mine into the core); tune vein weights +
+  the blossom / Ancient-Tome loot. *(QUARKISLANDPLAN)*
+- [ ] **(#16)** **Farmer's Delight** — throw the biome islands, confirm crops + harvest→replant + rice ponds + the
+  nether powdery-cane feature; quest-book load. *(retired plan — see changelog)*
+- [ ] **(#34/#35)** **Immersive Engineering** — Excavator veins over the void, crude-oil pump-extractable, diesel
+  aircraft consumes fuel, IE quest load. *(IEPLAN)*
 - [ ] **(#18/#39)** **AE2 / meteorite** — throw-test the meteor island per tier (crater/globe/core read right; tune
-  sizes + crater palette); **#39** the FE power-chain (generator island → Flux → IE/AE2 Energy Acceptor → a Controller powers up). *(AE2PLAN)*
-- [ ] **(#61)** **Trial Chamber** feel/fit — the framed-panel mosaic rolled out to every piece (v0.203); the in-game
-  vanilla compare + tune is the sign-off (details in Tier 3). *(TRIALCHAMBERPLAN)*
+  sizes + crater palette); **#39** the FE power-chain sign-off. *(retired AE2 plan — see changelog)*
+- [ ] **(#61)** **Trial Chamber** feel/fit — the in-game vanilla compare + tune. *(TRIALCHAMBERPLAN)*
+- [ ] **Nether biomes** — throw every `nether_*` seed + Nether Wild across all 5 Nether biomes. *(SKYNETHERENDBIOMEPLAN)*
+- [ ] **Wild / Explore adaptive seeds** — throw over desert/mountains/snow/meadow/beach, confirm the right dedicated
+  theme resolves (the **ExploreThemes ordering fix, 2026-07-05**, made meadow/cherry_grove→Meadow and
+  snowy_beach→Frozen; re-run the gametest suites to lock it in). *(retired WildSeed plan — see changelog)*
+- [ ] **Iron's Spells** — structure/rebuild fit + loot + #46 book load. *(IRONSPELLSPLAN)*
+- [ ] **Crash-resume** — hard-crash sign-off (kill mid-grow → restart finishes it; `/forceload query` clean; repeat
+  with a Nether twin). *(retired CrashResume plan — see changelog)*
+- [ ] **Portal twins** — cross-dimension traversal lands in the paired repaired frame (option B shipped v0.225.0).
+  *(retired PortalTwin plan — see changelog)*
 
-### Tier 2 — the content-mod wave — ✅ SHIPPED
+### Tier 2 — unbuilt content
 
-The FD / IE / AE2 / Quark wave is **built end-to-end** (v0.196–v0.206, both nodes green), each with its island
-integration **and** quest chapter. Its only remaining work is the **in-game verifies in Tier 1**. The next *unbuilt*
-integrations — the flavor mods (**#31** Critters, **#32** Productive Bees) — are lower-ROI and live in **Tier 4**.
-**Iron's Spells (#36/#37)** is further along: **largely built in-branch** (unmerged) — only the 3 structure rebuilds +
-in-game fit tests + #46 quest are left (IRONSPELLSPLAN / IRONSTRUCTUREREBUILDPLAN). The per-biome **Nether/End seed
-adaptation** (SKYNETHERENDBIOMEPLAN) is the other
-sizeable unbuilt content block — plan-first, awaiting its design-fork sign-off (Tier 3).
+- **#74 grand epic structures** — plan-first, D1–D2 locked; 3 batches (Chapel → 3 Create movers → 2 IE verticals) +
+  a cross-wiring pass. *(EPICSTRUCTUREPLAN)*
+- **End light pass** — per-end-biome accents on each seed's bare end-stone form (~20 theme edits). Deferred, not
+  dropped. End Wild dropped. *(SKYNETHERENDBIOMEPLAN)*
+- **#31 Critters & Companions** (small) / **#32 Productive Bees** (medium) — jars not installed. *(CONTENTPLAN)*
+- **#43 Quark quest chapter** (3-quest sketch ready) / **#44 Productive Bees chapter** (gated on #32). *(QUESTPLAN)*
+- **#50 optional dedicated Prosperity island** (bootstrap already solved; polish only). *(retired Mystical plan)*
+- **#70 waystone drop-compat** — unscoped; decide + build. *(plannednotes)*
 
-### Tier 3 — structures, trial-chamber polish & the Nether/End biome pass
+### Tier 3 — long tail / optional / standing rules / decisions
 
-- **(new content) Per-biome Nether seed adaptation** — SKYNETHERENDBIOMEPLAN, **Nether pass BUILT + VERIFIED
-  2026-07-05 (v0.224.0), both nodes green (1.21.1 = 211, 26.1.2 = 213).** Shipped: (A) seed-identity + biome
-  flavor as model-A kits on the 5 dedicated `nether_*` families (base + `_large`); a hand-built crimson/warped
-  stem-tree feature (`CustomTrees` + `DecorationPlanner`); a **Nether Wild** seed (normal + `_large`) with a
-  Nether biome→theme resolver in `ExploreThemes` + full onboarding (recipes/advancements/guide/lang/icons/tag);
-  golden-master gametests in both suites. **Deferred/dropped:** the light End pass, End Wild, and any huge-Nether
-  tier. Remaining follow-up is an **in-game throw-test** across the Nether biomes. *(SKYNETHERENDBIOMEPLAN §9c)*
-- **#61** Trial Chamber — structure (corridor warren, v0.194) **and** the framed-panel wall MOSAIC + laid-floor tiler
-  + corner posts **rolled out to every piece** (v0.196–v0.203, both nodes green). **In-game feel/fit is the sign-off**
-  (does it wind/branch + read as a vanilla trial chamber); then tune module size / motif frequency / patina mix / hall
-  weights. *(TRIALCHAMBERPLAN)*
-- **#33** Trial Chamber more variants — **BUILT v0.227.0** (STRUCTURELONGTAILPLAN Phase C): a 4-way **crossing**, an
-  **alcove corridor** (a chamber off a straight hall via an L-shaped side alcove), and a grand **multi-cell vaulted
-  chamber** (stepped groin vault) — woven into the halls/rooms pools, assembly-gametested, both nodes green (217/219).
-  In-game feel/fit folds into #61. *(STRUCTURELONGTAILPLAN)*
-- **#26** aspen manor + **#27** bog trial — **BUILT v0.226.0, both nodes green (214/216).** Route 1 (adapt BWG's own
-  pools) via a biome-`theme_override` on the existing seed: woodland-mansion over `aspen_boreal` → BWG aspen manor (both
-  designs, evoker→Totem garrison kept); trial-chamber over `pale_bog` → BWG bog trial (`sink 1`). Pure data (two
-  overrides + one wrapper pool), inert without BWG, gametests both suites; the `debug_*` spike seeds have been cleaned up.
-  **Left: in-game throw-test over `aspen_boreal`/`pale_bog`.** *(STRUCTURELONGTAILPLAN)*
-- **(new content) #74 grand epic structures** — the six Band-3 "epics" (Ruined Chapel + the 5 multi-mod set-pieces) are
-  pad-5/6 single-storey **sheds**; the huge island (radius 24–30) has room for the pad-15 citadel or a 28×20×24 manor.
-  **Plan-first, D1–D2 locked 2026-07-05:** author a **grand** version of each (pad ~14, 2–3 storeys, a dominant broken
-  vertical, caved-in undercrofts, a genuinely-spinning Create water wheel on the 3 Create builds), wired **huge-only**
-  (small builds kept on base/large). Plus a **catalog cross-wiring** pass — the mod epics sit on one terrain family each
-  today; reuse each across more themes/biomes for cheap coverage. 3 batches, each regen + golden-master + gametests.
-  *(EPICSTRUCTUREPLAN — child of VARIETYSTRUCTUREPLAN #68)*
-
-### Tier 4 — long tail / optional / future
-
-- Flavor mods: **#31** Critters & Companions (small), **#32** Productive Bees (medium). **#36** Iron's Spells is
-  **largely built in-branch** (Explore seed + loot + re-homed structures + guardians + auto-centre; scope **#37** ✅
-  decided) — left: the 3 oversized-structure rebuilds (IRONSTRUCTUREREBUILDPLAN) + in-game fit tests + #46 quest.
-  *(CONTENTPLAN / IRONSPELLSPLAN)*
-- Optional visuals: **#21** Distant Horizons (unblocked), **#53** Vanilla Tweaks revival, **#54** standalone resource
-  pack. *(BEAUTIFYPLAN)*
-- Item-icon audit follow-through: **Band A** (4 redraws — farm-seed legibility, nether_lava_large colour,
-  nether_forest/rocky twins, forest_large dedicated art) is a ready-to-build readability bugfix; **Band B/C** await the
-  §5 design calls (structure-seed convention, Explore/Wild tier encoding). *(ICONAUDITPLAN)*
-- Standing rules (work only when triggered): **#55** shaderPack pin refresh on Complementary/Euphoria updates;
-  **#30** per-structure-step hygiene; **#38** per-future-mod ore-island-vs-MA call.
-- Refactor tail: **#59** further version nodes (discretionary — the recipe is ready), **#56** route gametest suites
-  through compat (deprioritized), **#57**/**#58** contingencies (shared-suite fingerprint map / per-version data
-  variant — build only when needed). *(REFACTORPLAN)*
-- **#52** verify The Factory Must Grow + Extended Cogwheels for 1.21.1, or drop them. *(CONTENTPLAN · small)*
-- **#47** clarify the "BYG content" future-chapter scope (BWG's branch already shipped — deeper BWG coverage, or the
-  separate BYG mod?). *(QUESTPLAN · decision)*
-- **#49** prairie houses / rugged fossil, **#60** dedicated structure seeds (fallback), **#68** net-new bespoke
-  structures (Create sheds, abandoned Inferium farmlands, … — future want). *(STRUCTUREPLAN)*
-- **#50** optional dedicated Prosperity island. *(MYSTICALPLAN · medium)*
-- **#70** waystone drop-compat idea (decision + build, unscoped). *(plannednotes)*
-- **#51** MA balance — an **ongoing watch** (Growth Accelerator stacking + mob Inferium drop rates). Deferred out of
-  Tier 1: revisit only if a normal playthrough surfaces a problem, once there's enough feedback to act on. *(MYSTICALPLAN)*
+- **Decisions:** **#47** BYG-content chapter scope · Iron's `huge_citadel` giant tier vs keep the rebuild ·
+  `createrelics` keep/drop · **#52** verify Factory-Must-Grow / Extended-Cogwheels or drop.
+- **Standing rules:** **#30** per-structure-step hygiene · **#38** per-mod ore-island-vs-MA call · **#55** shader-pin
+  refresh · **#51** MA balance watch · **#19/#20** rolling quest-chapter + island-tier per new mod.
+- **Optional visuals:** **#21** Distant Horizons · **#53/#54** dropped-revivable resource packs. *(BEAUTIFYPLAN)*
+- **Icon audit:** Band A redraws shipped; Band B/C were resolved/dropped. *(retired IconAudit plan)*
+- **Refactor tail:** **#56** route gametests through compat (deprioritized) · **#59** further version nodes
+  (discretionary) · **#57/#58** contingencies. *(REFACTORPLAN)*
 
 ---
 
-## Full ranked backlog (open items only)
+## Engineering debt (code review)
 
-| # | Item | Plan | Priority | Effort | Status |
-|---|---|---|---|---|---|
-| 71 | Quark island stones — Y-band bug **fixed v0.192.0** (veins now merge into every overworld Y-band across the 6 `quark_{rocky,ancient}{,_large,_huge}` files; ids verified; gametest-guarded). Remaining: in-game re-verify at low/mid/high throws + tune weights + blossom/Ancient-Tome loot sign-off | QUARKISLANDPLAN | medium | medium | fix shipped (in-game re-verify) |
-| 16 | Farmer's Delight — **crops SHIPPED** (dry crops on Forest/Meadow/Desert + rice on Lush/Aquatic ponds + chorus succulent + nether powdery-cane feature; 20 `theme_override` files, gametest-guarded, both nodes green). Remaining: in-game throw-test + nether-cane feature grows + quest-book load | FARMERSDELIGHTPLAN | medium | medium | built; in-game verify |
-| 34 | Immersive Engineering — **ore island SHIPPED** (6 `immersiveengineering_*` overrides: aluminum/lead/nickel/silver/uranium + a deep crude-oil pocket, inert-safe, gametest-guarded). Remaining: in-game verify all metals appear at low/mid/high + oil is pump-extractable | CONTENTPLAN / IEPLAN | medium | large | built; in-game verify |
-| 35 | IE Excavator — **config pinned** (`overrides/defaultconfigs/immersiveengineering-server.toml`, `chance` 0.9→0.7). Remaining: in-game confirm it yields veins over the void, then fine-tune | CONTENTPLAN / IEPLAN | medium | medium | built; in-game verify |
-| 18 | AE2 — **integration SHIPPED end-to-end (both nodes green):** certus deposit (#18d) + IE-gated seed (#18c) + meteorite island Phases 1–3 (overworld body + crater + sky-stone globe) + the tiered `skyseed:meteorite_core` presses (#18b) + #41 quest. Remaining: #39 FE sign-off + meteor throw-test/tuning | AE2PLAN | medium | medium | built; in-game verify |
-| 19 | Rolling: quest chapter per newly-landed mod — kept pace (FD/IE/AE2 all authored); re-arms per future integration | QUESTPLAN / CONTENTPLAN | medium | rolling | caught up |
-| 20 | Rolling: gated island tier per newly-landed mod — done for every installed mod; re-arms per future integration | CONTENTPLAN | medium | rolling | caught up |
-| 61 | Trial Chamber corridor-warren (v0.194) **+ the framed-panel wall MOSAIC + laid-floor tiler rolled out to every piece** (v0.196–v0.203, both nodes green). Remaining: in-game vanilla compare + tune module/motif/patina/hall weights | TRIALCHAMBERPLAN / plannednotes | medium | medium | built; in-game feel/fit |
-| 33 | Trial Chamber more variants — **BUILT v0.227.0** (STRUCTURELONGTAILPLAN Phase C): a 4-way crossing + an alcove corridor (chamber off a straight hall) + a multi-cell vaulted chamber, woven into the halls/rooms pools, assembly-gametested, both nodes green (217/219). In-game feel folds into #61 | STRUCTURELONGTAILPLAN | low | medium | built; in-game feel/fit |
-| 26 | Aspen manor — **BUILT v0.226.0** (route 1: `theme_override` on the woodland-mansion seed over `biomeswevegone:aspen_boreal` → BWG's own aspen manor, both designs 50/50 via a wrapper pool, evoker→Totem garrison kept; inert without BWG; gametests both suites; debug spike cleaned up). Left: in-game throw-test | STRUCTURELONGTAILPLAN | low | small | built; in-game verify |
-| 27 | Bog trial — **BUILT v0.226.0** (route 1: `theme_override` on the trial-chamber seed over `biomeswevegone:pale_bog` → BWG's own bog trial, `sink 1`; inert without BWG; gametests both suites). Left: in-game throw-test | STRUCTURELONGTAILPLAN | low | small | built; in-game verify |
-| 28 | Vertical-jigsaw bounding-box mitigation + placement gametest (rides 26/27) | STRUCTUREPLAN | low | medium | rider |
-| 29 | On-pad assembly verification (rides 26/27; done for villages) | STRUCTUREPLAN | low | medium | rider |
-| 30 | Per-structure-step release hygiene (standing rule) | STRUCTUREPLAN | low | small | standing rule |
-| 31 | Critters and Companions — spawn verification on biome islands | CONTENTPLAN | low | small | open |
-| 32 | Productive Bees — starter bees/hives | CONTENTPLAN | low | medium | open |
-| 36 | Iron's Spells + Artifacts + Relics — the magic/exploration pillar. **Largely BUILT in-branch (unmerged; both nodes green):** Explore seed (3 tiers, full onboarding) + loot layer (mod auto-inject + inert-safe `add_drop` GLMs) + biome-theme rares every tier + magic-mob guardians + all Iron's own structures re-homed 1:1 (empty-target + `hasTemplatePool` guard + auto-centre) + custom **Impaled Boat** + debug-seed coverage. **Left:** the 3 oversized-structure rebuilds (Citadel/Battleground/Ice Spider Den — IRONSTRUCTUREREBUILDPLAN) + in-game fit throw-tests + #46 quest | CONTENTPLAN / IRONSPELLSPLAN | low | large | built in-branch; rebuilds + in-game left |
-| 37 | Iron's Spells scope — **DECIDED: the full exploration loop** (throw seed → grow island → rare building → special loot; mod worldgen inert, re-homed via themes + loot GLMs) | CONTENTPLAN / IRONSPELLSPLAN | low | small | ✅ decided |
-| 38 | Per-future-mod call: bespoke ore island vs MA seeds | CONTENTPLAN | low | small | standing rule |
-| 39 | Prove FE flows Create → IE/AE2 across islands — **proven on paper** (C&A `alternator` → Flux `plug`/`point` → IE native / AE2 `energy_acceptor`, all standard NeoForge FE; see AE2PLAN #39). Left: one-time in-game sign-off | CONTENTPLAN / AE2PLAN | low | small | proven; in-game sign-off pending |
-| 41 | AE2 quest chapter — **SHIPPED + in-game-verified 2026-07-04** (16 quests `B404`–`B419` in the **Storage** chapter; renders + deps resolve; user repositioned nodes so lines don't cross — do not revert) | QUESTPLAN / AE2PLAN | low | small | ✅ shipped + verified |
-| 42 | Farmer's Delight quest chapter — **SHIPPED** (`chapters/farmersdelight.snbt`, A008, B801–B808 + lang). In-game quest-book load pending | QUESTPLAN | low | small | shipped (in-game load pending) |
-| 43 | Future chapter: Quark (quest — minimal 3-quest sketch in QUARKPLAN) | QUESTPLAN | low | unknown | unblocked (#15 ✅) — build last |
-| 44 | Future chapter: Productive Bees (quest) | QUESTPLAN | low | unknown | gated on 32 |
-| 45 | Immersive Engineering quest chapter — **SHIPPED** (`chapters/immersiveengineering.snbt`, A009, 15 quests B9xx + the flight line moved to Tools). In-game quest-book load pending | QUESTPLAN / IEPLAN | medium | small | shipped (in-game load pending) |
-| 46 | Iron's Spells quest chapter — **Magic & Exploration** — ✅ **SHIPPED** (`chapters/ironsspells.snbt`, A00A, 11 quests BB01–BB0B, new E004 sidebar group; Explore-seed tiers → scroll/essence loot → spellbook/scroll-forge/arcane-anvil → Upgrade Orb; Relic + Artifact checkmark side-finds; gated off the Skyseed structure-seed quest B108). In-game book-load pending | QUESTPLAN / IRONSPELLSPLAN | low | small | shipped (in-game load pending) |
-| 47 | Clarify "BYG content" chapter scope (BWG branch already shipped) | QUESTPLAN | low | small | decision |
-| 49 | Prairie house — **BUILT v0.228.0** (route 1: a 2nd `theme_override` on the hamlet seed over `biomeswevegone:prairie` → BWG's own prairie farmhouse, intact + abandoned 50/50, with a shape override enlarging the hamlet island; inert without BWG; golden-master both suites). Rugged fossil left **recorded** (terrain-matching placement + already covered by the authored `fossil_dig`). Left: in-game throw-test | STRUCTURELONGTAILPLAN | low | small | prairie built; fossil recorded |
-| 50 | Optional dedicated Prosperity island | MYSTICALPLAN | low | medium | open |
-| 51 | MA balance watch (Growth Accelerator stacking, Inferium drops) | MYSTICALPLAN | low | small | ongoing watch |
-| 52 | Verify Create addons: The Factory Must Grow, Extended Cogwheels (Deco ✅ shipped) | CONTENTPLAN | low | small | partial |
-| 53 | Vanilla Tweaks 16× pack (deliberately dropped; revival recipe in BEAUTIFYPLAN §2) | BEAUTIFYPLAN | low | medium | dropped/revivable |
-| 54 | Standalone Skyseed resource pack (dropped; re-scaffold recipe in BEAUTIFYPLAN §3) | BEAUTIFYPLAN | low | medium | dropped/revivable |
-| 55 | Refresh shaderPack pin when Complementary/Euphoria update (pin currently correct) | BEAUTIFYPLAN | low | small | standing rule |
-| 56 | Route gametest suites' direct API calls through compat | REFACTORPLAN | low | medium | open (deprioritized) |
-| 57 | Version-keyed golden-master map for a future SHARED suite | REFACTORPLAN | low | small | contingency |
-| 58 | Per-version data variant for a future vanilla block-id rename | REFACTORPLAN | low | small | contingency |
-| 59 | Add further Minecraft/NeoForge version nodes (recipe ready) | REFACTORPLAN | low | large | discretionary |
-| 60 | Dedicated structure seeds instead of biome adaptation | STRUCTUREPLAN | low | medium | deferred fallback |
-| 68 | Net-new bespoke structures beyond BWG's 17 — **now scoped as [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)**: a weighted **5%-per-seed** surprise-building budget (D1 single-gate + weighted pick; D2 balanced 50/35/15 mix; D3 Explore-seed reward floor — the premium seed never forces a loot-less build; D4 mod builds stay derelict — loot never leaks a gate-key like AE2 sky stone/presses; all signed off 2026-07-04) to dilute the citadel/flagships. **Phase 0 engine SHIPPED** (2026-07-04, both nodes green — 175/177): `rollRare` weighted-gate + `weight`/`requires`/`explorable` fields + `Lookup.modLoaded` + Explore reward-floor filter, landed as a **backward-compatible opt-in** (`rare_structure_chance` present → new model, absent → legacy byte-identical) so no churn. Left: 3 content batches (vanilla common → single-mod rare → multi-mod epic), each migrating its themes to the new model + tuning pass; **open: the large/huge rate** (flat 5% vs keep bigger tiers hotter) | STRUCTUREPLAN / VARIETYSTRUCTUREPLAN | low | large | engine shipped; content next |
-| 70 | Waystone drop-compat idea (decide + build) | plannednotes | low | unknown | idea |
-| 74 | Grand epic structures (Band 4) — rebuild the 6 Band-3 "epics" (Ruined Chapel + Magitech Workshop / Automated Essence Farm / FE→ME Substation / Alchemist's Distillery / Sky-Freight Depot) as pad-14, 2–3-storey **huge-island** showpieces (dominant broken vertical, caved-in undercrofts, a genuinely-spinning Create water wheel on the 3 Create builds); huge-only wiring, small builds kept. Plus a catalog **cross-wiring** pass reusing every build across more themes/biomes. Plan-first; D1–D2 locked 2026-07-05; 3 batches (Chapel → Create movers → IE verticals), each regen + golden-master + gametests both suites | EPICSTRUCTUREPLAN / VARIETYSTRUCTUREPLAN | medium | large | plan-first, unbuilt |
-| 21 | Distant Horizons (LOD) — optional, unblocked | BEAUTIFYPLAN | low | medium | open |
+### 2026-07-05 code review — adversarial fan-out (this pass)
 
----
+A subsystem fan-out over the shared worldgen source, findings adjudicated by re-reading the code (the automated
+skeptic panel was cut short by a session limit, so the surviving findings were verified by hand).
 
-## Engineering debt (ex-CODE_REVIEW.md)
+**Fixed in-branch this pass (safe, no golden-master risk):**
 
-> **Update 2026-07-05 — the whole crash-robustness backlog is now implemented in-branch, both nodes green.** The
-> **7 confirmed 2026-07-04 findings** (both `MobPlanner` inert-safety fixes, the `Traps` opt-in `traps` gate,
-> `findClearSpot` per-candidate re-validation, the seed-derived `StartIsland` oak, the double dimension-reset backup
-> guard, and the concurrent force-load un-force → an in-memory **ref-count**), **#67** (drain-cap warning + force-load
-> logging), **and** the persistent parts — **5.2** (persist/resume in-progress grows) + persistent **5.3** (un-force
-> stale forced chunks on restart), via a dual-version `SkyseedWorldData` schema + a `CrashRecovery` `ServerStarted`
-> handler — are all in the working tree, both nodes green (**1.21.1 202/202, 26.1.2 204/204**, incl. a schema
-> round-trip + resume gametest), pending commit. **Left:** the in-game hard-crash sign-off (kill mid-grow → restart
-> finishes it, `/forceload query` clean; repeat with a Nether twin). Full design + test plan in
-> **[CRASHRESUMEPLAN.md](CRASHRESUMEPLAN.md)**.
+| Fix | File | What & why |
+|---|---|---|
+| ✅ Adaptive-seed biome resolution | `ExploreThemes.java` | `meadow`/`cherry_grove` (both in `#minecraft:is_mountain`) and `snowy_beach` (in `#minecraft:is_beach`) sat *after* their broad tags, so the Wild/Explore seed grew a Rocky/Aquatic island over them and the dedicated rules were dead. Moved the specific ids ahead of the broad tags. **Behaviour change — run the gametest suites to lock it in.** |
+| ✅ Doc: phantom `@link` | `PathSurfacer.java` | `supportStilts` javadoc referenced a non-existent `STILT_STUB` and claimed a stub over void; `stiltDown` actually places nothing over void. Corrected. |
+| ✅ Comment accuracy | `OrePlanner.java` | The size-scaled "extra" veins run on a side RNG but still remove cells from the shared `coreSet`, so a later ore's main-stream `pickSeed` can retry more — ore volume *does* couple into the main stream (tiers above `REF_CORE`). Corrected the "doesn't move anything else" comment. |
 
-All **21 code-review findings were fixed and merged via PR #15** (CI green both nodes; the 5.1/5.2/5.3 in-game
-smoke tests passed 2026-07-01) — the review doc itself is retired. These are the deferred follow-ups it left,
-each self-documented in the code:
+**Recorded (behaviour-changing or low-value — need a golden-master recapture or explicit accept; do in a dedicated pass):**
 
-| Item | Priority | Effort | What & why |
-|---|---|---|---|
-| ✅ **IMPLEMENTED in-branch (CRASHRESUMEPLAN) — 5.2, persist/resume of in-progress grows.** A `PendingIsland` descriptor (re-plan inputs + progress) is built at germination + for twins, persisted every tick, removed on completion; `CrashRecovery` re-plans + re-enqueues each at its saved progress on `ServerStarted`. Both nodes green. Left: in-game hard-crash sign-off. | medium | large | crash-robustness |
-| ✅ **IMPLEMENTED in-branch (CRASHRESUMEPLAN) — 5.3, force-load ticket leak reconciliation.** `GenerationJob` records/removes forced chunks in `SkyseedWorldData` at the ref-count transitions; `CrashRecovery` un-forces every leftover on `ServerStarted`, before the resume. | medium | medium | crash-robustness |
-| ✅ **IMPLEMENTED in-branch — #67, crash-fix observability.** A drain-cap warning in `IslandGrowth.onServerStopping` + per-region force-load acquire/release debug logging in `GenerationJob`. | low | small | makes 5.2/5.3 sign-offs checkable |
+| Item | Priority | What & why |
+|---|---|---|
+| Decouple OrePlanner size-scaling from the main stream | low | Give the "extra" veins a separate exclusion set so ore volume can't shift downstream planners. Deterministic today, so it's a latent-change hazard, not a live bug. Needs a golden-master recapture on large/huge tiers. |
+| MeteorPlacer central plug without AE2 | low | A "wild meteor" (no AE2) carves the bowl but leaves the central globe volume uncarved (no sky stone fills it) → a terrain plug in the crater. Aesthetic inert-safety. |
+| Crash-resume RNG desync | low | Tree/snow features consume `plan.random()` during the tick drain; a re-planned resume restarts that stream, so post-resume decoration can diverge from an uncrashed island. Within the documented best-effort-resume tradeoff. |
+| `java.lang.Math` in worldgen geometry | low | `ShapeBuilder`/`RimNoise` use `Math.atan2/pow/sin` (not `StrictMath`) — deterministic per node (each has its own golden master), only a cross-platform seed-portability nit. Do NOT "fix" blindly (StrictMath is slower and would shift output). |
+| `HashSet` iteration drives RNG-consuming placement | low | `PondCarver`/`CaveCarver` iterate a `HashSet` while consuming RNG. Deterministic per node (value-based hashCodes, fixed JDK; golden masters pass); a portability nit only. Changing to a sorted set would shift output. |
 
-### 2026-07-04 code review (adversarially verified — ✅ implemented in-branch 2026-07-05, pending commit)
+### Earlier reviews — ✅ shipped
 
-A fresh fan-out review (both nodes' shared code) surfaced 7 confirmed findings. **All 7 are now implemented in-branch
-(2026-07-05, both nodes green — 1.21.1 200/200, 26.1.2 202/202), pending commit.** No committed golden-master broke:
-the two `MobPlanner` fixes only move the robust `bad.json` fixture's RNG stream (its lone test asserts non-empty +
-grass), and single-source keeps the two nodes in parity. The table below is retained as the record of what the
-findings were.
-
-| Item | Priority | Effort | What & why |
-|---|---|---|---|
-| **Concurrent force-load un-force** (`GenerationJob.java:198`, extends 5.3). `level.setChunkForced` is a plain boolean (not ref-counted). Two islands germinating at once whose bounding boxes share a chunk column (a cluster/twin/flush case) both force it; the first job to finish un-forces the shared chunk while the other is still draining — silently dropping that job's later structure/mob/snow content, especially for a **twin grown in a player-less dimension** (no other ticket masks it). Fix: ref-count forced regions (fold into the 5.3 `SkyseedWorldData` tracking). | medium | medium | resource-leak |
-| **`MobPlanner.planMobs` inert-safety** (`MobPlanner.java:72`). Rolls the per-entry `chance` `nextFloat` *before* `resolveEntity` (the modded-id `Lookup` guard, line 75), so an absent modded mob still consumes a shared-stream roll → the ladder-shaft carve + every downstream RNG consumer shift solely because the mod is absent (breaks the inert-without-the-mod / determinism-parity invariant). Fix: resolve-then-skip before the roll, exactly like `OrePlanner`/`rollAnimals`. Latent today (no shipped theme lists a modded mob except the `bad.json` test fixture). | medium | small | inert-safety |
-| **`MobPlanner.planPondMobs` inert-safety** (`MobPlanner.java:100`). Same defect for pond `water_mobs`: `chance` roll before `resolveEntity` (line 103). Same fix. | medium | small | inert-safety |
-| **`Traps.applyAfterJigsaw` wool sentinels** (`Traps.java:26`). Uses vanilla `RED_WOOL`/`LIME_WOOL`/`YELLOW_WOOL` as un-namespaced global markers and runs on **every** jigsaw structure, so it clobbers any *decorative* red/lime/yellow wool a structure legitimately places near its origin. Fix: use a namespaced sentinel (or gate the trap-rewrite to the structures that opt in). | medium | medium | correctness |
-| **`findClearSpot` skips re-validation** (`IslandSeedEntity.java:311`). Re-plans + grows the island at nudged positions without re-checking `IslandGenerator.formValidFor` / `theme.fizzlesIn`, so the dimension/biome validity gate only covers the *original* rest point — a nudge can land (and grow) an island where the theme should have fizzled. Fix: re-run the validity gate per candidate spot. **Behaviour change — decide intent first.** | medium | medium | correctness |
-| **Start-island oak non-deterministic** (`StartIsland.java:94`). The curated oak is grown by the vanilla `ConfiguredFeature` on `level.getRandom()` (an unseeded per-JVM `RandomSource`), so the start tree isn't a function of the world seed — contradicts the file's "deliberately not procedural" contract. Harmless (an oak always yields wood; persisted once). Fix: drive it from a seed-derived `RandomSource`. | low | small | determinism |
-| **Double dimension-reset clobbers backup** (`SkyseedCommands.java:252`). Arming both `/emptynether` + `/emptyend` in one session makes the second `applyReset` overwrite the recovery backup with an already-modified `level.dat`, so "restore original" no longer restores vanilla. Low reach (these legacy rescue commands are slated for pre-1.0 removal — README Roadmap). Fix: don't overwrite an existing backup. | low | small | correctness |
+- The **21 findings** from the original CODE_REVIEW (fixed + merged via PR #15) and the **2026-07-04 review** (7
+  findings — both `MobPlanner` inert-safety fixes, the `Traps` gate, `findClearSpot` re-validation, the seed-derived
+  `StartIsland` oak, the double-reset backup guard, the concurrent force-load ref-count) are **all merged** (0.214.0,
+  PR #38), along with **5.2** persist/resume, persistent **5.3** force-load reconciliation, and **#67** observability.
+  Verified present in the committed source this pass. *(One residual: `Traps` still uses vanilla wool sentinels —
+  latent, since no shipped structure places decorative red/lime/yellow wool near its origin.)*
