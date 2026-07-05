@@ -5,6 +5,28 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.221.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 COMPLETE — the Sky-Freight Depot (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B30), the last build in the B1–B30 catalog.** A `requires:["create","immersiveengineering"]` epic (w1, Rocky) that
+  only germinates where **both** Create and Immersive Engineering are installed:
+  - **Sky-Freight Depot** (Rocky, two zombies) — a freight yard where a Create train sits stalled at an IE loading dock.
+    *Not a box*: an open depot on a gravel-and-cobble pad — a vanilla rail siding carrying a stalled train (Create
+    `small_bogey` bogeys under brass/copper/railway-casing car bodies + a loco cab), an IE loading platform alongside (a
+    conveyor-belt line, stacked crates, a fuel barrel), and a vanilla cobblestone signal mast topped with a lantern.
+  - **Authoring / the floating-block lesson applied.** Create + IE machinery via the `modNames` side-map (verified `create`
+    6.0.10 + IE 12.4.2 ids). The build follows the rule the earlier review established — **no vanilla block ever rests on a
+    modded one** — so the all-Create train and the all-IE platform vanish cleanly together when a mod is absent, leaving the
+    vanilla pad + rail + signal mast + chest (the assertable gametest shell) with nothing floating.
+  - **D4 — compounding gate.** Create: bogey/casing husks on a plain vanilla rail (no working contraption); loot is
+    `andesite_alloy`. IE: conveyor/crate/barrel husks (no working multiblock); loot is an iron plate. Chest binds
+    `skyseed:chests/freight_scrap` + two inert `add_drop` GLMs. Wired **w1** across all three tiers of Rocky. A new gametest
+    per suite mirror; adversarial review clean. Both nodes green (1.21.1: 209, 26.1.2: 211).
+  - **Band 3 is now complete (B25–B30):** the vanilla Ruined Chapel + five multi-mod epics (Create+Iron's, Create+Mystical,
+    IE+AE2, IE+Iron's, Create+IE). **The whole B1–B30 Structure Variety catalog has shipped** — only the in-game
+    weight-tuning pass is left on PLANOFPLANS #68.
+
 ## [0.220.0] - 2026-07-05
 
 ### Added

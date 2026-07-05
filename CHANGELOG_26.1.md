@@ -9,6 +9,21 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.221.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 COMPLETE — the Sky-Freight Depot (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B30), the last build in the B1–B30 catalog.** A `requires:["create","immersiveengineering"]` epic (w1, Rocky) that
+  only germinates where **both** Create and IE are installed: a freight yard where a Create train sits stalled at an IE
+  loading dock — an open gravel-and-cobble pad with a vanilla rail siding carrying a stalled train (Create `small_bogey`
+  bogeys under brass/copper/railway-casing car bodies + a loco cab), an IE loading platform (a conveyor line, stacked
+  crates, a fuel barrel), and a vanilla cobblestone signal mast + lantern. Built to the floating-block rule the earlier
+  review established (**no vanilla block rests on a modded one**), so the all-Create train + all-IE platform vanish cleanly
+  together without their mods, leaving the vanilla shell. **D4:** Create → `andesite_alloy` (husks on a plain rail); IE →
+  iron plate (conveyor/crate husks). Wired w1 across all three Rocky tiers; adversarial review clean. Both nodes green
+  (1.21.1: 209, 26.1.2: 211). **Band 3 is now complete (B25–B30)** and the whole B1–B30 Structure Variety catalog has
+  shipped — only the in-game weight-tuning pass is left on PLANOFPLANS #68.
+
 ## [0.220.0] - 2026-07-05
 
 ### Added

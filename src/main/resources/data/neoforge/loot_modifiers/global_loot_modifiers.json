@@ -33,6 +33,8 @@
     "skyseed:substation_wire",
     "skyseed:substation_fluix",
     "skyseed:distillery_plate",
-    "skyseed:distillery_essence"
+    "skyseed:distillery_essence",
+    "skyseed:freight_gears",
+    "skyseed:freight_plate"
   ]
 }

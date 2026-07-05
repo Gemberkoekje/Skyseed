@@ -35,9 +35,11 @@
 > The **FE→ME Substation** (B28, `requires:["immersiveengineering","ae2"]`, Rocky) — the sharpest D4 case — has shipped too:
 > an IE→AE2 conversion station over an **empty controller pit** (no sky stone / controller / press; fluix + wire-coil loot).
 > The **Alchemist's Distillery** (B29, `requires:["immersiveengineering","irons_spellbooks"]`, Badlands) — an IE refinery
-> reworked as a vanilla arcane still — has shipped as well (D4: IE plate + Iron's `arcane_essence`).
-> **Left:** the last Band-3 combo (B30 Sky-Freight Depot) + the base-tier
-> `huge_` mirrors for the small commons (scale permitting), and an in-game throw-test/tuning pass. This
+> reworked as a vanilla arcane still — and the **Sky-Freight Depot** (B30, `requires:["create","immersiveengineering"]`,
+> Rocky) — a stalled Create train at an IE loading dock — have shipped as well. **Band 3 is COMPLETE (B25–B30), and the whole
+> B1–B30 catalog has shipped:** Phase-0 engine, Band 1 (12 vanilla commons), Band 2 (11 mod-gated rares), Band 3 (a vanilla
+> chapel + 5 multi-mod epics), the flat-5% weighted-gate migration of every overworld theme (D5), and a physical-review pass.
+> **Left:** just the in-game throw-test / weight-tuning pass + optional base-tier `huge_` mirrors for the small commons. This
 > is the scoped build-out of PLANOFPLANS **#68** ("net-new bespoke structures beyond BWG's 17"). The goal is many more
 > *common* and *rare* buildings so that every overworld seed has a **flat 5% chance** to germinate one that fits its
 > type — which **dilutes the citadel** (and the other flagships) down to a genuine standout, and makes the exploration
@@ -292,7 +294,7 @@ and every chest is a scrap pool.
 | ✅ B27 | **Automated Essence Farm (ruin)** | Create + Mystical | a derelict inferium field (farmland rows + tier-1 crops, some trampled) under a stalled harvester **gantry** (vanilla oak posts → rails → cross-bridge carrying a Create `mechanical_drill` husk + cogwheel drive), a west control-chest station, a broken tier-1 `growth_accelerator` + coolant cauldron; vanilla scrap + Create `andesite_alloy` / MA tier-1 `inferium_essence` GLMs (D4 both mods) | 1–2 zombies | **wired Meadow** (all 3 tiers, w1) |
 | ✅ B28 | **FE→ME Substation** | IE + AE2 | a gutted roofless hall — an IE concrete/sheetmetal west end (wire-mast + post-transformer husk + capacitor), a certus/fluix AE2 east end, a scorched deepslate **conversion column** (broken conduit antenna) over the **empty controller pit** (⛔ no sky stone / controller / press — the pit is empty); vanilla scrap + IE `wire_copper` / AE2 `fluix_crystal` GLMs | 1 creeper | **wired Rocky** (all 3 tiers, w1) |
 | ✅ B29 | **Alchemist's Distillery** | IE + Iron's Spells | a roofless sheetmetal shed around an arcane still (lava-cauldron fire, weathered-copper still-head + brewing stand, a copper condenser column + lightning-rod vent, a water receiver, IE metal-barrel tanks + capacitor) with an amethyst focus + bookshelf study; vanilla brewing scrap + IE `plate_iron` / Iron's `arcane_essence` GLMs (D4) | 1 necromancer | **wired Badlands** (all 3 tiers, w1) |
-| B30 | **Sky-Freight Depot** | Create + IE | a stalled train + conveyor husks + crates; cog/ingot scrap | 2 zombies | Rocky |
+| ✅ B30 | **Sky-Freight Depot** | Create + IE | an open depot on a gravel/cobble pad — a vanilla rail siding carrying a stalled Create train (`small_bogey` bogeys under brass/copper/railway-casing car bodies + a loco cab), an IE loading platform (a conveyor line, stacked crates, a fuel barrel), a vanilla cobblestone signal mast + lantern; vanilla rail scrap + Create `andesite_alloy` / IE `plate_iron` GLMs (D4 both mods) | 2 zombies | **wired Rocky** (all 3 tiers, w1) |
 
 The catalog is deliberately open-ended — treat B1–B30 as the **starter set**, not a ceiling. New buildings slot in
 by the same recipe (template → pool json → theme wiring), so the bench can keep growing after the first batches ship.
@@ -414,10 +416,16 @@ Ship in batches, **per-step version bump + CHANGELOG + inert golden-master gamet
      produce (onion) + rope. 1 gametest per mirror. Adversarial review before the regen fixed two corner-post overwrites (a
      garden weed and a mushroom).
    - **Phase 2 (Band 2) is DONE** — B13–B24, eleven mod-gated rares across Create / IE / AE2 / Iron's / Mystical / Farmer's.
-4. **Phase 3 — epic (Band 3, B25–B30).** Multi-mod set-pieces + the vanilla showpieces; rarest weights. **D4 loot
-   audit against BOTH required mods' deny-lists** (the compounding case — esp. the AE2 press gate on B28).
-5. **Phase 4 — tuning pass (§8).** In-game throw-tests per theme; adjust weights to feel; confirm the citadel/mansion/
-   monument now read as standouts.
+4. ✅ **Phase 3 — epic (Band 3, B25–B30) SHIPPED** (v0.215.0–v0.221.0; both nodes green). The vanilla **Ruined Chapel**
+   (B25) + five multi-mod epics authored in `MultiModRuinsTemplates` — **Magitech Workshop** (Create+Iron's), **Automated
+   Essence Farm** (Create+Mystical), **FE→ME Substation** (IE+AE2, the sharpest D4 — an *empty controller pit*, no sky
+   stone/press), **Alchemist's Distillery** (IE+Iron's), **Sky-Freight Depot** (Create+IE) — each `requires:[modA, modB]`,
+   authored via the `modNames` side-map, w1 on their themes, with the D4 loot audited against BOTH mods' deny-lists. A
+   physical-review pass (floating blocks / fit-through / chest-openability) ran over B24–B30 and fixed a floating-beam class
+   of bug (B24/B25/B26), a stale-mod-id chest (B28) and a still-blocks-the-doorway barrier (B29). **The whole B1–B30 catalog
+   has shipped.**
+5. **Phase 4 — tuning pass (§8) — THE ONLY THING LEFT.** In-game throw-tests per theme; adjust weights to feel; confirm the
+   citadel/mansion/monument now read as standouts. (Not runnable in the headless dev env — needs a playtest.)
 
 Each new building follows the **regen dance** ([[skyseed-structure-staging]]): edit `*Templates.java`, delete only the
 changed `.nbt` from repo-root src, regen on the **1.21.1 node** (`JAVA_HOME=…jdk-21… ./gradlew :1.21.1:runGameTestServer`),

@@ -41,6 +41,7 @@ public final class MultiModRuinsTemplates {
         writeIfAbsent(base.resolve("essence_farm/farm.nbt"), automatedEssenceFarm());
         writeIfAbsent(base.resolve("substation/substation.nbt"), feToMeSubstation());
         writeIfAbsent(base.resolve("distillery/distillery.nbt"), alchemistsDistillery());
+        writeIfAbsent(base.resolve("freight_depot/depot.nbt"), skyFreightDepot());
     }
 
     /**
@@ -422,6 +423,77 @@ public final class MultiModRuinsTemplates {
         bes.put(new BlockPos(4, 1, 3), StructureParts.lootChest("skyseed:chests/distillery_scrap"));
 
         StructureParts.anchor(m, bes, new BlockPos(3, 0, 3), "minecraft:cobblestone");
+        return built(m, bes, mods);
+    }
+
+    /**
+     * The <b>Sky-Freight Depot</b> (B30, <b>Create + Immersive Engineering</b>) — the last Band-3 build: a freight yard
+     * where a Create train sits stalled at an IE loading dock, long abandoned. <em>Not a box</em>: an open depot on a
+     * gravel-and-cobble pad — a vanilla rail siding carrying a stalled train (Create {@code small_bogey} bogeys under
+     * brass/copper/railway-casing car bodies + a loco cab), an IE loading platform alongside (a conveyor-belt line, stacked
+     * crates, a fuel barrel), and a vanilla cobblestone signal mast topped with a lantern (the anti-box vertical). The
+     * modded train + conveyors resolve to air without their mods, so the vanilla pad + rail + signal mast + chest are the
+     * assertable gametest shell. Fits Rocky; the theme {@code mobs} pack (two zombies) shambles the yard.
+     *
+     * <p><b>D4 (both mods).</b> Create: only casing / bogey husks on a plain vanilla rail — no working contraption; loot is
+     * {@code andesite_alloy}. Immersive Engineering: conveyor / crate / barrel husks — no working multiblock; loot is an
+     * iron plate. Neither skips its grind. (No vanilla block ever rests on a modded one, so nothing floats when a mod is
+     * absent.)
+     */
+    private static Built skyFreightDepot() {
+        final Map<BlockPos, BlockState> m = new HashMap<>();
+        final Map<BlockPos, String> mods = new HashMap<>();
+        final Map<BlockPos, CompoundTag> bes = new HashMap<>();
+        final int xMax = 8, zMax = 4; // 9×5
+
+        // -- The depot pad (vanilla): a gravel rail bed (z1-z2) beside a cobble/andesite loading platform (z0, z3-z4). --
+        for (int x = 0; x <= xMax; x++) {
+            for (int z = 0; z <= zMax; z++) {
+                final BlockState floor = (z == 1 || z == 2) ? Blocks.GRAVEL.defaultBlockState()
+                        : ((x + z) % 3 == 0 ? Blocks.ANDESITE.defaultBlockState() : Blocks.COBBLESTONE.defaultBlockState());
+                m.put(new BlockPos(x, 0, z), floor);
+            }
+        }
+
+        // -- The vanilla rail siding along z2, with gaps where the bogeys sit. --------------------------------------
+        for (int x = 0; x <= xMax; x++) {
+            if (x != 2 && x != 4 && x != 6) {
+                m.put(new BlockPos(x, 1, 2), Blocks.RAIL.defaultBlockState());
+            }
+        }
+
+        // -- The stalled train (all Create/IE, so it vanishes cleanly without the mods): bogeys under brass/copper car
+        //    bodies + a loco cab. No vanilla block rests on it. ---------------------------------------------------------
+        set(m, mods, new BlockPos(2, 1, 2), shaft(Direction.Axis.X), CREATE + "small_bogey");
+        set(m, mods, new BlockPos(4, 1, 2), shaft(Direction.Axis.X), CREATE + "small_bogey");
+        set(m, mods, new BlockPos(6, 1, 2), shaft(Direction.Axis.X), CREATE + "small_bogey");
+        set(m, mods, new BlockPos(2, 2, 2), cube(), CREATE + "brass_casing");   // loco body
+        set(m, mods, new BlockPos(3, 2, 2), cube(), CREATE + "brass_casing");
+        set(m, mods, new BlockPos(3, 3, 2), cube(), CREATE + "railway_casing"); // loco cab
+        set(m, mods, new BlockPos(4, 2, 2), cube(), CREATE + "andesite_casing"); // coupling
+        set(m, mods, new BlockPos(5, 2, 2), cube(), CREATE + "copper_casing");  // cargo flatcar
+        set(m, mods, new BlockPos(6, 2, 2), cube(), CREATE + "copper_casing");
+
+        // -- The IE loading platform (z3-z4): a conveyor-belt line, stacked crates, a fuel barrel — single-layer on the
+        //    vanilla pad, so nothing floats when IE is absent. ----------------------------------------------------------
+        set(m, mods, new BlockPos(2, 1, 3), cube(), IE + "conveyor_basic");
+        set(m, mods, new BlockPos(3, 1, 3), cube(), IE + "conveyor_basic");
+        set(m, mods, new BlockPos(4, 1, 3), cube(), IE + "conveyor_basic");
+        set(m, mods, new BlockPos(1, 1, 4), cube(), IE + "metal_barrel");
+        set(m, mods, new BlockPos(2, 1, 4), cube(), IE + "crate");
+        set(m, mods, new BlockPos(3, 1, 4), cube(), IE + "crate");
+        set(m, mods, new BlockPos(4, 1, 4), cube(), IE + "reinforced_crate");
+
+        // -- The vanilla signal mast (anti-box vertical) + a warning lantern; the freight-scrap chest on the open dock. --
+        m.put(new BlockPos(7, 1, 4), Blocks.COBBLESTONE.defaultBlockState());
+        m.put(new BlockPos(7, 2, 4), Blocks.COBBLESTONE.defaultBlockState());
+        m.put(new BlockPos(7, 3, 4), Blocks.COBBLESTONE.defaultBlockState());
+        m.put(new BlockPos(7, 4, 4), Blocks.LANTERN.defaultBlockState());       // the signal lamp
+        m.put(new BlockPos(7, 1, 3), Blocks.COBWEB.defaultBlockState());        // a trackside cobweb by the mast
+        m.put(new BlockPos(6, 1, 4), Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.NORTH));
+        bes.put(new BlockPos(6, 1, 4), StructureParts.lootChest("skyseed:chests/freight_scrap"));
+
+        StructureParts.anchor(m, bes, new BlockPos(4, 0, 0), "minecraft:cobblestone");
         return built(m, bes, mods);
     }
 

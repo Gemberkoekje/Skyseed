@@ -4184,6 +4184,34 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    @GameTest(template = BIG_REGION)
+    public static void skyFreightDepotAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B30) — the Create + Immersive Engineering Sky-Freight Depot. The Create train + IE
+        // conveyors/crates are mod blocks (air without their mods), so assert the vanilla depot shell: the rail siding,
+        // the cobblestone signal mast, its lantern, and the freight-scrap chest. Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("freight_depot/depot"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean rail = false, mast = false, lantern = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.RAIL)) rail = true;
+                    else if (s.is(Blocks.COBBLESTONE)) mast = true;
+                    else if (s.is(Blocks.LANTERN)) lantern = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(rail, "freight depot must have its rail siding");
+        helper.assertTrue(mast, "freight depot must have its cobblestone signal mast (not a plain box)");
+        helper.assertTrue(lantern, "freight depot must have its signal lantern");
+        helper.assertTrue(chest, "freight depot must place its freight-scrap chest");
+        helper.succeed();
+    }
+
     @GameTest(template = REGION)
     public static void endPortalEdgesCraftFromShardAndRelics(GameTestHelper helper) {
         // Phase-1 (End chapter) collect-a-thon: each of the four portal edges is a shapeless craft of one Portal Frame

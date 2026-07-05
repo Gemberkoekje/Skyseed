@@ -14,6 +14,9 @@
   "_comment_rare": "VARIETYSTRUCTUREPLAN Phase 1 — weighted-gate model (5% gate) + the common Roadside Shrine (w6). Mirrored on rocky_large.",
   "rare_structure_chance": 0.05,
   "rare_structures": [
+    { "weight": 1, "requires": ["create", "immersiveengineering"], "_comment": "VARIETYSTRUCTUREPLAN Band 3 — Sky-Freight Depot (inert without Create + Immersive Engineering).",
+      "jigsaw": { "pool": "skyseed:freight_depot/depot", "target": "minecraft:bottom", "depth": 1, "pad": 6 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:zombie", "adults": 2 } ] } ] },
     { "weight": 1, "requires": ["immersiveengineering", "ae2"], "_comment": "VARIETYSTRUCTUREPLAN Band 3 — FE→ME Substation (inert without Immersive Engineering + AE2).",
       "jigsaw": { "pool": "skyseed:substation/substation", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
       "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:creeper", "adults": 1 } ] } ] },
