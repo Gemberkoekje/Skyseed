@@ -202,6 +202,9 @@ public final class SkyseedTests {
         reg(event, "trial_warren_wiring", REGION, SkyseedTests::trialWarrenWiring);
         reg(event, "trial_descent_drops_a_level", REGION, SkyseedTests::trialDescentDropsALevel);
         reg(event, "trial_end_room_has_ominous_vault", REGION, SkyseedTests::trialEndRoomHasOminousVault);
+        reg(event, "trial_crossing_crosses_four_ways", REGION, SkyseedTests::trialCrossingCrossesFourWays);
+        reg(event, "trial_alcove_corridor_spurs_a_chamber", REGION, SkyseedTests::trialAlcoveCorridorSpursAChamber);
+        reg(event, "trial_vaulted_chamber_is_a_multi_cell_vault", REGION, SkyseedTests::trialVaultedChamberIsAMultiCellVault);
         reg(event, "bastion_courtyard_chains_the_pool", REGION, SkyseedTests::bastionCourtyardChainsThePool);
         reg(event, "ocean_monument_has_prismarine_and_treasure", REGION, SkyseedTests::oceanMonumentHasPrismarineAndTreasure);
         reg(event, "ocean_monument_plans_submerged_guardian", REGION, SkyseedTests::oceanMonumentPlansSubmergedGuardian);
@@ -341,6 +344,9 @@ public final class SkyseedTests {
         reg(event, "biomeswevegone_wet_wood_ponds_are_shallow_marshes", REGION, SkyseedTests::biomeswevegoneWetWoodPondsAreShallowMarshes);
         reg(event, "biomeswevegone_compat_places_meadow_flowers", REGION, SkyseedTests::biomeswevegoneCompatPlacesMeadowFlowers);
         reg(event, "biomeswevegone_compat_places_lush_flowers", REGION, SkyseedTests::biomeswevegoneCompatPlacesLushFlowers);
+        reg(event, "aspen_manor_override_targets_woodland_mansion", REGION, SkyseedTests::aspenManorOverrideTargetsWoodlandMansion);
+        reg(event, "bog_trial_override_targets_trial_chamber", REGION, SkyseedTests::bogTrialOverrideTargetsTrialChamber);
+        reg(event, "prairie_house_override_targets_hamlet", REGION, SkyseedTests::prairieHouseOverrideTargetsHamlet);
         reg(event, "huge_forest_water_feature_rolls", REGION, SkyseedTests::hugeForestWaterFeatureRolls);
         // DEFERRED — not ported:
         //  - legacyDimensionResetRewritesGeneratorSettings: the level.dat /emptynether reset is a no-op on 26.1.2
@@ -2805,6 +2811,43 @@ public final class SkyseedTests {
         helper.succeed();
     }
 
+    static void trialCrossingCrossesFourWays(GameTestHelper helper) {
+        // #33: a 4-way intersection — mates a hall and continues THREE more passages, so halls CROSS, not just branch.
+        final ServerLevel level = helper.getLevel();
+        helper.assertTrue(countName(level, "trial_chamber/crossing", "hall_end") == 1
+                        && countJig(level, "trial_chamber/crossing", "hall", "skyseed:trial_chamber/halls") == 3,
+                "the crossing should mate a hall and continue 3 more passages (a 4-way)");
+        final BlockPos o = place(helper, "skyseed:trial_chamber/crossing");
+        helper.assertTrue(contains(helper, o, 6, 6, 6, Blocks.WAXED_OXIDIZED_CHISELED_COPPER),
+                "the crossing should carry the framed-panel mosaic + its floor cross (#33)");
+        helper.assertTrue(contains(helper, o, 6, 6, 6, Blocks.WAXED_COPPER_BULB), "the crossing should be copper-bulb lit");
+        helper.succeed();
+    }
+
+    static void trialAlcoveCorridorSpursAChamber(GameTestHelper helper) {
+        // #33: a straight passage that ALSO drops a chamber off a side alcove — a room off a hall, not only off a junction.
+        final ServerLevel level = helper.getLevel();
+        helper.assertTrue(countName(level, "trial_chamber/alcove_corridor", "hall_end") == 1
+                        && countJig(level, "trial_chamber/alcove_corridor", "hall", "skyseed:trial_chamber/halls") == 1
+                        && countJig(level, "trial_chamber/alcove_corridor", "chamber_edge", "skyseed:trial_chamber/rooms") == 1,
+                "the alcove corridor should pass a hall through AND spur a chamber (rooms pool)");
+        helper.succeed();
+    }
+
+    static void trialVaultedChamberIsAMultiCellVault(GameTestHelper helper) {
+        // #33: the grand climactic room — multiple spawner/vault cells + a central ominous vault under a stepped vault.
+        final ServerLevel level = helper.getLevel();
+        helper.assertTrue(countName(level, "trial_chamber/vaulted_chamber", "room_door") == 1,
+                "the vaulted chamber should hang off a chamber spur (a room_door entrance)");
+        final BlockPos o = place(helper, "skyseed:trial_chamber/vaulted_chamber");
+        helper.assertTrue(contains(helper, o, 9, 9, 9, Blocks.TRIAL_SPAWNER), "the vaulted chamber should have trial spawners");
+        helper.assertTrue(contains(helper, o, 9, 9, 9, Blocks.VAULT), "the vaulted chamber should have vaults");
+        helper.assertTrue(contains(helper, o, 9, 9, 9, Blocks.WAXED_COPPER_BULB), "the vaulted chamber should be copper-bulb lit");
+        helper.assertTrue(contains(helper, o, 9, 9, 9, Blocks.WAXED_OXIDIZED_CHISELED_COPPER),
+                "the vaulted chamber should carry the framed-panel mosaic (#33)");
+        helper.succeed();
+    }
+
     static void bastionCourtyardChainsThePool(GameTestHelper helper) {
         // Phase 5: the courtyard mates a bastion wall (a court_door connector) AND re-draws the courtyard pool from its
         // far end, so bastions sprawl into chained yards instead of landing as one fixed unit. Checked on the template.
@@ -4953,6 +4996,51 @@ public final class SkyseedTests {
             helper.assertTrue(flowered != null && groundHasNamespace(flowered, "biomeswevegone"),
                     "the " + biome + " forest band should sprinkle a biomeswevegone flower as ground cover");
         }
+        helper.succeed();
+    }
+
+    /** STRUCTURELONGTAILPLAN #26 — the aspen-manor override: the woodland-mansion seed's resolved biome_overrides gain a
+     *  biomeswevegone:aspen_boreal band whose jigsaw builds skyseed:aspen_manor/start (BWG's own manor, both designs).
+     *  Inert without BWG (the band never matches). */
+    static void aspenManorOverrideTargetsWoodlandMansion(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:woodland_mansion"));
+        helper.assertTrue(resolved != null, "woodland_mansion must resolve");
+        final BiomeOverride aspen = bandFor(resolved, "biomeswevegone:aspen_boreal");
+        helper.assertTrue(aspen != null, "woodland_mansion should gain a biomeswevegone:aspen_boreal band (the aspen manor)");
+        helper.assertTrue(aspen.jigsaw().isPresent()
+                        && aspen.jigsaw().get().pool().value().equals("skyseed:aspen_manor/start"),
+                "the aspen_boreal band must build skyseed:aspen_manor/start");
+        helper.assertTrue("biomeswevegone:aspen_trees".equals(firstTreeFeature(aspen)),
+                "the aspen manor band should decorate with biomeswevegone:aspen_trees");
+        helper.succeed();
+    }
+
+    /** STRUCTURELONGTAILPLAN #27 — the bog-trial override: the trial-chamber seed's resolved biome_overrides gain a
+     *  biomeswevegone:pale_bog band whose jigsaw builds BWG's own biomeswevegone:bog_trial, seated at sink 1 (the
+     *  throw-test tune). Inert without BWG. */
+    static void bogTrialOverrideTargetsTrialChamber(GameTestHelper helper) {
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:trial_chamber"));
+        helper.assertTrue(resolved != null, "trial_chamber must resolve");
+        final BiomeOverride bog = bandFor(resolved, "biomeswevegone:pale_bog");
+        helper.assertTrue(bog != null, "trial_chamber should gain a biomeswevegone:pale_bog band (the bog trial)");
+        helper.assertTrue(bog.jigsaw().isPresent()
+                        && bog.jigsaw().get().pool().value().equals("biomeswevegone:bog_trial"),
+                "the pale_bog band must build biomeswevegone:bog_trial");
+        helper.assertTrue(bog.jigsaw().get().sink() == 1, "the bog trial must seat at sink 1 (throw-test tune)");
+        helper.succeed();
+    }
+
+    static void prairieHouseOverrideTargetsHamlet(GameTestHelper helper) {
+        // #49: the hamlet seed over BWG's prairie grows BWG's own prairie farmhouse (intact/abandoned) instead of a hamlet.
+        final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:hamlet"));
+        helper.assertTrue(resolved != null, "hamlet must resolve");
+        final BiomeOverride prairie = bandFor(resolved, "biomeswevegone:prairie");
+        helper.assertTrue(prairie != null, "hamlet should gain a biomeswevegone:prairie band (the prairie house)");
+        helper.assertTrue(prairie.jigsaw().isPresent()
+                        && prairie.jigsaw().get().pool().value().equals("skyseed:prairie_house/start"),
+                "the prairie band must build skyseed:prairie_house/start");
+        helper.assertTrue(prairie.shape().isPresent(),
+                "the prairie band should enlarge the small hamlet island to host the 15×16 house");
         helper.succeed();
     }
 

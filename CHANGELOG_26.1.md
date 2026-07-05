@@ -9,6 +9,43 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.228.0] - 2026-07-05
+
+### Added
+- **Prairie House** — BWG's prairie farmhouse (intact + abandoned, 50/50), resurrected as a hamlet variant (→
+  [STRUCTURELONGTAILPLAN.md](STRUCTURELONGTAILPLAN.md) Phase D, #49): the Hamlet seed over BWG's `prairie` biome grows
+  the BWG farmhouse (with a shape override enlarging the small hamlet island) instead of a hamlet. A second biome-keyed
+  `theme_override` on the hamlet seed, **inert without BWG**. Golden-master gametest in this suite; both nodes green
+  (26.1.2 220). The rugged fossil is left recorded (terrain-matching placement + already covered by `fossil_dig`). See
+  the 1.21.1 changelog for the full note.
+
+## [0.227.0] - 2026-07-05
+
+### Added
+- **Three new Trial Chamber pieces** (→ [STRUCTURELONGTAILPLAN.md](STRUCTURELONGTAILPLAN.md) Phase C, #33): a 4-way
+  **crossing** (passages cross into a grid, not just a tree), an **alcove corridor** (a straight hall that spurs a
+  trial chamber off an L-shaped side alcove), and a grand **multi-cell vaulted chamber** (four corner spawner/vault
+  cells around a central ominous-vault sanctum under a stepped groin vault). Woven into the halls/rooms pools; new
+  assembly gametests in this suite stamp each piece + assert wiring and mosaic. Both nodes green (26.1.2 219). See the
+  1.21.1 changelog for the full note.
+
+## [0.226.0] - 2026-07-05
+
+### Added
+- **Aspen Manor + Bog Trial** — BWG's two special structures, resurrected as biome variants of existing seeds (→
+  [STRUCTURELONGTAILPLAN.md](STRUCTURELONGTAILPLAN.md), #26/#27). The Woodland-Mansion seed over a BWG `aspen_boreal`
+  biome grows BWG's own Aspen Manor (both designs, 50/50) with the mansion's evoker → Totem garrison; the Trial-Chamber
+  seed over `pale_bog` grows BWG's own Bog Trial (seated 1 block lower). Delivered as a biome-keyed `theme_override`
+  (the BWG-village mechanism), **inert without BWG** (the host biome can't exist, so the vanilla mansion/trial grows
+  byte-identical). Golden-master gametests in this suite assert both override bands resolve. See the 1.21.1 changelog
+  for the full note.
+
+### Fixed
+- **IE HV connectors were rendering upside-down on their posts** (the Factory wire-post, the Powerline insulators, the FE→ME
+  Substation mast). `connector_hv` `facing` is the mount direction, so a post-top connector needs `facing=down` (dish up), not
+  `up` (which flips it x:180). Corrected all five placements; regenerated the shared `factory.nbt`/`pylon.nbt`/`substation.nbt`.
+  Both nodes green.
+
 ## [0.225.0] - 2026-07-05
 
 ### Fixed

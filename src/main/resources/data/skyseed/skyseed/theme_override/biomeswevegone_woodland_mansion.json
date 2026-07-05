@@ -1,0 +1,11 @@
+{
+  "_comment": "STRUCTURELONGTAILPLAN Phase B #26 — the Aspen Manor. When the woodland-mansion seed is thrown over BWG's aspen_boreal, the jigsaw grows BWG's own aspen manor (both designs via skyseed:aspen_manor/start) in place of the vanilla dark-oak mansion, and the variant swaps the dark-oak decoration for BWG aspen trees. INERT without BWG: aspen_boreal cannot exist, so this band never matches and the vanilla mansion grows byte-identical. The base theme's evoker->Totem-of-Undying garrison (its `animals` pack, resolved from the theme not the override) is inherited, so the aspen manor keeps the mansion seed's signature reward. Surface (grass + podzol/coarse) is inherited from the base mansion palette — already aspen-appropriate.",
+  "target": "skyseed:woodland_mansion",
+  "biome_overrides": [
+    { "biomes": ["biomeswevegone:aspen_boreal"],
+      "jigsaw": { "pool": "skyseed:aspen_manor/start", "target": "", "depth": 1, "pad": 16, "sink": 0 },
+      "variants": [ { "weight": 1, "name": "aspen", "decoration": {
+        "trees": [ { "feature": "biomeswevegone:aspen_trees", "tries": 3, "spacing": 5 } ],
+        "ground": [ { "block": "minecraft:fern", "chance": 0.06 }, { "block": "minecraft:large_fern", "chance": 0.03 } ] } } ] }
+  ]
+}

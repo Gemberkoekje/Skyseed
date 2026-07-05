@@ -50,6 +50,10 @@ public final class TrialChamberTemplates {
         writeIfAbsent(dir.resolve("junction.nbt"), junction());   // T-branch with a chamber spur
         writeIfAbsent(dir.resolve("descent.nbt"), descent());     // staircase down a level (multi-story, downward)
         writeIfAbsent(dir.resolve("end.nbt"), endRoom());         // a climactic ominous-vault chamber
+        // #33 — more variants (STRUCTURELONGTAILPLAN Phase C): halls that cross, a room off a straight hall, a big vault.
+        writeIfAbsent(dir.resolve("crossing.nbt"), crossing());            // a 4-way intersection (passages cross, not just branch)
+        writeIfAbsent(dir.resolve("alcove_corridor.nbt"), alcoveCorridor()); // a straight hall that spurs a chamber off a side alcove
+        writeIfAbsent(dir.resolve("vaulted_chamber.nbt"), vaultedChamber()); // a big multi-cell room under a stepped vault
     }
 
     /**
@@ -492,6 +496,92 @@ public final class TrialChamberTemplates {
     }
 
     /**
+     * A 4-WAY CROSSING node (#33): the warren's intersections, where passages CROSS instead of only branching — so
+     * corridors can form a loop/grid, not just a tree. Mates a hall on the −Z wall and continues passages out the other
+     * three walls (+Z straight through, ±X to the sides). 5×5 node with a chiseled-copper cross inlaid in the floor + a
+     * crown cornice, copper-bulb lit.
+     */
+    private static Built crossing() {
+        final Map<BlockPos, BlockState> m = new HashMap<>();
+        final Map<BlockPos, CompoundTag> bes = new HashMap<>();
+        final int max = 4, mid = 2, ceil = 5; // 5×5, interior y1-4
+        for (int x = 0; x <= max; x++) {
+            for (int z = 0; z <= max; z++) {
+                m.put(new BlockPos(x, 0, z), (x == mid || z == mid)
+                        ? Blocks.WAXED_OXIDIZED_CHISELED_COPPER.defaultBlockState() : floorTile(x, z)); // a cross inlaid in the floor
+                m.put(new BlockPos(x, ceil, z), floorTile(x, z));
+                final boolean perim = x == 0 || x == max || z == 0 || z == max;
+                for (int yy = 1; yy < ceil; yy++) {
+                    final boolean door = yy <= 3 && ((x == mid && (z == 0 || z == max)) || ((x == 0 || x == max) && z == mid));
+                    m.put(new BlockPos(x, yy, z), (perim && !door) ? wallBlock(x, yy, z, max, max) : AIR);
+                }
+            }
+        }
+        hallEntrance(m, bes, new BlockPos(mid, 0, 0), FrontAndTop.NORTH_UP);            // in
+        drawHall(m, bes, new BlockPos(mid, 0, max), FrontAndTop.SOUTH_UP);             // straight through (+Z)
+        drawHall(m, bes, new BlockPos(0, 0, mid), FrontAndTop.WEST_UP);                // cross (−X)
+        drawHall(m, bes, new BlockPos(max, 0, mid), FrontAndTop.EAST_UP);              // cross (+X)
+        ceilingLamp(m, mid, ceil, mid);
+        crownCornice(m, 1, max - 1, ceil - 1, java.util.Set.of());
+        return new Built(m, bes);
+    }
+
+    /** The L-shaped ALCOVE-CORRIDOR footprint: a 5×7 main run (x0-4, z0-6) plus a 3-deep alcove bump-out on the +X side
+     *  (x5-7, z1-5). */
+    private static boolean alcoveFoot(int x, int z) {
+        return (x >= 0 && x <= 4 && z >= 0 && z <= 6) || (x >= 5 && x <= 7 && z >= 1 && z <= 5);
+    }
+
+    /** The wall tile for an alcove-corridor perimeter cell: a cut-copper corner post where two wall runs meet, else the
+     *  framed-panel {@link #wall} (u = the coordinate running ALONG this wall). */
+    private static BlockState alcoveWall(int x, int y, int z) {
+        final boolean zEdge = !alcoveFoot(x, z - 1) || !alcoveFoot(x, z + 1); // faces ±Z → an x-running wall (u = x)
+        final boolean xEdge = !alcoveFoot(x - 1, z) || !alcoveFoot(x + 1, z); // faces ±X → a z-running wall (u = z)
+        if (xEdge && zEdge) {
+            return Blocks.WAXED_OXIDIZED_CUT_COPPER.defaultBlockState(); // corner post
+        }
+        return wall(zEdge ? x : z, y);
+    }
+
+    /**
+     * An ALCOVE CORRIDOR (#33): a straight passage that also drops a CHAMBER off its side, so a trial room can open
+     * directly off a hall — not only off a junction node. Mates a hall on the −Z wall, continues the passage out the +Z
+     * wall, and bumps out a framed ALCOVE on the +X side whose back opens a chamber spur (the rooms pool). The L-shaped
+     * bump-out breaks the straight-box silhouette; copper-bulb lit, aged-copper palette.
+     */
+    private static Built alcoveCorridor() {
+        final Map<BlockPos, BlockState> m = new HashMap<>();
+        final Map<BlockPos, CompoundTag> bes = new HashMap<>();
+        final int ceil = 5;
+        for (int x = 0; x <= 7; x++) {
+            for (int z = 0; z <= 6; z++) {
+                if (!alcoveFoot(x, z)) {
+                    continue;
+                }
+                m.put(new BlockPos(x, 0, z), floorTile(x, z));
+                m.put(new BlockPos(x, ceil, z), floorTile(x, z));
+                final boolean perim = !alcoveFoot(x - 1, z) || !alcoveFoot(x + 1, z)
+                        || !alcoveFoot(x, z - 1) || !alcoveFoot(x, z + 1);
+                for (int yy = 1; yy < ceil; yy++) {
+                    final boolean through = x == 2 && (z == 0 || z == 6) && yy <= 3; // −Z in / +Z out passage
+                    final boolean spur = x == 7 && z == 3 && yy <= 3;                // chamber doorway at the alcove back
+                    m.put(new BlockPos(x, yy, z), (perim && !through && !spur) ? alcoveWall(x, yy, z) : AIR);
+                }
+            }
+        }
+        hallEntrance(m, bes, new BlockPos(2, 0, 0), FrontAndTop.NORTH_UP);             // in
+        drawHall(m, bes, new BlockPos(2, 0, 6), FrontAndTop.SOUTH_UP);                 // out → next passage
+        drawChamber(m, bes, new BlockPos(7, 0, 3), FrontAndTop.EAST_UP);               // alcove back → a chamber (rooms pool)
+        ceilingLamp(m, 2, ceil, 2);
+        ceilingLamp(m, 2, ceil, 5);
+        ceilingLamp(m, 6, ceil, 3);   // light the alcove
+        // A decorated pot + a lit candle dress the alcove nook.
+        m.put(new BlockPos(6, 1, 2), DECORATED_POT); bes.put(new BlockPos(6, 1, 2), potBE());
+        greebleAt(m, new BlockPos(6, 1, 4), CANDLE_LIT);
+        return new Built(m, bes);
+    }
+
+    /**
      * A descending staircase corridor (phase 2 — the multi-story mechanism): its entrance ({@code room_door}) is at the
      * TOP floor and mates the parent a level up; its exit ({@code chamber_edge}, redrawing the rooms pool) is one level
      * DOWN at the far end — so the jigsaw seats the next piece a storey lower and the chamber leans downward into the
@@ -562,6 +652,63 @@ public final class TrialChamberTemplates {
         ceilingLamp(m, mid, ceil, mid);
         crownCornice(m, 1, max - 1, ceil - 1, java.util.Set.of());
         greeble(m, bes, 1, max - 1, ceil);
+        return new Built(m, bes);
+    }
+
+    /**
+     * A grand MULTI-CELL VAULTED CHAMBER (#33): the warren's climactic room — a 9×9 hall with four spawner/vault CELLS in
+     * the corners around a raised central ominous-vault SANCTUM, capped by a stepped groin VAULT that rises from a y6 eave
+     * to a y8 apex (so the ceiling isn't a flat lid). Two trial spawners (zombie + skeleton) feed the two corner normal
+     * vaults; under Bad Omen they turn ominous and feed the centre ominous vault — the vanilla self-contained loop, at
+     * scale. A {@code room_door} entrance on the −Z wall, so it hangs off a chamber spur; copper-bulb lit.
+     */
+    private static Built vaultedChamber() {
+        final Map<BlockPos, BlockState> m = new HashMap<>();
+        final Map<BlockPos, CompoundTag> bes = new HashMap<>();
+        final int max = 8, mid = 4; // 9×9
+        for (int x = 0; x <= max; x++) {
+            for (int z = 0; z <= max; z++) {
+                m.put(new BlockPos(x, 0, z), floorTile(x, z));
+                if (x == 0 || x == max || z == 0 || z == max) { // perimeter wall column (y1-5), eave ceiling at y6
+                    for (int yy = 1; yy <= 5; yy++) {
+                        final boolean door = x == mid && z == 0 && yy <= 3; // −Z entrance doorway
+                        m.put(new BlockPos(x, yy, z), door ? AIR : wallBlock(x, yy, z, max, max));
+                    }
+                    m.put(new BlockPos(x, 6, z), floorTile(x, z));
+                } else { // interior: air up to a STEPPED ceiling — a groin vault rising toward the centre
+                    final int d = Math.min(Math.min(x, max - x), Math.min(z, max - z));
+                    final int cy = 6 + (d >= 3 ? 2 : d >= 2 ? 1 : 0); // eave y6 → y7 → apex y8; island fill forms the risers
+                    for (int yy = 1; yy < cy; yy++) {
+                        m.put(new BlockPos(x, yy, z), AIR);
+                    }
+                    m.put(new BlockPos(x, cy, z), floorTile(x, z));
+                }
+            }
+        }
+        // Entrance on the −Z wall.
+        m.put(new BlockPos(mid, 0, 0), Blocks.JIGSAW.defaultBlockState().setValue(JigsawBlock.ORIENTATION, FrontAndTop.NORTH_UP));
+        bes.put(new BlockPos(mid, 0, 0), jig("skyseed:room_door", "skyseed:chamber_edge", "minecraft:empty", TUFF));
+        // Central raised SANCTUM: a 3×3 dais one block up, the ominous vault on top (floor relief, not a flat floor).
+        for (int x = mid - 1; x <= mid + 1; x++) {
+            for (int z = mid - 1; z <= mid + 1; z++) {
+                m.put(new BlockPos(x, 1, z), floorTile(x, z));
+            }
+        }
+        m.put(new BlockPos(mid, 2, mid), Blocks.VAULT.defaultBlockState().setValue(BlockStateProperties.OMINOUS, true));
+        bes.put(new BlockPos(mid, 2, mid), ominousVault());
+        // Four corner CELLS: two trial spawners feed two normal vaults (ominous under Bad Omen → the centre vault).
+        m.put(new BlockPos(2, 1, 2), Blocks.TRIAL_SPAWNER.defaultBlockState()); bes.put(new BlockPos(2, 1, 2), trialSpawner("minecraft:zombie"));
+        m.put(new BlockPos(max - 2, 1, 2), Blocks.TRIAL_SPAWNER.defaultBlockState()); bes.put(new BlockPos(max - 2, 1, 2), trialSpawner("minecraft:skeleton"));
+        m.put(new BlockPos(2, 1, max - 2), Blocks.VAULT.defaultBlockState());
+        m.put(new BlockPos(max - 2, 1, max - 2), Blocks.VAULT.defaultBlockState());
+        // Lamps hung from the vault: the apex + the four cell bays.
+        ceilingLamp(m, mid, 8, mid);
+        ceilingLamp(m, 2, 7, 2);
+        ceilingLamp(m, max - 2, 7, 2);
+        ceilingLamp(m, 2, 7, max - 2);
+        ceilingLamp(m, max - 2, 7, max - 2);
+        crownCornice(m, 1, max - 1, 5, java.util.Set.of());
+        greeble(m, bes, 1, max - 1, 6);
         return new Built(m, bes);
     }
 

@@ -1,0 +1,8 @@
+{
+  "_comment": "STRUCTURELONGTAILPLAN Phase B #26 — wrapper pool letting the aspen-manor override roll EITHER of BWG's two manor designs (aspen_manor_1 28x20 / aspen_manor_2 28x19), 50/50, per the throw-test that liked both. Referencing BWG's own .nbt by location is lazy (resolved at placement, only ever over aspen_boreal = BWG present), and processors are minecraft:empty (NOT the foreign biomeswevegone:aspen_manor list) so this Skyseed pool loads clean WITHOUT BWG — the only thing lost without the BWG processor is a cosmetic sweet-berry<->blueberry bush swap. A blank jigsaw target picks a random start element here + auto-centres it (Jigsaw.recentreOnOrigin).",
+  "fallback": "minecraft:empty",
+  "elements": [
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "biomeswevegone:aspen_manor_1", "processors": "minecraft:empty", "projection": "rigid" } },
+    { "weight": 1, "element": { "element_type": "minecraft:single_pool_element", "location": "biomeswevegone:aspen_manor_2", "processors": "minecraft:empty", "projection": "rigid" } }
+  ]
+}

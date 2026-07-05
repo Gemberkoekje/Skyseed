@@ -53,6 +53,12 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 - **Structure vehicle: our OWN jigsaw set in themed palettes** (hermetic string-id `.nbt` engine — no BWG on any
   classpath). The manor/trial must make the same route choice (adapt pools vs author own).
   [STRUCTUREPLAN § Mechanism](Modpack-growyourownworld/STRUCTUREPLAN.md).
+- **Structure long tail (#26/#27 + tail): route 1 LOCKED (2026-07-05).** The spike ran (three `debug_*` seeds on a
+  huge island); the throw-test verdict was **both fit as-is** ("aspen manors look exactly as intended"; bog trial wants a
+  1-block sink), so we **adapt BWG's own pools** — no authored set. Delivery = a **biome-keyed `theme_override`** on the
+  existing seed (the village pattern): woodland-mansion seed over `biomeswevegone:aspen_boreal` → aspen manor;
+  trial-chamber seed over `biomeswevegone:pale_bog` → bog trial. No new seed items; #60 superseded. Full scope incl. #68.
+  Phase B (data-only, no regen dance) is next. [STRUCTURELONGTAILPLAN.md](STRUCTURELONGTAILPLAN.md).
 - **FTB Quests tag-tasks trap:** smart-filter item tasks don't expand tags — use an advancement task.
   [QUESTPLAN § Approach](Modpack-growyourownworld/QUESTPLAN.md).
 
@@ -72,8 +78,10 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 | [SKYNETHERENDBIOMEPLAN.md](SKYNETHERENDBIOMEPLAN.md) | Per-biome Nether seed adaptation | **Nether pass BUILT + verified 2026-07-05 (v0.224.0), both nodes green (211/213).** Model-A biome kits on the 5 `nether_*` families (base+`_large`) + hand-built crimson/warped stem-tree feature + a **Nether Wild** seed (normal+`_large`) with a Nether resolver in `ExploreThemes` + full onboarding + golden-master gametests. **End pass + End Wild remain deferred/dropped.** Details §9c |
 | [WILDSEEDPLAN.md](WILDSEEDPLAN.md) | New **Wild Skyseed** = adaptive default starter (biome-matching + ~5% builds); reuses the Explore engine | **plan-first, unbuilt; D1–D7 all signed off 2026-07-04 — ready to build.** Small code (ExploreThemes markers + a `forcesRare` gate) + recipes (Wild takes Forest's old planks+dirt; Forest→logs+dirt; nested Large/Huge, no-iron kelp token) + advancements + Patchouli/Modonomicon + FTB seed-swap (no new nodes) + self-drawn icons |
 | [BIOMECOVERAGEPLAN.md](Modpack-growyourownworld/BIOMECOVERAGEPLAN.md) | Biome → seed/override coverage audit (all vanilla + BWG + Quark biomes vs the two-layer resolver) | **audit done 2026-07-05; F1–F7 all implemented in-branch.** Root cause = snowy/desert keyed by explicit id (no vanilla `#is_*` tag) so BWG deserts + frozen biomes grew green forests. ✅ F1 deserts→Desert, F2 frozen→Frozen (+frosted bands), F3 vanilla `sparse_jungle`, F4 BWG plains→Meadow (+pumpkin_valley), F5 cypress_wetlands, F6 howling_peaks snow, F7 glimmering_weald→Lush, F8 orchard forest band (adversarial-review find). All inert without BWG/Quark. In-game throw-test left |
-| [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | structures long tail | #26 #27 #28 #29 #30 #49 #60 #68 |
+| [STRUCTUREPLAN.md](Modpack-growyourownworld/STRUCTUREPLAN.md) | structures long tail (audit + villages, retired into changelog) | tail now driven by STRUCTURELONGTAILPLAN ↓ |
+| [STRUCTURELONGTAILPLAN.md](STRUCTURELONGTAILPLAN.md) | Tier-D structure long tail — **effectively COMPLETE** | **#26/#27 BUILT v0.226.0** (route 1 biome-overrides) · **#33 BUILT v0.227.0** (3 new trial pieces) · **#49 prairie house BUILT v0.228.0** (fossil recorded — terrain-matching, `fossil_dig` covers it). **#60 superseded**, **#68 recorded**. Both nodes green (218/220); debug-seed spike cleanup done. Left: in-game throw-tests |
 | [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md) | Weighted 5%-per-seed surprise buildings — dilute the citadel (child of STRUCTUREPLAN; scopes **#68**) | **Engine + Band 1 (12 vanilla commons) + Band 2 (11 mod-gated rares) SHIPPED; Band 3 begun** (Ruined Chapel B25); **weighted-gate theme migration COMPLETE** (every overworld theme on the flat-5% gate; D5 large/huge rate settled = flat 5%); left: Band-3 multi-mod combos (B26–B30) + in-game tuning pass; D1–D5 decided |
+| [EPICSTRUCTUREPLAN.md](EPICSTRUCTUREPLAN.md) | Band 4 — grand epic versions of the 6 Band-3 "epics" on huge islands + catalog cross-wiring (child of VARIETYSTRUCTUREPLAN #68) | **plan-first, unbuilt; D1–D2 locked 2026-07-05.** The 6 epics are pad-5/6 sheds; rebuild each as a pad-14, 2–3-storey huge-island showpiece (tower/spire/gantry, caved-in undercrofts, a genuinely-spinning Create water wheel) wired huge-only, small builds kept. Plus a **cross-wiring** pass reusing every build across more themes/biomes. 3 batches (Chapel → 3 Create movers → 2 IE verticals), each regen + golden-master + gametests. **#74** |
 | [QUESTPLAN.md](Modpack-growyourownworld/QUESTPLAN.md) | FTB Quests line | future chapters **#43 #44 #46**, scope decision **#47** (#41/#42/#45 shipped) · rolling #19 |
 | [MYSTICALPLAN.md](Modpack-growyourownworld/MYSTICALPLAN.md) | Mystical Agriculture (shipped) | #50 #51 |
 | [BEAUTIFYPLAN.md](Modpack-growyourownworld/BEAUTIFYPLAN.md) | Modpack visuals (shipped) | #21 #55 (+ optional revivals #53 #54) |
@@ -129,11 +137,22 @@ sizeable unbuilt content block — plan-first, awaiting its design-fork sign-off
   + corner posts **rolled out to every piece** (v0.196–v0.203, both nodes green). **In-game feel/fit is the sign-off**
   (does it wind/branch + read as a vanilla trial chamber); then tune module size / motif frequency / patina mix / hall
   weights. *(TRIALCHAMBERPLAN)*
-- **#33** Trial Chamber more variants — partly done by the warren (corner/junction/cell/descent); further options:
-  cross-intersections, alcove-corridors, bigger multi-cell chambers, vaulted ceilings. *(plannednotes)*
-- **#26** aspen manor + **#27** bog trial — first decision: vehicle (adapt pools vs author own set like the
-  villages); each carries **#28** (vertical-jigsaw bounding-box mitigation + placement gametest) and **#29** (on-pad
-  assembly check); **#30** release hygiene rides every step. *(STRUCTUREPLAN · medium each)*
+- **#33** Trial Chamber more variants — **BUILT v0.227.0** (STRUCTURELONGTAILPLAN Phase C): a 4-way **crossing**, an
+  **alcove corridor** (a chamber off a straight hall via an L-shaped side alcove), and a grand **multi-cell vaulted
+  chamber** (stepped groin vault) — woven into the halls/rooms pools, assembly-gametested, both nodes green (217/219).
+  In-game feel/fit folds into #61. *(STRUCTURELONGTAILPLAN)*
+- **#26** aspen manor + **#27** bog trial — **BUILT v0.226.0, both nodes green (214/216).** Route 1 (adapt BWG's own
+  pools) via a biome-`theme_override` on the existing seed: woodland-mansion over `aspen_boreal` → BWG aspen manor (both
+  designs, evoker→Totem garrison kept); trial-chamber over `pale_bog` → BWG bog trial (`sink 1`). Pure data (two
+  overrides + one wrapper pool), inert without BWG, gametests both suites; the `debug_*` spike seeds have been cleaned up.
+  **Left: in-game throw-test over `aspen_boreal`/`pale_bog`.** *(STRUCTURELONGTAILPLAN)*
+- **(new content) #74 grand epic structures** — the six Band-3 "epics" (Ruined Chapel + the 5 multi-mod set-pieces) are
+  pad-5/6 single-storey **sheds**; the huge island (radius 24–30) has room for the pad-15 citadel or a 28×20×24 manor.
+  **Plan-first, D1–D2 locked 2026-07-05:** author a **grand** version of each (pad ~14, 2–3 storeys, a dominant broken
+  vertical, caved-in undercrofts, a genuinely-spinning Create water wheel on the 3 Create builds), wired **huge-only**
+  (small builds kept on base/large). Plus a **catalog cross-wiring** pass — the mod epics sit on one terrain family each
+  today; reuse each across more themes/biomes for cheap coverage. 3 batches, each regen + golden-master + gametests.
+  *(EPICSTRUCTUREPLAN — child of VARIETYSTRUCTUREPLAN #68)*
 
 ### Tier 4 — long tail / optional / future
 
@@ -175,9 +194,9 @@ sizeable unbuilt content block — plan-first, awaiting its design-fork sign-off
 | 19 | Rolling: quest chapter per newly-landed mod — kept pace (FD/IE/AE2 all authored); re-arms per future integration | QUESTPLAN / CONTENTPLAN | medium | rolling | caught up |
 | 20 | Rolling: gated island tier per newly-landed mod — done for every installed mod; re-arms per future integration | CONTENTPLAN | medium | rolling | caught up |
 | 61 | Trial Chamber corridor-warren (v0.194) **+ the framed-panel wall MOSAIC + laid-floor tiler rolled out to every piece** (v0.196–v0.203, both nodes green). Remaining: in-game vanilla compare + tune module/motif/patina/hall weights | TRIALCHAMBERPLAN / plannednotes | medium | medium | built; in-game feel/fit |
-| 33 | Trial Chamber more variants — partly done by the warren (corner/junction/cell); further: cross-intersections, alcove-corridors, multi-cell/vaulted chambers | plannednotes | low | large | open |
-| 26 | Resurrect aspen manor (vehicle decision first) | STRUCTUREPLAN | low | medium | open |
-| 27 | Resurrect bog trial (vehicle decision first) | STRUCTUREPLAN | low | medium | open |
+| 33 | Trial Chamber more variants — **BUILT v0.227.0** (STRUCTURELONGTAILPLAN Phase C): a 4-way crossing + an alcove corridor (chamber off a straight hall) + a multi-cell vaulted chamber, woven into the halls/rooms pools, assembly-gametested, both nodes green (217/219). In-game feel folds into #61 | STRUCTURELONGTAILPLAN | low | medium | built; in-game feel/fit |
+| 26 | Aspen manor — **BUILT v0.226.0** (route 1: `theme_override` on the woodland-mansion seed over `biomeswevegone:aspen_boreal` → BWG's own aspen manor, both designs 50/50 via a wrapper pool, evoker→Totem garrison kept; inert without BWG; gametests both suites; debug spike cleaned up). Left: in-game throw-test | STRUCTURELONGTAILPLAN | low | small | built; in-game verify |
+| 27 | Bog trial — **BUILT v0.226.0** (route 1: `theme_override` on the trial-chamber seed over `biomeswevegone:pale_bog` → BWG's own bog trial, `sink 1`; inert without BWG; gametests both suites). Left: in-game throw-test | STRUCTURELONGTAILPLAN | low | small | built; in-game verify |
 | 28 | Vertical-jigsaw bounding-box mitigation + placement gametest (rides 26/27) | STRUCTUREPLAN | low | medium | rider |
 | 29 | On-pad assembly verification (rides 26/27; done for villages) | STRUCTUREPLAN | low | medium | rider |
 | 30 | Per-structure-step release hygiene (standing rule) | STRUCTUREPLAN | low | small | standing rule |
@@ -194,7 +213,7 @@ sizeable unbuilt content block — plan-first, awaiting its design-fork sign-off
 | 45 | Immersive Engineering quest chapter — **SHIPPED** (`chapters/immersiveengineering.snbt`, A009, 15 quests B9xx + the flight line moved to Tools). In-game quest-book load pending | QUESTPLAN / IEPLAN | medium | small | shipped (in-game load pending) |
 | 46 | Iron's Spells quest chapter — **Magic & Exploration** — ✅ **SHIPPED** (`chapters/ironsspells.snbt`, A00A, 11 quests BB01–BB0B, new E004 sidebar group; Explore-seed tiers → scroll/essence loot → spellbook/scroll-forge/arcane-anvil → Upgrade Orb; Relic + Artifact checkmark side-finds; gated off the Skyseed structure-seed quest B108). In-game book-load pending | QUESTPLAN / IRONSPELLSPLAN | low | small | shipped (in-game load pending) |
 | 47 | Clarify "BYG content" chapter scope (BWG branch already shipped) | QUESTPLAN | low | small | decision |
-| 49 | Prairie houses / rugged fossil (optional polish) | STRUCTUREPLAN | low | small | open |
+| 49 | Prairie house — **BUILT v0.228.0** (route 1: a 2nd `theme_override` on the hamlet seed over `biomeswevegone:prairie` → BWG's own prairie farmhouse, intact + abandoned 50/50, with a shape override enlarging the hamlet island; inert without BWG; golden-master both suites). Rugged fossil left **recorded** (terrain-matching placement + already covered by the authored `fossil_dig`). Left: in-game throw-test | STRUCTURELONGTAILPLAN | low | small | prairie built; fossil recorded |
 | 50 | Optional dedicated Prosperity island | MYSTICALPLAN | low | medium | open |
 | 51 | MA balance watch (Growth Accelerator stacking, Inferium drops) | MYSTICALPLAN | low | small | ongoing watch |
 | 52 | Verify Create addons: The Factory Must Grow, Extended Cogwheels (Deco ✅ shipped) | CONTENTPLAN | low | small | partial |
@@ -208,6 +227,7 @@ sizeable unbuilt content block — plan-first, awaiting its design-fork sign-off
 | 60 | Dedicated structure seeds instead of biome adaptation | STRUCTUREPLAN | low | medium | deferred fallback |
 | 68 | Net-new bespoke structures beyond BWG's 17 — **now scoped as [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)**: a weighted **5%-per-seed** surprise-building budget (D1 single-gate + weighted pick; D2 balanced 50/35/15 mix; D3 Explore-seed reward floor — the premium seed never forces a loot-less build; D4 mod builds stay derelict — loot never leaks a gate-key like AE2 sky stone/presses; all signed off 2026-07-04) to dilute the citadel/flagships. **Phase 0 engine SHIPPED** (2026-07-04, both nodes green — 175/177): `rollRare` weighted-gate + `weight`/`requires`/`explorable` fields + `Lookup.modLoaded` + Explore reward-floor filter, landed as a **backward-compatible opt-in** (`rare_structure_chance` present → new model, absent → legacy byte-identical) so no churn. Left: 3 content batches (vanilla common → single-mod rare → multi-mod epic), each migrating its themes to the new model + tuning pass; **open: the large/huge rate** (flat 5% vs keep bigger tiers hotter) | STRUCTUREPLAN / VARIETYSTRUCTUREPLAN | low | large | engine shipped; content next |
 | 70 | Waystone drop-compat idea (decide + build) | plannednotes | low | unknown | idea |
+| 74 | Grand epic structures (Band 4) — rebuild the 6 Band-3 "epics" (Ruined Chapel + Magitech Workshop / Automated Essence Farm / FE→ME Substation / Alchemist's Distillery / Sky-Freight Depot) as pad-14, 2–3-storey **huge-island** showpieces (dominant broken vertical, caved-in undercrofts, a genuinely-spinning Create water wheel on the 3 Create builds); huge-only wiring, small builds kept. Plus a catalog **cross-wiring** pass reusing every build across more themes/biomes. Plan-first; D1–D2 locked 2026-07-05; 3 batches (Chapel → Create movers → IE verticals), each regen + golden-master + gametests both suites | EPICSTRUCTUREPLAN / VARIETYSTRUCTUREPLAN | medium | large | plan-first, unbuilt |
 | 21 | Distant Horizons (LOD) — optional, unblocked | BEAUTIFYPLAN | low | medium | open |
 
 ---
