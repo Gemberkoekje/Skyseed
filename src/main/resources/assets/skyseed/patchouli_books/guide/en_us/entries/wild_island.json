@@ -1,0 +1,28 @@
+{
+  "name": "Wild Skyseed",
+  "category": "skyseed:overworld",
+  "icon": "minecraft:grass_block",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The $(item)Wild Skyseed$() — planks and dirt, both off your $(bold)starter island$(). The first seed you can make, and the one to reach for whenever you just want to see what's out there."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "skyseed:wild_skyseed",
+      "text": "Everything's in hand — here's how it goes together.",
+      "advancement": "skyseed:gathered_wild"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A Wild Skyseed $(bold)becomes the land it lands on$(): sand and cactus over a desert, bare stone over the mountains, snow over a snowfield, trees over a forest. It grows the very island that biome's own dedicated seed would — no two throws quite alike.",
+      "advancement": "skyseed:craft_wild"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)A lucky find$()$(br)Every so often — about $(bold)1 in 20$() — a ruin or building rises with the island, loot and all. Unlike the $(item)Explore Skyseed$(), which $(bold)always$() raises one, here it's a surprise. Throw a handful and see what the land gives you.",
+      "advancement": "skyseed:craft_wild"
+    }
+  ]
+}

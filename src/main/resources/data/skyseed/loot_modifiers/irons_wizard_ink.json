@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 2 (D4/§5) — layers a token Common Ink onto the Iron's Spells wizard builds' chest. Inert without Iron's Spells (Lookup.hasItem gate in AddDropModifier). Gate-safe: common ink is the low-tier scroll-crafting mat, never epic/rare/legendary ink, an Upgrade Orb, or a named scroll.",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/irons_wizard" }
+  ],
+  "item": "irons_spellbooks:common_ink",
+  "chance": 0.4
+}

@@ -22,8 +22,16 @@
       "jigsaw": { "pool": "skyseed:hamlet_spruce/start", "target": "minecraft:bottom", "depth": 2, "pad": 5, "reach": 12, "cap_prefix": "shop_", "cap_min": 1, "cap_count": 2, "cap_filler": "skyseed:trade_post_spruce/fillers" },
       "variants": [ { "weight": 1, "name": "pine", "decoration": { "ground": [ { "block": "minecraft:fern", "chance": 0.18 }, { "block": "minecraft:sweet_berry_bush", "chance": 0.04 } ] } } ] }
   ],
+  "_comment_rare": "VARIETYSTRUCTUREPLAN D5 — flat 5% gate (was 10%); the Abandoned Cottage is a common build (w6).",
+  "rare_structure_chance": 0.05,
   "rare_structures": [
-    { "chance": 0.10,
+    { "weight": 3, "requires": ["mysticalagriculture"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Abandoned Inferium Plot (inert without Mystical Agriculture).",
+      "jigsaw": { "pool": "skyseed:inferium_plot/plot", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:zombie", "adults": 1 } ] } ] },
+    { "weight": 3, "requires": ["create"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Broken Windmill (Create-gated; inert without Create).",
+      "jigsaw": { "pool": "skyseed:windmill/mill", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:zombie", "adults": 1 } ] } ] },
+    { "weight": 6,
       "jigsaw": { "pool": "skyseed:abandoned/cottage", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
       "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:zombie_villager", "adults": 1 } ] } ] }
   ],

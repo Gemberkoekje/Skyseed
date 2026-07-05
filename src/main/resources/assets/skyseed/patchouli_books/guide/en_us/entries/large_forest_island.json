@@ -3,7 +3,7 @@
   "category": "skyseed:overworld",
   "advancement": "skyseed:reveal_forest_large",
   "icon": "minecraft:oak_log",
-  "sortnum": 1,
+  "sortnum": 23,
   "pages": [
     {
       "type": "patchouli:text",

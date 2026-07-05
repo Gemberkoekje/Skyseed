@@ -28,6 +28,11 @@ public final class ModItems {
     /** Base theme ids (in catalogue/creative-tab order), each a distinct {@code <id>_skyseed} item. The AE2-compat
      *  Meteorite family is appended by {@link #SEED_THEMES} only when AE2 is present. */
     private static final List<String> BASE_SEED_THEMES = List.of(
+            // The Wild Skyseed — the DEFAULT adaptive starter: grows the local biome's own dedicated island (desert over
+            // desert, rocky over mountains, …) with only the theme's ordinary ~5% building roll. Like Explore it carries
+            // an adaptive sentinel theme (skyseed:wild) resolved at germination (ExploreThemes / IslandSeedEntity), but it
+            // does NOT force a build (ExploreThemes.forcesRare == false). Listed first as the primary seed.
+            "wild", "wild_large", "huge_wild",
             "forest", "forest_large", "rocky", "rocky_large", "desert", "desert_large",
             "mushroom", "mushroom_large", "frozen", "frozen_large", "meadow", "meadow_large",
             "badlands", "badlands_large", "ancient", "ancient_large", "lush", "lush_large",
@@ -146,8 +151,8 @@ public final class ModItems {
         }
     }
 
-    /** The canonical seed, used as the fallback display item for the thrown entity. */
-    public static final DeferredItem<IslandSeedItem> DEFAULT_SEED = SEEDS.get("forest");
+    /** The canonical seed, used as the fallback display item for the thrown entity — now the adaptive Wild Skyseed. */
+    public static final DeferredItem<IslandSeedItem> DEFAULT_SEED = SEEDS.get("wild");
 
     /** Every Skyseed item — the guide recipe accepts any one of these; add-on seeds should join this tag. */
     public static final TagKey<Item> SKYSEEDS =

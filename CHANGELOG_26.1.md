@@ -9,6 +9,85 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.213.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 2 COMPLETE — the Farmer's Delight batch (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B24).** The last single-mod Band 2 build — a `requires`-gated rare surprise building that germinates on an ordinary
+  island only when **Farmer's Delight** is installed: the **Overgrown Cook's Homestead** (Forest / Meadow, no mobs) — a
+  kitchen cottage abandoned to the weeds, with a 5×5 log-and-cobble cabin, a caved roof, a breached wall where a cold
+  campfire hearth vents up an external cobblestone chimney jutting broken above the ridge, the Farmer's Delight kitchen
+  inside (a cold stove + cooking pot, skillet, cutting board, cabinets, the scrap chest), and a weed-choked front garden of
+  FD crops on vanilla farmland with a rotting stack of produce crates. Vanilla shell with modded fittings (authored via the
+  `modNames` side-map over `SMOKER`/`STONE`/`WHEAT` analogs, so they resolve to air without the mod and the vanilla shell is
+  the gametest anchor). Loot is flavour-only (FD has no progression gate): a vanilla larder-scrap chest + two inert
+  `add_drop` GLMs layering a little raw produce (onion) and rope. Wired **w3** across all three tiers of Forest + Meadow; an
+  adversarial review before the regen fixed two corner-post overwrites. Both nodes green (1.21.1: 200, 26.1.2: 202).
+  **Band 2 is now complete (B13–B24)** — eleven mod-gated rare surprise buildings across Create, Immersive Engineering,
+  Applied Energistics 2, Iron's Spells, Mystical Agriculture and Farmer's Delight, each inert without its mod.
+
+## [0.212.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 2 — the Mystical Agriculture batch (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B23).** One more `requires`-gated rare surprise building that germinates on an ordinary island only when **Mystical
+  Agriculture** is installed: the **Abandoned Inferium Plot** (Meadow / Hamlet) — an essence farm gone to seed, with an
+  irregular tilled bed of inferium farmland (rows trampled to coarse dirt, several bare) around a water-cauldron trough, a
+  scatter of tier-1 essence crops, a lop-sided carved-pumpkin scarecrow, a caved tool lean-to over the scrap chest, a
+  toppled inferium growth accelerator, hay straw and a broken oak-fence perimeter with a swung-open gate. Mostly-vanilla:
+  only the farmland/crops/accelerator are modded (authored via the `modNames` side-map over `FARMLAND`/`WHEAT`/`STONE`
+  analogs, so they resolve to air without the mod and the vanilla shell is the gametest anchor). Loot is gate-safe (D4/§5):
+  a vanilla farm-scrap chest + two inert `add_drop` GLMs layering a little tier-1 Inferium Essence / Prosperity Shard, never
+  a seed, a higher-tier essence or a prosperity/infusion component. Wired **w3** across all three tiers of Meadow + Hamlet;
+  an adversarial review before the regen fixed three placement bugs. Both nodes green (1.21.1: 199, 26.1.2: 201).
+
+## [0.211.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 2 — the Iron's Spells & Spellbooks batch (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B20–B22).** Three more `requires`-gated rare surprise buildings that germinate on an ordinary island only when
+  **Iron's Spells** is installed: a **Small Wizard's Hut** (Forest / Meadow) under a pointed witch-hat spire, a two-storey
+  **Wizard's Tower** (Rocky / Ancient) with a laddered shaft, arrow-slits and a jutting balcony, and a **Cursed Obelisk**
+  (Ancient / Badlands) — a tapering blackstone/deepslate spire over a soul-lantern altar with a wither rose and a carved
+  necromancer alcove. All three are **all-vanilla** architecture (Iron's is a mob/item mod, so there is no `modNames`
+  side-map — the flavour is the `requires: ["irons_spellbooks"]` gate, the mage `mobs` pack, and the loot). Loot is
+  gate-safe (D4/§5): a vanilla arcane-scrap chest + two inert `add_drop` GLMs layering a token Arcane Essence / Common Ink,
+  never an Upgrade Orb or named scroll. Wired **w3** across all three tiers of Forest+Meadow (Hut), Rocky+Ancient (Tower),
+  Ancient+Badlands (Obelisk); an adversarial review before the regen fixed three placement bugs. Both nodes green
+  (1.21.1: 198, 26.1.2: 200).
+
+## [0.210.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 2 — the Applied Energistics 2 batch (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B19).** The AE2-gated **Gutted AE2 Lab** (Rocky/Ancient) ships to this node too (shared authoring code + the
+  1.21.1-authored `.nbt` via DataFixerUpper). Germinates only with Applied Energistics 2 (`requires: ["ae2"]`, filtered
+  before any RNG) and is inert-safe without it: the `ae2:` certus/fluix quartz blocks resolve to air, the vanilla ruin
+  shell + gate-safe scrap loot load clean. **D4-safe** — no sky stone / controller / press (the meteorite-island gate).
+  Wired w3 across all three tiers of the two families. One new assembly gametest on this suite mirror. Gametests green (197).
+
+## [0.209.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 2 — the Immersive Engineering batch (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B17–B18).** The two IE-gated rare buildings — **Dilapidated IE Factory** (Rocky/Badlands) and **Fallen Powerline**
+  (Meadow/Desert) — ship to this node too (shared authoring code + the 1.21.1-authored `.nbt` via DataFixerUpper). Each
+  germinates only with Immersive Engineering (`requires: ["immersiveengineering"]`, filtered before any RNG) and is
+  inert-safe without it: the `immersiveengineering:` machinery resolves to air, the vanilla ruin shell + gate-safe scrap
+  loot load clean. Wired w3 across all three tiers of the four families. Two new assembly gametests on this suite mirror.
+  Gametests green (196).
+
+## [0.208.0] - 2026-07-04
+
+### Added
+- **Structure Variety Band 2 — the Create batch (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B13–B16).** The four Create-gated rare surprise buildings — **Broken Windmill**, **Derelict Watermill**, **Abandoned
+  Train Shed**, **Rusted Drill Rig** — ship to this node too: shared authoring code + the 1.21.1-authored structure `.nbt`
+  loaded here via DataFixerUpper. Each germinates only when Create is installed (`requires: ["create"]`, filtered before
+  any RNG) and is inert-safe without it — the `create:` machinery resolves to air and the gate-safe scrap loot loads
+  clean. Wired at weight 3 across all three tiers of Meadow/Aquatic/Rocky/Badlands/Desert + the Hamlet windmill. Five new
+  gametests on this suite mirror (four on-pad assembly tests + a `requires`-gate inert test). Gametests green (194).
+
 ## [0.207.0] - 2026-07-04
 
 ### Added

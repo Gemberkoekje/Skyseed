@@ -27,9 +27,9 @@ import java.util.Optional;
 public record IslandTheme(Shape shape, Palette palette, List<OreEntry> ores, List<Variant> variants,
                           List<BiomeOverride> biomeOverrides, Optional<Pond> pond, List<MobEntry> mobs,
                           Optional<JigsawConfig> jigsaw, List<AnimalPack> animals, List<RareStructure> rareStructures,
-                          Optional<Lava> lava, List<String> dimensions, Optional<Id> twin,
-                          Optional<LadderShaft> ladderShaft, Optional<FizzleRule> fizzle, Optional<Caves> caves,
-                          Optional<Meteor> meteor) {
+                          Optional<Float> rareStructureChance, Optional<Lava> lava, List<String> dimensions,
+                          Optional<Id> twin, Optional<LadderShaft> ladderShaft, Optional<FizzleRule> fizzle,
+                          Optional<Caves> caves, Optional<Meteor> meteor) {
 
     /** True if this theme's base config is an implementation for {@code dim} (its declared {@code dimensions}). */
     public boolean baseValidIn(String dim) {
@@ -51,7 +51,9 @@ public record IslandTheme(Shape shape, Palette palette, List<OreEntry> ores, Lis
             MobEntry.CODEC.listOf().optionalFieldOf("mobs", List.of()).forGetter(IslandTheme::mobs),
             JigsawConfig.CODEC.optionalFieldOf("jigsaw").forGetter(IslandTheme::jigsaw),
             AnimalPack.CODEC.listOf().optionalFieldOf("animals", List.of()).forGetter(IslandTheme::animals),
-            RareStructure.CODEC.listOf().optionalFieldOf("rare_structures", List.of()).forGetter(IslandTheme::rareStructures),
+            // The rare-structure table + its optional single per-seed gate, folded into ONE codec slot so the group
+            // stays within DFU's 16-field limit (both stay top-level in the JSON). See {@link Rares}.
+            Rares.CODEC.forGetter(t -> new Rares(t.rareStructures(), t.rareStructureChance())),
             Lava.CODEC.optionalFieldOf("lava").forGetter(IslandTheme::lava),
             Codec.STRING.listOf().optionalFieldOf("dimensions", List.of("minecraft:overworld")).forGetter(IslandTheme::dimensions),
             // If present, germinating this island also grows the named theme at the vanilla 8:1 dimension-linked
@@ -71,15 +73,27 @@ public record IslandTheme(Shape shape, Palette palette, List<OreEntry> ores, Lis
             Carve.CODEC.forGetter(t -> new Carve(t.caves(), t.meteor()))
     ).apply(i, IslandTheme::from));
 
-    /** Reassembles the record from the codec's 16 group values (the last being the combined {@link Carve} slot). */
+    /** Reassembles the record from the codec's 16 group values (the {@link Rares} + {@link Carve} slots split back). */
     private static IslandTheme from(Shape shape, Palette palette, List<OreEntry> ores, List<Variant> variants,
                                     List<BiomeOverride> biomeOverrides, Optional<Pond> pond, List<MobEntry> mobs,
                                     Optional<JigsawConfig> jigsaw, List<AnimalPack> animals,
-                                    List<RareStructure> rareStructures, Optional<Lava> lava, List<String> dimensions,
+                                    Rares rares, Optional<Lava> lava, List<String> dimensions,
                                     Optional<Id> twin, Optional<LadderShaft> ladderShaft, Optional<FizzleRule> fizzle,
                                     Carve carve) {
         return new IslandTheme(shape, palette, ores, variants, biomeOverrides, pond, mobs, jigsaw, animals,
-                rareStructures, lava, dimensions, twin, ladderShaft, fizzle, carve.caves(), carve.meteor());
+                rares.structures(), rares.chance(), lava, dimensions, twin, ladderShaft, fizzle,
+                carve.caves(), carve.meteor());
+    }
+
+    /** The rare-structure table + its optional single per-seed gate ({@code rare_structure_chance}), combined into
+     *  one {@link #CODEC} slot to keep the group within DFU's 16-field limit (both stay top-level in the JSON). When
+     *  {@code chance} is present the generator uses the weighted-gate model; absent, the legacy per-entry model — so
+     *  an unmigrated theme (Nether/End) stays byte-identical. See {@code VARIETYSTRUCTUREPLAN.md} D1. */
+    private record Rares(List<RareStructure> structures, Optional<Float> chance) {
+        static final MapCodec<Rares> CODEC = RecordCodecBuilder.mapCodec(c -> c.group(
+                RareStructure.CODEC.listOf().optionalFieldOf("rare_structures", List.of()).forGetter(Rares::structures),
+                Codec.FLOAT.optionalFieldOf("rare_structure_chance").forGetter(Rares::chance)
+        ).apply(c, Rares::new));
     }
 
     /** The two terrain-carving optionals ({@code caves} + {@code meteor}), combined into one {@link #CODEC} slot to

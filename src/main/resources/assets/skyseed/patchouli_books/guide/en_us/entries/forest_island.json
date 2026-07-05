@@ -1,12 +1,13 @@
 {
   "name": "Forest Island",
   "category": "skyseed:overworld",
+  "advancement": "skyseed:reveal_forest",
   "icon": "minecraft:oak_sapling",
-  "sortnum": 0,
+  "sortnum": 22,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "The $(item)Forest Skyseed$() — dirt and planks, both off your $(bold)starter island$(). The first seed you can make."
+      "text": "The $(item)Forest Skyseed$() — now $(bold)logs$() and dirt. Where the $(item)Wild Skyseed$() becomes whatever biome it lands on, this one $(bold)always$() grows a grassy, wooded island — the seed to reach for when you want trees no matter where you throw it."
     },
     {
       "type": "patchouli:crafting",

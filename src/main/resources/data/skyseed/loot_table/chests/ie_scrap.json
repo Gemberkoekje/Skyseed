@@ -1,0 +1,30 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 2 (D3/D4) — the Immersive Engineering derelicts' chest. Vanilla industrial scrap only, so it loads inert without IE yet is a real reward (D3); a token IE component/plate/wire is layered on via the inert-safe skyseed:ie_scrap / ie_wire add_drop GLMs. Never an IE rich table, a complete multiblock, a high-tier blueprint, or bulk metals that skip the IE ore loop (D4/§5).",
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": { "min": 2, "max": 3 },
+      "entries": [
+        { "type": "minecraft:item", "name": "minecraft:iron_ingot", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:iron_nugget", "weight": 6,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 6 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:copper_ingot", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:redstone", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 6 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:coal", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 5 } } ] }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        { "type": "minecraft:empty", "weight": 5 },
+        { "type": "minecraft:item", "name": "minecraft:gunpowder", "weight": 2,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:experience_bottle", "weight": 1 }
+      ]
+    }
+  ]
+}

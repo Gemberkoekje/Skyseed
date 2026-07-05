@@ -24,12 +24,25 @@
     { "block": "minecraft:amethyst_block", "chance": 0.30, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 5 }, "depth": "core" },
     { "block": "minecraft:budding_amethyst", "chance": 0.15, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 1, "max": 3 }, "depth": "core" }
   ],
+  "_comment_rare": "VARIETYSTRUCTUREPLAN D5 — flat 5% gate (was ~15% stacked); per-entry chances → weights (round chance×100).",
+  "rare_structure_chance": 0.05,
   "rare_structures": [
-    { "chance": 0.10,
+    { "weight": 3, "requires": ["irons_spellbooks"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Wizard's Tower (inert without Iron's Spells).",
+      "jigsaw": { "pool": "skyseed:wizard_tower/tower", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:archevoker", "adults": 1 }, { "entity": "irons_spellbooks:magehunter_vindicator", "adults": 1 } ] } ] },
+    { "weight": 3, "requires": ["irons_spellbooks"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Cursed Obelisk (inert without Iron's Spells).",
+      "jigsaw": { "pool": "skyseed:cursed_obelisk/obelisk", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:necromancer", "adults": 1 } ] } ] },
+    { "weight": 3, "requires": ["ae2"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Gutted AE2 Lab (inert without Applied Energistics 2).",
+      "jigsaw": { "pool": "skyseed:ae2_lab/lab", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:zombie", "adults": 1 } ] } ] },
+    { "weight": 6,
+      "jigsaw": { "pool": "skyseed:cairn/shrine", "target": "minecraft:bottom", "depth": 1, "pad": 4 } },
+    { "weight": 10,
       "jigsaw": { "pool": "skyseed:trail_ruins/ruins", "target": "minecraft:bottom", "depth": 1, "pad": 4, "sink": 3 } },
-    { "chance": 0.05,
+    { "weight": 5,
       "jigsaw": { "pool": "skyseed:dungeon/buried", "target": "minecraft:bottom", "depth": 1, "pad": 5, "sink": 5 } },
-    { "chance": 0.01,
+    { "weight": 1,
       "jigsaw": { "pool": "skyseed:ruined_portal/portal", "target": "minecraft:bottom", "depth": 1, "pad": 4 }, "twin": "skyseed:ruined_portal" }
   ],
   "variants": [

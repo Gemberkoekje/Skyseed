@@ -230,26 +230,83 @@ public final class IslandGenerator {
     }
 
     /**
-     * Roll for a rare structure (the first whose chance hits) that germinates in place of the usual island. Gated to the
-     * theme's home dimension unless the structure names its own. Consumes one RNG roll per candidate up to the hit.
+     * Roll for a rare structure that germinates in place of the usual island. Two models (VARIETYSTRUCTUREPLAN D1): a
+     * theme that declares a {@code rare_structure_chance} uses {@link #rollWeighted} (one per-seed gate, then a weighted
+     * pick); one that doesn't uses {@link #rollLegacy} (the first whose own chance hits — kept byte-identical for the
+     * unmigrated Nether/End themes). Gated to the theme's home dimension unless the structure names its own.
      */
     private static RareStructure rollRare(ServerLevel level, IslandTheme theme, Holder<Biome> biome, Resolved cfg,
                                           RandomSource random, int forcedRare) {
-        // A debug seed can force a specific rare structure (bypassing the chance + dimension/biome gates entirely).
-        if (forcedRare >= 0 && forcedRare < theme.rareStructures().size()) {
-            return theme.rareStructures().get(forcedRare);
+        final List<RareStructure> declared = theme.rareStructures();
+        // A debug seed can force a specific rare structure (bypassing the gate + dimension/biome/mod gates entirely).
+        if (forcedRare >= 0 && forcedRare < declared.size()) {
+            return declared.get(forcedRare);
         }
-        for (final RareStructure rs : theme.rareStructures()) {
-            // Skip a rare whose jigsaw pool isn't registered (a mod structure the pack doesn't have). The gate is checked
-            // BEFORE the chance roll, so an absent-pool rare consumes no RNG and never levels a bald pad for a building
-            // that can't assemble — the same inert tolerance the theme system gives an unknown block id.
-            if (rs.rollsIn(cfg.dim(), cfg.useBase()) && rs.matchesBiome(biome)
-                    && Lookup.hasTemplatePool(level.registryAccess(), rs.jigsaw().pool())
-                    && random.nextFloat() < rs.chance()) {
+        final Optional<Float> gate = theme.rareStructureChance();
+        return gate.isPresent()
+                ? rollWeighted(level, declared, biome, cfg, random, gate.get())
+                : rollLegacy(level, declared, biome, cfg, random);
+    }
+
+    /**
+     * Legacy per-entry model: the first rare whose own {@code chance} hits. Used by any theme that declares no
+     * {@code rare_structure_chance} (the Nether/End themes + anything unmigrated), so their generation is byte-identical
+     * to before the weighted-gate model landed. Consumes one RNG roll per candidate up to the hit.
+     */
+    private static RareStructure rollLegacy(ServerLevel level, List<RareStructure> rares, Holder<Biome> biome,
+                                            Resolved cfg, RandomSource random) {
+        for (final RareStructure rs : rares) {
+            // The eligibility gate (dimension/biome/mod/pool) is checked BEFORE the chance roll, so an absent-pool or
+            // absent-mod rare consumes no RNG — the same inert tolerance the theme system gives an unknown block id.
+            if (eligible(level, rs, biome, cfg) && random.nextFloat() < rs.chance()) {
                 return rs;
             }
         }
         return null;
+    }
+
+    /**
+     * Weighted-gate model (VARIETYSTRUCTUREPLAN D1/A2): one per-seed {@code gate} roll, then a pick among the eligible
+     * candidates weighted by {@code weight}. To hold the inert-without-the-mod / determinism-parity invariant, the gate
+     * float is drawn whenever the theme <em>declares</em> rares (not per eligibility), and on a hit exactly one
+     * selection float is drawn regardless of how many candidates are eligible — so an absent mod changes only which
+     * structure is picked, never the RNG stream. Zero eligible on a hit → nothing (it "would have" been there w/ the mod).
+     */
+    private static RareStructure rollWeighted(ServerLevel level, List<RareStructure> rares, Holder<Biome> biome,
+                                              Resolved cfg, RandomSource random, float gate) {
+        if (rares.isEmpty()) {
+            return null;
+        }
+        final boolean hit = random.nextFloat() < gate;
+        int totalWeight = 0;
+        final List<RareStructure> candidates = new ArrayList<>();
+        for (final RareStructure rs : rares) {
+            if (eligible(level, rs, biome, cfg)) {
+                candidates.add(rs);
+                totalWeight += Math.max(1, rs.weight());
+            }
+        }
+        if (!hit) {
+            return null;
+        }
+        final float pick = random.nextFloat() * totalWeight; // drawn on every hit → constant RNG cost, mod-independent
+        float acc = 0f;
+        for (final RareStructure rs : candidates) {
+            acc += Math.max(1, rs.weight());
+            if (pick < acc) {
+                return rs;
+            }
+        }
+        return null; // no eligible candidate, or float rounding at the top of the range
+    }
+
+    /**
+     * Whether a rare structure may germinate here: right dimension, matching biome, required mods present, and its
+     * jigsaw pool registered — all checked BEFORE any RNG so an absent pool/mod costs no roll (inert-without-the-mod).
+     */
+    private static boolean eligible(ServerLevel level, RareStructure rs, Holder<Biome> biome, Resolved cfg) {
+        return rs.rollsIn(cfg.dim(), cfg.useBase()) && rs.matchesBiome(biome) && rs.requiresPresent()
+                && Lookup.hasTemplatePool(level.registryAccess(), rs.jigsaw().pool());
     }
 
     /** Materialise the block map into the plan's placement list, sorted bottom-up so the grow-in animation rises. */

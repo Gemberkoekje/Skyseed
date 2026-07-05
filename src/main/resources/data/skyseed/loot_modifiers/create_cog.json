@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 2 (D4/§5) — layers a single Cogwheel (a trophy kinetic gadget) onto the Create derelicts' chest. Inert without Create (AddDropModifier + Lookup.hasItem). Gate-safe: one common cog, never bulk drivetrain parts.",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/create_scrap" }
+  ],
+  "item": "create:cogwheel",
+  "chance": 0.3
+}

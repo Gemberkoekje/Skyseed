@@ -15,11 +15,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(bold)A living world$()$(br)An island's look depends on the biome it lands in. The same Forest Skyseed grows oak in a forest, acacia in a savanna, sparse grass in plains, and dry dirt and sand in the desert."
+      "text": "$(bold)A living world$()$(br)An island's look depends on the biome it lands in. A $(item)Wild Skyseed$() leans all the way in: thrown over a forest it grows a wood, over a savanna acacia, over plains sparse grass, over a desert sand and cactus — the biome's very own island, whatever it is."
     },
     {
       "type": "patchouli:text",
-      "text": "$(bold)How this book works$()$(br)It unfolds as you play. Most pages appear once you've crafted the island before them; the rarer ones — farms, ruins, monuments — stay a locked $(bold)?$() until you $(bold)find the item they call for$() (a feather, a totem, a sponge). A page then shows $(bold)what to gather$(), reveals its $(bold)recipe$() when you hold the makings, and unlocks its $(bold)field notes$() the moment you craft it.$(br2)Start with the $(item)Forest Skyseed$() and follow the trail."
+      "text": "$(bold)How this book works$()$(br)It unfolds as you play. Most pages appear once you've crafted the island before them; the rarer ones — farms, ruins, monuments — stay a locked $(bold)?$() until you $(bold)find the item they call for$() (a feather, a totem, a sponge). A page then shows $(bold)what to gather$(), reveals its $(bold)recipe$() when you hold the makings, and unlocks its $(bold)field notes$() the moment you craft it.$(br2)Start with the $(item)Wild Skyseed$() and follow the trail."
     }
   ]
 }

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "DSD",
+    "EGB",
+    "DWD"
+  ],
+  "key": {
+    "D": "minecraft:dirt",
+    "S": "minecraft:sand",
+    "E": "minecraft:ender_pearl",
+    "G": "skyseed:wild_large_skyseed",
+    "B": "minecraft:blaze_powder",
+    "W": "minecraft:kelp"
+  },
+  "result": {
+    "id": "skyseed:huge_wild_skyseed"
+  }
+}

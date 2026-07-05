@@ -43,10 +43,12 @@
     { "block": "minecraft:amethyst_block", "chance": 0.3, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 2, "max": 5 }, "depth": "core" },
     { "block": "minecraft:budding_amethyst", "chance": 0.15, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 1, "max": 3 }, "depth": "core" }
   ],
+  "_comment_rare": "VARIETYSTRUCTUREPLAN D5 — flat 5% gate (was ~10%); per-entry chances → weights (round chance×100).",
+  "rare_structure_chance": 0.05,
   "rare_structures": [
     {
-      "_comment": "6% — an Ancient City ruin: deepslate plaza, soul fire, can-summon shriekers (wake the Warden), ancient_city loot.",
-      "chance": 0.06,
+      "_comment": "An Ancient City ruin: deepslate plaza, soul fire, can-summon shriekers (wake the Warden), ancient_city loot. Kept FIRST (index 0) — the debugForcedRareGerminatesItsStructure gametest forces rare #0 here.",
+      "weight": 6,
       "jigsaw": {
         "pool": "skyseed:ancient_city/plaza",
         "target": "minecraft:bottom",
@@ -56,9 +58,18 @@
       },
       "mobs": []
     },
+    { "weight": 3, "requires": ["irons_spellbooks"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Wizard's Tower (inert without Iron's Spells).",
+      "jigsaw": { "pool": "skyseed:wizard_tower/tower", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:archevoker", "adults": 1 }, { "entity": "irons_spellbooks:magehunter_vindicator", "adults": 1 } ] } ] },
+    { "weight": 3, "requires": ["irons_spellbooks"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Cursed Obelisk (inert without Iron's Spells).",
+      "jigsaw": { "pool": "skyseed:cursed_obelisk/obelisk", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:necromancer", "adults": 1 } ] } ] },
+    { "weight": 3, "requires": ["ae2"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Gutted AE2 Lab (inert without Applied Energistics 2).",
+      "jigsaw": { "pool": "skyseed:ae2_lab/lab", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:zombie", "adults": 1 } ] } ] },
     {
       "_comment": "Catacombs — skyseed's home-curated grand crypt (IRONSCONTENTGAPPLAN §Catacombs), restoring Iron's Spells' flagship DEAD KING boss (the mod's own catacombs digs a straight shaft, unfit for an island). One bounded 21×21 piece that descends ~16 into the deep deepslate body: a broken surface mausoleum (+ a ruined wing) → an antechamber → a bone-lined ossuary → the Crypt of the Dead King, linked by a winding stair, with a distinct side crypt bulging off two of the chambers into the corners. The dead_king_corpse (dormant boss) + cursed_armor_stand honour guard are baked into the boss chamber; catacombs_zombie spawners keep the crypt levels rising (kept dark). The mod's necromancer + cultists guard the mouth via this mobs pack (inert-safe). Not a mod pool — always present. sink 16 seats the mausoleum at the surface. Sits alongside the Ancient City as an alternative deep-ruin roll (more structure variety).",
-      "chance": 0.045,
+      "weight": 5,
       "jigsaw": {
         "pool": "skyseed:catacombs/crypt",
         "target": "minecraft:bottom",

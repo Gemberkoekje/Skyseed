@@ -81,6 +81,7 @@ public record ThemeOverride(Id target, Patch patch) {
                     jigsaw.isPresent() ? jigsaw : base.jigsaw(),
                     concat(base.animals(), animals),
                     concat(base.rareStructures(), rareStructures),
+                    base.rareStructureChance(), // the per-seed gate is base-theme only — overrides append structures, not the rate
                     lava.isPresent() ? lava : base.lava(),
                     concat(base.dimensions(), dimensions),
                     twin.isPresent() ? twin : base.twin(),

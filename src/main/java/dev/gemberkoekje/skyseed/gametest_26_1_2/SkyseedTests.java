@@ -221,6 +221,32 @@ public final class SkyseedTests {
         reg(event, "mansion_assembles_with_flush_wings", BIG_REGION, SkyseedTests::mansionAssemblesWithFlushWings);
         reg(event, "mansion_cores_have_distinct_footprints", REGION, SkyseedTests::mansionCoresHaveDistinctFootprints);
         reg(event, "village_houses_use_vanilla_blocks", BIG_REGION, SkyseedTests::villageHousesUseVanillaBlocks);
+        reg(event, "tool_shed_assembles", BIG_REGION, SkyseedTests::toolShedAssembles);
+        reg(event, "cairn_assembles", BIG_REGION, SkyseedTests::cairnAssembles);
+        reg(event, "graveyard_assembles", BIG_REGION, SkyseedTests::graveyardAssembles);
+        reg(event, "collapsed_cabin_assembles", BIG_REGION, SkyseedTests::collapsedCabinAssembles);
+        reg(event, "fossil_dig_assembles", BIG_REGION, SkyseedTests::fossilDigAssembles);
+        reg(event, "overgrown_well_assembles", BIG_REGION, SkyseedTests::overgrownWellAssembles);
+        reg(event, "fishing_camp_assembles", BIG_REGION, SkyseedTests::fishingCampAssembles);
+        reg(event, "ruined_farmstead_assembles", BIG_REGION, SkyseedTests::ruinedFarmsteadAssembles);
+        reg(event, "hunters_blind_assembles", BIG_REGION, SkyseedTests::huntersBlindAssembles);
+        reg(event, "mine_head_assembles", BIG_REGION, SkyseedTests::mineHeadAssembles);
+        reg(event, "prospectors_camp_assembles", BIG_REGION, SkyseedTests::prospectorsCampAssembles);
+        reg(event, "bandit_camp_assembles", BIG_REGION, SkyseedTests::banditCampAssembles);
+        // VARIETYSTRUCTUREPLAN Band 2 — Create-gated rare ruins (assert the vanilla shell; create: ids are AIR here):
+        reg(event, "windmill_assembles", BIG_REGION, SkyseedTests::windmillAssembles);
+        reg(event, "watermill_assembles", BIG_REGION, SkyseedTests::watermillAssembles);
+        reg(event, "train_shed_assembles", BIG_REGION, SkyseedTests::trainShedAssembles);
+        reg(event, "drill_rig_assembles", BIG_REGION, SkyseedTests::drillRigAssembles);
+        reg(event, "create_rare_gate_is_inert_without_mod", REGION, SkyseedTests::createRareGateIsInertWithoutMod);
+        reg(event, "ie_factory_assembles", BIG_REGION, SkyseedTests::ieFactoryAssembles);
+        reg(event, "powerline_assembles", BIG_REGION, SkyseedTests::powerlineAssembles);
+        reg(event, "ae2_lab_assembles", BIG_REGION, SkyseedTests::ae2LabAssembles);
+        reg(event, "wizard_hut_assembles", BIG_REGION, SkyseedTests::wizardHutAssembles);
+        reg(event, "wizard_tower_assembles", BIG_REGION, SkyseedTests::wizardTowerAssembles);
+        reg(event, "cursed_obelisk_assembles", BIG_REGION, SkyseedTests::cursedObeliskAssembles);
+        reg(event, "inferium_plot_assembles", BIG_REGION, SkyseedTests::inferiumPlotAssembles);
+        reg(event, "cook_homestead_assembles", BIG_REGION, SkyseedTests::cookHomesteadAssembles);
         // batch b — End-chapter / monument / ancient-city structure assembly:
         reg(event, "end_portal_chamber_has_twelve_empty_frames", BIG_REGION, SkyseedTests::endPortalChamberHasTwelveEmptyFrames);
         reg(event, "return_portal_shrine_has_end_portal", BIG_REGION, SkyseedTests::returnPortalShrineHasEndPortal);
@@ -2850,6 +2876,21 @@ public final class SkyseedTests {
                 "explore_large over desert should grow desert_large");
         helper.assertTrue("skyseed:huge_desert".equals(dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.resolveHuge(d).value()),
                 "huge_explore over desert should grow huge_desert");
+        // WILDSEEDPLAN: the Wild seed shares the adaptive biome->theme resolution but never forces a build, and its base
+        // fallback is Forest (a plain wooded island), not the build-forcing explore.json.
+        helper.assertTrue("skyseed:desert".equals(dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.resolveFor(
+                dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.WILD, d).value()), "wild over desert should grow desert");
+        helper.assertTrue("skyseed:huge_desert".equals(dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.resolveFor(
+                dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.WILD_HUGE, d).value()), "huge_wild over desert should grow huge_desert");
+        final var voidBiome = Lookup.biomeHolder(helper.getLevel().registryAccess(), Id.of("minecraft:the_void"));
+        if (voidBiome != null) {
+            helper.assertTrue("skyseed:forest".equals(dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.resolveWildBase(voidBiome).value()),
+                    "wild over an unmapped biome should fall back to forest, not explore");
+        }
+        helper.assertTrue(!dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.forcesRare(
+                dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.WILD), "wild must NOT force a build");
+        helper.assertTrue(dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.forcesRare(
+                dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes.MARKER), "explore MUST force a build");
         helper.succeed();
     }
 
@@ -3186,6 +3227,658 @@ public final class SkyseedTests {
         helper.assertTrue(strippedPost, "village house must use stripped-log corner posts (the vanilla frame)");
         helper.assertTrue(pane, "village house windows must be glass panes");
         helper.assertTrue(cobble, "village house must sit on a cobblestone foundation");
+        helper.succeed();
+    }
+
+    static void toolShedAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 1 — the common Tool Shed: assemble its single-piece pool and confirm the derelict
+        // kit landed (oak-log corner posts, the loot chest, a cobweb, the glass-pane window). Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("tool_shed/shed"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean log = false, chest = false, web = false, pane = false, fence = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.OAK_LOG)) log = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                    else if (s.is(Blocks.COBWEB)) web = true;
+                    else if (s.is(Blocks.GLASS_PANE)) pane = true;
+                    else if (s.is(Blocks.OAK_FENCE)) fence = true;
+                }
+            }
+        }
+        helper.assertTrue(log, "tool shed must have oak-log corner posts");
+        helper.assertTrue(chest, "tool shed must place its loot chest");
+        helper.assertTrue(web, "tool shed must be cobwebbed (derelict)");
+        helper.assertTrue(pane, "tool shed must have a glass-pane window");
+        helper.assertTrue(fence, "tool shed must have its lean-to woodshed posts (not a plain box)");
+        helper.succeed();
+    }
+
+    static void cairnAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 1 — the Roadside Shrine/Cairn: assemble its pool and confirm the shrine kit landed
+        // (stone-brick columns, the wall-post altar, its lantern, the offering chest). Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("cairn/shrine"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean bricks = false, altar = false, lantern = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.STONE_BRICKS)) bricks = true;
+                    else if (s.is(Blocks.STONE_BRICK_WALL)) altar = true;
+                    else if (s.is(Blocks.LANTERN)) lantern = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(bricks, "cairn must have stone-brick columns");
+        helper.assertTrue(altar, "cairn must have its wall-post altar");
+        helper.assertTrue(lantern, "cairn must be lit by a lantern");
+        helper.assertTrue(chest, "cairn must place its offering chest");
+        helper.succeed();
+    }
+
+    static void graveyardAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 1 — the Graveyard Corner: assemble its pool and confirm the boneyard landed
+        // (headstone wall posts, the broken fence rail, a wither rose, the coffin chest). Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("graveyard/plot"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean headstone = false, fence = false, rose = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.COBBLESTONE_WALL) || s.is(Blocks.ANDESITE_WALL)) headstone = true;
+                    else if (s.is(Blocks.OAK_FENCE)) fence = true;
+                    else if (s.is(Blocks.WITHER_ROSE)) rose = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(headstone, "graveyard must have headstone wall posts");
+        helper.assertTrue(fence, "graveyard must have its broken fence rail (not a plain box)");
+        helper.assertTrue(rose, "graveyard must have a wither rose");
+        helper.assertTrue(chest, "graveyard must place its coffin chest");
+        helper.succeed();
+    }
+
+    static void collapsedCabinAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 1 — the Collapsed Cabin: assemble its pool and confirm the frame + the collapse
+        // landed (spruce-log posts, the cobblestone chimney, the snowy-village chest, snow blown in). Loads dev .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("collapsed_cabin/cabin"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean logs = false, chimney = false, chest = false, snow = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.SPRUCE_LOG)) logs = true;
+                    else if (s.is(Blocks.COBBLESTONE)) chimney = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                    else if (s.is(Blocks.SNOW)) snow = true;
+                }
+            }
+        }
+        helper.assertTrue(logs, "cabin must have spruce-log corner posts");
+        helper.assertTrue(chimney, "cabin must have its cobblestone chimney");
+        helper.assertTrue(chest, "cabin must place its loot chest");
+        helper.assertTrue(snow, "cabin must have snow blown in through the collapse (not a plain box)");
+        helper.succeed();
+    }
+
+    static void fossilDigAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 1 — the Fossil Dig: assemble its pool and confirm the site landed (bone fossil,
+        // brushable suspicious sand, the scaffold dig-frame, the tools chest). Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("fossil_dig/dig"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean bone = false, dig = false, scaffold = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.BONE_BLOCK)) bone = true;
+                    else if (s.is(Blocks.SUSPICIOUS_SAND) || s.is(Blocks.SUSPICIOUS_GRAVEL)) dig = true;
+                    else if (s.is(Blocks.SCAFFOLDING)) scaffold = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(bone, "fossil dig must have its bone-block skeleton");
+        helper.assertTrue(dig, "fossil dig must have brushable archaeology blocks");
+        helper.assertTrue(scaffold, "fossil dig must have its scaffold dig-frame (not a plain box)");
+        helper.assertTrue(chest, "fossil dig must place its tools chest");
+        helper.succeed();
+    }
+
+    static void overgrownWellAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 1 — the Overgrown Well: assemble its pool and confirm the well landed (a walled
+        // cobble curb, its contained water pool, the chain winch, the traveller's chest). Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("overgrown_well/well"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean curb = false, water = false, lantern = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.COBBLESTONE)) curb = true;
+                    else if (s.is(Blocks.WATER)) water = true;
+                    else if (s.is(Blocks.LANTERN)) lantern = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(curb, "well must have its cobble curb");
+        helper.assertTrue(water, "well must hold its contained water pool");
+        helper.assertTrue(lantern, "well must have its winch lantern (not a plain box)");
+        helper.assertTrue(chest, "well must place its traveller's chest");
+        helper.succeed();
+    }
+
+    static void fishingCampAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 1 — the Beached Fishing Camp: assemble its pool and confirm the camp landed (the
+        // rowboat gunwale stairs, the fisher's chest, the dead campfire, a bale of dried kelp). Loads dev .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("fishing_camp/camp"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean boat = false, chest = false, campfire = false, kelp = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.SPRUCE_STAIRS)) boat = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                    else if (s.is(Blocks.CAMPFIRE)) campfire = true;
+                    else if (s.is(Blocks.DRIED_KELP_BLOCK)) kelp = true;
+                }
+            }
+        }
+        helper.assertTrue(boat, "fishing camp must have its rowboat gunwale stairs");
+        helper.assertTrue(chest, "fishing camp must place its fisher's chest");
+        helper.assertTrue(campfire, "fishing camp must have its campfire (not a plain box)");
+        helper.assertTrue(kelp, "fishing camp must have a bale of dried kelp");
+        helper.succeed();
+    }
+
+    static void ruinedFarmsteadAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 1 — the Ruined Farmstead: assemble its pool and confirm the plot landed (the broken
+        // fence pen, the carved-pumpkin scarecrow, a hay bale, the stores chest). Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("farmstead/plot"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean pen = false, scarecrow = false, hay = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.OAK_FENCE)) pen = true;
+                    else if (s.is(Blocks.CARVED_PUMPKIN)) scarecrow = true;
+                    else if (s.is(Blocks.HAY_BLOCK)) hay = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(pen, "farmstead must have its split-rail fence pen");
+        helper.assertTrue(scarecrow, "farmstead must have its carved-pumpkin scarecrow (not a plain box)");
+        helper.assertTrue(hay, "farmstead must have a hay bale");
+        helper.assertTrue(chest, "farmstead must place its stores chest");
+        helper.succeed();
+    }
+
+    static void huntersBlindAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 1 — the Hunter's Blind: assemble its pool and confirm the raised stand landed (the
+        // log legs, the access ladder, the fletcher's chest, the ground campfire). Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("hunters_blind/blind"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean legs = false, ladder = false, chest = false, campfire = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.OAK_LOG)) legs = true;
+                    else if (s.is(Blocks.LADDER)) ladder = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                    else if (s.is(Blocks.CAMPFIRE)) campfire = true;
+                }
+            }
+        }
+        helper.assertTrue(legs, "hunter's blind must stand on log legs");
+        helper.assertTrue(ladder, "hunter's blind must have its access ladder (raised, not a plain box)");
+        helper.assertTrue(chest, "hunter's blind must place its fletcher's chest");
+        helper.assertTrue(campfire, "hunter's blind must have its ground campfire");
+        helper.succeed();
+    }
+
+    static void mineHeadAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 1 — the Collapsed Mine Head: assemble its pool and confirm the adit landed (the
+        // log frame, the dark deepslate opening, the rail stub, the coal-ore spoil). Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("mine_head/adit"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean frame = false, opening = false, rail = false, spoil = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.OAK_LOG)) frame = true;
+                    else if (s.is(Blocks.DEEPSLATE)) opening = true;
+                    else if (s.is(Blocks.RAIL)) rail = true;
+                    else if (s.is(Blocks.COAL_ORE)) spoil = true;
+                }
+            }
+        }
+        helper.assertTrue(frame, "mine head must have its timber frame");
+        helper.assertTrue(opening, "mine head must have its dark deepslate opening");
+        helper.assertTrue(rail, "mine head must have its rail stub (not a plain box)");
+        helper.assertTrue(spoil, "mine head must have its coal-ore spoil");
+        helper.succeed();
+    }
+
+    static void prospectorsCampAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 1 — the Prospector's Camp: assemble its pool and confirm the camp landed (the wool
+        // bedroll, the cold campfire, the coal-ore spoil, the tools chest). Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("prospectors_camp/camp"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean bedroll = false, campfire = false, spoil = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.LIGHT_BLUE_WOOL)) bedroll = true;
+                    else if (s.is(Blocks.CAMPFIRE)) campfire = true;
+                    else if (s.is(Blocks.COAL_ORE)) spoil = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(bedroll, "prospector's camp must have its wool bedroll (not a plain box)");
+        helper.assertTrue(campfire, "prospector's camp must have its campfire");
+        helper.assertTrue(spoil, "prospector's camp must have its coal-ore spoil");
+        helper.assertTrue(chest, "prospector's camp must place its tools chest");
+        helper.succeed();
+    }
+
+    static void banditCampAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 1 — the Bandit Camp: assemble its pool and confirm the hideout landed (a wool
+        // bedroll/banner, the cold campfire, the bone-block carcass, the spoils chest). Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("bandit_camp/camp"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean wool = false, campfire = false, bones = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.RED_WOOL)) wool = true;
+                    else if (s.is(Blocks.CAMPFIRE)) campfire = true;
+                    else if (s.is(Blocks.BONE_BLOCK)) bones = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(wool, "bandit camp must have its wool bedrolls/banner (not a plain box)");
+        helper.assertTrue(campfire, "bandit camp must have its campfire");
+        helper.assertTrue(bones, "bandit camp must have its bone-block carcass");
+        helper.assertTrue(chest, "bandit camp must place its spoils chest");
+        helper.succeed();
+    }
+
+    static void windmillAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 2 — the Create Broken Windmill. Assemble on the vanilla gametest classpath (no
+        // Create): the create: machinery (casing/shaft/cogwheel) resolves to AIR, so we assert the VANILLA shell — the
+        // stone-brick mill house, the white-wool sail cloth (the anti-box silhouette), the scrap chest, a cobweb.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("windmill/mill"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean brick = false, sail = false, chest = false, web = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.STONE_BRICKS) || s.is(Blocks.MOSSY_STONE_BRICKS) || s.is(Blocks.CRACKED_STONE_BRICKS)) brick = true;
+                    else if (s.is(Blocks.WHITE_WOOL)) sail = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                    else if (s.is(Blocks.COBWEB)) web = true;
+                }
+            }
+        }
+        helper.assertTrue(brick, "windmill must have its stone-brick mill house");
+        helper.assertTrue(sail, "windmill must have its white-wool sail cloth (not a plain box)");
+        helper.assertTrue(chest, "windmill must place its scrap chest");
+        helper.assertTrue(web, "windmill must be cobwebbed (derelict)");
+        helper.succeed();
+    }
+
+    static void watermillAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 2 — the Create Derelict Watermill. Without Create the water_wheel/press/shaft/casing
+        // are AIR; assert the vanilla shell — the cobble channel walls, the ruined spruce mill housing + its slab roof,
+        // the scrap chest.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("watermill/mill"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean cobble = false, plank = false, slab = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.COBBLESTONE) || s.is(Blocks.MOSSY_COBBLESTONE)) cobble = true;
+                    else if (s.is(Blocks.SPRUCE_PLANKS)) plank = true;
+                    else if (s.is(Blocks.SPRUCE_SLAB)) slab = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(cobble, "watermill must have its cobblestone water channel");
+        helper.assertTrue(plank, "watermill must have its spruce mill housing");
+        helper.assertTrue(slab, "watermill must have its (broken) slab roof");
+        helper.assertTrue(chest, "watermill must place its scrap chest");
+        helper.succeed();
+    }
+
+    static void trainShedAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 2 — the Create Abandoned Train Shed. Without Create the shaft bogies + brass/copper
+        // casing cars are AIR; assert the vanilla shell — the rail stub, the gravel yard, the open-sided timber shed's
+        // log posts, the scrap chest.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("train_shed/shed"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean rail = false, gravel = false, log = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.RAIL)) rail = true;
+                    else if (s.is(Blocks.GRAVEL)) gravel = true;
+                    else if (s.is(Blocks.OAK_LOG)) log = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(rail, "train shed must have its rail stub");
+        helper.assertTrue(gravel, "train shed must have its gravel rail-yard");
+        helper.assertTrue(log, "train shed must have its open-sided shed's log posts (not a plain box)");
+        helper.assertTrue(chest, "train shed must place its scrap chest");
+        helper.succeed();
+    }
+
+    static void drillRigAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 2 — the Create Rusted Drill Rig. Without Create the drill/gearbox/shaft/casing are
+        // AIR; assert the vanilla shell — the scaffold derrick, the ruptured fluid works' cauldron, the spoil gravel,
+        // the scrap chest.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("drill_rig/rig"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean scaffold = false, cauldron = false, gravel = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.SCAFFOLDING)) scaffold = true;
+                    else if (s.is(Blocks.CAULDRON)) cauldron = true;
+                    else if (s.is(Blocks.GRAVEL)) gravel = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(scaffold, "drill rig must have its scaffold derrick (not a plain box)");
+        helper.assertTrue(cauldron, "drill rig must have its ruptured fluid works");
+        helper.assertTrue(gravel, "drill rig must have its spoil heaps");
+        helper.assertTrue(chest, "drill rig must place its scrap chest");
+        helper.succeed();
+    }
+
+    static void createRareGateIsInertWithoutMod(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 2 (A3) — the requires-mod gate: a rare structure requiring an absent mod is filtered
+        // out (requiresPresent() == false) BEFORE any RNG, so it consumes no roll (inert-without-the-mod / determinism
+        // parity). Create is not on the gametest classpath, so a requires:["create"] build must report NOT present,
+        // while a no-requires build is always eligible.
+        final var gated = new dev.gemberkoekje.skyseed.worldgen.theme.RareStructure(
+                0.05f, 3, null, java.util.List.of(), false, java.util.List.of(),
+                java.util.Optional.empty(), java.util.Optional.empty(), java.util.List.of("create"), true);
+        final var plain = new dev.gemberkoekje.skyseed.worldgen.theme.RareStructure(
+                0.05f, 6, null, java.util.List.of(), false, java.util.List.of(),
+                java.util.Optional.empty(), java.util.Optional.empty(), java.util.List.of(), true);
+        helper.assertTrue(!gated.requiresPresent(), "a requires:[create] build must be filtered out when Create is absent");
+        helper.assertTrue(plain.requiresPresent(), "a no-requires build must always be eligible");
+        helper.succeed();
+    }
+
+    static void ieFactoryAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 2 — the Immersive Engineering Dilapidated Factory. Without IE the concrete/sheetmetal/
+        // treated-wood/crate/machinery blocks are AIR, so we assert the deliberate VANILLA ruin shell — the cobblestone
+        // rubble, the lantern, a cobweb, and the scrap chest.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("ie_factory/factory"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean cobble = false, lantern = false, web = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.COBBLESTONE)) cobble = true;
+                    else if (s.is(Blocks.LANTERN)) lantern = true;
+                    else if (s.is(Blocks.COBWEB)) web = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(cobble, "IE factory must have its cobblestone rubble (vanilla shell)");
+        helper.assertTrue(lantern, "IE factory must have its lantern");
+        helper.assertTrue(web, "IE factory must be cobwebbed (derelict)");
+        helper.assertTrue(chest, "IE factory must place its scrap chest");
+        helper.succeed();
+    }
+
+    static void powerlineAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 2 — the Immersive Engineering Fallen Powerline. Without IE the mast/arms/connectors/
+        // transformer are AIR, so we assert the vanilla shell — the cobble footings/rubble, the warning lantern, a
+        // cobweb, and the wire-scrap chest.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("powerline/pylon"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean cobble = false, lantern = false, web = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.COBBLESTONE)) cobble = true;
+                    else if (s.is(Blocks.LANTERN)) lantern = true;
+                    else if (s.is(Blocks.COBWEB)) web = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(cobble, "powerline must have its cobblestone footings/rubble (vanilla shell)");
+        helper.assertTrue(lantern, "powerline must have its warning lantern");
+        helper.assertTrue(web, "powerline must be cobwebbed (derelict)");
+        helper.assertTrue(chest, "powerline must place its wire-scrap chest");
+        helper.succeed();
+    }
+
+    static void ae2LabAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 2 — the Gutted AE2 Lab. Without AE2 the certus/fluix quartz blocks resolve to AIR, so
+        // the test asserts the deliberate vanilla ruin shell + the D4/anti-box signatures: cobblestone rubble, the scrap
+        // chest, the scorched-deepslate empty controller pit, and the end-rod conduit stubs/antenna. Loads dev .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("ae2_lab/lab"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean cobble = false, chest = false, pit = false, conduit = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.COBBLESTONE)) cobble = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                    else if (s.is(Blocks.DEEPSLATE)) pit = true;
+                    else if (s.is(Blocks.END_ROD)) conduit = true;
+                }
+            }
+        }
+        helper.assertTrue(cobble, "AE2 lab must have its cobblestone rubble (vanilla shell)");
+        helper.assertTrue(chest, "AE2 lab must place its scrap chest");
+        helper.assertTrue(pit, "AE2 lab must have its scorched-deepslate empty controller pit (D4: no controller placed)");
+        helper.assertTrue(conduit, "AE2 lab must have its conduit stubs/antenna (not a plain box)");
+        helper.succeed();
+    }
+
+    static void wizardHutAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 2 — the Iron's Spells Small Wizard's Hut (all-vanilla; the mage comes from the theme
+        // mobs pack). Assert the arcane kit + the pointed witch-hat spire: a bookshelf, the brewing stand, the chest, and
+        // the spruce-stair roof. Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("wizard_hut/hut"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean shelf = false, brew = false, chest = false, spire = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.BOOKSHELF)) shelf = true;
+                    else if (s.is(Blocks.BREWING_STAND)) brew = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                    else if (s.is(Blocks.SPRUCE_STAIRS)) spire = true;
+                }
+            }
+        }
+        helper.assertTrue(shelf, "wizard hut must have a bookshelf");
+        helper.assertTrue(brew, "wizard hut must have its brewing stand");
+        helper.assertTrue(chest, "wizard hut must place its chest");
+        helper.assertTrue(spire, "wizard hut must have its pointed witch-hat roof (not a plain box)");
+        helper.succeed();
+    }
+
+    static void wizardTowerAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 2 — the Iron's Spells Wizard's Tower. Assert the stone shaft, the multi-storey ladder,
+        // a bookshelf study, and the chest. Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("wizard_tower/tower"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean bricks = false, ladder = false, shelf = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.STONE_BRICKS)) bricks = true;
+                    else if (s.is(Blocks.LADDER)) ladder = true;
+                    else if (s.is(Blocks.BOOKSHELF)) shelf = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(bricks, "wizard tower must have its stone-brick shaft");
+        helper.assertTrue(ladder, "wizard tower must have its multi-storey ladder (not a plain box)");
+        helper.assertTrue(shelf, "wizard tower must have a bookshelf study");
+        helper.assertTrue(chest, "wizard tower must place its chest");
+        helper.succeed();
+    }
+
+    static void cursedObeliskAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 2 — the Iron's Spells Cursed Obelisk. Assert the dark spire + the cursed altar: a
+        // deepslate block, the soul lantern, a wither rose, and the grave-goods chest. Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("cursed_obelisk/obelisk"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean spire = false, beacon = false, rose = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.DEEPSLATE)) spire = true;
+                    else if (s.is(Blocks.SOUL_LANTERN)) beacon = true;
+                    else if (s.is(Blocks.WITHER_ROSE)) rose = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(spire, "cursed obelisk must have its dark-stone spire");
+        helper.assertTrue(beacon, "cursed obelisk must have its soul-lantern beacon (not a plain box)");
+        helper.assertTrue(rose, "cursed obelisk must have its wither rose (necrotic)");
+        helper.assertTrue(chest, "cursed obelisk must place its grave-goods chest");
+        helper.succeed();
+    }
+
+    static void inferiumPlotAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 2 — the Mystical Agriculture Abandoned Inferium Plot. The farmland/crops/accelerator
+        // are mod blocks (air without Mystical Agriculture), so assert the deliberate vanilla shell: the scarecrow's
+        // carved-pumpkin head, the broken oak-fence perimeter, the water-cauldron trough, and the scrap chest. Loads .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("inferium_plot/plot"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean scarecrow = false, fence = false, trough = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.CARVED_PUMPKIN)) scarecrow = true;
+                    else if (s.is(Blocks.OAK_FENCE)) fence = true;
+                    else if (s.is(Blocks.WATER_CAULDRON)) trough = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(scarecrow, "inferium plot must have its scarecrow (carved-pumpkin head; not a plain box)");
+        helper.assertTrue(fence, "inferium plot must have its broken oak-fence perimeter");
+        helper.assertTrue(trough, "inferium plot must have its water-cauldron trough");
+        helper.assertTrue(chest, "inferium plot must place its scrap chest");
+        helper.succeed();
+    }
+
+    static void cookHomesteadAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 2 — the Farmer's Delight Overgrown Cook's Homestead. The kitchen fittings + crops are
+        // mod blocks (air without Farmer's Delight), so assert the deliberate vanilla shell: a corner oak-log post, the
+        // cobblestone hearth-chimney, the cold campfire hearth, and the scrap chest. Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("cook_homestead/homestead"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean log = false, chimney = false, hearth = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.OAK_LOG)) log = true;
+                    else if (s.is(Blocks.COBBLESTONE)) chimney = true;
+                    else if (s.is(Blocks.CAMPFIRE)) hearth = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(log, "cook homestead must have its oak-log corner posts");
+        helper.assertTrue(chimney, "cook homestead must have its cobblestone hearth-chimney (not a plain box)");
+        helper.assertTrue(hearth, "cook homestead must have its cold campfire hearth");
+        helper.assertTrue(chest, "cook homestead must place its scrap chest");
         helper.succeed();
     }
 
@@ -4898,9 +5591,9 @@ public final class SkyseedTests {
                     "seed '" + theme + "' field-notes entry does not carry its crafting recipe");
             helper.assertTrue(resourceExists(gatheredPath(theme)),
                     "seed '" + theme + "' has no gathered-materials advancement (" + gatheredPath(theme) + ")");
-            // Every seed but the Forest root is gated by a reveal advancement (crafted prereq OR held all ingredients).
-            if (theme.equals("forest")) {
-                helper.assertTrue(!resourceExists(revealPath(theme)), "the Forest root must not be reveal-gated");
+            // Every seed but the Wild root is gated by a reveal advancement (crafted prereq OR held all ingredients).
+            if (theme.equals("wild")) {
+                helper.assertTrue(!resourceExists(revealPath(theme)), "the Wild root must not be reveal-gated");
             } else {
                 helper.assertTrue(resourceExists(revealPath(theme)),
                         "seed '" + theme + "' has no reveal advancement (" + revealPath(theme) + ")");

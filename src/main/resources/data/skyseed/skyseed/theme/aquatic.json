@@ -6,8 +6,16 @@
     { "block": "minecraft:clay", "chance": 1.0, "count": { "min": 8, "max": 12 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
     { "block": "minecraft:gravel", "chance": 0.90, "count": { "min": 3, "max": 6 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" }
   ],
+  "_comment_rare": "VARIETYSTRUCTUREPLAN Phase 1 — weighted-gate model, flat 5% gate (was 8%) + the common Beached Fishing Camp (w6; suppress_pond so its sandy beach reads instead of the aquatic pond). Mirrored on aquatic_large.",
+  "rare_structure_chance": 0.05,
   "rare_structures": [
-    { "chance": 0.08, "suppress_pond": true,
+    { "weight": 3, "requires": ["create"], "suppress_pond": true, "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Derelict Watermill (Create-gated; brings its own water).",
+      "jigsaw": { "pool": "skyseed:watermill/mill", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:drowned", "adults": 1 } ] } ] },
+    { "weight": 6, "suppress_pond": true,
+      "jigsaw": { "pool": "skyseed:fishing_camp/camp", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "minecraft:drowned", "adults": 1 } ] } ] },
+    { "weight": 5, "suppress_pond": true,
       "jigsaw": { "pool": "skyseed:ocean_ruin/ruin", "target": "minecraft:bottom", "depth": 1, "pad": 5, "sink": 2 } }
   ],
   "pond": {

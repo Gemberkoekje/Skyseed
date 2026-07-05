@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 2 (D4/§5) — layers a little raw Farmer's Delight produce (onion) onto the Overgrown Cook's Homestead's chest. Inert without Farmer's Delight: AddDropModifier resolves the id via Lookup.hasItem and adds nothing when absent. Farmer's Delight has no progression gate, so this is pure flavour scrap.",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/cook_homestead" }
+  ],
+  "item": "farmersdelight:onion",
+  "chance": 0.6
+}

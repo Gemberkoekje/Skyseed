@@ -1,0 +1,16 @@
+{
+  "criteria": {
+    "has_0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": "#minecraft:planks" },
+          { "items": "minecraft:sand" },
+          { "items": "minecraft:kelp" },
+          { "items": "minecraft:dirt" },
+          { "items": "skyseed:wild_skyseed" }
+        ]
+      }
+    }
+  }
+}

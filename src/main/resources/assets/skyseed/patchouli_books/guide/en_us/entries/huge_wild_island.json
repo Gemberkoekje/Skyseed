@@ -1,0 +1,24 @@
+{
+  "name": "Huge Wild Skyseed",
+  "category": "skyseed:overworld",
+  "advancement": "skyseed:reveal_huge_wild",
+  "icon": "minecraft:grass_block",
+  "sortnum": 49,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The $(item)Huge Wild Skyseed$() — a Large Wild Skyseed ringed between an $(item)Ender Pearl$() and $(item)Blaze Powder$(), packed in dirt and sand. End-game, like all huge seeds: both come from the $(item)Nether$(), so you want it, you farm for it."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "skyseed:huge_wild_skyseed",
+      "text": "The large seed between an ender pearl and blaze powder, packed in dirt and sand.",
+      "advancement": "skyseed:gathered_huge_wild"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)The grand tour$()$(br)A $(bold)huge$() island of the local biome, with a deep, ore-veined body — and the space to host even the biggest buildings, should the roll bring one. Expensive, but the finest way to be surprised.",
+      "advancement": "skyseed:craft_huge_wild"
+    }
+  ]
+}
