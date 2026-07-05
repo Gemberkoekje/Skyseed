@@ -128,9 +128,12 @@ public final class MultiModRuinsTemplates {
         m.put(new BlockPos(1, 2, 5), Blocks.COBWEB.defaultBlockState());
         m.put(new BlockPos(2, 1, 5), Blocks.GLOWSTONE.defaultBlockState());
 
-        // -- Caved roof: a couple of surviving beams + a soul lantern over the workshop floor; the rest open sky. ----
-        m.put(new BlockPos(3, 4, 3), Blocks.STRIPPED_OAK_LOG.defaultBlockState()
-                .setValue(BlockStateProperties.AXIS, Direction.Axis.X));
+        // -- Caved roof: one surviving beam rests wall-to-wall (both ends carried on the side-wall tops at z3, so it
+        //    doesn't float); the rest is open sky. A soul lantern hangs from its centre. ------------------------------
+        for (int x = 0; x <= max; x++) {
+            m.put(new BlockPos(x, 4, 3), Blocks.STRIPPED_OAK_LOG.defaultBlockState()
+                    .setValue(BlockStateProperties.AXIS, Direction.Axis.X));
+        }
         m.put(new BlockPos(3, 3, 3), Blocks.SOUL_LANTERN.defaultBlockState().setValue(BlockStateProperties.HANGING, true));
         for (final int[] r : new int[][]{{4, 1, 4}, {2, 1, 3}}) {          // fallen rubble
             m.put(new BlockPos(r[0], r[1], r[2]), Blocks.COBBLESTONE.defaultBlockState());

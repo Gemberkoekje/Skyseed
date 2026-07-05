@@ -467,14 +467,14 @@ public final class RareStructureTemplates {
                 .setValue(BlockStateProperties.BELL_ATTACHMENT, BellAttachType.CEILING)
                 .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH));
 
-        // -- The caved roof: only a couple of eave rafters survive over the front bay + one cross-beam; the rest is
-        //    open sky, with fallen blocks strewn across the nave. --------------------------------------------------
-        for (int z = 1; z <= 2; z++) {
-            m.put(new BlockPos(1, 4, z), chapelRafter(Direction.WEST));
-            m.put(new BlockPos(5, 4, z), chapelRafter(Direction.EAST));
+        // -- The caved roof: a couple of surviving cross-beams rest wall-to-wall — each end carried on a side-wall top
+        //    at z2 / z5 (both unbroken courses) so nothing floats; the rest is open sky, fallen blocks strewn across the
+        //    nave. A soul-lantern hangs from the front beam. -------------------------------------------------------
+        for (int x = 0; x <= xMax; x++) {
+            m.put(new BlockPos(x, 4, 2), sb);
+            m.put(new BlockPos(x, 4, 5), sb);
         }
-        m.put(new BlockPos(3, 4, 3), sb); // a surviving cross-beam (the soul-lantern hangs from it)
-        m.put(new BlockPos(3, 3, 3), Blocks.SOUL_LANTERN.defaultBlockState().setValue(BlockStateProperties.HANGING, true));
+        m.put(new BlockPos(3, 3, 2), Blocks.SOUL_LANTERN.defaultBlockState().setValue(BlockStateProperties.HANGING, true));
         for (final int[] r : new int[][]{{1, 1, 4}, {5, 1, 3}, {2, 1, 6}}) {          // fallen roof rubble
             m.put(new BlockPos(r[0], r[1], r[2]), Blocks.COBBLESTONE.defaultBlockState());
         }
@@ -513,11 +513,6 @@ public final class RareStructureTemplates {
             return Blocks.CRACKED_STONE_BRICKS.defaultBlockState();
         }
         return Blocks.STONE_BRICKS.defaultBlockState();
-    }
-
-    /** A stone-brick eave rafter stair facing outward from the nave (so the surviving roof slopes up toward the ridge). */
-    private static BlockState chapelRafter(Direction facing) {
-        return Blocks.STONE_BRICK_STAIRS.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, facing);
     }
 
     /** A 2-tall framed window: {@code b} is the central glass pane, {@code a}/{@code c} the wool frame (y2–y3). */

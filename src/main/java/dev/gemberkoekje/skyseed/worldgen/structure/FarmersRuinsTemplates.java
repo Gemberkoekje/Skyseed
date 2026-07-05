@@ -141,8 +141,8 @@ public final class FarmersRuinsTemplates {
         fd(m, mods, new BlockPos(3, 1, 1), "cutting_board", Direction.SOUTH);
         fd(m, mods, new BlockPos(1, 1, 3), "oak_cabinet", Direction.NORTH);
         m.put(new BlockPos(1, 1, 2), Blocks.CRAFTING_TABLE.defaultBlockState());
-        m.put(new BlockPos(2, 3, 2), Blocks.LANTERN.defaultBlockState()
-                .setValue(BlockStateProperties.HANGING, true));               // a lantern under the ridge
+        m.put(new BlockPos(2, 4, 2), Blocks.LANTERN.defaultBlockState()
+                .setValue(BlockStateProperties.HANGING, true));               // hung directly from the ridge slab (2,5,2)
         m.put(new BlockPos(3, 2, 1), Blocks.COBWEB.defaultBlockState());
         m.put(new BlockPos(1, 3, 2), Blocks.COBWEB.defaultBlockState());
         // The scrap chest on the interior floor — air above (3,2,3) so it opens ([[skyseed-structure-chest-openable]]).

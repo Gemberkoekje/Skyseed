@@ -5,6 +5,23 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.217.0] - 2026-07-05
+
+### Fixed
+- **Structure Variety — physical-playability review of the recent surprise buildings (floating blocks).** An adversarial
+  pass over the builds authored this wave caught a repeated mistake: a soul-lantern/lantern hung from a roof beam that was
+  itself unsupported (a single block mid-air over the open floor), so both the beam and the lantern floated. Fixed in
+  three builds by carrying the beam properly:
+  - **Ruined Chapel** (B25) — the floating eave-rafter stubs + the mid-air soul-lantern beam are replaced by two surviving
+    cross-beams that rest wall-to-wall (each end on an unbroken side-wall top at z2 / z5); the soul lantern hangs from the
+    front beam.
+  - **Magitech Workshop** (B26) — the mid-air lantern beam now spans wall-to-wall (both ends on the side-wall tops).
+  - **Overgrown Cook's Homestead** (B24) — the hanging kitchen lantern is raised one course so it actually hangs from the
+    roof-ridge slab above it, instead of from air.
+  - Reviewed the rest for the same class of bug: the Iron's Spells hut/tower spire lanterns (on fence poles) and the
+    obelisk beacon (on the solid spire tip) are properly supported; all chests remain openable (air above); all doorways
+    are 2 tall. Both nodes green (1.21.1: 205, 26.1.2: 207).
+
 ## [0.216.0] - 2026-07-05
 
 ### Added

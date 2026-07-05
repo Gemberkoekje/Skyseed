@@ -9,6 +9,16 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.217.0] - 2026-07-05
+
+### Fixed
+- **Structure Variety — physical-playability review (floating blocks).** An adversarial pass over the surprise buildings
+  authored this wave caught a repeated mistake — a soul-lantern/lantern hung from a roof beam that was itself unsupported,
+  so both floated. Fixed by carrying the beam wall-to-wall in the **Ruined Chapel** (B25, two supported cross-beams) and
+  the **Magitech Workshop** (B26), and by raising the **Cook's Homestead** (B24) kitchen lantern so it hangs from the ridge
+  slab rather than from air. Rechecked the rest (Iron's spire lanterns on fence poles + the obelisk beacon on its solid tip
+  are supported; chests stay openable; doorways are 2 tall). Both nodes green (1.21.1: 205, 26.1.2: 207).
+
 ## [0.216.0] - 2026-07-05
 
 ### Added
