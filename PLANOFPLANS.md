@@ -119,14 +119,17 @@ headless). Clearing this queue is the highest-value next work.
 
 ### 2026-07-05 code review — adversarial fan-out (this pass)
 
-A subsystem fan-out over the shared worldgen source, findings adjudicated by re-reading the code (the automated
-skeptic panel was cut short by a session limit, so the surviving findings were verified by hand).
+Two adversarial fan-outs cover the whole Java source. **Pass 1** — worldgen core / carvers / placement / theme /
+registry / entity (the skeptic panel was cut short by a session limit, so those findings were verified by hand).
+**Pass 2** — the compat layer, the events/network/command group, and every structure-template file, with the full
+3-skeptic panel; all 6 of its findings survived.
 
-**Fixed in-branch this pass (safe, no golden-master risk):**
+**Fixed in-branch (safe, no golden-master / regen risk):**
 
 | Fix | File | What & why |
 |---|---|---|
 | ✅ Adaptive-seed biome resolution | `ExploreThemes.java` | `meadow`/`cherry_grove` (both in `#minecraft:is_mountain`) and `snowy_beach` (in `#minecraft:is_beach`) sat *after* their broad tags, so the Wild/Explore seed grew a Rocky/Aquatic island over them and the dedicated rules were dead. Moved the specific ids ahead of the broad tags. **Behaviour change — run the gametest suites to lock it in.** |
+| ✅ Half-converted-world guard | `SkyseedCommands.java` | `deleteRecursively` swallowed per-file `IOException`s, so a partial chunk wipe still flipped `level.dat` to the void generator — the half-converted state the code promises to avoid. Now propagates the first failure so `applyReset` aborts before the flip (legacy `/empty*` rescue command; runtime code, no template regen needed). |
 | ✅ Doc: phantom `@link` | `PathSurfacer.java` | `supportStilts` javadoc referenced a non-existent `STILT_STUB` and claimed a stub over void; `stiltDown` actually places nothing over void. Corrected. |
 | ✅ Comment accuracy | `OrePlanner.java` | The size-scaled "extra" veins run on a side RNG but still remove cells from the shared `coreSet`, so a later ore's main-stream `pickSeed` can retry more — ore volume *does* couple into the main stream (tiers above `REF_CORE`). Corrected the "doesn't move anything else" comment. |
 
@@ -139,6 +142,20 @@ skeptic panel was cut short by a session limit, so the surviving findings were v
 | Crash-resume RNG desync | low | Tree/snow features consume `plan.random()` during the tick drain; a re-planned resume restarts that stream, so post-resume decoration can diverge from an uncrashed island. Within the documented best-effort-resume tradeoff. |
 | `java.lang.Math` in worldgen geometry | low | `ShapeBuilder`/`RimNoise` use `Math.atan2/pow/sin` (not `StrictMath`) — deterministic per node (each has its own golden master), only a cross-platform seed-portability nit. Do NOT "fix" blindly (StrictMath is slower and would shift output). |
 | `HashSet` iteration drives RNG-consuming placement | low | `PondCarver`/`CaveCarver` iterate a `HashSet` while consuming RNG. Deterministic per node (value-based hashCodes, fixed JDK; golden masters pass); a portability nit only. Changing to a sorted set would shift output. |
+
+**Recorded — structure geometry (pass 2; each needs the `.nbt` regen dance, so not blind-fixed):**
+
+Structures are baked into committed `.nbt` via `DevStructureGenerator`; editing the `*Templates.java` only takes effect
+after deleting the affected `*.nbt` and re-running the 2-build regen dance (headless-blocked here), so these are
+recorded for that pass.
+
+| Finding | Priority | What & why |
+|---|---|---|
+| Citadel keep wall gap (`CitadelTemplates.java:124`) | medium | The hall walls end at y9 and the library walls start at y11, but the y10 library floor spans only the interior — leaving a continuous 1-block open slot around the whole keep perimeter at y10 (light/weather leak). Fix: a `keepWalls(m,10,18)` course. |
+| Mineshaft chest un-openable (`MineshaftTemplates.java:163`) | medium | The room loot chest at (5,1,1) sits under a corner log pillar, leaving a solid log at (5,2,1) directly above it — a chest under an opaque block can't be opened. Relocate the chest or the pillar (mirror the air-above-chest checks the other templates use). |
+| Woodland Mansion gable gap (`WoodlandMansionTemplates.java:131`) | low | `buildCore`/`wing` call `gableRoof` without the solid ceiling course every other caller lays, leaving a 1-block gap along the gable-end walls + unsupported hanging lanterns. |
+| Trade Post railing palette (`TradePostTemplates.java:487`) | low | The blacksmith patio railing is hardcoded `OAK_FENCE` instead of `p.fence()`, ignoring the per-biome palette. |
+| Bastion broken-deck railing (`BastionTemplates.java:187`) | low | The bridge railing loop skips x==4/7 but not the broken deck column x==6, so two brick railings float over the intended deck gap. |
 
 ### Earlier reviews — ✅ shipped
 
