@@ -12,7 +12,7 @@ You start on a small island with one tree. After that, exploring and crafting fe
 
 ## How it works
 
-1. **Craft a Skyseed.** Each recipe makes a different seed: dirt and planks for a Forest, stone and cobble for a Rocky, snow and ice for a Frozen. They're separate items, so JEI and REI list them one by one.
+1. **Craft a Skyseed.** Each recipe makes a different seed: planks and dirt for your first Wild island, stone and cobble for a Rocky, snow and ice for a Frozen. They're separate items, so JEI and REI list them one by one.
 2. **Throw it.** Hold right-click to wind up, release to launch.
 3. **Watch it grow.** It germinates after a moment, then builds itself in over a few seconds.
 4. **Harvest, then craft the next.** Keep going and your archipelago spreads across the sky.
@@ -34,7 +34,7 @@ Press **V** to switch. It remembers which you picked.
 
 Every Skyseed grows its own kind of island. Most have a few different looks and the odd hidden surprise, and each has a larger, pricier **Large** version with its own twist.
 
-- **Forest.** Your starter. Grass, flowers, and trees that suit wherever it lands. The Large one is a sprawling old-growth wood, biggest of the green islands.
+- **Forest.** The classic green island. Grass, flowers, and trees that suit wherever it lands. The Large one is a sprawling old-growth wood, biggest of the green islands.
 - **Rocky.** The mining island, and the one where height counts for the most. Low gives you deepslate, diamond and redstone; the middle, iron and copper; high, coal and iron, with snow on the very top. Dig around and you might hit lava — likelier the lower you throw, a long shot up high and about one in five below Y 0. Most come up as ordinary stone, but every so often the whole island is diorite, granite, andesite or tuff instead. Large Rocky is a tall mountain with emeralds in it.
 - **Desert.** Sand and sandstone, cacti and dead bushes, clay and fossils underneath. Drop it over a badlands and you get red dunes. Large: an oasis.
 - **Mushroom.** Mycelium under giant red and brown mushrooms. Nothing hostile spawns on it, so it's a safe place to build. The Large isle comes with mooshrooms grazing.
@@ -46,6 +46,12 @@ Every Skyseed grows its own kind of island. Most have a few different looks and 
 - **Aquatic.** Half land, half lake: kelp and lily pads, warm-water coral, mangroves, clay and gravel banks. Throw it below Y 0 and it comes up bare stone and deepslate around a lava lake instead. Large: a deep, open lake.
 
 That's twenty islands before you even reach the villages, farms and structures below, since every Large variant is its own seed.
+
+---
+
+## Two seeds that read the biome
+
+Not every seed is tied to one terrain. The **Wild** seed — your cheapest, and the one you start with — grows whatever island suits the biome you throw it over: a desert over desert, a mountain over peaks, a forest over woodland. The **Explore** seed does the same but always lands a structure on the island, so it's the one to throw when you're hunting loot. Both come in Large and Huge sizes too.
 
 ---
 
@@ -110,7 +116,7 @@ Just about every block you'd dig up in a normal world is here somewhere, so what
 Build a portal, step through, and the Nether works the same way: an empty sky over a lava sea, grown out one seed at a time.
 
 - **Your overworld seeds still work.** Throw a Rocky seed down here and it adapts into a small netherrack mining island. Desert turns into a soul-sand valley, Aquatic a lava lagoon, Forest a crimson or warped fungal patch. They're meant to be small, a foothold rather than a base. Seeds with no Nether form (Meadow, Frozen) just fizzle.
-- **The native seeds are where it pays off.** Craft a dedicated Nether seed from your overworld one plus a signature Nether block and you get the full island: a netherrack mountain rich in ancient debris, a broad lava lagoon with striders, a towering fungal forest, a soul-sand valley full of fossils, or a nasty basalt deltas of jagged columns. Each has a Large version. Throw one back in the overworld for a laugh and you get a tiny matching island — except the Nether Lava seed, which actually grows a full lava island up there.
+- **The native seeds are where it pays off.** Craft a dedicated Nether seed from your overworld one plus a signature Nether block and you get the full island: a netherrack mountain rich in ancient debris, a broad lava lagoon with striders, a towering fungal forest, a soul-sand valley full of fossils, or a nasty basalt deltas of jagged columns. Each has a Large version. Throw one back in the overworld for a laugh and you get a tiny matching island — except the Nether Lava seed, which actually grows a full lava island up there. There's a **Nether Wild** seed too, the adaptive starter for the Nether: it reads the biome you throw it over and grows the matching native island.
 - **Lava is the new depth.** There's no bedrock to dig toward, so lava proximity does the gating instead. Throw a mining island low, near the sea, for the best ancient debris and gold.
 - **It has its own structures.** A Nether Fortress seed grows an arched nether-brick bridge off a keep, with a caged blaze spawner inside, so you get blaze rods without hunting a fortress down. A Bastion Remnant is a ruined blackstone hold (one of three layouts, courtyards sprawling off it) full of piglins and a brute. A Piglin Trading Post is the Nether's version of a village, a hall of bartering piglins running a gold economy. And a Wither Arena gives you a blast-proof obsidian room to fight the Wither in safely, for the Nether Star and a first Beacon. The Large Nether islands sometimes carry a blaze spawner room of their own.
 - **Ruined portals link up.** Throw a Ruined Portal and a matching frame appears in the other dimension at the linked coordinate. Repair and light both and they connect into a working pair, no setup needed.
@@ -134,7 +140,9 @@ Skyseed ships ready-made island support for a few favourites — all of it dorma
 - **Oh The Biomes We've Gone.** The sky's biome map fills with BWG's biomes, and your seeds respond: throw one over an exotic biome and it grows that biome's island — nearly every BWG wood is growable this way, the flower fields feed Create milling, and village seeds thrown over the right biomes grow BWG's six village styles in their own block palettes. Growing your first exotic wood even unlocks a new Almanac entry.
 - **Mystical Agriculture.** Inferium and Prosperity ore grow on the Lush and Ancient islands (plus soulium in the Nether), so the essence loop bootstraps without any worldgen.
 - **Create.** Zinc ore turns up on the mining islands, so brass is a matter of growing the right island.
+- **Immersive Engineering.** Its metal ores — aluminium, lead, nickel, silver, uranium — surface on the mining islands, so the whole multiblock tech chain has raw material to grow from.
 - **Applied Energistics 2.** Certus quartz turns up on the mining islands to get a network started, and a dedicated Meteorite seed grows a cratered island with a sky-stone globe at its heart — the one place up here to mine sky stone and the inscriber presses AE2 otherwise buries in meteorites.
+- **Quark.** Its stone types — limestone, jasper, shale — and the odd corundum geode surface on the mining islands, and its coloured blossom trees grow on the leafy ones.
 - **Farmer's Delight.** Wild crops grow on your biome islands — onions, carrots, cabbages and tomatoes, plus rice in the ponds — so its whole cooking loop bootstraps from what you grow. Its add-ons come along too: chorus succulents on a Chorus Forest, powdery cane in the Nether.
 
 And thanks to a custom void generator, *any* biome or structure mod is safe to add — biomes flow into island theming, and nothing ever generates uninvited in the void.
@@ -162,7 +170,7 @@ The three chapters, overworld, Nether and End, are all built out, so what's left
 ## Getting started
 
 - Chop your first tree and dig the island for dirt and planks.
-- Craft a **Forest Skyseed** and throw it into open air for island number two.
+- Craft a **Wild Skyseed** — planks and dirt — and throw it into open air for island number two.
 - Open the **Skyfarer's Almanac** for the recipes, and go build a sky.
 
 ---
