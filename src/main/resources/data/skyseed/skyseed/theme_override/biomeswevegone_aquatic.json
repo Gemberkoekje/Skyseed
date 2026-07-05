@@ -4,8 +4,8 @@
   "_verify": "IDS VERIFIED vs Oh-The-Biomes-Weve-Gone-NeoForge-2.6.0.jar (2026-07-01). Biomes cypress_swamplands / bayou / white_mangrove_marshes / rainbow_beach and CONFIGURED features cypress_trees / bayou_trees / white_mangrove_trees / palm_trees all exist (TreeEntry resolves against the configured-feature registry — Lookup.configuredFeature). NOTE: BWG injects palm_trees into vanilla minecraft:beach via a biome_modifier (there is no BWG palm biome), so palm is keyed onto the sandy rainbow_beach biome by design — still inert without BWG.",
   "target": "skyseed:aquatic",
   "biome_overrides": [
-    { "biomes": ["biomeswevegone:cypress_swamplands"],
-      "_verify": "verified: biome cypress_swamplands + configured feature cypress_trees",
+    { "biomes": ["biomeswevegone:cypress_swamplands", "biomeswevegone:cypress_wetlands"],
+      "_verify": "verified: biome cypress_swamplands + configured feature cypress_trees (BIOMECOVERAGEPLAN F5 added cypress_wetlands, the water-first cypress sibling; its own feature is sparse_cypress_trees but it reuses this cypress_trees band for a shared, slightly denser cypress look)",
       "surface": "minecraft:mud",
       "pond": { "block": "minecraft:water", "radius": 6, "depth": 2, "slope": true, "extent": 0.6,
         "plants": [ { "block": "minecraft:lily_pad", "chance": 0.16 }, { "block": "minecraft:seagrass", "chance": 0.12 } ],

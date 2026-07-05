@@ -86,7 +86,8 @@
         { "entity": "minecraft:piglin", "chance": 0.15, "count": { "min": 1, "max": 1 } }
       ] },
 
-    { "biomes": [ "minecraft:snowy_plains", "minecraft:snowy_taiga", "minecraft:ice_spikes", "minecraft:snowy_slopes", "minecraft:frozen_peaks", "minecraft:jagged_peaks", "minecraft:grove", "minecraft:snowy_beach", "minecraft:frozen_river", "minecraft:frozen_ocean", "minecraft:deep_frozen_ocean" ],
+    { "_comment": "BIOMECOVERAGEPLAN F6 — biomeswevegone:howling_peaks (a BWG snowy peak) resolves to Rocky via #is_mountain; adding it to the snowy set gives it the snow-capped peak look instead of bare stone. Inert without BWG (unknown id never matches).",
+      "biomes": [ "minecraft:snowy_plains", "minecraft:snowy_taiga", "minecraft:ice_spikes", "minecraft:snowy_slopes", "minecraft:frozen_peaks", "minecraft:jagged_peaks", "minecraft:grove", "minecraft:snowy_beach", "minecraft:frozen_river", "minecraft:frozen_ocean", "minecraft:deep_frozen_ocean", "biomeswevegone:howling_peaks" ],
       "shape": { "radius": { "min": 5, "max": 8 }, "rim_noise": 0.30, "top_dome": { "min": 4, "max": 7 } },
       "surface": "minecraft:snow_block", "fill": "minecraft:stone", "core": "minecraft:stone",
       "surface_scatter": [ { "block": "minecraft:stone", "chance": 0.25 } ],

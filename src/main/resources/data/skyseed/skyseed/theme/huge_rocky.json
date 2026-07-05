@@ -42,6 +42,7 @@
   ],
   "biome_overrides": [
     {
+      "_comment": "BIOMECOVERAGEPLAN F6 — biomeswevegone:howling_peaks (BWG snowy peak) resolves to Rocky via #is_mountain; snow-cap it here. Inert without BWG.",
       "biomes": [
         "minecraft:snowy_plains",
         "minecraft:snowy_taiga",
@@ -53,7 +54,8 @@
         "minecraft:snowy_beach",
         "minecraft:frozen_river",
         "minecraft:frozen_ocean",
-        "minecraft:deep_frozen_ocean"
+        "minecraft:deep_frozen_ocean",
+        "biomeswevegone:howling_peaks"
       ],
       "shape": {
         "radius": {

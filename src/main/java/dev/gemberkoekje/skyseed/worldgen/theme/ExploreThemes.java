@@ -52,10 +52,18 @@ public final class ExploreThemes {
             new Rule("#minecraft:is_river", "aquatic"),
             new Rule("#minecraft:is_beach", "aquatic"),
             new Rule("minecraft:desert", "desert"),
+            // BIOMECOVERAGEPLAN F1 — vanilla has no #is_desert tag, so modded deserts (BWG's atacama_outback /
+            // mojave_desert / windswept_desert, all in #biomeswevegone:desert) never matched the exact minecraft:desert
+            // id and fell through to the Forest fallback (a green island on a desert). Route the BWG desert tag to the
+            // Desert theme. Inert without BWG: the tag is empty/unknown, so this rule simply never fires.
+            new Rule("#biomeswevegone:desert", "desert"),
             new Rule("#minecraft:is_badlands", "badlands"),
             new Rule("minecraft:mushroom_fields", "mushroom"),
             new Rule("minecraft:swamp", "lush"),
             new Rule("minecraft:mangrove_swamp", "lush"),
+            // BIOMECOVERAGEPLAN F7 — Quark's glimmering_weald is an underground glow biome in no surface tag, so the
+            // adaptive seed fell to the Forest fallback. Route it to Lush (the glow-berry / moss family). Inert without Quark.
+            new Rule("quark:glimmering_weald", "lush"),
             new Rule("minecraft:snowy_plains", "frozen"),
             new Rule("minecraft:snowy_taiga", "frozen"),
             new Rule("minecraft:ice_spikes", "frozen"),
@@ -69,11 +77,26 @@ public final class ExploreThemes {
             new Rule("minecraft:windswept_gravelly_hills", "rocky"),
             new Rule("minecraft:windswept_forest", "rocky"),
             new Rule("minecraft:stony_peaks", "rocky"),
+            // BIOMECOVERAGEPLAN F2 — vanilla has no #is_snowy tag either, so BWG's genuinely-frozen biomes (temperature
+            // -0.5) never matched the explicit snowy-id list the Frozen theme resolves and fell through to Forest (a
+            // green island on a glacier). Route BWG's own snowy/icy tags to the Frozen theme. Placed AFTER #is_mountain
+            // on purpose: howling_peaks is both snowy and a peak and we keep it Rocky (F6 snow-caps it there) —
+            // eroded_borealis (the other #biomeswevegone:snowy member) is not a mountain, so it reaches this rule.
+            // #biomeswevegone:icy = shattered_glacier. NB crimson_tundra is deliberately NOT here — despite the name
+            // it's a temperate grassland (temp 0.75), so it falls to the F4 plains→Meadow rule below. Inert without BWG.
+            new Rule("#biomeswevegone:snowy", "frozen"),
+            new Rule("#biomeswevegone:icy", "frozen"),
             new Rule("minecraft:plains", "meadow"),
             new Rule("minecraft:sunflower_plains", "meadow"),
             new Rule("minecraft:meadow", "meadow"),
             new Rule("minecraft:cherry_grove", "meadow"),
             new Rule("#minecraft:is_savanna", "meadow"),
+            // BIOMECOVERAGEPLAN F4 — BWG's grassland/plains biomes sit only in #biomeswevegone:plains (no vanilla
+            // is_plains tag), so the adaptive seed fell to the Forest fallback even though the Meadow theme already
+            // carries dedicated flower-field bands for them (biomeswevegone_meadow). Route the whole BWG plains family to
+            // Meadow so those bands fire (and pumpkin_valley gets its new pumpkin-patch band). This also correctly catches
+            // crimson_tundra — despite the name it's a temperate grassland (temp 0.75), not frozen. Inert without BWG.
+            new Rule("#biomeswevegone:plains", "meadow"),
             // Everything wooded/temperate (forest, birch, dark, flower, taiga, jungle, …) grows the Forest theme, which
             // already carries overrides for that whole range.
             new Rule("#minecraft:is_forest", "forest"),

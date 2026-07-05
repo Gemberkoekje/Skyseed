@@ -52,8 +52,8 @@
       "variants": [ { "weight": 1, "name": "spirit", "decoration": {
       "trees": [ { "feature": "biomeswevegone:spirit_trees", "tries": 6, "spacing": 2 } ],
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.25 }, { "block": "biomeswevegone:white_sage", "chance": 0.03 } ] } } ] },
-    { "biomes": ["biomeswevegone:cypress_swamplands"],
-      "_verify": "verified: multi-seed demo — biome cypress_swamplands + configured feature cypress_trees (trees-first here; water-first on the Aquatic family)",
+    { "biomes": ["biomeswevegone:cypress_swamplands", "biomeswevegone:cypress_wetlands"],
+      "_verify": "verified: multi-seed demo (BIOMECOVERAGEPLAN F5 added cypress_wetlands, the cypress sibling of cypress_swamplands — it reuses this cypress_trees band; note its own biome feature is sparse_cypress_trees, so the island runs a touch denser than the source biome, which is fine for a small island) — biome cypress_swamplands + configured feature cypress_trees (trees-first here; water-first on the Aquatic family)",
       "variants": [ { "weight": 1, "name": "cypress", "decoration": {
       "trees": [ { "feature": "biomeswevegone:cypress_trees", "tries": 6, "spacing": 2 } ],
       "ground": [ { "block": "minecraft:short_grass", "chance": 0.20 }, { "block": "minecraft:fern", "chance": 0.08 } ] } } ] },
@@ -84,6 +84,17 @@
       "_verify": "verified: biome fragment_jungle + dedicated configured feature rainbow_eucalyptus_trees (large trees — kept sparser via spacing 3; worldgen otherwise only mixes it into fragment_jungle_trees). Flowers protea_flower + delphinium are the biome's own BWG flora.",
       "variants": [ { "weight": 1, "name": "rainbow_eucalyptus", "decoration": {
       "trees": [ { "feature": "biomeswevegone:rainbow_eucalyptus_trees", "tries": 5, "spacing": 3 } ],
-      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 }, { "block": "biomeswevegone:protea_flower", "chance": 0.03 }, { "block": "biomeswevegone:delphinium", "chance": 0.03 } ] } } ] }
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 }, { "block": "biomeswevegone:protea_flower", "chance": 0.03 }, { "block": "biomeswevegone:delphinium", "chance": 0.03 } ] } } ] },
+    { "_comment": "BIOMECOVERAGEPLAN F2 — BWG's 'frosted' conifers read as snowy but sit in #is_taiga / #is_forest with no vanilla snowy tag, so the plain taiga/forest catch-all grew a green, snow-less island. Force a snow cap over a spruce/podzol taiga look. Kept on the Forest family (they're tree-heavy conifers); the adaptive Wild/Explore seed still resolves them here. Inert without BWG.",
+      "biomes": ["biomeswevegone:frosted_taiga", "biomeswevegone:frosted_coniferous_forest"], "snow": 1.0,
+      "surface_scatter": [ { "block": "minecraft:podzol", "chance": 0.20 } ],
+      "variants": [ { "weight": 1, "name": "frosted", "decoration": {
+      "trees": [ { "feature": "minecraft:spruce", "tries": 5, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:fern", "chance": 0.15 }, { "block": "minecraft:short_grass", "chance": 0.10 } ] } } ] },
+    { "biomes": ["biomeswevegone:orchard"],
+      "_verify": "verified vs BWG 2.6.0: biome orchard (temperate, temp 0.8) + dedicated configured feature orchard_trees; blossom flora lollipop_flower / white_allium / yellow_daffodil are the biome's own. BIOMECOVERAGEPLAN follow-up (post-F7 adversarial review): orchard sits in #is_forest so the adaptive seed grows the Forest theme — without this band it fell to the generic oak/birch catch-all and lost its fruit trees (the meadow orchard_bloom band is flowers-only + only reachable via an explicit Meadow seed). Inert without BWG.",
+      "variants": [ { "weight": 1, "name": "orchard", "decoration": {
+      "trees": [ { "feature": "biomeswevegone:orchard_trees", "tries": 6, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.30 }, { "block": "biomeswevegone:lollipop_flower", "chance": 0.05 }, { "block": "biomeswevegone:white_allium", "chance": 0.04 }, { "block": "biomeswevegone:yellow_daffodil", "chance": 0.04 } ] } } ] }
   ]
 }

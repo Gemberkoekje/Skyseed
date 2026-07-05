@@ -5,6 +5,36 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.223.0] - 2026-07-05
+
+### Added
+- **Biome coverage pass — every overworld biome now grows a fitting island (→ [BIOMECOVERAGEPLAN.md](Modpack-growyourownworld/BIOMECOVERAGEPLAN.md)).**
+  An audit of every overworld biome (vanilla + Oh The Biomes We've Gone + Quark) against Skyseed's two-layer biome→look
+  resolution — the `ExploreThemes` biome→theme map (what the adaptive Explore/Wild seed grows) plus each theme's
+  `biome_overrides` bands — found a systemic gap: the snowy/desert bands key off explicit vanilla ids (there is no vanilla
+  `#is_snowy`/`#is_desert` tag), so modded snowy/desert biomes slipped through to a green **Forest** island. Eight fixes,
+  all **inert without the mod** (unknown `biomeswevegone:` / `quark:` ids/tags never match, so generation is byte-identical
+  on the vanilla pack):
+  - **F1 — BWG deserts → Desert.** `#biomeswevegone:desert` (atacama_outback / mojave_desert / windswept_desert, temp 2.0)
+    now resolves to the Desert theme instead of the Forest fallback.
+  - **F2 — BWG frozen → Frozen.** `#biomeswevegone:snowy` + `#biomeswevegone:icy` (eroded_borealis / shattered_glacier,
+    temp −0.5) now resolve to Frozen; `howling_peaks` stays Rocky (it is a peak) and is snow-capped there (F6).
+    `frosted_taiga` / `frosted_coniferous_forest` stay on the Forest family but gained a snow-cap + spruce/podzol band.
+  - **F3 — `sparse_jungle`.** A dedicated open sparse-jungle band (scattered jungle + oak over grass/fern + the odd melon)
+    before the dense `#is_jungle` catch-all, across all three forest tiers. Pure-vanilla.
+  - **F4 — BWG plains → Meadow.** `#biomeswevegone:plains` now resolves to Meadow, which also activates the seven
+    already-authored BWG flower-field bands the adaptive seed had been bypassing to Forest; plus a new `pumpkin_valley`
+    pumpkin-patch band.
+  - **F5 — `cypress_wetlands`** folded into the cypress bands (forest + aquatic tiers).
+  - **F6 — `howling_peaks`** added to the Rocky snowy band for a snow-capped peak.
+  - **F7 — Quark `glimmering_weald` → Lush.**
+  - **F8 — `orchard`** (surfaced by the adversarial review): a temperate BWG fruit-tree biome that resolves to Forest but
+    had no forest band, so the adaptive seed grew generic oak/birch — now grows its `orchard_trees` + blossom flora.
+  - The **adversarial review** also caught a self-inflicted bug: `crimson_tundra` had been routed to Frozen on the
+    strength of its name, but it is a temperate red grassland (temp 0.75) — corrected to fall to F4 (plains→Meadow).
+  - Every new band auto-generates a creative-tab debug seed via `ThemeScanner` (auto debug seeds → 517). Both nodes green
+    (1.21.1: 209, 26.1.2: 211); all theme JSON valid; no biome-resolution or debug-seed-scan regression.
+
 ## [0.222.0] - 2026-07-05
 
 ### Changed

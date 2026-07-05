@@ -776,6 +776,13 @@
       ]
     },
     {
+      "_comment": "Sparse Jungle (BIOMECOVERAGEPLAN F3) — open sparse_jungle look: scattered jungle trees mixed with oak over grass/fern + the odd melon, scaled to the huge island. Precedes the #is_jungle catch-all.",
+      "biomes": [ "minecraft:sparse_jungle" ],
+      "variants": [ { "weight": 1, "name": "sparse_jungle", "decoration": {
+        "trees": [ { "feature": "minecraft:jungle_tree", "tries": 40, "spacing": 3 }, { "feature": "minecraft:oak", "tries": 40, "spacing": 3 }, { "feature": "minecraft:jungle_bush", "tries": 20, "spacing": 2 } ],
+        "ground": [ { "block": "minecraft:short_grass", "chance": 0.45 }, { "block": "minecraft:fern", "chance": 0.15 }, { "block": "minecraft:bamboo", "chance": 0.02 }, { "block": "minecraft:melon", "chance": 0.02 } ] } } ]
+    },
+    {
       "biomes": [
         "#minecraft:is_jungle"
       ],

@@ -137,6 +137,12 @@
       "ground": [ { "block": "minecraft:bamboo", "chance": 0.40 }, { "block": "minecraft:short_grass", "chance": 0.15 }, { "block": "minecraft:fern", "chance": 0.08 } ],
       "mobs": [ { "entity": "minecraft:parrot", "chance": 0.05, "count": { "min": 1, "max": 1 } } ] } } ] },
 
+    { "_comment": "Sparse Jungle (BIOMECOVERAGEPLAN F3) — vanilla sparse_jungle reads far more open than dense jungle: scattered jungle trees mixed with oak over lots of grass/fern + the odd melon, not a closed canopy. Must precede the #is_jungle catch-all so it wins; BWG jungles stay on the dense catch-all.",
+      "biomes": [ "minecraft:sparse_jungle" ], "variants": [ { "weight": 1, "name": "sparse_jungle", "decoration": {
+      "trees": [ { "feature": "minecraft:jungle_tree", "tries": 2, "spacing": 4 }, { "feature": "minecraft:oak", "tries": 2, "spacing": 3 }, { "feature": "minecraft:jungle_bush", "tries": 2, "spacing": 2 } ],
+      "ground": [ { "block": "minecraft:short_grass", "chance": 0.45 }, { "block": "minecraft:fern", "chance": 0.15 }, { "block": "minecraft:bamboo", "chance": 0.02 }, { "block": "minecraft:melon", "chance": 0.02 } ],
+      "mobs": [ { "entity": "minecraft:parrot", "chance": 0.04, "count": { "min": 1, "max": 1 } } ] } } ] },
+
     { "biomes": [ "#minecraft:is_jungle" ], "variants": [ { "weight": 1, "decoration": {
       "trees": [ { "feature": "minecraft:jungle_tree", "tries": 5, "spacing": 2 }, { "feature": "minecraft:jungle_bush", "tries": 3, "spacing": 1 }, { "feature": "minecraft:fallen_jungle_tree", "tries": 1, "spacing": 5 } ],
       "ground": [ { "block": "minecraft:bamboo", "chance": 0.06 }, { "block": "minecraft:short_grass", "chance": 0.40 }, { "block": "minecraft:fern", "chance": 0.10 } ],

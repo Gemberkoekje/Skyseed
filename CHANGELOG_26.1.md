@@ -9,6 +9,19 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.223.0] - 2026-07-05
+
+### Added
+- **Biome coverage pass — every overworld biome now grows a fitting island (→ [BIOMECOVERAGEPLAN.md](Modpack-growyourownworld/BIOMECOVERAGEPLAN.md)).**
+  Audited every overworld biome (vanilla + Oh The Biomes We've Gone + Quark) against the two-layer biome→look resolution
+  (`ExploreThemes` biome→theme + each theme's `biome_overrides`). Root cause of the gaps: snowy/desert bands key off
+  explicit vanilla ids (no vanilla `#is_snowy`/`#is_desert` tag), so modded snowy/desert biomes fell through to a green
+  Forest island. Eight fixes, all **inert without the mod** (byte-identical on the vanilla pack): F1 BWG deserts→Desert,
+  F2 BWG frozen (snowy/icy)→Frozen + `frosted_*` snow bands, F3 vanilla `sparse_jungle` open band, F4 BWG plains→Meadow
+  (activates the pre-authored BWG flower-field bands + new `pumpkin_valley`), F5 `cypress_wetlands`, F6 `howling_peaks`
+  snow, F7 Quark `glimmering_weald`→Lush, F8 `orchard` forest band (adversarial-review find; also corrected a
+  `crimson_tundra`→Frozen mis-route — it's a temperate grassland, temp 0.75). Both nodes green (1.21.1: 209, 26.1.2: 211).
+
 ## [0.222.0] - 2026-07-05
 
 ### Changed
