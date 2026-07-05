@@ -4045,6 +4045,173 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    @GameTest(template = BIG_REGION)
+    public static void ruinedChapelAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B25) — the vanilla Ruined Chapel epic. Assert the ruin's signature features: the
+        // stone-brick shell, the bell-cote bell, the soul-lantern over the altar, and the reliquary chest. Loads .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("ruined_chapel/chapel"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean brick = false, bell = false, lantern = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.STONE_BRICKS)) brick = true;
+                    else if (s.is(Blocks.BELL)) bell = true;
+                    else if (s.is(Blocks.SOUL_LANTERN)) lantern = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(brick, "ruined chapel must have its stone-brick shell");
+        helper.assertTrue(bell, "ruined chapel must hang its bell-cote bell (not a plain box)");
+        helper.assertTrue(lantern, "ruined chapel must light its altar with a soul lantern");
+        helper.assertTrue(chest, "ruined chapel must place its reliquary chest");
+        helper.succeed();
+    }
+
+    @GameTest(template = BIG_REGION)
+    public static void magitechWorkshopAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B26) — the Create + Iron's Spells Magitech Workshop. The Create machinery is mod
+        // blocks (air without Create) and Iron's contributes no blocks, so assert the vanilla arcane shell: the enchanting
+        // table, a bookshelf, the amethyst focus, and the scrap chest. Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("magitech_workshop/workshop"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean table = false, shelf = false, amethyst = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.ENCHANTING_TABLE)) table = true;
+                    else if (s.is(Blocks.BOOKSHELF)) shelf = true;
+                    else if (s.is(Blocks.AMETHYST_BLOCK)) amethyst = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(table, "magitech workshop must have its arcane enchanting table");
+        helper.assertTrue(shelf, "magitech workshop must have a bookshelf study");
+        helper.assertTrue(amethyst, "magitech workshop must have its amethyst focus (not a plain box)");
+        helper.assertTrue(chest, "magitech workshop must place its scrap chest");
+        helper.succeed();
+    }
+
+    @GameTest(template = BIG_REGION)
+    public static void essenceFarmAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B27) — the Create + Mystical Agriculture Automated Essence Farm. The Create
+        // machinery + the MA farmland/crops are mod blocks (air without their mods), so assert the vanilla harvester
+        // gantry shell: the oak-log frame, the broken fence rail, the gantry lantern, and the control chest. Loads .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("essence_farm/farm"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean gantry = false, fence = false, lantern = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.OAK_LOG)) gantry = true;
+                    else if (s.is(Blocks.OAK_FENCE)) fence = true;
+                    else if (s.is(Blocks.LANTERN)) lantern = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(gantry, "essence farm must have its oak-log harvester gantry (not a plain box)");
+        helper.assertTrue(fence, "essence farm must have its broken oak-fence rail");
+        helper.assertTrue(lantern, "essence farm must have its gantry lantern");
+        helper.assertTrue(chest, "essence farm must place its control chest");
+        helper.succeed();
+    }
+
+    @GameTest(template = BIG_REGION)
+    public static void feToMeSubstationAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B28) — the Immersive Engineering + AE2 FE→ME Substation. The IE + AE2 machinery is
+        // mod blocks (air without their mods), so assert the vanilla shell: the scorched deepslate conversion column /
+        // controller pit, the vanilla END_ROD conduit antenna, the chest, and the lantern. Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("substation/substation"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean deepslate = false, antenna = false, chest = false, lantern = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.DEEPSLATE)) deepslate = true;
+                    else if (s.is(Blocks.END_ROD)) antenna = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                    else if (s.is(Blocks.LANTERN)) lantern = true;
+                }
+            }
+        }
+        helper.assertTrue(deepslate, "substation must have its scorched deepslate conversion column / controller pit");
+        helper.assertTrue(antenna, "substation must have its conduit antenna (not a plain box)");
+        helper.assertTrue(chest, "substation must place its scrap chest");
+        helper.assertTrue(lantern, "substation must have its lantern");
+        helper.succeed();
+    }
+
+    @GameTest(template = BIG_REGION)
+    public static void alchemistsDistilleryAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B29) — the Immersive Engineering + Iron's Spells Alchemist's Distillery. The IE
+        // machinery is mod blocks (air without IE) and Iron's contributes no blocks, so assert the vanilla arcane still:
+        // the weathered-copper condenser, the brewing-stand still head, the amethyst focus, and the chest. Loads .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("distillery/distillery"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean copper = false, still = false, amethyst = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.WEATHERED_COPPER)) copper = true;
+                    else if (s.is(Blocks.BREWING_STAND)) still = true;
+                    else if (s.is(Blocks.AMETHYST_BLOCK)) amethyst = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(copper, "distillery must have its weathered-copper condenser column (not a plain box)");
+        helper.assertTrue(still, "distillery must have its brewing-stand still head");
+        helper.assertTrue(amethyst, "distillery must have its amethyst focus");
+        helper.assertTrue(chest, "distillery must place its essence-scrap chest");
+        helper.succeed();
+    }
+
+    @GameTest(template = BIG_REGION)
+    public static void skyFreightDepotAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B30) — the Create + Immersive Engineering Sky-Freight Depot. The Create train + IE
+        // conveyors/crates are mod blocks (air without their mods), so assert the vanilla depot shell: the rail siding,
+        // the cobblestone signal mast, its lantern, and the freight-scrap chest. Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("freight_depot/depot"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean rail = false, mast = false, lantern = false, chest = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.RAIL)) rail = true;
+                    else if (s.is(Blocks.COBBLESTONE)) mast = true;
+                    else if (s.is(Blocks.LANTERN)) lantern = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                }
+            }
+        }
+        helper.assertTrue(rail, "freight depot must have its rail siding");
+        helper.assertTrue(mast, "freight depot must have its cobblestone signal mast (not a plain box)");
+        helper.assertTrue(lantern, "freight depot must have its signal lantern");
+        helper.assertTrue(chest, "freight depot must place its freight-scrap chest");
+        helper.succeed();
+    }
+
     @GameTest(template = REGION)
     public static void endPortalEdgesCraftFromShardAndRelics(GameTestHelper helper) {
         // Phase-1 (End chapter) collect-a-thon: each of the four portal edges is a shapeless craft of one Portal Frame

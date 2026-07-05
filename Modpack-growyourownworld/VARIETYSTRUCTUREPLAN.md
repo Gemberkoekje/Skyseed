@@ -23,10 +23,26 @@
 > `requires:["farmersdelight"]`, on Forest/Meadow) closes Band 2 — a vanilla cabin shell with modded kitchen fittings
 > (`modNames` over `SMOKER`/`STONE`/`WHEAT` analogs) and flavour-only loot (FD has no progression gate). **Band 2 is now
 > COMPLETE (B13–B24): eleven mod-gated rare surprise buildings across Create, IE, AE2, Iron's Spells, Mystical Agriculture
-> and Farmer's Delight, each inert without its mod.**
-> **Left:** Band 3 (multi-mod epics) + the base-tier
-> `huge_` mirrors for the small commons (scale permitting), and an in-game throw-test/tuning pass. This
-> is the scoped build-out of PLANOFPLANS **#68** ("net-new bespoke structures beyond BWG's 17"). The goal is many more
+> and Farmer's Delight, each inert without its mod.** **Band 3 has begun:** the vanilla **Ruined Chapel** epic (B25) is
+> wired w1 across Meadow + Rocky and floors the thin Lush/Mushroom themes' Explore seed — and with it the **weighted-gate
+> theme migration is complete** (`huge_lush`/`huge_mushroom` were the last two legacy overworld themes; every overworld
+> theme now runs the flat-5% weighted gate — **the D5 large/huge-rate question is settled: flat 5% on all sizes**). The
+> first multi-mod epics have shipped too: the **Magitech Workshop** (B26, `requires:["create","irons_spellbooks"]`, Rocky) —
+> a Create machine husk fused with a vanilla arcane study — and the **Automated Essence Farm** (B27,
+> `requires:["create","mysticalagriculture"]`, Meadow) — a stalled Create harvester gantry over a derelict tier-1 inferium
+> field. Both are D4-safe against both mods (Create → `andesite_alloy`; Iron's → `arcane_essence`/`blank_rune`; MA →
+> tier-1 `inferium_essence`). A physical-review pass fixed a floating-beam class of bug across B24/B25/B26 and confirmed B27 clean.
+> The **FE→ME Substation** (B28, `requires:["immersiveengineering","ae2"]`, Rocky) — the sharpest D4 case — has shipped too:
+> an IE→AE2 conversion station over an **empty controller pit** (no sky stone / controller / press; fluix + wire-coil loot).
+> The **Alchemist's Distillery** (B29, `requires:["immersiveengineering","irons_spellbooks"]`, Badlands) — an IE refinery
+> reworked as a vanilla arcane still — and the **Sky-Freight Depot** (B30, `requires:["create","immersiveengineering"]`,
+> Rocky) — a stalled Create train at an IE loading dock — have shipped as well. **Band 3 is COMPLETE (B25–B30), and the whole
+> B1–B30 catalog has shipped:** Phase-0 engine, Band 1 (12 vanilla commons), Band 2 (11 mod-gated rares), Band 3 (a vanilla
+> chapel + 5 multi-mod epics), the flat-5% weighted-gate migration of every overworld theme (D5), a physical-review pass, and
+> the **Phase-4 weight-tuning pass** (flagship dilution verified — citadel 0.48% / mansion 0.93% / monument ~1.9% / ancient
+> city 1.5% per fitting seed — and the rare-heavy `huge_` tiers rebalanced by mirroring the base-tier small commons up).
+> **Left:** only subjective in-game feel-tuning (a playtest — not runnable headless); every buildable/verifiable piece is done.
+> This is the scoped build-out of PLANOFPLANS **#68** ("net-new bespoke structures beyond BWG's 17"). The goal is many more
 > *common* and *rare* buildings so that every overworld seed has a **flat 5% chance** to germinate one that fits its
 > type — which **dilutes the citadel** (and the other flagships) down to a genuine standout, and makes the exploration
 > seed matter more. The roll-model engine (§2 A1–A3, A6) is **built and behavior-neutral** — it landed as a
@@ -275,12 +291,12 @@ and every chest is a scrap pool.
 | ✅ | **Evoker Cell** (mini mansion) | — (vanilla) | woodland-mansion chest, bookshelves | 1 evoker (+ Totem) | dark-forest Forest |
 | ✅ | **Vault Cell** (buried trial) | — (vanilla) | 2 trial spawners + a vault | trial waves | Ancient |
 | ✅ | **Ocean Ruin** (flooded basin) | — (vanilla) | archaeology + underwater-ruin chest | — | Aquatic |
-| B25 | **Ruined Chapel** | — (vanilla) | a 2-room stone chapel, altar chest, bell | 2–3 undead | Meadow, Rocky |
-| B26 | **Magitech Workshop** | Create + Iron's Spells | arcane-forge husk (gears + a *low-tier* scroll/spellbook + runes) | 2 mages | Rocky |
-| B27 | **Automated Essence Farm (ruin)** | Create + Mystical | stalled harvester husks over MA plots; a little low-tier inferium | 1–2 zombies | Meadow |
-| B28 | **FE→ME Substation** | IE + AE2 | wires *into* cables + an **empty controller husk**; scrap = fluix/coils (⛔ no sky stone / presses) | 1 creeper | Rocky |
-| B29 | **Alchemist's Distillery** | IE + Iron's Spells | a refinery husk as an arcane still; potion/essence scrap | 1 mage | Badlands |
-| B30 | **Sky-Freight Depot** | Create + IE | a stalled train + conveyor husks + crates; cog/ingot scrap | 2 zombies | Rocky |
+| ✅ B25 | **Ruined Chapel** | — (vanilla) | a caved-roof stone-brick chapel (open nave, fallen rubble, shattered arched windows), a front bell-cote with a hanging **bell** over a broken door, a chiseled chancel altar lit by a soul lantern behind a broken stained-glass rose window, the **reliquary chest** (emeralds/enchanted book/diamond/golden apple — a real epic reward) | 2–3 undead | **wired Meadow + Rocky** (all 3 tiers, w1) **+ Lush + Mushroom** (thin-theme Explore-floor) |
+| ✅ B26 | **Magitech Workshop** | Create + Iron's Spells | an andesite/stone arcane-forge hall (caved roof, breached wall, broken brick forge-flue); a Create machine husk (casing gearbox → cogwheel + shaft → a `mechanical_press`) beside the arcane half (enchanting table + amethyst + candles, a bookshelf study, a brewing nook); vanilla scrap + Create `andesite_alloy` / Iron's `arcane_essence` + `blank_rune` GLMs (D4 both mods) | 2 mages (archevoker + magehunter) | **wired Rocky** (all 3 tiers, w1) |
+| ✅ B27 | **Automated Essence Farm (ruin)** | Create + Mystical | a derelict inferium field (farmland rows + tier-1 crops, some trampled) under a stalled harvester **gantry** (vanilla oak posts → rails → cross-bridge carrying a Create `mechanical_drill` husk + cogwheel drive), a west control-chest station, a broken tier-1 `growth_accelerator` + coolant cauldron; vanilla scrap + Create `andesite_alloy` / MA tier-1 `inferium_essence` GLMs (D4 both mods) | 1–2 zombies | **wired Meadow** (all 3 tiers, w1) |
+| ✅ B28 | **FE→ME Substation** | IE + AE2 | a gutted roofless hall — an IE concrete/sheetmetal west end (wire-mast + post-transformer husk + capacitor), a certus/fluix AE2 east end, a scorched deepslate **conversion column** (broken conduit antenna) over the **empty controller pit** (⛔ no sky stone / controller / press — the pit is empty); vanilla scrap + IE `wire_copper` / AE2 `fluix_crystal` GLMs | 1 creeper | **wired Rocky** (all 3 tiers, w1) |
+| ✅ B29 | **Alchemist's Distillery** | IE + Iron's Spells | a roofless sheetmetal shed around an arcane still (lava-cauldron fire, weathered-copper still-head + brewing stand, a copper condenser column + lightning-rod vent, a water receiver, IE metal-barrel tanks + capacitor) with an amethyst focus + bookshelf study; vanilla brewing scrap + IE `plate_iron` / Iron's `arcane_essence` GLMs (D4) | 1 necromancer | **wired Badlands** (all 3 tiers, w1) |
+| ✅ B30 | **Sky-Freight Depot** | Create + IE | an open depot on a gravel/cobble pad — a vanilla rail siding carrying a stalled Create train (`small_bogey` bogeys under brass/copper/railway-casing car bodies + a loco cab), an IE loading platform (a conveyor line, stacked crates, a fuel barrel), a vanilla cobblestone signal mast + lantern; vanilla rail scrap + Create `andesite_alloy` / IE `plate_iron` GLMs (D4 both mods) | 2 zombies | **wired Rocky** (all 3 tiers, w1) |
 
 The catalog is deliberately open-ended — treat B1–B30 as the **starter set**, not a ceiling. New buildings slot in
 by the same recipe (template → pool json → theme wiring), so the bench can keep growing after the first batches ship.
@@ -402,10 +418,22 @@ Ship in batches, **per-step version bump + CHANGELOG + inert golden-master gamet
      produce (onion) + rope. 1 gametest per mirror. Adversarial review before the regen fixed two corner-post overwrites (a
      garden weed and a mushroom).
    - **Phase 2 (Band 2) is DONE** — B13–B24, eleven mod-gated rares across Create / IE / AE2 / Iron's / Mystical / Farmer's.
-4. **Phase 3 — epic (Band 3, B25–B30).** Multi-mod set-pieces + the vanilla showpieces; rarest weights. **D4 loot
-   audit against BOTH required mods' deny-lists** (the compounding case — esp. the AE2 press gate on B28).
-5. **Phase 4 — tuning pass (§8).** In-game throw-tests per theme; adjust weights to feel; confirm the citadel/mansion/
-   monument now read as standouts.
+4. ✅ **Phase 3 — epic (Band 3, B25–B30) SHIPPED** (v0.215.0–v0.221.0; both nodes green). The vanilla **Ruined Chapel**
+   (B25) + five multi-mod epics authored in `MultiModRuinsTemplates` — **Magitech Workshop** (Create+Iron's), **Automated
+   Essence Farm** (Create+Mystical), **FE→ME Substation** (IE+AE2, the sharpest D4 — an *empty controller pit*, no sky
+   stone/press), **Alchemist's Distillery** (IE+Iron's), **Sky-Freight Depot** (Create+IE) — each `requires:[modA, modB]`,
+   authored via the `modNames` side-map, w1 on their themes, with the D4 loot audited against BOTH mods' deny-lists. A
+   physical-review pass (floating blocks / fit-through / chest-openability) ran over B24–B30 and fixed a floating-beam class
+   of bug (B24/B25/B26), a stale-mod-id chest (B28) and a still-blocks-the-doorway barrier (B29). **The whole B1–B30 catalog
+   has shipped.**
+5. ✅ **Phase 4 — tuning pass (§8) DONE (analytically; v0.222.0).** An audit of every overworld theme's weighted table
+   confirmed the flagships are diluted to genuine standouts — **citadel 0.48%, woodland mansion 0.93%, ocean monument
+   ~1.9%, ancient city 1.5%** per fitting seed. Rebalanced the rare-heavy `huge_` tiers by **mirroring the base-tier small
+   commons up** (Farmstead/Tool Shed→huge_meadow, Bandit Camp/Fossil Dig→huge_badlands, Prospector's/Fossil→huge_desert,
+   Hunter's Blind/Graveyard→huge_forest, Mine Head/Cairn→huge_rocky) — the user OK'd small structures on large islands — so
+   the huge tiers now grow ordinary vanilla variety (huge_rocky 0→28% common, the rest to ~51–64%) and the flagships are
+   diluted further still. Base + `_large` tiers were already ~50/35/15 (D2) and left as-is. **The only thing left is
+   subjective in-game feel-tuning** (needs a playtest — not runnable headless); the numbers are sound.
 
 Each new building follows the **regen dance** ([[skyseed-structure-staging]]): edit `*Templates.java`, delete only the
 changed `.nbt` from repo-root src, regen on the **1.21.1 node** (`JAVA_HOME=…jdk-21… ./gradlew :1.21.1:runGameTestServer`),

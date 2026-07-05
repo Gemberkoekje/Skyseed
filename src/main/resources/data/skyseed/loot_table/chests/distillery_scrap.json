@@ -1,0 +1,35 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 3 (B29, D3/D4) — the Alchemist's Distillery's essence-scrap chest (Immersive Engineering + Iron's Spells). Vanilla brewing/alchemy scrap only, so it loads inert with neither mod; an IE iron plate + an Iron's Arcane Essence are layered on via the inert-safe skyseed:distillery_plate / distillery_essence add_drop GLMs. D4 compounding gate: IE tops out at plate_iron (a husk still, no working multiblock); Iron's is arcane_essence (the common crafting mat), never a spellbook / named scroll / Upgrade Orb.",
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": { "min": 2, "max": 4 },
+      "entries": [
+        { "type": "minecraft:item", "name": "minecraft:glass_bottle", "weight": 6,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:blaze_powder", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:nether_wart", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:glowstone_dust", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:redstone", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 5 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:sugar", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:fermented_spider_eye", "weight": 2 }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        { "type": "minecraft:empty", "weight": 3 },
+        { "type": "minecraft:item", "name": "minecraft:magma_cream", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 2 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:experience_bottle", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:ghast_tear", "weight": 1 }
+      ]
+    }
+  ]
+}

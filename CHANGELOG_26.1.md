@@ -9,6 +9,121 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.222.0] - 2026-07-05
+
+### Changed
+- **Structure Variety Phase 4 — the weight-tuning pass (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §8), the last item on PLANOFPLANS #68.** An analytical pass over every overworld theme's weighted rare table.
+  **Flagship dilution confirmed** — citadel 0.48%, woodland mansion 0.93%, ocean monument ~1.9%, ancient city 1.5% per
+  fitting seed (genuine standouts). **Rebalanced the rare-heavy `huge_` tiers** by mirroring the base-tier small commons up
+  (the user OK'd small structures on large islands): huge_meadow/badlands/desert/forest/rocky had lacked the Band-1 vanilla
+  commons their base siblings carry, so they skewed rare/epic-heavy (huge_rocky was 0% common). After mirroring: huge_meadow
+  26→51% common, huge_badlands 24→51%, huge_desert 38→64%, huge_forest 33→62%, huge_rocky 0→28% (still premium-dense but with
+  ordinary variety), and the flagships diluted further (mansion 1.67→0.93%). Base + `_large` tiers were already balanced and
+  untouched. **Theme-JSON only** — every added building is a pre-existing, already-reviewed common, so no structure geometry
+  changed (no walking-path risk). Both nodes green (1.21.1: 209, 26.1.2: 211). **Closes PLANOFPLANS #68 bar subjective in-game
+  feel-tuning.**
+
+## [0.221.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 COMPLETE — the Sky-Freight Depot (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B30), the last build in the B1–B30 catalog.** A `requires:["create","immersiveengineering"]` epic (w1, Rocky) that
+  only germinates where **both** Create and IE are installed: a freight yard where a Create train sits stalled at an IE
+  loading dock — an open gravel-and-cobble pad with a vanilla rail siding carrying a stalled train (Create `small_bogey`
+  bogeys under brass/copper/railway-casing car bodies + a loco cab), an IE loading platform (a conveyor line, stacked
+  crates, a fuel barrel), and a vanilla cobblestone signal mast + lantern. Built to the floating-block rule the earlier
+  review established (**no vanilla block rests on a modded one**), so the all-Create train + all-IE platform vanish cleanly
+  together without their mods, leaving the vanilla shell. **D4:** Create → `andesite_alloy` (husks on a plain rail); IE →
+  iron plate (conveyor/crate husks). Wired w1 across all three Rocky tiers; adversarial review clean. Both nodes green
+  (1.21.1: 209, 26.1.2: 211). **Band 3 is now complete (B25–B30)** and the whole B1–B30 Structure Variety catalog has
+  shipped — only the in-game weight-tuning pass is left on PLANOFPLANS #68.
+
+## [0.220.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 — the Alchemist's Distillery (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B29).** A `requires:["immersiveengineering","irons_spellbooks"]` epic (w1, Badlands) that only germinates where **both**
+  IE and Iron's Spells are installed: an IE refinery repurposed as an arcane still gone cold — a roofless rusty-sheetmetal
+  shed around a lava-cauldron fire, a weathered-copper still-head + brewing stand, a weathered-copper **condenser column**
+  with a lightning-rod vent, a water receiver, IE fluid tanks + a capacitor, and an amethyst focus / bookshelf study /
+  essence-scrap chest. IE machinery via the `modNames` side-map; Iron's is a mob/item mod so the still + arcane fittings are
+  all vanilla (the still stands on vanilla copper, so it doesn't float without IE — the gametest shell). **D4:** IE loot is an
+  iron plate (husk still, no working multiblock); Iron's loot is `arcane_essence` only. Wired w1 across all three Badlands
+  tiers. **Adversarial review (afterwards)** reworked the still off a full-width barrier into a left-side cluster so the
+  central doorway axis stays a clear walkway to the loot. Both nodes green (1.21.1: 208, 26.1.2: 210).
+
+## [0.219.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 — the FE→ME Substation (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B28), the sharpest D4 case in the plan.** A `requires:["immersiveengineering","ae2"]` epic (w1, Rocky) that only
+  germinates where **both** IE and AE2 are installed: a derelict power-conversion station — a gutted roofless hall with an
+  IE concrete/sheetmetal west end (wire-mast + post-transformer husk + capacitor), a certus-quartz/fluix AE2 east end, and
+  a scorched **conversion column** (deepslate + a broken conduit antenna) between them, over the **empty controller pit** (a
+  deepslate mount where the ME Controller was torn out). **D4 — sharpest gate:** NO `sky_stone_*` / `controller` / press /
+  processor anywhere (the pit is empty); loot is fluix + a copper wire coil only. Both mods' machinery via the `modNames`
+  side-map; the vanilla deepslate column/pit + end-rod antenna + chest + lantern are the gametest shell. Wired w1 across all
+  three Rocky tiers. Both nodes green (1.21.1: 207, 26.1.2: 209).
+
+### Fixed
+- **FE→ME Substation stale-mod-id placement** (caught by the new gametest + the adversarial review): the scrap chest + the
+  lantern sat on the back-wall line where the wall loop had already stamped a mod id, so the chest emitted as
+  `ae2:quartz_block` — moved both to clear interior cells.
+
+## [0.218.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 — the Automated Essence Farm (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B27).** A `requires:["create","mysticalagriculture"]` epic (w1, Meadow) that only germinates where **both** Create and
+  Mystical Agriculture are installed: a mechanised inferium field seized up mid-harvest — a derelict essence plot (inferium
+  farmland rows, some trampled, crops at mixed growth) straddled by a stalled harvester **gantry** (a vanilla oak frame of
+  six posts → two side-rails → a cross-bridge, from which a **Create** `mechanical_drill` husk hangs with its casing body +
+  a cogwheel drive), a hanging gantry lantern, a west control station (casing panel + scrap chest), and a derelict tier-1
+  `growth_accelerator` + coolant cauldron behind a broken oak-fence rail. Create machinery + MA crops via the `modNames`
+  side-map; the gantry frame is deliberately vanilla (the gametest shell). **D4 compounding gate:** Create → `andesite_alloy`
+  (husk drill, no working contraption); MA → tier-1 `inferium_essence` only (no seeds/higher-tier essence/prosperity/infusion).
+  Wired w1 across all three Meadow tiers; a new gametest per mirror. **Adversarial physical review clean** — the whole gantry
+  is carried (nothing floats), the chest is openable, the field stays 2-blocks walkable. Both nodes green (1.21.1: 206,
+  26.1.2: 208).
+
+## [0.217.0] - 2026-07-05
+
+### Fixed
+- **Structure Variety — physical-playability review (floating blocks).** An adversarial pass over the surprise buildings
+  authored this wave caught a repeated mistake — a soul-lantern/lantern hung from a roof beam that was itself unsupported,
+  so both floated. Fixed by carrying the beam wall-to-wall in the **Ruined Chapel** (B25, two supported cross-beams) and
+  the **Magitech Workshop** (B26), and by raising the **Cook's Homestead** (B24) kitchen lantern so it hangs from the ridge
+  slab rather than from air. Rechecked the rest (Iron's spire lanterns on fence poles + the obelisk beacon on its solid tip
+  are supported; chests stay openable; doorways are 2 tall). Both nodes green (1.21.1: 205, 26.1.2: 207).
+
+## [0.216.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 — the Magitech Workshop (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B26), the first multi-mod epic.** A `requires:["create","irons_spellbooks"]` epic (w1, Rocky) that only germinates
+  where **both** Create and Iron's Spells are installed: an arcane-forge workshop, *not a box* — an andesite-and-stone hall
+  with a caved roof, a breached wall and a broken brick forge-flue, holding a **Create** machine husk (`andesite_casing`
+  gearbox → cogwheel + shaft → a `mechanical_press`) beside the **arcane** half (an enchanting table ringed with amethyst
+  and candles, a bookshelf study, a brewing nook). Create machinery via the `modNames` side-map; Iron's contributes the two
+  mages (`archevoker` + `magehunter_vindicator`) and loot, so the vanilla arcane fittings are the gametest shell. **D4
+  compounding gate:** Create loot tops out at `andesite_alloy` (husk press, no working contraption); Iron's loot is
+  `arcane_essence` + an uninscribed `blank_rune` (inert without a gated Upgrade Orb) — never a spellbook/scroll/Orb. Wired
+  w1 across all three Rocky tiers; a new gametest per mirror. Both nodes green (1.21.1: 205, 26.1.2: 207).
+
+## [0.215.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 begins — the Ruined Chapel (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B25), plus the last theme migration.** An all-vanilla **epic** (w1) showpiece: a stone-brick chapel fallen to ruin —
+  a caved nave open to the sky, arched shattered windows, a tall front bell-cote holding a hanging **bell**, and a chiseled
+  chancel altar lit by a soul lantern behind a broken rose window with the reliquary chest (emeralds, an enchanted book, the
+  odd diamond / golden apple). Wired **w1** across all three tiers of Meadow + Rocky, and — as the shared reward-bearing
+  `explorable` Explore-floor — the thin Lush + Mushroom themes. **Finished the weighted-gate migration (D5):** `huge_lush`
+  and `huge_mushroom` (the last two legacy overworld themes) were migrated to `rare_structure_chance: 0.05` + weighted
+  entries; every overworld theme now runs the flat-5% weighted gate (only the Explore seed + Nether/End stay legacy by
+  design). A new assembly gametest per mirror. Both nodes green (1.21.1: 204, 26.1.2: 206).
+
 ## [0.214.0] - 2026-07-05
 
 ### Added

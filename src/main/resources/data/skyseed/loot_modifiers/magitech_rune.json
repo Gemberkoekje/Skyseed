@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 3 (B26, D4/§5) — layers a Blank Rune (the mod's uninscribed base rune) onto the Magitech Workshop's chest. Inert without Iron's Spells: AddDropModifier resolves the id via Lookup.hasItem and adds nothing when absent. Gate-safe: a blank rune is a crafting intermediate that does nothing until inscribed with a gated Upgrade Orb — never a finished/inscribed rune or an Upgrade Orb itself.",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/magitech_scrap" }
+  ],
+  "item": "irons_spellbooks:blank_rune",
+  "chance": 0.35
+}

@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 3 (B26, D4/§5) — layers a little Iron's Spells Arcane Essence onto the Magitech Workshop's chest. Inert without Iron's Spells: AddDropModifier resolves the id via Lookup.hasItem and adds nothing when absent. Gate-safe: arcane essence is the common Iron's crafting mat, never an Upgrade Orb / spellbook / named scroll.",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/magitech_scrap" }
+  ],
+  "item": "irons_spellbooks:arcane_essence",
+  "chance": 0.5
+}

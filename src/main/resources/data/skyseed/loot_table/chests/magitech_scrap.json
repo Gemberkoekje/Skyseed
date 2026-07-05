@@ -1,0 +1,34 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 3 (B26, D3/D4) — the Magitech Workshop's scrap chest (Create + Iron's Spells). Vanilla mechanical + arcane scrap only, so it loads inert with neither mod; a Create token (andesite_alloy) + Iron's tokens (arcane_essence, blank_rune) are layered on via the inert-safe skyseed:magitech_gears / magitech_essence / magitech_rune add_drop GLMs. D4 compounding gate: Create tops out at andesite_alloy (never brass / precision mechanisms); Iron's is arcane_essence + an uninscribed blank_rune (inert without a gated Upgrade Orb) — never a spellbook, named scroll or Upgrade Orb.",
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": { "min": 2, "max": 4 },
+      "entries": [
+        { "type": "minecraft:item", "name": "minecraft:iron_nugget", "weight": 6,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 8 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:andesite", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 6 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:redstone", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 6 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:amethyst_shard", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:copper_ingot", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:glowstone_dust", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        { "type": "minecraft:empty", "weight": 3 },
+        { "type": "minecraft:item", "name": "minecraft:book", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:experience_bottle", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:enchanted_book", "weight": 1 }
+      ]
+    }
+  ]
+}

@@ -24,6 +24,9 @@
   "_comment_rare": "VARIETYSTRUCTUREPLAN Phase 1 — weighted-gate model (5% gate) + the common Fossil Dig (w6). Mirrored on badlands_large.",
   "rare_structure_chance": 0.05,
   "rare_structures": [
+    { "weight": 1, "requires": ["immersiveengineering", "irons_spellbooks"], "_comment": "VARIETYSTRUCTUREPLAN Band 3 — Alchemist's Distillery (inert without Immersive Engineering + Iron's Spells).",
+      "jigsaw": { "pool": "skyseed:distillery/distillery", "target": "minecraft:bottom", "depth": 1, "pad": 5 },
+      "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:necromancer", "adults": 1 } ] } ] },
     { "weight": 3, "requires": ["irons_spellbooks"], "_comment": "VARIETYSTRUCTUREPLAN Band 2 — Cursed Obelisk (inert without Iron's Spells).",
       "jigsaw": { "pool": "skyseed:cursed_obelisk/obelisk", "target": "minecraft:bottom", "depth": 1, "pad": 4 },
       "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:necromancer", "adults": 1 } ] } ] },

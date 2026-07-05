@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 3 (B27, D4/§5) — layers a little Create andesite alloy onto the Automated Essence Farm's chest. Inert without Create: AddDropModifier resolves the id via Lookup.hasItem and adds nothing when absent. Gate-safe: andesite_alloy is the mod's basic crafting material, never brass / precision mechanisms.",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/essence_farm_scrap" }
+  ],
+  "item": "create:andesite_alloy",
+  "chance": 0.6
+}
