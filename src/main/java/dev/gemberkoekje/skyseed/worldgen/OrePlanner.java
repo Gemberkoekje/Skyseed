@@ -66,7 +66,12 @@ final class OrePlanner {
                     growVein(blockMap, seed, state, ore.veinSize().sample(random), coreSet, random);
                 }
             }
-            // …then the size-appropriate EXTRA veins on the side RNG (adds ore only; doesn't move anything else).
+            // …then the size-appropriate EXTRA veins on the side RNG. NB: their placed cells are still removed from the
+            // shared `coreSet`, so a LATER ore's main-stream pickSeed sees a more-depleted set and can retry more — i.e.
+            // ore VOLUME does couple back into the main `random` stream via coreSet (only on islands above REF_CORE,
+            // where extraVeins>0; deterministic, so output is stable and each tier's golden master captures it). Fully
+            // decoupling it (a separate exclusion set for the extras) is a tracked follow-up: it shifts downstream
+            // generation on large/huge tiers and would need a golden-master recapture.
             final int extraVeins = (int) Math.round(baseVeins * volScale) - baseVeins;
             for (int v = 0; v < extraVeins; v++) {
                 final BlockPos seed = pickSeed(coreList, coreSet, ore.depth(), deepMaxY, extra);

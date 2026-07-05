@@ -235,7 +235,8 @@ public final class PathSurfacer {
     /**
      * The bayou-stilt variant of {@link #supportFloatingFloors}: under a sparse (every-other-column) grid of the
      * over-water/void floor tiles of a stilted build, hang a wooden {@code post} leg down — through any WATER — to the
-     * first solid block (the swamp bed), or a short {@link #STILT_STUB} stub over pure void. Unlike the dirt/trestle
+     * first solid block (the swamp bed), or nothing at all over pure void (the floor just floats — see {@link #stiltDown}).
+     * Unlike the dirt/trestle
      * passes, which stop at the first non-air block (the water surface), this descends through the fluid so a house
      * standing over the marsh rests on legs planted in the bed, not on the water. Sparse so it reads as legs, not a
      * wall; {@code linkConnections} joins adjacent legs afterwards. Run BEFORE {@link #resolveStilted} (while the
