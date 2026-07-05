@@ -49,7 +49,8 @@ final class DecorationPlanner {
             ConfiguredFeature<?, ?> feature = null;
             if (custom) {
                 final String path = tree.feature().path();
-                if (!path.equals("mangrove") && !path.equals("azalea") && !path.equals("ice_spike")) {
+                if (!path.equals("mangrove") && !path.equals("azalea") && !path.equals("ice_spike")
+                        && !path.equals("crimson_tree") && !path.equals("warped_tree")) {
                     Skyseed.LOGGER.warn("[skyseed] unknown built-in tree '{}' — skipping", tree.feature());
                     continue;
                 }
@@ -83,6 +84,10 @@ final class DecorationPlanner {
                         CustomTrees.buildAzalea(blockMap, base, random);
                     } else if (path.equals("ice_spike")) {
                         CustomTrees.buildIceSpike(blockMap, base, random);
+                    } else if (path.equals("crimson_tree")) {
+                        CustomTrees.buildCrimsonTree(blockMap, base, random);
+                    } else if (path.equals("warped_tree")) {
+                        CustomTrees.buildWarpedTree(blockMap, base, random);
                     } else {
                         CustomTrees.buildMangrove(blockMap, base, random);
                     }

@@ -41,6 +41,8 @@
     { "id": "skyseed:huge_meteorite_skyseed", "required": false },
     "skyseed:ladder_small_skyseed",
     "skyseed:ladder_large_skyseed",
+    "skyseed:wild_nether_skyseed",
+    "skyseed:wild_nether_large_skyseed",
     "skyseed:nether_rocky_skyseed",
     "skyseed:nether_rocky_large_skyseed",
     "skyseed:nether_lava_skyseed",

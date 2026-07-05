@@ -22,6 +22,39 @@
   ],
   "rare_structures": [ { "chance": 0.05, "suppress_pond": true, "jigsaw": { "pool": "skyseed:nether_fortress/blaze_room", "target": "minecraft:bottom", "depth": 1, "pad": 4 } } ],
   "biome_overrides": [
+    { "_comment": "Nether biome flavor (SKYNETHERENDBIOMEPLAN model A) — Crimson: full crimson-nylium surface + crimson roots/fungus + a hand-built huge crimson fungus, weeping vines underside, Hoglins/Piglins. Same-dimension → the base lava pond / fill / ores are kept; only the surface dressing changes.",
+      "dimension": "minecraft:the_nether", "biomes": [ "minecraft:crimson_forest" ],
+      "surface": "minecraft:crimson_nylium",
+      "mobs": [ { "entity": "minecraft:hoglin", "chance": 0.25, "count": { "min": 1, "max": 2 } }, { "entity": "minecraft:piglin", "chance": 0.20, "count": { "min": 1, "max": 2 } }, { "entity": "minecraft:zombified_piglin", "chance": 0.15, "count": { "min": 1, "max": 1 } } ],
+      "variants": [ { "weight": 1, "name": "crimson", "decoration": {
+        "trees": [ { "feature": "skyseed:crimson_tree", "tries": 4, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:crimson_roots", "chance": 0.25 }, { "block": "minecraft:crimson_fungus", "chance": 0.06 }, { "block": "minecraft:shroomlight", "chance": 0.03 } ],
+        "underside": [ { "block": "minecraft:weeping_vines", "chance": 0.15 } ] } } ] },
+
+    { "_comment": "Nether biome flavor — Warped: full warped-nylium surface + warped roots/sprouts/fungus + a hand-built huge warped fungus, weeping vines underside, Endermen.",
+      "dimension": "minecraft:the_nether", "biomes": [ "minecraft:warped_forest" ],
+      "surface": "minecraft:warped_nylium",
+      "mobs": [ { "entity": "minecraft:enderman", "chance": 0.30, "count": { "min": 1, "max": 2 } } ],
+      "variants": [ { "weight": 1, "name": "warped", "decoration": {
+        "trees": [ { "feature": "skyseed:warped_tree", "tries": 4, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:warped_roots", "chance": 0.25 }, { "block": "minecraft:nether_sprouts", "chance": 0.10 }, { "block": "minecraft:warped_fungus", "chance": 0.06 }, { "block": "minecraft:shroomlight", "chance": 0.03 } ],
+        "underside": [ { "block": "minecraft:weeping_vines", "chance": 0.15 } ] } } ] },
+
+    { "_comment": "Nether biome flavor — Soul Sand Valley: soul soil/sand dusting, bone-block clusters, soul fire, Skeletons.",
+      "dimension": "minecraft:the_nether", "biomes": [ "minecraft:soul_sand_valley" ],
+      "surface_scatter": [ { "block": "minecraft:soul_soil", "chance": 0.4 }, { "block": "minecraft:soul_sand", "chance": 0.2 } ],
+      "mobs": [ { "entity": "minecraft:skeleton", "chance": 0.30, "count": { "min": 1, "max": 2 } }, { "entity": "minecraft:magma_cube", "chance": 0.15, "count": { "min": 1, "max": 1 } } ],
+      "variants": [ { "weight": 1, "name": "soul", "decoration": {
+        "ground": [ { "block": "minecraft:bone_block", "chance": 0.05 }, { "block": "minecraft:soul_fire", "chance": 0.05 } ] } } ] },
+
+    { "_comment": "Nether biome flavor — Basalt Deltas: basalt/blackstone/magma dusting, basalt pillars, a gilded-blackstone fleck, Magma Cubes.",
+      "dimension": "minecraft:the_nether", "biomes": [ "minecraft:basalt_deltas" ],
+      "surface_scatter": [ { "block": "minecraft:basalt", "chance": 0.4 }, { "block": "minecraft:blackstone", "chance": 0.2 }, { "block": "minecraft:magma_block", "chance": 0.05 } ],
+      "mobs": [ { "entity": "minecraft:magma_cube", "chance": 0.30, "count": { "min": 1, "max": 2 } } ],
+      "variants": [ { "weight": 1, "name": "basalt", "decoration": {
+        "trees": [ { "feature": "minecraft:basalt_pillar", "tries": 4, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:gilded_blackstone", "chance": 0.02 }, { "block": "minecraft:magma_block", "chance": 0.05 } ] } } ] },
+
     { "_comment": "Overworld form — the overworld still has no lava island of its own, so the LARGE Nether Lava seed grows a FULL-SIZE LARGE volcanic island topside (not a tiny easter egg): a big basalt isle over stone with a broad contained lava lake and Striders.",
       "dimension": "minecraft:overworld",
       "shape": { "radius": { "min": 11, "max": 14 }, "rim_noise": 0.35, "underside": "teardrop", "top_dome": { "min": 1, "max": 2 } },

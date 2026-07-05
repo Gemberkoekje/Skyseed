@@ -1,0 +1,29 @@
+{
+  "name": "Nether Wild Skyseed",
+  "category": "skyseed:nether",
+  "advancement": "skyseed:reveal_wild_nether",
+  "icon": "minecraft:crimson_nylium",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The $(item)Nether Wild Skyseed$() — a $(item)Wild Skyseed$() carried down into the dark, wrapped in netherrack and a $(item)nether wart$(). The $(bold)adaptive Nether starter$(): the seed to reach for when you just want to see what the local fire-and-fungus grows."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "skyseed:wild_nether_skyseed",
+      "text": "Everything's in hand — here's how it goes together.",
+      "advancement": "skyseed:gathered_wild_nether"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Like its overworld cousin it $(bold)becomes the land it lands on$() — but over the $(bold)Nether$() map: a crimson forest grows the $(item)Nether Forest$() isle, a warped one its teal twin, a soul sand valley the $(item)Nether Soul$() isle, the basalt deltas the $(item)Nether Basalt$() isle, and the open wastes a plain $(item)Nether Rocky$() mining rock.",
+      "advancement": "skyseed:craft_wild_nether"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)A lucky find$()$(br)As with the overworld Wild, a build is a $(bold)surprise$(), not a promise — only the larger isles carry the odd blaze room or bastion remnant. For a guaranteed full-size island, craft one of the dedicated Nether seeds instead.",
+      "advancement": "skyseed:craft_wild_nether"
+    }
+  ]
+}

@@ -20,6 +20,37 @@
       "ground": [ { "block": "minecraft:magma_block", "chance": 0.06 }, { "block": "minecraft:blackstone", "chance": 0.06 }, { "block": "minecraft:basalt", "chance": 0.06 } ] } }
   ],
   "biome_overrides": [
+    { "_comment": "Nether biome flavor (SKYNETHERENDBIOMEPLAN model A) — Crimson: full crimson-nylium surface + crimson roots/fungus + a hand-built huge crimson fungus, weeping vines underside, Hoglins/Piglins. Same-dimension → the seed's blackstone fill / core / ores / lava are kept underground; only the surface dressing changes.",
+      "dimension": "minecraft:the_nether", "biomes": [ "minecraft:crimson_forest" ],
+      "surface": "minecraft:crimson_nylium",
+      "mobs": [ { "entity": "minecraft:hoglin", "chance": 0.25, "count": { "min": 1, "max": 2 } }, { "entity": "minecraft:piglin", "chance": 0.20, "count": { "min": 1, "max": 2 } }, { "entity": "minecraft:zombified_piglin", "chance": 0.15, "count": { "min": 1, "max": 1 } } ],
+      "variants": [ { "weight": 1, "name": "crimson", "decoration": {
+        "trees": [ { "feature": "skyseed:crimson_tree", "tries": 2, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:crimson_roots", "chance": 0.25 }, { "block": "minecraft:crimson_fungus", "chance": 0.06 }, { "block": "minecraft:shroomlight", "chance": 0.03 } ],
+        "underside": [ { "block": "minecraft:weeping_vines", "chance": 0.15 } ] } } ] },
+
+    { "_comment": "Nether biome flavor — Warped: full warped-nylium surface + warped roots/sprouts/fungus + a hand-built huge warped fungus, weeping vines underside, Endermen.",
+      "dimension": "minecraft:the_nether", "biomes": [ "minecraft:warped_forest" ],
+      "surface": "minecraft:warped_nylium",
+      "mobs": [ { "entity": "minecraft:enderman", "chance": 0.30, "count": { "min": 1, "max": 2 } } ],
+      "variants": [ { "weight": 1, "name": "warped", "decoration": {
+        "trees": [ { "feature": "skyseed:warped_tree", "tries": 2, "spacing": 3 } ],
+        "ground": [ { "block": "minecraft:warped_roots", "chance": 0.25 }, { "block": "minecraft:nether_sprouts", "chance": 0.10 }, { "block": "minecraft:warped_fungus", "chance": 0.06 }, { "block": "minecraft:shroomlight", "chance": 0.03 } ],
+        "underside": [ { "block": "minecraft:weeping_vines", "chance": 0.15 } ] } } ] },
+
+    { "_comment": "Nether biome flavor — Soul Sand Valley: soul soil/sand dusting, bone-block clusters, soul fire, Skeletons.",
+      "dimension": "minecraft:the_nether", "biomes": [ "minecraft:soul_sand_valley" ],
+      "surface_scatter": [ { "block": "minecraft:soul_soil", "chance": 0.4 }, { "block": "minecraft:soul_sand", "chance": 0.2 } ],
+      "mobs": [ { "entity": "minecraft:skeleton", "chance": 0.30, "count": { "min": 1, "max": 2 } }, { "entity": "minecraft:magma_cube", "chance": 0.15, "count": { "min": 1, "max": 1 } } ],
+      "variants": [ { "weight": 1, "name": "soul", "decoration": {
+        "ground": [ { "block": "minecraft:bone_block", "chance": 0.05 }, { "block": "minecraft:soul_fire", "chance": 0.05 } ] } } ] },
+
+    { "_comment": "Nether biome flavor — Wastes: a sparse quartz-and-glowstone dusting; the seed's own surface shows through.",
+      "dimension": "minecraft:the_nether", "biomes": [ "minecraft:nether_wastes" ],
+      "surface_scatter": [ { "block": "minecraft:nether_quartz_ore", "chance": 0.04 }, { "block": "minecraft:glowstone", "chance": 0.02 } ],
+      "mobs": [ { "entity": "minecraft:zombified_piglin", "chance": 0.25, "count": { "min": 1, "max": 2 } }, { "entity": "minecraft:magma_cube", "chance": 0.15, "count": { "min": 1, "max": 1 } } ],
+      "variants": [ { "weight": 1, "name": "wastes", "decoration": {} } ] },
+
     { "_comment": "Overworld easter egg — thrown topside a Nether Basalt seed makes a TINY ~7x7x4 badlands island (red sand over terracotta, a dead bush, a speck of gold), not the basalt deltas. The mirror of the Tier-2 design.",
       "dimension": "minecraft:overworld",
       "shape": { "radius": { "min": 2, "max": 3 }, "rim_noise": 0.2, "top_dome": { "min": 1, "max": 1 } },
