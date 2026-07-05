@@ -9,6 +9,7 @@ import dev.gemberkoekje.skyseed.worldgen.structure.PathSurfacer;
 import dev.gemberkoekje.skyseed.worldgen.structure.Traps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
@@ -33,6 +34,7 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.VillagerType;
 //?}
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -45,6 +47,9 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.event.EventHooks;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Drains an {@link IslandPlan} into the world a bounded number of blocks per tick, so an island never
@@ -64,8 +69,20 @@ public final class GenerationJob {
     private static final int FORCE_TREE_PAD_RADIUS = 2;
     private static final int FORCE_TREE_CLEAR_HEIGHT = 24;
 
+    /**
+     * Ref-count of how many concurrently-growing jobs currently force-load each chunk, per dimension. A chunk is only
+     * really un-forced when the LAST job over it finishes, so two islands whose bounding boxes share a chunk column
+     * (a cluster / twin / flush case) don't have the first-to-finish job un-force a chunk the other is still draining —
+     * which would silently drop that job's later structure/mob/snow content (worst for a twin grown in a player-less
+     * dimension, where no other ticket masks the gap). Server-thread-only (island ticks run on the server thread).
+     */
+    private static final Map<ResourceKey<Level>, Map<Long, Integer>> FORCED_REFS = new HashMap<>();
+
     private final ServerLevel level;
     private final IslandPlan plan;
+    /** Crash-resume descriptor (5.2): the re-plan inputs + progress to persist; null for gametests (and twins keep it). */
+    private final PendingIsland descriptor;
+    private SkyseedWorldData worldData;   // lazily fetched (the overworld's) when a descriptor is present
     private int blockIndex = 0;
     private int treeIndex = 0;
     private int treesPlaced = 0;
@@ -75,13 +92,57 @@ public final class GenerationJob {
     /** Whether this job has force-loaded its region (released again on completion). */
     private boolean chunksForced = false;
 
+    /** A one-off grow with no crash-resume tracking (gametests, and any caller that doesn't need resume). */
     public GenerationJob(ServerLevel level, IslandPlan plan) {
-        this.level = level;
-        this.plan = plan;
+        this(level, plan, null);
     }
 
-    /** Advance one tick. @return true once the whole island (blocks + trees + mobs) has been placed. */
+    /** A grow whose progress is persisted to {@link SkyseedWorldData} so a hard crash can resume it (5.2). */
+    public GenerationJob(ServerLevel level, IslandPlan plan, PendingIsland descriptor) {
+        this.level = level;
+        this.plan = plan;
+        this.descriptor = descriptor;
+    }
+
+    /** Rebuild a job for a re-planned island, fast-forwarded to the progress the last world-save captured (CrashRecovery). */
+    public static GenerationJob resume(ServerLevel level, IslandPlan plan, PendingIsland saved) {
+        final GenerationJob job = new GenerationJob(level, plan, saved);
+        job.blockIndex = saved.blockIndex();
+        job.treeIndex = saved.treeIndex();
+        job.treesPlaced = saved.treesPlaced();
+        job.scatterIndex = saved.scatterIndex();
+        job.finalizeStep = saved.finalizeStep();
+        return job;
+    }
+
+    /**
+     * Advance one tick. @return true once the whole island has been placed. Wraps {@link #tickInternal()} to keep the
+     * crash-resume descriptor in sync every tick: the persisted progress and the placed blocks are BOTH captured at the
+     * next world-save, so they stay a consistent snapshot — a hard crash resumes from matching (progress, chunk) state
+     * with no lost or doubled content. The descriptor is removed once the island completes.
+     */
     public boolean tick() {
+        final boolean done = tickInternal();
+        if (descriptor != null) {
+            final SkyseedWorldData data = worldData();
+            if (done) {
+                data.removePendingIsland(descriptor.key());
+            } else {
+                data.putPendingIsland(descriptor.withProgress(blockIndex, treeIndex, treesPlaced, scatterIndex, finalizeStep));
+            }
+        }
+        return done;
+    }
+
+    /** @return the overworld-scoped SavedData holding this job's pending-island + forced-chunk records (5.2 / 5.3). */
+    private SkyseedWorldData worldData() {
+        if (worldData == null) {
+            worldData = SkyseedWorldData.get(level.getServer());
+        }
+        return worldData;
+    }
+
+    private boolean tickInternal() {
         if (!chunksForced) {
             // Keep the island's chunks loaded for the whole (multi-tick) grow. Critical for a twin grown in a
             // player-less dimension, where nothing else tickets the region: a chunk written on an early tick could
@@ -172,8 +233,10 @@ public final class GenerationJob {
     /**
      * Force-load (or release) every chunk column spanning the island's blocks plus any structure reach, so the whole
      * multi-tick job sees a stable, fully-loaded region (see {@link #tick()}'s first-tick call). Forced on the first
-     * tick, released on completion; a hard crash mid-grow would leave them forced (recoverable with {@code /forceload
-     * remove}). A no-op for a plan with no blocks.
+     * tick, released on completion. Ref-counted through {@link #acquireChunk}/{@link #releaseChunk} so a chunk shared
+     * with another concurrently-growing island stays forced until <em>both</em> jobs finish. A hard crash mid-grow
+     * still leaves them forced (recoverable with {@code /forceload remove}) — persistent reconciliation is tracked
+     * separately (engineering-debt 5.3). A no-op for a plan with no blocks.
      */
     private void setRegionForced(boolean add) {
         if (plan.blocks().isEmpty()) {
@@ -193,11 +256,70 @@ public final class GenerationJob {
             minZ = Math.min(minZ, js.origin().getZ() - js.reach());
             maxZ = Math.max(maxZ, js.origin().getZ() + js.reach());
         }
+        // Persist the forced region for real islands (descriptor-backed) so a hard crash can un-force stale chunks on
+        // restart (5.3). Recorded/removed at the ref-count 0<->1 transitions inside acquire/releaseChunk, so the stored
+        // set is the UNION of currently-forced chunks — a chunk shared by two islands isn't dropped when the first ends.
+        final SkyseedWorldData data = descriptor != null ? worldData() : null;
+        final String dimId = data != null ? Lookup.dimensionId(level.dimension()) : null;
+        int touched = 0;
         for (int cx = minX >> 4; cx <= maxX >> 4; cx++) {
             for (int cz = minZ >> 4; cz <= maxZ >> 4; cz++) {
-                level.setChunkForced(cx, cz, add);
+                if (add) {
+                    acquireChunk(level, cx, cz, data, dimId);
+                } else {
+                    releaseChunk(level, cx, cz, data, dimId);
+                }
+                touched++;
             }
         }
+        // Observability (engineering-debt #67): one line per island per phase so a force-load acquire/release can be
+        // followed without per-chunk spam; a lingering "acquired" with no matching "released" flags a leaked region.
+        Skyseed.LOGGER.debug("[skyseed] {} force-load on {} chunk(s) for a growing island in {}",
+                add ? "acquired" : "released", touched, Lookup.dimensionId(level.dimension()));
+    }
+
+    /** Pack chunk coords into a long map key. Not vanilla's {@code ChunkPos.asLong} (whose name differs across versions)
+     *  — this is only ever a private key, so any stable packing works. */
+    private static long chunkKey(int cx, int cz) {
+        return (((long) cx) << 32) | (cz & 0xFFFFFFFFL);
+    }
+
+    /** Force-load chunk {@code (cx,cz)}, ref-counted: only the first holder calls {@code setChunkForced} (and persists). */
+    private static void acquireChunk(ServerLevel level, int cx, int cz, SkyseedWorldData data, String dimId) {
+        final Map<Long, Integer> counts = FORCED_REFS.computeIfAbsent(level.dimension(), k -> new HashMap<>());
+        if (counts.merge(chunkKey(cx, cz), 1, Integer::sum) == 1) {
+            level.setChunkForced(cx, cz, true);
+            if (data != null) {
+                data.addForcedChunk(dimId, cx, cz);
+            }
+        }
+    }
+
+    /** Release one force-load ref on {@code (cx,cz)}; un-forced (and un-persisted) only when the last holder releases. */
+    private static void releaseChunk(ServerLevel level, int cx, int cz, SkyseedWorldData data, String dimId) {
+        final Map<Long, Integer> counts = FORCED_REFS.get(level.dimension());
+        if (counts == null) {
+            return;
+        }
+        final long key = chunkKey(cx, cz);
+        final Integer c = counts.get(key);
+        if (c == null) {
+            return;
+        }
+        if (c <= 1) {
+            counts.remove(key);
+            level.setChunkForced(cx, cz, false);
+            if (data != null) {
+                data.removeForcedChunk(dimId, cx, cz);
+            }
+        } else {
+            counts.put(key, c - 1);
+        }
+    }
+
+    /** Drop all in-memory force-load refs on server stop, so counts never carry into a later world in the same JVM. */
+    static void forgetForcedRegions() {
+        FORCED_REFS.clear();
     }
 
     /**
@@ -385,8 +507,13 @@ public final class GenerationJob {
                     : Lookup.templatePool(level.registryAccess(), js.capFiller());
             Jigsaw.placeCapped(level, pool, js.target(), js.depth(), js.origin(), false,
                     js.capPrefix(), js.capCount(), fillerPool);
-            // Re-add any support-dependent trap blocks the jigsaw path would have popped (plate / tripwire).
-            Traps.applyAfterJigsaw(level, js.origin());
+            // Re-add any support-dependent trap blocks the jigsaw path would have popped (plate / tripwire) — but ONLY
+            // for a structure that opted in (js.traps()). The markers are plain vanilla wool, so running this on every
+            // structure would clobber decorative red/lime/yellow wool (a bandit-camp bedroll, a village bed) near the
+            // origin. Only the desert/jungle temples bake trap markers and set the flag.
+            if (js.traps()) {
+                Traps.applyAfterJigsaw(level, js.origin());
+            }
             // Foundation any solid lot floor left over the void FIRST (while the connective lanes are still markers
             // with empty decks, so they're skipped), THEN resolve the lane markers into terrain-aware paths and
             // over-void bridges — the lanes stay floating bridges, only buildings/fields/gardens get a foundation (§3a).

@@ -151,8 +151,9 @@ public final class ModItems {
         }
     }
 
-    /** The canonical seed, used as the fallback display item for the thrown entity — now the adaptive Wild Skyseed. */
-    public static final DeferredItem<IslandSeedItem> DEFAULT_SEED = SEEDS.get("wild");
+    /** The canonical seed — the creative-tab icon and the fallback display item for a themeless thrown entity. The
+     *  Forest Skyseed is the mod's visual face; the adaptive Wild Skyseed remains the starter you actually craft. */
+    public static final DeferredItem<IslandSeedItem> DEFAULT_SEED = SEEDS.get("forest");
 
     /** Every Skyseed item — the guide recipe accepts any one of these; add-on seeds should join this tag. */
     public static final TagKey<Item> SKYSEEDS =

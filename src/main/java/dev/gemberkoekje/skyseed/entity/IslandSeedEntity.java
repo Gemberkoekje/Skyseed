@@ -14,6 +14,7 @@ import dev.gemberkoekje.skyseed.worldgen.IslandGenerator;
 import dev.gemberkoekje.skyseed.worldgen.IslandGrowth;
 import dev.gemberkoekje.skyseed.worldgen.IslandPlacement;
 import dev.gemberkoekje.skyseed.worldgen.IslandPlan;
+import dev.gemberkoekje.skyseed.worldgen.PendingIsland;
 import dev.gemberkoekje.skyseed.worldgen.TwinPlacer;
 import dev.gemberkoekje.skyseed.worldgen.theme.ExploreThemes;
 import dev.gemberkoekje.skyseed.worldgen.theme.FizzleRule;
@@ -276,7 +277,11 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
 
     private void germinate(ServerLevel level) {
         final boolean adaptive = ExploreThemes.isAdaptive(getTheme());
-        IslandTheme theme = adaptive ? null : resolveTheme(level);
+        final ResolvedTheme resolved = adaptive ? null : resolveTheme(level);
+        IslandTheme theme = adaptive ? null : resolved.theme();
+        // The RESOLVED theme id — captured here (not reverse-looked-up, since Themes.resolve returns a MERGED theme) so
+        // a crash mid-grow can re-plan the identical island (5.2). Adaptive seeds fill it in once the biome is known.
+        Id themeId = adaptive ? null : resolved.id();
         if (!adaptive && theme == null) {
             Skyseed.LOGGER.warn("[skyseed] no island themes are loaded — nothing germinated");
             fizzle(level);
@@ -299,7 +304,8 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
         // guaranteed build); the Wild seed leaves the theme's ordinary ~5% roll alone (forcesRare == false).
         DebugForce force = debugForce();
         if (adaptive) {
-            theme = Themes.resolve(level.registryAccess(), ExploreThemes.resolveFor(getTheme(), biome));
+            themeId = ExploreThemes.resolveFor(getTheme(), biome);
+            theme = Themes.resolve(level.registryAccess(), themeId);
             if (theme == null) {
                 Skyseed.LOGGER.warn("[skyseed] adaptive seed could not resolve a theme for this biome — nothing germinated");
                 fizzle(level);
@@ -344,16 +350,25 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
                 SoundEvents.BEACON_ACTIVATE, SoundSource.BLOCKS, 1.0F, 1.2F);
 
         // Tick-budgeted placement: the scheduler grows the island in over the next ticks (README → Generation algorithm).
-        IslandGrowth.enqueue(new GenerationJob(level, plan));
+        // Carry a crash-resume descriptor (5.2) with the deterministic re-plan inputs at the CHOSEN grow centre
+        // (findClearSpot moved us there), so a hard crash mid-grow finishes the island on restart. themeId is null only
+        // in the degenerate "no forest theme" fallback — there we grow without resume tracking.
+        final BlockPos center = this.blockPosition();
+        final PendingIsland descriptor = themeId == null ? null : PendingIsland.fresh(
+                Lookup.dimensionId(level.dimension()), themeId.value(), center,
+                getForcedBiome() == null ? "" : getForcedBiome().value(),
+                force.rareIndex(), force.waterfall());
+        IslandGrowth.enqueue(new GenerationJob(level, plan, descriptor));
 
         // Cross-dimension twin (the Ruined Portal): grow the plan's twin theme at the vanilla-linked coordinate in
         // the other dimension. The plan carries it whether it came from the seed's own theme (the dedicated portal
         // seed) or a rolled rare structure (a portal that surfaced on a big island). Spawned directly here, not via
         // another thrown seed, so it never spawns a twin of its own.
         if (plan.twinTheme().isPresent()) {
-            final IslandTheme twinTheme = Themes.resolve(level.registryAccess(), plan.twinTheme().get());
+            final Id twinThemeId = plan.twinTheme().get();
+            final IslandTheme twinTheme = Themes.resolve(level.registryAccess(), twinThemeId);
             if (twinTheme != null) {
-                TwinPlacer.spawnTwin(level, this.blockPosition(), twinTheme);
+                TwinPlacer.spawnTwin(level, this.blockPosition(), twinTheme, twinThemeId);
             }
         }
 
@@ -368,16 +383,25 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
      * position (RNG keyed by centre) and moves the entity to the chosen spot so the germination effects play there.
      * Returns {@code null} if nothing is clear within those margins — the caller then fizzles the seed back to the
      * thrower instead of shoving the island high.
+     *
+     * <p>Each candidate spot is re-run through the dimension/biome/Y validity gate ({@link #growableAt}), not just the
+     * original rest point: a horizontal nudge (out to {@link #MAX_H_DIST}) can cross a biome boundary and a
+     * {@link #V_FALLBACK} lift shifts the Y, either of which can land a spot the theme should fizzle in. Without the
+     * per-candidate re-check the nudge would grow an island the gate had already rejected at the rest point.
      */
     private IslandPlan findClearSpot(ServerLevel level, IslandTheme theme, DebugForce force, BlockPos base,
                                      List<Vec3> players, IslandPlacement.Occupancy occupied) {
+        final String dim = Lookup.dimensionId(level.dimension());
         BlockPos cursor = base;
         for (int attempt = 0; attempt < MAX_H_ATTEMPTS; attempt++) {
             final IslandPlan candidate = planAt(level, theme, cursor, forcedBiomeHolder(level), force);
             final IslandPlacement.Fit fit = IslandPlacement.check(candidate, players, occupied);
             if (fit.ok()) {
-                this.setPos(cursor.getX() + 0.5, cursor.getY() + 0.5, cursor.getZ() + 0.5);
-                return candidate;
+                if (growableAt(level, theme, cursor, dim)) {
+                    this.setPos(cursor.getX() + 0.5, cursor.getY() + 0.5, cursor.getZ() + 0.5);
+                    return candidate;
+                }
+                break; // clear here, but the theme would fizzle at this nudged spot — try a vertical lift instead
             }
             // Push the island off whatever it would swallow, horizontally, away from the blocked centroid.
             final double dx = cursor.getX() - fit.blockedX();
@@ -395,12 +419,20 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
         for (int lift : V_FALLBACK) {
             final BlockPos c = base.above(lift);
             final IslandPlan candidate = planAt(level, theme, c, forcedBiomeHolder(level), force);
-            if (IslandPlacement.check(candidate, players, occupied).ok()) {
+            if (growableAt(level, theme, c, dim) && IslandPlacement.check(candidate, players, occupied).ok()) {
                 this.setPos(c.getX() + 0.5, c.getY() + 0.5, c.getZ() + 0.5);
                 return candidate;
             }
         }
         return null;
+    }
+
+    /**
+     * Whether {@code theme} may actually form at {@code c} — the same dimension/biome/Y gate {@link #germinate} ran at
+     * the rest point, re-applied per nudged candidate in {@link #findClearSpot} (using {@code c}'s own biome and Y).
+     */
+    private boolean growableAt(ServerLevel level, IslandTheme theme, BlockPos c, String dim) {
+        return IslandGenerator.formValidFor(theme, biomeAt(level, c), c.getY(), dim);
     }
 
     /** Plan the island at {@code c} as {@code forced} (a debug seed's biome) or, when null, the planting biome at
@@ -447,26 +479,32 @@ public class IslandSeedEntity extends ThrowableItemProjectile {
     }
 
     /**
-     * Resolve this seed's theme from the datapack registry; fall back to forest, then to any theme.
-     * @return the resolved theme, or {@code null} only if no themes are loaded at all.
+     * Resolve this seed's theme AND the id it resolved to (the id is needed for crash-resume re-planning, and can't be
+     * reverse-looked-up because {@link Themes#resolve} returns a merged theme). Falls back forest → any, as before.
+     * @return the theme + its id; both are {@code null} only in the degenerate "no themes loaded at all" case.
      */
-    private IslandTheme resolveTheme(ServerLevel level) {
+    private ResolvedTheme resolveTheme(ServerLevel level) {
         final var access = level.registryAccess();
-        Id id = getTheme();
+        final Id id = getTheme();
         IslandTheme theme = (id != null) ? Themes.resolve(access, id) : null;
-        if (theme == null) {
-            Id forest = Id.of("skyseed:forest");
-            theme = Themes.resolve(access, forest);
-            if (theme != null && id != null) {
-                Skyseed.LOGGER.warn("[skyseed] unknown theme '{}' — falling back to {}", id, forest);
-            } else if (theme == null) {
-                // Degenerate fallback (no forest theme loaded): hand back any theme, un-patched.
-                Registry<IslandTheme> themes = Lookup.registry(access, SkyseedRegistries.THEME);
-                theme = Lookup.elements(themes).findFirst().map(h -> h.value()).orElse(null);
-            }
+        if (theme != null) {
+            return new ResolvedTheme(theme, id);
         }
-        return theme;
+        final Id forest = Id.of("skyseed:forest");
+        theme = Themes.resolve(access, forest);
+        if (theme != null) {
+            if (id != null) {
+                Skyseed.LOGGER.warn("[skyseed] unknown theme '{}' — falling back to {}", id, forest);
+            }
+            return new ResolvedTheme(theme, forest);
+        }
+        // Degenerate fallback (no forest theme loaded): hand back any theme, un-patched — with no id, so no resume.
+        final Registry<IslandTheme> themes = Lookup.registry(access, SkyseedRegistries.THEME);
+        return new ResolvedTheme(Lookup.elements(themes).findFirst().map(h -> h.value()).orElse(null), null);
     }
+
+    /** A resolved {@link IslandTheme} and the id it resolved to (for crash-resume re-planning). */
+    private record ResolvedTheme(IslandTheme theme, Id id) {}
 
     //? if >=26.1.2 {
     /*@Override

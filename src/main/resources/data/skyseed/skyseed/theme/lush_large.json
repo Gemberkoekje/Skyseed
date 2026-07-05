@@ -19,7 +19,7 @@
       "jigsaw": { "pool": "irons_spellbooks:mangrove_hut_pool", "target": "", "depth": 3, "pad": 6, "sink": 2 },
       "mobs": [ { "weight": 1, "entries": [ { "entity": "irons_spellbooks:necromancer", "adults": 1 }, { "entity": "irons_spellbooks:apothecarist", "adults": 1 } ] } ] },
     { "weight": 6, "suppress_pond": true,
-      "jigsaw": { "pool": "skyseed:jungle_temple/temple", "target": "minecraft:bottom", "depth": 1, "pad": 6 } },
+      "jigsaw": { "pool": "skyseed:jungle_temple/temple", "target": "minecraft:bottom", "depth": 1, "pad": 6, "traps": true } },
     { "weight": 5,
       "jigsaw": { "pool": "skyseed:dungeon/buried", "target": "minecraft:bottom", "depth": 1, "pad": 5, "sink": 5 } },
     { "weight": 5, "suppress_pond": true,

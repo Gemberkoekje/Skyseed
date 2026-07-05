@@ -1,5 +1,6 @@
 package dev.gemberkoekje.skyseed.worldgen;
 
+import dev.gemberkoekje.skyseed.compat.Id;
 import dev.gemberkoekje.skyseed.compat.Lookup;
 import dev.gemberkoekje.skyseed.worldgen.theme.IslandTheme;
 import net.minecraft.core.BlockPos;
@@ -28,7 +29,7 @@ public final class TwinPlacer {
      * dimension itself decides the form (goodies in the overworld, a bare frame in the Nether). Placement stays close to
      * the linked spot (small steps only) so the portals still link.
      */
-    public static void spawnTwin(ServerLevel origin, BlockPos center, IslandTheme theme) {
+    public static void spawnTwin(ServerLevel origin, BlockPos center, IslandTheme theme, Id themeId) {
         final ResourceKey<Level> to;
         if (origin.dimension() == Level.OVERWORLD) {
             to = Level.NETHER;
@@ -45,10 +46,12 @@ public final class TwinPlacer {
         if (!IslandGenerator.formValidFor(theme, other.getBiome(linked), linked.getY(), Lookup.dimensionId(other.dimension()))) {
             return; // the theme doesn't implement the other dimension — no twin
         }
-        final IslandPlan twin = placeTwinNear(other, theme, linked);
-        if (twin != null) {
-            IslandGrowth.enqueue(new GenerationJob(other, twin));
-        }
+        final TwinResult twin = placeTwinNear(other, theme, linked);
+        // Crash-resume the twin as its own pending island (5.2) — the highest-value case: a twin grown in the
+        // player-less Nether has no other chunk ticket, so a crash mid-grow was the likeliest place to lose content.
+        final PendingIsland descriptor = themeId == null ? null : PendingIsland.fresh(
+                Lookup.dimensionId(other.dimension()), themeId.value(), twin.center(), "", -1, false);
+        IslandGrowth.enqueue(new GenerationJob(other, twin.plan(), descriptor));
     }
 
     /** The vanilla 8:1 cross-dimension coordinate (overworld/8 &harr; nether*8), Y kept and clamped to {@code to}. */
@@ -76,7 +79,7 @@ public final class TwinPlacer {
     }
 
     /** Plan the twin as close to {@code linked} as possible — small steps only, so the portal stays in linking range. */
-    private static IslandPlan placeTwinNear(ServerLevel level, IslandTheme theme, BlockPos linked) {
+    private static TwinResult placeTwinNear(ServerLevel level, IslandTheme theme, BlockPos linked) {
         final List<Vec3> players = level.players().stream().map(p -> p.position()).toList();
         final BlockPos.MutableBlockPos probe = new BlockPos.MutableBlockPos();
         final IslandPlacement.Occupancy occupied = (x, y, z) -> {
@@ -86,12 +89,15 @@ public final class TwinPlacer {
         for (BlockPos c : twinSearchSpots(linked)) {
             final IslandPlan candidate = planTwinAt(level, theme, c);
             if (IslandPlacement.check(candidate, players, occupied).ok()) {
-                return candidate;
+                return new TwinResult(candidate, c);
             }
         }
         // No clear spot close by — grow it at the linked coordinate anyway; sitting on the link is the whole point.
-        return planTwinAt(level, theme, linked);
+        return new TwinResult(planTwinAt(level, theme, linked), linked);
     }
+
+    /** A planned twin and the centre it grows at (kept so a crash can re-plan the identical twin — 5.2). */
+    private record TwinResult(IslandPlan plan, BlockPos center) {}
 
     /** The linked spot first, then a tight ring (small horizontal steps), then a couple of small vertical lifts. */
     private static List<BlockPos> twinSearchSpots(BlockPos linked) {

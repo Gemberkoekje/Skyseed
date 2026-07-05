@@ -17,6 +17,8 @@ import dev.gemberkoekje.skyseed.worldgen.DebugForce;
 import dev.gemberkoekje.skyseed.worldgen.IslandGenerator;
 import dev.gemberkoekje.skyseed.worldgen.IslandPlacement;
 import dev.gemberkoekje.skyseed.worldgen.IslandPlan;
+import dev.gemberkoekje.skyseed.worldgen.PendingIsland;
+import dev.gemberkoekje.skyseed.worldgen.SkyseedWorldData;
 import dev.gemberkoekje.skyseed.worldgen.StartIsland;
 import dev.gemberkoekje.skyseed.worldgen.TwinPlacer;
 import dev.gemberkoekje.skyseed.worldgen.structure.PathSurfacer;
@@ -5396,6 +5398,81 @@ public final class SkyseedGameTests {
             }
             helper.assertTrue(grown, "the thrown seed has not germinated into an island yet");
         });
+    }
+
+    @GameTest(template = REGION)
+    public static void crashResumeStateRoundTrips(GameTestHelper helper) {
+        // 5.2/5.3 schema (CRASHRESUMEPLAN): the new forced-chunk + pending-island records must survive a save/load
+        // cycle intact, so the hard-crash reconcile/resume reads back exactly what it wrote. (26.1.2 mirrors via Codec.)
+        final ServerLevel level = helper.getLevel();
+        final SkyseedWorldData d = new SkyseedWorldData();
+        d.addForcedChunk("minecraft:the_nether", 3, -7);
+        d.addForcedChunk("minecraft:overworld", 0, 0);
+        final PendingIsland p = new PendingIsland("minecraft:the_nether", "skyseed:desert", 10, 64, -20,
+                "minecraft:desert", 3, true, 100, 5, 2, 100, 1);
+        d.putPendingIsland(p);
+        final SkyseedWorldData loaded =
+                SkyseedWorldData.load(d.save(new CompoundTag(), level.registryAccess()), level.registryAccess());
+        helper.assertTrue(Set.copyOf(loaded.forcedChunks()).equals(Set.copyOf(d.forcedChunks())),
+                "forced-chunk records did not round-trip");
+        helper.assertTrue(loaded.pendingIslands().size() == 1 && loaded.pendingIslands().iterator().next().equals(p),
+                "pending-island record did not round-trip");
+        helper.succeed();
+    }
+
+    @GameTest(template = REGION, timeoutTicks = 200)
+    public static void resumedJobGrowsFullIsland(GameTestHelper helper) {
+        // A descriptor-backed GenerationJob resumed from progress 0 grows the full island and clears its pending record
+        // on completion — the 5.2 persist/remove lifecycle end-to-end. (Real mid-crash resume is the in-game sign-off.)
+        final ServerLevel level = helper.getLevel();
+        final BlockPos center = helper.absolutePos(new BlockPos(8, 8, 8));
+        final IslandPlan plan = IslandGenerator.planIsland(level, center, theme(level, "forest"),
+                level.getBiome(center), RandomSource.create(7L));
+        final PendingIsland desc =
+                PendingIsland.fresh(Lookup.dimensionId(level.dimension()), "skyseed:forest", center, "", -1, false);
+        final SkyseedWorldData data = SkyseedWorldData.get(level.getServer());
+        data.removePendingIsland(desc.key()); // clear any stale entry from a prior run of this test
+        final GenerationJob job = GenerationJob.resume(level, plan, desc);
+        int guard = 0;
+        while (!job.tick() && guard++ < 2000) {
+            // drain the whole job synchronously
+        }
+        helper.assertTrue(guard < 2000, "resumed GenerationJob never completed");
+        helper.assertTrue(contains(helper, center.offset(-8, -3, -8), 16, 12, 16, Blocks.GRASS_BLOCK),
+                "resumed island did not place its grass surface");
+        helper.assertTrue(data.pendingIslands().stream().noneMatch(pi -> pi.key().equals(desc.key())),
+                "the pending-island record should be removed once the island completes");
+        helper.succeed();
+    }
+
+    @GameTest(template = REGION)
+    public static void resumeReplanIsDeterministic(GameTestHelper helper) {
+        // Crash-resume (5.2, CRASHRESUMEPLAN) re-plans the island from scratch on restart, and the saved progress
+        // indices (blockIndex/treeIndex/scatterIndex) are offsets into the RE-PLANNED lists. So planIsland must be a
+        // pure function of its inputs — a hidden non-determinism (HashSet iteration order, an unseeded RandomSource)
+        // would misalign the indices and corrupt a resumed island. Guard it: planning the same inputs twice must yield
+        // identical resume-critical lists. (Doubles as a net for the two-node golden-master parity.)
+        final ServerLevel level = helper.getLevel();
+        final BlockPos center = helper.absolutePos(new BlockPos(8, 8, 8));
+        for (final String themeName : new String[]{"forest", "desert", "gametest/structure"}) {
+            final var theme = theme(level, themeName);
+            final var biome = level.getBiome(center);
+            for (long seed = 1; seed <= 4; seed++) {
+                final IslandPlan a = IslandGenerator.planIsland(level, center, theme, biome, RandomSource.create(seed));
+                final IslandPlan b = IslandGenerator.planIsland(level, center, theme, biome, RandomSource.create(seed));
+                helper.assertTrue(a.blocks().equals(b.blocks()),
+                        themeName + " seed " + seed + ": re-planned blocks() differ — resume would misalign blockIndex/scatterIndex");
+                helper.assertTrue(a.scatterPositions().equals(b.scatterPositions()),
+                        themeName + " seed " + seed + ": re-planned scatterPositions() differ");
+                helper.assertTrue(a.trees().size() == b.trees().size(),
+                        themeName + " seed " + seed + ": re-planned trees() count differs — resume would misalign treeIndex");
+                for (int i = 0; i < a.trees().size(); i++) {
+                    helper.assertTrue(a.trees().get(i).pos().equals(b.trees().get(i).pos()),
+                            themeName + " seed " + seed + ": re-planned tree " + i + " position differs");
+                }
+            }
+        }
+        helper.succeed();
     }
 
     @GameTest(template = REGION, timeoutTicks = 200)

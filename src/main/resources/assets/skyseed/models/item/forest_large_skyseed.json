@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "skyseed:item/island_seed_large"
+    "layer0": "skyseed:item/island_seed_forest_large"
   }
 }

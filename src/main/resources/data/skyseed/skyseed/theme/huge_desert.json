@@ -177,7 +177,8 @@
         "pool": "skyseed:desert_temple/chamber",
         "target": "minecraft:bottom",
         "depth": 1,
-        "pad": 4
+        "pad": 4,
+        "traps": true
       },
       "mobs": [
         {

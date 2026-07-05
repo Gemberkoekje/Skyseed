@@ -34,7 +34,8 @@ import java.util.Optional;
  */
 public record JigsawConfig(Id pool, Id target, int depth, int pad, int ironGolems,
                            int sink, int reach, String capPrefix, int capCount, int capMin, String capFiller,
-                           Optional<Id> centerpiece, boolean trestles, int stiltHeight, boolean excavate) {
+                           Optional<Id> centerpiece, boolean trestles, int stiltHeight, boolean excavate,
+                           boolean traps) {
     public static final Codec<JigsawConfig> CODEC = RecordCodecBuilder.create(i -> i.group(
             Id.CODEC.fieldOf("pool").forGetter(JigsawConfig::pool),
             Id.CODEC.optionalFieldOf("target", Id.of("minecraft:bottom")).forGetter(JigsawConfig::target),
@@ -59,12 +60,18 @@ public record JigsawConfig(Id pool, Id target, int depth, int pad, int ironGolem
             // drops to the sunk floor level, so a reused mod structure with an OPEN interior (a walled courtyard) seats
             // lower without the island's surface filling its courtyard with sand. The default (false) is the classic
             // "hide under the surface" sink — right for a skyseed structure that carves its own air (a buried temple).
-            Codec.BOOL.optionalFieldOf("excavate", false).forGetter(JigsawConfig::excavate)
+            Codec.BOOL.optionalFieldOf("excavate", false).forGetter(JigsawConfig::excavate),
+            // When true, run the post-assembly {@link dev.gemberkoekje.skyseed.worldgen.structure.Traps} pass, which
+            // swaps this structure's baked WOOL markers (yellow→pressure plate, red→tripwire hook, lime→tripwire) for
+            // their real support-dependent trap blocks. OPT-IN (default false) because the markers are plain vanilla
+            // wool: a structure that places wool as DECORATION (a bandit-camp bedroll, a village bed) near its origin
+            // would otherwise have it clobbered into a trap block. Only the desert/jungle temples set this.
+            Codec.BOOL.optionalFieldOf("traps", false).forGetter(JigsawConfig::traps)
     ).apply(i, JigsawConfig::new));
 
     /** A copy with a different {@code pool}, every other field preserved — for swapping in a dimension's pool variant. */
     public JigsawConfig withPool(Id newPool) {
         return new JigsawConfig(newPool, target, depth, pad, ironGolems, sink, reach,
-                capPrefix, capCount, capMin, capFiller, centerpiece, trestles, stiltHeight, excavate);
+                capPrefix, capCount, capMin, capFiller, centerpiece, trestles, stiltHeight, excavate, traps);
     }
 }

@@ -4,7 +4,7 @@
 	filename: "skyseed"
 	group: "5C0000000000E001"
 	icon: {
-		id: "skyseed:wild_large_skyseed"
+		id: "skyseed:forest_large_skyseed"
 	}
 	id: "5C0000000000A002"
 	order_index: 1
@@ -33,7 +33,7 @@
 		{
 			dependencies: ["5C0000000000B101"]
 			icon: {
-				id: "skyseed:wild_skyseed"
+				id: "skyseed:forest_skyseed"
 			}
 			id: "5C0000000000B102"
 			rewards: [{
@@ -52,7 +52,7 @@
 		{
 			dependencies: ["5C0000000000B102"]
 			icon: {
-				id: "skyseed:wild_large_skyseed"
+				id: "skyseed:forest_large_skyseed"
 			}
 			id: "5C0000000000B103"
 			rewards: [{

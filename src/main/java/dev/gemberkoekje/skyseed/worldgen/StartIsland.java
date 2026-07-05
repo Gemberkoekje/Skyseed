@@ -5,6 +5,7 @@ import dev.gemberkoekje.skyseed.compat.Lookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -90,8 +91,12 @@ public final class StartIsland {
         // A real Minecraft oak feature places natural, distance-tracked leaves (persistent=false), so a fast-leaf-decay
         // mod treats it like any other tree — unlike the old hand-placed PERSISTENT leaves, which never decayed.
         final var oak = Lookup.configuredFeature(level.registryAccess(), Id.of("minecraft:oak"));
+        // Drive the feature from a world-seed-derived RandomSource (not level.getRandom(), an unseeded per-JVM source),
+        // so the curated start tree is a function of the world seed — same world seed → same starter oak — matching the
+        // file's "deliberately not procedural" contract. Keyed like planAt (worldSeed ^ pos) for a decorrelated stream.
+        final RandomSource oakRandom = RandomSource.create(level.getSeed() ^ treePos.asLong());
         if (oak.isPresent()
-                && oak.get().place(level, level.getChunkSource().getGenerator(), level.getRandom(), treePos)) {
+                && oak.get().place(level, level.getChunkSource().getGenerator(), oakRandom, treePos)) {
             return;
         }
 

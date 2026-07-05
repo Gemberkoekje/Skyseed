@@ -69,11 +69,14 @@ final class MobPlanner {
             return out;
         }
         for (MobEntry m : cfg) {
-            if (random.nextFloat() >= m.chance()) {
-                continue;
-            }
+            // Resolve BEFORE the chance roll so an absent modded mob is skipped without consuming a shared-stream draw
+            // (inert-safety / determinism parity — mirrors OrePlanner). A present mob rolls in the same order as before,
+            // so a theme with no modded mobs stays byte-identical; only a theme naming an absent mod's mob shifts.
             final EntityType<?> type = resolveEntity(m.entity());
             if (type == null) {
+                continue;
+            }
+            if (random.nextFloat() >= m.chance()) {
                 continue;
             }
             final int n = m.count().sample(random);
@@ -97,11 +100,13 @@ final class MobPlanner {
             cols.add(new int[]{(int) (k >> 32), (int) k});
         }
         for (MobEntry m : pond.waterMobs()) {
-            if (random.nextFloat() >= m.chance()) {
-                continue;
-            }
+            // Resolve BEFORE the chance roll (as planMobs/OrePlanner) so an absent modded water mob consumes no
+            // shared-stream draw — keeping pond generation byte-identical unless a theme actually names an absent mob.
             final EntityType<?> type = resolveEntity(m.entity());
             if (type == null) {
+                continue;
+            }
+            if (random.nextFloat() >= m.chance()) {
                 continue;
             }
             final int n = m.count().sample(random);

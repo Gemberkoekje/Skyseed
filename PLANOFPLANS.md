@@ -78,7 +78,8 @@ numbers are simply gone — the shipped history lives in `CHANGELOG_1.21.1.md` /
 | [BEAUTIFYPLAN.md](Modpack-growyourownworld/BEAUTIFYPLAN.md) | Modpack visuals (shipped) | #21 #55 (+ optional revivals #53 #54) |
 | [REFACTORPLAN.md](REFACTORPLAN.md) | Multi-version build (shipped) | #56 #59 (+ contingencies #57 #58) |
 | [TRIALCHAMBERPLAN.md](TRIALCHAMBERPLAN.md) / [plannednotes.md](plannednotes.md) | Trial Chamber feel + misc | #33 #61 (mosaic rolled out; in-game tune/feel left) #70 |
-| Engineering debt (ex-CODE_REVIEW) | crash-robustness follow-ups | 5.2, 5.3, #67 |
+| [CRASHRESUMEPLAN.md](CRASHRESUMEPLAN.md) + engineering debt | crash-robustness follow-ups | **all implemented in-branch 2026-07-05** (7 findings + #67 + 5.2 persist/resume + persistent 5.3, both nodes green); in-game hard-crash sign-off left |
+| [ICONAUDITPLAN.md](ICONAUDITPLAN.md) | item-icon readability/consistency audit (93 textures) | **audit done 2026-07-05, art unbuilt.** Band A = 4 clear-cut redraws (farm-seed 4-way legibility, nether_lava_large colour, nether_forest/rocky twins, forest_large's missing dedicated art) — ready to build; Band B/C gated on §5 Q1/Q2 (structure-seed convention, Explore/Wild tier encoding) |
 
 ---
 
@@ -138,6 +139,9 @@ sizeable unbuilt content block — plan-first, awaiting its design-fork sign-off
   *(CONTENTPLAN / IRONSPELLSPLAN)*
 - Optional visuals: **#21** Distant Horizons (unblocked), **#53** Vanilla Tweaks revival, **#54** standalone resource
   pack. *(BEAUTIFYPLAN)*
+- Item-icon audit follow-through: **Band A** (4 redraws — farm-seed legibility, nether_lava_large colour,
+  nether_forest/rocky twins, forest_large dedicated art) is a ready-to-build readability bugfix; **Band B/C** await the
+  §5 design calls (structure-seed convention, Explore/Wild tier encoding). *(ICONAUDITPLAN)*
 - Standing rules (work only when triggered): **#55** shaderPack pin refresh on Complementary/Euphoria updates;
   **#30** per-structure-step hygiene; **#38** per-future-mod ore-island-vs-MA call.
 - Refactor tail: **#59** further version nodes (discretionary — the recipe is ready), **#56** route gametest suites
@@ -206,22 +210,34 @@ sizeable unbuilt content block — plan-first, awaiting its design-fork sign-off
 
 ## Engineering debt (ex-CODE_REVIEW.md)
 
+> **Update 2026-07-05 — the whole crash-robustness backlog is now implemented in-branch, both nodes green.** The
+> **7 confirmed 2026-07-04 findings** (both `MobPlanner` inert-safety fixes, the `Traps` opt-in `traps` gate,
+> `findClearSpot` per-candidate re-validation, the seed-derived `StartIsland` oak, the double dimension-reset backup
+> guard, and the concurrent force-load un-force → an in-memory **ref-count**), **#67** (drain-cap warning + force-load
+> logging), **and** the persistent parts — **5.2** (persist/resume in-progress grows) + persistent **5.3** (un-force
+> stale forced chunks on restart), via a dual-version `SkyseedWorldData` schema + a `CrashRecovery` `ServerStarted`
+> handler — are all in the working tree, both nodes green (**1.21.1 202/202, 26.1.2 204/204**, incl. a schema
+> round-trip + resume gametest), pending commit. **Left:** the in-game hard-crash sign-off (kill mid-grow → restart
+> finishes it, `/forceload query` clean; repeat with a Nether twin). Full design + test plan in
+> **[CRASHRESUMEPLAN.md](CRASHRESUMEPLAN.md)**.
+
 All **21 code-review findings were fixed and merged via PR #15** (CI green both nodes; the 5.1/5.2/5.3 in-game
 smoke tests passed 2026-07-01) — the review doc itself is retired. These are the deferred follow-ups it left,
 each self-documented in the code:
 
 | Item | Priority | Effort | What & why |
 |---|---|---|---|
-| **5.2 follow-up — persist/resume of in-progress GenerationJobs.** The shipped fix drains jobs synchronously on `ServerStoppingEvent` (`IslandGrowth`, `MAX_DRAIN_TICKS`); a crash (not a clean stop) still loses unfinished island content after the seed was consumed. Upgrade: persist the `IslandPlan` + progress indices in `SkyseedWorldData` and re-enqueue on server start. Code note: `IslandGrowth.java:48`. | medium | large | crash-robustness |
-| **5.3 follow-up — force-load ticket leak reconciliation.** `GenerationJob` force-loads its chunk region for the job's lifetime via raw `setChunkForced`; a hard crash mid-grow leaves the region permanently force-loaded (recoverable only with `/forceload remove`). Fix: track forced regions in `SkyseedWorldData`, clear stale ones on `ServerStartedEvent`. Code note: `GenerationJob.java:170`. | medium | medium | crash-robustness |
-| **#67 — crash-fix observability.** The 2026-07-01 smoke tests passed but the user could not verify `MAX_DRAIN_TICKS` adequacy or ticket release — nothing is surfaced. Add a LOGGER warning when a shutdown drain hits `MAX_DRAIN_TICKS` unfinished, and log force-load ticket acquire/release (or document `/forceload query`). | low | small | makes 5.2/5.3 sign-offs checkable |
+| ✅ **IMPLEMENTED in-branch (CRASHRESUMEPLAN) — 5.2, persist/resume of in-progress grows.** A `PendingIsland` descriptor (re-plan inputs + progress) is built at germination + for twins, persisted every tick, removed on completion; `CrashRecovery` re-plans + re-enqueues each at its saved progress on `ServerStarted`. Both nodes green. Left: in-game hard-crash sign-off. | medium | large | crash-robustness |
+| ✅ **IMPLEMENTED in-branch (CRASHRESUMEPLAN) — 5.3, force-load ticket leak reconciliation.** `GenerationJob` records/removes forced chunks in `SkyseedWorldData` at the ref-count transitions; `CrashRecovery` un-forces every leftover on `ServerStarted`, before the resume. | medium | medium | crash-robustness |
+| ✅ **IMPLEMENTED in-branch — #67, crash-fix observability.** A drain-cap warning in `IslandGrowth.onServerStopping` + per-region force-load acquire/release debug logging in `GenerationJob`. | low | small | makes 5.2/5.3 sign-offs checkable |
 
-### 2026-07-04 code review (adversarially verified — NOT yet fixed)
+### 2026-07-04 code review (adversarially verified — ✅ implemented in-branch 2026-07-05, pending commit)
 
-A fresh fan-out review (both nodes' shared code) surfaced 7 confirmed findings. **None are applied** — each shifts
-runtime/RNG behaviour, so fixing needs CI (both nodes green) + a golden-master re-capture where flagged; the two
-`MobPlanner` fixes in particular change the `bad.json` gametest fixture's RNG stream (it lists an unresolvable
-`skyseed:nope` mob), so its golden master must be re-captured with the fix.
+A fresh fan-out review (both nodes' shared code) surfaced 7 confirmed findings. **All 7 are now implemented in-branch
+(2026-07-05, both nodes green — 1.21.1 200/200, 26.1.2 202/202), pending commit.** No committed golden-master broke:
+the two `MobPlanner` fixes only move the robust `bad.json` fixture's RNG stream (its lone test asserts non-empty +
+grass), and single-source keeps the two nodes in parity. The table below is retained as the record of what the
+findings were.
 
 | Item | Priority | Effort | What & why |
 |---|---|---|---|
