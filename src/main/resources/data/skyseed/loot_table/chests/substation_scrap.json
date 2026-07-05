@@ -1,0 +1,32 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 3 (B28, D3/D4) — the FE→ME Substation's scrap chest (Immersive Engineering + AE2). Vanilla electrical scrap only, so it loads inert with neither mod; a copper wire coil (IE) + a fluix crystal (AE2) are layered on via the inert-safe skyseed:substation_wire / substation_fluix add_drop GLMs. D4 — the sharpest gate: AE2 side is fluix ONLY (renewable, mid-game), with NO sky stone / ME Controller / inscriber press / processor anywhere (the pit is empty); IE side is a copper wire coil, never a high-tier blueprint or a working multiblock.",
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": { "min": 2, "max": 4 },
+      "entries": [
+        { "type": "minecraft:item", "name": "minecraft:copper_ingot", "weight": 6,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 6 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:redstone", "weight": 6,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 3, "max": 8 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:iron_nugget", "weight": 5,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 2, "max": 8 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:amethyst_shard", "weight": 4,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:lightning_rod", "weight": 2 },
+        { "type": "minecraft:item", "name": "minecraft:glowstone_dust", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 4 } } ] }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        { "type": "minecraft:empty", "weight": 3 },
+        { "type": "minecraft:item", "name": "minecraft:emerald", "weight": 2,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "minecraft:item", "name": "minecraft:experience_bottle", "weight": 3,
+          "functions": [ { "function": "minecraft:set_count", "count": { "min": 1, "max": 3 } } ] }
+      ]
+    }
+  ]
+}

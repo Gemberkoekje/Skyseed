@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 3 (B28, D4/§5) — layers a Copper Wire coil (IE) onto the FE→ME Substation's chest. Inert without Immersive Engineering: AddDropModifier resolves the id via Lookup.hasItem and adds nothing when absent. Gate-safe: a copper wire coil is an early IE component, never a high-tier blueprint or a working multiblock.",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/substation_scrap" }
+  ],
+  "item": "immersiveengineering:wire_copper",
+  "chance": 0.5
+}

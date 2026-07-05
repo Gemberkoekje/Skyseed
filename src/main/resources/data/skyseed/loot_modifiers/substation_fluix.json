@@ -1,0 +1,9 @@
+{
+  "_comment": "VARIETYSTRUCTUREPLAN Band 3 (B28, D4/§5) — layers a Fluix Crystal (AE2) onto the FE→ME Substation's chest. Inert without AE2: AddDropModifier resolves the id via Lookup.hasItem and adds nothing when absent. Gate-safe (the sharpest gate): fluix is renewable mid-game AE2 material, NOT sky stone / a Controller / an inscriber press / a processor — the meteorite-island endgame stays gated (AE2PLAN).",
+  "type": "skyseed:add_drop",
+  "conditions": [
+    { "condition": "neoforge:loot_table_id", "loot_table_id": "skyseed:chests/substation_scrap" }
+  ],
+  "item": "ae2:fluix_crystal",
+  "chance": 0.45
+}

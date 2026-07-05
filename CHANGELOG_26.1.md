@@ -9,6 +9,24 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.219.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 — the FE→ME Substation (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B28), the sharpest D4 case in the plan.** A `requires:["immersiveengineering","ae2"]` epic (w1, Rocky) that only
+  germinates where **both** IE and AE2 are installed: a derelict power-conversion station — a gutted roofless hall with an
+  IE concrete/sheetmetal west end (wire-mast + post-transformer husk + capacitor), a certus-quartz/fluix AE2 east end, and
+  a scorched **conversion column** (deepslate + a broken conduit antenna) between them, over the **empty controller pit** (a
+  deepslate mount where the ME Controller was torn out). **D4 — sharpest gate:** NO `sky_stone_*` / `controller` / press /
+  processor anywhere (the pit is empty); loot is fluix + a copper wire coil only. Both mods' machinery via the `modNames`
+  side-map; the vanilla deepslate column/pit + end-rod antenna + chest + lantern are the gametest shell. Wired w1 across all
+  three Rocky tiers. Both nodes green (1.21.1: 207, 26.1.2: 209).
+
+### Fixed
+- **FE→ME Substation stale-mod-id placement** (caught by the new gametest + the adversarial review): the scrap chest + the
+  lantern sat on the back-wall line where the wall loop had already stamped a mod id, so the chest emitted as
+  `ae2:quartz_block` — moved both to clear interior cells.
+
 ## [0.218.0] - 2026-07-05
 
 ### Added

@@ -4128,6 +4128,34 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    @GameTest(template = BIG_REGION)
+    public static void feToMeSubstationAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B28) — the Immersive Engineering + AE2 FE→ME Substation. The IE + AE2 machinery is
+        // mod blocks (air without their mods), so assert the vanilla shell: the scorched deepslate conversion column /
+        // controller pit, the vanilla END_ROD conduit antenna, the chest, and the lantern. Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("substation/substation"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean deepslate = false, antenna = false, chest = false, lantern = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.DEEPSLATE)) deepslate = true;
+                    else if (s.is(Blocks.END_ROD)) antenna = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                    else if (s.is(Blocks.LANTERN)) lantern = true;
+                }
+            }
+        }
+        helper.assertTrue(deepslate, "substation must have its scorched deepslate conversion column / controller pit");
+        helper.assertTrue(antenna, "substation must have its conduit antenna (not a plain box)");
+        helper.assertTrue(chest, "substation must place its scrap chest");
+        helper.assertTrue(lantern, "substation must have its lantern");
+        helper.succeed();
+    }
+
     @GameTest(template = REGION)
     public static void endPortalEdgesCraftFromShardAndRelics(GameTestHelper helper) {
         // Phase-1 (End chapter) collect-a-thon: each of the four portal edges is a shapeless craft of one Portal Frame

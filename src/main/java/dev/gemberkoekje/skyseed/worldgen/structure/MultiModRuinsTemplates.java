@@ -33,10 +33,13 @@ public final class MultiModRuinsTemplates {
 
     private static final String CREATE = "create:";
     private static final String MA = "mysticalagriculture:";
+    private static final String IE = "immersiveengineering:";
+    private static final String AE = "ae2:";
 
     public static void generateInto(Path base) throws IOException {
         writeIfAbsent(base.resolve("magitech_workshop/workshop.nbt"), magitechWorkshop());
         writeIfAbsent(base.resolve("essence_farm/farm.nbt"), automatedEssenceFarm());
+        writeIfAbsent(base.resolve("substation/substation.nbt"), feToMeSubstation());
     }
 
     /**
@@ -239,6 +242,102 @@ public final class MultiModRuinsTemplates {
     private static void maCrop(Map<BlockPos, BlockState> m, Map<BlockPos, String> mods, int x, int z, int age) {
         set(m, mods, new BlockPos(x, 1, z),
                 Blocks.WHEAT.defaultBlockState().setValue(BlockStateProperties.AGE_7, age), MA + "inferium_crop");
+    }
+
+    /**
+     * The <b>FE→ME Substation</b> (B28, <b>Immersive Engineering + AE2</b>) — the sharpest D4 case in the catalog: a
+     * derelict power-conversion station where IE high-voltage power once fed an AE2 ME network. <em>Not a box</em>: a
+     * gutted, roofless hall — an IE concrete-and-sheetmetal west end (a wire-mast rising past the wall, a post-transformer
+     * husk + a capacitor), a certus-quartz/fluix AE2 east end, and between them a scorched <b>conversion column</b>
+     * (deepslate topped by a broken conduit antenna). The centrepiece is the <b>empty controller pit</b> — a scorched
+     * deepslate mount where the ME Controller was torn out, with a couple of fluix remnants beside it.
+     *
+     * <p><b>D4 — the AE2 gate is the sharpest (AE2PLAN / [[skyseed-ae2-curated-set]]).</b> There is <b>NO</b>
+     * {@code sky_stone_*} (harvestable ⇒ a Controller), <b>NO</b> {@code ae2:controller}, and <b>NO</b> inscriber
+     * press/processor anywhere — the pit is deliberately <em>empty</em>. Built only from certus/fluix cubes (mid-game,
+     * renewable, not gating) + IE concrete/sheetmetal husks. Loot is fluix + a copper wire coil — never sky stone, a press,
+     * a processor or a working multiblock. The two mods' machinery resolves to air without them, so the vanilla shell (the
+     * deepslate column + pit, the conduit antenna, the chest, a lantern) is the assertable gametest anchor.
+     * Fits Rocky; the theme {@code mobs} pack (a creeper) lurks.
+     */
+    private static Built feToMeSubstation() {
+        final Map<BlockPos, BlockState> m = new HashMap<>();
+        final Map<BlockPos, String> mods = new HashMap<>();
+        final Map<BlockPos, CompoundTag> bes = new HashMap<>();
+        final int xMax = 6, zMax = 4; // 7×5
+
+        // Floor: IE concrete (west) transitioning to AE2 certus-quartz (east).
+        for (int x = 0; x <= xMax; x++) {
+            for (int z = 0; z <= zMax; z++) {
+                if (x <= 2) {
+                    set(m, mods, new BlockPos(x, 0, z), cube(), IE + ((x + z) % 3 == 0 ? "concrete_tile" : "concrete"));
+                } else {
+                    set(m, mods, new BlockPos(x, 0, z), cube(), AE + ((x + z) % 3 == 0 ? "cut_quartz_block" : "quartz_block"));
+                }
+            }
+        }
+        // The EMPTY CONTROLLER PIT (D4): a scorched deepslate mount where the Controller was torn out — nothing above it.
+        set(m, mods, new BlockPos(5, 0, 2), Blocks.DEEPSLATE.defaultBlockState(), null);
+        set(m, mods, new BlockPos(5, 0, 3), Blocks.DEEPSLATE.defaultBlockState(), null);
+
+        // Perimeter walls: IE sheetmetal (west) / AE2 quartz (east), two courses (corners three), ruined — a front doorway
+        // + two breaches.
+        for (int x = 0; x <= xMax; x++) {
+            for (int z = 0; z <= zMax; z++) {
+                if (!(x == 0 || x == xMax || z == 0 || z == zMax)) {
+                    continue;
+                }
+                if (x == 3 && z == 0) {
+                    continue; // front doorway
+                }
+                if ((x == 0 && z == 2) || (x == xMax && z == 3)) {
+                    continue; // breaches
+                }
+                final boolean corner = (x == 0 || x == xMax) && (z == 0 || z == zMax);
+                for (int y = 1; y <= (corner ? 3 : 2); y++) {
+                    if (x <= 2) {
+                        set(m, mods, new BlockPos(x, y, z), cube(), IE + (y == 1 ? "sheetmetal_steel" : "treated_wood_horizontal"));
+                    } else {
+                        set(m, mods, new BlockPos(x, y, z), cube(), AE + (y == 1 ? "quartz_block" : "quartz_bricks"));
+                    }
+                }
+            }
+        }
+        set(m, mods, new BlockPos(xMax, 2, 2), Blocks.GLASS.defaultBlockState(), AE + "quartz_glass"); // an AE2 window
+
+        // IE power-in (west): a wire-mast rising past the wall, a post-transformer husk + a capacitor.
+        for (int y = 1; y <= 3; y++) {
+            set(m, mods, new BlockPos(1, y, 1), cube(), IE + "alu_post");
+        }
+        set(m, mods, new BlockPos(1, 4, 1), Blocks.END_ROD.defaultBlockState()
+                .setValue(BlockStateProperties.FACING, Direction.UP), IE + "connector_hv"); // the HV line coming in
+        set(m, mods, new BlockPos(1, 1, 3), Blocks.CARVED_PUMPKIN.defaultBlockState()
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST), IE + "post_transformer"); // FE->ME transformer husk
+        set(m, mods, new BlockPos(2, 1, 3), cube(), IE + "capacitor_hv");
+
+        // The scorched conversion column (vanilla): deepslate topped by a broken conduit antenna — the anti-box vertical,
+        // standing right on the IE/AE2 boundary. All stacked on the floor, so nothing floats.
+        m.put(new BlockPos(3, 1, 2), Blocks.DEEPSLATE.defaultBlockState());
+        m.put(new BlockPos(3, 2, 2), Blocks.DEEPSLATE.defaultBlockState());
+        m.put(new BlockPos(3, 3, 2), Blocks.END_ROD.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.UP));
+        m.put(new BlockPos(3, 4, 2), Blocks.END_ROD.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.UP));
+
+        // AE2 side: the fluix coupling beside the column + fluix remnants around the empty pit (the pit itself stays open).
+        set(m, mods, new BlockPos(4, 1, 2), cube(), AE + "fluix_block");
+        set(m, mods, new BlockPos(6, 1, 2), cube(), AE + "fluix_block");
+        set(m, mods, new BlockPos(4, 1, 3), cube(), AE + "chiseled_quartz_block");
+
+        // The scrap chest on the interior AE2 floor (air above at (4,2,1) so it opens); a floor lantern; cobwebs. Both sit
+        // on INTERIOR cells, not the perimeter — a wall cell already carries a mod id, so a plain overwrite there would
+        // emit the chest/lantern as that mod block (the stale-id gotcha).
+        m.put(new BlockPos(4, 1, 1), Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.WEST));
+        bes.put(new BlockPos(4, 1, 1), StructureParts.lootChest("skyseed:chests/substation_scrap"));
+        m.put(new BlockPos(2, 1, 2), Blocks.LANTERN.defaultBlockState());
+        m.put(new BlockPos(1, 2, 3), Blocks.COBWEB.defaultBlockState());
+        m.put(new BlockPos(5, 2, 2), Blocks.COBWEB.defaultBlockState());
+
+        StructureParts.anchor(m, bes, new BlockPos(3, 0, 3), "minecraft:deepslate");
+        return built(m, bes, mods);
     }
 
     // ------------------------------------------------------------------------------------------------------------

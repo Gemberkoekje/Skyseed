@@ -255,6 +255,7 @@ public final class SkyseedTests {
         reg(event, "ruined_chapel_assembles", BIG_REGION, SkyseedTests::ruinedChapelAssembles);
         reg(event, "magitech_workshop_assembles", BIG_REGION, SkyseedTests::magitechWorkshopAssembles);
         reg(event, "essence_farm_assembles", BIG_REGION, SkyseedTests::essenceFarmAssembles);
+        reg(event, "substation_assembles", BIG_REGION, SkyseedTests::feToMeSubstationAssembles);
         // batch b — End-chapter / monument / ancient-city structure assembly:
         reg(event, "end_portal_chamber_has_twelve_empty_frames", BIG_REGION, SkyseedTests::endPortalChamberHasTwelveEmptyFrames);
         reg(event, "return_portal_shrine_has_end_portal", BIG_REGION, SkyseedTests::returnPortalShrineHasEndPortal);
@@ -4038,6 +4039,33 @@ public final class SkyseedTests {
         helper.assertTrue(fence, "essence farm must have its broken oak-fence rail");
         helper.assertTrue(lantern, "essence farm must have its gantry lantern");
         helper.assertTrue(chest, "essence farm must place its control chest");
+        helper.succeed();
+    }
+
+    static void feToMeSubstationAssembles(GameTestHelper helper) {
+        // VARIETYSTRUCTUREPLAN Band 3 (B28) — the Immersive Engineering + AE2 FE→ME Substation. The IE + AE2 machinery is
+        // mod blocks (air without their mods), so assert the vanilla shell: the scorched deepslate conversion column /
+        // controller pit, the vanilla END_ROD conduit antenna, the chest, and the lantern. Loads dev-generated .nbt.
+        final ServerLevel level = helper.getLevel();
+        final BlockPos origin = helper.absolutePos(new BlockPos(24, 4, 24));
+        final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("substation/substation"));
+        Jigsaw.placeCapped(level, pool, Id.of("minecraft:bottom"), 1, origin, false, "", 0, null, 1L);
+        boolean deepslate = false, antenna = false, chest = false, lantern = false;
+        for (int x = 0; x < 48; x++) {
+            for (int z = 0; z < 48; z++) {
+                for (int y = 1; y <= 12; y++) {
+                    final BlockState s = helper.getBlockState(new BlockPos(x, y, z));
+                    if (s.is(Blocks.DEEPSLATE)) deepslate = true;
+                    else if (s.is(Blocks.END_ROD)) antenna = true;
+                    else if (s.is(Blocks.CHEST)) chest = true;
+                    else if (s.is(Blocks.LANTERN)) lantern = true;
+                }
+            }
+        }
+        helper.assertTrue(deepslate, "substation must have its scorched deepslate conversion column / controller pit");
+        helper.assertTrue(antenna, "substation must have its conduit antenna (not a plain box)");
+        helper.assertTrue(chest, "substation must place its scrap chest");
+        helper.assertTrue(lantern, "substation must have its lantern");
         helper.succeed();
     }
 

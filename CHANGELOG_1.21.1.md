@@ -5,6 +5,32 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.219.0] - 2026-07-05
+
+### Added
+- **Structure Variety Band 3 — the FE→ME Substation (→ [VARIETYSTRUCTUREPLAN.md](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md)
+  §3 B28), and the sharpest D4 case in the whole plan.** A `requires:["immersiveengineering","ae2"]` epic (w1, Rocky) that
+  only germinates where **both** Immersive Engineering and AE2 are installed:
+  - **FE→ME Substation** (Rocky, a creeper) — a derelict power-conversion station where IE high-voltage power once fed an
+    AE2 ME network. *Not a box*: a gutted, roofless hall with an IE concrete-and-sheetmetal west end (a wire-mast rising
+    past the wall, a post-transformer husk + a capacitor), a certus-quartz/fluix AE2 east end, and between them a scorched
+    **conversion column** (deepslate topped by a broken conduit antenna). The centrepiece is the **empty controller pit** —
+    a scorched deepslate mount where the ME Controller was torn out, a couple of fluix remnants beside it.
+  - **D4 — the AE2 gate is the sharpest** (AE2PLAN / [[skyseed-ae2-curated-set]]): there is **NO** `sky_stone_*` (harvestable
+    ⇒ a Controller), **NO** `ae2:controller`, and **NO** inscriber press/processor anywhere — the pit is deliberately
+    empty. Built only from certus/fluix cubes (mid-game, renewable) + IE concrete/sheetmetal husks; loot is fluix + a copper
+    wire coil, never sky stone / a press / a processor / a working multiblock. Chest binds `skyseed:chests/substation_scrap`
+    + two inert `add_drop` GLMs.
+  - Both mods' machinery via the `modNames` side-map (verified IE 12.4.2 + AE2 19.2.17 ids); the vanilla deepslate
+    column/pit + a vanilla end-rod antenna + the chest + a lantern are the assertable gametest shell. Wired **w1** across all
+    three tiers of Rocky. A new gametest per suite mirror. Both nodes green (1.21.1: 207, 26.1.2: 209).
+
+### Fixed
+- **FE→ME Substation stale-mod-id placement (caught by the new gametest + the adversarial review).** The scrap chest and
+  the lantern were initially placed on the back-wall line, where the wall loop had already stamped a mod id — so the plain
+  overwrite left the stale id and the chest emitted as `ae2:quartz_block` instead of a chest. Moved both to clear interior
+  cells (a wall cell always carries a mod id; only interior floor cells are safe for a plain vanilla overwrite).
+
 ## [0.218.0] - 2026-07-05
 
 ### Added
