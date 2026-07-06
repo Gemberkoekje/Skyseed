@@ -1,33 +1,13 @@
-# QUARKPLAN — Quark integration (NeoForge 1.21.1)
+# Quark integration — open items only
 
-> Child of [CONTENTPLAN §2](CONTENTPLAN.md) — PLANOFPLANS **#15** (jars + module curation) and **#43** (quest chapter).
+> Child of CONTENTPLAN. **Shipped:** the 4-jar Quark set (Quark 4.1-481, Zeta, Oddities, Ponders) + curated modules
+> + the void-death Totem of Holding relocated to a lit island shrine; #15 smoke pass signed off; island tie-ins in
+> `QUARKISLANDPLAN.md`. See the changelogs + git. Trimmed to OPEN items.
 
-## ✅ Shipped — see CHANGELOG
+## What's left
+- **#43** — build the minimal Quark quest chapter (3 quests: *Sort Your Life Out* / *Enter the Matrix* /
+  *Hold That Thought*). No Quark FTB chapter exists yet; keep the sketch here as the spec.
+- **Farmer's Cutting: Quark** — verify a 1.21.1/NeoForge build exists, then add the jar + FD cutting-board recipes.
 
-**Quark SHIPPED v0.182.0** — 4 jars in `mods.txt` (Quark 4.1-481, Zeta 1.1-40, Quark Oddities marker, QuarkPonders
-1.5.1), modules curated in `overrides/config/quark-common.toml`, and the void-death **Totem of Holding** relocated to
-a lit island shrine (`TotemShrineEvents`, no-ops without Quark Oddities). Island integrations are their own plan,
-[QUARKISLANDPLAN.md](QUARKISLANDPLAN.md) (#71).
-
-**Governing config invariant (do not regress):** the block-providing World modules — **New Stone Types, Corundum,
-Blossom Trees** — must stay **ENABLED**. Disabling a Zeta module *unregisters its blocks*, which would make the #71
-`theme_override`s resolve to nothing; their pure worldgen is already inert in a void world, so leaving it on costs
-nothing. Only **Glimmering Weald** is disabled (it adds a biome that trips the 1.21.1 biome-cycle bug
-[Quark#5340](https://github.com/VazkiiMods/Quark/issues/5340)). Overlap-with-shipped-mods modules are also off
-(Oddities Backpack/Pipes/Crates, Pathfinder Maps).
-
-## Open
-
-- [x] **(#15)** **Smoke pass — ✅ signed off in-game 2026-07-02** (all works as intended).
-- [ ] **(#43)** **Minimal quest chapter** (build last, now unblocked by the #15 sign-off): a short branch — *Sort Your Life Out*
-  (sorting/chest QoL) · *Enter the Matrix* (Matrix Enchanting setup) · *Hold That Thought* (Totem of Holding recovery,
-  the void fix already shipped). Keep it minimal per QUESTPLAN.
-- **Partner-gated add-ons — both partners have now landed:**
-  - **Quark Engineering** (IE compat) — ✅ **ADDED** (`QuarkEngineering-1.21.1-5.10.29.jar` in `overrides/mods/` +
-    `mods.txt`): IE sawmill recipes for Quark woods/bookshelves + smelting/blasting IE raw-ore blocks, gated by Quark's
-    own config flags. Deps Quark + Zeta + IE (all present). See [IEPLAN.md](IEPLAN.md).
-  - **Farmer's Cutting: Quark** (FD cutting-board recipes) — still open: now unblocked (FD is in); verify a
-    1.21.1/NeoForge build before adding.
-
-**Caveat:** young NeoForge port — keep the pairing pinned (Quark 4.1-481 + Zeta 1.1-40) and watch patch notes before
-quests point at Quark features.
+## Config invariant (do not regress)
+- World block-modules (New Stone Types, Corundum, Blossom Trees) stay **ENABLED**; only Glimmering Weald is disabled.

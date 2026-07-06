@@ -319,14 +319,26 @@ public final class SkyseedCommands {
         if (!Files.exists(dir)) {
             return;
         }
+        final IOException[] firstFailure = {null};
         try (Stream<Path> walk = Files.walk(dir)) {
             walk.sorted(Comparator.reverseOrder()).forEach(path -> {
                 try {
                     Files.delete(path);
                 } catch (IOException e) {
                     Skyseed.LOGGER.warn("[skyseed] could not delete {} during dimension reset", path, e);
+                    if (firstFailure[0] == null) {
+                        firstFailure[0] = e;
+                    }
                 }
             });
+        }
+        // Propagate a delete failure so applyReset aborts BEFORE it flips level.dat to the void generator. Swallowing it
+        // here would let a PARTIAL chunk wipe (some region files undeletable/locked) proceed to the level.dat flip,
+        // leaving surviving vanilla chunks in a now-void dimension — the exact half-converted state steps 3–4 promise to
+        // avoid. Throwing routes control to applyReset's catch, which leaves level.dat on the vanilla generator so the
+        // command can be re-run cleanly.
+        if (firstFailure[0] != null) {
+            throw firstFailure[0];
         }
     }
 }

@@ -58,6 +58,10 @@ public final class ExploreThemes {
             new Rule("#minecraft:is_ocean", "aquatic"),
             new Rule("#minecraft:is_deep_ocean", "aquatic"),
             new Rule("#minecraft:is_river", "aquatic"),
+            // snowy_beach is a member of #minecraft:is_beach, so route it to Frozen BEFORE the broad beach→aquatic
+            // catch-all — otherwise a snowy beach grows an Aquatic (lake) island instead of a Frozen one, and the
+            // dedicated snowy_beach→frozen rule further down is dead code.
+            new Rule("minecraft:snowy_beach", "frozen"),
             new Rule("#minecraft:is_beach", "aquatic"),
             new Rule("minecraft:desert", "desert"),
             // BIOMECOVERAGEPLAN F1 — vanilla has no #is_desert tag, so modded deserts (BWG's atacama_outback /
@@ -78,8 +82,12 @@ public final class ExploreThemes {
             new Rule("minecraft:snowy_slopes", "frozen"),
             new Rule("minecraft:frozen_peaks", "frozen"),
             new Rule("minecraft:jagged_peaks", "frozen"),
-            new Rule("minecraft:snowy_beach", "frozen"),
             new Rule("minecraft:grove", "frozen"),
+            // meadow + cherry_grove are members of #minecraft:is_mountain, so route them to Meadow BEFORE the broad
+            // mountain→rocky catch-all — otherwise both grow a Rocky island and the dedicated meadow/cherry_grove
+            // rules further down are dead code (they're specific ids, so they can't shadow anything else here).
+            new Rule("minecraft:meadow", "meadow"),
+            new Rule("minecraft:cherry_grove", "meadow"),
             new Rule("#minecraft:is_mountain", "rocky"),
             new Rule("minecraft:windswept_hills", "rocky"),
             new Rule("minecraft:windswept_gravelly_hills", "rocky"),
@@ -96,8 +104,7 @@ public final class ExploreThemes {
             new Rule("#biomeswevegone:icy", "frozen"),
             new Rule("minecraft:plains", "meadow"),
             new Rule("minecraft:sunflower_plains", "meadow"),
-            new Rule("minecraft:meadow", "meadow"),
-            new Rule("minecraft:cherry_grove", "meadow"),
+            // (meadow + cherry_grove are routed to Meadow above, before #minecraft:is_mountain, which contains them.)
             new Rule("#minecraft:is_savanna", "meadow"),
             // BIOMECOVERAGEPLAN F4 — BWG's grassland/plains biomes sit only in #biomeswevegone:plains (no vanilla
             // is_plains tag), so the adaptive seed fell to the Forest fallback even though the Meadow theme already

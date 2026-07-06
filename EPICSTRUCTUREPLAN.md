@@ -4,8 +4,8 @@
 > ready to build.** This is **VARIETYSTRUCTUREPLAN Band 4** — a strict superset of the shipped Band 1–3 surprise engine
 > (same code-authored `.nbt`, `modNames` inert-safety, D4 loot gating, regen/gametest hygiene). Child of
 > [`Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md`](Modpack-growyourownworld/VARIETYSTRUCTUREPLAN.md) (#68) and a
-> sibling of [`STRUCTURELONGTAILPLAN.md`](STRUCTURELONGTAILPLAN.md) (whose `theme_override` seed/biome vehicle this
-> reuses). Tracked as **#74** in [`PLANOFPLANS.md`](PLANOFPLANS.md).
+> sibling of the retired STRUCTURELONGTAILPLAN (shipped; history in the changelogs + git), whose `theme_override`
+> seed/biome vehicle this reuses. Tracked as **#74** in [`PLANOFPLANS.md`](PLANOFPLANS.md).
 
 ## Context
 
