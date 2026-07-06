@@ -1,5 +1,6 @@
 package dev.gemberkoekje.skyseed.worldgen;
 
+import dev.gemberkoekje.skyseed.Skyseed;
 import dev.gemberkoekje.skyseed.compat.Id;
 import dev.gemberkoekje.skyseed.compat.Lookup;
 import dev.gemberkoekje.skyseed.worldgen.theme.IslandTheme;
@@ -47,6 +48,14 @@ public final class TwinPlacer {
             return; // the theme doesn't implement the other dimension — no twin
         }
         final TwinResult twin = placeTwinNear(other, theme, linked);
+        // SIGNOFFPLAN B4 diagnostic — twin-alignment probe. origin = the source island's centre; linked = the exact 8:1
+        // target; grewAt = where the twin actually planted. If grewAt != linked, placeTwinNear nudged it (the frames then
+        // sit off the link); if grewAt == linked but the in-game frames still don't line up 8:1, the opening isn't seating
+        // on the centre anchor. Remove once B4 is fixed.
+        Skyseed.LOGGER.info("[skyseed] twin B4: origin={} linked={} grewAt={} nudge=({},{},{})",
+                center, linked, twin.center(),
+                twin.center().getX() - linked.getX(), twin.center().getY() - linked.getY(),
+                twin.center().getZ() - linked.getZ());
         // Crash-resume the twin as its own pending island (5.2) — the highest-value case: a twin grown in the
         // player-less Nether has no other chunk ticket, so a crash mid-grow was the likeliest place to lose content.
         final PendingIsland descriptor = themeId == null ? null : PendingIsland.fresh(
@@ -78,7 +87,8 @@ public final class TwinPlacer {
         return new BlockPos(x, y, z);
     }
 
-    /** Plan the twin as close to {@code linked} as possible — small steps only, so the portal stays in linking range. */
+    /** Plan the twin on {@code linked}'s exact XZ column (never nudged sideways — see {@link #twinSearchSpots}), so the
+     *  portal opening lands on the 8:1 coordinate and the pair links; only a small vertical lift dodges an obstruction. */
     private static TwinResult placeTwinNear(ServerLevel level, IslandTheme theme, BlockPos linked) {
         final List<Vec3> players = level.players().stream().map(p -> p.position()).toList();
         final BlockPos.MutableBlockPos probe = new BlockPos.MutableBlockPos();
@@ -99,19 +109,15 @@ public final class TwinPlacer {
     /** A planned twin and the centre it grows at (kept so a crash can re-plan the identical twin — 5.2). */
     private record TwinResult(IslandPlan plan, BlockPos center) {}
 
-    /** The linked spot first, then a tight ring (small horizontal steps), then a couple of small vertical lifts. */
+    /** Candidate spots for the twin — all on the SAME XZ column as {@code linked}. The portal opening MUST land at the
+     *  exact 8:1 coordinate for the pair to link, so we NEVER nudge horizontally: a horizontal step desyncs the two
+     *  frames (the B4 bug — an occupied link spot nudged the twin +6 X, so traversal emerged 6 blocks off the frame).
+     *  Only small vertical lifts are tried, to dodge a vertical obstruction (vanilla's portal search spans the Y column,
+     *  so a small Y shift still links); if none is clear the caller grows right on the link anyway. */
     private static List<BlockPos> twinSearchSpots(BlockPos linked) {
         final List<BlockPos> spots = new ArrayList<>();
         spots.add(linked);
-        for (int d = 3; d <= 9; d += 3) {
-            spots.add(linked.offset(d, 0, 0));
-            spots.add(linked.offset(-d, 0, 0));
-            spots.add(linked.offset(0, 0, d));
-            spots.add(linked.offset(0, 0, -d));
-            spots.add(linked.offset(d, 0, d));
-            spots.add(linked.offset(-d, 0, -d));
-        }
-        for (int lift : new int[] { 6, -6, 12, -12 }) {
+        for (int lift : new int[] { 4, -4, 8, -8, 12, -12 }) {
             spots.add(linked.above(lift));
         }
         return spots;

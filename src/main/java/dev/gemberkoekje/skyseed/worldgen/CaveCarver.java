@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -36,8 +37,8 @@ final class CaveCarver {
 
     /** Default cave dressing for themes whose variant has no underside palette: a little dripstone + glow lichen. */
     private static final List<GroundEntry> DEFAULT_DECO = List.of(
-            new GroundEntry(Id.of("minecraft:pointed_dripstone"), 0.12f),
-            new GroundEntry(Id.of("minecraft:glow_lichen"), 0.07f));
+            new GroundEntry(Id.of("minecraft:pointed_dripstone"), 0.12f, Optional.empty()),
+            new GroundEntry(Id.of("minecraft:glow_lichen"), 0.07f, Optional.empty()));
 
     private static long key(int dx, int dz) {
         return (((long) dx) << 32) | (dz & 0xffffffffL);
