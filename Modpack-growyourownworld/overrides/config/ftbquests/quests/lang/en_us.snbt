@@ -8,9 +8,11 @@
 	chapter.5C0000000000A007.title: "Mystical Agriculture"
 	chapter.5C0000000000A008.title: "Farmer's Delight"
 	chapter.5C0000000000A009.title: "Immersive Engineering"
+	chapter.5C0000000000A00A.title: "Magic \\& Exploration"
 	chapter_group.5C0000000000E001.title: "Progression"
 	chapter_group.5C0000000000E002.title: "Industry"
 	chapter_group.5C0000000000E003.title: "Farming"
+	chapter_group.5C0000000000E004.title: "Magic \\& Exploration"
 	quest.5C0000000000B001.quest_desc: [
 		"Welcome, skyfarer."
 		""
@@ -541,17 +543,67 @@
 	]
 	quest.5C0000000000B808.quest_subtitle: "End's Delight"
 	quest.5C0000000000B808.title: "Taste of the End"
+	quest.5C0000000000B901.quest_desc: [
+		"Immersive Engineering runs on aluminium — its ingots, wires and machine casings all start here."
+		""
+		"Throw a Rocky island and mine it: alongside the stone it carries aluminium ore (IE's 'bauxite'), plus lead and nickel. Ancient islands instead give aluminium, silver and uranium. Smelt the ore into ingots to begin."
+	]
 	quest.5C0000000000B901.quest_subtitle: "The gateway metal"
 	quest.5C0000000000B901.title: "Bauxite \\& Aluminium"
+	quest.5C0000000000B902.quest_desc: [
+		"The Engineer's Hammer is the one tool you can't do IE without."
+		""
+		"You'll use it to form every multiblock (right-click the built shell once), to connect wires, and to configure machines. Craft one and keep it on your hotbar."
+	]
+	quest.5C0000000000B902.quest_subtitle: "IE's one essential tool"
 	quest.5C0000000000B902.title: "The Engineer's Hammer"
+	quest.5C0000000000B903.quest_desc: [
+		"The Engineer's Manual is IE's own guidebook — and the fastest way to learn the mod."
+		""
+		"Every multiblock's exact layout and every machine's wiring is drawn out inside. When a quest says 'build the Coke Oven', the manual shows you how. Craft it and read it."
+	]
+	quest.5C0000000000B903.quest_subtitle: "The built-in guidebook"
 	quest.5C0000000000B903.title: "The Engineer's Manual"
+	quest.5C0000000000B904.quest_desc: [
+		"The Windmill is your first Immersive Engineering power — clean kinetic rotation, no fuel to feed."
+		""
+		"It loves open sky, and up here the wind never stops. Mount it on a Kinetic Dynamo, high and clear, to turn wind into a trickle of FE."
+	]
 	quest.5C0000000000B904.quest_subtitle: "Power from the open sky"
 	quest.5C0000000000B904.title: "Catch the Wind"
+	quest.5C0000000000B905.quest_desc: [
+		"IE carries power along wires, not cables or pipes."
+		""
+		"Put an LV Connector on your generator and another on your machine, then run a Copper Wire Coil between them with the Engineer's Hammer. Low-voltage is the starter tier; MV and HV carry more, further."
+	]
+	quest.5C0000000000B905.quest_subtitle: "Power runs on wires, not pipes"
 	quest.5C0000000000B905.title: "Wire It Up"
+	quest.5C0000000000B906.quest_desc: [
+		"The Coke Oven is IE's first multiblock — a 3×3×3 of coke brick you form with the hammer."
+		""
+		"It bakes coal into Coke (a hotter fuel) and drips out Creosote Oil as a by-product. You'll need both for steel. Check the Engineer's Manual for the exact layout."
+	]
+	quest.5C0000000000B906.quest_subtitle: "Coal into coke"
 	quest.5C0000000000B906.title: "Coke Oven"
+	quest.5C0000000000B907.quest_desc: [
+		"The Crude Blast Furnace is the stepping-stone to steel."
+		""
+		"Another hammer-formed multiblock, built from blast bricks. Feed it iron and coke and it smelts Steel Ingots — slow and manual, but it's how the backbone metal starts flowing."
+	]
+	quest.5C0000000000B907.quest_subtitle: "Iron into steel"
 	quest.5C0000000000B907.title: "Crude Blast Furnace"
+	quest.5C0000000000B908.quest_desc: [
+		"Steel is the backbone of everything ahead — the machines, the Excavator, the pump, the reinforced blocks."
+		""
+		"Put iron and coke into the Crude Blast Furnace and wait. Stock up: almost every IE multiblock from here wants it."
+	]
 	quest.5C0000000000B908.quest_subtitle: "The backbone alloy"
 	quest.5C0000000000B908.title: "Forged in Steel"
+	quest.5C0000000000B909.quest_desc: [
+		"The Crusher is IE's ore-doubling multiblock — one ore in, two grit out (smelt the grit back into ingots)."
+		""
+		"It's a big steel-and-concrete build that runs on FE, so it needs a wired power source. Once it's turning, every ore you mine goes twice as far."
+	]
 	quest.5C0000000000B909.quest_subtitle: "Ore doubling"
 	quest.5C0000000000B909.title: "Crush It"
 	quest.5C0000000000B910.quest_desc: [
@@ -561,6 +613,12 @@
 	]
 	quest.5C0000000000B910.quest_subtitle: "Bulk ore, even over the void"
 	quest.5C0000000000B910.title: "The Excavator"
+	quest.5C0000000000B911.quest_desc: [
+		"The Fluid Pump pulls liquids out of the world and into your pipes."
+		""
+		"It's what makes crude oil useful — set it over an oil pocket and it draws the fluid up. Powered, and steel-hungry to build."
+	]
+	quest.5C0000000000B911.quest_subtitle: "Draw fluid from the world"
 	quest.5C0000000000B911.title: "Fluid Pump"
 	quest.5C0000000000B912.quest_desc: [
 		"Crude oil doesn't pool naturally in the void."
@@ -569,8 +627,25 @@
 	]
 	quest.5C0000000000B912.quest_subtitle: "A slick black pocket near bedrock"
 	quest.5C0000000000B912.title: "Striking Oil"
+	quest.5C0000000000B913.quest_desc: [
+		"Crude oil is worthless until it's refined."
+		""
+		"The Distillation Tower (an Immersive Petroleum multiblock) cracks crude into Diesel, Lubricant, Naphtha and more. Diesel is the prize — the fuel that powers the generator and your aircraft."
+	]
+	quest.5C0000000000B913.quest_subtitle: "Crack crude into fuel"
 	quest.5C0000000000B913.title: "Refine It"
+	quest.5C0000000000B914.quest_desc: [
+		"Diesel is refined petroleum — the high-density fuel IE's engines crave."
+		""
+		"Distil it from crude oil, then bottle a bucketful. It runs the Diesel Generator for serious FE, and tops up an aircraft for the long hauls."
+	]
+	quest.5C0000000000B914.quest_subtitle: "The engine's lifeblood"
 	quest.5C0000000000B914.title: "Diesel"
+	quest.5C0000000000B915.quest_desc: [
+		"The Diesel Generator is where the whole oil chain pays off."
+		""
+		"Feed it diesel and it burns fuel into a strong, steady stream of FE — far more than a windmill. Wire it into your grid (see the Power chapter) to run the Excavator, the Crusher, and everything AE2 downstream."
+	]
 	quest.5C0000000000B915.quest_subtitle: "Fuel to Flux"
 	quest.5C0000000000B915.title: "Burn for Power"
 	quest.5C0000000000B916.quest_subtitle: "Muscle-powered lift"
@@ -582,7 +657,7 @@
 	quest.5C0000000000B920.quest_desc: [
 		"Your aircraft will burn coal or charcoal, but a tankful doesn't last long."
 		""
-		"Anything tagged as aircraft fuel works — and refined petroleum goes much further. Distil crude oil into diesel or kerosene and top up your plane for the long hauls."
+		"Anything tagged as aircraft fuel works — and refined petroleum goes much further. Distil crude oil into diesel or kerosene and top up your plane for the long hauls. Be aware you need the fuel in a barrel, a bucket will not work."
 	]
 	quest.5C0000000000B920.quest_subtitle: "Petrol beats coal"
 	quest.5C0000000000B920.title: "Aviation Fuel"
@@ -642,6 +717,75 @@
 	]
 	quest.5C0000000000BA08.quest_subtitle: "Rotation, straight to AE"
 	quest.5C0000000000BA08.title: "Kinetic Shortcut"
+	quest.5C0000000000BB01.quest_desc: [
+		"Ring a structure seed with four base biome seeds to craft an Explore Seed."
+		""
+		"Where a normal seed grows the same island every time, an Explore Seed reads the biome you throw it into and forces a rare structure to germinate — a lucky find, made reliable. Throw it into different biomes to turn up different buildings and their loot."
+	]
+	quest.5C0000000000BB01.quest_subtitle: "Throw it, find something"
+	quest.5C0000000000BB01.title: "The Explore Seed"
+	quest.5C0000000000BB02.quest_desc: [
+		"Craft the Large Explore Seed — ring the large biome seeds the same way you ringed the base ones."
+		""
+		"It grows the bigger islands, which host the bigger structures a small isle simply can't hold."
+	]
+	quest.5C0000000000BB02.quest_subtitle: "The large frontier"
+	quest.5C0000000000BB02.title: "Wider Horizons"
+	quest.5C0000000000BB03.quest_desc: [
+		"Craft the Huge Explore Seed — the largest islands, and the only ones big enough for the grand set-pieces: the Mage's Sanctum, the Frozen Warren, the War Barrow and more."
+		""
+		"Optional, but it's where the best magic loot lives."
+	]
+	quest.5C0000000000BB03.quest_subtitle: "Room for a citadel"
+	quest.5C0000000000BB03.title: "The Grand Frontier"
+	quest.5C0000000000BB04.quest_desc: [
+		"Loot a Scroll from an explore structure's chest."
+		""
+		"A scroll holds a single spell you can cast just once. It's your first taste of Iron's Spells magic — and a hint of what a spellbook could do with that spell, over and over."
+	]
+	quest.5C0000000000BB04.quest_subtitle: "One cast, then it's spent"
+	quest.5C0000000000BB04.title: "A Spell Scroll"
+	quest.5C0000000000BB05.quest_desc: [
+		"Gather Arcane Essence — the common reagent of Iron's Spells, salted through the chests your explore seeds dig up."
+		""
+		"You'll want a stack of it; it feeds nearly every arcane recipe."
+	]
+	quest.5C0000000000BB05.quest_subtitle: "The magic crafting mat"
+	quest.5C0000000000BB05.title: "Arcane Essence"
+	quest.5C0000000000BB06.quest_desc: [
+		"Get a Spellbook — a Copper Spellbook is the humble start. Inscribe a spell into it and you can cast that spell whenever your mana allows, no more one-and-done scrolls."
+		""
+		"Fancier books hold more spell slots and higher tiers; the copper one is where every mage begins."
+	]
+	quest.5C0000000000BB06.quest_subtitle: "Cast, and cast again"
+	quest.5C0000000000BB06.title: "A Spellbook"
+	quest.5C0000000000BB07.quest_desc: ["Craft a Scroll Forge. With arcane essence and the right inks you can forge the scrolls you want, instead of hoping the dungeons drop them."]
+	quest.5C0000000000BB07.quest_subtitle: "Write your own scrolls"
+	quest.5C0000000000BB07.title: "The Scroll Forge"
+	quest.5C0000000000BB08.quest_desc: ["Craft an Arcane Anvil — the mage's workbench. Imbue spells into spellbooks, apply arcane upgrades to your gear, and repair magic equipment here."]
+	quest.5C0000000000BB08.quest_subtitle: "Imbue and upgrade"
+	quest.5C0000000000BB08.title: "The Arcane Anvil"
+	quest.5C0000000000BB09.quest_desc: [
+		"Find an Upgrade Orb — the scarce reward that pushes a piece of gear past its normal limits."
+		""
+		"They drop only in the most dangerous explore structures — the huge tiers — and only rarely. A lucky low roll can still turn one up: that's the dream every throw chases."
+	]
+	quest.5C0000000000BB09.quest_subtitle: "The rare prize"
+	quest.5C0000000000BB09.title: "The Upgrade Orb"
+	quest.5C0000000000BB0A.quest_desc: [
+		"Find and equip a Relic. Relics level up as you use them and unlock abilities — a belt that quickens your step, a mantle that shields you, and stranger things besides."
+		""
+		"They hide in the same explore chests. Check this off once you've claimed one."
+	]
+	quest.5C0000000000BB0A.quest_subtitle: "A living treasure"
+	quest.5C0000000000BB0A.title: "Claim a Relic"
+	quest.5C0000000000BB0B.quest_desc: [
+		"Find and wear an Artifact in a Curio slot — a cloud in a bottle for a double jump, feral claws for faster attacks, and dozens more, each a small permanent perk."
+		""
+		"Loot one on your travels and slot it in. Check this off once you're wearing one."
+	]
+	quest.5C0000000000BB0B.quest_subtitle: "A trinket with a trick"
+	quest.5C0000000000BB0B.title: "Don an Artifact"
 	reward_table.5C00000000005001.title: "Skyfarer's Cache"
 	reward_table.5C00000000005002.title: "Engineer's Cache"
 	task.5C0000000000C001.title: "Begin"
@@ -665,154 +809,6 @@
 	task.5C0000000000C701.title: "Obtain any exotic-wood plank"
 	task.5C0000000000C702.title: "Mill a BWG bloom in a Millstone"
 	task.5C0000000000C703.title: "Grow a tree from a sapling"
-	chapter.5C0000000000A00A.title: "Magic \\& Exploration"
-	chapter_group.5C0000000000E004.title: "Magic \\& Exploration"
-	quest.5C0000000000BB01.title: "The Explore Seed"
-	quest.5C0000000000BB01.quest_subtitle: "Throw it, find something"
-	quest.5C0000000000BB01.quest_desc: [
-		"Ring a structure seed with four base biome seeds to craft an Explore Seed."
-		""
-		"Where a normal seed grows the same island every time, an Explore Seed reads the biome you throw it into and forces a rare structure to germinate — a lucky find, made reliable. Throw it into different biomes to turn up different buildings and their loot."
-	]
-	quest.5C0000000000BB02.title: "Wider Horizons"
-	quest.5C0000000000BB02.quest_subtitle: "The large frontier"
-	quest.5C0000000000BB02.quest_desc: [
-		"Craft the Large Explore Seed — ring the large biome seeds the same way you ringed the base ones."
-		""
-		"It grows the bigger islands, which host the bigger structures a small isle simply can't hold."
-	]
-	quest.5C0000000000BB03.title: "The Grand Frontier"
-	quest.5C0000000000BB03.quest_subtitle: "Room for a citadel"
-	quest.5C0000000000BB03.quest_desc: [
-		"Craft the Huge Explore Seed — the largest islands, and the only ones big enough for the grand set-pieces: the Mage's Sanctum, the Frozen Warren, the War Barrow and more."
-		""
-		"Optional, but it's where the best magic loot lives."
-	]
-	quest.5C0000000000BB04.title: "A Spell Scroll"
-	quest.5C0000000000BB04.quest_subtitle: "One cast, then it's spent"
-	quest.5C0000000000BB04.quest_desc: [
-		"Loot a Scroll from an explore structure's chest."
-		""
-		"A scroll holds a single spell you can cast just once. It's your first taste of Iron's Spells magic — and a hint of what a spellbook could do with that spell, over and over."
-	]
-	quest.5C0000000000BB05.title: "Arcane Essence"
-	quest.5C0000000000BB05.quest_subtitle: "The magic crafting mat"
-	quest.5C0000000000BB05.quest_desc: [
-		"Gather Arcane Essence — the common reagent of Iron's Spells, salted through the chests your explore seeds dig up."
-		""
-		"You'll want a stack of it; it feeds nearly every arcane recipe."
-	]
-	quest.5C0000000000BB06.title: "A Spellbook"
-	quest.5C0000000000BB06.quest_subtitle: "Cast, and cast again"
-	quest.5C0000000000BB06.quest_desc: [
-		"Get a Spellbook — a Copper Spellbook is the humble start. Inscribe a spell into it and you can cast that spell whenever your mana allows, no more one-and-done scrolls."
-		""
-		"Fancier books hold more spell slots and higher tiers; the copper one is where every mage begins."
-	]
-	quest.5C0000000000BB07.title: "The Scroll Forge"
-	quest.5C0000000000BB07.quest_subtitle: "Write your own scrolls"
-	quest.5C0000000000BB07.quest_desc: [
-		"Craft a Scroll Forge. With arcane essence and the right inks you can forge the scrolls you want, instead of hoping the dungeons drop them."
-	]
-	quest.5C0000000000BB08.title: "The Arcane Anvil"
-	quest.5C0000000000BB08.quest_subtitle: "Imbue and upgrade"
-	quest.5C0000000000BB08.quest_desc: [
-		"Craft an Arcane Anvil — the mage's workbench. Imbue spells into spellbooks, apply arcane upgrades to your gear, and repair magic equipment here."
-	]
-	quest.5C0000000000BB09.title: "The Upgrade Orb"
-	quest.5C0000000000BB09.quest_subtitle: "The rare prize"
-	quest.5C0000000000BB09.quest_desc: [
-		"Find an Upgrade Orb — the scarce reward that pushes a piece of gear past its normal limits."
-		""
-		"They drop only in the most dangerous explore structures — the huge tiers — and only rarely. A lucky low roll can still turn one up: that's the dream every throw chases."
-	]
-	quest.5C0000000000BB0A.title: "Claim a Relic"
-	quest.5C0000000000BB0A.quest_subtitle: "A living treasure"
-	quest.5C0000000000BB0A.quest_desc: [
-		"Find and equip a Relic. Relics level up as you use them and unlock abilities — a belt that quickens your step, a mantle that shields you, and stranger things besides."
-		""
-		"They hide in the same explore chests. Check this off once you've claimed one."
-	]
-	quest.5C0000000000BB0B.title: "Don an Artifact"
-	quest.5C0000000000BB0B.quest_subtitle: "A trinket with a trick"
-	quest.5C0000000000BB0B.quest_desc: [
-		"Find and wear an Artifact in a Curio slot — a cloud in a bottle for a double jump, feral claws for faster attacks, and dozens more, each a small permanent perk."
-		""
-		"Loot one on your travels and slot it in. Check this off once you're wearing one."
-	]
 	task.5C0000000000CB0A.title: "Claim any Relic"
 	task.5C0000000000CB0B.title: "Wear any Artifact"
-	quest.5C0000000000B901.quest_desc: [
-		"Immersive Engineering runs on aluminium — its ingots, wires and machine casings all start here."
-		""
-		"Throw a Rocky island and mine it: alongside the stone it carries aluminium ore (IE's 'bauxite'), plus lead and nickel. Ancient islands instead give aluminium, silver and uranium. Smelt the ore into ingots to begin."
-	]
-	quest.5C0000000000B902.quest_subtitle: "IE's one essential tool"
-	quest.5C0000000000B902.quest_desc: [
-		"The Engineer's Hammer is the one tool you can't do IE without."
-		""
-		"You'll use it to form every multiblock (right-click the built shell once), to connect wires, and to configure machines. Craft one and keep it on your hotbar."
-	]
-	quest.5C0000000000B903.quest_subtitle: "The built-in guidebook"
-	quest.5C0000000000B903.quest_desc: [
-		"The Engineer's Manual is IE's own guidebook — and the fastest way to learn the mod."
-		""
-		"Every multiblock's exact layout and every machine's wiring is drawn out inside. When a quest says 'build the Coke Oven', the manual shows you how. Craft it and read it."
-	]
-	quest.5C0000000000B904.quest_desc: [
-		"The Windmill is your first Immersive Engineering power — clean kinetic rotation, no fuel to feed."
-		""
-		"It loves open sky, and up here the wind never stops. Mount it on a Kinetic Dynamo, high and clear, to turn wind into a trickle of FE."
-	]
-	quest.5C0000000000B905.quest_subtitle: "Power runs on wires, not pipes"
-	quest.5C0000000000B905.quest_desc: [
-		"IE carries power along wires, not cables or pipes."
-		""
-		"Put an LV Connector on your generator and another on your machine, then run a Copper Wire Coil between them with the Engineer's Hammer. Low-voltage is the starter tier; MV and HV carry more, further."
-	]
-	quest.5C0000000000B906.quest_subtitle: "Coal into coke"
-	quest.5C0000000000B906.quest_desc: [
-		"The Coke Oven is IE's first multiblock — a 3×3×3 of coke brick you form with the hammer."
-		""
-		"It bakes coal into Coke (a hotter fuel) and drips out Creosote Oil as a by-product. You'll need both for steel. Check the Engineer's Manual for the exact layout."
-	]
-	quest.5C0000000000B907.quest_subtitle: "Iron into steel"
-	quest.5C0000000000B907.quest_desc: [
-		"The Crude Blast Furnace is the stepping-stone to steel."
-		""
-		"Another hammer-formed multiblock, built from blast bricks. Feed it iron and coke and it smelts Steel Ingots — slow and manual, but it's how the backbone metal starts flowing."
-	]
-	quest.5C0000000000B908.quest_desc: [
-		"Steel is the backbone of everything ahead — the machines, the Excavator, the pump, the reinforced blocks."
-		""
-		"Put iron and coke into the Crude Blast Furnace and wait. Stock up: almost every IE multiblock from here wants it."
-	]
-	quest.5C0000000000B909.quest_desc: [
-		"The Crusher is IE's ore-doubling multiblock — one ore in, two grit out (smelt the grit back into ingots)."
-		""
-		"It's a big steel-and-concrete build that runs on FE, so it needs a wired power source. Once it's turning, every ore you mine goes twice as far."
-	]
-	quest.5C0000000000B911.quest_subtitle: "Draw fluid from the world"
-	quest.5C0000000000B911.quest_desc: [
-		"The Fluid Pump pulls liquids out of the world and into your pipes."
-		""
-		"It's what makes crude oil useful — set it over an oil pocket and it draws the fluid up. Powered, and steel-hungry to build."
-	]
-	quest.5C0000000000B913.quest_subtitle: "Crack crude into fuel"
-	quest.5C0000000000B913.quest_desc: [
-		"Crude oil is worthless until it's refined."
-		""
-		"The Distillation Tower (an Immersive Petroleum multiblock) cracks crude into Diesel, Lubricant, Naphtha and more. Diesel is the prize — the fuel that powers the generator and your aircraft."
-	]
-	quest.5C0000000000B914.quest_subtitle: "The engine's lifeblood"
-	quest.5C0000000000B914.quest_desc: [
-		"Diesel is refined petroleum — the high-density fuel IE's engines crave."
-		""
-		"Distil it from crude oil, then bottle a bucketful. It runs the Diesel Generator for serious FE, and tops up an aircraft for the long hauls."
-	]
-	quest.5C0000000000B915.quest_desc: [
-		"The Diesel Generator is where the whole oil chain pays off."
-		""
-		"Feed it diesel and it burns fuel into a strong, steady stream of FE — far more than a windmill. Wire it into your grid (see the Power chapter) to run the Excavator, the Crusher, and everything AE2 downstream."
-	]
 }
