@@ -148,7 +148,7 @@ jobs:
       # Publish the exact bytes the build job built and gametested (artifact skyseed-jars-<version>) rather
       # than rebuilding. The artifact holds every node's jar; the files glob below picks out just this leg's.
       - name: Download built jars
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: skyseed-jars-${{ needs.build.outputs.version }}
           path: dist
