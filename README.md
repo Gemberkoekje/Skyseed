@@ -267,7 +267,7 @@ mod** so a gametest can assert its blocks are physically placed, not just that t
 `-PwithCreate` (1.21.1 only — Create isn't published for 26.1.2) adds the Create maven repos + Create/Ponder/Flywheel/
 Registrate to the dev runtime, so `create:zinc_ore` is a registered block. `createZincOreActuallyPlaces` then grows a
 rocky island and checks a real `create:zinc_ore` `BlockState` lands (`OrePlanner` skips the id entirely when Create is
-absent — `createZincIsInertWithoutCreate` asserts exactly that in the normal run). A separate **`create-integration`** CI
+absent — `createZincIsInertWithoutCreate` asserts exactly that in the normal run). A separate **`content-integration`** CI
 job runs this on PRs; the Create coordinate versions live in `gradle.properties` and drift with Create releases (bump
 them if that job 404s). This is the pattern to copy for a real placement test of any other content integration.
 

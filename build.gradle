@@ -353,7 +353,6 @@ repositories {
         maven { url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"; content { includeGroup "software.bernie.geckolib" } } // GeckoLib
         maven { url = "https://maven.kosmx.dev/" }                            // Player Animation Library (Iron's Spells)
         maven { url = "https://maven.theillusivec4.top" }                     // Curios (Iron's Spells)
-        maven { url = "https://maven.terraformersmc.com/" }                   // Biolith (Quark)
         maven { url = "https://maven.jt-dev.tech/releases" }                  // BWG + CorgiLib + Oh The Trees You'll Grow
         mavenCentral()                                                        // AE2/GuideME + assorted library fallbacks
     }
@@ -482,7 +481,11 @@ dependencies {
     // compat is data-driven + reflective (compat/Lookup) and compiles against none of them. Coordinates verified per mod
     // (MODPLACEMENTTESTPLAN.md); they drift with mod releases — bump if a content-integration matrix leg 404s. Most of
     // these publish no transitive POM metadata, so every required library is listed explicitly. ---
-    def wantContent = { String flag -> mcv == "1.21.1" && (project.hasProperty('withContentMods') || project.hasProperty(flag)) }
+    // Iron's Spells + BWG are deferred (they fail at mod load — see MODPLACEMENTTESTPLAN.md), so the -PwithContentMods
+    // umbrella must NOT pull them in (it would crash the whole run before any test executes); they stay opt-in only via
+    // their own -Pwith<Mod> flag for local diagnosis. Drop them from this set once their library graphs are pinned.
+    def deferredFromUmbrella = ['withIronsSpells', 'withBwg'] as Set
+    def wantContent = { String flag -> mcv == "1.21.1" && ((project.hasProperty('withContentMods') && !deferredFromUmbrella.contains(flag)) || project.hasProperty(flag)) }
     if (wantContent('withCreate')) {
         // Create wiki "Depending on Create / neoforge-1.21.1": slim + transitive=false, runtime deps supplied explicitly.
         localRuntime("com.simibubi.create:create-${mcv}:${property("create_${mcv}")}:slim") { transitive = false }

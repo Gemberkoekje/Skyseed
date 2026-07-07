@@ -72,7 +72,7 @@ For a mod `<mod>` published on a node (today: **1.21.1 only** — no content mod
    absent. For Create this was exactly one test (`createRareGateIsInertWithoutMod`, a `requires:[create]` rare-gate);
    it now self-skips when `create` is loaded. **When adding a mod, run the full suite with it once and gate every
    newly-failing "inert" test the same way** — grep the suite for the mod id and for `requires:[<mod>]`.
-5. **CI** — add a job like `create-integration` (or extend a shared one) running
+5. **CI** — add a leg to the `content-integration` matrix (or a similar job) running
    `./gradlew :1.21.1:runGameTestServer -Pwith<Mod> --stacktrace --no-daemon`. Keep it a **separate, PR-only job**
    so the mod's dependency graph can never gate jar publishing.
 
@@ -94,7 +94,7 @@ were) — check the mod's "depending on…" docs / maven listing for exact curre
 - **Load:** `maven.createmod.net` (Create, Ponder, Flywheel) + `maven.ithundxr.dev/snapshots` (Registrate);
   deps `com.simibubi.create:create-1.21.1:slim` (transitive=false) + `net.createmod.ponder:ponder-neoforge` +
   `dev.engine-room.flywheel:flywheel-neoforge-1.21.1` + `com.tterrag.registrate:Registrate`.
-- **Status:** implemented (`-PwithCreate`, `create-integration` job). Template for everything below.
+- **Status:** implemented (`-PwithCreate`, the `content-integration` job's `create` leg). Template for everything below.
 
 ### 3.2 Immersive Engineering — ore (low risk, mostly standalone)
 - **Blocks:** `immersiveengineering:ore_{aluminum,lead,nickel}`,
