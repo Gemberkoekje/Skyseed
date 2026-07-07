@@ -1,10 +1,11 @@
 {
-  "_comment": "First-party Immersive Engineering compat (IEPLAN #34) — bauxite(aluminum)/lead/nickel on the rocky mining island; the metals that build IE's (and Immersive Petroleum's) machines. IE physical ores never worldgen in the void (SkyseedVoidChunkGenerator skips decoration), so this island IS the hand-mining path; the Excavator is the bulk path. Inert without IE (unknown ores skipped before any RNG, so generation is byte-identical). First-pass counts — throw-test + tune like #71. The biome_override bands re-add the veins into rocky's snowy / min_y:130 / max_y:8(deepslate) / min_y:70 bands, which otherwise REPLACE the top-level ore list (IslandGenerator.eff) — selectors match rocky.json exactly so they MERGE, per quark_rocky.json. Silver+uranium live on the ancient family. Mirror to immersiveengineering_rocky_large.json + immersiveengineering_huge_rocky.json.",
+  "_comment": "First-party Immersive Engineering compat (IEPLAN #34) — bauxite(aluminum)/lead/nickel on the rocky mining island; the metals that build IE's (and Immersive Petroleum's) machines. IE physical ores never worldgen in the void (SkyseedVoidChunkGenerator skips decoration), so this island IS the hand-mining path; the Excavator is the bulk path. Inert without IE (unknown ores skipped before any RNG, so generation is byte-identical). First-pass counts — throw-test + tune like #71. Crude oil (Immersive Petroleum) sits in EVERY band as a deep_core pocket — SIGNOFFPLAN T1 tune (was deepslate-only @0.15, so it read as 'not found'), now findable at any throw depth and richest in the deepslate band. The biome_override bands re-add the veins into rocky's snowy / min_y:130 / max_y:8(deepslate) / min_y:70 bands, which otherwise REPLACE the top-level ore list (IslandGenerator.eff) — selectors match rocky.json exactly so they MERGE, per quark_rocky.json. Silver+uranium live on the ancient family. Mirror to immersiveengineering_rocky_large.json + immersiveengineering_huge_rocky.json.",
   "target": "skyseed:rocky",
   "ores": [
     { "block": "immersiveengineering:ore_aluminum", "chance": 0.85, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
     { "block": "immersiveengineering:ore_lead", "chance": 0.65, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
-    { "block": "immersiveengineering:ore_nickel", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" }
+    { "block": "immersiveengineering:ore_nickel", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" },
+    { "block": "immersivepetroleum:crudeoil_fluid_block", "chance": 0.40, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
   ],
   "biome_overrides": [
     { "_comment": "…into the snowy-biome band (else it replaces the ore list → no IE metals on snowy rocky islands).",
@@ -12,26 +13,29 @@
       "ores": [
         { "block": "immersiveengineering:ore_aluminum", "chance": 0.85, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
         { "block": "immersiveengineering:ore_lead", "chance": 0.65, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
-        { "block": "immersiveengineering:ore_nickel", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" }
+        { "block": "immersiveengineering:ore_nickel", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" },
+        { "block": "immersivepetroleum:crudeoil_fluid_block", "chance": 0.40, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
       ] },
     { "_comment": "…into the high snow-peak band (min_y 130).", "min_y": 130,
       "ores": [
         { "block": "immersiveengineering:ore_aluminum", "chance": 0.85, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
         { "block": "immersiveengineering:ore_lead", "chance": 0.65, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
-        { "block": "immersiveengineering:ore_nickel", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" }
+        { "block": "immersiveengineering:ore_nickel", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" },
+        { "block": "immersivepetroleum:crudeoil_fluid_block", "chance": 0.40, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
       ] },
-    { "_comment": "…into the deepslate band (max_y 8) — deepslate ore variants + an uncommon crude-oil pocket near bedrock (Immersive Petroleum lore: 'a slick black substance found while mining near bedrock'). Oil is placed as a small deep_core vein of source blocks (walled by the stone body) — pump it with the IE Fluid Pump. Inert without IP (unknown ore skipped before RNG, byte-identical). This is the void's crude-oil path since IP reservoirs don't generate (decoration skipped).", "max_y": 8,
+    { "_comment": "…into the deepslate band (max_y 8) — deepslate ore variants + the RICHEST crude-oil pocket near bedrock (Immersive Petroleum lore: 'a slick black substance found while mining near bedrock'). Oil is a deep_core vein of source blocks (walled by the stone body) — pump it with the IE Fluid Pump. Inert without IP (unknown ore skipped before RNG, byte-identical). This is the void's crude-oil path since IP reservoirs don't generate (decoration skipped).", "max_y": 8,
       "ores": [
         { "block": "immersiveengineering:deepslate_ore_aluminum", "chance": 0.85, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
         { "block": "immersiveengineering:deepslate_ore_lead", "chance": 0.65, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
         { "block": "immersiveengineering:deepslate_ore_nickel", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" },
-        { "block": "immersivepetroleum:crudeoil_fluid_block", "chance": 0.15, "count": { "min": 1, "max": 1 }, "vein_size": { "min": 2, "max": 4 }, "depth": "deep_core" }
+        { "block": "immersivepetroleum:crudeoil_fluid_block", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "deep_core" }
       ] },
     { "_comment": "…into the high band (min_y 70).", "min_y": 70,
       "ores": [
         { "block": "immersiveengineering:ore_aluminum", "chance": 0.85, "count": { "min": 2, "max": 3 }, "vein_size": { "min": 4, "max": 8 }, "depth": "core" },
         { "block": "immersiveengineering:ore_lead", "chance": 0.65, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 6 }, "depth": "core" },
-        { "block": "immersiveengineering:ore_nickel", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" }
+        { "block": "immersiveengineering:ore_nickel", "chance": 0.55, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "core" },
+        { "block": "immersivepetroleum:crudeoil_fluid_block", "chance": 0.40, "count": { "min": 1, "max": 2 }, "vein_size": { "min": 3, "max": 5 }, "depth": "deep_core" }
       ] }
   ]
 }

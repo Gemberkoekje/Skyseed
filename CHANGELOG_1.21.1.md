@@ -5,6 +5,28 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.230.0] - 2026-07-07
+
+Pre-modpack-release polish from the throw-test pass ([SIGNOFFPLAN.md](SIGNOFFPLAN.md)): the crude-oil and Quark-shale
+tunes, and removal of the portal-twin diagnostic probes. First-party compat data only — inert without the mods, so the
+golden master is unchanged and both nodes stay green.
+
+### Changed
+- **Crude oil is findable at any mining depth (→ SIGNOFFPLAN T1).** Immersive Petroleum's `crudeoil_fluid_block` was a
+  single 0.15-chance vein confined to the `max_y:8` deepslate band, so it read as "not found" — ~4× rarer than the
+  rarest metal and only near bedrock. It now sits in **every** band of the IE Rocky islands as a `deep_core` pocket at
+  chance 0.40 (count 1-2, vein 3-5), and **richest** in the deepslate band at 0.55 — still lore-appropriate "near
+  bedrock" but no longer a low-throw-only lottery. `immersiveengineering_rocky[_large]/immersiveengineering_huge_rocky.json`.
+- **Quark shale reads in the deepslate core (→ SIGNOFFPLAN B2b).** Shale generated but is near-black inside `ancient`'s
+  dark deepslate body, so it was easy to miss. Bumped to chance 0.80 + vein_size 6-10 (was 0.70 + 4-8) — chunkier, more
+  reliable veins — across all three ancient tiers. Vein **count** stays at base density (OrePlanner scales it to the core
+  volume at runtime, so pre-inflating would over-fill the large/huge cores). `quark_ancient[_large]/quark_huge_ancient.json`.
+
+### Removed
+- **The two B4 portal-twin diagnostic probes** (the `TwinPlacer`/`Jigsaw` `LOGGER.info` lines). The residual sub-block
+  portal-twin drift is a vanilla portal-linking limitation — the frames still link within vanilla's search radius even
+  when the 8:1 opening is block-exact — and is **accepted as-is** (→ SIGNOFFPLAN B4); the probes have served their purpose.
+
 ## [0.229.0] - 2026-07-06
 
 First in-game throw-test pass against the sign-off queue (tracked in [SIGNOFFPLAN.md](SIGNOFFPLAN.md)) turned up a cluster

@@ -1,6 +1,5 @@
 package dev.gemberkoekje.skyseed.worldgen;
 
-import dev.gemberkoekje.skyseed.Skyseed;
 import dev.gemberkoekje.skyseed.compat.Id;
 import dev.gemberkoekje.skyseed.compat.Lookup;
 import dev.gemberkoekje.skyseed.worldgen.theme.IslandTheme;
@@ -48,14 +47,6 @@ public final class TwinPlacer {
             return; // the theme doesn't implement the other dimension — no twin
         }
         final TwinResult twin = placeTwinNear(other, theme, linked);
-        // SIGNOFFPLAN B4 diagnostic — twin-alignment probe. origin = the source island's centre; linked = the exact 8:1
-        // target; grewAt = where the twin actually planted. If grewAt != linked, placeTwinNear nudged it (the frames then
-        // sit off the link); if grewAt == linked but the in-game frames still don't line up 8:1, the opening isn't seating
-        // on the centre anchor. Remove once B4 is fixed.
-        Skyseed.LOGGER.info("[skyseed] twin B4: origin={} linked={} grewAt={} nudge=({},{},{})",
-                center, linked, twin.center(),
-                twin.center().getX() - linked.getX(), twin.center().getY() - linked.getY(),
-                twin.center().getZ() - linked.getZ());
         // Crash-resume the twin as its own pending island (5.2) — the highest-value case: a twin grown in the
         // player-less Nether has no other chunk ticket, so a crash mid-grow was the likeliest place to lose content.
         final PendingIsland descriptor = themeId == null ? null : PendingIsland.fresh(

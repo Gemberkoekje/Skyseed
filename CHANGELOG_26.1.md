@@ -9,6 +9,15 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.230.0] - 2026-07-07
+
+### Changed
+- **Shared-engine change from the pre-release polish pass** (full notes in [CHANGELOG_1.21.1.md](CHANGELOG_1.21.1.md)
+  [0.230.0]): removed the two B4 portal-twin diagnostic `LOGGER.info` probes — the residual twin drift is a vanilla
+  portal-linking limitation, **accepted as-is** ([SIGNOFFPLAN.md](SIGNOFFPLAN.md) B4). The crude-oil (T1) and Quark-shale
+  (B2b) tunes are 1.21.1-pack compat data and **inert on 26.1.2** (ids skipped before any RNG — generation stays
+  byte-identical, golden master unchanged). Both nodes green.
+
 ## [0.229.0] - 2026-07-06
 
 ### Changed
