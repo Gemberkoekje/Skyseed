@@ -123,6 +123,7 @@ key_key.hotbar.8:key.keyboard.8
 key_key.hotbar.9:key.keyboard.9
 key_key.configured.open_mod_list:key.keyboard.unknown
 key_key.skyseed.toggle_throw_mode:key.keyboard.v
+key_iris.keybind.reload:key.keyboard.n
 key_gui.xaero_minimap_settings:key.keyboard.y
 key_gui.xaero_minimap_server_profiles:key.keyboard.unknown
 key_gui.xaero_zoom_in:key.keyboard.unknown
