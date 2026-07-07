@@ -5690,18 +5690,25 @@ public final class SkyseedGameTests {
 
     @GameTest(template = REGION)
     public static void islandOutputIsStable(GameTestHelper helper) {
-        // Golden master: locks the EXACT generation output for a set of biome-independent themes, so a
-        // behaviour-preserving refactor (the IslandGenerator split) is provably byte-identical, not just
-        // "still produces an island". Update the GOLDEN constants ONLY for an intentional generation change.
+        // Golden master: locks the EXACT generation output for a set of themes, so a behaviour-preserving refactor (the
+        // IslandGenerator split) is provably byte-identical, not just "still produces an island". Update GOLDEN ONLY for
+        // an intentional generation change.
         final String[][] cases = {
                 {"gametest/island", "1"}, {"gametest/water", "4"}, {"gametest/features", "4"},
                 {"gametest/structure", "11"}, {"gametest/bad", "4"},
         };
         final ServerLevel level = helper.getLevel();
-        final BlockPos center = helper.absolutePos(new BlockPos(8, 8, 8));
+        // FIXED absolute centre + FIXED (plains) biome so the fingerprint depends only on (theme, seed) — never on where
+        // the GameTestServer places this test's structure. Previously center = helper.absolutePos(...) and
+        // biome = level.getBiome(center) both varied with the run's world position, so these themes' biome-sensitive
+        // passes (ground cover / bees) flaked: the golden was recorded at plains and only matched when the cell happened
+        // to land on plains. Pinned, it is deterministic across runs and grid layouts (the GOLDEN values are unchanged —
+        // they were captured at plains). The block-position part of the fingerprint stays relative to `center`.
+        final BlockPos center = new BlockPos(0, 80, 0);
+        final var fixedBiome = level.registryAccess().registryOrThrow(Registries.BIOME).getHolder(Biomes.PLAINS).orElseThrow();
         for (final String[] c : cases) {
             final IslandPlan p = IslandGenerator.planIsland(level, center, theme(level, c[0]),
-                    level.getBiome(center), RandomSource.create(Long.parseLong(c[1])));
+                    fixedBiome, RandomSource.create(Long.parseLong(c[1])));
             long sum = 1L;
             for (final IslandPlan.BlockPlacement bp : p.blocks()) {
                 // positions RELATIVE to the island centre so the fingerprint is run-location independent
