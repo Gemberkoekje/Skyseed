@@ -257,6 +257,20 @@ off and the vanilla book with it on; CI runs the suite both ways. (The ~12 data-
 AE2, BWG, … — aren't Gradle dependencies at all; their compat is verified at the *resolved-data* layer, since those mods
 aren't published for every node and can't be loaded cross-version.)
 
+**Actually-placed integration (Create).** For one of those content mods there's an opt-in run that loads the **real
+mod** so a gametest can assert its blocks are physically placed, not just that the id is in the resolved data:
+
+```sh
+./gradlew :1.21.1:runGameTestServer -PwithCreate   # loads real Create; asserts a create:zinc_ore block is placed
+```
+
+`-PwithCreate` (1.21.1 only — Create isn't published for 26.1.2) adds the Create maven repos + Create/Ponder/Flywheel/
+Registrate to the dev runtime, so `create:zinc_ore` is a registered block. `createZincOreActuallyPlaces` then grows a
+rocky island and checks a real `create:zinc_ore` `BlockState` lands (`OrePlanner` skips the id entirely when Create is
+absent — `createZincIsInertWithoutCreate` asserts exactly that in the normal run). A separate **`create-integration`** CI
+job runs this on PRs; the Create coordinate versions live in `gradle.properties` and drift with Create releases (bump
+them if that job 404s). This is the pattern to copy for a real placement test of any other content integration.
+
 CI (`.github/workflows/build.yml`) builds + gametests every node by running `chiseledBuild` + `chiseledRunGameTestServer` — a chiseled fan-out over the `settings.gradle` version list (not a GitHub Actions matrix), so adding a version needs no workflow edit. The first invocation downloads Gradle, NeoForge, and Minecraft (and the 26.1.2 node decompiles via NeoForm), so it takes a while.
 
 ### Publishing

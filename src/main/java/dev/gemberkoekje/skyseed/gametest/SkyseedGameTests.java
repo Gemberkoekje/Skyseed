@@ -295,6 +295,68 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    /** The "actually placed" counterpart to {@link #createZincCompatTargetsRocky} (which only checks the id is in the
+     *  resolved ore LIST). With Create installed — the opt-in {@code ./gradlew :1.21.1:runGameTestServer -PwithCreate}
+     *  run / the create-integration CI job — the shipped create_rocky override's {@code create:zinc_ore} resolves to
+     *  Create's REAL block and OrePlanner grows it into the core, so a planned rocky island contains an actual
+     *  placed {@code create:zinc_ore} {@link net.minecraft.world.level.block.state.BlockState}. Its chance is 0.90 per
+     *  island, so scanning a few seeds makes a miss astronomically unlikely (~1e-8 over 8). Self-skips when Create isn't
+     *  loaded (the default/CI run), since {@code @GameTest} methods are always discovered — there the positive assertion
+     *  can't hold and {@link #createZincIsInertWithoutCreate} covers the absent case instead. */
+    @GameTest(template = REGION)
+    public static void createZincOreActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("create")) {
+            helper.succeed(); // only meaningful under -PwithCreate; a deliberate no-op in the normal run
+            return;
+        }
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme rocky = Themes.resolve(level.registryAccess(), Id.of("skyseed:rocky"));
+        helper.assertTrue(rocky != null, "rocky must resolve");
+        boolean placedRealZinc = false;
+        for (long seed = 1; seed <= 8 && !placedRealZinc; seed++) {
+            final BlockPos center = helper.absolutePos(new BlockPos(8, 8, 8));
+            final IslandPlan p = IslandGenerator.planIsland(level, center, rocky, level.getBiome(center),
+                    RandomSource.create(seed));
+            for (IslandPlan.BlockPlacement bp : p.blocks()) {
+                if ("create:zinc_ore".equals(Lookup.blockId(bp.state().getBlock()))) {
+                    placedRealZinc = true;
+                    break;
+                }
+            }
+        }
+        helper.assertTrue(placedRealZinc,
+                "with Create installed a rocky island must place a REAL create:zinc_ore block (not just list the id)");
+        helper.succeed();
+    }
+
+    /** The other half of {@link #createZincOreActuallyPlaces}, verifiable in the normal run: with Create ABSENT,
+     *  {@code create:zinc_ore} is an unregistered block, so OrePlanner skips it (before any RNG) and no such
+     *  block is ever placed — the "inert without the mod, no fake block" contract. The resolved ore LIST still carries
+     *  the id ({@link #createZincCompatTargetsRocky}), proving the skip happens at placement, not at data resolution.
+     *  Self-skips under {@code -PwithCreate}, where {@link #createZincOreActuallyPlaces} asserts the positive side. */
+    @GameTest(template = REGION)
+    public static void createZincIsInertWithoutCreate(GameTestHelper helper) {
+        if (ModList.get().isLoaded("create")) {
+            helper.succeed(); // with Create present, createZincOreActuallyPlaces owns the assertion
+            return;
+        }
+        helper.assertTrue(!Lookup.hasBlock(Id.of("create:zinc_ore")),
+                "test premise: without Create, create:zinc_ore must be an unregistered block");
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme rocky = Themes.resolve(level.registryAccess(), Id.of("skyseed:rocky"));
+        helper.assertTrue(rocky != null, "rocky must resolve");
+        for (long seed = 1; seed <= 4; seed++) {
+            final BlockPos center = helper.absolutePos(new BlockPos(8, 8, 8));
+            final IslandPlan p = IslandGenerator.planIsland(level, center, rocky, level.getBiome(center),
+                    RandomSource.create(seed));
+            for (IslandPlan.BlockPlacement bp : p.blocks()) {
+                helper.assertTrue(!"create:zinc_ore".equals(Lookup.blockId(bp.state().getBlock())),
+                        "without Create, no create:zinc_ore block should be placed (OrePlanner skips the unknown id)");
+            }
+        }
+        helper.succeed();
+    }
+
     /** SIGNOFFPLAN B3 — the {@code canAbsorb} superset-merge + Part-2 band order on the Rocky tiers. The mod-override
      *  snowy bands (Quark / IE / AE2) list only the vanilla snowy biomes; the base snowy band also folds in
      *  {@code biomeswevegone:howling_peaks}. Each override must MERGE into that superset base band — keeping the base

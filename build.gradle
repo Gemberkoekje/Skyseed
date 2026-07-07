@@ -336,6 +336,12 @@ repositories {
     // Add here additional repositories if required by some of the dependencies below.
     maven { url = "https://maven.blamejared.com" } // Patchouli (guide book)
     maven { url = "https://dl.cloudsmith.io/public/klikli-dev/mods/maven/" } // Modonomicon (guide book)
+    // Only for the opt-in `-PwithCreate` integration test (see dependencies below) — added only then so a normal build
+    // never hits these hosts. Create/Ponder/Flywheel live on createmod.net; Registrate on ithundxr.
+    if (project.hasProperty('withCreate')) {
+        maven { url = "https://maven.createmod.net" }          // Create, Ponder, Flywheel
+        maven { url = "https://maven.ithundxr.dev/snapshots" } // Registrate
+    }
 }
 
 base {
@@ -454,6 +460,18 @@ dependencies {
     if (project.hasProperty("modonomicon_${mcv}")) {
         compileOnly("com.klikli_dev:modonomicon-${mcv}-neoforge:${property("modonomicon_${mcv}")}") { transitive = false }
         if (includeOptionalRuntimeDeps) localRuntime("com.klikli_dev:modonomicon-${mcv}-neoforge:${property("modonomicon_${mcv}")}") { transitive = false }
+    }
+    // --- Opt-in Create integration (`-PwithCreate`, 1.21.1 only — Create isn't published for 26.1.2). Loads the REAL
+    // Create mod + its runtime deps so the createZincOreActuallyPlaces gametest can assert a real create:zinc_ore BLOCK
+    // is placed, not merely that the id is in the resolved ore list. Runtime-only: Skyseed's Create compat is data-driven
+    // + reflective (compat/Lookup) and nothing compiles against Create, so these go on localRuntime only. Coordinates
+    // from the Create wiki "Depending on Create / neoforge-1.21.1"; versions in gradle.properties (they drift). create is
+    // pulled :slim + transitive=false (per the wiki) with its runtime deps supplied explicitly below. ---
+    if (project.hasProperty('withCreate') && mcv == "1.21.1") {
+        localRuntime("com.simibubi.create:create-${mcv}:${property("create_${mcv}")}:slim") { transitive = false }
+        localRuntime "net.createmod.ponder:ponder-neoforge:${property("ponder_${mcv}")}+mc${mcv}"
+        localRuntime "dev.engine-room.flywheel:flywheel-neoforge-${mcv}:${property("flywheel_${mcv}")}"
+        localRuntime "com.tterrag.registrate:Registrate:${property("registrate_${mcv}")}"
     }
 }
 

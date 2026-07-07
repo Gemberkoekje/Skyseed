@@ -117,6 +117,45 @@ jobs:
             gh release create "$GITHUB_REF_NAME" dist/*.jar --title "$GITHUB_REF_NAME" --generate-notes
           fi
 
+  # Opt-in Create integration test (1.21.1 only — Create isn't published for 26.1.2). Loads the REAL Create mod via
+  # `-PwithCreate` and runs the 1.21.1 gametest suite, so createZincOreActuallyPlaces asserts a real create:zinc_ore
+  # BLOCK is placed. The normal build/gametest jobs run WITHOUT Create — there that test self-skips and
+  # createZincIsInertWithoutCreate asserts nothing is placed instead. Kept a SEPARATE job on purpose: it never gates jar
+  # publishing, so Create's heavy dependency graph (Flywheel / Ponder / Registrate, versions that drift) can't
+  # destabilise the release path. Runs on PRs + manual dispatch only (not every tag/main push) since it's a slow check.
+  create-integration:
+    name: Create integration test (MC 1.21.1)
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up bootstrap JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21' # the 1.21.1 node compiles on Java 21
+
+      - name: Point Gradle daemon at the runner JDK
+        run: |
+          mkdir -p "$HOME/.gradle"
+          echo "org.gradle.java.home=$JAVA_HOME" >> "$HOME/.gradle/gradle.properties"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      # -PwithCreate adds the Create maven repos + Create/Ponder/Flywheel/Registrate to the 1.21.1 dev runtime, so the
+      # gametest server boots with create:zinc_ore actually registered. createZincOreActuallyPlaces then plans a rocky
+      # island and asserts the real block lands. If this 404s on a coordinate, bump the create_/ponder_/flywheel_/
+      # registrate_ versions in gradle.properties — Create releases drift.
+      - name: Run the 1.21.1 gametests with Create loaded
+        run: |
+          chmod +x ./gradlew
+          ./gradlew :1.21.1:runGameTestServer -PwithCreate --stacktrace --no-daemon
+
   # On a version tag, publish each node's jar to CurseForge as a Release file — ONE upload per Minecraft
   # version (a node whose changelog has no entry for the tagged version didn't change this release and is
   # skipped, so single-node releases don't republish an unchanged jar). The two jars target different MC
