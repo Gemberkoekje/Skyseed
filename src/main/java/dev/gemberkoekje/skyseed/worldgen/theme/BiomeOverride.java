@@ -98,12 +98,23 @@ public record BiomeOverride(
     }
 
     /**
-     * True if {@code o} selects the same islands as this band — same {@code biomes} / {@code minY} / {@code maxY} /
-     * {@code dimension}. {@code Themes#resolve} uses this to MERGE a {@link ThemeOverride} band into the matching base
-     * band, instead of appending a band that would lose the first-match and silently do nothing.
+     * True if this (base) band can <b>absorb</b> {@code patch} — i.e. {@link ThemeOverride.Patch#mergeBands} should merge
+     * the patch's content into this band rather than prepend it as a standalone band. Requires the same
+     * {@code minY}/{@code maxY}/{@code dimension}, and this band's {@code biomes} to be a <b>superset</b> of the patch's
+     * (⊇) — <em>not</em> an exact match. Superset is deliberate: a third-party {@code theme_override} injects its ore by
+     * listing the ordinary vanilla biomes for a band and <em>cannot know</em> that our base band also folds in a
+     * mod-specific biome (e.g. {@code biomeswevegone:howling_peaks} in the snowy Rocky band). Under exact-match such a
+     * patch would prepend, and — being ore-only — its {@code ores} list would then REPLACE the base ores for those
+     * biomes, so the island loses its base ore set entirely (SIGNOFFPLAN B3). Subset-absorb lets the patch merge without
+     * the author mirroring our internal biome additions. An empty {@code biomes} ("any biome") only pairs with an
+     * equally-empty band, so a Y-only band never swallows a biome-scoped patch and vice-versa.
      */
-    public boolean sameSelectorAs(BiomeOverride o) {
-        return biomes.equals(o.biomes) && minY.equals(o.minY) && maxY.equals(o.maxY) && dimension.equals(o.dimension);
+    public boolean canAbsorb(BiomeOverride patch) {
+        if (!minY.equals(patch.minY) || !maxY.equals(patch.maxY) || !dimension.equals(patch.dimension)) {
+            return false;
+        }
+        // An "any biome" patch (empty list) merges only with an equally-empty base band — never into a biome-scoped one.
+        return patch.biomes.isEmpty() ? biomes.isEmpty() : biomes.containsAll(patch.biomes);
     }
 
     /**

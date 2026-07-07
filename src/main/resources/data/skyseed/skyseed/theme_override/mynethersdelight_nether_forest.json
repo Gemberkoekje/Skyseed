@@ -1,13 +1,13 @@
 {
-  "_comment": "First-party My Nether's Delight compat on the NETHER FOREST seed (FARMERSDELIGHTPLAN #16). Appends a crimson-look variant that grows a patch of MND's powdery_cane among the crimson roots/fungi. v0.2 FIX: placed via its CONFIGURED FEATURE `mynethersdelight:patch_powdery_cane` (not a raw ground block) — the raw block reads 'growth 0%' and drops only a stick; the feature grows a proper cane that drops `powder_cannon`. Crimson_nylium is a valid soil (the plantable tag includes #minecraft:nylium). The tree-feature place() path is now try/caught (GenerationJob.placeFeatureSafely). Inert without MND (Lookup.configuredFeature skips unknown ids). ⚠ IN-GAME VERIFY the feature places a harvestable cane on crimson nylium.",
+  "_comment": "First-party My Nether's Delight compat on the NETHER FOREST seed (FARMERSDELIGHTPLAN #16). A crimson-look variant with a patch of MND's powdery cane among the crimson roots/fungi. REGRESSION FIX (SIGNOFFPLAN B1b): the `patch_powdery_cane` configured feature won't place through Skyseed's direct call, so we plant the BonemealableBlock `mynethersdelight:powdery_cane` as a `ground` crop with a `grow` range; GenerationJob.growCrops bonemeals each to a varied stage. Crimson nylium is valid soil (`powdery_cannon_plantable_on` includes #minecraft:nylium). The crimson-fungus tree stays a feature. Inert without MND. ⚠ IN-GAME VERIFY + tune.",
   "target": "skyseed:nether_forest",
   "variants": [
     { "weight": 1, "name": "crimson_powdery", "decoration": {
       "trees": [
-        { "feature": "minecraft:crimson_fungus_planted", "tries": 4, "spacing": 3 },
-        { "feature": "mynethersdelight:patch_powdery_cane", "tries": 4, "spacing": 2 }
+        { "feature": "minecraft:crimson_fungus_planted", "tries": 4, "spacing": 3 }
       ],
       "ground": [
+        { "block": "mynethersdelight:powdery_cane", "chance": 0.08, "grow": { "min": 1, "max": 4 } },
         { "block": "minecraft:crimson_roots", "chance": 0.30 },
         { "block": "minecraft:crimson_fungus", "chance": 0.10 },
         { "block": "minecraft:shroomlight", "chance": 0.05 }

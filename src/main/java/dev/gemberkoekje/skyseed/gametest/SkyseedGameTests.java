@@ -147,19 +147,6 @@ public final class SkyseedGameTests {
         return false;
     }
 
-    /** True if any TOP-LEVEL variant of {@code theme} places a tree/plant FEATURE in {@code namespace} (e.g. the My
-     *  Nether's Delight powdery-cane feature, placed as a feature rather than a raw block so it grows properly). */
-    private static boolean topTreesHaveNamespace(IslandTheme theme, String namespace) {
-        for (Variant v : theme.variants()) {
-            for (TreeEntry t : v.decoration().trees()) {
-                if (namespace.equals(t.feature().namespace())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     /** Plan an island for {@code themeName} around the test region, with a fixed seed for reproducibility. */
     private static IslandPlan plan(GameTestHelper helper, String themeName, long seed) {
         final ServerLevel level = helper.getLevel();
@@ -283,6 +270,44 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    /** SIGNOFFPLAN B3 — the {@code canAbsorb} superset-merge + Part-2 band order on the Rocky tiers. The mod-override
+     *  snowy bands (Quark / IE / AE2) list only the vanilla snowy biomes; the base snowy band also folds in
+     *  {@code biomeswevegone:howling_peaks}. Each override must MERGE into that superset base band — keeping the base
+     *  ores AND gaining the mod ores — not prepend an ore-only shadow band that replaces the base ores (the bug where
+     *  frozen-biome Rocky islands lost iron/coal and grew only mod ores). And the deepslate {@code max_y:8} band must
+     *  precede the snowy band, so a low throw grows deepslate regardless of biome (Part 2). Inert-safe: the mod ores are
+     *  in the resolved list whether or not the mod is present. */
+    @GameTest(template = REGION)
+    public static void rockySnowyBandsMergeModOresAndDeepslateWins(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        for (final String id : new String[]{"skyseed:rocky", "skyseed:rocky_large", "skyseed:huge_rocky"}) {
+            final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(id));
+            helper.assertTrue(t != null, id + " must resolve");
+            final java.util.List<BiomeOverride> bands = t.biomeOverrides();
+            // The band a snowy throw resolves to is the FIRST one matching snowy_plains — a prepended shadow would win here.
+            final int snowyIdx = indexOfBand(bands, b -> b.biomes().contains("minecraft:snowy_plains"));
+            helper.assertTrue(snowyIdx >= 0, id + " must have a snowy band");
+            final BiomeOverride snowy = bands.get(snowyIdx);
+            // It must be the base (superset) band, i.e. it still carries howling_peaks — proves the override merged in
+            // rather than prepending a vanilla-only shadow band ahead of it.
+            helper.assertTrue(snowy.biomes().contains("biomeswevegone:howling_peaks"),
+                    id + ": the resolved snowy band must be the howling_peaks base band, not a prepended override band");
+            // Base ores kept (a prepend-clobber would have replaced them with mod-only ores).
+            helper.assertTrue(bandCarriesOre(snowy, "minecraft:coal_ore"),
+                    id + ": the snowy band must keep its base ores (coal) after the merge");
+            // All three mods' ores merged into the same band.
+            for (final String ore : new String[]{"quark:limestone", "immersiveengineering:ore_aluminum", "ae2:quartz_block"}) {
+                helper.assertTrue(bandCarriesOre(snowy, ore),
+                        id + ": the snowy band must carry the merged mod ore " + ore);
+            }
+            // Part 2: the deepslate max_y:8 band precedes the snowy band (low throw = deepslate, any biome).
+            final int deepIdx = indexOfBand(bands, b -> b.maxY().equals(java.util.Optional.of(8)) && b.biomes().isEmpty());
+            helper.assertTrue(deepIdx >= 0 && deepIdx < snowyIdx,
+                    id + ": the deepslate max_y:8 band must precede the snowy band (SIGNOFFPLAN Part 2)");
+        }
+        helper.succeed();
+    }
+
     /** The shipped first-party Mystical Agriculture compat datapack: ancient's resolved ores gain MA deepslate inferium/prosperity (inert without MA). */
     @GameTest(template = REGION)
     public static void mysticalAgricultureCompatTargetsAncient(GameTestHelper helper) {
@@ -362,6 +387,22 @@ public final class SkyseedGameTests {
         return theme.biomeOverrides().stream()
                 .filter(ov -> ov.dimension().isEmpty()).filter(sel)
                 .anyMatch(ov -> ov.ores().map(list -> list.stream().anyMatch(o -> o.block().value().equals(id))).orElse(false));
+    }
+
+    /** True if {@code band}'s own ore list carries {@code id} (a single-band check, unlike {@link #bandHasOre}). */
+    private static boolean bandCarriesOre(BiomeOverride band, String id) {
+        return band.ores().map(list -> list.stream().anyMatch(o -> o.block().value().equals(id))).orElse(false);
+    }
+
+    /** Index of the first band matching {@code p}, or -1 — mirrors resolution's first-match, so it catches a band that
+     *  a prepended shadow would win ahead of. */
+    private static int indexOfBand(java.util.List<BiomeOverride> bands, java.util.function.Predicate<BiomeOverride> p) {
+        for (int i = 0; i < bands.size(); i++) {
+            if (p.test(bands.get(i))) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /** First-party Quark compat (QUARKISLANDPLAN #71, Phase 2): the blossom bands MERGE into the matching biome band of
@@ -575,8 +616,8 @@ public final class SkyseedGameTests {
         for (final String tier : java.util.List.of("nether_soul", "nether_soul_large", "nether_forest", "nether_forest_large")) {
             final IslandTheme resolved = Themes.resolve(helper.getLevel().registryAccess(), Id.of("skyseed:" + tier));
             helper.assertTrue(resolved != null, tier + " must resolve");
-            helper.assertTrue(topTreesHaveNamespace(resolved, "mynethersdelight"),
-                    tier + ": should carry the mynethersdelight powdery-cane feature");
+            helper.assertTrue(topGroundHasNamespace(resolved, "mynethersdelight"),
+                    tier + ": should carry the mynethersdelight powdery cane as a ground crop");
         }
         helper.succeed();
     }

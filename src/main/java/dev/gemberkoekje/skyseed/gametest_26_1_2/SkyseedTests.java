@@ -329,6 +329,7 @@ public final class SkyseedTests {
         reg(event, "theme_override_merges_onto_base", REGION, SkyseedTests::themeOverrideMergesOntoBase);
         reg(event, "create_zinc_compat_targets_rocky", REGION, SkyseedTests::createZincCompatTargetsRocky);
         reg(event, "create_zinc_reaches_rocky_deep_band", REGION, SkyseedTests::createZincReachesRockyDeepBand);
+        reg(event, "rocky_snowy_bands_merge_mod_ores_and_deepslate_wins", REGION, SkyseedTests::rockySnowyBandsMergeModOresAndDeepslateWins);
         reg(event, "mystical_agriculture_compat_targets_ancient", REGION, SkyseedTests::mysticalAgricultureCompatTargetsAncient);
         reg(event, "mystical_agriculture_compat_targets_lush", REGION, SkyseedTests::mysticalAgricultureCompatTargetsLush);
         reg(event, "mystical_agriculture_compat_targets_nether_soul", REGION, SkyseedTests::mysticalAgricultureCompatTargetsNetherSoul);
@@ -4693,6 +4694,43 @@ public final class SkyseedTests {
         helper.succeed();
     }
 
+    /** SIGNOFFPLAN B3 — the {@code canAbsorb} superset-merge + Part-2 band order on the Rocky tiers. The mod-override
+     *  snowy bands (Quark / IE / AE2) list only the vanilla snowy biomes; the base snowy band also folds in
+     *  {@code biomeswevegone:howling_peaks}. Each override must MERGE into that superset base band — keeping the base
+     *  ores AND gaining the mod ores — not prepend an ore-only shadow band that replaces the base ores (the bug where
+     *  frozen-biome Rocky islands lost iron/coal and grew only mod ores). And the deepslate {@code max_y:8} band must
+     *  precede the snowy band, so a low throw grows deepslate regardless of biome (Part 2). Inert-safe: the mod ores are
+     *  in the resolved list whether or not the mod is present. */
+    static void rockySnowyBandsMergeModOresAndDeepslateWins(GameTestHelper helper) {
+        final ServerLevel level = helper.getLevel();
+        for (final String id : new String[]{"skyseed:rocky", "skyseed:rocky_large", "skyseed:huge_rocky"}) {
+            final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(id));
+            helper.assertTrue(t != null, id + " must resolve");
+            final java.util.List<BiomeOverride> bands = t.biomeOverrides();
+            // The band a snowy throw resolves to is the FIRST one matching snowy_plains — a prepended shadow would win here.
+            final int snowyIdx = indexOfBand(bands, b -> b.biomes().contains("minecraft:snowy_plains"));
+            helper.assertTrue(snowyIdx >= 0, id + " must have a snowy band");
+            final BiomeOverride snowy = bands.get(snowyIdx);
+            // It must be the base (superset) band, i.e. it still carries howling_peaks — proves the override merged in
+            // rather than prepending a vanilla-only shadow band ahead of it.
+            helper.assertTrue(snowy.biomes().contains("biomeswevegone:howling_peaks"),
+                    id + ": the resolved snowy band must be the howling_peaks base band, not a prepended override band");
+            // Base ores kept (a prepend-clobber would have replaced them with mod-only ores).
+            helper.assertTrue(bandCarriesOre(snowy, "minecraft:coal_ore"),
+                    id + ": the snowy band must keep its base ores (coal) after the merge");
+            // All three mods' ores merged into the same band.
+            for (final String ore : new String[]{"quark:limestone", "immersiveengineering:ore_aluminum", "ae2:quartz_block"}) {
+                helper.assertTrue(bandCarriesOre(snowy, ore),
+                        id + ": the snowy band must carry the merged mod ore " + ore);
+            }
+            // Part 2: the deepslate max_y:8 band precedes the snowy band (low throw = deepslate, any biome).
+            final int deepIdx = indexOfBand(bands, b -> b.maxY().equals(java.util.Optional.of(8)) && b.biomes().isEmpty());
+            helper.assertTrue(deepIdx >= 0 && deepIdx < snowyIdx,
+                    id + ": the deepslate max_y:8 band must precede the snowy band (SIGNOFFPLAN Part 2)");
+        }
+        helper.succeed();
+    }
+
     /** The shipped first-party Mystical Agriculture compat datapack: ancient's resolved ores gain MA deepslate inferium/prosperity (inert without MA). */
     static void mysticalAgricultureCompatTargetsAncient(GameTestHelper helper) {
         final ServerLevel level = helper.getLevel();
@@ -4839,6 +4877,22 @@ public final class SkyseedTests {
         return theme.biomeOverrides().stream()
                 .filter(ov -> ov.dimension().isEmpty()).filter(sel)
                 .anyMatch(ov -> ov.ores().map(list -> list.stream().anyMatch(o -> o.block().value().equals(id))).orElse(false));
+    }
+
+    /** True if {@code band}'s own ore list carries {@code id} (a single-band check, unlike {@link #bandHasOre}). */
+    private static boolean bandCarriesOre(BiomeOverride band, String id) {
+        return band.ores().map(list -> list.stream().anyMatch(o -> o.block().value().equals(id))).orElse(false);
+    }
+
+    /** Index of the first band matching {@code p}, or -1 — mirrors resolution's first-match, so it catches a band that
+     *  a prepended shadow would win ahead of. */
+    private static int indexOfBand(java.util.List<BiomeOverride> bands, java.util.function.Predicate<BiomeOverride> p) {
+        for (int i = 0; i < bands.size(); i++) {
+            if (p.test(bands.get(i))) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /** First-party Quark compat (QUARKISLANDPLAN #71, Phase 2): the blossom bands MERGE into the matching biome band of

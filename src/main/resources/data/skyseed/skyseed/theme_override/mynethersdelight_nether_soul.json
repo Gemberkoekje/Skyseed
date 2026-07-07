@@ -1,10 +1,10 @@
 {
-  "_comment": "First-party My Nether's Delight compat on the NETHER SOUL seed (FARMERSDELIGHTPLAN #16). The soul-sand-valley island is the home for MND's powdery_cane (a growing nether reed — Propelplant). Appended as a top-level variant (the valley look + a powdery-cane patch). v0.2 FIX: placed via its CONFIGURED FEATURE `mynethersdelight:patch_powdery_cane` (not a raw ground block) — the block is an age/lit crop whose default state reads 'growth 0%' and drops only a stick; the feature grows a proper cane that drops `powder_cannon` (the plantable) and, when lit near lava, `bullet_pepper`. Soul_sand is a valid soil (the plantable tag `powdery_cannon_plantable_on` includes #minecraft:soul_speed_blocks). The tree-feature place() path is now try/caught (GenerationJob.placeFeatureSafely), so a modded feature can't break generation. Inert without MND: an unknown configured-feature id is skipped by Lookup.configuredFeature → byte-identical generation. IDS VERIFIED vs MyNethersDelight-1.21.1-1.10.2.jar (2026-07-03). ⚠ IN-GAME VERIFY the feature places a harvestable cane on soul sand.",
+  "_comment": "First-party My Nether's Delight compat on the NETHER SOUL seed (FARMERSDELIGHTPLAN #16). The soul-sand-valley island is home for MND's powdery cane (a growing nether reed). REGRESSION FIX (SIGNOFFPLAN B1b): the configured feature `mynethersdelight:patch_powdery_cane` does NOT place through Skyseed's direct feature call, so nothing grew. `mynethersdelight:powdery_cane` is a vanilla BonemealableBlock, so we plant it as a `ground` crop with a `grow` range — GenerationJob.growCrops bonemeals each a rolled number of steps once the island lands, so canes appear at VARIED heights instead of age-0 stubs. Soul sand is valid soil (`powdery_cannon_plantable_on` includes #minecraft:soul_speed_blocks). Inert without MND: the unknown block is skipped before any RNG → byte-identical. ⚠ IN-GAME VERIFY + tune chance/grow.",
   "target": "skyseed:nether_soul",
   "variants": [
     { "weight": 2, "name": "powdery_valley", "decoration": {
-      "trees": [ { "feature": "mynethersdelight:patch_powdery_cane", "tries": 5, "spacing": 2 } ],
       "ground": [
+        { "block": "mynethersdelight:powdery_cane", "chance": 0.10, "grow": { "min": 1, "max": 5 } },
         { "block": "minecraft:soul_fire", "chance": 0.06 },
         { "block": "minecraft:basalt", "chance": 0.05 }
       ] } }

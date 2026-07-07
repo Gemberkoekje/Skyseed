@@ -38,6 +38,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.CrossCollisionBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
@@ -64,8 +65,9 @@ public final class GenerationJob {
     private static final int LINK_RADIUS = 16;
     private static final int LINK_DOWN = 2;
     private static final int LINK_UP = 28;
-    // forceOneTree's last-resort planting clearing (see #65): a small dirt pad under a tall air column, big enough for a
-    // multi-block NBT tree (BWG willow/cypress) that couldn't fit against the packed island. Radius 2 = a 5x5 pad.
+    // forceOneTree's last-resort planting clearing (see #65): a small pad — paved with the island's own surface soil —
+    // under a tall air column, big enough for a multi-block NBT tree (BWG willow/cypress) that couldn't fit against the
+    // packed island. Radius 2 = a 5x5 pad.
     private static final int FORCE_TREE_PAD_RADIUS = 2;
     private static final int FORCE_TREE_CLEAR_HEIGHT = 24;
 
@@ -216,6 +218,7 @@ public final class GenerationJob {
                 spawnMobs();
                 spawnEnclosureAnimals();
                 populateHives();
+                growCrops();
                 kickFluids();
                 finalizeStep++;
                 return false;
@@ -357,21 +360,28 @@ public final class GenerationJob {
     }
 
     /**
-     * Grade a small dirt pad under a tall air column at {@code base} (the tree's root cell), so a large tree feature has
-     * the vertical + lateral room it needs. The pad is a {@link #FORCE_TREE_PAD_RADIUS}-radius dirt disc one block down
-     * with a grassy centre; air is only ever cleared <em>above</em> the pad ({@link #FORCE_TREE_CLEAR_HEIGHT} tall), so
-     * it can never punch a hole through the island body below.
+     * Grade a small planting pad under a tall air column at {@code base} (the tree's root cell), so a large tree/plant
+     * feature has the vertical + lateral room it needs. The pad is paved with the island's OWN surface block — grass on
+     * an overworld island, soul sand / nylium on a Nether one, end stone on an End one — read from the root cell rather
+     * than hardcoded overworld dirt+grass. Forcing dirt/grass littered overworld soil onto Nether/End islands AND left
+     * modded plants that need their native soil unplantable — My Nether's Delight powdery cane rejects grass, so the pad
+     * came up bare (SIGNOFFPLAN B1). Air is only ever cleared <em>above</em> the pad ({@link #FORCE_TREE_CLEAR_HEIGHT}
+     * tall), so it can never punch a hole through the island body below.
      */
     private void clearPlantingSpot(BlockPos base) {
+        BlockState soil = level.getBlockState(base.below());
+        if (soil.isAir() || !soil.getFluidState().isEmpty()) {
+            soil = Blocks.DIRT.defaultBlockState(); // root cell sits over void/water — fall back to plantable dirt
+        }
         for (int dx = -FORCE_TREE_PAD_RADIUS; dx <= FORCE_TREE_PAD_RADIUS; dx++) {
             for (int dz = -FORCE_TREE_PAD_RADIUS; dz <= FORCE_TREE_PAD_RADIUS; dz++) {
-                level.setBlock(base.offset(dx, -1, dz), Blocks.DIRT.defaultBlockState(), Block.UPDATE_CLIENTS);
+                level.setBlock(base.offset(dx, -1, dz), soil, Block.UPDATE_CLIENTS);
                 for (int dy = 0; dy < FORCE_TREE_CLEAR_HEIGHT; dy++) {
                     level.setBlock(base.offset(dx, dy, dz), Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
                 }
             }
         }
-        level.setBlock(base.below(), Blocks.GRASS_BLOCK.defaultBlockState(), Block.UPDATE_CLIENTS); // grassy root cell
+        level.setBlock(base.below(), soil, Block.UPDATE_CLIENTS); // root cell = the island's own surface soil
     }
 
 
@@ -703,6 +713,26 @@ public final class GenerationJob {
                         villager.setPersistenceRequired();
                         level.addFreshEntity(villager);
                     }
+                }
+            }
+        }
+    }
+
+    /**
+     * Advance any planted crops (the Nether powdery cane) by their rolled bonemeal count, so they land at VARIED growth
+     * stages instead of all as age-0 stubs. The crop's configured feature won't place through Skyseed's direct call, so
+     * the theme plants the base {@link BonemealableBlock} via a {@code ground} entry with {@code grow} and we grow it
+     * here with the block's own bonemeal logic (SIGNOFFPLAN B1b). Inert when no crop declared a grow-spot.
+     */
+    private void growCrops() {
+        for (IslandPlan.GrowSpot spot : plan.growSpots()) {
+            for (int n = 0; n < spot.times(); n++) {
+                final BlockState state = level.getBlockState(spot.pos());
+                if (state.getBlock() instanceof BonemealableBlock crop
+                        && crop.isValidBonemealTarget(level, spot.pos(), state)) {
+                    crop.performBonemeal(level, level.getRandom(), spot.pos(), state);
+                } else {
+                    break; // fully grown, or the block is gone — stop boosting this spot
                 }
             }
         }

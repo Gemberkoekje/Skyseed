@@ -44,6 +44,7 @@ the plan that owns the detail. Shipped history lives in `CHANGELOG_1.21.1.md` / 
 
 | Plan | Open items |
 |---|---|
+| [SIGNOFFPLAN.md](SIGNOFFPLAN.md) | **In-game throw-test tracker (started 2026-07-06).** B1a/B1b/B3/Part 2/B4 **fixed in 0.229.0** (both nodes green); open = T1 oil reachability, B2b shale visibility, U1 keybind, M1 Create-AE-generator dedupe, + the in-game verifies of the shipped fixes |
 | [EPICSTRUCTUREPLAN.md](EPICSTRUCTUREPLAN.md) | **#74** grand epic structures — plan-first, unbuilt (6 grand builds + cross-wiring, 3 batches; D1–D2 locked, OD-1/2/3 open) |
 | [CONTENTPLAN.md](Modpack-growyourownworld/CONTENTPLAN.md) | flavor mods **#31 #32**, Create-addon check **#52**, standing call **#38**, rolling **#19 #20**, **#39** FE sign-off |
 | [IEPLAN.md](Modpack-growyourownworld/IEPLAN.md) | in-game verifies only (Excavator/oil/metals/aircraft) · **#39** |

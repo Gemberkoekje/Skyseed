@@ -5,6 +5,47 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.229.0] - 2026-07-06
+
+First in-game throw-test pass against the sign-off queue (tracked in [SIGNOFFPLAN.md](SIGNOFFPLAN.md)) turned up a cluster
+of worldgen bugs — several long-latent, one a regression. Fixes below; both nodes green (1.21.1 **219** gametests, 26.1.2
+**221**), golden master byte-identical.
+
+### Added
+- **`grow` ground-cover field** — a `ground` plant entry may now carry `grow: {min,max}`; a placed `BonemealableBlock`
+  is bonemealed a rolled number of steps by `GenerationJob.growCrops` once the island has landed, so a crop appears at a
+  VARIED growth stage rather than an age-0 stub. First user: the Nether powdery cane
+  (see Fixed). Inert for any non-bonemealable / absent block.
+
+### Changed
+- **`theme_override` band merge is now superset-tolerant (`canAbsorb`, was `sameSelectorAs`).** A patch band merges into a
+  base band when their `min_y`/`max_y`/`dimension` match **and the base band's biomes are a superset of the patch's** — no
+  longer only on exact equality. So any override (ours or a third party's) can list the ordinary vanilla biomes for a band
+  and still merge, even though our base band folds in a mod-specific biome (e.g. `biomeswevegone:howling_peaks` in the
+  snowy Rocky band). Backward-compatible; new guard gametest `rockySnowyBandsMergeModOresAndDeepslateWins` in both suites.
+- **Throw a seed deep, get a deepslate island — regardless of surface biome (→ SIGNOFFPLAN Part 2).** The `max_y:8`
+  deepslate band now precedes the snowy biome band in `rocky` / `rocky_large` / `huge_rocky`, so a low germination (y≤8)
+  grows a deepslate island even over a frozen biome (previously the biome band won at all heights).
+
+### Fixed
+- **Snowy/frozen Rocky islands generated with ONLY the mod ores — no iron/coal/redstone/… — and never went deepslate
+  (→ SIGNOFFPLAN B3).** The Quark/IE/AE2 snowy-band overrides listed only the vanilla snowy biomes, but the base snowy
+  band also carries `biomeswevegone:howling_peaks`; under the old exact-match merge those overrides prepended a shadow
+  band whose ore list *replaced* the base ores — so every snowy/frozen Rocky/large/huge island grew with only the mod
+  ores (nothing, without the mods) and lost its snow cap. The superset merge (above) fixes it: the overrides merge, so
+  the band keeps its base ores AND gains the mod ores.
+- **Nether islands showed bare overworld dirt/grass pads, and the powdery cane never appeared (→ SIGNOFFPLAN B1a/B1b).**
+  Two bugs: (1) `forceOneTree`'s last-resort planting pad stamped hardcoded overworld dirt+grass onto *any* island —
+  wrong on Nether/End, and a modded plant that needs its native soil could never grow on it; it now paves with the
+  island's own surface block. (2) My Nether's Delight's `patch_powdery_cane` configured feature won't place through
+  Skyseed's direct call (a regression from switching it off the raw block, never grow-tested) — it's now planted as its
+  `BonemealableBlock` via a `ground` crop with a `grow` boost, so canes come up at varied heights on soul sand / crimson
+  nylium.
+- **Ruined-Portal twins linked several blocks off-target (→ SIGNOFFPLAN B4).** When the cross-dimension linked
+  coordinate was occupied, `TwinPlacer` nudged the twin island *horizontally* to a clear spot — desyncing the pair (a
+  +6 X nudge → traversal emerged 6 blocks off the frame). Twins now nudge **vertically only**, so the portal opening
+  always lands on the exact 8:1 XZ column; vanilla's portal search spans the Y column, so a small Y lift still links.
+
 ## [0.228.0] - 2026-07-05
 
 ### Added
