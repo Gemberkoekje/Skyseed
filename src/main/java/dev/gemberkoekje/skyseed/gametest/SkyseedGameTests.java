@@ -298,9 +298,10 @@ public final class SkyseedGameTests {
     /** The "actually placed" counterpart to {@link #createZincCompatTargetsRocky} (which only checks the id is in the
      *  resolved ore LIST). With Create installed — the opt-in {@code ./gradlew :1.21.1:runGameTestServer -PwithCreate}
      *  run / the create-integration CI job — the shipped create_rocky override's {@code create:zinc_ore} resolves to
-     *  Create's REAL block and OrePlanner grows it into the core, so a planned rocky island contains an actual
-     *  placed {@code create:zinc_ore} {@link net.minecraft.world.level.block.state.BlockState}. Its chance is 0.90 per
-     *  island, so scanning a few seeds makes a miss astronomically unlikely (~1e-8 over 8). Self-skips when Create isn't
+     *  Create's REAL block and OrePlanner grows it into the core, so a planned rocky island contains an actual placed
+     *  Create zinc-ore {@link net.minecraft.world.level.block.state.BlockState} — create:deepslate_zinc_ore at the
+     *  gametest region's deepslate depth (Y≈-60, where rocky's max_y:8 deep band is active), or create:zinc_ore in a
+     *  shallower core. Chance 0.80–0.90 per island, so scanning 12 seeds makes a miss astronomically unlikely. Self-skips when Create isn't
      *  loaded (the default/CI run), since {@code @GameTest} methods are always discovered — there the positive assertion
      *  can't hold and {@link #createZincIsInertWithoutCreate} covers the absent case instead. */
     @GameTest(template = REGION)
@@ -313,19 +314,24 @@ public final class SkyseedGameTests {
         final IslandTheme rocky = Themes.resolve(level.registryAccess(), Id.of("skyseed:rocky"));
         helper.assertTrue(rocky != null, "rocky must resolve");
         boolean placedRealZinc = false;
-        for (long seed = 1; seed <= 8 && !placedRealZinc; seed++) {
+        for (long seed = 1; seed <= 12 && !placedRealZinc; seed++) {
             final BlockPos center = helper.absolutePos(new BlockPos(8, 8, 8));
             final IslandPlan p = IslandGenerator.planIsland(level, center, rocky, level.getBiome(center),
                     RandomSource.create(seed));
             for (IslandPlan.BlockPlacement bp : p.blocks()) {
-                if ("create:zinc_ore".equals(Lookup.blockId(bp.state().getBlock()))) {
+                // The gametest region sits at deepslate depth (Y≈-60), so rocky's max_y:8 deep band is active and the
+                // shipped create_rocky override supplies create:deepslate_zinc_ore there; a shallower core would carry
+                // the top-level create:zinc_ore. Match any create:*zinc* ore block so either variant counts (and a Create
+                // id rename can't silently break the test) — the point is that a REAL Create block was placed.
+                final String id = Lookup.blockId(bp.state().getBlock());
+                if (id != null && id.startsWith("create:") && id.contains("zinc")) {
                     placedRealZinc = true;
                     break;
                 }
             }
         }
         helper.assertTrue(placedRealZinc,
-                "with Create installed a rocky island must place a REAL create:zinc_ore block (not just list the id)");
+                "with Create installed a rocky island must place a REAL Create zinc ore block (not just list the id)");
         helper.succeed();
     }
 
@@ -350,8 +356,9 @@ public final class SkyseedGameTests {
             final IslandPlan p = IslandGenerator.planIsland(level, center, rocky, level.getBiome(center),
                     RandomSource.create(seed));
             for (IslandPlan.BlockPlacement bp : p.blocks()) {
-                helper.assertTrue(!"create:zinc_ore".equals(Lookup.blockId(bp.state().getBlock())),
-                        "without Create, no create:zinc_ore block should be placed (OrePlanner skips the unknown id)");
+                final String id = Lookup.blockId(bp.state().getBlock());
+                helper.assertTrue(id == null || !(id.startsWith("create:") && id.contains("zinc")),
+                        "without Create, no Create zinc ore block should be placed (OrePlanner skips the unknown id)");
             }
         }
         helper.succeed();
@@ -4093,10 +4100,14 @@ public final class SkyseedGameTests {
 
     @GameTest(template = REGION)
     public static void createRareGateIsInertWithoutMod(GameTestHelper helper) {
+        if (ModList.get().isLoaded("create")) {
+            helper.succeed(); // this asserts the requires-mod gate's ABSENT-mod path; under -PwithCreate Create IS
+            return;           // loaded, so requires:[create] correctly reports present — skip (createZincOreActuallyPlaces covers that run)
+        }
         // VARIETYSTRUCTUREPLAN Band 2 (A3) — the requires-mod gate: a rare structure requiring an absent mod is filtered
         // out (requiresPresent() == false) BEFORE any RNG, so it consumes no roll (inert-without-the-mod / determinism
-        // parity). Create is not on the gametest classpath, so a requires:["create"] build must report NOT present,
-        // while a no-requires build is always eligible.
+        // parity). Create is normally not on the gametest classpath (the guard above skips this under -PwithCreate), so a
+        // requires:["create"] build must report NOT present, while a no-requires build is always eligible.
         final var gated = new dev.gemberkoekje.skyseed.worldgen.theme.RareStructure(
                 0.05f, 3, null, java.util.List.of(), false, java.util.List.of(),
                 java.util.Optional.empty(), java.util.Optional.empty(), java.util.List.of("create"), true);
