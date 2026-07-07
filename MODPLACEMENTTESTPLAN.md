@@ -12,8 +12,24 @@ data" and "an actual Create zinc-ore block landed in the world".
 
 **Precedent (done, CI-green):** Create — see `createZincOreActuallyPlaces` /
 `createZincIsInertWithoutCreate` in `gametest/SkyseedGameTests.java`, the `-PwithCreate` profile in
-`build.gradle` + `gradle.properties`, and the `create-integration` job in `.github/workflows/build.yml`
+`build.gradle` + `gradle.properties`, and the `content-integration` job in `.github/workflows/build.yml`
 (PR #51). Everything below generalises that.
+
+## Status (PR #51)
+
+Each mod has a `-Pwith<Mod>` profile (build.gradle) and a `<mod>…ActuallyPlaces` gametest (self-skips when the mod is
+absent). The `content-integration` CI matrix runs one isolated leg per mod on 1.21.1.
+
+- **CI-validated (green):** Create, **Immersive Engineering**, **Mystical Agriculture**, **Applied Energistics 2**,
+  **Farmer's Delight**, **Quark** — each boots the real mod and asserts a real block lands.
+- **Deferred (scaffolded, not in the CI matrix):** **Iron's Spells** and **BWG**. Both resolve their coordinates but
+  fail at mod **load** — each drags a 5-library graph (Iron's: GeckoLib + PlayerAnim + Curios + irons_lib; BWG:
+  TerraBlender + CorgiLib + OTTYG + GeckoLib, and its POM pulls an optional SereneSeasons), and one lib's version is
+  incompatible. The exact FML error isn't visible in CI (the Actions log API truncates it under the crash dump), so the
+  fix needs a **local** `-PwithIronsSpells` / `-PwithBwg` run where the error is legible. Profiles + tests are kept; the
+  matrix rows are commented out until pinned.
+- **Not yet attempted:** the Farmer's Delight addons (My Nether's Delight, End's Delight) and Immersive Petroleum — all
+  depend on a base mod (FD / IE) already working, so they're the natural next additions.
 
 ---
 

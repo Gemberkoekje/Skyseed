@@ -41,6 +41,8 @@ import net.minecraft.world.entity.animal.cow.Cow;
 import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.vehicle.minecart.MinecartChest;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.gametest.framework.TestData;
 import net.minecraft.gametest.framework.TestEnvironmentDefinition;
@@ -174,10 +176,12 @@ public final class SkyseedTests {
         reg(event, "structure_connections_link_after_placement", REGION, SkyseedTests::structureConnectionsLinkAfterPlacement);
         reg(event, "dimension_gate_grows_or_fizzles_by_implementation", REGION, SkyseedTests::dimensionGateGrowsOrFizzlesByImplementation);
         reg(event, "dimension_override_never_inherits_overworld", REGION, SkyseedTests::dimensionOverrideNeverInheritsOverworld);
-        // Registered unconditionally so the GameTest grid stays identical to main across both optional-deps runs (its
-        // body self-skips when Modonomicon is absent — see the method; all Modonomicon-class access routes through
-        // ModonomiconCompat, so it links even off the classpath). Leaving the list unchanged preserves islandOutputIsStable.
+        // Registered unconditionally; its body self-skips when Modonomicon is absent (all Modonomicon-class access routes
+        // through ModonomiconCompat, so it links even off the classpath under -PnoOptionalDeps — see the method).
         reg(event, "modonomicon_guide_book_is_complete_and_degrades", REGION, SkyseedTests::modonomiconGuideBookIsCompleteAndDegrades);
+        // islandOutputIsStable now pins its centre + biome, so adding a test here no longer shifts its output — this is
+        // registered freely (the fragility that forced it out is fixed). Load-safe in either optional-deps mode.
+        reg(event, "guide_book_matches_installed_backends", REGION, SkyseedTests::guideBookMatchesInstalledBackends);
         reg(event, "biome_override_replaces_body_fields", REGION, SkyseedTests::biomeOverrideReplacesBodyFields);
         reg(event, "shape_builder_caps_surface_and_buries_core", REGION, SkyseedTests::shapeBuilderCapsSurfaceAndBuriesCore);
         reg(event, "island_is_deterministic", REGION, SkyseedTests::islandIsDeterministic);
@@ -2222,6 +2226,25 @@ public final class SkyseedTests {
         helper.assertTrue(netherrack, "a bare nether override should give a neutral netherrack body");
         helper.assertTrue(!coal, "a nether override must NOT inherit the base's overworld coal ore");
         helper.assertTrue(!grass, "a nether override must NOT inherit the base's overworld grass");
+        helper.succeed();
+    }
+
+    /** The Skyfarer's Almanac tracks whichever optional guide backend is installed: with Modonomicon present (the default
+     *  run) {@link SkyseedGuide#book()} hands out the rich book; with none (the {@code -PnoOptionalDeps} stand-alone run) it
+     *  degrades to the vanilla written book — the "works with no optional mod" no-op contract. Keyed only on
+     *  {@code SkyseedGuide.book()} + vanilla {@link Items} so it never links a backend class directly (load-safe when the
+     *  backend is off the classpath). Mirrors the 1.21.1 suite's copy. */
+    static void guideBookMatchesInstalledBackends(GameTestHelper helper) {
+        final boolean anyBackend = ModList.get().isLoaded("modonomicon") || ModList.get().isLoaded("patchouli");
+        final ItemStack book = SkyseedGuide.book();
+        helper.assertTrue(!book.isEmpty(), "SkyseedGuide.book() must always hand out a book");
+        if (anyBackend) {
+            helper.assertTrue(!book.is(Items.WRITTEN_BOOK),
+                    "with a guide backend installed the Almanac should be the rich book, not the vanilla written book");
+        } else {
+            helper.assertTrue(book.is(Items.WRITTEN_BOOK),
+                    "with no guide backend installed the Almanac must degrade to the vanilla written book (stand-alone no-op path)");
+        }
         helper.succeed();
     }
 
@@ -6080,10 +6103,17 @@ public final class SkyseedTests {
     }
 
     /** Recorded fingerprints "blocks/checksum/trees/mobs/animals/jigsaws/hives" — the 26.1.2 generation golden master.
-     * TEMPORARILY EMPTY: islandOutputIsStable was switched to a fixed centre + biome (grid-independent), which changes the
-     * fingerprints, so this run RECAPTURES them — the test logs "[golden] CAPTURE &lt;key&gt; -&gt; &lt;fp&gt;" and does not
-     * assert. The captured values are locked back in immediately in the follow-up commit. Update only for an intentional change. */
-    private static final java.util.Map<String, String> GOLDEN = java.util.Map.of();
+     * Captured at the FIXED centre + biome in islandOutputIsStable, so they no longer depend on this test's GameTest grid
+     * cell. Recapture on CI confirmed these reproduce the pre-existing values exactly (the pinned plains biome matches how
+     * they were originally recorded — the earlier "shift" was just getBiome(center) landing on a different biome). Update
+     * only for an intentional generation change. */
+    private static final java.util.Map<String, String> GOLDEN = java.util.Map.of(
+            "gametest/island#1", "213/-3285534759166012883/1/2/0/0/23",
+            "gametest/water#4", "1233/-93296134425698814/0/1/0/0/0",
+            "gametest/features#4", "1356/2766402466658160625/0/0/0/0/0",
+            "gametest/structure#11", "566/-538726431172054277/0/0/2/1/0",
+            "gametest/bad#4", "197/5964512207029114459/0/0/0/1/0"
+    );
 
     static void everySeedRecipeAndBookEntryMatchesSeedKind(GameTestHelper helper) {
         // Auto-discovered from the registry maps, so a new seed is covered with no test edit. A regular seed must have
