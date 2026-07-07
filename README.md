@@ -243,8 +243,19 @@ One codebase, two version nodes via **Stonecutter** (`1.21.1` and `26.1.2`). Eac
 ./gradlew chiseledBuild                 # build EVERY version node in one go
 ./gradlew :26.1.2:runGameTestServer     # run a node's GameTest suite (exits 0 on pass)
 ./gradlew chiseledRunGameTestServer     # run the gametests on every node
+./gradlew chiseledRunGameTestServer -PnoOptionalDeps   # ...but stand-alone: optional guide mods stripped
 ./gradlew runClient                     # dev client for the active node
 ```
+
+**Optional dependencies for testing.** The optional guide-backend mods (Patchouli + Modonomicon) are on the dev
+runtime classpath by default, so `runClient` shows the rich illustrated Almanac and the gametests exercise the
+Modonomicon/Patchouli path. Add **`-PnoOptionalDeps`** to any run/test task to strip them (`compileOnly` stays, so the
+build still compiles and the jar is byte-identical) and run Skyseed **stand-alone** — the way to verify the "works with
+no optional mod installed" contract (the vanilla written-book Almanac fallback, and the inert-without-the-mod data). The
+gametest suites branch on `ModList.isLoaded`, so `guideBookMatchesInstalledBackends` asserts the rich book with the flag
+off and the vanilla book with it on; CI runs the suite both ways. (The ~12 data-driven content integrations — Create,
+AE2, BWG, … — aren't Gradle dependencies at all; their compat is verified at the *resolved-data* layer, since those mods
+aren't published for every node and can't be loaded cross-version.)
 
 CI (`.github/workflows/build.yml`) builds + gametests every node by running `chiseledBuild` + `chiseledRunGameTestServer` — a chiseled fan-out over the `settings.gradle` version list (not a GitHub Actions matrix), so adding a version needs no workflow edit. The first invocation downloads Gradle, NeoForge, and Minecraft (and the 26.1.2 node decompiles via NeoForm), so it takes a while.
 
@@ -271,7 +282,9 @@ generation/structure invariants (every theme plans without error, generation is 
 keep their key blocks). The **26.1.2** node has its own suite in `gametest_26_1_2/` on the newer
 `GameTestInstance` framework (200+ tests and growing with the content, incl. a 26.1.2-captured golden master). Run a node's suite with
 `./gradlew :<version>:runGameTestServer`, or all nodes with `./gradlew chiseledRunGameTestServer` — the
-safety net to run before and after refactors. For test **coverage** (1.21.1), run `./gradlew gameTestCoverage`
+safety net to run before and after refactors. Add `-PnoOptionalDeps` to run the same suite with the optional guide
+backends stripped (the stand-alone contract — see *Building & running* above); CI runs both passes. For test
+**coverage** (1.21.1), run `./gradlew gameTestCoverage`
 (JaCoCo) → `build/reports/jacoco/gameTestCoverage/html/index.html`.
 
 The build compiles with `-Xlint:all` (warnings stay visible in the log; the build is *not* `-Werror`).

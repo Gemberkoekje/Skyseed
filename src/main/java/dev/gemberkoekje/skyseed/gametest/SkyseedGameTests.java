@@ -9,6 +9,7 @@ import dev.gemberkoekje.skyseed.compat.Jigsaw;
 import dev.gemberkoekje.skyseed.compat.Lookup;
 import dev.gemberkoekje.skyseed.command.SkyseedCommands;
 import dev.gemberkoekje.skyseed.entity.IslandSeedEntity;
+import dev.gemberkoekje.skyseed.item.SkyseedGuide;
 import dev.gemberkoekje.skyseed.registry.ModEntities;
 import dev.gemberkoekje.skyseed.registry.ModItems;
 import dev.gemberkoekje.skyseed.registry.SkyseedRegistries;
@@ -35,6 +36,8 @@ import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -58,6 +61,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
@@ -162,6 +166,27 @@ public final class SkyseedGameTests {
         final IslandPlan p = plan(helper, "rocky", 1L);
         helper.assertTrue(!p.blocks().isEmpty(), "planIsland produced no blocks for 'rocky'");
         helper.assertTrue(p.blocks().size() > 100, "a rocky island should be more than 100 blocks");
+        helper.succeed();
+    }
+
+    /** The Skyfarer's Almanac tracks whichever optional guide backend is installed: with Modonomicon/Patchouli present
+     *  (the default run) {@link SkyseedGuide#book()} hands out the rich illustrated book; with none installed (the
+     *  {@code -PnoOptionalDeps} stand-alone run) it must degrade to the plain vanilla written book — the "works with no
+     *  optional mod" no-op contract. Keyed only on {@code SkyseedGuide.book()} + vanilla {@link Items} so this test never
+     *  links a backend class directly, staying load-safe when the backend is off the classpath. Runs in BOTH modes and
+     *  asserts the matching side, so the with- and without-backend paths are each covered exactly once per run. */
+    @GameTest(template = REGION)
+    public static void guideBookMatchesInstalledBackends(GameTestHelper helper) {
+        final boolean anyBackend = ModList.get().isLoaded("modonomicon") || ModList.get().isLoaded("patchouli");
+        final ItemStack book = SkyseedGuide.book();
+        helper.assertTrue(!book.isEmpty(), "SkyseedGuide.book() must always hand out a book");
+        if (anyBackend) {
+            helper.assertTrue(!book.is(Items.WRITTEN_BOOK),
+                    "with a guide backend installed the Almanac should be the rich book, not the vanilla written book");
+        } else {
+            helper.assertTrue(book.is(Items.WRITTEN_BOOK),
+                    "with no guide backend installed the Almanac must degrade to the vanilla written book (stand-alone no-op path)");
+        }
         helper.succeed();
     }
 

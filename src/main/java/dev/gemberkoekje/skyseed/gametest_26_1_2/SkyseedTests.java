@@ -41,6 +41,8 @@ import net.minecraft.world.entity.animal.cow.Cow;
 import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.vehicle.minecart.MinecartChest;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.gametest.framework.TestData;
 import net.minecraft.gametest.framework.TestEnvironmentDefinition;
@@ -63,6 +65,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterGameTestsEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -173,7 +176,15 @@ public final class SkyseedTests {
         reg(event, "structure_connections_link_after_placement", REGION, SkyseedTests::structureConnectionsLinkAfterPlacement);
         reg(event, "dimension_gate_grows_or_fizzles_by_implementation", REGION, SkyseedTests::dimensionGateGrowsOrFizzlesByImplementation);
         reg(event, "dimension_override_never_inherits_overworld", REGION, SkyseedTests::dimensionOverrideNeverInheritsOverworld);
-        reg(event, "modonomicon_guide_book_is_complete_and_degrades", REGION, SkyseedTests::modonomiconGuideBookIsCompleteAndDegrades);
+        // modonomiconGuideBookIsCompleteAndDegrades touches Modonomicon classes directly (BookDataManager), so only
+        // register it when Modonomicon is actually on the classpath — under -PnoOptionalDeps it isn't, and running it
+        // would NoClassDefFoundError. The stand-alone/degrade side is covered by guideBookMatchesInstalledBackends below.
+        if (ModList.get().isLoaded("modonomicon")) {
+            reg(event, "modonomicon_guide_book_is_complete_and_degrades", REGION, SkyseedTests::modonomiconGuideBookIsCompleteAndDegrades);
+        }
+        // Load-safe in either mode (references no backend class): the Almanac is the rich book with a guide backend
+        // installed, and the vanilla written book with none (the -PnoOptionalDeps stand-alone no-op contract).
+        reg(event, "guide_book_matches_installed_backends", REGION, SkyseedTests::guideBookMatchesInstalledBackends);
         reg(event, "biome_override_replaces_body_fields", REGION, SkyseedTests::biomeOverrideReplacesBodyFields);
         reg(event, "shape_builder_caps_surface_and_buries_core", REGION, SkyseedTests::shapeBuilderCapsSurfaceAndBuriesCore);
         reg(event, "island_is_deterministic", REGION, SkyseedTests::islandIsDeterministic);
@@ -2218,6 +2229,26 @@ public final class SkyseedTests {
         helper.assertTrue(netherrack, "a bare nether override should give a neutral netherrack body");
         helper.assertTrue(!coal, "a nether override must NOT inherit the base's overworld coal ore");
         helper.assertTrue(!grass, "a nether override must NOT inherit the base's overworld grass");
+        helper.succeed();
+    }
+
+    /** The Skyfarer's Almanac tracks whichever optional guide backend is installed: with Modonomicon (or Patchouli)
+     *  present (the default run) {@link SkyseedGuide#book()} hands out the rich illustrated book; with none installed
+     *  (the {@code -PnoOptionalDeps} stand-alone run) it must degrade to the plain vanilla written book — the "works with
+     *  no optional mod" no-op contract. Keyed only on {@code SkyseedGuide.book()} + vanilla {@link Items} so it never
+     *  links a backend class directly, staying load-safe when the backend is off the classpath (registered in BOTH
+     *  modes, unlike {@link #modonomiconGuideBookIsCompleteAndDegrades}). */
+    static void guideBookMatchesInstalledBackends(GameTestHelper helper) {
+        final boolean anyBackend = ModList.get().isLoaded("modonomicon") || ModList.get().isLoaded("patchouli");
+        final ItemStack book = SkyseedGuide.book();
+        helper.assertTrue(!book.isEmpty(), "SkyseedGuide.book() must always hand out a book");
+        if (anyBackend) {
+            helper.assertTrue(!book.is(Items.WRITTEN_BOOK),
+                    "with a guide backend installed the Almanac should be the rich book, not the vanilla written book");
+        } else {
+            helper.assertTrue(book.is(Items.WRITTEN_BOOK),
+                    "with no guide backend installed the Almanac must degrade to the vanilla written book (stand-alone no-op path)");
+        }
         helper.succeed();
     }
 

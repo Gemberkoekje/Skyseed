@@ -71,8 +71,18 @@ jobs:
       # Run the gametest suite (the project's only tests — NeoForge GameTests on a headless server) on EVERY node.
       # chiseledRunGameTestServer (stonecutter.gradle.kts) fans runGameTestServer across nodes, so this stays
       # version-agnostic. Placed before jar collection so a test failure blocks publishing untested jars.
+      # This default run has the optional guide backends (Patchouli/Modonomicon) on the classpath, so the suite
+      # asserts the RICH-book integration path (guideBookMatchesInstalledBackends + modonomiconGuideBookIsComplete…).
       - name: Run gametests on every node
         run: ./gradlew chiseledRunGameTestServer --stacktrace --no-daemon
+
+      # Re-run the SAME suite with the optional guide backends STRIPPED (-PnoOptionalDeps drops them from localRuntime;
+      # compileOnly stays so the jar is unchanged). This proves Skyseed loads, generates, and hands out the vanilla
+      # written-book Almanac with no optional mod installed — the "works stand-alone" contract. The suite branches on
+      # ModList.isLoaded, so guideBookMatchesInstalledBackends asserts the degraded/no-op side here while the run above
+      # asserts the rich side; both must pass before jars are published. See README "Building & running".
+      - name: Run gametests stand-alone (no optional deps)
+        run: ./gradlew chiseledRunGameTestServer -PnoOptionalDeps --stacktrace --no-daemon
 
       # Flatten the per-node jars (versions/<v>/build/libs/*.jar) into one folder. The glob is
       # version-agnostic, so new version nodes are picked up automatically.

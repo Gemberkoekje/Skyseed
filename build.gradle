@@ -429,21 +429,31 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
+// The optional guide-backend mods (Patchouli + Modonomicon) are on the dev runtime classpath by DEFAULT, so `runClient`
+// shows the rich illustrated Almanac and the gametests exercise the Modonomicon/Patchouli path. Pass `-PnoOptionalDeps`
+// to STRIP them from localRuntime (compileOnly stays — the mod still compiles and the built jar is byte-identical): the
+// mod then loads and generates stand-alone, which is how we verify the "works with no optional mod installed" contract —
+// the SkyseedGuide vanilla written-book fallback and the inert-without-the-mod data. The gametest suites branch on
+// ModList.isLoaded, so `guideBookMatchesInstalledBackends` asserts the rich book with the flag off and the vanilla book
+// with it on. CI runs the suite BOTH ways (see .github/workflows/build.yml); usage is in README "Building & running".
+def includeOptionalRuntimeDeps = !project.hasProperty('noOptionalDeps')
+
 dependencies {
     // Patchouli — OPTIONAL: it provides the rich illustrated guide book. We compile against it and load it in
     // dev for testing, but the published mod does not require it (without Patchouli the guide is a plain
     // vanilla written book). compileOnly + localRuntime = present here, not forced on dependents. Per-node: skipped
     // for a node with no published Patchouli build (then PatchouliCompat needs a //? directive — Stage 2 work).
+    // The localRuntime side is also skipped under -PnoOptionalDeps (stand-alone test run — see includeOptionalRuntimeDeps).
     if (project.hasProperty("patchouli_${mcv}")) {
         compileOnly "vazkii.patchouli:Patchouli:${property("patchouli_${mcv}")}"
-        localRuntime "vazkii.patchouli:Patchouli:${property("patchouli_${mcv}")}"
+        if (includeOptionalRuntimeDeps) localRuntime "vazkii.patchouli:Patchouli:${property("patchouli_${mcv}")}"
     }
     // Modonomicon — OPTIONAL, same compileOnly + localRuntime pattern. The PRIMARY guide backend on every node
     // (preferred over Patchouli — see CHANGELOG_26.1.md); published for both 1.21.1 and 26.1.2. transitive=false:
     // we only need its API to compile + the mod present at dev runtime, not its dependency graph.
     if (project.hasProperty("modonomicon_${mcv}")) {
         compileOnly("com.klikli_dev:modonomicon-${mcv}-neoforge:${property("modonomicon_${mcv}")}") { transitive = false }
-        localRuntime("com.klikli_dev:modonomicon-${mcv}-neoforge:${property("modonomicon_${mcv}")}") { transitive = false }
+        if (includeOptionalRuntimeDeps) localRuntime("com.klikli_dev:modonomicon-${mcv}-neoforge:${property("modonomicon_${mcv}")}") { transitive = false }
     }
 }
 
