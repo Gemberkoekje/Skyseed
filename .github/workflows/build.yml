@@ -235,8 +235,10 @@ jobs:
       #   1. It never sets the file ENVIRONMENT — it categorises the Client/Server versions but omits them from
       #      the upload (see its getGameVersionIdVariants), so files land with no environment (had to be fixed by
       #      hand). Here we tag Client + Server explicitly.
-      #   2. It re-escapes the markdown CHANGELOG (headings/bold arrive backslash-escaped and render as literal
-      #      text). Here we send the changelog byte-exact with changelogType=markdown, so it renders properly.
+      #   2. It can only send the changelog as changelogType=markdown — and CurseForge itself ESCAPES markdown-type
+      #      changelogs (headings/bold come out as literal \#/\* on the file page, even from a byte-exact upload of
+      #      clean markdown; verified on 0.230.0). Going direct lets us render the markdown to HTML ourselves and
+      #      send changelogType=html, which CurseForge displays properly.
       # The one convenience mc-publish gave us — resolving CurseForge's numeric game-version ids — we do ourselves
       # from /game/versions (matching by exact name). Everything the API needs is set in the metadata below:
       # game versions (MC + NeoForge + Java + Client/Server), release type, and the optional-dependency relations.
@@ -282,12 +284,22 @@ jobs:
             "create","immersive-petroleum","my-nethers-delight","ends-delight","artifacts"
           ] | map({slug: ., type: "optionalDependency"})')
 
-          # --rawfile keeps the changelog markdown byte-exact (no escaping), so CurseForge renders real
-          # headings/bold/links — the whole reason for bypassing mc-publish here.
-          jq -n --rawfile changelog cf-changelog.md \
+          # CurseForge's "markdown" changelogType ESCAPES every markdown metacharacter — a byte-exact upload of
+          # clean markdown with changelogType=markdown still lands as literal \#, \*, \[ on the file page (proven
+          # on 0.230.0, and the same result mc-publish gets). So render the markdown to HTML ourselves and upload
+          # changelogType=html — CurseForge's canonical form (its WYSIWYG editor is HTML) — which displays
+          # headings/bold/code/links properly. Convert in an isolated venv so the runner's PEP-668 system Python
+          # can't block the pip install.
+          python3 -m venv .mdenv
+          .mdenv/bin/pip install --quiet markdown
+          .mdenv/bin/python -m markdown cf-changelog.md > cf-changelog.html
+          echo "---- rendered changelog HTML (MC $MC), first lines ----"; head -6 cf-changelog.html
+
+          # --rawfile keeps the HTML byte-exact through jq's JSON string encoding.
+          jq -n --rawfile changelog cf-changelog.html \
                 --arg name "Skyseed $VERSION (MC $MC)" \
                 --argjson gameVersions "$GV" --argjson projects "$REL" \
-                '{changelog:$changelog, changelogType:"markdown", displayName:$name,
+                '{changelog:$changelog, changelogType:"html", displayName:$name,
                   gameVersions:$gameVersions, releaseType:"release", relations:{projects:$projects}}' > metadata.json
           echo "---- upload metadata (MC $MC), changelog truncated ----"
           jq '.changelog |= (.[0:80] + "...")' metadata.json

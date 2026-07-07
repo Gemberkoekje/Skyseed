@@ -1915,12 +1915,19 @@ public final class SkyseedTests {
         // The skyris village jigsaw assembles on a flat pad: the cap places buildings (beds → villagers) on the
         // skyris-styled square (polished andesite) with light-blue glass windows. BWG blocks resolve to AIR without BWG,
         // so we assert only the vanilla-surviving markers + the village MECHANICS, and that it is NOT the plains set.
+        // The assembly + stamping RNG is seeded from (featureSeed ^ ABSOLUTE origin), and the GameTest runner drops this
+        // test at a different absolute origin whenever the suite's layout shifts — so a fixed few seeds sample a
+        // DIFFERENT set of villages between runs. The square (andesite) is the centred start piece and lands in-box
+        // reliably, but a building (its single window pane + beds) only shows when a house rolls near the centre. So
+        // sample seeds until every positive marker has appeared at least once (early-exit like bwgVillageStylesAssemble),
+        // instead of betting the first four seeds all seat a house in the 40×40 scan box; oak (the plains set — never
+        // in the skyris pool) is checked on every seed we sample, so a wrong-style wiring still fails.
         final ServerLevel level = helper.getLevel();
         final BlockPos origin = helper.absolutePos(new BlockPos(24, 3, 24));
         final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("village_skyris/start"));
         final var fillers = Lookup.templatePool(level.registryAccess(), Ids.mod("village_skyris/fillers"));
         int beds = 0, andesite = 0, blueGlass = 0, oak = 0;
-        for (long seed = 1; seed <= 4; seed++) {
+        for (long seed = 1; seed <= 16 && (beds == 0 || andesite == 0 || blueGlass == 0); seed++) {
             for (int x = 4; x <= 44; x++) {
                 for (int z = 4; z <= 44; z++) {
                     for (int y = 1; y <= 14; y++) {
@@ -1941,7 +1948,7 @@ public final class SkyseedTests {
                 }
             }
         }
-        helper.assertTrue(beds > 0, "skyris village placed no beds across 4 seeds (buildings/villagers missing)");
+        helper.assertTrue(beds > 0, "skyris village placed no beds across the sampled seeds (buildings/villagers missing)");
         helper.assertTrue(andesite > 0, "skyris village square/foundation (polished_andesite) missing");
         helper.assertTrue(blueGlass > 0, "skyris village windows (light_blue_stained_glass_pane) missing — wrong style assembled");
         helper.assertTrue(oak == 0, "skyris village must not use the plains oak set (oak_planks=" + oak + ")");
