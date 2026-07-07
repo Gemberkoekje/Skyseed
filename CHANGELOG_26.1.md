@@ -9,6 +9,18 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.229.0] - 2026-07-06
+
+### Changed
+- **Shared-engine fixes from the 1.21.1 throw-test pass** (full notes in [CHANGELOG_1.21.1.md](CHANGELOG_1.21.1.md)
+  [0.229.0], tracked in [SIGNOFFPLAN.md](SIGNOFFPLAN.md)): the `canAbsorb` superset-tolerant `theme_override` band merge
+  (was exact-match `sameSelectorAs`), `forceOneTree`'s surface-aware planting pad, the new `grow` ground-entry (bonemeal
+  a `BonemealableBlock` crop to a varied stage), the Rocky "deepslate beats biome at low throws" band reorder, and the
+  vertical-only Ruined-Portal twin placement. All live in the shared codebase, so the code changes apply here too; the
+  **affected content is 1.21.1-pack data (Quark/IE/AE2/MND overrides, the Rocky reorder) and is inert on 26.1.2** — the
+  ids are skipped before any RNG, so generation stays byte-identical and the golden master is unchanged. Both nodes green
+  (26.1.2 **221** gametests, incl. the new `rockySnowyBandsMergeModOresAndDeepslateWins` guard).
+
 ## [0.228.0] - 2026-07-05
 
 ### Added

@@ -37,7 +37,7 @@ final class DecorationPlanner {
 
     static void planDecoration(ServerLevel level, Map<BlockPos, BlockState> blockMap, List<TreeSite> trees,
                                List<BlockPos> surfaceList, List<BlockPos> bottomList, Decoration deco,
-                               Set<BlockPos> scatter, RandomSource random) {
+                               Set<BlockPos> scatter, List<IslandPlan.GrowSpot> growSpots, RandomSource random) {
         if (surfaceList.isEmpty()) {
             return;
         }
@@ -112,6 +112,9 @@ final class DecorationPlanner {
                     if (roll < 0) {
                         if (Lookup.hasBlock(g.block())) {
                             placeGround(blockMap, above, Lookup.block(g.block()), scatter);
+                            // A crop with `grow` is bonemealed to a varied stage once the island lands (the powdery cane,
+                            // whose configured feature won't place directly): record the spot + a rolled boost count.
+                            g.grow().ifPresent(range -> growSpots.add(new IslandPlan.GrowSpot(above, range.sample(random))));
                         }
                         break;
                     }

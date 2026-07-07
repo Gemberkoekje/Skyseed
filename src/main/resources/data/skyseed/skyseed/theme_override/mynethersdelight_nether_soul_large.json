@@ -1,10 +1,10 @@
 {
-  "_comment": "First-party My Nether's Delight compat on the LARGE NETHER SOUL tier (FARMERSDELIGHTPLAN #16) — mirror of mynethersdelight_nether_soul.json. powdery_cane placed via its configured feature (grows a harvestable cane; the raw block is a 'growth 0%' stick-dropping stub). Feature place() is try/caught. ⚠ IN-GAME VERIFY. Inert without MND.",
+  "_comment": "First-party My Nether's Delight compat on the LARGE NETHER SOUL tier (FARMERSDELIGHTPLAN #16) — mirror of mynethersdelight_nether_soul.json. REGRESSION FIX (SIGNOFFPLAN B1b): the `patch_powdery_cane` configured feature won't place through Skyseed's direct call, so we plant the BonemealableBlock `mynethersdelight:powdery_cane` as a `ground` crop with a `grow` range; GenerationJob.growCrops bonemeals each to a varied stage. Inert without MND. ⚠ IN-GAME VERIFY + tune.",
   "target": "skyseed:nether_soul_large",
   "variants": [
     { "weight": 2, "name": "powdery_valley", "decoration": {
-      "trees": [ { "feature": "mynethersdelight:patch_powdery_cane", "tries": 8, "spacing": 2 } ],
       "ground": [
+        { "block": "mynethersdelight:powdery_cane", "chance": 0.12, "grow": { "min": 1, "max": 6 } },
         { "block": "minecraft:soul_fire", "chance": 0.06 },
         { "block": "minecraft:basalt", "chance": 0.05 }
       ] } }

@@ -96,13 +96,16 @@ public record ThemeOverride(Id target, Patch patch) {
         }
 
         /**
-         * Merge each patch band into the base band with the same selector (so e.g. a {@code max_y: 8} patch injects into
-         * the existing deep band instead of replacing it). A patch band whose selector matches no base band is
-         * <b>prepended</b> ahead of the base bands so it wins the first-match (see {@link BiomeOverride#matches}): a
-         * modded biome is typically transitively under one of the base theme's vanilla {@code #is_*} catch-alls (e.g.
+         * Merge each patch band into the first base band that can ABSORB it — same {@code min_y}/{@code max_y}/dimension
+         * and a biome set that is a <b>superset</b> of the patch's (see {@link BiomeOverride#canAbsorb}). So a
+         * {@code max_y: 8} patch injects into the existing deep band, and a snowy-biome ore patch merges into our snowy
+         * band even though ours also folds in {@code biomeswevegone:howling_peaks} — a third-party override need only
+         * list the ordinary vanilla biomes, not mirror our internal additions. A patch band that no base band can
+         * absorb is <b>prepended</b> ahead of the base bands so it wins the first-match (see {@link BiomeOverride#matches}):
+         * a modded biome is typically transitively under one of the base theme's vanilla {@code #is_*} catch-alls (e.g.
          * BWG's biomes sit in {@code #is_forest} via {@code #biomeswevegone:forest}), so an APPENDED band would be
-         * silently shadowed by that catch-all. Prepending lets a third-party / modpack {@code theme_override} adapt an
-         * island to its own biome without editing Skyseed's base themes.
+         * silently shadowed by that catch-all. Prepending lets a {@code theme_override} adapt an island to a genuinely
+         * NEW biome (one no base band covers) without editing Skyseed's base themes.
          */
         private static List<BiomeOverride> mergeBands(List<BiomeOverride> base, List<BiomeOverride> patches) {
             if (patches.isEmpty()) {
@@ -113,7 +116,7 @@ public record ThemeOverride(Id target, Patch patch) {
             for (BiomeOverride patch : patches) {
                 boolean merged = false;
                 for (int i = 0; i < result.size(); i++) {
-                    if (result.get(i).sameSelectorAs(patch)) {
+                    if (result.get(i).canAbsorb(patch)) {
                         result.set(i, result.get(i).mergedWith(patch));
                         merged = true;
                     }

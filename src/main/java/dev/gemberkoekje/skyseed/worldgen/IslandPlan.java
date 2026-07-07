@@ -38,8 +38,15 @@ import java.util.Set;
 public record IslandPlan(List<BlockPlacement> blocks, List<TreeSite> trees, List<MobSpawn> mobs,
                          List<BlockPos> hives, List<JigsawSite> jigsaws, List<AnimalSpawn> animals,
                          RandomSource random, Optional<Id> twinTheme, List<BlockPos> fluidTicks,
-                         Set<BlockPos> scatterPositions, float snow) {
+                         Set<BlockPos> scatterPositions, float snow, List<GrowSpot> growSpots) {
     public record BlockPlacement(BlockPos pos, BlockState state) {}
+
+    /**
+     * A placed {@link net.minecraft.world.level.block.BonemealableBlock} (the Nether powdery cane) to advance by
+     * {@code times} bonemeal steps once the island has landed, so the crop appears at a varied growth stage rather than
+     * as an age-0 stub. {@link GenerationJob} applies these in its finalize pass.
+     */
+    public record GrowSpot(BlockPos pos, int times) {}
 
     public record TreeSite(ConfiguredFeature<?, ?> feature, BlockPos pos) {}
 

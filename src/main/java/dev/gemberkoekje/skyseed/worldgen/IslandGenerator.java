@@ -174,7 +174,7 @@ public final class IslandGenerator {
                 ? jigsaws.stream().map(j -> j.withRotation(PORTAL_ROTATION)).toList()
                 : jigsaws;
         return new IslandPlan(blocks, decor.trees(), mobs, hives, placedJigsaws, animals, random, twinTheme, fluidTicks,
-                decor.scatterPositions(), snow);
+                decor.scatterPositions(), snow, decor.growSpots());
     }
 
     /** The per-island config resolved from the theme + the matching biome override (see {@link #resolveConfig}). */
@@ -518,8 +518,9 @@ public final class IslandGenerator {
         return new StructurePlan(jigsaws, animals);
     }
 
-    /** The decoration pass's output: the planned trees and the surface-scatter positions reserved from later passes. */
-    private record Decor(List<TreeSite> trees, Set<BlockPos> scatterPositions) {}
+    /** The decoration pass's output: the planned trees, the surface-scatter positions reserved from later passes, and
+     *  any bonemeal grow-spots (crops to advance to a varied stage after the island lands). */
+    private record Decor(List<TreeSite> trees, Set<BlockPos> scatterPositions, List<IslandPlan.GrowSpot> growSpots) {}
 
     /**
      * Decoration: the rolled variant's trees + ground cover (placed before water-side passes have run their course), then
@@ -529,16 +530,17 @@ public final class IslandGenerator {
                                         int baseRadius, RandomSource random) {
         final List<TreeSite> trees = new ArrayList<>();
         final Set<BlockPos> scatterPositions = new HashSet<>();
+        final List<IslandPlan.GrowSpot> growSpots = new ArrayList<>();
         if (cfg.variant() != null) {
             DecorationPlanner.planDecoration(level, buffers.blockMap(), trees, buffers.surfaceList(),
-                    buffers.bottomList(), cfg.variant().decoration(), scatterPositions, random);
+                    buffers.bottomList(), cfg.variant().decoration(), scatterPositions, growSpots, random);
         }
         // Waterfalls: short static cascades off the rim (block placements, no flow physics).
         final int waterfalls = (cfg.ov() != null && cfg.ov().waterfalls().isPresent()) ? cfg.ov().waterfalls().get() : 0;
         if (waterfalls > 0) {
             DecorationPlanner.placeWaterfalls(buffers.blockMap(), buffers.surfaceList(), center, baseRadius, waterfalls, random);
         }
-        return new Decor(trees, scatterPositions);
+        return new Decor(trees, scatterPositions, growSpots);
     }
 
     /**
