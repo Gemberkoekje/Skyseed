@@ -153,22 +153,72 @@ jobs:
           name: skyseed-jars-${{ needs.build.outputs.version }}
           path: dist
 
-      # CurseForge's changelog field wants THIS release's notes. Slice out the section headed
-      # "## [<version>]" for the tagged version specifically — NOT just the top section. The two nodes'
-      # changelogs diverge: a version that changed only one node has no entry in the other's changelog
-      # (each file's preamble says so), so "top section" could be an OLDER version and would mislabel the
-      # upload. If this node has no section for the version it didn't change this release, so skip its
-      # upload (skip=true) instead of attaching some other version's notes.
-      - name: Extract this release's changelog section
+      # Discover the newest mod version ALREADY on CurseForge for this node, so the changelog below can
+      # cover every release since it (not just this tag) — e.g. if 0.200.0 is live and we upload 0.225.0,
+      # CurseForge users see 0.201.0..0.225.0. cfwidget.com exposes a project's published files as public
+      # JSON (no API key needed). mc-publish names each upload skyseed-<mc>_<modver>.jar, so the filename
+      # carries the MC version (to filter this node's files) and the mod version (the value we want).
+      # cfwidget answers 202 while it first caches a project; retry a few times, then fall back to empty
+      # (the extract step degrades to this tag's own section — correct for a first-ever upload / cache miss).
+      - name: Find the version already on CurseForge (MC ${{ matrix.mc }})
+        id: lastcf
+        env:
+          PROJECT_ID: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          MC: ${{ matrix.mc }}
+        run: |
+          code=000
+          for attempt in 1 2 3; do
+            code=$(curl -sSL -w '%{http_code}' -o cfwidget.json "https://api.cfwidget.com/$PROJECT_ID" || echo 000)
+            [ "$code" = "200" ] && break
+            echo "cfwidget returned HTTP $code (attempt $attempt/3) — retrying in 5s"
+            sleep 5
+          done
+          last=""
+          if [ "$code" = "200" ]; then
+            # ltrimstr/rtrimstr are literal (not regex), so the dots in <mc>/<modver> are matched as-is.
+            # sort -V | tail -1 picks the highest version among this node's files.
+            last=$(jq -r --arg mc "$MC" '
+                     .files[]? | .name // empty
+                     | select(startswith("skyseed-" + $mc + "_"))
+                     | ltrimstr("skyseed-" + $mc + "_") | rtrimstr(".jar")
+                   ' cfwidget.json 2>/dev/null | sort -V | tail -1) || last=""
+          fi
+          echo "last=$last" >> "$GITHUB_OUTPUT"
+          echo "Latest CurseForge version for MC $MC: '${last:-<none>}'"
+
+      # CurseForge's changelog field wants the notes for THIS upload. Normally that's every release since
+      # the file currently on CurseForge (steps.lastcf) up to this tag: the changelog is ordered
+      # newest-first, so capture from the "## [<version>]" heading down to — but NOT including — the
+      # "## [<lastcf>]" heading. Falls back to just this tag's own section when lastcf is empty/unknown,
+      # equals this tag, or isn't a heading in this node's changelog (the grep guard stops a bad lookup
+      # from dumping the whole file). The two nodes' changelogs diverge: a version that changed only one
+      # node has no entry in the other's changelog, so if there's no "## [<version>]" section this node
+      # didn't change this release — leave the output empty and skip its upload (skip=true) instead of
+      # mislabelling some other version's notes.
+      - name: Extract this release's changelog section(s)
         id: notes
         env:
           VERSION: ${{ needs.build.outputs.version }}
+          LASTCF: ${{ steps.lastcf.outputs.last }}
         run: |
-          awk -v v="$VERSION" '
-            index($0, "## [" v "]") == 1 { f = 1; print; next }   # our version heading: start capturing
-            /^## \[/ { if (f) exit }                               # next version heading: stop
-            f                                                      # body line inside our section: print
-          ' "${{ matrix.changelog }}" > cf-changelog.md
+          if [ -n "$LASTCF" ] && [ "$LASTCF" != "$VERSION" ] && grep -q "^## \[$LASTCF\]" "${{ matrix.changelog }}"; then
+            awk -v v="$VERSION" -v last="$LASTCF" '
+              index($0, "## [" v "]") == 1 { f = 1; print; next }     # our version heading: start capturing
+              /^## \[/ {                                              # a later version heading:
+                if (f) {
+                  if (index($0, "## [" last "]") == 1) exit           #   reached the CurseForge version: stop (exclusive)
+                  print; next                                        #   an in-between release: keep it
+                }
+              }
+              f                                                      # body line inside the captured range: print
+            ' "${{ matrix.changelog }}" > cf-changelog.md
+          else
+            awk -v v="$VERSION" '
+              index($0, "## [" v "]") == 1 { f = 1; print; next }     # our version heading: start capturing
+              /^## \[/ { if (f) exit }                               # next version heading: stop
+              f                                                      # body line inside our section: print
+            ' "${{ matrix.changelog }}" > cf-changelog.md
+          fi
           if [ ! -s cf-changelog.md ]; then
             echo "No [$VERSION] section in ${{ matrix.changelog }} — MC ${{ matrix.mc }} unchanged this release; skipping its CurseForge upload."
             echo "skip=true" >> "$GITHUB_OUTPUT"
