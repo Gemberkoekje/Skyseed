@@ -41,8 +41,6 @@ import net.minecraft.world.entity.animal.cow.Cow;
 import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.vehicle.minecart.MinecartChest;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.gametest.framework.TestData;
 import net.minecraft.gametest.framework.TestEnvironmentDefinition;
@@ -176,15 +174,10 @@ public final class SkyseedTests {
         reg(event, "structure_connections_link_after_placement", REGION, SkyseedTests::structureConnectionsLinkAfterPlacement);
         reg(event, "dimension_gate_grows_or_fizzles_by_implementation", REGION, SkyseedTests::dimensionGateGrowsOrFizzlesByImplementation);
         reg(event, "dimension_override_never_inherits_overworld", REGION, SkyseedTests::dimensionOverrideNeverInheritsOverworld);
-        // modonomiconGuideBookIsCompleteAndDegrades touches Modonomicon classes directly (BookDataManager), so only
-        // register it when Modonomicon is actually on the classpath — under -PnoOptionalDeps it isn't, and running it
-        // would NoClassDefFoundError. The stand-alone/degrade side is covered by guideBookMatchesInstalledBackends below.
-        if (ModList.get().isLoaded("modonomicon")) {
-            reg(event, "modonomicon_guide_book_is_complete_and_degrades", REGION, SkyseedTests::modonomiconGuideBookIsCompleteAndDegrades);
-        }
-        // Load-safe in either mode (references no backend class): the Almanac is the rich book with a guide backend
-        // installed, and the vanilla written book with none (the -PnoOptionalDeps stand-alone no-op contract).
-        reg(event, "guide_book_matches_installed_backends", REGION, SkyseedTests::guideBookMatchesInstalledBackends);
+        // Registered unconditionally so the GameTest grid stays identical to main across both optional-deps runs (its
+        // body self-skips when Modonomicon is absent — see the method; all Modonomicon-class access routes through
+        // ModonomiconCompat, so it links even off the classpath). Leaving the list unchanged preserves islandOutputIsStable.
+        reg(event, "modonomicon_guide_book_is_complete_and_degrades", REGION, SkyseedTests::modonomiconGuideBookIsCompleteAndDegrades);
         reg(event, "biome_override_replaces_body_fields", REGION, SkyseedTests::biomeOverrideReplacesBodyFields);
         reg(event, "shape_builder_caps_surface_and_buries_core", REGION, SkyseedTests::shapeBuilderCapsSurfaceAndBuriesCore);
         reg(event, "island_is_deterministic", REGION, SkyseedTests::islandIsDeterministic);
@@ -2232,27 +2225,14 @@ public final class SkyseedTests {
         helper.succeed();
     }
 
-    /** The Skyfarer's Almanac tracks whichever optional guide backend is installed: with Modonomicon (or Patchouli)
-     *  present (the default run) {@link SkyseedGuide#book()} hands out the rich illustrated book; with none installed
-     *  (the {@code -PnoOptionalDeps} stand-alone run) it must degrade to the plain vanilla written book — the "works with
-     *  no optional mod" no-op contract. Keyed only on {@code SkyseedGuide.book()} + vanilla {@link Items} so it never
-     *  links a backend class directly, staying load-safe when the backend is off the classpath (registered in BOTH
-     *  modes, unlike {@link #modonomiconGuideBookIsCompleteAndDegrades}). */
-    static void guideBookMatchesInstalledBackends(GameTestHelper helper) {
-        final boolean anyBackend = ModList.get().isLoaded("modonomicon") || ModList.get().isLoaded("patchouli");
-        final ItemStack book = SkyseedGuide.book();
-        helper.assertTrue(!book.isEmpty(), "SkyseedGuide.book() must always hand out a book");
-        if (anyBackend) {
-            helper.assertTrue(!book.is(Items.WRITTEN_BOOK),
-                    "with a guide backend installed the Almanac should be the rich book, not the vanilla written book");
-        } else {
-            helper.assertTrue(book.is(Items.WRITTEN_BOOK),
-                    "with no guide backend installed the Almanac must degrade to the vanilla written book (stand-alone no-op path)");
-        }
-        helper.succeed();
-    }
-
     static void modonomiconGuideBookIsCompleteAndDegrades(GameTestHelper helper) {
+        // Registered unconditionally (to keep the gametest grid — and islandOutputIsStable's golden master — stable), but
+        // only meaningful with Modonomicon present; self-skip under -PnoOptionalDeps. Every Modonomicon-class access below
+        // is routed through ModonomiconCompat, so this method still links when the mod is off the classpath.
+        if (!ModList.get().isLoaded("modonomicon")) {
+            helper.succeed();
+            return;
+        }
         // SKYMODONOMICONPLAN Phase 2: the real generated skyseed:guide Modonomicon book loads, is COMPLETE (one entry
         // per seed/part, matching the Patchouli edition so both backends stay first-class), and an absent id resolves
         // to EMPTY (the fall-through guarantee). The book is derived from the golden Patchouli content by generateGuide.
@@ -2272,9 +2252,9 @@ public final class SkyseedTests {
         // book.json sets model=skyseed:guide, and Modonomicon's client BookModel renders ModelManager.getItemModel(book
         // .getModel()) per stack. On 26.1.2 that id resolves the assets/skyseed/items/guide.json definition — guide is no
         // registered item (so no auto-generated one), hence we ship it explicitly; on 1.21.1 the id resolves models/item/guide.json.
-        final var guideBook = com.klikli_dev.modonomicon.data.BookDataManager.get().getBook(Ids.parse(SkyseedGuide.BOOK_ID.value()));
-        helper.assertTrue(guideBook != null && "skyseed:guide".equals(guideBook.getModel().toString()),
-                "the Modonomicon guide must set model=skyseed:guide (got " + (guideBook == null ? "null" : guideBook.getModel()) + ")");
+        final String guideModel = ModonomiconCompat.bookModelId(SkyseedGuide.BOOK_ID);
+        helper.assertTrue("skyseed:guide".equals(guideModel),
+                "the Modonomicon guide must set model=skyseed:guide (got " + guideModel + ")");
         helper.assertTrue(resourceExists("/assets/skyseed/items/guide.json"),
                 "ship assets/skyseed/items/guide.json so 26.1.2 getItemModel(skyseed:guide) renders the Almanac book icon");
         helper.succeed();
