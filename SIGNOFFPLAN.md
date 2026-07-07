@@ -15,12 +15,12 @@ Each finding has a **root cause** (verified against the source where possible), 
 | B1a | Nether dirt pads | ✅ FIXED (`clearPlantingSpot` surface-aware) | `GenerationJob` |
 | B1b | Powdery cane | ✅ FIXED — plant the `BonemealableBlock` + new `grow` field, bonemealed to varied stages | `GroundEntry`/`GenerationJob` + `mynethersdelight_*` |
 | B2a | Blossom/"Trumpet" trees | ✅ signed off (swamp + plains confirmed) | `theme_override/quark_forest*` |
-| B2b | Shale on ancient | ✅ found in-game; still maybe rare — optional tune | `quark_ancient.json` + `OrePlanner` |
+| B2b | Shale on ancient | ✅ FIXED (0.230.0) — chance 0.80 + vein_size 6-10 so it reads; count stays base-density | `quark_ancient[_large]/huge_ancient.json` |
 | B3 | Snowy/frozen rocky islands lose base ores + deepslate | ✅ FIXED (code, pending recapture+test) | `mergeBands` selector match |
-| B4 | Portal twin misaligned | ✅ FIXED — twins never nudge horizontally (opening stays on the 8:1 column) | `TwinPlacer` |
-| T1 | Crude oil too rare / hidden | 🔧 tune (+ blocked by B3) | `theme_override/immersiveengineering_*` |
-| M1 | Kinetic acceptor doubled — drop Create: AE Generator? | ❓ curation decision | `mods.txt` |
-| U1 | `R` collides: aircraft dismount vs shader reload | 🔧 keybind config | client config |
+| B4 | Portal twin misaligned | ✅ ACCEPTED — horizontal-nudge fixed (0.229.0); residual sub-block drift is a vanilla portal-linking limit; probes removed (0.230.0) | `TwinPlacer` |
+| T1 | Crude oil too rare / hidden | ✅ FIXED (0.230.0) — oil in every band @0.40, richest deepslate @0.55 | `theme_override/immersiveengineering_*` |
+| M1 | Kinetic acceptor doubled — drop Create: AE Generator? | ✅ DONE — `create_ae_generator` dropped from `mods.txt` (pack-prep) | `mods.txt` |
+| U1 | `R` collides: aircraft dismount vs shader reload | ✅ FIXED (0.230.0) — Iris reload moved R→N; R left for aircraft dismount | `options.txt` |
 | U2 | Aircraft fuel — item fuel (coal/blaze works); diesel/kerosene are fluids | ✅ resolved — not a bug | `config/immersive_aircraft.json` |
 | S1 | Fastest creative energy for the Excavator | ❓ support (answered §6) | — |
 | S2 | "FE power chain flows" — what it means | ❓ wording (answered §6) | PLANOFPLANS wording |
@@ -190,9 +190,13 @@ spans the Y column, so a Y shift still links). If nothing vertical is clear, it 
 nodes; no golden-master impact (twin placement is runtime, not planned output).
 
 **Verify:** throw a portal seed → both frames sit at the 8:1 coordinate and traversal lands in the paired frame; the
-`twin B4` log's `nudge` should now read `(0,y,0)` (never horizontal). Then remove the `twin B4` + `portal B4` probes.
+`twin B4` log's `nudge` should now read `(0,y,0)` (never horizontal).
 
-**Verify:** step through → land inside the paired repaired frame, correct rotation.
+**✅ ACCEPTED (2026-07-07, owner call).** The horizontal-nudge fix shipped in 0.229.0. The remaining sub-block drift
+between the paired frames could not be driven to zero — the openings are already block-exact 8:1, so what's left is
+inside vanilla's own frame placement + portal-linking search (the pair still links regardless). We're fighting vanilla
+mechanics, so this is accepted as-is. The `twin B4` + `portal B4` diagnostic probes were **removed in 0.230.0**
+(`TwinPlacer` / `Jigsaw`).
 
 ---
 

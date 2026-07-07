@@ -4,17 +4,17 @@
 
 **A whole modpack grown from a single seed.**
 
-At the centre is **Skyseed**: you craft a seed, throw it into open air, and it sprouts a floating island — trees, ore, ponds, villages, dungeons, each one generated fresh from whatever that seed grows. You start on a small island with one tree and grow your world outward across the sky, into the Nether, and on to the End.
+At the centre is **Skyseed**, a skyblock mod where you grow your world instead of mining it. You begin on one small floating island in an otherwise empty sky. Craft a seed, throw it into open air, and a couple of seconds later it sprouts a brand-new island: trees, ore, ponds, a village, a dungeon, all themed and generated fresh from whatever that seed grows. Island by island, you spread out across the sky, into the Nether, and on to the End.
 
-Grow Your Own World gives all of that somewhere to go. Every island you grow now feeds a full progression — a Create factory, an Immersive Engineering plant, an Applied Energistics network, a Mystical Agriculture farm, a working kitchen, a spellbook — and a guided quest book walks you through the lot, one system at a time. Well over a hundred mods, but you meet them at the pace the islands unlock them.
+Grow Your Own World is where those islands go to work. Every island you grow feeds a bigger project: a Create factory, an Immersive Engineering plant, an Applied Energistics network, a Mystical Agriculture farm, a working kitchen, a spellbook. A guided quest book walks you through them one system at a time. There are well over a hundred mods here, but you meet each one at the pace the islands unlock it.
 
 ---
 
-## A guided run, not a wiki dive
+## You won't need the wiki open
 
-The pack ships an **FTB quest book** sorted into four tracks — **Progression**, **Industry**, **Farming**, and **Magic & Exploration** — that pick up right where the base mod leaves off. Each quest is a short, plain-language nudge: what a mod is, why you'd want it, and the one trick that makes it click.
+The pack ships an **FTB quest book** split into four tracks: **Progression**, **Industry**, **Farming**, and **Magic & Exploration**. Each quest is short and written in plain language. It tells you what a mod does, why you'd want it, and where to start.
 
-It teaches without putting you on rails. Chapters open in parallel, tasks are mostly "go get this" rather than hard gates, and the deep detail is left to each mod's own in-game guides — Create's Ponder, the Skyfarer's Almanac. You're never left wondering what to grow next.
+It won't force you down one path. Several chapters are open at once, and most tasks just ask you to go and fetch something rather than lock the next step behind them. The deeper detail stays in each mod's own in-game guide, like Create's Ponder or the Skyfarer's Almanac.
 
 ---
 
@@ -22,37 +22,37 @@ It teaches without putting you on rails. Chapters open in parallel, tasks are mo
 
 ### Industry
 
-- **Create**, with a deep set of add-ons — the star of the show. Rotational contraptions, trains, jetpacks, decoration, the works. It's bridged to Forge Energy, so it becomes the spark that powers everything else.
-- **Immersive Engineering + Petroleum** — the heavy tech backbone. Multiblock machines, a coke-oven-to-blast-furnace steel chain, an excavator, and a diesel plant running on crude oil you pump and refine.
-- **Applied Energistics 2 + MEGA Cells** — the storage endgame. It bootstraps off certus quartz you mine, then multiplies itself. A dedicated **Meteorite island** is the one place up here to find sky stone and the inscriber presses AE2 normally locks inside meteorites.
-- **Flux Networks** — wireless power, so one grid can feed every island without stringing cables across the void.
+- **Create**, with a deep set of add-ons, is the mod most of the pack is built around. Rotational contraptions, trains, jetpacks, decoration, and plenty more. It's bridged to Forge Energy, so the power you make with Create runs the rest of the pack's machines.
+- **Immersive Engineering + Petroleum** is the heavy-industry side. Multiblock machines, a coke-oven-to-blast-furnace steel chain, an excavator, and a diesel plant that runs on crude oil you pump and refine.
+- **Applied Energistics 2 + MEGA Cells** handles storage, from your first few drives to a network that holds everything. It starts with certus quartz you mine yourself, and a dedicated **Meteorite island** is the only place up here to get sky stone and the inscriber presses that AE2 normally hides inside meteorites.
+- **Flux Networks** moves power wirelessly, so one grid can feed every island without cables strung across the void.
 
 ### Farming
 
-- **Mystical Agriculture** — grow your resources as crops. Iron, diamond, even mob drops become farmable once you've seeded them, so nothing is a one-time find.
-- **Farmer's Delight**, plus the Nether, End and Ocean delights — a whole cooking loop, from wild crops on your biome islands to a fully stocked kitchen.
+- **Mystical Agriculture** lets you grow resources as crops. Iron, diamond, even mob drops become farmable once you've seeded them, so nothing stays a one-time find.
+- **Farmer's Delight**, plus its Nether, End and Ocean add-ons, is a full cooking loop that runs from wild crops on your biome islands up to a stocked kitchen.
 
 ### Magic & exploration
 
-- **Iron's Spells 'n Spellbooks** — spellbooks, scrolls and spell gear, looted from the structure islands you grow and cast with your own mana pool. **Artifacts** and **Relics** salt in curios and trinkets to find along the way.
+- **Iron's Spells 'n Spellbooks** gives you spellbooks, scrolls and spell gear, looted from the structure islands you grow and cast from your own mana pool. **Artifacts** and **Relics** add curios and trinkets to find along the way.
 
 ### World & tools
 
-- **Oh The Biomes We've Gone** — more than fifty new biomes that flow straight into island theming. Grow a seed over an exotic biome and you get that biome's island, its woods, even its village styles.
-- **Silent Gear** — build your own tools and weapons from the materials you grow, and upgrade them as you go.
-- **Sophisticated Backpacks & Storage** — upgradeable, filterable storage to keep the inventory sane.
-- **Quark** — a big grab-bag of building blocks, decoration and small quality-of-life tweaks.
-- **Waystones** and **Xaero's maps** — fast travel and mapping for an archipelago that spreads out fast.
+- **Oh The Biomes We've Gone** adds more than fifty biomes, and they feed straight into how islands are themed. Grow a seed over one of them and you get that biome's island, with its own woods and even its own village styles.
+- **Silent Gear** lets you build tools and weapons from the materials you grow, and upgrade them as you go.
+- **Sophisticated Backpacks & Storage** gives you upgradeable, filterable storage to keep your inventory under control.
+- **Quark** is a big grab-bag of building blocks, decoration and small quality-of-life tweaks.
+- **Waystones** and **Xaero's maps** cover fast travel and mapping, which you'll want once your archipelago spreads out.
 
 ### Looks & feel
 
-- **Complementary Reimagined** shaders (on by default), **Fresh Animations**, ambient sounds, and sound physics — so the empty sky actually feels like a place. If your machine would rather, the shaders switch off from the video menu.
+- **Complementary Reimagined** shaders (on by default), **Fresh Animations**, ambient sounds, and sound physics fill out the look and feel of all that open sky. If your machine struggles with shaders, you can switch them off from the video menu.
 
 ---
 
 ## Everything still comes from an island
 
-Skyseed's void doesn't generate anything on its own, and that's the whole trick of the pack: every mod's resources arrive through a seed you grow. Certus quartz on the mining islands. Bauxite on an Immersive Engineering ore island. Wild crops on the biome islands. Spell loot inside the structure islands. Nothing ever spawns uninvited in the void and no mod fights the world generation — you grow your way to all of it, in order, the same way you grew your first tree.
+The void never generates anything on its own. Every mod's resources reach you through a seed instead: certus quartz from the mining islands, bauxite from an Immersive Engineering ore island, wild crops from the biome islands, spell loot inside the structure islands. Nothing turns up in the sky uninvited. You grow your way to all of it, in the same order you grew your first tree.
 
 ---
 
@@ -60,9 +60,9 @@ Skyseed's void doesn't generate anything on its own, and that's the whole trick 
 
 - **Minecraft 1.21.1**
 - **NeoForge**
-- It's a big pack with shaders on by default, so give it a generous memory allocation and a GPU that's happy running shaders (or turn them off from the video settings).
+- It's a big pack and ships with shaders on, so give it a generous amount of memory and a GPU that can handle shaders (or turn them off in the video settings).
 
-Want something lighter? The **Skyseed** pack is the same mod with just a curated set of quality-of-life mods and no content — the pure skyblock, smoothed off.
+Want something lighter? The **Skyseed** pack is the same mod with just a curated set of quality-of-life mods and no added content. It's the plain skyblock with the rough edges smoothed off.
 
 ---
 

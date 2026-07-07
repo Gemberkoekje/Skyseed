@@ -1,6 +1,5 @@
 package dev.gemberkoekje.skyseed.compat;
 
-import dev.gemberkoekje.skyseed.Skyseed;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
@@ -70,11 +69,6 @@ public final class Jigsaw {
         final PoolElementStructurePiece piece = new PoolElementStructurePiece(templates, element, placePos,
                 groundLevelDelta, rotation, box, JigsawStructure.DEFAULT_LIQUID_SETTINGS);
         piece.move(0, placePos.getY() - (box.minY() + groundLevelDelta), 0);
-        // SIGNOFPLAN B4 probe — the actual single-piece seating. Compare the two twin sides: finalBox is where the frame
-        // lands; if the overworld finalBox min != nether finalBox min × 8 (XZ) or the Y differs, this shows the exact
-        // per-side offset (origin is already block-exact 8:1 per the twin log). Remove once B4 is fixed.
-        Skyseed.LOGGER.info("[skyseed] portal B4: origin={} placePos={} gld={} preMoveBox={} finalBox={}",
-                origin, placePos, groundLevelDelta, box, piece.getBoundingBox());
         piece.place(level, structureManager, generator, random, BoundingBox.infinite(), origin, false);
     }
 
