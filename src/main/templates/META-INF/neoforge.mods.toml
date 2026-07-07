@@ -100,6 +100,92 @@ A terraforming skyblock — craft and throw a Skyseed and a procedurally generat
     ordering="AFTER"
     side="BOTH"
 
+# The remaining optional integrations are all DATA-DRIVEN and inert without the mod: their theme_override /
+# loot content references the mod's ids, which simply don't resolve (and are skipped) when the mod is absent,
+# so Skyseed generates byte-identically without any of them. Declared here purely so NeoForge lists them as
+# optional dependencies in-game; the CurseForge relations are set separately in build.yml (curseforge-dependencies)
+# by project id, because several of these mod ids don't match their CurseForge slug (e.g. ae2 -> applied-energistics-2).
+# ordering=NONE: unlike Patchouli these are resolved at worldgen time, not load time, so load order is irrelevant
+# (and NONE avoids any chance of a load-order cycle). versionRange="[0,)": any version, since we bind to none.
+[[dependencies.${mod_id}]]
+    modId="modonomicon" # alternate illustrated guide backend
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="biomeswevegone" # Oh The Biomes We've Gone
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="farmersdelight" # Farmer's Delight
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="mynethersdelight" # My Nether's Delight
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="quark"
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="immersiveengineering" # Immersive Engineering
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="immersivepetroleum" # Immersive Petroleum (IE addon; the void-island oil pocket)
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="ae2" # Applied Energistics 2
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="mysticalagriculture" # Mystical Agriculture
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="create"
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="irons_spellbooks" # Iron's Spells 'n Spellbooks
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="ends_delight" # End's Delight
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="artifacts" # Artifacts (the mimic in the huge_rocky theme)
+    type="optional"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't
 # stop your mod loading on the server for example.
