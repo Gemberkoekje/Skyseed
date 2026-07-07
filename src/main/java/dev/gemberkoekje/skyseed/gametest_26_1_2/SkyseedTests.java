@@ -6049,10 +6049,15 @@ public final class SkyseedTests {
                 {"gametest/structure", "11"}, {"gametest/bad", "4"},
         };
         final ServerLevel level = helper.getLevel();
-        final BlockPos center = helper.absolutePos(new BlockPos(8, 8, 8));
+        // FIXED absolute centre + FIXED biome so the fingerprint depends only on (theme, seed) — never on this test's
+        // GameTest grid cell. Previously center = helper.absolutePos(...) and biome = level.getBiome(center) both moved
+        // with the grid, so adding/removing/reordering ANY earlier test silently shifted the output — a fragile golden
+        // master. With both pinned, tests can be added to this suite freely without disturbing this one.
+        final BlockPos center = new BlockPos(0, 80, 0);
+        final Holder<Biome> fixedBiome = biome(level, "minecraft:plains");
         for (final String[] c : cases) {
             final IslandPlan p = IslandGenerator.planIsland(level, center, theme(level, c[0]),
-                    level.getBiome(center), RandomSource.create(Long.parseLong(c[1])));
+                    fixedBiome, RandomSource.create(Long.parseLong(c[1])));
             long sum = 1L;
             for (final IslandPlan.BlockPlacement bp : p.blocks()) {
                 // positions RELATIVE to the island centre so the fingerprint is run-location independent
@@ -6075,15 +6080,10 @@ public final class SkyseedTests {
     }
 
     /** Recorded fingerprints "blocks/checksum/trees/mobs/animals/jigsaws/hives" — the 26.1.2 generation golden master.
-     * 4 of 5 are byte-identical to the 1.21.1 suite; only gametest/water differs (1233 vs 1243 blocks — a benign
-     * version-specific water/decoration delta; the river/sugar-cane water tests still pass). */
-    private static final java.util.Map<String, String> GOLDEN = java.util.Map.of(
-            "gametest/island#1", "213/-3285534759166012883/1/2/0/0/23",
-            "gametest/water#4", "1233/-93296134425698814/0/1/0/0/0",
-            "gametest/features#4", "1356/2766402466658160625/0/0/0/0/0",
-            "gametest/structure#11", "566/-538726431172054277/0/0/2/1/0",
-            "gametest/bad#4", "197/5964512207029114459/0/0/0/1/0"
-    );
+     * TEMPORARILY EMPTY: islandOutputIsStable was switched to a fixed centre + biome (grid-independent), which changes the
+     * fingerprints, so this run RECAPTURES them — the test logs "[golden] CAPTURE &lt;key&gt; -&gt; &lt;fp&gt;" and does not
+     * assert. The captured values are locked back in immediately in the follow-up commit. Update only for an intentional change. */
+    private static final java.util.Map<String, String> GOLDEN = java.util.Map.of();
 
     static void everySeedRecipeAndBookEntryMatchesSeedKind(GameTestHelper helper) {
         // Auto-discovered from the registry maps, so a new seed is covered with no test edit. A regular seed must have

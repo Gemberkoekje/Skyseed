@@ -364,6 +364,137 @@ public final class SkyseedGameTests {
         helper.succeed();
     }
 
+    // --- "Actually placed" integration tests for optional-mod blocks (MODPLACEMENTTESTPLAN.md). Each loads the REAL mod
+    //     under the matching -Pwith<Mod> profile (1.21.1 only) and asserts a real mod block LANDS in a generated island —
+    //     as opposed to the id merely being in the resolved data (the *CompatTargets*/*Reaches* tests above). Each
+    //     self-skips when its mod is absent (the normal/CI run), since @GameTest methods are always discovered. Create
+    //     has its own pair (createZincOreActuallyPlaces / createZincIsInertWithoutCreate) above. ---
+
+    /** Mining-island themes whose overrides add modded ORES (Create/IE/MA/AE2/Iron's/Quark). */
+    private static final String[] MINING_THEMES = {
+            "skyseed:rocky", "skyseed:rocky_large", "skyseed:huge_rocky",
+            "skyseed:ancient", "skyseed:ancient_large", "skyseed:huge_ancient", "skyseed:lush",
+    };
+    /** Surface themes whose overrides add modded ground DECORATIONS (Farmer's Delight crops, BWG flowers). */
+    private static final String[] SURFACE_THEMES = {
+            "skyseed:forest", "skyseed:forest_large", "skyseed:huge_forest",
+            "skyseed:meadow", "skyseed:aquatic", "skyseed:lush", "skyseed:mushroom",
+    };
+
+    /** Scan planned islands of the given RESOLVED themes for a placed block in {@code namespace} — the "a REAL mod block
+     *  landed" check (vs. the id merely being in the resolved data). Plans at TWO centres — a high one (where a theme's
+     *  top-level ores apply) and the deep gametest centre (Y≈-60, where the max_y:8 deepslate band applies) — over
+     *  {@code seeds} seeds each, so it catches the block whichever Y-band/biome carries it. Unknown theme ids are skipped.
+     *  Callers gate on {@code ModList.isLoaded} (the mod's blocks must be registered for any of them to resolve). */
+    private static boolean placesModBlock(GameTestHelper helper, String[] themeIds, String namespace, int seeds) {
+        final ServerLevel level = helper.getLevel();
+        final String prefix = namespace + ":";
+        final BlockPos[] centers = { new BlockPos(0, 80, 0), helper.absolutePos(new BlockPos(8, 8, 8)) };
+        for (final BlockPos center : centers) {
+            for (final String themeId : themeIds) {
+                final IslandTheme theme = Themes.resolve(level.registryAccess(), Id.of(themeId));
+                if (theme == null) {
+                    continue;
+                }
+                for (long seed = 1; seed <= seeds; seed++) {
+                    final IslandPlan p = IslandGenerator.planIsland(level, center, theme,
+                            level.getBiome(center), RandomSource.create(seed));
+                    for (final IslandPlan.BlockPlacement bp : p.blocks()) {
+                        final String id = Lookup.blockId(bp.state().getBlock());
+                        if (id != null && id.startsWith(prefix)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /** Immersive Engineering ores (ore_aluminum/lead/nickel + deepslate variants) land in a mining island. */
+    @GameTest(template = REGION)
+    public static void immersiveEngineeringOreActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("immersiveengineering")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, MINING_THEMES, "immersiveengineering", 8),
+                "with Immersive Engineering installed, a real immersiveengineering ore block must be placed in a mining island");
+        helper.succeed();
+    }
+
+    /** Mystical Agriculture ores (inferium/prosperity/soulium + deepslate variants) land in a mining island. */
+    @GameTest(template = REGION)
+    public static void mysticalAgricultureOreActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("mysticalagriculture")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, MINING_THEMES, "mysticalagriculture", 8),
+                "with Mystical Agriculture installed, a real mysticalagriculture ore block must be placed in a mining island");
+        helper.succeed();
+    }
+
+    /** Applied Energistics 2 certus quartz lands in a mining island. */
+    @GameTest(template = REGION)
+    public static void appliedEnergisticsBlockActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("ae2")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, MINING_THEMES, "ae2", 8),
+                "with AE2 installed, a real ae2 block (certus quartz) must be placed in a mining island");
+        helper.succeed();
+    }
+
+    /** Iron's Spells mithril ore (+ deepslate variant), referenced by the base rocky/ancient themes, lands in a mining island. */
+    @GameTest(template = REGION)
+    public static void ironsSpellsOreActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("irons_spellbooks")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, MINING_THEMES, "irons_spellbooks", 8),
+                "with Iron's Spells installed, a real irons_spellbooks mithril ore block must be placed in a mining island");
+        helper.succeed();
+    }
+
+    /** Quark stones/geodes (limestone/jasper/shale/corundum/myalite) land in a mining island. */
+    @GameTest(template = REGION)
+    public static void quarkBlockActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("quark")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, MINING_THEMES, "quark", 8),
+                "with Quark installed, a real quark block (stone/geode) must be placed in a mining island");
+        helper.succeed();
+    }
+
+    /** Farmer's Delight wild crops (a ground decoration) land on a surface tier. */
+    @GameTest(template = REGION)
+    public static void farmersDelightCropActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("farmersdelight")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, SURFACE_THEMES, "farmersdelight", 10),
+                "with Farmer's Delight installed, a real farmersdelight wild-crop block must be placed on a surface island");
+        helper.succeed();
+    }
+
+    /** Oh The Biomes We've Gone flowers (a ground decoration) land on a surface tier. */
+    @GameTest(template = REGION)
+    public static void biomesWeveGoneFlowerActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("biomeswevegone")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, SURFACE_THEMES, "biomeswevegone", 10),
+                "with BWG installed, a real biomeswevegone flower block must be placed on a surface island");
+        helper.succeed();
+    }
+
     /** SIGNOFFPLAN B3 — the {@code canAbsorb} superset-merge + Part-2 band order on the Rocky tiers. The mod-override
      *  snowy bands (Quark / IE / AE2) list only the vanilla snowy biomes; the base snowy band also folds in
      *  {@code biomeswevegone:howling_peaks}. Each override must MERGE into that superset base band — keeping the base
