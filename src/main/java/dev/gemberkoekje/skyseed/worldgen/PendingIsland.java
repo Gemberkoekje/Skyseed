@@ -3,7 +3,7 @@ package dev.gemberkoekje.skyseed.worldgen;
 import net.minecraft.core.BlockPos;
 
 /**
- * A resumable descriptor for an in-progress island grow (engineering-debt 5.2 — see {@code CRASHRESUMEPLAN.md}). It
+ * A resumable descriptor for an in-progress island grow (engineering-debt 5.2 — see {@code PLANOFPLANS.md}). It
  * carries the deterministic re-plan <em>inputs</em> — dimension, the RESOLVED theme id, the chosen centre (which keys
  * the plan RNG as {@code worldSeed ^ centre}), and the debug forced-biome + {@link DebugForce} flags — plus the live
  * <em>progress</em> indices. So after a hard crash mid-grow, {@code CrashRecovery} can re-plan the identical island and

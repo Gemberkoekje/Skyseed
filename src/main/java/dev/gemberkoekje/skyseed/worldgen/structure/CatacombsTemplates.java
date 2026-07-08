@@ -37,7 +37,7 @@ import java.util.Map;
  * descends — so it must sit down here, not spawn at the surface like a theme mob-pack would), flanked by two animated
  * {@code cursed_armor_stand} honour guards. The mod's necromancer + cultists guard the surface mouth via the theme
  * {@code mobs} pack. All inert-safe: unknown ids simply don't spawn, the crypt still builds. All blocks are vanilla →
- * ships in the base mod. Centred by its central anchor. See {@code IRONSCONTENTGAPPLAN.md}.
+ * ships in the base mod. Centred by its central anchor. See {@code PLANOFPLANS.md}.
  *
  * <p>Geometry: 21×21 footprint (anchor at the centre {@link #MID}). Boss floor y0, ossuary floor y7, antechamber floor
  * y12, mausoleum floor y16 = {@link #SURFACE_Y}; the host rare {@code sink}s it 16 so the mouth sits at the surface.

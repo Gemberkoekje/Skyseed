@@ -27,7 +27,7 @@ import java.util.Map;
  * to the corner ladder; the middle floor is an <b>enclosed</b> room with the pillager spawner + a
  * {@code chests/pillager_outpost} chest, so spawned pillagers can't fall off the island; the top is an open watch
  * platform under a pitched roof. The camp apron carries tents, a target, a campfire and a banner. See
- * {@code SKYSTRUCTURESPLAN.md}.
+ * {@code PLANOFPLANS.md}.
  */
 public final class OutpostTemplates {
     private OutpostTemplates() {}
@@ -89,7 +89,7 @@ public final class OutpostTemplates {
 
         // A supply chest in a base corner, beside the golem cage. The End-chapter outpost relic is gated to this
         // pillager-outpost table, so a second chest (with the watch-room one) gives the relic two rolls per outpost —
-        // a lone chest left it tied for the rarest relic to find (see SKYENDPLAN Phase 1).
+        // a lone chest left it tied for the rarest relic to find (see PLANOFPLANS.md).
         m.put(new BlockPos(4, 1, 8), Blocks.CHEST.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST));
         bes.put(new BlockPos(4, 1, 8), lootChest("minecraft:chests/pillager_outpost"));
 

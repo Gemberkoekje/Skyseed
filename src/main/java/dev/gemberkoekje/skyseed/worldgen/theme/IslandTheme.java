@@ -15,14 +15,14 @@ import java.util.Optional;
  * This codec is the keystone (README → Configuration) — recipes, the {@code skyseed:theme} component, and the
  * generator all key off the same theme ids. Loaded as the {@code skyseed:theme} datapack registry.
  * {@code jigsaw} optionally assembles a building (or cluster) on the surface from a jigsaw template pool,
- * like a vanilla village — e.g. a villager island's cottage — see {@code SKYVILLAGESPLAN.md}.
+ * like a vanilla village — e.g. a villager island's cottage — see {@code PLANOFPLANS.md}.
  * {@code animals} optionally rolls one weighted pack of farm animals into the jigsaw enclosure's centre,
- * for the dedicated Animal Islands — see {@code SKYANIMALSPLAN.md}.
+ * for the dedicated Animal Islands — see {@code PLANOFPLANS.md}.
  * {@code rare_structures} optionally lets a chance-gated structure (igloo, haunted cottage, flooded ruin)
- * germinate in place of the usual island — see {@code SKYSTRUCTURESPLAN.md}.
+ * germinate in place of the usual island — see {@code PLANOFPLANS.md}.
  * {@code dimensions} declares which dimensions the <em>base</em> config is an implementation for (default
  * {@code [minecraft:overworld]}). A seed thrown in a dimension that is neither in {@code dimensions} nor covered by
- * a dimension-keyed {@link BiomeOverride} fizzles instead of growing the foreign base form — see SKYNETHERPLAN.
+ * a dimension-keyed {@link BiomeOverride} fizzles instead of growing the foreign base form — see PLANOFPLANS.md.
  */
 public record IslandTheme(Shape shape, Palette palette, List<OreEntry> ores, List<Variant> variants,
                           List<BiomeOverride> biomeOverrides, Optional<Pond> pond, List<MobEntry> mobs,
@@ -58,7 +58,7 @@ public record IslandTheme(Shape shape, Palette palette, List<OreEntry> ores, Lis
             Codec.STRING.listOf().optionalFieldOf("dimensions", List.of("minecraft:overworld")).forGetter(IslandTheme::dimensions),
             // If present, germinating this island also grows the named theme at the vanilla 8:1 dimension-linked
             // coordinate in the other dimension (overworld <-> nether). The Ruined Portal names itself — see
-            // SKYNETHERPLAN. (RareStructure has the same field, so a rolled ruined portal on a big island pairs too.)
+            // PLANOFPLANS.md. (RareStructure has the same field, so a rolled ruined portal on a big island pairs too.)
             Id.CODEC.optionalFieldOf("twin").forGetter(IslandTheme::twin),
             // Optional "way down": a ladder shaft (or, rarely, a water column) punched through the island centre to a
             // landing far below, so you can reach mining level without bridging out. See LadderShaft / ShaftPlanner.

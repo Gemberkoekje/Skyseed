@@ -30,7 +30,7 @@ import java.util.Map;
  *   <li>{@code dungeon/lair} — the same box with an open stepped stairwell down to a door, plus a few broken
  *       ruin stubs around the mouth, for the dedicated Dungeon island.</li>
  * </ul>
- * See {@code SKYSTRUCTURESPLAN.md}.
+ * See {@code PLANOFPLANS.md}.
  */
 public final class DungeonTemplates {
     private DungeonTemplates() {}

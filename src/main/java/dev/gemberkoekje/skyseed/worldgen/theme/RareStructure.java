@@ -31,7 +31,7 @@ import java.util.Optional;
  * out before any RNG (inert-without-the-mod), so a Create/AE2 build can be listed on a plain terrain theme yet stay
  * byte-identical without its mod. {@code explorable} (default true) — set false on a rewardless filler build to bar
  * it from the Explore seed's guaranteed pick (D3) while it still shows as an ordinary 5% surprise. See
- * {@code VARIETYSTRUCTUREPLAN.md} / {@code SKYSTRUCTURESPLAN.md}.
+ * {@code VARIETYSTRUCTUREPLAN.md}.
  */
 public record RareStructure(float chance, int weight, JigsawConfig jigsaw, List<AnimalPack> mobs,
                             boolean suppressPond, List<String> biomes, Optional<Id> twin, Optional<String> dimension,

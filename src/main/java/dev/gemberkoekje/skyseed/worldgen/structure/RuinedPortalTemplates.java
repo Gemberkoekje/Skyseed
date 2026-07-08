@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * A ruined Nether portal scene: a broken obsidian frame (some blocks crying obsidian, others missing) over
  * a scorched netherrack-and-gold patch, with a loot chest on the vanilla {@code minecraft:chests/ruined_portal}
- * table. The reward is crying obsidian — otherwise unobtainable in skyblock. See {@code SKYSTRUCTURESPLAN.md}.
+ * table. The reward is crying obsidian — otherwise unobtainable in skyblock. See {@code PLANOFPLANS.md}.
  */
 public final class RuinedPortalTemplates {
     private RuinedPortalTemplates() {}
@@ -80,7 +80,7 @@ public final class RuinedPortalTemplates {
     /**
      * The Nether twin: the same repairable 4×5 frame, but <em>unfinished and empty</em> — no loot chest and no gold
      * block, just scorched netherrack and a walled-in lava dribble on a small netherrack island. The "goodies" live
-     * only on the Overworld side; this is the free linked frame at the divided coordinate (see SKYNETHERPLAN). Picked
+     * only on the Overworld side; this is the free linked frame at the divided coordinate (see PLANOFPLANS.md). Picked
      * automatically in the Nether via the {@code skyseed:ruined_portal/portal_nether} dimension-variant pool.
      */
     private static Built portalNether() {

@@ -17,7 +17,7 @@ import java.util.List;
  * rotate with the piece), and this pass scans the assembled structure and swaps each marker for its real trap
  * block with full block updates (so it validates support and connects). A hook's facing is taken from the
  * adjacent wire marker. This is what gives the Desert Temple plate (over hidden TNT) and the Jungle Temple
- * tripwire → dispenser their teeth back. See {@code SKYSTRUCTURESPLAN.md}.
+ * tripwire → dispenser their teeth back. See {@code PLANOFPLANS.md}.
  */
 public final class Traps {
     private Traps() {}

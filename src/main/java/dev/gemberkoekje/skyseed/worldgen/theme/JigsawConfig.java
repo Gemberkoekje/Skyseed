@@ -30,7 +30,7 @@ import java.util.Optional;
  * and an empty {@code capFiller} drops the surplus instead. Finally {@code centerpiece} is an optional block stamped
  * at the very centre of the assembled structure (at the origin — the centre of the start piece's floor, where its
  * lantern sits), with any centre guard golem posted a couple of blocks aside: the Village Center's anvil capstone.
- * See {@code SKYVILLAGESPLAN.md} / {@code SKYJIGSAWPLAN.md}.
+ * See {@code PLANOFPLANS.md}.
  */
 public record JigsawConfig(Id pool, Id target, int depth, int pad, int ironGolems,
                            int sink, int reach, String capPrefix, int capCount, int capMin, String capFiller,

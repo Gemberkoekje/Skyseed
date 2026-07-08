@@ -18,7 +18,7 @@ import java.util.Map;
  * Trail Ruins: a small buried archaeology site — a mud-brick floor under a gravel layer salted with
  * {@code suspicious_gravel} (brushable, the vanilla {@code archaeology/trail_ruins_*} loot — pottery sherds and
  * friends), low broken walls, and a few fragments poking up through the surface as the tell. Sunk a few blocks
- * (theme {@code sink}) so you spot the fragments, dig in, and brush out the sherds. See {@code SKYSTRUCTURESPLAN.md}.
+ * (theme {@code sink}) so you spot the fragments, dig in, and brush out the sherds. See {@code PLANOFPLANS.md}.
  */
 public final class TrailRuinsTemplates {
     private TrailRuinsTemplates() {}

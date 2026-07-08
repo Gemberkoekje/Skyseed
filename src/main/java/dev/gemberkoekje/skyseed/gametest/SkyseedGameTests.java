@@ -69,7 +69,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Behavioural guard rail for the generation + structure pipeline (see {@code codereview.md}). These run on the
+ * Behavioural guard rail for the generation + structure pipeline (see {@code PLANOFPLANS.md}). These run on the
  * {@code gameTestServer} run (or {@code /test runall}) with a live server, so {@link IslandGenerator#planIsland}
  * has the registry + biome access it needs. They assert invariants — not exact byte output — so they survive
  * refactors (the {@code IslandGenerator} split, the structure-template de-duplication) while still catching a

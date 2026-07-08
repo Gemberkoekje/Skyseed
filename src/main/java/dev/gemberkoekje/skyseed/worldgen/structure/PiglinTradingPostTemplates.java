@@ -17,7 +17,7 @@ import java.util.Map;
  * The Piglin Trading Post — the Nether's "village". A single blackstone hall: an open-top colonnade (walls with
  * window arches and doorways, rafter beams and hanging lanterns overhead) around a central gold "trade pillar", with
  * gilded-blackstone accents and two bastion loot chests. The open top lets the theme's piglins spawn on the floor
- * inside; drop a gold ingot near one and it barters (vanilla behaviour). See SKYNETHERPLAN.
+ * inside; drop a gold ingot near one and it barters (vanilla behaviour). See PLANOFPLANS.md.
  */
 public final class PiglinTradingPostTemplates {
     private PiglinTradingPostTemplates() {}

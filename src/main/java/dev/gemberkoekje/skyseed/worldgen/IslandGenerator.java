@@ -631,7 +631,7 @@ public final class IslandGenerator {
      * Whether {@code theme} can grow an island in dimension {@code dim} at {@code biome}/{@code y}: true if the base
      * config is declared for {@code dim}, or a dimension-keyed override for {@code dim} matches here. False means the
      * seed must <em>fizzle</em> — it has no implementation for this dimension and must not fall back to the foreign
-     * base form (e.g. an overworld seed thrown in the Nether). See SKYNETHERPLAN and {@code IslandSeedEntity}.
+     * base form (e.g. an overworld seed thrown in the Nether). See PLANOFPLANS.md and {@code IslandSeedEntity}.
      */
     public static boolean formValidFor(IslandTheme theme, Holder<Biome> biome, int y, String dim) {
         if (theme.fizzlesIn(biome)) {
@@ -647,7 +647,7 @@ public final class IslandGenerator {
      * In the Nether, prefer a {@code <pool>_nether} variant of a theme's jigsaw pool if one is registered — so e.g.
      * the Ruined Portal places its no-goodies Nether frame ({@code skyseed:ruined_portal/portal_nether}) instead of
      * the Overworld treasure version. A general convention: any structure can ship a Nether variant by providing the
-     * suffixed template pool. See SKYNETHERPLAN (Ruined Portal twins).
+     * suffixed template pool. See PLANOFPLANS.md (Ruined Portal twins).
      */
     private static JigsawConfig dimensionVariant(ServerLevel level, JigsawConfig jc) {
         if (level.dimension() != Level.NETHER) {

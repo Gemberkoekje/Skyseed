@@ -17,7 +17,7 @@ import java.util.stream.Stream;
  * matches. A match requires the biome to be in {@code biomes} (empty = any biome) AND the germination
  * Y to be within {@code min_y}..{@code max_y} (each optional) AND, when {@code dimension} is set, the
  * germination dimension to equal it (e.g. {@code minecraft:the_nether} — this is how an overworld seed
- * adapts to its Nether form, see SKYNETHERPLAN). Every other field is optional and, when present, replaces
+ * adapts to its Nether form, see PLANOFPLANS.md). Every other field is optional and, when present, replaces
  * the base theme's corresponding field for that island — including {@code jigsaw}, which swaps the whole
  * jigsaw build (a desert biome can thus get its own sand/sandstone trade-post pool). First matching override wins.
  */
