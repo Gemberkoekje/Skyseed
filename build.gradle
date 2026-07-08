@@ -336,6 +336,26 @@ repositories {
     // Add here additional repositories if required by some of the dependencies below.
     maven { url = "https://maven.blamejared.com" } // Patchouli (guide book)
     maven { url = "https://dl.cloudsmith.io/public/klikli-dev/mods/maven/" } // Modonomicon (guide book)
+    // Only for the opt-in content-mod integration tests (`-Pwith<Mod>` / `-PwithContentMods`, 1.21.1 only) — added only
+    // then so a normal build never hits these hosts. blamejared (above) already covers Immersive Engineering. Scoped
+    // repos (cursemaven / modmaven / cloudsmith) use content{} filters so they only answer for their own group.
+    def anyContent = mcv == "1.21.1" && ['withContentMods', 'withCreate', 'withImmersiveEngineering',
+            'withMysticalAgriculture', 'withAe2', 'withFarmersDelight', 'withIronsSpells', 'withQuark', 'withBwg']
+            .any { project.hasProperty(it) }
+    if (anyContent) {
+        maven { url = "https://maven.createmod.net" }                          // Create, Ponder, Flywheel
+        maven { url = "https://maven.ithundxr.dev/snapshots" }                 // Registrate
+        maven { url = "https://maven.blakesmods.com" }                        // Mystical Agriculture + Cucumber
+        maven { url = "https://modmaven.dev"; content { includeGroup "org.appliedenergistics" } } // AE2 + GuideME
+        maven { url = "https://cursemaven.com"; content { includeGroup "curse.maven" } } // FD, Quark/Zeta/Biolith, TerraBlender (by file id)
+        maven { url = "https://code.redspace.io/releases" }                   // Iron's Spells + irons_lib
+        maven { url = "https://code.redspace.io/snapshots" }                  // irons_lib (SNAPSHOT)
+        maven { url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"; content { includeGroup "software.bernie.geckolib" } } // GeckoLib
+        maven { url = "https://maven.kosmx.dev/" }                            // Player Animation Library (Iron's Spells)
+        maven { url = "https://maven.theillusivec4.top" }                     // Curios (Iron's Spells)
+        maven { url = "https://maven.jt-dev.tech/releases" }                  // BWG + CorgiLib + Oh The Trees You'll Grow
+        mavenCentral()                                                        // AE2/GuideME + assorted library fallbacks
+    }
 }
 
 base {
@@ -429,21 +449,85 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
+// The optional guide-backend mods (Patchouli + Modonomicon) are on the dev runtime classpath by DEFAULT, so `runClient`
+// shows the rich illustrated Almanac and the gametests exercise the Modonomicon/Patchouli path. Pass `-PnoOptionalDeps`
+// to STRIP them from localRuntime (compileOnly stays — the mod still compiles and the built jar is byte-identical): the
+// mod then loads and generates stand-alone, which is how we verify the "works with no optional mod installed" contract —
+// the SkyseedGuide vanilla written-book fallback and the inert-without-the-mod data. The gametest suites branch on
+// ModList.isLoaded, so `guideBookMatchesInstalledBackends` asserts the rich book with the flag off and the vanilla book
+// with it on. CI runs the suite BOTH ways (see .github/workflows/build.yml); usage is in README "Building & running".
+def includeOptionalRuntimeDeps = !project.hasProperty('noOptionalDeps')
+
 dependencies {
     // Patchouli — OPTIONAL: it provides the rich illustrated guide book. We compile against it and load it in
     // dev for testing, but the published mod does not require it (without Patchouli the guide is a plain
     // vanilla written book). compileOnly + localRuntime = present here, not forced on dependents. Per-node: skipped
     // for a node with no published Patchouli build (then PatchouliCompat needs a //? directive — Stage 2 work).
+    // The localRuntime side is also skipped under -PnoOptionalDeps (stand-alone test run — see includeOptionalRuntimeDeps).
     if (project.hasProperty("patchouli_${mcv}")) {
         compileOnly "vazkii.patchouli:Patchouli:${property("patchouli_${mcv}")}"
-        localRuntime "vazkii.patchouli:Patchouli:${property("patchouli_${mcv}")}"
+        if (includeOptionalRuntimeDeps) localRuntime "vazkii.patchouli:Patchouli:${property("patchouli_${mcv}")}"
     }
     // Modonomicon — OPTIONAL, same compileOnly + localRuntime pattern. The PRIMARY guide backend on every node
     // (preferred over Patchouli — see CHANGELOG_26.1.md); published for both 1.21.1 and 26.1.2. transitive=false:
     // we only need its API to compile + the mod present at dev runtime, not its dependency graph.
     if (project.hasProperty("modonomicon_${mcv}")) {
         compileOnly("com.klikli_dev:modonomicon-${mcv}-neoforge:${property("modonomicon_${mcv}")}") { transitive = false }
-        localRuntime("com.klikli_dev:modonomicon-${mcv}-neoforge:${property("modonomicon_${mcv}")}") { transitive = false }
+        if (includeOptionalRuntimeDeps) localRuntime("com.klikli_dev:modonomicon-${mcv}-neoforge:${property("modonomicon_${mcv}")}") { transitive = false }
+    }
+    // --- Opt-in content-mod integration (1.21.1 only — none of these are published for 26.1.2). Each mod loads the REAL
+    // mod + its required runtime deps behind a `-Pwith<Mod>` flag (or `-PwithContentMods` for all), so the *ActuallyPlaces
+    // gametests can assert real block placement (vs. the resolved-data *CompatTargets* tests). Runtime-only — Skyseed's
+    // compat is data-driven + reflective (compat/Lookup) and compiles against none of them. Coordinates verified per mod
+    // (MODPLACEMENTTESTPLAN.md); they drift with mod releases — bump if a content-integration matrix leg 404s. Most of
+    // these publish no transitive POM metadata, so every required library is listed explicitly. ---
+    // Iron's Spells + BWG are deferred (they fail at mod load — see MODPLACEMENTTESTPLAN.md), so the -PwithContentMods
+    // umbrella must NOT pull them in (it would crash the whole run before any test executes); they stay opt-in only via
+    // their own -Pwith<Mod> flag for local diagnosis. Drop them from this set once their library graphs are pinned.
+    def deferredFromUmbrella = ['withIronsSpells', 'withBwg'] as Set
+    def wantContent = { String flag -> mcv == "1.21.1" && ((project.hasProperty('withContentMods') && !deferredFromUmbrella.contains(flag)) || project.hasProperty(flag)) }
+    if (wantContent('withCreate')) {
+        // Create wiki "Depending on Create / neoforge-1.21.1": slim + transitive=false, runtime deps supplied explicitly.
+        localRuntime("com.simibubi.create:create-${mcv}:${property("create_${mcv}")}:slim") { transitive = false }
+        localRuntime "net.createmod.ponder:ponder-neoforge:${property("ponder_${mcv}")}+mc${mcv}"
+        localRuntime "dev.engine-room.flywheel:flywheel-neoforge-${mcv}:${property("flywheel_${mcv}")}"
+        localRuntime "com.tterrag.registrate:Registrate:${property("registrate_${mcv}")}"
+    }
+    if (wantContent('withImmersiveEngineering')) {
+        // The malte0811 libs (BlockModelSplitter, DualCodecs) are Jar-in-Jar'd inside this jar and load via FML JiJ in dev.
+        localRuntime "blusunrize.immersiveengineering:ImmersiveEngineering:1.21.1-12.4.2-194"
+    }
+    if (wantContent('withMysticalAgriculture')) {
+        localRuntime "com.blakebr0.cucumber:Cucumber:1.21.1-8.0.16"                    // required library
+        localRuntime "com.blakebr0.mysticalagriculture:MysticalAgriculture:1.21.1-8.0.27"
+    }
+    if (wantContent('withAe2')) {
+        localRuntime "org.appliedenergistics:appliedenergistics2:19.2.17"
+        localRuntime "org.appliedenergistics:guideme:21.1.1"                           // required, not JiJ'd inside AE2
+    }
+    if (wantContent('withFarmersDelight')) {
+        localRuntime "curse.maven:farmers-delight-398521:8083481"                      // FD 1.3.2 (standalone)
+    }
+    if (wantContent('withIronsSpells')) {
+        localRuntime "io.redspace:irons_spellbooks:1.21.1-3.15.0"                      // 3.15.0 is confirmed-published (3.16.2 may not be on the releases maven)
+        localRuntime "software.bernie.geckolib:geckolib-neoforge-1.21.1:4.8.4"         // required (4.8.4 confirmed on cloudsmith; satisfies Iron's ≥4.7.5.1)
+        localRuntime "dev.kosmx.player-anim:player-animation-lib-forge:2.0.1+1.21.1"   // required
+        localRuntime "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"           // required
+        localRuntime "io.redspace:irons_lib:1.21.1-2.1.0-SNAPSHOT"                     // required (snapshots repo)
+    }
+    if (wantContent('withQuark')) {
+        localRuntime "curse.maven:quark-243121:8342602"                               // Quark 4.1-481 (by file id; blamejared appends a CI suffix)
+        localRuntime "curse.maven:zeta-968868:7980010"                                // required
+        localRuntime "curse.maven:biolith-852512:7074761"                             // required
+    }
+    if (wantContent('withBwg')) {
+        // transitive=false: BWG's POM declares an OPTIONAL SereneSeasons integration (com.github.glitchfiend, JitPack)
+        // that isn't in these repos; its required libs are listed explicitly below, so drop the POM's transitives.
+        localRuntime("net.potionstudios:Oh-The-Biomes-Weve-Gone-NeoForge:2.6.0") { transitive = false }
+        localRuntime "curse.maven:terrablender-neoforge-940057:6054947"               // required (CurseMaven — JitPack build is flaky)
+        localRuntime "dev.corgitaco:Corgilib-NeoForge:1.21.1-5.0.0.9"                 // required
+        localRuntime "dev.corgitaco:Oh-The-Trees-Youll-Grow-neoforge:1.21.1-5.3.2"    // required
+        localRuntime "software.bernie.geckolib:geckolib-neoforge-1.21.1:4.8.4"        // required
     }
 }
 
