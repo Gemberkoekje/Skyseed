@@ -31,10 +31,10 @@ import java.util.Map;
  *
  * <p><b>Flush connections (the overlap fix).</b> The walls sit AT the template's bounding-box edges and the roof does
  * not overhang, so each box edge IS the wall. A wing connector is a floor-level jigsaw block ON that wall edge, with a
- * doorway carved through the wall just above it and <em>nothing behind it</em>; the wing's matching side is left OPEN
- * (no wall) so it butts straight onto the core's wall — one shared wall, no jamb, no stray block on the floor. The
- * illager garrison (a guaranteed evoker → Totem of Undying + vindicators) spawns in the open hall via the theme's
- * {@code animals} pack.
+ * doorway carved through the wall just above it; the wing keeps its own matching -Z wall with a doorway carved to line
+ * up with the core's, and the jigsaw seats the wing's connector against the core so the two walls sit flush edge-to-edge
+ * with aligned openings — no jamb, no stray block on the floor. The illager garrison (a guaranteed evoker → Totem of
+ * Undying + vindicators) spawns in the open hall via the theme's {@code animals} pack.
  */
 public final class WoodlandMansionTemplates {
     private WoodlandMansionTemplates() {}
@@ -172,8 +172,8 @@ public final class WoodlandMansionTemplates {
         m.put(new BlockPos(mid, 0, 0), Blocks.JIGSAW.defaultBlockState().setValue(JigsawBlock.ORIENTATION, FrontAndTop.NORTH_UP));
         bes.put(new BlockPos(mid, 0, 0), jig("skyseed:wing_door", "skyseed:mansion_wall", "minecraft:empty", BIRCH_ID));
         // Glass-pane windows with fence bars on the two side walls.
-        window(m, 0, 2, mid, true);
-        window(m, mx, 2, mid, true);
+        window(m, 0, 2, mid);
+        window(m, mx, 2, mid);
 
         switch (kind) {
             case "library" -> {
@@ -224,12 +224,12 @@ public final class WoodlandMansionTemplates {
         }
         if (windows) {
             for (final int wx : new int[]{3, maxX - 3}) {       // windows on the front + back walls
-                window(m, wx, y0 + 1, 0, false);
-                window(m, wx, y0 + 1, maxZ, false);
+                window(m, wx, y0 + 1, 0);
+                window(m, wx, y0 + 1, maxZ);
             }
             for (final int wz : new int[]{3, maxZ - 3}) {       // and the side walls
-                window(m, 0, y0 + 1, wz, true);
-                window(m, maxX, y0 + 1, wz, true);
+                window(m, 0, y0 + 1, wz);
+                window(m, maxX, y0 + 1, wz);
             }
         }
         wallCornice(m, 0, maxX, 0, maxZ, y0 + STOREY - 1);
@@ -253,7 +253,7 @@ public final class WoodlandMansionTemplates {
     }
 
     /** A 1×2 glass-pane window with a dark-oak-fence bar below it, in the wall at {@code (x,baseY,z)}. */
-    private static void window(Map<BlockPos, BlockState> m, int x, int baseY, int z, boolean onXWall) {
+    private static void window(Map<BlockPos, BlockState> m, int x, int baseY, int z) {
         m.put(new BlockPos(x, baseY, z), Blocks.DARK_OAK_FENCE.defaultBlockState());
         m.put(new BlockPos(x, baseY + 1, z), GLASS);
     }

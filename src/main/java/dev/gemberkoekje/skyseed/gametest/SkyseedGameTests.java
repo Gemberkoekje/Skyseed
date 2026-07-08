@@ -69,7 +69,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Behavioural guard rail for the generation + structure pipeline (see {@code codereview.md}). These run on the
+ * Behavioural guard rail for the generation + structure pipeline (see {@code PLANOFPLANS.md}). These run on the
  * {@code gameTestServer} run (or {@code /test runall}) with a live server, so {@link IslandGenerator#planIsland}
  * has the registry + biome access it needs. They assert invariants — not exact byte output — so they survive
  * refactors (the {@code IslandGenerator} split, the structure-template de-duplication) while still catching a
@@ -751,7 +751,7 @@ public final class SkyseedGameTests {
     public static void meteorIslandFormsCrater(GameTestHelper helper) {
         final ServerLevel level = helper.getLevel();
         final String[] tiers = {"skyseed:meteorite", "skyseed:meteorite_large", "skyseed:huge_meteorite"};
-        final int[] expectedCoreTier = {0, 1, 2}; // small→1 press / medium→2 distinct / huge→4 (METEORPLAN Phase 3)
+        final int[] expectedCoreTier = {0, 1, 2}; // core_tier per tier: base/large/huge = 0/1/2 (yielding 1/2/4 presses)
         for (int i = 0; i < tiers.length; i++) {
             final String m = tiers[i];
             final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(m));
@@ -3144,8 +3144,15 @@ public final class SkyseedGameTests {
         helper.assertTrue(Math.abs(blocked.blockedX() - center.getX()) <= 3 && Math.abs(blocked.blockedZ() - center.getZ()) <= 3,
                 "the blocked centroid did not point at the obstruction");
 
-        // A player whose body is where the island would place blocks -> buried, must not fit.
-        helper.assertTrue(!IslandPlacement.check(island, java.util.List.of(Vec3.atCenterOf(center)), (x, y, z) -> false).ok(),
+        // A player whose body is where the island would place a block -> buried, must not fit. Use an actual planned
+        // block on the germination centre column (falling back to any planned block) rather than the exact centre
+        // voxel: plan() reads the germination Y + biome from the gametest structure's position, which vary per run, so
+        // a block doesn't always land at the precise centre voxel — which flaked this check. Any block the island
+        // plants is a valid "block on the player".
+        final BlockPos onPlayer = island.blocks().stream().map(IslandPlan.BlockPlacement::pos)
+                .filter(p -> p.getX() == center.getX() && p.getZ() == center.getZ())
+                .findFirst().orElse(island.blocks().get(0).pos());
+        helper.assertTrue(!IslandPlacement.check(island, java.util.List.of(Vec3.atCenterOf(onPlayer)), (x, y, z) -> false).ok(),
                 "germinating with a block on the player was not rejected");
         helper.succeed();
     }
@@ -5826,9 +5833,9 @@ public final class SkyseedGameTests {
 
     @GameTest(template = REGION)
     public static void trialDescentDropsALevel(GameTestHelper helper) {
-        // Multi-story: the descent's entrance (hall_end) sits ABOVE its exit (hall) — so the jigsaw seats the next
-        // passage a storey lower — and the exit redraws the halls pool so the warren continues downward. (#61: it's now
-        // a PASSAGE in the halls pool, not a chamber connector.)
+        // Multi-story: the descent's entrance (hall_end) sits ABOVE its exit (chamber_edge) — so the jigsaw seats the
+        // next piece a storey lower — and the exit redraws the trial_chamber/rooms pool, so a staircase always lands in
+        // a trial room one storey down.
         final ServerLevel level = helper.getLevel();
         final StructureTemplate t = level.getStructureManager().get(skyseed("trial_chamber/descent")).orElseThrow();
         int entranceY = -1, exitY = -1;

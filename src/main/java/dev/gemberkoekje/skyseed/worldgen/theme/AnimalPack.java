@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * One weighted option for an Animal Island's enclosure: when this pack is rolled, every {@link Entry} spawns
  * its {@code adults} + {@code babies} inside the pen. A theme's {@code animals} list holds several packs and
- * exactly one is chosen (e.g. a Pasture rolls cows OR sheep OR pigs). See {@code SKYANIMALSPLAN.md}.
+ * exactly one is chosen (e.g. a Pasture rolls cows OR sheep OR pigs). See {@code PLANOFPLANS.md}.
  */
 public record AnimalPack(int weight, List<Entry> entries) {
     public static final Codec<AnimalPack> CODEC = RecordCodecBuilder.create(i -> i.group(

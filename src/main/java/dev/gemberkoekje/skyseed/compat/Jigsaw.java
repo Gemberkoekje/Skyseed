@@ -214,17 +214,17 @@ public final class Jigsaw {
             return dx * dx + dz * dz;
         }));
         final List<PoolElementStructurePiece> surplus = new ArrayList<>(capped.subList(cap, capped.size()));
-        for (final PoolElementStructurePiece keep : surplus) {
-            final int index = pieces.indexOf(keep);
+        for (final PoolElementStructurePiece drop : surplus) {
+            final int index = pieces.indexOf(drop);
             if (fillerPool == null) {
                 pieces.remove(index);
                 continue;
             }
             // A lot over the void gets the over-void filler set (piers); one on the island gets the normal fields.
-            final Holder<StructureTemplatePool> pool = overVoid(level, keep.getBoundingBox()) ? voidFillerPool : fillerPool;
+            final Holder<StructureTemplatePool> pool = overVoid(level, drop.getBoundingBox()) ? voidFillerPool : fillerPool;
             final StructurePoolElement filler = pool.value().getRandomTemplate(random);
-            final BlockPos pos = keep.getPosition();
-            final Rotation rotation = keep.getRotation();
+            final BlockPos pos = drop.getPosition();
+            final Rotation rotation = drop.getRotation();
             pieces.set(index, new PoolElementStructurePiece(templates, filler, pos, filler.getGroundLevelDelta(),
                     rotation, filler.getBoundingBox(templates, pos, rotation), JigsawStructure.DEFAULT_LIQUID_SETTINGS));
         }

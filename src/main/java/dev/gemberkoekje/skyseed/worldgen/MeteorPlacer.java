@@ -50,6 +50,10 @@ final class MeteorPlacer {
         final int gr2 = globeR * globeR;
 
         final Set<Long> breached = new HashSet<>();
+        // Whether the sky-stone globe will actually be placed (step 2, AE2 only). When it won't, the globe-shaped region
+        // must NOT be preserved during the carve — otherwise those cells are neither carved (here) nor filled (step 2),
+        // leaving an uncarved terrain mound at the crater's centre. With no globe the whole bowl carves as a plain crater.
+        final boolean placesGlobe = Lookup.hasBlock(SKY_STONE);
 
         // 1. Carve a paraboloid bowl (deepest at centre) and skin it with scorched rock — everywhere the globe won't fill.
         for (int dx = -craterR; dx <= craterR; dx++) {
@@ -64,10 +68,10 @@ final class MeteorPlacer {
                 final int floorY = colTop - bowlDepth;
                 for (int y = colTop; y > floorY; y--) {
                     final BlockPos p = new BlockPos(center.getX() + dx, y, center.getZ() + dz);
-                    if (!insideGlobe(p, globeCenter, gr2)) blockMap.remove(p);
+                    if (!placesGlobe || !insideGlobe(p, globeCenter, gr2)) blockMap.remove(p);
                 }
                 final BlockPos floor = new BlockPos(center.getX() + dx, floorY, center.getZ() + dz);
-                if (!insideGlobe(floor, globeCenter, gr2) && blockMap.containsKey(floor)) {
+                if ((!placesGlobe || !insideGlobe(floor, globeCenter, gr2)) && blockMap.containsKey(floor)) {
                     blockMap.put(floor, scorched(random));
                 }
                 breached.add(key(dx, dz)); // dressed as crater — suppress decoration on these columns
@@ -76,7 +80,7 @@ final class MeteorPlacer {
 
         // 2. The sky-stone globe + the Meteorite Core at its centre (inert-safe: the globe skips without AE2, so the
         //    core — placed only here — never appears without AE2 either; a wild meteor passes coreTier -1: no core).
-        if (Lookup.hasBlock(SKY_STONE)) {
+        if (placesGlobe) {
             final BlockState skyStone = Lookup.blockState(SKY_STONE);
             for (int dx = -globeR; dx <= globeR; dx++) {
                 for (int dy = -globeR; dy <= globeR; dy++) {

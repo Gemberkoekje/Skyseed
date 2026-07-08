@@ -2409,8 +2409,15 @@ public final class SkyseedTests {
         helper.assertTrue(Math.abs(blocked.blockedX() - center.getX()) <= 3 && Math.abs(blocked.blockedZ() - center.getZ()) <= 3,
                 "the blocked centroid did not point at the obstruction");
 
-        // A player whose body is where the island would place blocks -> buried, must not fit.
-        helper.assertTrue(!IslandPlacement.check(island, java.util.List.of(Vec3.atCenterOf(center)), (x, y, z) -> false).ok(),
+        // A player whose body is where the island would place a block -> buried, must not fit. Use an actual planned
+        // block on the germination centre column (falling back to any planned block) rather than the exact centre
+        // voxel: plan() reads the germination Y + biome from the gametest structure's position, which vary per run, so
+        // a block doesn't always land at the precise centre voxel — which flaked this check. Any block the island
+        // plants is a valid "block on the player".
+        final BlockPos onPlayer = island.blocks().stream().map(IslandPlan.BlockPlacement::pos)
+                .filter(p -> p.getX() == center.getX() && p.getZ() == center.getZ())
+                .findFirst().orElse(island.blocks().get(0).pos());
+        helper.assertTrue(!IslandPlacement.check(island, java.util.List.of(Vec3.atCenterOf(onPlayer)), (x, y, z) -> false).ok(),
                 "germinating with a block on the player was not rejected");
         helper.succeed();
     }
@@ -4897,7 +4904,7 @@ public final class SkyseedTests {
     static void meteorIslandFormsCrater(GameTestHelper helper) {
         final ServerLevel level = helper.getLevel();
         final String[] tiers = {"skyseed:meteorite", "skyseed:meteorite_large", "skyseed:huge_meteorite"};
-        final int[] expectedCoreTier = {0, 1, 2}; // small→1 press / medium→2 distinct / huge→4 (METEORPLAN Phase 3)
+        final int[] expectedCoreTier = {0, 1, 2}; // core_tier per tier: base/large/huge = 0/1/2 (yielding 1/2/4 presses)
         for (int i = 0; i < tiers.length; i++) {
             final String m = tiers[i];
             final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(m));

@@ -16,8 +16,8 @@ import java.util.Map;
 /**
  * The <b>Dragon Monument</b> (SKYENDPLAN Phase 6 — the capstone trophy). What the Dragon Trophy Seed grows: a grand
  * stepped end-stone-brick dais carrying a central purpur-capped pedestal for the <b>dragon egg</b> (left empty — the
- * player sets their one earned egg on it), flanked by end rods, with four obsidian obelisks crowned by inward-facing
- * <b>dragon heads</b> guarding it. A set-piece only — it never touches the fixed dragon fight or {@code EndDragonFight}.
+ * player sets their one earned egg on it), flanked by end rods, with four obsidian obelisks crowned by <b>dragon
+ * heads</b> that face inward toward it. A set-piece only — it never touches the fixed dragon fight or {@code EndDragonFight}.
  */
 public final class DragonTrophyTemplates {
     private DragonTrophyTemplates() {}
@@ -45,8 +45,8 @@ public final class DragonTrophyTemplates {
         m.put(new BlockPos(5, 5, 5), PURPUR);
         for (final int[] r : new int[][]{{4, 5}, {6, 5}, {5, 4}, {5, 6}}) m.put(new BlockPos(r[0], 4, r[1]), ROD);
 
-        // Four obsidian obelisks at the top-dais corners, each crowned by a dragon head facing the egg.
-        final int[][] corners = {{2, 2, 10}, {8, 2, 6}, {2, 8, 14}, {8, 8, 2}};   // x, z, dragon-head rotation toward centre
+        // Four obsidian obelisks at the top-dais corners, each crowned by a dragon head facing the egg at centre (5,5).
+        final int[][] corners = {{2, 2, 14}, {8, 2, 2}, {2, 8, 10}, {8, 8, 6}};   // x, z, ROTATION_16 toward centre
         for (final int[] c : corners) {
             for (int y = 4; y <= 6; y++) m.put(new BlockPos(c[0], y, c[1]), OBSIDIAN);
             m.put(new BlockPos(c[0], 7, c[1]),

@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * The swamp witch hut: a small spruce cabin with a water cauldron, a crafting table and a potted red
  * mushroom — the witch's brewing aesthetic. No chest; the witch (spawned via the theme's {@code animals}
- * pack, alongside a cat) is the reward when killed. See {@code SKYSTRUCTURESPLAN.md}.
+ * pack, alongside a cat) is the reward when killed. See {@code PLANOFPLANS.md}.
  */
 public final class WitchHutTemplates {
     private WitchHutTemplates() {}

@@ -204,7 +204,7 @@ public final class CitadelTemplates {
         }
     }
 
-    // ===================================================================================================== SPIRE (y24-30)
+    // ===================================================================================================== SPIRE (y25-31)
     private static void spire(Map<BlockPos, BlockState> m) {
         final int[] r = {4, 4, 3, 2, 1, 0}; // radius by course above y24
         for (int i = 0; i < r.length; i++) {

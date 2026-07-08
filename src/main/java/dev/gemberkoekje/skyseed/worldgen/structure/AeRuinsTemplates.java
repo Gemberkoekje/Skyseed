@@ -25,7 +25,7 @@ import java.util.Map;
  *
  * <p><b>D4 gate-safety — the sharpest in the catalog.</b> AE2's endgame is gated on <em>sky stone</em> (→ the ME
  * Controller) and the four <em>inscriber presses</em> (→ processors), both effectively meteorite-island-only (see
- * {@code AE2PLAN.md} / [[skyseed-ae2-curated-set]]). So this build places <b>NO</b> {@code sky_stone_*} block (harvestable
+ * {@code PLANOFPLANS.md} / [[skyseed-ae2-curated-set]]). So this build places <b>NO</b> {@code sky_stone_*} block (harvestable
  * ⇒ sky stone ⇒ a Controller, breaking the gate), <b>NO</b> {@code ae2:controller}, and its loot carries <b>NO</b>
  * press/processor/sky-stone. It is built only from <em>certus-quartz / fluix</em> cubes (mid-game, renewable, not gating)
  * and shows an <em>empty</em> controller pit — the valuable core ripped out — the literal "all the interesting bits are

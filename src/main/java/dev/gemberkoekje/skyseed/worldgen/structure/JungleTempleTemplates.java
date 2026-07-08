@@ -24,7 +24,7 @@ import java.util.Map;
  * chests ({@code minecraft:chests/jungle_temple}) and an arrow dispenser
  * ({@code minecraft:chests/jungle_temple_dispenser}) hide inside, rigged to a tripwire — the hooks/string are
  * baked as wool markers and swapped to real tripwire by {@link Traps} after assembly (fragile blocks pop on
- * the jigsaw path); trip it and the dispenser fires. See {@code SKYSTRUCTURESPLAN.md}.
+ * the jigsaw path); trip it and the dispenser fires. See {@code PLANOFPLANS.md}.
  */
 public final class JungleTempleTemplates {
     private JungleTempleTemplates() {}

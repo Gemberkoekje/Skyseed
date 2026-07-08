@@ -104,7 +104,7 @@ public final class ModItems {
     public static final Map<String, DeferredItem<IslandSeedItem>> DEBUG_SEEDS = new LinkedHashMap<>();
 
     /**
-     * End-chapter crafting components (the Phase-1 collect-a-thon, see SKYENDPLAN.md): the Portal Frame Shard, the
+     * End-chapter crafting components (the Phase-1 collect-a-thon, see PLANOFPLANS.md): the Portal Frame Shard, the
      * eight structure relics, and the four portal edges. Plain items (not seeds) that combine — shard + 2 relics → an
      * edge, four edges → the End Portal Seed. No {@code skyseeds} tag (they aren't seeds).
      */

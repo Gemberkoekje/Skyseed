@@ -96,7 +96,7 @@ public final class TotemShrineEvents {
     }
 
     /**
-     * A tiny shrine centred on {@code (cx, cz)} whose floor top sits one below {@code spawnY} (the totem rests on it):
+     * A tiny shrine centred on {@code (cx, cz)} whose floor top sits one below {@code totemY} (the totem rests on it):
      * a 3×3 stone-brick platform with a glowing centre, four short corner posts capped with soul lanterns, and a clear
      * centre column for the totem and the collecting player. Everything is lit so nothing spawns on the platform.
      */
