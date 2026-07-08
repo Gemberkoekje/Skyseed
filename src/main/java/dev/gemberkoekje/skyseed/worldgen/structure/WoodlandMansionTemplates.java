@@ -172,8 +172,8 @@ public final class WoodlandMansionTemplates {
         m.put(new BlockPos(mid, 0, 0), Blocks.JIGSAW.defaultBlockState().setValue(JigsawBlock.ORIENTATION, FrontAndTop.NORTH_UP));
         bes.put(new BlockPos(mid, 0, 0), jig("skyseed:wing_door", "skyseed:mansion_wall", "minecraft:empty", BIRCH_ID));
         // Glass-pane windows with fence bars on the two side walls.
-        window(m, 0, 2, mid, true);
-        window(m, mx, 2, mid, true);
+        window(m, 0, 2, mid);
+        window(m, mx, 2, mid);
 
         switch (kind) {
             case "library" -> {
@@ -224,12 +224,12 @@ public final class WoodlandMansionTemplates {
         }
         if (windows) {
             for (final int wx : new int[]{3, maxX - 3}) {       // windows on the front + back walls
-                window(m, wx, y0 + 1, 0, false);
-                window(m, wx, y0 + 1, maxZ, false);
+                window(m, wx, y0 + 1, 0);
+                window(m, wx, y0 + 1, maxZ);
             }
             for (final int wz : new int[]{3, maxZ - 3}) {       // and the side walls
-                window(m, 0, y0 + 1, wz, true);
-                window(m, maxX, y0 + 1, wz, true);
+                window(m, 0, y0 + 1, wz);
+                window(m, maxX, y0 + 1, wz);
             }
         }
         wallCornice(m, 0, maxX, 0, maxZ, y0 + STOREY - 1);
@@ -253,7 +253,7 @@ public final class WoodlandMansionTemplates {
     }
 
     /** A 1×2 glass-pane window with a dark-oak-fence bar below it, in the wall at {@code (x,baseY,z)}. */
-    private static void window(Map<BlockPos, BlockState> m, int x, int baseY, int z, boolean onXWall) {
+    private static void window(Map<BlockPos, BlockState> m, int x, int baseY, int z) {
         m.put(new BlockPos(x, baseY, z), Blocks.DARK_OAK_FENCE.defaultBlockState());
         m.put(new BlockPos(x, baseY + 1, z), GLASS);
     }

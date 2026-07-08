@@ -129,7 +129,7 @@ public final class WarBarrowTemplates {
     /** A ragged ring of gravestones (a raised grave + a headstone with a sloped cap), materials/rotation varied. */
     private static void graveyard(Map<BlockPos, BlockState> m) {
         final int[][] spots = {{MID - 7, MID}, {MID + 7, MID}, {MID, MID - 7}, {MID, MID + 7},
-                {MID - 6, MID - 5}, {MID + 6, MID - 4}, {MID - 5, MID + 6}, {MID + 5, MID + 6}, {MID - 7, MID + 3}};
+                {MID - 5, MID - 5}, {MID + 6, MID - 4}, {MID - 5, MID + 6}, {MID + 5, MID + 6}, {MID - 7, MID + 3}};
         for (final int[] s : spots) {
             graveStone(m, s[0], s[1]);
         }

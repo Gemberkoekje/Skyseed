@@ -512,14 +512,15 @@ public final class GenerationJob {
                 continue;
             }
             final Holder<StructureTemplatePool> pool = Lookup.templatePool(level.registryAccess(), js.pool());
-            final Holder<StructureTemplatePool> fillerPool = (js.capFiller().isEmpty()
-                    || !Lookup.hasTemplatePool(level.registryAccess(), js.capFiller())) ? null
-                    : Lookup.templatePool(level.registryAccess(), js.capFiller());
             if (js.rotation().isPresent()) {
                 // A Ruined-Portal frame: place the single fixed piece at its forced rotation so it faces the same axis
                 // as its cross-dimension twin and the two frames link (PORTALTWINPLAN option B). No cap/child assembly.
                 Jigsaw.placeSinglePiece(level, pool, js.origin(), js.rotation().get());
             } else {
+                // Only placeCapped uses the filler pool; a forced-rotation single piece never does, so resolve it here.
+                final Holder<StructureTemplatePool> fillerPool = (js.capFiller().isEmpty()
+                        || !Lookup.hasTemplatePool(level.registryAccess(), js.capFiller())) ? null
+                        : Lookup.templatePool(level.registryAccess(), js.capFiller());
                 Jigsaw.placeCapped(level, pool, js.target(), js.depth(), js.origin(), false,
                         js.capPrefix(), js.capCount(), fillerPool);
             }
@@ -557,9 +558,9 @@ public final class GenerationJob {
             // A capstone block at the very centre, if the theme set one. The start square's centre tile — its lantern —
             // sits exactly at the origin (the jigsaw seats the floor at origin.y - 1, so the block one above the floor
             // lands at origin), and the anvil replaces it, resting on that floor block so a falling block won't drop.
-            final boolean hasCenterpiece = js.centerpiece().filter(Lookup::hasBlock).isPresent();
-            js.centerpiece().filter(Lookup::hasBlock).ifPresent(cp ->
-                    level.setBlock(js.origin(), Lookup.blockState(cp), 3));
+            final var centerpiece = js.centerpiece().filter(Lookup::hasBlock);
+            final boolean hasCenterpiece = centerpiece.isPresent();
+            centerpiece.ifPresent(cp -> level.setBlock(js.origin(), Lookup.blockState(cp), 3));
             // Guard golems spawn at the centre — unless a centerpiece holds it, in which case post them a couple of
             // blocks aside (the start square is 7 wide) so they stand on the floor beside the capstone, not on it.
             final BlockPos[] guardSpots = {

@@ -147,7 +147,7 @@ public final class CommonRuinsTemplates {
         column(m, 3, 1, 2);
         column(m, 1, 3, 1);
         m.put(new BlockPos(1, 4, 1), Blocks.LANTERN.defaultBlockState()); // a lantern crowns the tallest pillar
-        m.put(new BlockPos(3, 2, 1), Blocks.COBWEB.defaultBlockState());   // strung between the snapped columns
+        m.put(new BlockPos(3, 2, 2), Blocks.COBWEB.defaultBlockState());   // strung between the snapped columns (clear of the column tops)
         m.put(new BlockPos(1, 2, 3), Blocks.COBWEB.defaultBlockState());
 
         // The altar: a mossy plinth, a wall post, a lantern; two lit candles flanking; moss creeping over the apron.
