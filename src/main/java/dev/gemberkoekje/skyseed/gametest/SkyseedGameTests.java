@@ -751,7 +751,7 @@ public final class SkyseedGameTests {
     public static void meteorIslandFormsCrater(GameTestHelper helper) {
         final ServerLevel level = helper.getLevel();
         final String[] tiers = {"skyseed:meteorite", "skyseed:meteorite_large", "skyseed:huge_meteorite"};
-        final int[] expectedCoreTier = {0, 1, 2}; // small→1 press / medium→2 distinct / huge→4 (METEORPLAN Phase 3)
+        final int[] expectedCoreTier = {0, 1, 2}; // core_tier per tier: base/large/huge = 0/1/2 (yielding 1/2/4 presses)
         for (int i = 0; i < tiers.length; i++) {
             final String m = tiers[i];
             final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(m));
@@ -5826,9 +5826,9 @@ public final class SkyseedGameTests {
 
     @GameTest(template = REGION)
     public static void trialDescentDropsALevel(GameTestHelper helper) {
-        // Multi-story: the descent's entrance (hall_end) sits ABOVE its exit (hall) — so the jigsaw seats the next
-        // passage a storey lower — and the exit redraws the halls pool so the warren continues downward. (#61: it's now
-        // a PASSAGE in the halls pool, not a chamber connector.)
+        // Multi-story: the descent's entrance (hall_end) sits ABOVE its exit (chamber_edge) — so the jigsaw seats the
+        // next piece a storey lower — and the exit redraws the trial_chamber/rooms pool, so a staircase always lands in
+        // a trial room one storey down.
         final ServerLevel level = helper.getLevel();
         final StructureTemplate t = level.getStructureManager().get(skyseed("trial_chamber/descent")).orElseThrow();
         int entranceY = -1, exitY = -1;

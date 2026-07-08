@@ -89,7 +89,7 @@ public final class GenerationJob {
     private int treeIndex = 0;
     private int treesPlaced = 0;
     private int scatterIndex = 0;
-    /** Finalization sub-step (0 = structures, 1 = mobs/animals/hives/fluids, 2 = snow + done), spread across ticks. */
+    /** Finalization sub-step (0 = structures, 1 = mobs/animals/hives/crops/fluids, 2 = snow + done), spread across ticks. */
     private int finalizeStep = 0;
     /** Whether this job has force-loaded its region (released again on completion). */
     private boolean chunksForced = false;

@@ -125,26 +125,28 @@ One JSON per theme under `data/<namespace>/skyseed/theme/<id>.json` (the `skysee
 | `jigsaw` | JigsawConfig | — | Assemble a structure on the island from a vanilla template pool |
 | `animals` | AnimalPack[] | `[]` | Weighted farm-animal packs (Animal Islands; rare-structure mobs) |
 | `rare_structures` | RareStructure[] | `[]` | Chance-gated structures that roll in place of / onto the island |
+| `rare_structure_chance` | float | — | Optional single per-seed gate; when present the rare-structure table uses one weighted roll instead of each entry's own `chance` |
 | `lava` | Lava | — | Lava veins + Y-banded contained lava lakes |
 | `dimensions` | string[] | `["minecraft:overworld"]` | Which dimensions the base config implements; a seed thrown into one it doesn't implement (and no dimension-keyed override covers) **fizzles** |
 | `twin` | id | — | Grow this theme at the vanilla 8:1 linked coordinate in the other dimension (the Ruined Portal's cross-dimension twin) |
 | `ladder_shaft` | LadderShaft | — | A ladder shaft from the surface down to a sunk structure (the Trial Chamber's entrance) |
 | `fizzle` | FizzleRule | — | Custom fizzle behaviour for unsupported throws |
 | `caves` | Caves | — | Internal cave carving (the Huge tier's cave systems) |
+| `meteor` | Meteor | — | Impact crater + sky-stone globe + tiered Meteorite Core (the AE2 Meteorite island) |
 
-**Shape** — `radius` `{min,max}` (required) · `rim_noise` float (0.40) · `underside` (`teardrop`) · `top_dome` `{min,max}` (`{1,2}`; raise for peaks).
+**Shape** — `radius` `{min,max}` (required) · `rim_noise` float (0.40) · `underside` (`teardrop`) · `top_dome` `{min,max}` (`{1,2}`; raise for peaks) · `max_under_depth` int (optional; caps how deep the teardrop underside hangs — a wide plateau instead of a bottomless cone) · `cluster_offsets` BlockPos[] (`[]`; stamp the same shape again at each `(x,z)` offset for an archipelago).
 
-**Palette** — `surface`, `fill`, `core` block ids (required) · `fill_depth` int (3) · `surface_scatter` GroundEntry[] (`[]`, mixes blocks into the surface per column) · `fill_bands` block-id[] (`[]`; when set, the body (fill + core) becomes a Y-cycled list of strata — badlands cliffs; core still seeds ores) · `band_thickness` int (2; blocks per band).
+**Palette** — `surface`, `fill`, `core` block ids (required) · `fill_depth` int (3) · `surface_scatter` GroundEntry[] (`[]`, mixes blocks into the surface per column) · `fill_bands` block-id[] (`[]`; when set, the body (fill + core) becomes a Y-cycled list of strata — badlands cliffs; core still seeds ores) · `band_thickness` int (2; blocks per band) · `snow` float (0.0; per-column chance a snow layer is draped over each column's highest block once the island is built — 1.0 caps every column).
 
 **OreEntry** — `block` (required) · `chance` float presence-roll (required) · `count` `{min,max}` veins (required) · `vein_size` `{min,max}` (required) · `depth` (`core` | `deep_core`; deep = lower ~40% of the core). Veins grow favouring face-adjacent steps over diagonals, so patches come out as solid clusters. The Rocky/Ancient tables use `biome_overrides` with `min_y`/`max_y` bands to approximate the vanilla ore-by-depth curve (deep = diamond/redstone/gold/lapis, mid = iron/copper, high = coal/iron).
 
-**Variant** — `weight` int (1) · `name` string · `surface_override` block id · `decoration` { `trees`: TreeEntry[], `ground`: GroundEntry[], `underside`: GroundEntry[] }. `underside` entries hang from each column's bottom face — `pointed_dripstone` and `cave_vines` build multi-block strands; others (spore blossom, hanging roots, …) hang one block. A `ground` entry that resolves to a two-tall plant (dripleaf, pitcher plant, tall flower) places both halves.
+**Variant** — `weight` int (1) · `name` string · `surface_override` / `fill_override` / `core_override` block id (each optional; re-skins that palette layer for the whole body per island) · `snow` float (optional; this variant's per-column snow-cap probability, overriding the palette's) · `decoration` { `trees`: TreeEntry[], `ground`: GroundEntry[], `underside`: GroundEntry[] }. `underside` entries hang from each column's bottom face — `pointed_dripstone` and `cave_vines` build multi-block strands; others (spore blossom, hanging roots, …) hang one block. A `ground` entry that resolves to a two-tall plant (dripleaf, pitcher plant, tall flower) places both halves.
 
 **TreeEntry** — `feature` id (required; a vanilla configured feature, or a built-in hand-built tree: **`skyseed:mangrove`**, **`skyseed:azalea`**) · `tries` int (3) · `spacing` int (3).
 
-**GroundEntry** — `block` id (required) · `chance` float per-column (required).
+**GroundEntry** — `block` id (required) · `chance` float per-column (required) · `grow` `{min,max}` (optional; number of bonemeal applications a placed `BonemealableBlock` receives after the island lands, so a crop varies in growth stage instead of all being age-0 — e.g. the Nether powdery cane).
 
-**Pond** — `block` fluid id (`minecraft:water`) · `radius` int (3) · `depth` int (2) · `chance` float (1.0; how often the water feature is carved at all) · `river` Pond (an alternative river-style feature — when the roll carves water, it's a 50/50 pick between the pond and the river) · `style` string (`"river"` = a meandering walled channel instead of a round pool) · `plants` GroundEntry[] (`[]`; per-column water plants — `lily_pad` floats on the surface, `kelp` fills a column, `tall_seagrass` places both halves, and anything else roots on the floor, waterlogged if it can be). Kept within ≈0.62× the island radius, then a **containment ring** walls every land column touching the water up to the surface (the island's fill/surface block), and the bed/shore are dressed with sand, clay and gravel — all before decoration, so it stays still and never spills off the rim (where the very edge can't be walled, a small waterfall is left as variety).
+**Pond** — `block` fluid id (`minecraft:water`) · `radius` int (3) · `depth` int (2) · `chance` float (1.0; how often the water feature is carved at all) · `river` Pond (an alternative river-style feature — when the roll carves water, it's a 50/50 pick between the pond and the river) · `style` string (`"river"` = a meandering walled channel instead of a round pool) · `plants` GroundEntry[] (`[]`; per-column water plants — `lily_pad` floats on the surface, `kelp` fills a column, `tall_seagrass` places both halves, and anything else roots on the floor, waterlogged if it can be) · `bank` GroundEntry[] (`[]`; shore-ring plants such as sugar cane, placed only where water sits beside its support) · `water_mobs` MobEntry[] (`[]`; mobs spawned submerged in the pool — squid, axolotls, fish, glow squid) · `extent` float (0.5; caps the pond radius as a fraction of the island radius) · `slope` bool (false; a basin-shaped floor that shallows toward the rim) · `contained` bool (false; walls un-backed edges, like a river, so a near-island-filling lake stays hemmed in). Kept within ≈0.62× the island radius, then a **containment ring** walls every land column touching the water up to the surface (the island's fill/surface block), and the bed/shore are dressed with sand, clay and gravel — all before decoration, so it stays still and never spills off the rim (where the very edge can't be walled, a small waterfall is left as variety).
 
 ### Biome overrides
 
@@ -164,6 +166,9 @@ Each entry in `biome_overrides` is conditionally applied on top of the base them
 | `waterfalls` | int | Number of static cascades off the rim |
 | `dimension` | id | Gate the override to one dimension — the Nether/End form of a seed. An override for a *foreign* dimension is a **complete** spec: any field it doesn't set goes neutral/empty, never the overworld base |
 | `fill_bands` | block-id[] | Banded body override (`[]` clears the base's bands) |
+| `snow` | float | Per-column snow-cap probability override |
+| `mobs` | MobEntry[] | Mob-sprinkle override for this biome |
+| `jigsaw` | JigsawConfig | Swap the whole jigsaw build for this biome (e.g. a desert-styled trade post) |
 
 Examples in the shipped themes: Forest over `#minecraft:is_ocean` → lake island + pond + waterfalls; over `mangrove_swamp` → mud + hand-built mangroves; Rocky with `max_y: 8` → deepslate island with diamonds; Rocky with `min_y: 130` *or* a snowy biome → snow-capped peak; Rocky with `dimension: "minecraft:the_nether"` → a tiny netherrack mining island instead of fizzling.
 

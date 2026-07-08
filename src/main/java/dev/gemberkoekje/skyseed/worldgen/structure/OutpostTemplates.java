@@ -66,7 +66,7 @@ public final class OutpostTemplates {
             }
         }
 
-        // --- Base (y1-3): weathered cobble walls + dark-oak corner posts, big arch openings, a front door. ---
+        // --- Base (y1-4): weathered cobble walls + dark-oak corner posts, big arch openings, a front door. ---
         for (int y = 1; y <= 4; y++) {
             ring(m, lo, hi, y, (x, z) -> ((x == lo || x == hi) && (z == lo || z == hi)) ? LOG : stone(x, z));
         }

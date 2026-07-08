@@ -2,7 +2,6 @@ package dev.gemberkoekje.skyseed.worldgen.structure;
 
 import static dev.gemberkoekje.skyseed.worldgen.structure.StructureParts.*;
 
-import dev.gemberkoekje.skyseed.Skyseed;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;

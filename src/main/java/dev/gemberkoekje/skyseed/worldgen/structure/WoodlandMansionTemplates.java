@@ -31,10 +31,10 @@ import java.util.Map;
  *
  * <p><b>Flush connections (the overlap fix).</b> The walls sit AT the template's bounding-box edges and the roof does
  * not overhang, so each box edge IS the wall. A wing connector is a floor-level jigsaw block ON that wall edge, with a
- * doorway carved through the wall just above it and <em>nothing behind it</em>; the wing's matching side is left OPEN
- * (no wall) so it butts straight onto the core's wall — one shared wall, no jamb, no stray block on the floor. The
- * illager garrison (a guaranteed evoker → Totem of Undying + vindicators) spawns in the open hall via the theme's
- * {@code animals} pack.
+ * doorway carved through the wall just above it; the wing keeps its own matching -Z wall with a doorway carved to line
+ * up with the core's, and the jigsaw seats the wing's connector against the core so the two walls sit flush edge-to-edge
+ * with aligned openings — no jamb, no stray block on the floor. The illager garrison (a guaranteed evoker → Totem of
+ * Undying + vindicators) spawns in the open hall via the theme's {@code animals} pack.
  */
 public final class WoodlandMansionTemplates {
     private WoodlandMansionTemplates() {}

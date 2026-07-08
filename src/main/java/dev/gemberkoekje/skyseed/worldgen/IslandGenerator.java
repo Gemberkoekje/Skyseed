@@ -323,7 +323,6 @@ public final class IslandGenerator {
                 && Lookup.hasTemplatePool(level.registryAccess(), rs.jigsaw().pool());
     }
 
-    /** Materialise the block map into the plan's placement list, sorted bottom-up so the grow-in animation rises. */
     /**
      * Guarantee that every sand/gravel-type block has a solid block directly beneath it, so none falls off the
      * island's underside or into a carved pocket. Any gravity block sitting over air/void gets its natural base
@@ -356,6 +355,7 @@ public final class IslandGenerator {
         return Blocks.STONE.defaultBlockState();
     }
 
+    /** Materialise the block map into the plan's placement list, sorted bottom-up so the grow-in animation rises. */
     private static List<BlockPlacement> sortedBlocks(Map<BlockPos, BlockState> blockMap) {
         final List<BlockPlacement> blocks = new ArrayList<>(blockMap.size());
         for (final Map.Entry<BlockPos, BlockState> e : blockMap.entrySet()) {
@@ -602,7 +602,6 @@ public final class IslandGenerator {
         });
     }
 
-    /** @return the first override matching {@code biome}/{@code y}, or {@code null} if none match (use the base theme). */
     /** The ore list with a one-off lava vein appended (rolled last, so it doesn't shift the real ores' RNG). */
     private static List<OreEntry> withLavaVein(List<OreEntry> ores, Lava lava) {
         final List<OreEntry> out = new ArrayList<>(ores);
@@ -611,6 +610,7 @@ public final class IslandGenerator {
         return out;
     }
 
+    /** @return the first override matching {@code biome}/{@code y}, or {@code null} if none match (use the base theme). */
     private static BiomeOverride matchOverride(List<BiomeOverride> overrides, Holder<Biome> biome, int y,
                                                String dim, boolean baseValidHere) {
         for (BiomeOverride o : overrides) {
