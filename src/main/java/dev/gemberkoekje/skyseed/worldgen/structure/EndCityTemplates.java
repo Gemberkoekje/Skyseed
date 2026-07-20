@@ -25,7 +25,7 @@ import java.util.Map;
  * overhanging {@code floor_a}/{@code floor_b} tiers (vanilla {@code second_/third_floor}) stack on top through vertical
  * up/down jigsaw connectors, and a terraced {@code roof} (vanilla {@code third_roof}) caps it. Shulkers spawn on the
  * island as theme mobs. End-only; grown from the End City Seed. Phases 2–5 (towers, bridges, the fat-tower ship,
- * detailing) extend the same pools — see SKYENDCITYPLAN.md.
+ * detailing) extend the same pools — see PLANOFPLANS.md.
  */
 public final class EndCityTemplates {
     private EndCityTemplates() {}

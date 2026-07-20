@@ -2,7 +2,6 @@ package dev.gemberkoekje.skyseed.worldgen.structure;
 
 import static dev.gemberkoekje.skyseed.worldgen.structure.StructureParts.*;
 
-import dev.gemberkoekje.skyseed.Skyseed;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
@@ -31,7 +30,7 @@ import java.util.Map;
  *   <li>{@code dungeon/lair} — the same box with an open stepped stairwell down to a door, plus a few broken
  *       ruin stubs around the mouth, for the dedicated Dungeon island.</li>
  * </ul>
- * See {@code SKYSTRUCTURESPLAN.md}.
+ * See {@code PLANOFPLANS.md}.
  */
 public final class DungeonTemplates {
     private DungeonTemplates() {}

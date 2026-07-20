@@ -9,6 +9,7 @@ import dev.gemberkoekje.skyseed.compat.Jigsaw;
 import dev.gemberkoekje.skyseed.compat.Lookup;
 import dev.gemberkoekje.skyseed.command.SkyseedCommands;
 import dev.gemberkoekje.skyseed.entity.IslandSeedEntity;
+import dev.gemberkoekje.skyseed.item.SkyseedGuide;
 import dev.gemberkoekje.skyseed.registry.ModEntities;
 import dev.gemberkoekje.skyseed.registry.ModItems;
 import dev.gemberkoekje.skyseed.registry.SkyseedRegistries;
@@ -35,6 +36,8 @@ import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -58,6 +61,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
@@ -65,7 +69,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Behavioural guard rail for the generation + structure pipeline (see {@code codereview.md}). These run on the
+ * Behavioural guard rail for the generation + structure pipeline (see {@code PLANOFPLANS.md}). These run on the
  * {@code gameTestServer} run (or {@code /test runall}) with a live server, so {@link IslandGenerator#planIsland}
  * has the registry + biome access it needs. They assert invariants — not exact byte output — so they survive
  * refactors (the {@code IslandGenerator} split, the structure-template de-duplication) while still catching a
@@ -162,6 +166,27 @@ public final class SkyseedGameTests {
         final IslandPlan p = plan(helper, "rocky", 1L);
         helper.assertTrue(!p.blocks().isEmpty(), "planIsland produced no blocks for 'rocky'");
         helper.assertTrue(p.blocks().size() > 100, "a rocky island should be more than 100 blocks");
+        helper.succeed();
+    }
+
+    /** The Skyfarer's Almanac tracks whichever optional guide backend is installed: with Modonomicon/Patchouli present
+     *  (the default run) {@link SkyseedGuide#book()} hands out the rich illustrated book; with none installed (the
+     *  {@code -PnoOptionalDeps} stand-alone run) it must degrade to the plain vanilla written book — the "works with no
+     *  optional mod" no-op contract. Keyed only on {@code SkyseedGuide.book()} + vanilla {@link Items} so this test never
+     *  links a backend class directly, staying load-safe when the backend is off the classpath. Runs in BOTH modes and
+     *  asserts the matching side, so the with- and without-backend paths are each covered exactly once per run. */
+    @GameTest(template = REGION)
+    public static void guideBookMatchesInstalledBackends(GameTestHelper helper) {
+        final boolean anyBackend = ModList.get().isLoaded("modonomicon") || ModList.get().isLoaded("patchouli");
+        final ItemStack book = SkyseedGuide.book();
+        helper.assertTrue(!book.isEmpty(), "SkyseedGuide.book() must always hand out a book");
+        if (anyBackend) {
+            helper.assertTrue(!book.is(Items.WRITTEN_BOOK),
+                    "with a guide backend installed the Almanac should be the rich book, not the vanilla written book");
+        } else {
+            helper.assertTrue(book.is(Items.WRITTEN_BOOK),
+                    "with no guide backend installed the Almanac must degrade to the vanilla written book (stand-alone no-op path)");
+        }
         helper.succeed();
     }
 
@@ -267,6 +292,206 @@ public final class SkyseedGameTests {
         helper.assertTrue(deepBand.get().ores().isPresent() && deepBand.get().ores().get().stream()
                         .anyMatch(o -> o.block().value().equals("create:deepslate_zinc_ore")),
                 "the deep band should include create:deepslate_zinc_ore after the selector band-merge");
+        helper.succeed();
+    }
+
+    /** The "actually placed" counterpart to {@link #createZincCompatTargetsRocky} (which only checks the id is in the
+     *  resolved ore LIST). With Create installed — the opt-in {@code ./gradlew :1.21.1:runGameTestServer -PwithCreate}
+     *  run / the create-integration CI job — the shipped create_rocky override's {@code create:zinc_ore} resolves to
+     *  Create's REAL block and OrePlanner grows it into the core, so a planned rocky island contains an actual placed
+     *  Create zinc-ore {@link net.minecraft.world.level.block.state.BlockState} — create:deepslate_zinc_ore at the
+     *  gametest region's deepslate depth (Y≈-60, where rocky's max_y:8 deep band is active), or create:zinc_ore in a
+     *  shallower core. Chance 0.80–0.90 per island, so scanning 12 seeds makes a miss astronomically unlikely. Self-skips when Create isn't
+     *  loaded (the default/CI run), since {@code @GameTest} methods are always discovered — there the positive assertion
+     *  can't hold and {@link #createZincIsInertWithoutCreate} covers the absent case instead. */
+    @GameTest(template = REGION)
+    public static void createZincOreActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("create")) {
+            helper.succeed(); // only meaningful under -PwithCreate; a deliberate no-op in the normal run
+            return;
+        }
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme rocky = Themes.resolve(level.registryAccess(), Id.of("skyseed:rocky"));
+        helper.assertTrue(rocky != null, "rocky must resolve");
+        boolean placedRealZinc = false;
+        for (long seed = 1; seed <= 12 && !placedRealZinc; seed++) {
+            final BlockPos center = helper.absolutePos(new BlockPos(8, 8, 8));
+            final IslandPlan p = IslandGenerator.planIsland(level, center, rocky, level.getBiome(center),
+                    RandomSource.create(seed));
+            for (IslandPlan.BlockPlacement bp : p.blocks()) {
+                // The gametest region sits at deepslate depth (Y≈-60), so rocky's max_y:8 deep band is active and the
+                // shipped create_rocky override supplies create:deepslate_zinc_ore there; a shallower core would carry
+                // the top-level create:zinc_ore. Match any create:*zinc* ore block so either variant counts (and a Create
+                // id rename can't silently break the test) — the point is that a REAL Create block was placed.
+                final String id = Lookup.blockId(bp.state().getBlock());
+                if (id != null && id.startsWith("create:") && id.contains("zinc")) {
+                    placedRealZinc = true;
+                    break;
+                }
+            }
+        }
+        helper.assertTrue(placedRealZinc,
+                "with Create installed a rocky island must place a REAL Create zinc ore block (not just list the id)");
+        helper.succeed();
+    }
+
+    /** The other half of {@link #createZincOreActuallyPlaces}, verifiable in the normal run: with Create ABSENT,
+     *  {@code create:zinc_ore} is an unregistered block, so OrePlanner skips it (before any RNG) and no such
+     *  block is ever placed — the "inert without the mod, no fake block" contract. The resolved ore LIST still carries
+     *  the id ({@link #createZincCompatTargetsRocky}), proving the skip happens at placement, not at data resolution.
+     *  Self-skips under {@code -PwithCreate}, where {@link #createZincOreActuallyPlaces} asserts the positive side. */
+    @GameTest(template = REGION)
+    public static void createZincIsInertWithoutCreate(GameTestHelper helper) {
+        if (ModList.get().isLoaded("create")) {
+            helper.succeed(); // with Create present, createZincOreActuallyPlaces owns the assertion
+            return;
+        }
+        helper.assertTrue(!Lookup.hasBlock(Id.of("create:zinc_ore")),
+                "test premise: without Create, create:zinc_ore must be an unregistered block");
+        final ServerLevel level = helper.getLevel();
+        final IslandTheme rocky = Themes.resolve(level.registryAccess(), Id.of("skyseed:rocky"));
+        helper.assertTrue(rocky != null, "rocky must resolve");
+        for (long seed = 1; seed <= 4; seed++) {
+            final BlockPos center = helper.absolutePos(new BlockPos(8, 8, 8));
+            final IslandPlan p = IslandGenerator.planIsland(level, center, rocky, level.getBiome(center),
+                    RandomSource.create(seed));
+            for (IslandPlan.BlockPlacement bp : p.blocks()) {
+                final String id = Lookup.blockId(bp.state().getBlock());
+                helper.assertTrue(id == null || !(id.startsWith("create:") && id.contains("zinc")),
+                        "without Create, no Create zinc ore block should be placed (OrePlanner skips the unknown id)");
+            }
+        }
+        helper.succeed();
+    }
+
+    // --- "Actually placed" integration tests for optional-mod blocks (MODPLACEMENTTESTPLAN.md). Each loads the REAL mod
+    //     under the matching -Pwith<Mod> profile (1.21.1 only) and asserts a real mod block LANDS in a generated island —
+    //     as opposed to the id merely being in the resolved data (the *CompatTargets*/*Reaches* tests above). Each
+    //     self-skips when its mod is absent (the normal/CI run), since @GameTest methods are always discovered. Create
+    //     has its own pair (createZincOreActuallyPlaces / createZincIsInertWithoutCreate) above. ---
+
+    /** Mining-island themes whose overrides add modded ORES (Create/IE/MA/AE2/Iron's/Quark). */
+    private static final String[] MINING_THEMES = {
+            "skyseed:rocky", "skyseed:rocky_large", "skyseed:huge_rocky",
+            "skyseed:ancient", "skyseed:ancient_large", "skyseed:huge_ancient", "skyseed:lush",
+    };
+    /** Surface themes whose overrides add modded ground DECORATIONS (Farmer's Delight crops, BWG flowers). */
+    private static final String[] SURFACE_THEMES = {
+            "skyseed:forest", "skyseed:forest_large", "skyseed:huge_forest",
+            "skyseed:meadow", "skyseed:aquatic", "skyseed:lush", "skyseed:mushroom",
+    };
+
+    /** Scan planned islands of the given RESOLVED themes for a placed block in {@code namespace} — the "a REAL mod block
+     *  landed" check (vs. the id merely being in the resolved data). Plans at TWO centres — a high one (where a theme's
+     *  top-level ores apply) and the deep gametest centre (Y≈-60, where the max_y:8 deepslate band applies) — over
+     *  {@code seeds} seeds each, so it catches the block whichever Y-band/biome carries it. Unknown theme ids are skipped.
+     *  Callers gate on {@code ModList.isLoaded} (the mod's blocks must be registered for any of them to resolve). */
+    private static boolean placesModBlock(GameTestHelper helper, String[] themeIds, String namespace, int seeds) {
+        final ServerLevel level = helper.getLevel();
+        final String prefix = namespace + ":";
+        final BlockPos[] centers = { new BlockPos(0, 80, 0), helper.absolutePos(new BlockPos(8, 8, 8)) };
+        for (final BlockPos center : centers) {
+            for (final String themeId : themeIds) {
+                final IslandTheme theme = Themes.resolve(level.registryAccess(), Id.of(themeId));
+                if (theme == null) {
+                    continue;
+                }
+                for (long seed = 1; seed <= seeds; seed++) {
+                    final IslandPlan p = IslandGenerator.planIsland(level, center, theme,
+                            level.getBiome(center), RandomSource.create(seed));
+                    for (final IslandPlan.BlockPlacement bp : p.blocks()) {
+                        final String id = Lookup.blockId(bp.state().getBlock());
+                        if (id != null && id.startsWith(prefix)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /** Immersive Engineering ores (ore_aluminum/lead/nickel + deepslate variants) land in a mining island. */
+    @GameTest(template = REGION)
+    public static void immersiveEngineeringOreActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("immersiveengineering")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, MINING_THEMES, "immersiveengineering", 8),
+                "with Immersive Engineering installed, a real immersiveengineering ore block must be placed in a mining island");
+        helper.succeed();
+    }
+
+    /** Mystical Agriculture ores (inferium/prosperity/soulium + deepslate variants) land in a mining island. */
+    @GameTest(template = REGION)
+    public static void mysticalAgricultureOreActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("mysticalagriculture")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, MINING_THEMES, "mysticalagriculture", 8),
+                "with Mystical Agriculture installed, a real mysticalagriculture ore block must be placed in a mining island");
+        helper.succeed();
+    }
+
+    /** Applied Energistics 2 certus quartz lands in a mining island. */
+    @GameTest(template = REGION)
+    public static void appliedEnergisticsBlockActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("ae2")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, MINING_THEMES, "ae2", 8),
+                "with AE2 installed, a real ae2 block (certus quartz) must be placed in a mining island");
+        helper.succeed();
+    }
+
+    /** Iron's Spells mithril ore (+ deepslate variant), referenced by the base rocky/ancient themes, lands in a mining island. */
+    @GameTest(template = REGION)
+    public static void ironsSpellsOreActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("irons_spellbooks")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, MINING_THEMES, "irons_spellbooks", 8),
+                "with Iron's Spells installed, a real irons_spellbooks mithril ore block must be placed in a mining island");
+        helper.succeed();
+    }
+
+    /** Quark stones/geodes (limestone/jasper/shale/corundum/myalite) land in a mining island. */
+    @GameTest(template = REGION)
+    public static void quarkBlockActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("quark")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, MINING_THEMES, "quark", 8),
+                "with Quark installed, a real quark block (stone/geode) must be placed in a mining island");
+        helper.succeed();
+    }
+
+    /** Farmer's Delight wild crops (a ground decoration) land on a surface tier. */
+    @GameTest(template = REGION)
+    public static void farmersDelightCropActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("farmersdelight")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, SURFACE_THEMES, "farmersdelight", 10),
+                "with Farmer's Delight installed, a real farmersdelight wild-crop block must be placed on a surface island");
+        helper.succeed();
+    }
+
+    /** Oh The Biomes We've Gone flowers (a ground decoration) land on a surface tier. */
+    @GameTest(template = REGION)
+    public static void biomesWeveGoneFlowerActuallyPlaces(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("biomeswevegone")) {
+            helper.succeed();
+            return;
+        }
+        helper.assertTrue(placesModBlock(helper, SURFACE_THEMES, "biomeswevegone", 10),
+                "with BWG installed, a real biomeswevegone flower block must be placed on a surface island");
         helper.succeed();
     }
 
@@ -526,7 +751,7 @@ public final class SkyseedGameTests {
     public static void meteorIslandFormsCrater(GameTestHelper helper) {
         final ServerLevel level = helper.getLevel();
         final String[] tiers = {"skyseed:meteorite", "skyseed:meteorite_large", "skyseed:huge_meteorite"};
-        final int[] expectedCoreTier = {0, 1, 2}; // small→1 press / medium→2 distinct / huge→4 (METEORPLAN Phase 3)
+        final int[] expectedCoreTier = {0, 1, 2}; // core_tier per tier: base/large/huge = 0/1/2 (yielding 1/2/4 presses)
         for (int i = 0; i < tiers.length; i++) {
             final String m = tiers[i];
             final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(m));
@@ -2919,8 +3144,15 @@ public final class SkyseedGameTests {
         helper.assertTrue(Math.abs(blocked.blockedX() - center.getX()) <= 3 && Math.abs(blocked.blockedZ() - center.getZ()) <= 3,
                 "the blocked centroid did not point at the obstruction");
 
-        // A player whose body is where the island would place blocks -> buried, must not fit.
-        helper.assertTrue(!IslandPlacement.check(island, java.util.List.of(Vec3.atCenterOf(center)), (x, y, z) -> false).ok(),
+        // A player whose body is where the island would place a block -> buried, must not fit. Use an actual planned
+        // block on the germination centre column (falling back to any planned block) rather than the exact centre
+        // voxel: plan() reads the germination Y + biome from the gametest structure's position, which vary per run, so
+        // a block doesn't always land at the precise centre voxel — which flaked this check. Any block the island
+        // plants is a valid "block on the player".
+        final BlockPos onPlayer = island.blocks().stream().map(IslandPlan.BlockPlacement::pos)
+                .filter(p -> p.getX() == center.getX() && p.getZ() == center.getZ())
+                .findFirst().orElse(island.blocks().get(0).pos());
+        helper.assertTrue(!IslandPlacement.check(island, java.util.List.of(Vec3.atCenterOf(onPlayer)), (x, y, z) -> false).ok(),
                 "germinating with a block on the player was not rejected");
         helper.succeed();
     }
@@ -4006,10 +4238,14 @@ public final class SkyseedGameTests {
 
     @GameTest(template = REGION)
     public static void createRareGateIsInertWithoutMod(GameTestHelper helper) {
+        if (ModList.get().isLoaded("create")) {
+            helper.succeed(); // this asserts the requires-mod gate's ABSENT-mod path; under -PwithCreate Create IS
+            return;           // loaded, so requires:[create] correctly reports present — skip (createZincOreActuallyPlaces covers that run)
+        }
         // VARIETYSTRUCTUREPLAN Band 2 (A3) — the requires-mod gate: a rare structure requiring an absent mod is filtered
         // out (requiresPresent() == false) BEFORE any RNG, so it consumes no roll (inert-without-the-mod / determinism
-        // parity). Create is not on the gametest classpath, so a requires:["create"] build must report NOT present,
-        // while a no-requires build is always eligible.
+        // parity). Create is normally not on the gametest classpath (the guard above skips this under -PwithCreate), so a
+        // requires:["create"] build must report NOT present, while a no-requires build is always eligible.
         final var gated = new dev.gemberkoekje.skyseed.worldgen.theme.RareStructure(
                 0.05f, 3, null, java.util.List.of(), false, java.util.List.of(),
                 java.util.Optional.empty(), java.util.Optional.empty(), java.util.List.of("create"), true);
@@ -5461,18 +5697,25 @@ public final class SkyseedGameTests {
 
     @GameTest(template = REGION)
     public static void islandOutputIsStable(GameTestHelper helper) {
-        // Golden master: locks the EXACT generation output for a set of biome-independent themes, so a
-        // behaviour-preserving refactor (the IslandGenerator split) is provably byte-identical, not just
-        // "still produces an island". Update the GOLDEN constants ONLY for an intentional generation change.
+        // Golden master: locks the EXACT generation output for a set of themes, so a behaviour-preserving refactor (the
+        // IslandGenerator split) is provably byte-identical, not just "still produces an island". Update GOLDEN ONLY for
+        // an intentional generation change.
         final String[][] cases = {
                 {"gametest/island", "1"}, {"gametest/water", "4"}, {"gametest/features", "4"},
                 {"gametest/structure", "11"}, {"gametest/bad", "4"},
         };
         final ServerLevel level = helper.getLevel();
-        final BlockPos center = helper.absolutePos(new BlockPos(8, 8, 8));
+        // FIXED absolute centre + FIXED (plains) biome so the fingerprint depends only on (theme, seed) — never on where
+        // the GameTestServer places this test's structure. Previously center = helper.absolutePos(...) and
+        // biome = level.getBiome(center) both varied with the run's world position, so these themes' biome-sensitive
+        // passes (ground cover / bees) flaked: the golden was recorded at plains and only matched when the cell happened
+        // to land on plains. Pinned, it is deterministic across runs and grid layouts (the GOLDEN values are unchanged —
+        // they were captured at plains). The block-position part of the fingerprint stays relative to `center`.
+        final BlockPos center = new BlockPos(0, 80, 0);
+        final var fixedBiome = level.registryAccess().registryOrThrow(Registries.BIOME).getHolder(Biomes.PLAINS).orElseThrow();
         for (final String[] c : cases) {
             final IslandPlan p = IslandGenerator.planIsland(level, center, theme(level, c[0]),
-                    level.getBiome(center), RandomSource.create(Long.parseLong(c[1])));
+                    fixedBiome, RandomSource.create(Long.parseLong(c[1])));
             long sum = 1L;
             for (final IslandPlan.BlockPlacement bp : p.blocks()) {
                 // positions RELATIVE to the island centre so the fingerprint is run-location independent
@@ -5590,9 +5833,9 @@ public final class SkyseedGameTests {
 
     @GameTest(template = REGION)
     public static void trialDescentDropsALevel(GameTestHelper helper) {
-        // Multi-story: the descent's entrance (hall_end) sits ABOVE its exit (hall) — so the jigsaw seats the next
-        // passage a storey lower — and the exit redraws the halls pool so the warren continues downward. (#61: it's now
-        // a PASSAGE in the halls pool, not a chamber connector.)
+        // Multi-story: the descent's entrance (hall_end) sits ABOVE its exit (chamber_edge) — so the jigsaw seats the
+        // next piece a storey lower — and the exit redraws the trial_chamber/rooms pool, so a staircase always lands in
+        // a trial room one storey down.
         final ServerLevel level = helper.getLevel();
         final StructureTemplate t = level.getStructureManager().get(skyseed("trial_chamber/descent")).orElseThrow();
         int entranceY = -1, exitY = -1;

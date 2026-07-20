@@ -22,7 +22,7 @@ import java.util.Map;
  * cache of gold blocks and a {@code chests/buried_treasure} chest — a Heart of the Sea + nautilus shells for a
  * conduit. Mining the build is the prismarine + sea-lantern source, and the guardians are the prismarine-shard
  * source (which also un-blocks the Aquarium recipe). A sponge niche sits in the west wall. See {@code
- * MISSINGBLOCKSPLAN.md}.
+ * PLANOFPLANS.md}.
  */
 public final class OceanMonumentTemplates {
     private OceanMonumentTemplates() {}
@@ -86,7 +86,7 @@ public final class OceanMonumentTemplates {
         // Treasure in the back corner, ringed with sea lanterns: a gold-block cache + two buried-treasure chests
         // (Heart of the Sea + nautilus shells → a conduit) flanking it, west and north. The elder guardian roams the
         // centre, guarding them. Two chests so the End-chapter monument relic — gated to this buried-treasure table —
-        // gets two rolls per monument (a lone chest left it the rarest relic to find; see SKYENDPLAN Phase 1).
+        // gets two rolls per monument (a lone chest left it the rarest relic to find; see PLANOFPLANS.md).
         for (final int[] g : new int[][]{{9, 9}, {10, 9}, {9, 10}, {10, 10}}) {
             m.put(new BlockPos(g[0], 1, g[1]), Blocks.GOLD_BLOCK.defaultBlockState());
         }

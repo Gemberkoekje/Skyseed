@@ -20,7 +20,7 @@ import java.util.Map;
  * (build your Wither there) and a sheltered corner with a <b>charged respawn anchor</b> (set spawn so a death drops
  * you back here, not home) and a {@code bastion_treasure} reward chest behind an arrow-slit window. The Wither is
  * craftable mid-Nether (soul sand from the Soul islands + skulls from the Fortress); this is the survivable place to
- * fight it, for the Nether Star → Beacon. See SKYNETHERPLAN.
+ * fight it, for the Nether Star → Beacon. See PLANOFPLANS.md.
  *
  * <p>Note: the plan's "soul-sand floor" gives way to obsidian here — soul sand isn't blast-resistant (and slows you);
  * the floor stays obsidian with a soul-sand summoning patch, which keeps the arena intact through the fight.

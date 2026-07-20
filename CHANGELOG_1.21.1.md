@@ -5,6 +5,47 @@ Notable changes to the **1.21.1** Skyseed build. Skyseed is one codebase built f
 version-number sequence, so a version can appear in one changelog and not the other — the 1.21.1 build often won't
 change when only the 26.1 build does. Format loosely based on [Keep a Changelog](https://keepachangelog.com/); SemVer.
 
+## [0.231.0] - 2026-07-08
+
+Code-review + documentation pass. Four worldgen/structure correctness fixes (surfaced by an adversarial review of the
+whole codebase, then re-verified), a set of behaviour-neutral cleanups, and a documentation sweep. The meteor / pond /
+Dragon-Monument / War-Barrow / Cairn fixes **change generated output**, so the golden-master gametests for those
+structures need regenerating (not re-run in this commit — no local build environment here). The `theme_override`
+debug-index fix, the code cleanups, and all the documentation changes leave generation byte-identical.
+
+### Fixed
+- **Meteor crater no longer leaves an uncarved mound without AE2.** `MeteorPlacer` preserved the sky-stone-globe region
+  while carving the bowl, on the assumption step 2 would backfill it with sky stone — but the globe is only placed when
+  AE2 is installed. Without AE2 those cells were neither carved nor filled, so the crater kept a pillar/mound of
+  original terrain at its centre (contradicting the "plain vanilla impact crater" the class promises, and reachable by
+  default via `wildMeteorChance`). The carve is now gated on a `placesGlobe` flag. **With AE2 present the output is
+  byte-identical** to before — only the AE2-absent crater changes.
+- **Two-tall pond plants no longer place a lone half in a shallow column.** In a sloped pond's depth-1 rim column
+  (`floorY == waterY`) `PondCarver` placed only the LOWER half of `tall_seagrass` — an invalid `DoublePlantBlock` state
+  that pops on the next block update, leaving nothing. Both halves are now placed only where there is room; otherwise
+  the column falls back to short `seagrass`. (`wild_rice` is surface-anchored and was already safe.)
+- **The Dragon Monument's four dragon heads face the egg again.** `DragonTrophyTemplates` used Z-mirrored `ROTATION_16`
+  corner values, so the trophy heads pointed OUTWARD instead of inward at the central egg pedestal. Corrected to face it.
+- **A second `theme_override` adding `rare_structures` gets the right debug seed.** `ThemeScanner` offset an override's
+  forced-rare index by only the base theme's rare count, so a second override on the same theme mis-targeted an earlier
+  override's structure. It now threads a per-theme running offset. Creative debug-tab only; no shipped data triggered
+  it, so generation is unchanged.
+
+### Changed
+- **Code-review cleanups (behaviour-neutral).** `GenerationJob` resolves the jigsaw filler pool only in the branch that
+  uses it and no longer filters the centerpiece `Optional` twice; `WoodlandMansionTemplates.window()` drops an unused
+  parameter. Two cosmetic structure-template coordinate nudges: a `WarBarrow` gravestone that sat inside a tent's
+  footprint (leaving an orphan dirt mound) is moved one cell clear, and a `Cairn` cobweb that overwrote a broken
+  column's top is moved into the gap between the pillars.
+- **Documentation pass.** Corrected stale/incorrect javadoc and comments where they no longer matched the code
+  (`GuideRecipe`'s guide backend, `IslandGrowth`'s crash-resume rationale, and doc slips in
+  `GenerationJob`/`TotemShrineEvents`/`IslandGenerator` and several structure-template banner ranges); completed the
+  README theme-codec reference with fields present in the codecs but previously undocumented (`meteor`,
+  `rare_structure_chance`, `Palette.snow`, `Variant` overrides + `snow`, `GroundEntry.grow`, five `Pond` fields, three
+  `BiomeOverride` fields, two `Shape` fields); and repointed the ~30 dangling `see <retired-plan>.md` references at the
+  surviving index [PLANOFPLANS.md](PLANOFPLANS.md) (the retired-plan *provenance* tags — `(SKYNETHERPLAN)`,
+  `(METEORPLAN, AE2PLAN #18e)`, … — are left as historical citations). Comment/doc only.
+
 ## [0.230.0] - 2026-07-07
 
 Pre-modpack-release polish from the throw-test pass ([SIGNOFFPLAN.md](SIGNOFFPLAN.md)): the crude-oil and Quark-shale

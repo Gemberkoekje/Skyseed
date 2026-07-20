@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * Code-authored Animal Island enclosures, generated to {@code .nbt} at dev time (see {@link DevStructureGenerator}).
  * Each is a jigsaw single-piece (a "bottom" anchor centres it on the levelled pad); the animals themselves are
- * rolled and spawned separately from the theme's {@code animals} packs. See {@code SKYANIMALSPLAN.md}.
+ * rolled and spawned separately from the theme's {@code animals} packs. See {@code PLANOFPLANS.md}.
  */
 public final class AnimalTemplates {
     private AnimalTemplates() {}

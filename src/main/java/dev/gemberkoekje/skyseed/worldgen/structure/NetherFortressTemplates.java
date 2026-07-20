@@ -24,7 +24,7 @@ import java.util.Map;
  * low {@code depth} and a {@code span_} cap (surplus spans become ends), so the fortress stays a compact, varied
  * branching bridge rather than vanilla's depth-30 sprawl. The standalone {@code blaze_room} (the 5% rare roll on Large
  * Nether seeds) is kept too. Every deck/connector sits at {@link #DECK}, two blocks up on the arch base, so the pieces
- * tile cleanly. See SKYNETHERPLAN.
+ * tile cleanly. See PLANOFPLANS.md.
  */
 public final class NetherFortressTemplates {
     private NetherFortressTemplates() {}

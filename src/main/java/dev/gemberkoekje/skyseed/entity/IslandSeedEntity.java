@@ -2,7 +2,6 @@ package dev.gemberkoekje.skyseed.entity;
 
 import dev.gemberkoekje.skyseed.Skyseed;
 import dev.gemberkoekje.skyseed.compat.Id;
-import dev.gemberkoekje.skyseed.compat.Ids;
 import dev.gemberkoekje.skyseed.compat.Lookup;
 import dev.gemberkoekje.skyseed.compat.Players;
 import dev.gemberkoekje.skyseed.registry.ModEntities;
@@ -24,8 +23,6 @@ import dev.gemberkoekje.skyseed.worldgen.theme.Themes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 //? if >=26.1.2 {

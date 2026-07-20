@@ -58,7 +58,10 @@ public final class ThemeScanner {
             // live in theme_override and not the base forest theme, still appear as debug seeds. The base themes are
             // passed in so an override's rare_structures can be indexed past the base's (see scanOverride). Scanned after
             // the base themes so a base id wins a collision (the override's then gets a numeric suffix).
-            gather("theme_override").forEach((file, json) -> scanOverride(json, baseThemes, out, ids));
+            // Track the running rare-structure count per target theme so a SECOND override adding rare_structures to the
+            // same theme is offset past the first override's too (resolved list = base ++ ov1.rares ++ ov2.rares).
+            final java.util.Map<String, Integer> rareOffsetByTheme = new java.util.HashMap<>();
+            gather("theme_override").forEach((file, json) -> scanOverride(json, baseThemes, rareOffsetByTheme, out, ids));
         } catch (Exception e) {
             Skyseed.LOGGER.warn("[skyseed] debug-seed scan skipped: {}", e.toString());
         }
@@ -117,6 +120,7 @@ public final class ThemeScanner {
     /** A {@code theme_override} patch: scan the content it ADDS (biome_overrides / rare_structures) as debug seeds
      *  attributed to its {@code target} theme (so a patch's biome bands get debug seeds without editing a base theme). */
     private static void scanOverride(String json, java.util.Map<String, String> baseThemes,
+                                     java.util.Map<String, Integer> rareOffsetByTheme,
                                      List<DebugSeedSpec> out, Set<String> ids) {
         try {
             final JsonObject root = JsonParser.parseString(json).getAsJsonObject();
@@ -126,10 +130,14 @@ public final class ThemeScanner {
             final String target = root.get("target").getAsString();
             final int colon = target.indexOf(':');
             final String theme = colon < 0 ? target : target.substring(colon + 1);
-            // Themes.resolve concatenates base ++ override rare_structures (ThemeOverride.applyTo), so an override's
-            // rare structure at override-index j lives at resolved index baseRareCount + j. Offset the forced index by
-            // the base theme's rare count so the debug seed germinates the override's added structure, not the base's.
-            scanTheme(theme, json, out, ids, rareCount(baseThemes.get(theme)));
+            // Themes.resolve concatenates base ++ EVERY targeting override's rare_structures in turn (ThemeOverride
+            // .applyTo), so this override's rare structure at override-index j lives at resolved index (base count +
+            // rares added by earlier overrides on the same theme) + j. Start the running offset at the base theme's rare
+            // count, then advance it by this override's own rare count so a LATER override on the same theme is offset
+            // past this one too (scan order follows the sorted file name — the same order the resolved list is built in).
+            final int offset = rareOffsetByTheme.computeIfAbsent(theme, t -> rareCount(baseThemes.get(t)));
+            scanTheme(theme, json, out, ids, offset);
+            rareOffsetByTheme.put(theme, offset + rareCount(json));
         } catch (Exception e) {
             Skyseed.LOGGER.warn("[skyseed] debug-seed override scan failed: {}", e.toString());
         }

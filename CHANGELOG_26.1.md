@@ -9,6 +9,24 @@ the version-number sequence, so a version can appear in one changelog and not th
 > and gametests every node). Remaining repo-wide work is tracked in `PLANOFPLANS.md`. The per-feature build plans (the
 > gametest harness, the recipe generator, and the Modonomicon guide) shipped and were retired into this changelog.
 
+## [0.231.0] - 2026-07-08
+
+### Fixed
+- **Shared-engine worldgen/structure fixes from the code-review pass** (full notes in
+  [CHANGELOG_1.21.1.md](CHANGELOG_1.21.1.md) [0.231.0]): the meteor crater's uncarved centre mound without AE2
+  (`MeteorPlacer`), the lone-half `tall_seagrass` in a sloped pond's shallow rim column (`PondCarver`), the Dragon
+  Monument's outward-facing dragon heads (`DragonTrophyTemplates`), and the multi-`theme_override` rare-structure
+  debug-index offset (`ThemeScanner`). All live in the shared codebase, so they apply here too. The first three change
+  generated output, so the 26.1.2 golden-master gametests for those structures need regenerating; the `ThemeScanner`
+  fix is debug-tab only and leaves generation byte-identical.
+
+### Changed
+- **Shared cleanups + documentation pass** (see [CHANGELOG_1.21.1.md](CHANGELOG_1.21.1.md) [0.231.0]): the
+  behaviour-neutral `GenerationJob`/`WoodlandMansionTemplates` cleanups and the `WarBarrow`/`Cairn` coordinate nudges,
+  plus the stale-comment corrections, the README theme-codec reference completion, and the dangling retired-plan-doc
+  reference sweep (repointed at [PLANOFPLANS.md](PLANOFPLANS.md)). The doc changes are version-agnostic; the structure
+  fixes are shared code.
+
 ## [0.230.0] - 2026-07-07
 
 ### Changed

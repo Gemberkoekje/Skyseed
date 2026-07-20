@@ -41,6 +41,8 @@ import net.minecraft.world.entity.animal.cow.Cow;
 import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.vehicle.minecart.MinecartChest;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.gametest.framework.TestData;
 import net.minecraft.gametest.framework.TestEnvironmentDefinition;
@@ -63,6 +65,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterGameTestsEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -173,7 +176,12 @@ public final class SkyseedTests {
         reg(event, "structure_connections_link_after_placement", REGION, SkyseedTests::structureConnectionsLinkAfterPlacement);
         reg(event, "dimension_gate_grows_or_fizzles_by_implementation", REGION, SkyseedTests::dimensionGateGrowsOrFizzlesByImplementation);
         reg(event, "dimension_override_never_inherits_overworld", REGION, SkyseedTests::dimensionOverrideNeverInheritsOverworld);
+        // Registered unconditionally; its body self-skips when Modonomicon is absent (all Modonomicon-class access routes
+        // through ModonomiconCompat, so it links even off the classpath under -PnoOptionalDeps — see the method).
         reg(event, "modonomicon_guide_book_is_complete_and_degrades", REGION, SkyseedTests::modonomiconGuideBookIsCompleteAndDegrades);
+        // islandOutputIsStable now pins its centre + biome, so adding a test here no longer shifts its output — this is
+        // registered freely (the fragility that forced it out is fixed). Load-safe in either optional-deps mode.
+        reg(event, "guide_book_matches_installed_backends", REGION, SkyseedTests::guideBookMatchesInstalledBackends);
         reg(event, "biome_override_replaces_body_fields", REGION, SkyseedTests::biomeOverrideReplacesBodyFields);
         reg(event, "shape_builder_caps_surface_and_buries_core", REGION, SkyseedTests::shapeBuilderCapsSurfaceAndBuriesCore);
         reg(event, "island_is_deterministic", REGION, SkyseedTests::islandIsDeterministic);
@@ -1915,12 +1923,19 @@ public final class SkyseedTests {
         // The skyris village jigsaw assembles on a flat pad: the cap places buildings (beds → villagers) on the
         // skyris-styled square (polished andesite) with light-blue glass windows. BWG blocks resolve to AIR without BWG,
         // so we assert only the vanilla-surviving markers + the village MECHANICS, and that it is NOT the plains set.
+        // The assembly + stamping RNG is seeded from (featureSeed ^ ABSOLUTE origin), and the GameTest runner drops this
+        // test at a different absolute origin whenever the suite's layout shifts — so a fixed few seeds sample a
+        // DIFFERENT set of villages between runs. The square (andesite) is the centred start piece and lands in-box
+        // reliably, but a building (its single window pane + beds) only shows when a house rolls near the centre. So
+        // sample seeds until every positive marker has appeared at least once (early-exit like bwgVillageStylesAssemble),
+        // instead of betting the first four seeds all seat a house in the 40×40 scan box; oak (the plains set — never
+        // in the skyris pool) is checked on every seed we sample, so a wrong-style wiring still fails.
         final ServerLevel level = helper.getLevel();
         final BlockPos origin = helper.absolutePos(new BlockPos(24, 3, 24));
         final var pool = Lookup.templatePool(level.registryAccess(), Ids.mod("village_skyris/start"));
         final var fillers = Lookup.templatePool(level.registryAccess(), Ids.mod("village_skyris/fillers"));
         int beds = 0, andesite = 0, blueGlass = 0, oak = 0;
-        for (long seed = 1; seed <= 4; seed++) {
+        for (long seed = 1; seed <= 16 && (beds == 0 || andesite == 0 || blueGlass == 0); seed++) {
             for (int x = 4; x <= 44; x++) {
                 for (int z = 4; z <= 44; z++) {
                     for (int y = 1; y <= 14; y++) {
@@ -1941,7 +1956,7 @@ public final class SkyseedTests {
                 }
             }
         }
-        helper.assertTrue(beds > 0, "skyris village placed no beds across 4 seeds (buildings/villagers missing)");
+        helper.assertTrue(beds > 0, "skyris village placed no beds across the sampled seeds (buildings/villagers missing)");
         helper.assertTrue(andesite > 0, "skyris village square/foundation (polished_andesite) missing");
         helper.assertTrue(blueGlass > 0, "skyris village windows (light_blue_stained_glass_pane) missing — wrong style assembled");
         helper.assertTrue(oak == 0, "skyris village must not use the plains oak set (oak_planks=" + oak + ")");
@@ -2214,7 +2229,33 @@ public final class SkyseedTests {
         helper.succeed();
     }
 
+    /** The Skyfarer's Almanac tracks whichever optional guide backend is installed: with Modonomicon present (the default
+     *  run) {@link SkyseedGuide#book()} hands out the rich book; with none (the {@code -PnoOptionalDeps} stand-alone run) it
+     *  degrades to the vanilla written book — the "works with no optional mod" no-op contract. Keyed only on
+     *  {@code SkyseedGuide.book()} + vanilla {@link Items} so it never links a backend class directly (load-safe when the
+     *  backend is off the classpath). Mirrors the 1.21.1 suite's copy. */
+    static void guideBookMatchesInstalledBackends(GameTestHelper helper) {
+        final boolean anyBackend = ModList.get().isLoaded("modonomicon") || ModList.get().isLoaded("patchouli");
+        final ItemStack book = SkyseedGuide.book();
+        helper.assertTrue(!book.isEmpty(), "SkyseedGuide.book() must always hand out a book");
+        if (anyBackend) {
+            helper.assertTrue(!book.is(Items.WRITTEN_BOOK),
+                    "with a guide backend installed the Almanac should be the rich book, not the vanilla written book");
+        } else {
+            helper.assertTrue(book.is(Items.WRITTEN_BOOK),
+                    "with no guide backend installed the Almanac must degrade to the vanilla written book (stand-alone no-op path)");
+        }
+        helper.succeed();
+    }
+
     static void modonomiconGuideBookIsCompleteAndDegrades(GameTestHelper helper) {
+        // Registered unconditionally (to keep the gametest grid — and islandOutputIsStable's golden master — stable), but
+        // only meaningful with Modonomicon present; self-skip under -PnoOptionalDeps. Every Modonomicon-class access below
+        // is routed through ModonomiconCompat, so this method still links when the mod is off the classpath.
+        if (!ModList.get().isLoaded("modonomicon")) {
+            helper.succeed();
+            return;
+        }
         // SKYMODONOMICONPLAN Phase 2: the real generated skyseed:guide Modonomicon book loads, is COMPLETE (one entry
         // per seed/part, matching the Patchouli edition so both backends stay first-class), and an absent id resolves
         // to EMPTY (the fall-through guarantee). The book is derived from the golden Patchouli content by generateGuide.
@@ -2234,9 +2275,9 @@ public final class SkyseedTests {
         // book.json sets model=skyseed:guide, and Modonomicon's client BookModel renders ModelManager.getItemModel(book
         // .getModel()) per stack. On 26.1.2 that id resolves the assets/skyseed/items/guide.json definition — guide is no
         // registered item (so no auto-generated one), hence we ship it explicitly; on 1.21.1 the id resolves models/item/guide.json.
-        final var guideBook = com.klikli_dev.modonomicon.data.BookDataManager.get().getBook(Ids.parse(SkyseedGuide.BOOK_ID.value()));
-        helper.assertTrue(guideBook != null && "skyseed:guide".equals(guideBook.getModel().toString()),
-                "the Modonomicon guide must set model=skyseed:guide (got " + (guideBook == null ? "null" : guideBook.getModel()) + ")");
+        final String guideModel = ModonomiconCompat.bookModelId(SkyseedGuide.BOOK_ID);
+        helper.assertTrue("skyseed:guide".equals(guideModel),
+                "the Modonomicon guide must set model=skyseed:guide (got " + guideModel + ")");
         helper.assertTrue(resourceExists("/assets/skyseed/items/guide.json"),
                 "ship assets/skyseed/items/guide.json so 26.1.2 getItemModel(skyseed:guide) renders the Almanac book icon");
         helper.succeed();
@@ -2368,8 +2409,15 @@ public final class SkyseedTests {
         helper.assertTrue(Math.abs(blocked.blockedX() - center.getX()) <= 3 && Math.abs(blocked.blockedZ() - center.getZ()) <= 3,
                 "the blocked centroid did not point at the obstruction");
 
-        // A player whose body is where the island would place blocks -> buried, must not fit.
-        helper.assertTrue(!IslandPlacement.check(island, java.util.List.of(Vec3.atCenterOf(center)), (x, y, z) -> false).ok(),
+        // A player whose body is where the island would place a block -> buried, must not fit. Use an actual planned
+        // block on the germination centre column (falling back to any planned block) rather than the exact centre
+        // voxel: plan() reads the germination Y + biome from the gametest structure's position, which vary per run, so
+        // a block doesn't always land at the precise centre voxel — which flaked this check. Any block the island
+        // plants is a valid "block on the player".
+        final BlockPos onPlayer = island.blocks().stream().map(IslandPlan.BlockPlacement::pos)
+                .filter(p -> p.getX() == center.getX() && p.getZ() == center.getZ())
+                .findFirst().orElse(island.blocks().get(0).pos());
+        helper.assertTrue(!IslandPlacement.check(island, java.util.List.of(Vec3.atCenterOf(onPlayer)), (x, y, z) -> false).ok(),
                 "germinating with a block on the player was not rejected");
         helper.succeed();
     }
@@ -4856,7 +4904,7 @@ public final class SkyseedTests {
     static void meteorIslandFormsCrater(GameTestHelper helper) {
         final ServerLevel level = helper.getLevel();
         final String[] tiers = {"skyseed:meteorite", "skyseed:meteorite_large", "skyseed:huge_meteorite"};
-        final int[] expectedCoreTier = {0, 1, 2}; // small→1 press / medium→2 distinct / huge→4 (METEORPLAN Phase 3)
+        final int[] expectedCoreTier = {0, 1, 2}; // core_tier per tier: base/large/huge = 0/1/2 (yielding 1/2/4 presses)
         for (int i = 0; i < tiers.length; i++) {
             final String m = tiers[i];
             final IslandTheme t = Themes.resolve(level.registryAccess(), Id.of(m));
@@ -6031,10 +6079,15 @@ public final class SkyseedTests {
                 {"gametest/structure", "11"}, {"gametest/bad", "4"},
         };
         final ServerLevel level = helper.getLevel();
-        final BlockPos center = helper.absolutePos(new BlockPos(8, 8, 8));
+        // FIXED absolute centre + FIXED biome so the fingerprint depends only on (theme, seed) — never on this test's
+        // GameTest grid cell. Previously center = helper.absolutePos(...) and biome = level.getBiome(center) both moved
+        // with the grid, so adding/removing/reordering ANY earlier test silently shifted the output — a fragile golden
+        // master. With both pinned, tests can be added to this suite freely without disturbing this one.
+        final BlockPos center = new BlockPos(0, 80, 0);
+        final Holder<Biome> fixedBiome = biome(level, "minecraft:plains");
         for (final String[] c : cases) {
             final IslandPlan p = IslandGenerator.planIsland(level, center, theme(level, c[0]),
-                    level.getBiome(center), RandomSource.create(Long.parseLong(c[1])));
+                    fixedBiome, RandomSource.create(Long.parseLong(c[1])));
             long sum = 1L;
             for (final IslandPlan.BlockPlacement bp : p.blocks()) {
                 // positions RELATIVE to the island centre so the fingerprint is run-location independent
@@ -6057,8 +6110,10 @@ public final class SkyseedTests {
     }
 
     /** Recorded fingerprints "blocks/checksum/trees/mobs/animals/jigsaws/hives" — the 26.1.2 generation golden master.
-     * 4 of 5 are byte-identical to the 1.21.1 suite; only gametest/water differs (1233 vs 1243 blocks — a benign
-     * version-specific water/decoration delta; the river/sugar-cane water tests still pass). */
+     * Captured at the FIXED centre + biome in islandOutputIsStable, so they no longer depend on this test's GameTest grid
+     * cell. Recapture on CI confirmed these reproduce the pre-existing values exactly (the pinned plains biome matches how
+     * they were originally recorded — the earlier "shift" was just getBiome(center) landing on a different biome). Update
+     * only for an intentional generation change. */
     private static final java.util.Map<String, String> GOLDEN = java.util.Map.of(
             "gametest/island#1", "213/-3285534759166012883/1/2/0/0/23",
             "gametest/water#4", "1233/-93296134425698814/0/1/0/0/0",

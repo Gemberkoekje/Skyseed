@@ -24,7 +24,7 @@ import java.util.Map;
  * on it. A blast-resistant obsidian floor sits below the charge so the blast can't punch the island's bottom out
  * (it's buried under the floor, so only shows once it goes off). The plate is baked as a wool marker and swapped in
  * by {@link Traps} after the jigsaw assembles (fragile blocks pop on that path); the interior is carved with air.
- * See {@code SKYSTRUCTURESPLAN.md}.
+ * See {@code PLANOFPLANS.md}.
  */
 public final class DesertTempleTemplates {
     private DesertTempleTemplates() {}

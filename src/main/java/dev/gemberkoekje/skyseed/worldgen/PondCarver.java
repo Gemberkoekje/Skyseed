@@ -372,9 +372,14 @@ final class PondCarver {
                 }
             }
             case "tall_seagrass" -> {
-                blockMap.put(floor, Blocks.TALL_SEAGRASS.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER));
                 if (bottomY + 1 <= waterY) {
+                    blockMap.put(floor, Blocks.TALL_SEAGRASS.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER));
                     blockMap.put(floor.above(), Blocks.TALL_SEAGRASS.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
+                } else {
+                    // A depth-1 column (floor == water surface) has no room for a two-tall plant; a lone LOWER half is an
+                    // invalid state that pops on the next block update. Fall back to short seagrass so the column still
+                    // gets a plant.
+                    blockMap.put(floor, Blocks.SEAGRASS.defaultBlockState());
                 }
             }
             case "wild_rice" -> {

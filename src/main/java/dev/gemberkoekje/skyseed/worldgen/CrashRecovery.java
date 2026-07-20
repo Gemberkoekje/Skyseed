@@ -21,7 +21,7 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent;
 
 /**
  * Recovers the crash-robustness state a HARD crash (not a clean stop, which drains) can leave behind, using the records
- * {@link SkyseedWorldData} persisted at the last world-save (engineering-debt 5.2 / 5.3 — see {@code CRASHRESUMEPLAN.md}).
+ * {@link SkyseedWorldData} persisted at the last world-save (engineering-debt 5.2 / 5.3 — see {@code PLANOFPLANS.md}).
  * Runs once, on {@link ServerStartedEvent}, in two ordered steps:
  *
  * <ol>

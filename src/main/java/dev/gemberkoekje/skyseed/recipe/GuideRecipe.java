@@ -18,8 +18,9 @@ import net.minecraft.world.level.Level;
 
 /**
  * Crafts any single Skyseed (the {@code #skyseed:skyseeds} tag) into the Almanac. A code recipe rather than
- * a JSON one so the output is resolved at craft time by {@link SkyseedGuide#book()} — the Patchouli book if
- * that mod is installed, otherwise the plain written book — exactly matching the first-join grant.
+ * a JSON one so the output is resolved at craft time by {@link SkyseedGuide#book()} — the rich book from
+ * Modonomicon (preferred) or Patchouli if either is installed, otherwise the plain written book — exactly
+ * matching the first-join grant.
  */
 public class GuideRecipe extends CustomRecipe {
     // 26.1.2 dropped CustomRecipe's category ctor arg (category() defaults to MISC) and replaced

@@ -28,7 +28,7 @@ import java.util.Map;
  * Piglins, a brute, hoglins and magma cubes drift across whichever lands (the theme's {@code mobs}).
  * A fourth, more ruined {@link #remnant()} lives in its own {@code skyseed:bastion/remnant} pool: the rare-structure
  * roll on the bastion-biome Large Nether seeds (crying obsidian + cracked polished blackstone), distinct from the
- * dedicated seed's pool. See SKYNETHERPLAN.
+ * dedicated seed's pool. See PLANOFPLANS.md.
  */
 public final class BastionTemplates {
     private BastionTemplates() {}

@@ -34,4 +34,14 @@ public final class ModonomiconCompat {
         stack.set(DataComponentRegistry.BOOK_ID.get(), id);
         return stack;
     }
+
+    /**
+     * The model id the loaded book for {@code book} renders as (e.g. {@code "skyseed:guide"}), or {@code null} if no
+     * such book is loaded. Isolated here — like {@link #bookStack} — so callers (e.g. gametests) can assert the book's
+     * model without naming a Modonomicon class themselves, which would fail to link when Modonomicon is off the classpath.
+     */
+    public static String bookModelId(Id book) {
+        var b = BookDataManager.get().getBook(Ids.parse(book.value()));
+        return b == null ? null : b.getModel().toString();
+    }
 }
