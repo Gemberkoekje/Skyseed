@@ -1,0 +1,18 @@
+---
+source_file: ""
+type: "code"
+community: "Caves & Fizzle Rules"
+tags:
+  - graphify/code
+  - graphify/EXTRACTED
+  - community/Caves__Fizzle_Rules
+---
+
+# MapCodec
+
+## Connections
+- [[Carve]] - `references` [EXTRACTED]
+- [[IslandTheme.java]] - `imports` [EXTRACTED]
+- [[Rares]] - `references` [EXTRACTED]
+
+#graphify/code #graphify/EXTRACTED #community/Caves__Fizzle_Rules

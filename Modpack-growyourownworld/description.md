@@ -10,6 +10,14 @@ Grow Your Own World is where those islands go to work. Every island you grow fee
 
 ---
 
+## Where Skyseed came from
+
+Most skyblocks follow a similar pattern. Grow trees, compost dirt, and build all your real estate out of wood and stone. Nothing wrong with that, of course, but I wanted something different. What if you could combine your skyblock with some exploration? What if you could just take an island-shaped bit of the overworld generation?
+
+This is where Skyseed came from. I soon realized I couldn't use the overworld generation itself, but I could use the overworld biomes. So the next best plan was to pick up whichever biome is on the overworld where your seed lands, and build a custom island to reflect it. Hopefully it combines the coziness of a skyblock with the exploration options of a normal world.
+
+---
+
 ## You won't need the wiki open
 
 The pack ships an **FTB quest book** split into four tracks: **Progression**, **Industry**, **Farming**, and **Magic & Exploration**. Each quest is short and written in plain language. It tells you what a mod does, why you'd want it, and where to start.

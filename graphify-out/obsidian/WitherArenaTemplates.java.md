@@ -1,0 +1,18 @@
+---
+source_file: "src/main/java/dev/gemberkoekje/skyseed/worldgen/structure/WitherArenaTemplates.java"
+type: "code"
+community: "Bastion Templates"
+location: "L1"
+tags:
+  - graphify/code
+  - graphify/EXTRACTED
+  - community/Bastion_Templates
+---
+
+# WitherArenaTemplates.java
+
+## Connections
+- [[Blocks]] - `imports` [EXTRACTED]
+- [[WitherArenaTemplates]] - `contains` [EXTRACTED]
+
+#graphify/code #graphify/EXTRACTED #community/Bastion_Templates

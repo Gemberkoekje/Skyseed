@@ -1,0 +1,18 @@
+---
+source_file: ""
+type: "code"
+community: "Jigsaw Structure Assembly"
+tags:
+  - graphify/code
+  - graphify/EXTRACTED
+  - community/Jigsaw_Structure_Assembly
+---
+
+# WorldGenLevel
+
+## Connections
+- [[.applyBiomeDecoration()]] - `references` [EXTRACTED]
+- [[CentralEndIslandFeature.java]] - `imports` [EXTRACTED]
+- [[SkyseedVoidChunkGenerator.java]] - `imports` [EXTRACTED]
+
+#graphify/code #graphify/EXTRACTED #community/Jigsaw_Structure_Assembly

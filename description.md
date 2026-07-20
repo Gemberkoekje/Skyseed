@@ -10,6 +10,14 @@ You start on a small island with one tree. After that, exploring and crafting fe
 
 ---
 
+## Where Skyseed came from
+
+Most skyblocks follow a similar pattern. Grow trees, compost dirt, and build all your real estate out of wood and stone. Nothing wrong with that, of course, but I wanted something different. What if you could combine your skyblock with some exploration? What if you could just take an island-shaped bit of the overworld generation?
+
+This is where Skyseed came from. I soon realized I couldn't use the overworld generation itself, but I could use the overworld biomes. So the next best plan was to pick up whichever biome is on the overworld where your seed lands, and build a custom island to reflect it. Hopefully it combines the coziness of a skyblock with the exploration options of a normal world.
+
+---
+
 ## How it works
 
 1. **Craft a Skyseed.** Each recipe makes a different seed: planks and dirt for your first Wild island, stone and cobble for a Rocky, snow and ice for a Frozen. They're separate items, so JEI and REI list them one by one.

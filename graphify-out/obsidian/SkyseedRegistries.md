@@ -1,0 +1,23 @@
+---
+source_file: "src/main/java/dev/gemberkoekje/skyseed/registry/SkyseedRegistries.java"
+type: "code"
+community: "Ids & Resource Codecs"
+location: "L15"
+tags:
+  - graphify/code
+  - graphify/EXTRACTED
+  - community/Ids__Resource_Codecs
+---
+
+# SkyseedRegistries
+
+## Connections
+- [[.SkyseedRegistries()]] - `method` [EXTRACTED]
+- [[.onNewDataPackRegistry()]] - `method` [EXTRACTED]
+- [[IslandTheme]] - `references` [EXTRACTED]
+- [[Registry_1]] - `references` [EXTRACTED]
+- [[ResourceKey_4]] - `references` [EXTRACTED]
+- [[SkyseedRegistries.java]] - `contains` [EXTRACTED]
+- [[ThemeOverride]] - `references` [EXTRACTED]
+
+#graphify/code #graphify/EXTRACTED #community/Ids__Resource_Codecs

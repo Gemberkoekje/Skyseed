@@ -10,6 +10,14 @@ What's added around it is a small, deliberately chosen set of quality-of-life mo
 
 ***
 
+## Where Skyseed came from
+
+Most skyblocks follow a similar pattern. Grow trees, compost dirt, and build all your real estate out of wood and stone. Nothing wrong with that, of course, but I wanted something different. What if you could combine your skyblock with some exploration? What if you could just take an island-shaped bit of the overworld generation?
+
+This is where Skyseed came from. I soon realized I couldn't use the overworld generation itself, but I could use the overworld biomes. So the next best plan was to pick up whichever biome is on the overworld where your seed lands, and build a custom island to reflect it. Hopefully it combines the coziness of a skyblock with the exploration options of a normal world.
+
+***
+
 ## What's in it
 
 *   **Just Enough Items (JEI)** is the recipe viewer. Every Skyseed recipe shows up in it, so you can look up how to craft any seed without leaving the game.
