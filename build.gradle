@@ -498,7 +498,7 @@ dependencies {
         localRuntime "blusunrize.immersiveengineering:ImmersiveEngineering:1.21.1-12.4.2-194"
     }
     if (wantContent('withMysticalAgriculture')) {
-        localRuntime "com.blakebr0.cucumber:Cucumber:1.21.1-8.0.16"                    // required library
+        localRuntime "com.blakebr0.cucumber:Cucumber:26.1.2-9.0.4"                    // required library
         localRuntime "com.blakebr0.mysticalagriculture:MysticalAgriculture:1.21.1-8.0.27"
     }
     if (wantContent('withAe2')) {
