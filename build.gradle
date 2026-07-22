@@ -499,7 +499,7 @@ dependencies {
     }
     if (wantContent('withMysticalAgriculture')) {
         localRuntime "com.blakebr0.cucumber:Cucumber:1.21.1-8.0.16"                    // required library
-        localRuntime "com.blakebr0.mysticalagriculture:MysticalAgriculture:1.21.1-8.0.27"
+        localRuntime "com.blakebr0.mysticalagriculture:MysticalAgriculture:26.1.2-9.0.4"
     }
     if (wantContent('withAe2')) {
         localRuntime "org.appliedenergistics:appliedenergistics2:19.2.17"
