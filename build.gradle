@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.neoforged.moddev' version '2.0.142'
     id 'idea'
     id 'jacoco'
 }
@@ -503,15 +503,15 @@ dependencies {
     }
     if (wantContent('withAe2')) {
         localRuntime "org.appliedenergistics:appliedenergistics2:19.2.17"
-        localRuntime "org.appliedenergistics:guideme:21.1.1"                           // required, not JiJ'd inside AE2
+        localRuntime "org.appliedenergistics:guideme:21.8.3"                           // required, not JiJ'd inside AE2
     }
     if (wantContent('withFarmersDelight')) {
         localRuntime "curse.maven:farmers-delight-398521:8083481"                      // FD 1.3.2 (standalone)
     }
     if (wantContent('withIronsSpells')) {
         localRuntime "io.redspace:irons_spellbooks:1.21.1-3.15.0"                      // 3.15.0 is confirmed-published (3.16.2 may not be on the releases maven)
-        localRuntime "software.bernie.geckolib:geckolib-neoforge-1.21.1:4.8.4"         // required (4.8.4 confirmed on cloudsmith; satisfies Iron's ≥4.7.5.1)
-        localRuntime "dev.kosmx.player-anim:player-animation-lib-forge:2.0.1+1.21.1"   // required
+        localRuntime "software.bernie.geckolib:geckolib-neoforge-1.21.1:4.9.2"         // required (4.9.2 confirmed on cloudsmith; satisfies Iron's ≥4.7.5.1)
+        localRuntime "dev.kosmx.player-anim:player-animation-lib-forge:2.0.5+"   // required
         localRuntime "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"           // required
         localRuntime "io.redspace:irons_lib:1.21.1-2.1.0-SNAPSHOT"                     // required (snapshots repo)
     }
@@ -525,9 +525,9 @@ dependencies {
         // that isn't in these repos; its required libs are listed explicitly below, so drop the POM's transitives.
         localRuntime("net.potionstudios:Oh-The-Biomes-Weve-Gone-NeoForge:2.6.0") { transitive = false }
         localRuntime "curse.maven:terrablender-neoforge-940057:6054947"               // required (CurseMaven — JitPack build is flaky)
-        localRuntime "dev.corgitaco:Corgilib-NeoForge:1.21.1-5.0.0.9"                 // required
-        localRuntime "dev.corgitaco:Oh-The-Trees-Youll-Grow-neoforge:1.21.1-5.3.2"    // required
-        localRuntime "software.bernie.geckolib:geckolib-neoforge-1.21.1:4.8.4"        // required
+        localRuntime "dev.corgitaco:Corgilib-NeoForge:1.21.11-9.0.0.0"                 // required
+        localRuntime "dev.corgitaco:Oh-The-Trees-Youll-Grow-neoforge:1.21.11-9.0.0"    // required
+        localRuntime "software.bernie.geckolib:geckolib-neoforge-1.21.1:4.9.2"        // required
     }
 }
 
