@@ -61,7 +61,7 @@ jobs:
           echo "org.gradle.java.home=$JAVA_HOME" >> "$HOME/.gradle/gradle.properties"
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v6
+        uses: gradle/actions/setup-gradle@v6.2.0
 
       - name: Build all version nodes
         run: |
@@ -158,7 +158,7 @@ jobs:
           echo "org.gradle.java.home=$JAVA_HOME" >> "$HOME/.gradle/gradle.properties"
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v6
+        uses: gradle/actions/setup-gradle@v6.2.0
 
       # -P${{ matrix.flag }} adds that one mod (+ its required runtime deps) to the 1.21.1 dev runtime, so its blocks are
       # registered. The mod's ...ActuallyPlaces gametest asserts a real block lands; every other one self-skips. If this
