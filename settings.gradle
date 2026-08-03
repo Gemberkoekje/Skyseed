@@ -9,7 +9,7 @@ pluginManagement {
 
 plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
-    id 'dev.kikugie.stonecutter' version '0.9.6'
+    id 'dev.kikugie.stonecutter' version '0.9.7'
 }
 
 // Stonecutter version matrix (see REFACTORPLAN.md "Stage 2 in detail"). Each node's MC/NeoForge/Java/etc. are pulled
