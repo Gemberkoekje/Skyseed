@@ -47,7 +47,7 @@ jobs:
       # Bootstrap JDK that runs Gradle itself. The per-version compile toolchains are auto-provisioned
       # (foojay), so this stays fixed even as the mod targets new Java versions.
       - name: Set up bootstrap JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '21'
@@ -147,7 +147,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Set up bootstrap JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '21' # the 1.21.1 node compiles on Java 21
