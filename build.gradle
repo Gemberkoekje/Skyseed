@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.neoforged.moddev' version '2.0.148'
     id 'idea'
     id 'jacoco'
 }
@@ -502,8 +502,8 @@ dependencies {
         localRuntime "com.blakebr0.mysticalagriculture:MysticalAgriculture:1.21.1-8.0.27"
     }
     if (wantContent('withAe2')) {
-        localRuntime "org.appliedenergistics:appliedenergistics2:19.2.17"
-        localRuntime "org.appliedenergistics:guideme:21.1.1"                           // required, not JiJ'd inside AE2
+        localRuntime "org.appliedenergistics:appliedenergistics2:19.2.18"
+        localRuntime "org.appliedenergistics:guideme:21.8.3"                           // required, not JiJ'd inside AE2
     }
     if (wantContent('withFarmersDelight')) {
         localRuntime "curse.maven:farmers-delight-398521:8083481"                      // FD 1.3.2 (standalone)
